@@ -5,7 +5,7 @@
 3. Create a pull request.
 4. Pat yourself on the back.
 
-Alternatively, if you do not feel like you can contribute to this project in this way, you can contribute by reporting bugs, suggesting new features, etc. by [creating issues](/issues).
+Alternatively, if you feel like you can't contribute to this project in this way, you can contribute by reporting bugs, suggesting new features, etc. by [creating a new issue](/../../issues).
 
 ## Contribution guidelines
 
