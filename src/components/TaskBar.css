@@ -37,6 +37,13 @@ button:hover {
 	height: 1.25rem;
 }
 
+.Program-icons > * > div,
+.Program-icons > * > div > div,
+.Program-icons > * > div > div > svg {
+	height: 100%;
+	width: auto;
+}
+
 .Util-icons {
 	display: flex;
 	justify-content: flex-end;

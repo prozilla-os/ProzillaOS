@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./TaskBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBatteryFull, faCamera, faCode, faFolder, faGlobe, faSearch, faTerminal, faVolumeHigh, faWifi } from "@fortawesome/free-solid-svg-icons";
+import { faBatteryFull, faSearch, faVolumeHigh, faWifi } from "@fortawesome/free-solid-svg-icons";
+import { ReactSVG } from "react-svg";
 
 export function TaskBar() {
 	const [date, setDate] = useState(new Date());
@@ -19,19 +20,19 @@ export function TaskBar() {
 					<FontAwesomeIcon icon={faSearch}/>
 				</button>
 				<button>
-					<FontAwesomeIcon icon={faFolder}/>
+					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/file-explorer.svg"}/>
 				</button>
 				<button>
-					<FontAwesomeIcon icon={faTerminal}/>
+				<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/terminal.svg"}/>
 				</button>
 				<button>
-					<FontAwesomeIcon icon={faCode}/>
+				<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/code-editor.svg"}/>
 				</button>
 				<button>
-					<FontAwesomeIcon icon={faCamera}/>
+				<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/media-viewer.svg"}/>
 				</button>
 				<button>
-					<FontAwesomeIcon icon={faGlobe}/>
+					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/browser.svg"}/>
 				</button>
 			</div>
 			<div className="Util-icons">

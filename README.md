@@ -36,6 +36,10 @@ Yes, you read that right. ProzillaOS will have playable games. Initially, the on
 
 See [docs](docs) for more information.
 
+## Design
+
+ProzillaOS was designed in Figma. You can find the design file [here](https://www.figma.com/file/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?type=design&node-id=0%3A1&mode=design&t=7KR1tKCp9H5cK3hf-1).
+
 ## License
 
 This project is licensed under the MIT license, Copyright (c) 2023 Sieben De Beule. For more information see [LICENSE.md](LICENSE.md).
