@@ -23,13 +23,13 @@ export function TaskBar() {
 					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/file-explorer.svg"}/>
 				</button>
 				<button>
-				<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/terminal.svg"}/>
+					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/terminal.svg"}/>
 				</button>
 				<button>
-				<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/code-editor.svg"}/>
+					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/code-editor.svg"}/>
 				</button>
 				<button>
-				<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/media-viewer.svg"}/>
+					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/media-viewer.svg"}/>
 				</button>
 				<button>
 					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/browser.svg"}/>

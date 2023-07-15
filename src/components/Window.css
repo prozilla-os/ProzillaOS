@@ -1,0 +1,57 @@
+:root {
+	--header-height: 1.75rem;
+	--header-button-hover-color: rgba(255, 255, 255, 5%);
+}
+
+.Window-container {
+	position: absolute;
+	background-color: var(--background-color-c);
+}
+
+.Header {
+	display: flex;
+	align-items: center;
+	height: var(--header-height);
+	padding: 0.25rem;
+	padding-right: 0;
+	background-color: var(--background-color-b);
+	cursor: grab;
+}
+
+.Window-icon,
+.Window-icon > div,
+.Window-icon > div > svg {
+	height: 100%;
+	width: auto;
+}
+
+.Window-icon {
+	margin-right: 0.25rem;
+}
+
+.Header > p {
+	user-select: none;
+	margin: 0;
+	margin-right: auto;
+}
+
+.Header > button {
+	margin: 0;
+	padding: 0.5rem;
+}
+
+.Header button {
+	color: var(--foreground-color-a);
+	background: none;
+	cursor: pointer;
+	border: none;
+	outline: none;
+}
+
+.Header button:hover {
+	background-color: var(--header-button-hover-color);
+}
+
+.Window-content {
+
+}
