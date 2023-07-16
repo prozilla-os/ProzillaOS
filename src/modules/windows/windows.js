@@ -1,40 +1,61 @@
-import { Window } from "../../components/Window.js";
 import ApplicationsManager from "../applications/applications.js";
 import Vector2 from "../math/vector2.js";
 
 export default class WindowsManager {
-	windows = {};
+	constructor() {
+		this.windows = {};
+		this.updateWindows = () => {};
+		console.log("Windows manager init");
+	}
 
 	open(appId) {
-		const appData = ApplicationsManager.getApplication(appId);
+		const app = ApplicationsManager.getApplication(appId);
 		const size = new Vector2(800, 400);
 		const position = new Vector2(300, 200);
 
 		let id = 0;
-		while (Object.keys(this.windows).includes(id)) {
+		while (this.windowIds.includes(id.toString())) {
 			id++;
 		}
 
-		console.log(`Opening window ${id}:${appData.id}`);
+		console.log(`Opening window ${id}:${app.id}`);
 
-		this.windows[id] = <Window
-			id={id}
-			key={id}
-			app={appData}
-			size={size}
-			position={position}
-		/>;
+		this.windows[id.toString()] = {
+			id,
+			app,
+			size,
+			position
+		};
+
+		this.updateWindows(this.windows);
+
+		// console.log(this);
 	}
 
 	close(windowId) {
-		if (!Object.keys(this.windows).includes(windowId))
-			return;
+		windowId = windowId.toString();
 
+		if (!this.windowIds.includes(windowId)) {
+			console.log(`Failed to close window ${windowId}: window not found`);
+			return;
+		}
+		
 		console.log(`Closing window ${windowId}`);
 		delete this.windows[windowId];
+
+		this.updateWindows(this.windows);
+		// console.log(this);
 	}
 
-	get windowsCount() {
-		return Object.keys(this.windows).length;
+	setUpdateWindows(updateWindows) {
+		this.updateWindows = updateWindows;
+	}
+
+	get windowIds() {
+		return Object.keys(this.windows);
+	}
+
+	get windowsData() {
+		return Object.values(this.windows);
 	}
 }

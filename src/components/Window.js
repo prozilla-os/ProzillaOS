@@ -3,11 +3,14 @@ import "./Window.css";
 import { faMinus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { ReactSVG } from "react-svg";
-import { windowsManager } from "../App.js";
+import { useWindowsManager } from "../hooks/WindowsManagerContext.js";
 
 export function Window({ id, app, size, position, focused = false, minimized = false, maximized = false }) {
+	const windowsManager = useWindowsManager();
+
 	return (
 		<div
+			key={id}
 			className="Window-container"
 			style={{
 				width: size.x,
@@ -25,7 +28,7 @@ export function Window({ id, app, size, position, focused = false, minimized = f
 				<button>
 					<FontAwesomeIcon icon={faSquare}/>
 				</button>
-				<button onClick={windowsManager.close(id)}>
+				<button onClick={() => { windowsManager.close(id); }}>
 					<FontAwesomeIcon icon={faXmark}/>
 				</button>
 			</div>

@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBatteryFull, faSearch, faVolumeHigh, faWifi } from "@fortawesome/free-solid-svg-icons";
 import { ReactSVG } from "react-svg";
 import ApplicationsManager from "../modules/applications/applications.js";
-import { windowsManager } from "../App.js";
+import { useWindowsManager } from "../hooks/WindowsManagerContext.js";
 
 export function TaskBar() {
 	const [date, setDate] = useState(new Date());
+	const windowsManager = useWindowsManager();
 
 	useEffect(() => {
 		setInterval(() => {
@@ -21,11 +22,11 @@ export function TaskBar() {
 				<button>
 					<FontAwesomeIcon icon={faSearch}/>
 				</button>
-				{ApplicationsManager.APPLICATIONS.forEach((app) => 
-					<button key={app.id} onClick={windowsManager.open(app.id)}>
+				{ApplicationsManager.APPLICATIONS.map((app) => {
+					return (<button key={app.id} onClick={() => { windowsManager.open(app.id); }}>
 						<ReactSVG src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
-					</button>
-				)}
+					</button>);
+				})}
 			</div>
 			<div className="Util-icons">
 				<button>

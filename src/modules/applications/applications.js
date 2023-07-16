@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import Application from "./application.js";
 
 export default class ApplicationsManager {
@@ -9,7 +10,7 @@ export default class ApplicationsManager {
 		let application = null;
 
 		this.APPLICATIONS.forEach((app) => {
-			if (app.id === id) {
+			if (app.id == id) {
 				application = app;
 				return;
 			}
