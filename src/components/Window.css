@@ -38,6 +38,9 @@
 .Header > button {
 	margin: 0;
 	padding: 0.5rem;
+	height: var(--header-height);
+	display: flex;
+	align-items: center;
 }
 
 .Header button {

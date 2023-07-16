@@ -16,6 +16,8 @@
 }
 
 .Task-bar button {
+	display: flex;
+	align-items: center;
 	color: var(--foreground-color-a);
 	background: none;
 	cursor: pointer;

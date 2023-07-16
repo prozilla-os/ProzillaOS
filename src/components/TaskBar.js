@@ -3,6 +3,8 @@ import "./TaskBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBatteryFull, faSearch, faVolumeHigh, faWifi } from "@fortawesome/free-solid-svg-icons";
 import { ReactSVG } from "react-svg";
+import ApplicationsManager from "../modules/applications/applications.js";
+import { windowsManager } from "../App.js";
 
 export function TaskBar() {
 	const [date, setDate] = useState(new Date());
@@ -19,21 +21,11 @@ export function TaskBar() {
 				<button>
 					<FontAwesomeIcon icon={faSearch}/>
 				</button>
-				<button>
-					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/file-explorer.svg"}/>
-				</button>
-				<button>
-					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/terminal.svg"}/>
-				</button>
-				<button>
-					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/code-editor.svg"}/>
-				</button>
-				<button>
-					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/media-viewer.svg"}/>
-				</button>
-				<button>
-					<ReactSVG src={process.env.PUBLIC_URL + "/media/applications/icons/browser.svg"}/>
-				</button>
+				{ApplicationsManager.APPLICATIONS.forEach((app) => 
+					<button key={app.id} onClick={windowsManager.open(app.id)}>
+						<ReactSVG src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
+					</button>
+				)}
 			</div>
 			<div className="Util-icons">
 				<button>
@@ -58,9 +50,7 @@ export function TaskBar() {
 						year: "numeric",
 					})}
 				</button>
-				<button id="desktop-button">
-
-				</button>
+				<button id="desktop-button"/>
 			</div>
 		</div>
 	);
