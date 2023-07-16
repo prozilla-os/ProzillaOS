@@ -34,7 +34,7 @@ export function Taskbar() {
 				<button>
 					<FontAwesomeIcon icon={faVolumeHigh}/>
 				</button>
-				<button>
+				<button style={{ userSelect: "none" }}>
 					{date.toLocaleString("en-US", {
 						hour: "numeric",
 						minute: "numeric",

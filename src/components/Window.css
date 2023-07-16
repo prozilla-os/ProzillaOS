@@ -4,8 +4,11 @@
 }
 
 .Window-container {
-	position: absolute;
 	background-color: var(--background-color-c);
+}
+
+.Window-container.Maximized {
+	transform: none !important;
 }
 
 .Header {

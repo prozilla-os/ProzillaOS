@@ -51,7 +51,6 @@ export default class WindowsManager {
 		let active = false;
 
 		Object.values(this.windows).forEach((window) => {
-			console.log(window.app.id, appId);
 			if (window.app.id === appId) {
 				active = true;
 				return;
