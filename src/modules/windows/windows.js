@@ -47,15 +47,25 @@ export default class WindowsManager {
 		// console.log(this);
 	}
 
+	isAppActive(appId) {
+		let active = false;
+
+		Object.values(this.windows).forEach((window) => {
+			console.log(window.app.id, appId);
+			if (window.app.id === appId) {
+				active = true;
+				return;
+			}
+		});
+
+		return active;
+	}
+
 	setUpdateWindows(updateWindows) {
 		this.updateWindows = updateWindows;
 	}
 
 	get windowIds() {
 		return Object.keys(this.windows);
-	}
-
-	get windowsData() {
-		return Object.values(this.windows);
 	}
 }

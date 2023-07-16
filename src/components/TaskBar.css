@@ -53,6 +53,31 @@
 	width: auto;
 }
 
+.App-icon {
+	position: relative;
+}
+
+.App-icon::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	width: 90%;
+	height: 0.15rem;
+	background-color: var(--grey-a);
+	transition: height 200ms ease-in-out, width 200ms ease-in-out;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+}
+
+.App-icon:hover::after {
+	width: 100%;
+}
+
+.App-icon:not(.Active)::after {
+	height: 0;
+}
+
 .Util-icons {
 	display: flex;
 	justify-content: flex-end;
