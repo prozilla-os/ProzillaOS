@@ -7,10 +7,11 @@ import { useWindowsManager } from "../hooks/WindowsManagerContext.js";
 import Draggable from "react-draggable";
 import { useEffect, useRef, useState } from "react";
 
-export function Window({ id, app, size, position, focused = false, minimized = false }) {
+export function Window({ id, app, size, position, focused = false }) {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 	const [maximized, setMaximized] = useState(false);
+	const [minimized, setMinimized] = useState(false);
 
 	const [screenWidth, setScreenWidth] = useState(100);
     const [screenHeight, setScreenHeight] = useState(100);
@@ -23,6 +24,12 @@ export function Window({ id, app, size, position, focused = false, minimized = f
 
         resizeObserver.observe(document.getElementById("root"));
     });
+
+	const classNames = ["Window-container"];
+	if (maximized)
+		classNames.push("Maximized");
+	if (minimized)
+		classNames.push("Minimized");
 
 	return (
 		<Draggable
@@ -42,7 +49,7 @@ export function Window({ id, app, size, position, focused = false, minimized = f
 			disabled={maximized}
 		>
 			<div
-				className={`Window-container ${maximized ? "Maximized" : ""}`}
+				className={classNames.join(" ")}
 				ref={nodeRef}
 				style={{
 					width: maximized ? screenWidth : size.x,
@@ -52,7 +59,7 @@ export function Window({ id, app, size, position, focused = false, minimized = f
 				<div className="Header">
 					<ReactSVG className="Window-icon" src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
 					<p>{app.name}</p>
-					<button>
+					<button onClick={() => setMinimized(!minimized)}>
 						<FontAwesomeIcon icon={faMinus}/>
 					</button>
 					<button onClick={() => setMaximized(!maximized)}>
@@ -63,7 +70,7 @@ export function Window({ id, app, size, position, focused = false, minimized = f
 					</button>
 				</div>
 				<div className="Window-content">
-					
+					{app.windowContent}
 				</div>
 			</div>
 		</Draggable>

@@ -1,0 +1,34 @@
+.Terminal {
+	display: flex;
+	flex-direction: column;
+	padding: 0.5rem;
+	overflow-y: auto;
+	height: 100%;
+}
+
+.Terminal p {
+	margin: 0;
+}
+
+.Prefix {
+	width: max-content;
+}
+
+.Input, .Output {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: 1.25rem;
+	font-size: 1rem;
+}
+
+.Input input {
+	width: 100%;
+	height: 100%;
+	background: none;
+	border: none;
+	outline: none;
+	font-size: inherit;
+	margin-left: 0.15rem;
+}

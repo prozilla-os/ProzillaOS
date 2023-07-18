@@ -4,6 +4,9 @@
 }
 
 .Window-container {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
 	background-color: var(--background-color-c);
 }
 
@@ -29,7 +32,13 @@
 }
 
 .Window-icon {
+	height: 1rem;
 	margin-right: 0.25rem;
+}
+
+.Window-icon > div {
+	display: flex;
+	align-items: center;
 }
 
 .Header > p {
@@ -59,5 +68,5 @@
 }
 
 .Window-content {
-
+	overflow: hidden;
 }

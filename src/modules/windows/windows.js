@@ -1,4 +1,5 @@
 import ApplicationsManager from "../applications/applications.js";
+import { randomRange } from "../math/random.js";
 import Vector2 from "../math/vector2.js";
 
 export default class WindowsManager {
@@ -10,8 +11,8 @@ export default class WindowsManager {
 
 	open(appId) {
 		const app = ApplicationsManager.getApplication(appId);
-		const size = new Vector2(800, 400);
-		const position = new Vector2(300, 200);
+		const size = new Vector2(700, 400);
+		const position = new Vector2(randomRange(50, 600), randomRange(50, 450));
 
 		let id = 0;
 		while (this.windowIds.includes(id.toString())) {
@@ -28,7 +29,6 @@ export default class WindowsManager {
 		};
 
 		this.updateWindows(this.windows);
-
 		// console.log(this);
 	}
 
