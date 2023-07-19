@@ -1,6 +1,6 @@
 # ProzillaOS
 
-ProzillaOS is a web operating system inspired by Ubuntu Linux and Windows made with React by Prozilla. It aims to function much like a real operating system, with the exception of running entirely on the web.
+ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows made with React by Prozilla.
 
 > Please note that ProzillaOS is a WIP and far from complete and many additional features will be added in the future.
 
