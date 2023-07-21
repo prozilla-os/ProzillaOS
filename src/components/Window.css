@@ -68,5 +68,7 @@
 }
 
 .Window-content {
+	position: relative;
 	overflow: hidden;
+	height: 100%;
 }

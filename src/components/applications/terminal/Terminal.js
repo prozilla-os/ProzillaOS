@@ -14,7 +14,9 @@ function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown }) {
 	return (
 		<span className={styles.Input}>
 			{prefix && <p className={[styles.Prefix]}>{prefix}</p>}
+			<label for="input"/>
 			<input
+				id="input"
 				value={value}
 				onChange={onChange}
 				onKeyUp={onKeyUp}

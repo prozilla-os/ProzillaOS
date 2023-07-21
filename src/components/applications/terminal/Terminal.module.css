@@ -6,6 +6,10 @@
 	height: 100%;
 }
 
+.Terminal * {
+	font-family: var(--mono-font-family);
+}
+
 .Terminal p {
 	margin: 0;
 }
@@ -30,5 +34,14 @@
 	border: none;
 	outline: none;
 	font-size: inherit;
-	margin-left: 0.15rem;
+	margin-left: 0.45rem;
+}
+
+.Input label {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	cursor: text;
 }
