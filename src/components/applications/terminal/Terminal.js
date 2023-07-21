@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./Terminal.module.css";
 import { Command } from "./commands.js";
 

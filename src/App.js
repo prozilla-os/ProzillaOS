@@ -1,5 +1,5 @@
 import "./App.css";
-import { Taskbar } from "./components/Taskbar.js";
+import { Taskbar } from "./components/TaskBar.js";
 import { WindowsManagerProvider } from "./hooks/WindowsManagerContext.js";
 import { WindowsView } from "./components/WindowsView.js";
 
