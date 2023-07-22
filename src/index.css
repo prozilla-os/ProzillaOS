@@ -81,25 +81,21 @@
 	font-weight: 800;
 }
 
+html, body, #root {
+	width: 100%;
+	height: 100%;
+}
+
+html {
+	overflow: hidden;
+	background-color: var(--background-color-c);
+}
+
 body {
 	margin: 0;
 	font-family: var(--body-font-family);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
-
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-		monospace;
-}
-
-html {
-	overflow: hidden;
-}
-
-html, body, #root {
-	width: 100%;
-	height: 100%;
 }
 
 * {
@@ -110,4 +106,8 @@ html, body, #root {
 p, a, button, input, h1, h2, h3, h4, h5, h6 {
 	font-family: var(--body-font-family);
 	letter-spacing: 0.01rem;
+}
+
+code {
+	font-family: var(--mono-font-family);
 }

@@ -2,6 +2,8 @@
 
 ## Table of contents
 
+- [Features](features)
+- [Configurations](configurations)
 - [Contributing](contributing)
 - [React](react)
 
@@ -42,3 +44,7 @@
 - [docs](.) directory
 
 	You are here. This directory contains all documentation for this project.
+
+- [build](../build) directory
+
+	Contains the static build files after [building](#building--deploying) the application.
