@@ -3,7 +3,7 @@ import { VirtualBase } from "./virtual-base.js";
 export class VirtualFile extends VirtualBase {
 	constructor(name, extension) {
 		super(name);
-		this.extension = extension ?? "";
+		this.extension = extension;
 	}
 
 	setSource(source) {
@@ -12,6 +12,9 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	get id() {
+		if (this.extension == null || this.extension.trim() === "")
+			return this.name;
+
 		return `${this.name}.${this.extension}`;
 	}
 }
