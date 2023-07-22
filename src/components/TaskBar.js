@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./TaskBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBatteryFull, faSearch, faVolumeHigh, faWifi } from "@fortawesome/free-solid-svg-icons";
-import ApplicationsManager from "../modules/applications/applications.js";
+import ApplicationsManager from "../features/applications/applications.js";
 import { AppButton } from "./task-bar/AppButton.js";
 
 export function Taskbar() {

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styles from "./Terminal.module.css";
 import { Command } from "./commands.js";
-
-const PREFIX = "$ ";
+import { useVirtualRoot } from "../../../hooks/VirtualRootContext.js";
 
 function OutputLine({ text }) {
 	return (
@@ -14,7 +13,7 @@ function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown }) {
 	return (
 		<span className={styles.Input}>
 			{prefix && <p className={[styles.Prefix]}>{prefix}</p>}
-			<label for="input"/>
+			<label htmlFor="input"/>
 			<input
 				id="input"
 				value={value}
@@ -22,6 +21,7 @@ function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown }) {
 				onKeyUp={onKeyUp}
 				onKeyDown={onKeyDown}
 				spellCheck={false}
+				autoComplete={null}
 				autoFocus
 			/>
 		</span>
@@ -31,6 +31,10 @@ function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown }) {
 export function Terminal() {
 	const [inputValue, setInputValue] = useState("");
 	const [history, setHistory] = useState([]);
+	const virtualRoot = useVirtualRoot();
+	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot);
+
+	const prefix = `user@prozilla-os:${currentDirectory.formattedPath}$ `;
 
 	const updatedHistory = history;
 	const pushHistory = (entry) => {
@@ -51,7 +55,7 @@ export function Terminal() {
 			return;
 
 		pushHistory({
-			text: PREFIX + value,
+			text: prefix + value,
 			isInput: true
 		});
 
@@ -65,7 +69,7 @@ export function Terminal() {
 		const command = Command.find(commandName);
 
 		if (!command) {
-			return promptOutput("Command not found: " + commandName);
+			return promptOutput(`${commandName}: Command not found`);
 		}
 		
 		let response = null;
@@ -73,17 +77,20 @@ export function Terminal() {
 		try {
 			response = command.execute(args, {
 				promptOutput,
-				pushHistory
+				pushHistory,
+				virtualRoot,
+				currentDirectory,
+				setCurrentDirectory
 			});
 
 			if (response == null)
-				return promptOutput("Command failed.");
+				return promptOutput(`${commandName}: Command failed`);
 			
 			if (!response.blank)
 				promptOutput(response);
 		} catch (error) {
-			promptOutput("Command failed.");
 			console.error(error);
+			promptOutput(`${commandName}: Command failed`);
 		}
 	};
 
@@ -120,7 +127,7 @@ export function Terminal() {
 			{displayHistory()}
 			<InputLine
 				value={inputValue}
-				prefix={PREFIX}
+				prefix={prefix}
 				onKeyDown={onKeyDown}
 				onChange={onChange}
 			/>

@@ -16,6 +16,7 @@
 
 .Prefix {
 	width: max-content;
+	white-space: nowrap;
 }
 
 .Input, .Output {
