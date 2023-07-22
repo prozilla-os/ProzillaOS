@@ -6,19 +6,19 @@ Most code for features can be found in the [src/features](../../src/features) di
 
 There are several applications.
 
-### Terminal
+### <img src="../../public/media/applications/icons/terminal.svg" width=30 height=30 style="vertical-align: middle; background: none;"/> Terminal
 
 A command line tool.
 
-### Code Editor
+### <img src="../../public/media/applications/icons/code-editor.svg" width=30 height=30 style="vertical-align: middle; background: none;"/> Code Editor
 
 Coming soon.
 
-### File Explorer
+### <img src="../../public/media/applications/icons/file-explorer.svg" width=30 height=30 style="vertical-align: middle; background: none;"/> File Explorer
 
 Coming soon.
 
-### Media Viewer
+### <img src="../../public/media/applications/icons/media-viewer.svg" width=30 height=30 style="vertical-align: middle; background: none;"/> Media Viewer
 
 Coming soon.
 
