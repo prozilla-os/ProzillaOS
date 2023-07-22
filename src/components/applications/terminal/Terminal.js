@@ -3,6 +3,9 @@ import styles from "./Terminal.module.css";
 import { Command } from "./commands.js";
 import { useVirtualRoot } from "../../../hooks/VirtualRootContext.js";
 
+const USERNAME = "user";
+const HOSTNAME = "prozilla-os";
+
 function OutputLine({ text }) {
 	return (
 		<p className={styles.Output}>{text}</p>
@@ -34,7 +37,7 @@ export function Terminal() {
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate("~"));
 
-	const prefix = `user@prozilla-os:${currentDirectory.formattedPath}$ `;
+	const prefix = `${USERNAME}@${HOSTNAME}:${currentDirectory.root ? "/" : currentDirectory.path}$ `;
 
 	const updatedHistory = history;
 	const pushHistory = (entry) => {
@@ -80,7 +83,9 @@ export function Terminal() {
 				pushHistory,
 				virtualRoot,
 				currentDirectory,
-				setCurrentDirectory
+				setCurrentDirectory,
+				username: USERNAME,
+				hostname: HOSTNAME,
 			});
 
 			if (response == null)

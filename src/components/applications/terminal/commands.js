@@ -48,10 +48,10 @@ export class Command {
 			if (!directory)
 				return `ls: Cannot access '${args[0]}': No such file or directory`;
 
-			const fodlerNames = directory.subFolders.map((folder) => folder.id);
+			const folderNames = directory.subFolders.map((folder) => folder.id);
 			const fileNames = directory.files.map((file) => file.id);
 
-			const contents = fodlerNames.concat(fileNames);
+			const contents = folderNames.concat(fileNames);
 
 			if (contents.length === 0)
 				return { blank: true };
@@ -59,7 +59,8 @@ export class Command {
 			return contents.sort((nameA, nameB) => nameA.localeCompare(nameB)).join(" ");
 		}),
 		new Command("cd", (args, { currentDirectory, setCurrentDirectory }) => {
-			const destination = currentDirectory.navigate(args[0]);
+			const path = args[0] ?? "~";
+			const destination = currentDirectory.navigate(path);
 
 			if (!destination)
 				return `cd: ${args[0]}: No such file or directory`;
@@ -67,6 +68,62 @@ export class Command {
 			console.log(destination);
 			setCurrentDirectory(destination);
 			return { blank: true };
-		})
+		}),
+		new Command("dir", (args, { currentDirectory }) => {
+			const folderNames = currentDirectory.subFolders.map((folder) => folder.id);
+
+			if (folderNames.length === 0)
+				return { blank: true };
+
+			return folderNames.sort((nameA, nameB) => nameA.localeCompare(nameB)).join(" ");
+		}),
+		new Command("pwd", (args, { currentDirectory }) => {
+			if (currentDirectory.root) {
+				return "/";
+			} else {
+				return currentDirectory.absolutePath;
+			}
+		}),
+		new Command("touch", (args, { currentDirectory }) => {
+			const [name, extension] = args[0].split(".");
+
+			if (currentDirectory.findFile(name, extension))
+				return { blank: true };
+
+			currentDirectory.createFile(name, extension);
+			return { blank: true };
+		}),
+		new Command("mkdir", (args, { currentDirectory }) => {
+			const name = args[0];
+
+			if (currentDirectory.findSubFolder(name))
+				return { blank: true };
+
+			currentDirectory.createFolder(name);
+			return { blank: true };
+		}),
+		new Command("rm", (args, { currentDirectory }) => {
+			const [name, extension] = args[0].split(".");
+			const file = currentDirectory.findFile(name, extension);
+
+			if (!file)
+				return `rm: ${args[0]}: No such file`;
+			
+			file.delete();
+			return { blank: true };
+		}),
+		new Command("rmdir", (args, { currentDirectory }) => {
+			const name = args[0];
+			const folder = currentDirectory.findSubFolder(name);
+
+			if (!folder)
+				return `rm: ${args[0]}: No such directory`;
+			
+			folder.delete();
+			return { blank: true };
+		}),
+		new Command("hostname", (args, { hostname }) => {
+			return hostname;
+		}),
 	]
 }

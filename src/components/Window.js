@@ -34,7 +34,7 @@ export function Window({ id, app, size, position, focused = false }) {
 	return (
 		<Draggable
 			axis="both"
-			handle=".Header"
+			handle={".Handle"}
 			defaultPosition={{ x: position.x, y: position.y }}
 			position={null}
 			scale={1}
@@ -56,7 +56,7 @@ export function Window({ id, app, size, position, focused = false }) {
 					height: maximized ? screenHeight : size.y,
 				}}
 			>
-				<div className={styles["Header"]}>
+				<div className={`${styles.Header} Handle`}>
 					<ReactSVG className={styles["Window-icon"]} src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
 					<p>{app.name}</p>
 					<button onClick={() => setMinimized(!minimized)}>

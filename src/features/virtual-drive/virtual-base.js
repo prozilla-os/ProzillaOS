@@ -42,11 +42,11 @@ export class VirtualBase {
 	}
 
 	get path() {
-		return this.parent?.path + "/" + this.id;
+		return this.alias ?? this.absolutePath;
 	}
 
-	get formattedPath() {
-		return this.alias ?? this.path;
+	get absolutePath() {
+		return this.parent?.path + "/" + this.id;
 	}
 
 	getRoot() {

@@ -1,3 +1,4 @@
+import { removeFromArray } from "../utils/array.js";
 import { VirtualBase } from "./virtual-base.js";
 import { VirtualFile } from "./virtual-file.js";
 
@@ -144,9 +145,9 @@ export class VirtualFolder extends VirtualBase {
 
 	remove(child) {
 		if (child instanceof VirtualFile) {
-			// Remove file by id
+			removeFromArray(child, this.files);
 		} else if (child instanceof VirtualFolder) {
-			// Remove folder by id
+			removeFromArray(child, this.subFolders);
 		}
 	}
 
