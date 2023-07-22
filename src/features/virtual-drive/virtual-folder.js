@@ -54,18 +54,53 @@ export class VirtualFolder extends VirtualBase {
 		return resultFolder;
 	}
 
-	createFile(name, extension) {
+	/**
+	 * @param {String} name 
+	 * @param {String} extension 
+	 * @param {Function} callback
+	 * @returns {VirtualFolder}
+	 */
+	createFile(name, extension, callback) {
 		const newFile = new VirtualFile(name, extension);
 		this.files.push(newFile);
 		newFile.parent = this;
-		return newFile;
+		callback?.(newFile);
+		return this;
 	}
 
-	createFolder(name) {
+	/**
+	 * @param {Array<Object>} files 
+	 * @returns {VirtualFolder}
+	 */
+	createFiles(files) {
+		files.forEach(({name, extension}) => {
+			this.createFile(name, extension);
+		});
+		return this;
+	}
+
+	/**
+	 * @param {String} name 
+	 * @returns {VirtualFolder}
+	 * @param {Function} callback
+	 */
+	createFolder(name, callback) {
 		const newFolder = new VirtualFolder(name);
 		this.subFolders.push(newFolder);
 		newFolder.parent = this;
-		return newFolder;
+		callback?.(newFolder);
+		return this;
+	}
+
+	/**
+	 * @param {Array<String>} folders 
+	 * @returns {VirtualFolder}
+	 */
+	createFolders(folders) {
+		folders.forEach((name) => {
+			this.createFolder(name);
+		});
+		return this;
 	}
 
 	/**

@@ -21,7 +21,7 @@ function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown }) {
 				onKeyUp={onKeyUp}
 				onKeyDown={onKeyDown}
 				spellCheck={false}
-				autoComplete={null}
+				autoComplete="off"
 				autoFocus
 			/>
 		</span>
@@ -32,7 +32,7 @@ export function Terminal() {
 	const [inputValue, setInputValue] = useState("");
 	const [history, setHistory] = useState([]);
 	const virtualRoot = useVirtualRoot();
-	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot);
+	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate("~"));
 
 	const prefix = `user@prozilla-os:${currentDirectory.formattedPath}$ `;
 
