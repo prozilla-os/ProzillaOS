@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./Window.css";
+import styles from "./Window.module.css";
 import { faMinus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { ReactSVG } from "react-svg";
@@ -25,11 +25,11 @@ export function Window({ id, app, size, position, focused = false }) {
         resizeObserver.observe(document.getElementById("root"));
     });
 
-	const classNames = ["Window-container"];
+	const classNames = [styles["Window-container"]];
 	if (maximized)
-		classNames.push("Maximized");
+		classNames.push(styles.Maximized);
 	if (minimized)
-		classNames.push("Minimized");
+		classNames.push(styles.Minimized);
 
 	return (
 		<Draggable
@@ -56,8 +56,8 @@ export function Window({ id, app, size, position, focused = false }) {
 					height: maximized ? screenHeight : size.y,
 				}}
 			>
-				<div className="Header">
-					<ReactSVG className="Window-icon" src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
+				<div className={styles["Header"]}>
+					<ReactSVG className={styles["Window-icon"]} src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
 					<p>{app.name}</p>
 					<button onClick={() => setMinimized(!minimized)}>
 						<FontAwesomeIcon icon={faMinus}/>
@@ -69,7 +69,7 @@ export function Window({ id, app, size, position, focused = false }) {
 						<FontAwesomeIcon icon={faXmark}/>
 					</button>
 				</div>
-				<div className="Window-content">
+				<div className={styles["Window-content"]}>
 					{app.windowContent}
 				</div>
 			</div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./TaskBar.css";
+import styles from "./TaskBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBatteryFull, faSearch, faVolumeHigh, faWifi } from "@fortawesome/free-solid-svg-icons";
 import ApplicationsManager from "../features/applications/applications.js";
@@ -15,8 +15,8 @@ export function Taskbar() {
 	}, []);
 
 	return (
-		<div className="Task-bar">
-			<div className="Program-icons">
+		<div className={styles["Task-bar"]}>
+			<div className={styles["Program-icons"]}>
 				<button>
 					<FontAwesomeIcon icon={faSearch}/>
 				</button>
@@ -24,7 +24,7 @@ export function Taskbar() {
 					<AppButton app={app} key={app.id}/>
 				)}
 			</div>
-			<div className="Util-icons">
+			<div className={styles["Util-icons"]}>
 				<button>
 					<FontAwesomeIcon icon={faBatteryFull}/>
 				</button>

@@ -1,4 +1,4 @@
-import "./App.css";
+import styles from "./App.module.css";
 import { Taskbar } from "./components/TaskBar.js";
 import { WindowsManagerProvider } from "./hooks/WindowsManagerContext.js";
 import { WindowsView } from "./components/WindowsView.js";
@@ -9,7 +9,7 @@ function App() {
 	return (
 		<VirtualRootProvider>
 			<WindowsManagerProvider>
-				<div className="App" style={{ backgroundImage: `url(${SETTINGS.wallpaper})` }}>
+				<div className={styles.App} style={{ backgroundImage: `url(${SETTINGS.wallpaper})` }}>
 					<Taskbar/>
 					<WindowsView/>
 				</div>
