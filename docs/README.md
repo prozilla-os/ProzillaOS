@@ -1,11 +1,12 @@
 # Documentation
 
-## Table of contents
+## Table of Contents
 
-- [Features](features)
-- [Configurations](configurations)
-- [Contributing](contributing)
-- [React](react)
+- [Features](features/README.md)
+- [Roadmap](roadmap/README.md)
+- [Configurations](configurations/README.md)
+- [Contributing](contributing/README.md)
+- [React](react/README.md)
 
 ## Overview
 
@@ -47,4 +48,4 @@
 
 - [build](../build) directory
 
-	Contains the static build files after [building](#building--deploying) the application.
+	Contains the static build files after [building](#building--deploying) the application. This directory is not included in the GitHub repository.

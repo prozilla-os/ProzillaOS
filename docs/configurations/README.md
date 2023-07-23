@@ -1,3 +1,5 @@
+[← Back](../README.md)
+
 # Configurations
 
 All configs can be found in the [src/config](../../src/config) directory.
