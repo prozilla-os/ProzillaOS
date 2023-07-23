@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+import { VirtualFile } from "./virtual-file.js";
 import { VirtualFolder } from "./virtual-folder.js";
 
 /**
@@ -10,6 +12,12 @@ export class VirtualRoot extends VirtualFolder {
 		this.shortcuts = {};
 	}
 
+	/**
+	 * Adds a shortcut to a file or folder
+	 * @param {String} name 
+	 * @param {VirtualFile|VirtualFolder} destination 
+	 * @returns {VirtualRoot}
+	 */
 	addShortcut(name, destination) {
 		this.shortcuts[name] = destination;
 		return this;

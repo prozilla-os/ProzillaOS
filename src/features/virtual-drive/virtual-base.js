@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+import { VirtualRoot } from "./virtual-root.js";
 
 export class VirtualBase {
 	/**
@@ -13,12 +15,17 @@ export class VirtualBase {
 
 	/**
 	 * @param {String} name 
+	 * @returns {VirtualBase}
 	 */
 	setName(name) {
 		this.name = name;
 		return this;
 	}
 
+	/**
+	 * @param {String} alias 
+	 * @returns {ThisType}
+	 */
 	setAlias(alias) {
 		this.alias = alias;
 		this.getRoot().addShortcut(alias, this);
@@ -26,7 +33,8 @@ export class VirtualBase {
 	}
 
 	/**
-	 * @param {VirtualBase} parent 
+	 * @param {VirtualBase} parent
+	 * @returns {VirtualBase}
 	 */
 	setParent(parent) {
 		this.parent = parent;
@@ -49,6 +57,9 @@ export class VirtualBase {
 		return this.parent?.path + "/" + this.id;
 	}
 
+	/**
+	 * @returns {VirtualRoot}
+	 */
 	getRoot() {
 		const root = this.root ?? this.parent.getRoot();
 

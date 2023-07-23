@@ -2,6 +2,9 @@ import { removeFromArray } from "../utils/array.js";
 import { VirtualBase } from "./virtual-base.js";
 import { VirtualFile } from "./virtual-file.js";
 
+/**
+ * A virtual folder that can contains files and sub-folders
+ */
 export class VirtualFolder extends VirtualBase {
 	static TYPE = {
 		GENERAL: 0,
@@ -19,18 +22,39 @@ export class VirtualFolder extends VirtualBase {
 		this.type = type ?? VirtualFolder.TYPE.GENERAL;
 	}
 
-	// add(element) {
+	/**
+	 * @param {String} alias
+	 * @returns {VirtualFolder}
+	 */
+	setAlias(alias) {
+		super.setAlias(alias);
+	}
 
-	// }
-
+	/**
+	 * Returns true if this folder contains a file matching a name and extension
+	 * @param {String} name 
+	 * @param {String} extension 
+	 * @returns {VirtualFile}
+	 */
 	hasFile(name, extension) {
 		return this.findFile(name, extension) !== null;
 	}
 
+	/**
+	 * Returns true if this folder contains a folder matching a name
+	 * @param {String} name 
+	 * @returns {boolean}
+	 */
 	hasFolder(name) {
 		return this.findSubFolder(name) !== null;
 	}
 
+	/**
+	 * Finds and returns a file inside this folder matching a name and extension
+	 * @param {String} name 
+	 * @param {String} extension 
+	 * @returns {VirtualFile}
+	 */
 	findFile(name, extension) {
 		let resultFile = null;
 
@@ -43,6 +67,11 @@ export class VirtualFolder extends VirtualBase {
 		return resultFile;
 	}
 
+	/**
+	 * Finds and returns a folder inside this folder matching a name
+	 * @param {String} name 
+	 * @returns {VirtualFolder}
+	 */
 	findSubFolder(name) {
 		let resultFolder = null;
 
@@ -56,9 +85,15 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
+	 * @callback createFileCallback
+	 * @param {VirtualFile} newFile
+	 */
+
+	/**
+	 * Creates a file with a name and extension
 	 * @param {String} name 
 	 * @param {String} extension 
-	 * @param {Function} callback
+	 * @param {createFileCallback} callback
 	 * @returns {VirtualFolder}
 	 */
 	createFile(name, extension, callback) {
@@ -70,8 +105,11 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * @param {Array<Object>} files 
-	 * @returns {VirtualFolder}
+	 * Creates files based on an array of objects with file names and extensions
+	 * @param {Object[]} files 	
+	 * @param {String} Object[].name
+	 * @param {String} Object[].extension
+	 * @returns {VirtualFolder} 
 	 */
 	createFiles(files) {
 		files.forEach(({name, extension}) => {
@@ -81,9 +119,15 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
+	 * @callback createFolderCallback
+	 * @param {VirtualFolder} newFolder
+	 */
+
+	/**
+	 * Creates a folder with a name
 	 * @param {String} name 
 	 * @returns {VirtualFolder}
-	 * @param {Function} callback
+	 * @param {createFolderCallback} callback
 	 */
 	createFolder(name, callback) {
 		const newFolder = new VirtualFolder(name);
@@ -94,7 +138,8 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * @param {Array<String>} folders 
+	 * Creates folders based on an array of folder names
+	 * @param {String[]} folders 
 	 * @returns {VirtualFolder}
 	 */
 	createFolders(folders) {
@@ -105,6 +150,8 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
+	 * Adds a file at a destination
+	 * @deprecated
 	 * @param {String} destination 
 	 */
 	addFile(destination) {
@@ -127,6 +174,8 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
+	 * Adds a folder at a destination
+	 * @deprecated
 	 * @param {String} destination 
 	 */
 	addFolder(destination) {
@@ -143,7 +192,13 @@ export class VirtualFolder extends VirtualBase {
 		})
 	}
 
+	/**
+	 * Removes a file or folder from this folder
+	 * @param {VirtualFile|VirtualFolder} child 
+	 */
 	remove(child) {
+		child.parent = null;
+
 		if (child instanceof VirtualFile) {
 			removeFromArray(child, this.files);
 		} else if (child instanceof VirtualFolder) {
@@ -151,6 +206,11 @@ export class VirtualFolder extends VirtualBase {
 		}
 	}
 
+	/**
+	 * Returns the file or folder at a relative path or null if it doesn't exist
+	 * @param {String} relativePath 
+	 * @returns {VirtualFile|VirtualFolder|null}
+	 */
 	navigate(relativePath) {
 		const segments = relativePath.split("/");
 		let currentDirectory = this;
@@ -191,5 +251,16 @@ export class VirtualFolder extends VirtualBase {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Deletes this folder and all its files and sub-folders recursively
+	 */
+	delete() {
+		super.delete();
+
+		this.files.concat(this.subFolders).forEach((item) => {
+			item.delete();
+		});
 	}
 }
