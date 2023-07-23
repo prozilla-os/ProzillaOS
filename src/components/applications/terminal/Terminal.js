@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./Terminal.module.css";
-import { Command } from "./commands.js";
 import { useVirtualRoot } from "../../../hooks/VirtualRootContext.js";
+import { Command } from "../../../features/applications/terminal/commands.js";
 
 const USERNAME = "user";
 const HOSTNAME = "prozilla-os";
@@ -32,10 +32,13 @@ function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown }) {
 }
 
 export function Terminal() {
+	const [inputKey, setInputKey] = useState(0);
 	const [inputValue, setInputValue] = useState("");
 	const [history, setHistory] = useState([]);
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate("~"));
+
+	// console.log(currentDirectory);
 
 	const prefix = `${USERNAME}@${HOSTNAME}:${currentDirectory.root ? "/" : currentDirectory.path}$ `;
 
@@ -53,10 +56,6 @@ export function Terminal() {
 	};
 
 	const submitInput = (value) => {
-		// To do: make empty submit go to new line
-		if (value.trim() === "")
-			return;
-
 		pushHistory({
 			text: prefix + value,
 			isInput: true
@@ -65,6 +64,9 @@ export function Terminal() {
 		setInputValue("");
 
 		value = value.trim();
+
+		if (value === "")
+			return;
 
 		const args = value.split(/ +/);
 		const commandName = args.shift().toLowerCase();
@@ -105,6 +107,7 @@ export function Terminal() {
 		// console.log(event);
 		if (event.key === "Enter") {
 			submitInput(value);
+			setInputKey((previousKey) =>  previousKey + 1);
 		}
 	};
 
@@ -131,6 +134,7 @@ export function Terminal() {
 		<div className={styles.Terminal}>
 			{displayHistory()}
 			<InputLine
+				key={inputKey}
 				value={inputValue}
 				prefix={prefix}
 				onKeyDown={onKeyDown}
