@@ -7,7 +7,7 @@ import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js"
 import Draggable from "react-draggable";
 import { useEffect, useRef, useState } from "react";
 
-export function Window({ id, app, size, position, focused = false }) {
+export function Window({ id, app, size, position, focused = false, onInteract }) {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 	const [maximized, setMaximized] = useState(false);
@@ -47,6 +47,7 @@ export function Window({ id, app, size, position, focused = false }) {
 			cancel="button"
 			nodeRef={nodeRef}
 			disabled={maximized}
+			onMouseDown={onInteract}
 		>
 			<div
 				className={classNames.join(" ")}
@@ -55,6 +56,7 @@ export function Window({ id, app, size, position, focused = false }) {
 					width: maximized ? screenWidth : size.x,
 					height: maximized ? screenHeight : size.y,
 				}}
+				onClick={onInteract}
 			>
 				<div className={`${styles.Header} Handle`}>
 					<ReactSVG className={styles["Window-icon"]} src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>

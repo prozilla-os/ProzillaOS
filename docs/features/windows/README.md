@@ -8,6 +8,6 @@ The windows components are used to view and interact with running applications. 
 
 - [x] Maximize (fullscreen)
 - [ ] Minimize
-- [x] Resize
+- [ ] Resize
 - [x] Multiple windows of the same app
-- [ ] Draw order
+- [x] Draw order

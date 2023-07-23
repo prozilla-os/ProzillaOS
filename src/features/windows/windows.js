@@ -25,7 +25,8 @@ export default class WindowsManager {
 			id,
 			app,
 			size,
-			position
+			position,
+			lastInteraction: 0
 		};
 
 		this.updateWindows(this.windows);
@@ -45,6 +46,11 @@ export default class WindowsManager {
 
 		this.updateWindows(this.windows);
 		// console.log(this);
+	}
+
+	focus(window) {
+		window.lastInteraction = new Date().valueOf();
+		this.updateWindows(this.windows);
 	}
 
 	isAppActive(appId) {

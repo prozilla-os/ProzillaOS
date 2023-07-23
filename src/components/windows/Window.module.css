@@ -8,7 +8,7 @@
 	display: flex;
 	flex-direction: column;
 	background-color: var(--background-color-c);
-	animation: pop-in 200ms ease-in-out;
+	/* animation: pop-in 200ms ease-in-out; */
 }
 
 @keyframes pop-in {
