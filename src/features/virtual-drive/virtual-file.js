@@ -18,7 +18,7 @@ export class VirtualFile extends VirtualBase {
 	 * @returns {VirtualFile}
 	 */
 	setAlias(alias) {
-		super.setAlias(alias);
+		return super.setAlias(alias);
 	}
 
 	/**

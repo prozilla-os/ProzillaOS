@@ -27,7 +27,7 @@ export class VirtualFolder extends VirtualBase {
 	 * @returns {VirtualFolder}
 	 */
 	setAlias(alias) {
-		super.setAlias(alias);
+		return super.setAlias(alias);
 	}
 
 	/**
