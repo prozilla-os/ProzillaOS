@@ -1,5 +1,5 @@
-import { Window } from "./Window.js";
-import { useWindows } from "../hooks/WindowsContext.js";
+import { Window } from "./Window.jsx";
+import { useWindows } from "../../hooks/windows/WindowsContext.js";
 
 export function WindowsView() {
 	const windows = useWindows();

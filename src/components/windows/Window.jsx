@@ -3,7 +3,7 @@ import styles from "./Window.module.css";
 import { faMinus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { ReactSVG } from "react-svg";
-import { useWindowsManager } from "../hooks/WindowsManagerContext.js";
+import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
 import Draggable from "react-draggable";
 import { useEffect, useRef, useState } from "react";
 

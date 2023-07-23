@@ -2,8 +2,25 @@ import { useEffect, useState } from "react";
 import styles from "./TaskBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBatteryFull, faSearch, faVolumeHigh, faWifi } from "@fortawesome/free-solid-svg-icons";
-import ApplicationsManager from "../features/applications/applications.js";
-import { AppButton } from "./task-bar/AppButton.js";
+import ApplicationsManager from "../../features/applications/applications.js";
+import { useWindows } from "../../hooks/windows/WindowsContext.js";
+import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
+import { ReactSVG } from "react-svg";
+
+function AppButton({ app }) {
+	const [active, setActive] = useState(false);
+	const windows = useWindows();
+	const windowsManager = useWindowsManager();
+
+	useEffect(() => {
+		setActive(windowsManager.isAppActive(app.id));
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [windows]);
+
+	return (<button className={active ? `${styles["App-icon"]} ${styles["Active"]}` : styles["App-icon"]} key={app.id} onClick={() => { windowsManager.open(app.id); }}>
+		<ReactSVG src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
+	</button>);
+}
 
 export function Taskbar() {
 	const [date, setDate] = useState(new Date());

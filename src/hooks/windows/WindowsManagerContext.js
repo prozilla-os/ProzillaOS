@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import WindowsManager from "../features/windows/windows.js";
+import WindowsManager from "../../features/windows/windows.js";
 import { WindowsProvider } from "./WindowsContext.js";
 
 const WindowsManagerContext = createContext();

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./Terminal.module.css";
-import { useVirtualRoot } from "../../../hooks/VirtualRootContext.js";
+import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 import { Command } from "../../../features/applications/terminal/commands.js";
 
 const USERNAME = "user";

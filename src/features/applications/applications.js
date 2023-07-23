@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
 import { WebView } from "../../components/applications/templates/WebView.jsx";
-import { Terminal } from "../../components/applications/terminal/Terminal.js";
+import { Terminal } from "../../components/applications/terminal/Terminal.jsx";
 import Application from "./application.js";
 
 export default class ApplicationsManager {

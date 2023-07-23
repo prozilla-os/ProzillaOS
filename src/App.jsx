@@ -1,8 +1,8 @@
 import styles from "./App.module.css";
-import { Taskbar } from "./components/TaskBar.js";
-import { WindowsManagerProvider } from "./hooks/WindowsManagerContext.js";
-import { WindowsView } from "./components/WindowsView.js";
-import { VirtualRootProvider } from "./hooks/VirtualRootContext.js";
+import { Taskbar } from "./components/task-bar/TaskBar.jsx";
+import { WindowsManagerProvider } from "./hooks/windows/WindowsManagerContext.js";
+import { WindowsView } from "./components/windows/WindowsView.jsx";
+import { VirtualRootProvider } from "./hooks/virtual-drive/VirtualRootContext.js";
 import { SETTINGS } from "./config/settings.js";
 
 function App() {
