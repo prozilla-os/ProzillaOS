@@ -1,3 +1,5 @@
+[← Back](../README.md)
+
 # Documentation
 
 ## Table of Contents
@@ -25,12 +27,11 @@
 1. Run `npm run build`, which will compile all the necessary files to the `build` directory.
 2. Upload the contents of the `build` directory to your web server's root folder.
 
-#### Deploy to GitHub Pages
+#### Deploying to GitHub Pages
 
-1. Change the "homepage" property in [package.json](../package.json) to your domain.
-2. Make sure the package `gh-pages` is installed.
-2. Run `npm run deploy` - This will create a new build by running the redeploy script and then push the build folder to a branch called `gh-pages`.
-3. Configure your GitHub Pages to deploy the `gh-pages` branch.
+1. Open [deploy.sh](../deploy.sh) and change `DOMAIN` to your domain, `COMMIT_MESSAGE` to your commit message and `REPO_URL` to the URL of your repo. Make sure you don't add or remove any quotes when editing these values.
+2. Run `npm run deploy` - This will create a new build by running the redeploy script, add a CNAME pointing to your domain and then push the build folder to a branch called `gh-pages`.
+3. Configure your GitHub Pages to deploy the `gh-pages` branch to your domain.
 
 ### Structure
 
