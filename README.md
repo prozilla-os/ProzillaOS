@@ -1,6 +1,6 @@
 <img alt="GitHub" src="https://img.shields.io/github/license/prozilla/Prozilla-OS"> <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/prozilla/prozilla-os"> <img alt="GitHub forks" src="https://img.shields.io/github/forks/prozilla/prozilla-os">
 
-# <img src="public/media/logo.svg" width=40 height=40 style="vertical-align: middle; background: none;"/> ProzillaOS
+# <img src="public/media/logo.svg" width=200 height=200 style="width: 40px; height: 40px; vertical-align: middle; background: none;"/> ProzillaOS
 
 ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows made with React by Prozilla.
 
