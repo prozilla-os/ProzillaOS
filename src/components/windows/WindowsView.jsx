@@ -6,6 +6,8 @@ export function WindowsView() {
 	const windows = useWindows();
 	const windowsManager = useWindowsManager();
 
+	// TO DO: prevent windows from being rerendered when order is changed
+
 	return (<div>
 		{windows.sort((windowA, windowB) =>
 			windowA.lastInteraction - windowB.lastInteraction

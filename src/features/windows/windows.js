@@ -26,7 +26,7 @@ export default class WindowsManager {
 			app,
 			size,
 			position,
-			lastInteraction: 0
+			lastInteraction: new Date().valueOf()
 		};
 
 		this.updateWindows(this.windows);

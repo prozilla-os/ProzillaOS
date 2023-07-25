@@ -13,6 +13,7 @@
 	width: 100%;
 	height: var(--task-bar-height);
 	background-color: var(--task-bar-color);
+	backdrop-filter: blur(15px);
 	z-index: 10;
 }
 

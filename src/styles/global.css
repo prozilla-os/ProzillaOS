@@ -111,3 +111,8 @@ p, a, button, input, h1, h2, h3, h4, h5, h6 {
 code {
 	font-family: var(--mono-font-family);
 }
+
+*::selection {
+	color: var(--background-color-c);
+	background-color: var(--grey-b);
+}
