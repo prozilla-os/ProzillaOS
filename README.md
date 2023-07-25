@@ -1,4 +1,4 @@
-<img alt="GitHub" src="https://img.shields.io/github/license/prozilla/Prozilla-OS"> <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/prozilla/prozilla-os"> <img alt="GitHub forks" src="https://img.shields.io/github/forks/prozilla/prozilla-os">
+<img alt="GitHub" src="https://img.shields.io/github/license/prozilla/Prozilla-OS?style=flat-square&color=red&label=License"> <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/prozilla/prozilla-os?style=flat-square&color=yellow&label=%E2%AD%90">  <img alt="GitHub forks" src="https://img.shields.io/github/forks/prozilla/prozilla-os?style=flat-square&color=blue&label=Forks">
 
 # <img src="public/media/logo.svg" width=40 height=40 style="vertical-align: middle; background: none;"/> ProzillaOS
 
