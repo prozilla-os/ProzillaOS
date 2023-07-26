@@ -23,6 +23,18 @@ export class VirtualRoot extends VirtualFolder {
 		return this;
 	}
 
+	static isValidName(name) {
+		// TO DO
+	}
+
+	static isValidFileName(name) {
+		// TO DO
+	}
+
+	static isValidFolderName(name) {
+		// TO DO
+	}
+
 	get path() {
 		return "";
 	}

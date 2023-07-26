@@ -2,7 +2,24 @@ import { useState } from "react";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFileLines, faHouse, faImage, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFile, faFileLines, faFolder, faHouse, faImage, faSearch } from "@fortawesome/free-solid-svg-icons";
+
+function FilePreview({ file }) {
+	let preview;
+
+	console.log(file);
+
+	switch (file.extension) {
+		case "png":
+			preview = <FontAwesomeIcon icon={faImage}/>
+			break;
+		default:
+			preview = <FontAwesomeIcon icon={faFile}/>
+			break;
+	}
+
+	return preview;
+}
 
 export function FileExplorer() {
 	const virtualRoot = useVirtualRoot();
@@ -22,7 +39,7 @@ export function FileExplorer() {
 
 	const onPathChange = (event) => {
 		return setPath(event.target.value);
-	}
+	};
 
 	const onKeyDown = (event) => {
 		const value = event.target.value;
@@ -78,7 +95,18 @@ export function FileExplorer() {
 					</button>
 				</div>
 				<div className={styles.Main}>
-
+					{currentDirectory.files.map((file, index) => 
+						<button key={index} className={styles["File-button"]}>
+							<FilePreview file={file}/>
+							<p>{file.id}</p>
+						</button>
+					)}
+					{currentDirectory.subFolders.map(({ name }, index) => 
+						<button key={index} className={styles["Folder-button"]} onClick={() => { changeDirectory(name) }}>
+							<FontAwesomeIcon icon={faFolder}/>
+							<p>{name}</p>
+						</button>
+					)}
 				</div>
 			</div>
 		</div>

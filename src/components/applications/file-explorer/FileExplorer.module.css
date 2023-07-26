@@ -1,6 +1,7 @@
 .Container {
 	--header-height: 3.5rem;
 	--sidebar-width: 10rem;
+	--scale: 1rem;
 
 	display: flex;
 	flex-direction: column;
@@ -69,6 +70,7 @@
 	flex: 1;
 	display: flex;
 	width: 100%;
+	height: calc(100% - var(--header-height));
 	background-color: var(--background-color-c);
 }
 
@@ -97,7 +99,7 @@
 	border-radius: 0.5rem;
 	outline: none;
 	cursor: pointer;
-	transition: background-color 200ms ease-in-out;
+	transition: background-color 100ms ease-in-out;
 }
 
 .Nav-button:hover {
@@ -111,5 +113,42 @@
 
 .Main {
 	flex: 1;
+	display: flex;
+	flex-wrap: wrap;
 	height: 100%;
+	padding: 0.5rem;
+	overflow: auto;
+}
+
+.File-button, .Folder-button {
+	display: flex;
+	gap: 0.5rem;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: calc(var(--scale) * 7.5);
+	height: calc(var(--scale) * 7.5);
+	padding: 0.5rem;
+	background: none;
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	cursor: pointer;
+	transition: background-color 100ms ease-in-out;
+}
+
+.File-button:hover, .Folder-button:hover {
+	background-color: rgba(255, 255, 255, 10%);
+}
+
+.File-button svg, .Folder-button svg {
+	width: 50%;
+	height: auto;
+	aspect-ratio: 1;
+}
+
+.File-button p, .Folder-button p {
+	max-width: 100%;
+	margin: 0;
+	word-wrap: break-word;
 }
