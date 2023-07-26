@@ -1,0 +1,115 @@
+.Container {
+	--header-height: 3.5rem;
+	--sidebar-width: 10rem;
+
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+}
+
+.Header {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	width: 100%;
+	height: var(--header-height);
+	padding: 1rem;
+	background-color: var(--background-color-a);
+}
+
+.Icon-button {
+	position: relative;
+	height: 1.25rem;
+	width: auto;
+	padding: 0;
+	color: var(--foreground-a);
+	background: none;
+	border: none;
+	outline: none;
+	aspect-ratio: 1;
+	cursor: pointer;
+}
+
+.Icon-button::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0%);
+	border-radius: 9999px;
+	transform: scale(100%);
+	transform-origin: center;
+	transition: all 200ms ease-in-out;
+}
+
+.Icon-button:hover::after {
+	background-color: rgba(255, 255, 255, 10%);
+	transform: scale(150%);
+}
+
+.Icon-button svg {
+	height: 100%;
+}
+
+.Path-input {
+	flex: 1;
+	padding: 0.25rem 0.5rem;
+	background-color: var(--background-color-c);
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	font-family: inherit;
+	font-size: inherit;
+}
+
+.Body {
+	flex: 1;
+	display: flex;
+	width: 100%;
+	background-color: var(--background-color-c);
+}
+
+.Sidebar {
+	display: flex;
+	gap: 0.25rem;
+	flex-direction: column;
+	min-width: calc(var(--sidebar-width) / 2);
+	width: var(--sidebar-width);
+	height: 100%;
+	max-width: 50%;
+	padding: 0.5rem;
+	background-color: var(--background-color-b);
+	resize: horizontal;
+	overflow: hidden;
+}
+
+.Nav-button {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	width: 100%;
+	padding: 0.5rem;
+	background: none;
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	cursor: pointer;
+	transition: background-color 200ms ease-in-out;
+}
+
+.Nav-button:hover {
+	background-color: rgba(255, 255, 255, 10%);
+}
+
+.Nav-button svg {
+	height: 1.35rem;
+	aspect-ratio: 1;
+}
+
+.Main {
+	flex: 1;
+	height: 100%;
+}
