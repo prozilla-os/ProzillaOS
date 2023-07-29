@@ -81,13 +81,13 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 				<div className={`${styles.Header} Handle`}>
 					<ReactSVG className={styles["Window-icon"]} src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
 					<p>{title}</p>
-					<button onClick={() => setMinimized(!minimized)}>
+					<button title="Minimize" onClick={() => setMinimized(!minimized)}>
 						<FontAwesomeIcon icon={faMinus}/>
 					</button>
-					<button onClick={() => setMaximized(!maximized)}>
+					<button title="Maximize" onClick={() => setMaximized(!maximized)}>
 						<FontAwesomeIcon icon={faSquare}/>
 					</button>
-					<button onClick={close}>
+					<button title="Close" onClick={close}>
 						<FontAwesomeIcon icon={faXmark}/>
 					</button>
 				</div>

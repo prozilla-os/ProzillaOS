@@ -23,9 +23,19 @@ function AppButton({ app }) {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [windows]);
 
-	return (<button className={active ? `${styles["App-icon"]} ${styles["Active"]}` : styles["App-icon"]} key={app.id} onClick={() => { windowsManager.open(app.id); }}>
-		<ReactSVG src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
-	</button>);
+	const classNames = [styles["App-icon"]];
+	if (active)
+		classNames.push(styles.Active);
+
+	return (
+		<button
+			className={classNames.join(" ")}
+			onClick={() => { windowsManager.open(app.id); }}
+			title={app.name}
+		>
+			<ReactSVG src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
+		</button>
+	);
 }
 
 export function Taskbar() {
@@ -40,7 +50,7 @@ export function Taskbar() {
 	return (
 		<div className={styles["Task-bar"]}>
 			<div className={styles["Program-icons"]}>
-				<button>
+				<button title="Search">
 					<FontAwesomeIcon icon={faSearch}/>
 				</button>
 				{ApplicationsManager.APPLICATIONS.map((app) => 
@@ -48,16 +58,16 @@ export function Taskbar() {
 				)}
 			</div>
 			<div className={styles["Util-icons"]}>
-				<button>
+				<button title="Battery">
 					<FontAwesomeIcon icon={faBatteryFull}/>
 				</button>
-				<button>
+				<button title="Wifi">
 					<FontAwesomeIcon icon={faWifi}/>
 				</button>
-				<button>
+				<button title="Volume">
 					<FontAwesomeIcon icon={faVolumeHigh}/>
 				</button>
-				<button style={{ userSelect: "none" }}>
+				<button title="Date & Time" style={{ userSelect: "none" }}>
 					{date.toLocaleString("en-US", {
 						hour: "numeric",
 						minute: "numeric",
@@ -70,7 +80,7 @@ export function Taskbar() {
 						year: "numeric",
 					})}
 				</button>
-				<button id="desktop-button"/>
+				<button title="View Desktop" id="desktop-button"/>
 			</div>
 		</div>
 	);

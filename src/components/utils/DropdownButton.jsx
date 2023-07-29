@@ -14,13 +14,13 @@ export function DropdownButton({ label, options }) {
 	return (
 		<OutsideClickListener onOutsideClick={() => { setOpen(false); }}>
 			<div className={styles.Container}>
-				<button className={styles.Button} onClick={() => { setOpen(!open) }}>
+				<button title={label} className={styles.Button} onClick={() => { setOpen(!open) }}>
 					{label}
 				</button>
 				{open && options
 					? (<div className={styles.Dropdown}>
 						{Object.entries(options).map(([label, callback]) =>
-							<button key={label} onClick={() => {
+							<button title={label} key={label} onClick={() => {
 								setOpen(false);
 								callback();
 							}}>

@@ -61,13 +61,13 @@ export function FileExplorer() {
 	return (
 		<div className={styles.Container}>
 			<div className={styles.Header}>
-				<button className={styles["Icon-button"]}>
+				<button title="Back" className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faCaretLeft}/>
 				</button>
-				<button className={styles["Icon-button"]}>
+				<button title="Forward" className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faCaretRight}/>
 				</button>
-				<button className={styles["Icon-button"]} onClick={() => { changeDirectory(".."); }}>
+				<button title="Up" className={styles["Icon-button"]} onClick={() => { changeDirectory(".."); }}>
 					<FontAwesomeIcon icon={faArrowUp}/>
 				</button>
 				<input
@@ -77,35 +77,35 @@ export function FileExplorer() {
 					onChange={onPathChange}
 					onKeyDown={onKeyDown}
 				/>
-				<button className={styles["Icon-button"]}>
-				<FontAwesomeIcon icon={faSearch}/>
+				<button title="Search" className={styles["Icon-button"]}>
+					<FontAwesomeIcon icon={faSearch}/>
 				</button>
-				<button className={styles["Icon-button"]}>
+				<button title="Settings" className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faCog}/>
 				</button>
 			</div>
 			<div className={styles.Body}>
 				<div className={styles.Sidebar}>
-					<button className={styles["Nav-button"]} onClick={() => { changeDirectory("~"); }}>
+					<button title="Home" className={styles["Nav-button"]} onClick={() => { changeDirectory("~"); }}>
 						<FontAwesomeIcon icon={faHouse}/>
 						Home
 					</button>
-					<button className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Desktop"); }}>
+					<button title="Desktop" className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Desktop"); }}>
 						<FontAwesomeIcon icon={faDesktop}/>
 						Desktop
 					</button>
-					<button className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Documents"); }}>
+					<button title="Documents" className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Documents"); }}>
 						<FontAwesomeIcon icon={faFileLines}/>
 						Documents
 					</button>
-					<button className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Images"); }}>
+					<button title="Images" className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Images"); }}>
 						<FontAwesomeIcon icon={faImage}/>
 						Images
 					</button>
 				</div>
 				<div className={styles.Main}>
 					{currentDirectory.files.map((file, index) => 
-						<button key={index} className={styles["File-button"]} onClick={(event) => {
+						<button key={index} title={file.id} className={styles["File-button"]} onClick={(event) => {
 							event.preventDefault();
 							windowsManager.openFile(file);
 						}}>
@@ -114,7 +114,7 @@ export function FileExplorer() {
 						</button>
 					)}
 					{currentDirectory.subFolders.map(({ name }, index) => 
-						<button key={index} className={styles["Folder-button"]} onClick={() => {
+						<button key={index} title={name} className={styles["Folder-button"]} onClick={() => {
 							changeDirectory(name);
 						}}>
 							<FontAwesomeIcon icon={faFolder}/>
