@@ -4,12 +4,18 @@
 }
 
 .Window-container {
+	--shadow-size: 0.3rem;
+	--shadow-opacity: 35%;
+	--shadow-spread: 3;
+
 	position: absolute;
 	display: flex;
 	flex-direction: column;
 	min-width: 300px;
 	min-height: 150px;
 	background-color: var(--background-color-c);
+	border-radius: 0.5rem;
+	box-shadow: calc(var(--shadow-size) * -1) var(--shadow-size) calc(var(--shadow-size) * var(--shadow-spread)) 0px rgba(0, 0, 0, var(--shadow-opacity));
 	resize: both;
 	overflow: hidden;
 	/* animation: pop-in 200ms ease-in-out; */
@@ -33,6 +39,7 @@
 	align-items: center;
 	height: var(--header-height);
 	padding: 0.25rem;
+	padding-left: 0.5rem;
 	padding-right: 0;
 	background-color: var(--background-color-b);
 	cursor: grab;
@@ -47,7 +54,7 @@
 
 .Window-icon {
 	height: 1rem;
-	margin-right: 0.25rem;
+	margin-right: 0.4rem;
 }
 
 .Window-icon > div {
