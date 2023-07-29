@@ -2,11 +2,9 @@
 	position: absolute;
 	left: 0;
 	bottom: 100%;
-	min-width: 16rem;
 	height: auto !important;
 	z-index: -1;
 	overflow: hidden;
-	resize: horizontal;
 }
 
 .Container-inner {
@@ -14,7 +12,7 @@
 	background-color: rgba(25, 25, 25, 75%);
 	backdrop-filter: blur(15px);
 	transform: none;
-	transition: 200ms ease-in-out;
+	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
 }
 
 .Container-outer:not(.Active) .Container-inner {
@@ -24,6 +22,12 @@
 
 .Container-inner {
 	display: flex;
+	min-width: 16rem;
+	border-top-left-radius: 0.5rem;
+	border-top-right-radius: 0.5rem;
+	border-bottom-right-radius: 0.5rem;
+	overflow: hidden;
+	resize: horizontal;
 }
 
 .Buttons {
@@ -43,11 +47,13 @@
 }
 
 .Apps {
+	--scrollbar-color: rgba(0, 0, 0, 25%);
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 	max-height: 20rem;
 	padding: 1rem;
+	padding-right: 0.25rem;
 	padding-bottom: 0;
 }
 

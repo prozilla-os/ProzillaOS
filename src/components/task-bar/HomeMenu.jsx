@@ -4,6 +4,7 @@ import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawe
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
 import ApplicationsManager from "../../features/applications/applications.js";
 import { ReactSVG } from "react-svg";
+import { closeTab } from "../../features/utils/browser.js";
 
 export function HomeMenu({ active, setActive }) {
 	const windowsManager = useWindowsManager();
@@ -16,7 +17,7 @@ export function HomeMenu({ active, setActive }) {
 		<div className={classNames.join(" ")}>
 			<div className={styles["Container-inner"]}>
 				<div className={styles.Buttons}>
-					<button title="Power" onClick={() => { window.close(); }}>
+					<button title="Power" onClick={() => { closeTab(); }}>
 						<FontAwesomeIcon icon={faPowerOff}/>
 					</button>
 					<button title="Settings">
@@ -41,8 +42,9 @@ export function HomeMenu({ active, setActive }) {
 				<div className={styles.Apps}>
 					<h2>Apps</h2>
 					<div className={styles["App-list"]}>
-						{ApplicationsManager.APPLICATIONS.map(({ name, id}) => 
+						{ApplicationsManager.APPLICATIONS.map(({ name, id }) => 
 							<button
+								key={id}
 								className={styles["App-button"]}
 								onClick={() => {
 									setActive(false);

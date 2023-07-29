@@ -27,6 +27,8 @@
 	--background-color-b: var(--dark-grey-c);
 	--background-color-c: var(--dark-grey-d);
 
+	--scrollbar-color: hsla(211, 29%, 40%, 25%);
+
 	--body-font-family: "Poppins", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
 		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 	--mono-font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -115,4 +117,22 @@ code {
 *::selection {
 	color: var(--background-color-c);
 	background-color: var(--grey-b);
+}
+
+*::-webkit-scrollbar {
+	width: 20px;
+}
+
+*::-webkit-scrollbar-track {
+	background: none;
+}
+
+*::-webkit-scrollbar-thumb {
+	border-radius: 9999px;
+	border: 5px solid transparent;
+	background-color: var(--scrollbar-color);
+	background-clip: padding-box;
+	backdrop-filter: invert(100%);
+	transition: 200ms ease-in-out;
+	z-index: 1;
 }
