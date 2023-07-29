@@ -41,6 +41,10 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
         resizeObserver.observe(document.getElementById("root"));
     });
 
+	const close = () => {
+		windowsManager.close(id);
+	};
+
 	const classNames = [styles["Window-container"]];
 	if (maximized)
 		classNames.push(styles.Maximized);
@@ -83,12 +87,12 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 					<button onClick={() => setMaximized(!maximized)}>
 						<FontAwesomeIcon icon={faSquare}/>
 					</button>
-					<button onClick={() => { windowsManager.close(id); }}>
+					<button onClick={close}>
 						<FontAwesomeIcon icon={faXmark}/>
 					</button>
 				</div>
 				<div className={styles["Window-content"]}>
-					<app.WindowContent {...options} setTitle={setTitle}/>
+					<app.WindowContent {...options} setTitle={setTitle} close={close}/>
 				</div>
 			</div>
 		</Draggable>

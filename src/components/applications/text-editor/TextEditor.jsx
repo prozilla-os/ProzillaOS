@@ -8,7 +8,7 @@ import { HeaderMenu } from "../.common/HeaderMenu.jsx";
  * @param {Object} props
  * @param {VirtualFile} props.file
  */
-export function TextEditor({ file, setTitle }) {
+export function TextEditor({ file, setTitle, close }) {
 	const [currentFile, setCurrentFile] = useState(file);
 	const [content, setContent] = useState(file?.content);
 	const [unsavedChanges, setUnsavedChanges] = useState(false);
@@ -62,6 +62,7 @@ export function TextEditor({ file, setTitle }) {
 				onNew={newText}
 				onSave={saveText}
 				onSaveAs={saveTextAs}
+				onExit={() => { close(); }}
 			/>
 			<textarea
 				className={styles.View}
