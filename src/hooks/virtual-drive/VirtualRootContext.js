@@ -38,13 +38,13 @@ function initVirtualRoot(virtualRoot) {
 			folder.setAlias("~")
 				.createFolder("Images", (folder) => {
 					folder.createFile("Wallpaper_1", "png", (file) => {
-						file.setSource("/public/media/wallpapers/wallpaper-1.png")
+						file.setSource("/media/wallpapers/wallpaper1.png")
 					}).createFile("Wallpaper_2", "png", (file) => {
-						file.setSource("/public/media/wallpapers/wallpaper-2.png")
+						file.setSource("/media/wallpapers/wallpaper2.png")
 					}).createFile("Wallpaper_3", "png", (file) => {
-						file.setSource("/public/media/wallpapers/wallpaper-3.png")
+						file.setSource("/media/wallpapers/wallpaper3.png")
 					}).createFile("Wallpaper_4", "png", (file) => {
-						file.setSource("/public/media/wallpapers/wallpaper-4.png")
+						file.setSource("/media/wallpapers/wallpaper4.png")
 					})
 				})
 				.createFolder("Documents")

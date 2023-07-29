@@ -11,7 +11,7 @@ export function WindowsView() {
 	return (<div>
 		{windows.sort((windowA, windowB) =>
 			windowA.lastInteraction - windowB.lastInteraction
-		).map(({ id, app, size, position }, index) => 
+		).map(({ id, app, size, position, options }, index) => 
 			<Window
 				onInteract={() => { windowsManager.focus(windows[index]); }}
 				id={id}
@@ -19,6 +19,7 @@ export function WindowsView() {
 				app={app}
 				size={size}
 				position={position}
+				options={options}
 			/>
 		)}
 	</div>);

@@ -6,7 +6,13 @@ import ApplicationsManager from "../../features/applications/applications.js";
 import { useWindows } from "../../hooks/windows/WindowsContext.js";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
 import { ReactSVG } from "react-svg";
+// eslint-disable-next-line no-unused-vars
+import Application from "../../features/applications/application.js";
 
+/**
+ * @param {Object} props 
+ * @param {Application} props.app 
+ */
 function AppButton({ app }) {
 	const [active, setActive] = useState(false);
 	const windows = useWindows();

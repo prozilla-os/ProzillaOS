@@ -3,11 +3,16 @@ import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFile, faFileLines, faFolder, faHouse, faImage, faSearch } from "@fortawesome/free-solid-svg-icons";
+// eslint-disable-next-line no-unused-vars
+import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
+import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
 
+/**
+ * @param {Object} props
+ * @param {VirtualFile} props.file
+ */
 function FilePreview({ file }) {
-	let preview;
-
-	console.log(file);
+	let preview = null;
 
 	switch (file.extension) {
 		case "png":
@@ -25,6 +30,7 @@ export function FileExplorer() {
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate("~"));
 	const [path, setPath] = useState(currentDirectory.path);
+	const windowsManager = useWindowsManager();
 
 	const changeDirectory = (path, absolute = false) => {
 		const directory = absolute ? virtualRoot.navigate(path) : currentDirectory.navigate(path);
@@ -96,13 +102,18 @@ export function FileExplorer() {
 				</div>
 				<div className={styles.Main}>
 					{currentDirectory.files.map((file, index) => 
-						<button key={index} className={styles["File-button"]}>
+						<button key={index} className={styles["File-button"]} onClick={(event) => {
+							event.preventDefault();
+							windowsManager.openFile(file);
+						}}>
 							<FilePreview file={file}/>
 							<p>{file.id}</p>
 						</button>
 					)}
 					{currentDirectory.subFolders.map(({ name }, index) => 
-						<button key={index} className={styles["Folder-button"]} onClick={() => { changeDirectory(name) }}>
+						<button key={index} className={styles["Folder-button"]} onClick={() => {
+							changeDirectory(name);
+						}}>
 							<FontAwesomeIcon icon={faFolder}/>
 							<p>{name}</p>
 						</button>

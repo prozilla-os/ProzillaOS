@@ -6,8 +6,21 @@ import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
 import Draggable from "react-draggable";
 import { useEffect, useRef, useState } from "react";
+// eslint-disable-next-line no-unused-vars
+import Application from "../../features/applications/application.js";
+// eslint-disable-next-line no-unused-vars
+import Vector2 from "../../features/math/vector2.js";
 
-export function Window({ id, app, size, position, focused = false, onInteract }) {
+/**
+ * @param {Object} props
+ * @param {String} props.id 
+ * @param {Application} props.app 
+ * @param {Vector2} props.size 
+ * @param {Vector2} props.position 
+ * @param {boolean} props.focused 
+ * @param {Function} props.onInteract
+ */
+export function Window({ id, app, size, position, focused = false, onInteract, options }) {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 	const [maximized, setMaximized] = useState(false);
@@ -72,7 +85,7 @@ export function Window({ id, app, size, position, focused = false, onInteract })
 					</button>
 				</div>
 				<div className={styles["Window-content"]}>
-					{app.windowContent}
+					<app.WindowContent {...options}/>
 				</div>
 			</div>
 		</Draggable>

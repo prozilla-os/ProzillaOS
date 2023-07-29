@@ -1,15 +1,16 @@
 import ApplicationsManager from "../applications/applications.js";
 import { randomRange } from "../math/random.js";
 import Vector2 from "../math/vector2.js";
+// eslint-disable-next-line no-unused-vars
+import { VirtualFile } from "../virtual-drive/virtual-file.js";
 
 export default class WindowsManager {
 	constructor() {
 		this.windows = {};
 		this.updateWindows = () => {};
-		console.log("Windows manager init");
 	}
 
-	open(appId) {
+	open(appId, options) {
 		const app = ApplicationsManager.getApplication(appId);
 		const size = new Vector2(700, 400);
 		const position = new Vector2(randomRange(50, 600), randomRange(50, 450));
@@ -19,18 +20,29 @@ export default class WindowsManager {
 			id++;
 		}
 
+		id = id.toString();
+
 		console.log(`Opening window ${id}:${app.id}`);
 
-		this.windows[id.toString()] = {
+		this.windows[id] = {
 			id,
 			app,
 			size,
 			position,
+			options,
 			lastInteraction: new Date().valueOf()
 		};
 
 		this.updateWindows(this.windows);
 		// console.log(this);
+	}
+
+	/**
+	 * @param {VirtualFile} file 
+	 */
+	openFile(file) {
+		const app = ApplicationsManager.getFileApplication(file.extension);
+		this.open(app.id, { file });
 	}
 
 	close(windowId) {

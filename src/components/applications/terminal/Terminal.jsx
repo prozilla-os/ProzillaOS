@@ -6,12 +6,24 @@ import { Command } from "../../../features/applications/terminal/commands.js";
 const USERNAME = "user";
 const HOSTNAME = "prozilla-os";
 
+/**
+ * @param {Object} props 
+ * @param {String} props.text
+ */
 function OutputLine({ text }) {
 	return (
 		<p className={styles.Output}>{text}</p>
 	);
 }
 
+/**
+ * @param {Object} props 
+ * @param {String} props.value
+ * @param {String} props.prefix
+ * @param {Function} props.onChange
+ * @param {Function} props.onKeyUp
+ * @param {Function} props.onKeyDown
+ */
 function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown }) {
 	return (
 		<span className={styles.Input}>
