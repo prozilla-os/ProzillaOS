@@ -8,20 +8,25 @@ import { HeaderMenu } from "../.common/HeaderMenu.jsx";
  * @param {Object} props
  * @param {VirtualFile} props.file
  */
-export function TextEditor({ file }) {
+export function TextEditor({ file, setTitle }) {
 	const [currentFile, setCurrentFile] = useState(file);
 	const [content, setContent] = useState(file?.content);
+	const [unsavedChanges, setUnsavedChanges] = useState(false);
 
 	useEffect(() => {
 		setContent(currentFile?.content ?? "");
 	}, [currentFile]);
+
+	useEffect(() => {
+		setTitle(`${currentFile?.id ?? "Untitled"}${unsavedChanges ? "*" : ""} - Text Editor`);
+	}, [currentFile, setTitle, unsavedChanges]);
 
 	const newText = () => {
 		setCurrentFile(null);
 	}
 
 	const saveTextAs = () => {
-
+		setUnsavedChanges(false);
 	}
 
 	const saveText = () => {
@@ -29,11 +34,26 @@ export function TextEditor({ file }) {
 			return saveTextAs();
 
 		currentFile.content = content;
+		setUnsavedChanges(false);
 	}
 
 	const onChange = (event) => {
 		const value = event.target.value;
+
+		if (currentFile != null) {
+			setUnsavedChanges(currentFile.content !== value);
+		} else {
+			setUnsavedChanges(value !== "");
+		}
+
 		return setContent(value);
+	};
+
+	const onKeyDown = (event) => {
+		if (event.key === "s" && event.ctrlKey) {
+			event.preventDefault();
+			saveText();
+		}
 	};
 
 	return (
@@ -47,6 +67,7 @@ export function TextEditor({ file }) {
 				className={styles.View}
 				value={content}
 				onChange={onChange}
+				onKeyDown={onKeyDown}
 				spellCheck={false}
 				autoComplete="off"
 				autoFocus
