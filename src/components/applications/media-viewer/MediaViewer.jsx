@@ -10,7 +10,7 @@ import styles from "./MediaViewer.module.css";
  */
 export function MediaViewer({ file }) {
 	if (file == null)
-		return (<p>No file to render.</p>);
+		return (<p>Use the File Explorer to open an image.</p>);
 
 	if (!["png"].includes(file.extension))
 		return (<p>Invalid file format.</p>);
