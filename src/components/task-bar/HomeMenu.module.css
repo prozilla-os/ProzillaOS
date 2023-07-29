@@ -1,0 +1,85 @@
+.Container-outer {
+	position: absolute;
+	left: 0;
+	bottom: 100%;
+	min-width: 16rem;
+	height: auto !important;
+	z-index: -1;
+	overflow: hidden;
+	resize: horizontal;
+}
+
+.Container-inner {
+	opacity: 1;
+	background-color: rgba(25, 25, 25, 75%);
+	backdrop-filter: blur(15px);
+	transform: none;
+	transition: 200ms ease-in-out;
+}
+
+.Container-outer:not(.Active) .Container-inner {
+	opacity: 0;
+	transform: translateY(100px);
+}
+
+.Container-inner {
+	display: flex;
+}
+
+.Buttons {
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: center;
+	padding: 0.25rem;
+}
+
+.Buttons > button {
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+}
+
+.Buttons > button > svg {
+	height: 1.5rem;
+}
+
+.Apps {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-height: 20rem;
+	padding: 1rem;
+	padding-bottom: 0;
+}
+
+.Apps h2 {
+	width: 100%;
+	text-align: left;
+	font-size: 1rem;
+	margin: 0;
+	margin-bottom: 1rem;
+}
+
+.App-list {
+	overflow: auto;
+	max-height: 100%;
+}
+
+.App-list > button {
+	display: flex;
+	gap: 1rem;
+	width: 100%;
+	padding: 0.25rem 0.5rem;
+	border-radius: 0.5rem;
+}
+
+.App-list > button > div,
+.App-list > button > div > div,
+.App-list > button > div > div > svg {
+	width: 2rem;
+	height: 2rem;
+}
+
+.App-list > button > p {
+	margin: 0;
+	white-space: nowrap;
+}

@@ -32,14 +32,23 @@
 	background-color: var(--task-bar-button-hover-color);
 }
 
+.Home-container {
+	position: relative;
+	padding: 0 !important;
+}
+
+.Home-button * {
+	fill: var(--foreground-color-a);
+	filter: none;
+}
+
 .Program-icons {
 	display: flex;
 	align-items: center;
 	height: 100%;
-	margin-left: 0.5rem;
 }
 
-.Program-icons > * {
+.Program-icons > *, .Home-button {
 	height: 100%;
 	padding: 0.75rem;
 }
@@ -50,7 +59,10 @@
 
 .Program-icons > * > div,
 .Program-icons > * > div > div,
-.Program-icons > * > div > div > svg {
+.Program-icons > * > div > div > svg,
+.Home-button > div,
+.Home-button > div > div,
+.Home-button > div > div > svg {
 	height: 100%;
 	width: auto;
 }

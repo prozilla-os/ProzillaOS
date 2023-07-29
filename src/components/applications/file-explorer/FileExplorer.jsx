@@ -29,9 +29,9 @@ function FilePreview({ file }) {
 	return preview;
 }
 
-export function FileExplorer() {
+export function FileExplorer({ startPath }) {
 	const virtualRoot = useVirtualRoot();
-	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate("~"));
+	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate(startPath ?? "~"));
 	const [path, setPath] = useState(currentDirectory.path);
 	const windowsManager = useWindowsManager();
 

@@ -8,6 +8,8 @@ import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js"
 import { ReactSVG } from "react-svg";
 // eslint-disable-next-line no-unused-vars
 import Application from "../../features/applications/application.js";
+import { HomeMenu } from "./HomeMenu.jsx";
+import OutsideClickListener from "../../hooks/utils/outsideClick.js";
 
 /**
  * @param {Object} props 
@@ -33,13 +35,14 @@ function AppButton({ app }) {
 			onClick={() => { windowsManager.open(app.id); }}
 			title={app.name}
 		>
-			<ReactSVG src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
+			<ReactSVG src={`${process.env.PUBLIC_URL}/media/applications/icons/${app.id}.svg`}/>
 		</button>
 	);
 }
 
 export function Taskbar() {
 	const [date, setDate] = useState(new Date());
+	const [showHome, setShowHome] = useState(false);
 
 	useEffect(() => {
 		setInterval(() => {
@@ -50,6 +53,14 @@ export function Taskbar() {
 	return (
 		<div className={styles["Task-bar"]}>
 			<div className={styles["Program-icons"]}>
+				<div className={styles["Home-container"]}>
+					<OutsideClickListener onOutsideClick={() => { setShowHome(false); }}>
+						<button title="Home" className={styles["Home-button"]} onClick={() => { setShowHome(!showHome); }}>
+							<ReactSVG src={process.env.PUBLIC_URL + "/media/logo.svg"}/>
+						</button>
+						<HomeMenu active={showHome} setActive={setShowHome}/>
+					</OutsideClickListener>
+				</div>
 				<button title="Search">
 					<FontAwesomeIcon icon={faSearch}/>
 				</button>
