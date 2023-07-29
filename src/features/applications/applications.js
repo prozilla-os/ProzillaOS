@@ -35,6 +35,7 @@ export default class ApplicationsManager {
 	}
 
 	/**
+	 * Get the application associated with a file extension
 	 * @param {String} fileExtension 
 	 * @returns {Application}
 	 */

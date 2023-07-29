@@ -6,24 +6,15 @@ Applications (sometimes shortened to apps) are processes that open a window when
 
 ## Table of Contents
 
-- [<img src="../../../public/media/applications/icons/terminal.svg" width=20 height=20 style="vertical-align: middle; background: none;"/> Terminal](./terminal/README.md)
+- [<img src="../../../public/media/applications/icons/terminal.svg" width=20 height=20 style="vertical-align: middle; background: none;"/> Terminal](terminal/README.md)
+- [<img src="../../../public/media/applications/icons/file-explorer.svg" width=20 height=20 style="vertical-align: middle; background: none;"/> File Explorer](file-explorer/README.md)
+- [<img src="../../../public/media/applications/icons/media-viewer.svg" width=20 height=20 style="vertical-align: middle; background: none;"/> Media Viewer](media-viewer/README.md)
 
 ## Examples
 
 ### Adding a new application
 
 ```js
-// src/features/applications/applications.js
-
-export default class ApplicationsManager {
-	static APPLICATIONS = [
-		// ...
-		new Application("Example App", "example", <Example/>),
-	]
-
-	// ...
-}
-
 // src/components/applications/example/Example.jsx
 
 export function Example() {
@@ -33,15 +24,32 @@ export function Example() {
 }
 ```
 
+```js
+// src/features/applications/applications.js
+
+import { Example } from "../../components/applications/example/Example.jsx";
+
+export default class ApplicationsManager {
+	static APPLICATIONS = [
+		// ...
+		new Application("Example App", "example", Example),
+	]
+
+	// ...
+}
+```
+
 ### Turning a webpage into an application
 
 ```js
 // src/features/applications/applications.js
 
+import { WebView } from "../../components/applications/templates/WebView.jsx";
+
 export default class ApplicationsManager {
 	static APPLICATIONS = [
 		// ...
-		new Application("Web App", "web-app",  <WebView source="https://prozilla.dev/"/>),
+		new Application("Web App", "web-app",  WebView, { source: "https://prozilla.dev/" }),
 	]
 
 	// ...

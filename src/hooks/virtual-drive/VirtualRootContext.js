@@ -4,6 +4,7 @@ import { VirtualRoot } from "../../features/virtual-drive/virtual-root.js";
 const VirtualRootContext = createContext();
 
 /**
+ * Initializes the virtual root with folders and files
  * @param {VirtualRoot} virtualRoot 
  */
 function initVirtualRoot(virtualRoot) {
