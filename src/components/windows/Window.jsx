@@ -23,11 +23,14 @@ import Vector2 from "../../features/math/vector2.js";
 export function Window({ id, app, size, position, focused = false, onInteract, options }) {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
+
 	const [maximized, setMaximized] = useState(false);
 	const [minimized, setMinimized] = useState(false);
 
 	const [screenWidth, setScreenWidth] = useState(100);
     const [screenHeight, setScreenHeight] = useState(100);
+
+	const [title, setTitle] = useState(app.name);
 
     useEffect(() => {
         const resizeObserver = new ResizeObserver((event) => {
@@ -73,7 +76,7 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 			>
 				<div className={`${styles.Header} Handle`}>
 					<ReactSVG className={styles["Window-icon"]} src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
-					<p>{app.name}</p>
+					<p>{title}</p>
 					<button onClick={() => setMinimized(!minimized)}>
 						<FontAwesomeIcon icon={faMinus}/>
 					</button>
@@ -85,7 +88,7 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 					</button>
 				</div>
 				<div className={styles["Window-content"]}>
-					<app.WindowContent {...options}/>
+					<app.WindowContent {...options} setTitle={setTitle}/>
 				</div>
 			</div>
 		</Draggable>
