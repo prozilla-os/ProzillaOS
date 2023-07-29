@@ -42,7 +42,8 @@ export default class WindowsManager {
 	 */
 	openFile(file) {
 		const app = ApplicationsManager.getFileApplication(file.extension);
-		this.open(app.id, { file });
+		if (app != null)
+			this.open(app.id, { file });
 	}
 
 	close(windowId) {

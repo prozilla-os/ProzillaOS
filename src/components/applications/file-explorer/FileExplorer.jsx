@@ -18,6 +18,9 @@ function FilePreview({ file }) {
 		case "png":
 			preview = <FontAwesomeIcon icon={faImage}/>
 			break;
+		case "txt":
+			preview = <FontAwesomeIcon icon={faFileLines}/>
+			break;
 		default:
 			preview = <FontAwesomeIcon icon={faFile}/>
 			break;

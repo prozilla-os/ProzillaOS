@@ -7,8 +7,8 @@
 	position: absolute;
 	display: flex;
 	flex-direction: column;
-	min-width: 200px;
-	min-height: 50px;
+	min-width: 300px;
+	min-height: 150px;
 	background-color: var(--background-color-c);
 	resize: both;
 	overflow: hidden;

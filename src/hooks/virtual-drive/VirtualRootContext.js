@@ -46,9 +46,13 @@ function initVirtualRoot(virtualRoot) {
 						file.setSource("/media/wallpapers/wallpaper3.png")
 					}).createFile("Wallpaper_4", "png", (file) => {
 						file.setSource("/media/wallpapers/wallpaper4.png")
-					})
+					});
 				})
-				.createFolder("Documents")
+				.createFolder("Documents", (folder) => {
+					folder.createFile("text", "txt", (file) => {
+						file.setContent("Hello world!");
+					});
+				})
 				.createFolder("Desktop");
 		});
 	});
