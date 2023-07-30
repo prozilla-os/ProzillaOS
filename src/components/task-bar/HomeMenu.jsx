@@ -5,6 +5,7 @@ import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js"
 import ApplicationsManager from "../../features/applications/applications.js";
 import { ReactSVG } from "react-svg";
 import { closeTab } from "../../features/utils/browser.js";
+import { useKeyboardListener } from "../../hooks/utils/keyboard.js";
 
 export function HomeMenu({ active, setActive }) {
 	const windowsManager = useWindowsManager();
@@ -13,8 +14,34 @@ export function HomeMenu({ active, setActive }) {
 	if (active)
 		classNames.push(styles.Active);
 
+	let onlyAltKey = false;
+	const onKeyDown = (event) => {
+		console.log(event);
+		
+		if (event.key === "Alt") {
+			event.preventDefault();
+			onlyAltKey = true;
+		} else {
+			onlyAltKey = false;
+		}
+	}
+
+	const onKeyUp = (event) => {
+		console.log(event);
+
+		if (event.key === "Alt" && onlyAltKey) {
+			event.preventDefault();
+			setActive(!active);
+			onlyAltKey = false;
+		} else {
+			onlyAltKey = false;
+		}
+	}
+
+	useKeyboardListener({ onKeyDown, onKeyUp });
+
 	return (
-		<div className={classNames.join(" ")}>
+		<div className={classNames.join(" ")} onKeyDown={onKeyDown}>
 			<div className={styles["Container-inner"]}>
 				<div className={styles.Buttons}>
 					<button title="Power" onClick={() => { closeTab(); }}>
