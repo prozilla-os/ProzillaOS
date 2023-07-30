@@ -27,7 +27,7 @@ ProzillaOS was designed in Figma by Prozilla. You can view the design file [here
 
 ### Preview
 
-<img src="public/media/Banner.png"/>
+<img src="public/media/screenshots/Screenshot1.png"/>
 
 ## License
 
