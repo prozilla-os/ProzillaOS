@@ -38,13 +38,13 @@ function initVirtualRoot(virtualRoot) {
 		folder.createFolder("prozilla-os", (folder) => {
 			folder.setAlias("~")
 				.createFolder("Images", (folder) => {
-					folder.createFile("Wallpaper_1", "png", (file) => {
+					folder.createFile("Wallpaper1", "png", (file) => {
 						file.setSource("/media/wallpapers/wallpaper1.png")
-					}).createFile("Wallpaper_2", "png", (file) => {
+					}).createFile("Wallpaper2", "png", (file) => {
 						file.setSource("/media/wallpapers/wallpaper2.png")
-					}).createFile("Wallpaper_3", "png", (file) => {
+					}).createFile("Wallpaper3", "png", (file) => {
 						file.setSource("/media/wallpapers/wallpaper3.png")
-					}).createFile("Wallpaper_4", "png", (file) => {
+					}).createFile("Wallpaper4", "png", (file) => {
 						file.setSource("/media/wallpapers/wallpaper4.png")
 					});
 				})

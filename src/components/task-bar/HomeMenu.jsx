@@ -16,8 +16,6 @@ export function HomeMenu({ active, setActive }) {
 
 	let onlyAltKey = false;
 	const onKeyDown = (event) => {
-		console.log(event);
-		
 		if (event.key === "Alt") {
 			event.preventDefault();
 			onlyAltKey = true;
@@ -27,8 +25,6 @@ export function HomeMenu({ active, setActive }) {
 	}
 
 	const onKeyUp = (event) => {
-		console.log(event);
-
 		if (event.key === "Alt" && onlyAltKey) {
 			event.preventDefault();
 			setActive(!active);

@@ -16,7 +16,9 @@ function FilePreview({ file }) {
 
 	switch (file.extension) {
 		case "png":
-			preview = <FontAwesomeIcon icon={faImage}/>
+			preview = (<div className={styles["File-button-preview"]}>
+				<img src={file.source} alt={file.id}/>
+			</div>)
 			break;
 		case "txt":
 			preview = <FontAwesomeIcon icon={faFileLines}/>
