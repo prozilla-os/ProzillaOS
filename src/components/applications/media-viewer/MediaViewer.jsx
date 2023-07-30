@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js"
+import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
 import styles from "./MediaViewer.module.css";
 
 /**
@@ -8,9 +9,16 @@ import styles from "./MediaViewer.module.css";
  * @param {VirtualFile} props.file
  * @returns 
  */
-export function MediaViewer({ file }) {
-	if (file == null)
-		return (<p>Use the File Explorer to open an image.</p>);
+export function MediaViewer({ file, close }) {
+	const windowsManager = useWindowsManager();
+
+	if (file == null) {
+		setTimeout(() => {
+			windowsManager.open("file-explorer", { startPath: "~/Images" });
+			close();
+		}, 10);
+		return;
+	}
 
 	if (!["png"].includes(file.extension))
 		return (<p>Invalid file format.</p>);

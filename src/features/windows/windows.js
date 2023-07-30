@@ -10,6 +10,11 @@ export default class WindowsManager {
 		this.updateWindows = () => {};
 	}
 
+	/**
+	 * @param {String} appId 
+	 * @param {Object|null} options 
+	 * @returns {Object}
+	 */
 	open(appId, options) {
 		const app = ApplicationsManager.getApplication(appId);
 		const size = new Vector2(700, 400);
@@ -34,18 +39,23 @@ export default class WindowsManager {
 		};
 
 		this.updateWindows(this.windows);
+		return this.windows[id];
 		// console.log(this);
 	}
 
 	/**
 	 * @param {VirtualFile} file 
+	 * @returns {Object}
 	 */
 	openFile(file) {
 		const app = ApplicationsManager.getFileApplication(file.extension);
 		if (app != null)
-			this.open(app.id, { file });
+			return this.open(app.id, { file });
 	}
 
+	/**
+	 * @param {String} windowId 
+	 */
 	close(windowId) {
 		windowId = windowId.toString();
 
@@ -61,11 +71,18 @@ export default class WindowsManager {
 		// console.log(this);
 	}
 
+	/**
+	 * @param {Object} window 
+	 */
 	focus(window) {
 		window.lastInteraction = new Date().valueOf();
 		this.updateWindows(this.windows);
 	}
 
+	/**
+	 * @param {String} appId 
+	 * @returns {Boolean}
+	 */
 	isAppActive(appId) {
 		let active = false;
 
@@ -79,6 +96,9 @@ export default class WindowsManager {
 		return active;
 	}
 
+	/**
+	 * @param {Function} updateWindows 
+	 */
 	setUpdateWindows(updateWindows) {
 		this.updateWindows = updateWindows;
 	}

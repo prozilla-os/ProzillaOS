@@ -55,8 +55,8 @@ export function HomeMenu({ active, setActive }) {
 					</button>
 					<button title="Images" onClick={() => {
 						setActive(false);
-						windowsManager.open("file-explorer", { startPath: "~/Images" }); }
-					}>
+						windowsManager.open("file-explorer", { startPath: "~/Images" });
+					}}>
 						<FontAwesomeIcon icon={faImage}/>
 					</button>
 					<button title="Documents" onClick={() => {

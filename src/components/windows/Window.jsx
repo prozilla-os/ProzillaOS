@@ -76,7 +76,10 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 					width: maximized ? null : size.x,
 					height: maximized ? null : size.y,
 				}}
-				onClick={onInteract}
+				onClick={(event) => {
+					if (!event.defaultPrevented)
+						onInteract(event);
+				}}
 			>
 				<div className={`${styles.Header} Handle`}>
 					<ReactSVG className={styles["Window-icon"]} src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
