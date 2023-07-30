@@ -31,7 +31,11 @@
 }
 
 .Window-container.Maximized {
+	width: 100%;
+	height: calc(100% - var(--task-bar-height));
+	border-radius: 0;
 	transform: none !important;
+	resize: none;
 }
 
 .Header {

@@ -3,7 +3,6 @@
 	left: 0;
 	bottom: 100%;
 	height: auto !important;
-	z-index: -1;
 	overflow: hidden;
 }
 

@@ -73,8 +73,8 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 				className={classNames.join(" ")}
 				ref={nodeRef}
 				style={{
-					width: maximized ? screenWidth : size.x,
-					height: maximized ? screenHeight : size.y,
+					width: maximized ? null : size.x,
+					height: maximized ? null : size.y,
 				}}
 				onClick={onInteract}
 			>
