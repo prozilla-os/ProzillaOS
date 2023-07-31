@@ -39,18 +39,20 @@ function initVirtualRoot(virtualRoot) {
 			folder.setAlias("~")
 				.createFolder("Images", (folder) => {
 					folder.createFile("Wallpaper1", "png", (file) => {
-						file.setSource("/media/wallpapers/wallpaper1.png")
+						file.setSource("/media/wallpapers/Wallpaper1.png")
 					}).createFile("Wallpaper2", "png", (file) => {
-						file.setSource("/media/wallpapers/wallpaper2.png")
+						file.setSource("/media/wallpapers/Wallpaper2.png")
 					}).createFile("Wallpaper3", "png", (file) => {
-						file.setSource("/media/wallpapers/wallpaper3.png")
+						file.setSource("/media/wallpapers/Wallpaper3.png")
 					}).createFile("Wallpaper4", "png", (file) => {
-						file.setSource("/media/wallpapers/wallpaper4.png")
+						file.setSource("/media/wallpapers/Wallpaper4.png")
 					});
 				})
 				.createFolder("Documents", (folder) => {
 					folder.createFile("text", "txt", (file) => {
 						file.setContent("Hello world!");
+					}).createFile("info", "md", (file) => {
+						file.setSource("/documents/info.md");
 					});
 				})
 				.createFolder("Desktop");
