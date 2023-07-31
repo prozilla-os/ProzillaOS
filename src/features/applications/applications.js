@@ -50,6 +50,7 @@ export default class ApplicationsManager {
 				app = this.getApplication("media-viewer");
 				break;
 			case "txt":
+			case "md":
 				app = this.getApplication("text-editor");
 				break;
 		}

@@ -21,6 +21,7 @@ function FilePreview({ file }) {
 			</div>)
 			break;
 		case "txt":
+		case "md":
 			preview = <FontAwesomeIcon icon={faFileLines}/>
 			break;
 		default:

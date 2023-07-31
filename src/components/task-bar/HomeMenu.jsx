@@ -6,9 +6,11 @@ import ApplicationsManager from "../../features/applications/applications.js";
 import { ReactSVG } from "react-svg";
 import { closeTab } from "../../features/utils/browser.js";
 import { useKeyboardListener } from "../../hooks/utils/keyboard.js";
+import { useVirtualRoot } from "../../hooks/virtual-drive/VirtualRootContext.js";
 
 export function HomeMenu({ active, setActive }) {
 	const windowsManager = useWindowsManager();
+	const virtualRoot = useVirtualRoot();
 
 	const classNames = [styles["Container-outer"]];
 	if (active)
@@ -46,7 +48,13 @@ export function HomeMenu({ active, setActive }) {
 					<button title="Settings">
 						<FontAwesomeIcon icon={faGear}/>
 					</button>
-					<button title="Info">
+					<button title="Info" onClick={() => {
+						setActive(false);
+						windowsManager.open("text-editor", {
+							mode: "view",
+							file: virtualRoot.navigate("~/Documents").findFile("info", "md")
+						});
+					}}>
 						<FontAwesomeIcon icon={faCircleInfo}/>
 					</button>
 					<button title="Images" onClick={() => {

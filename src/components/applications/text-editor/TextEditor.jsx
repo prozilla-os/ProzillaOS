@@ -1,28 +1,55 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
 import styles from "./TextEditor.module.css";
 import { HeaderMenu } from "../.common/HeaderMenu.jsx";
+import Markdown from "markdown-to-jsx";
 
 /**
  * @param {Object} props
  * @param {VirtualFile} props.file
  */
-export function TextEditor({ file, setTitle, close }) {
+export function TextEditor({ file, setTitle, close, mode }) {
 	const [currentFile, setCurrentFile] = useState(file);
-	const [content, setContent] = useState(file?.content);
+	const [currentMode, setCurrentMode] = useState(mode);
+	const [content, setContent] = useState(file?.content ?? "");
 	const [unsavedChanges, setUnsavedChanges] = useState(false);
 
 	useEffect(() => {
-		setContent(currentFile?.content ?? "");
+		(async () => {
+			let newContent = "";
+
+			if (currentFile) {
+				if (currentFile.content) {
+					newContent = currentFile.content;
+				} else if (currentFile.source) {
+					await fetch(currentFile.source).then((response) =>
+						response.text()
+					).then((response) => {
+						newContent = response;
+					});
+				}
+			}
+	
+			setContent(newContent);
+		})();
 	}, [currentFile]);
 
 	useEffect(() => {
-		setTitle(`${currentFile?.id ?? "Untitled"}${unsavedChanges ? "*" : ""} - Text Editor`);
-	}, [currentFile, setTitle, unsavedChanges]);
+		let label = currentFile?.id ?? "Untitled";
+
+		if (unsavedChanges)
+			label += "*";
+
+		if (currentMode === "view")
+			label += " (preview)";
+
+		setTitle(`${label} - Text Editor`);
+	}, [currentFile, setTitle, unsavedChanges, currentMode]);
 
 	const newText = () => {
 		setCurrentFile(null);
+		setCurrentMode("edit");
 	}
 
 	const saveTextAs = () => {
@@ -64,15 +91,28 @@ export function TextEditor({ file, setTitle, close }) {
 				onSaveAs={saveTextAs}
 				onExit={() => { close(); }}
 			/>
-			<textarea
-				className={styles.View}
-				value={content}
-				onChange={onChange}
-				onKeyDown={onKeyDown}
-				spellCheck={false}
-				autoComplete="off"
-				autoFocus
-			/>
+			{currentMode === "view"
+				? <div className={styles.View}>
+					<Markdown options={{ overrides: {
+						a: {
+							props: {
+								target: "_blank"
+							}
+						}
+					} }}>
+						{content}
+					</Markdown>
+				</div>
+				: <textarea
+					className={styles.View}
+					value={content}
+					onChange={onChange}
+					onKeyDown={onKeyDown}
+					spellCheck={false}
+					autoComplete="off"
+					autoFocus
+				/>
+			}
 		</div>
 	);
 }
