@@ -1,3 +1,3 @@
 export const SETTINGS = {
-	wallpaper: "/media/wallpapers/wallpaper1.png"
+	wallpaper: "/media/wallpapers/Wallpaper1.png"
 };
