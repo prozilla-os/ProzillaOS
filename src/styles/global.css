@@ -23,6 +23,9 @@
 	--dark-grey-d: hsl(212, 14%, 10%);
 
 	--foreground-color-a: #fff;
+	--foreground-color-b: var(--grey-a);
+	--foreground-color-c: var(--grey-b);
+
 	--background-color-a: var(--dark-grey-b);
 	--background-color-b: var(--dark-grey-c);
 	--background-color-c: var(--dark-grey-d);
@@ -91,6 +94,7 @@ html, body, #root {
 html {
 	overflow: hidden;
 	background-color: var(--background-color-c);
+	font-size: 16px;
 }
 
 body {
@@ -107,7 +111,7 @@ body {
 
 p, a, button, input, h1, h2, h3, h4, h5, h6 {
 	font-family: var(--body-font-family);
-	letter-spacing: 0.01rem;
+	letter-spacing: 0.01em;
 }
 
 code {

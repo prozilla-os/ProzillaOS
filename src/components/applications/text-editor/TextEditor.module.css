@@ -6,6 +6,13 @@
 	text-align: start;
 }
 
+.Container p,
+.Container div,
+.Container span,
+.Container textarea {
+	font-size: 1em;
+}
+
 .View {
 	width: 100%;
 	height: 100%;

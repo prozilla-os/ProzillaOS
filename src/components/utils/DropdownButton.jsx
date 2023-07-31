@@ -1,14 +1,14 @@
 import { useState } from "react";
 import styles from "./DropdownButton.module.css";
 import OutsideClickListener from "../../hooks/utils/outsideClick.js";
+import { formatShortcut } from "../../features/utils/string.js";
 
 /**
  * @param {Object} props 
  * @param {String} props.label
  * @param {Object.<string, Function>} props.options
- * @returns 
  */
-export function DropdownButton({ label, options }) {
+export function DropdownButton({ label, options, shortcuts }) {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -24,7 +24,11 @@ export function DropdownButton({ label, options }) {
 								setOpen(false);
 								callback();
 							}}>
-								{label}
+								<p className={styles.Label}>{label}</p>
+								{Object.keys(shortcuts).includes(label)
+									? <p className={styles.Shortcut}>{formatShortcut(shortcuts[label])}</p>
+									: null
+								}
 							</button>
 						)}
 					</div>)

@@ -27,7 +27,10 @@
 	background-color: var(--background-color-b);
 }
 
-.Dropdown button {
+.Dropdown > button {
+	display: flex;
+	gap: 0.75rem;
+	justify-content: space-between;
 	width: 100%;
 	padding: 0.125rem 0.4rem;
 	background: none;
@@ -39,6 +42,14 @@
 	cursor: pointer;
 }
 
-.Dropdown button:hover {
+.Dropdown > button:hover {
 	background-color: rgba(255, 255, 255, 5%);
+}
+
+.Dropdown > button > p {
+	margin: 0;
+}
+
+.Shortcut {
+	color: var(--foreground-color-b);
 }

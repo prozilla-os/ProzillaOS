@@ -5,6 +5,9 @@ import styles from "./TextEditor.module.css";
 import { HeaderMenu } from "../.common/HeaderMenu.jsx";
 import Markdown from "markdown-to-jsx";
 
+const defaultZoom = 16;
+const zoomSpeed = 4;
+
 /**
  * @param {Object} props
  * @param {VirtualFile} props.file
@@ -13,7 +16,8 @@ export function TextEditor({ file, setTitle, close, mode }) {
 	const [currentFile, setCurrentFile] = useState(file);
 	const [currentMode, setCurrentMode] = useState(mode);
 	const [content, setContent] = useState(file?.content ?? "");
-	const [unsavedChanges, setUnsavedChanges] = useState(false);
+	const [unsavedChanges, setUnsavedChanges] = useState(file == null);
+	const [zoom, setZoom] = useState(defaultZoom);
 
 	useEffect(() => {
 		(async () => {
@@ -50,19 +54,20 @@ export function TextEditor({ file, setTitle, close, mode }) {
 	const newText = () => {
 		setCurrentFile(null);
 		setCurrentMode("edit");
-	}
+		setUnsavedChanges(true);
+	};
 
 	const saveTextAs = () => {
-		setUnsavedChanges(false);
-	}
+		onChange({ target: { value: content } });
+	};
 
 	const saveText = () => {
 		if (currentFile == null)
 			return saveTextAs();
 
 		currentFile.content = content;
-		setUnsavedChanges(false);
-	}
+		onChange({ target: { value: content } });
+	};
 
 	const onChange = (event) => {
 		const value = event.target.value;
@@ -70,44 +75,71 @@ export function TextEditor({ file, setTitle, close, mode }) {
 		if (currentFile != null) {
 			setUnsavedChanges(currentFile.content !== value);
 		} else {
-			setUnsavedChanges(value !== "");
+			setUnsavedChanges(true);
 		}
 
 		return setContent(value);
 	};
 
-	const onKeyDown = (event) => {
-		if (event.key === "s" && event.ctrlKey) {
-			event.preventDefault();
-			saveText();
-		}
-	};
-
 	return (
-		<div className={styles.Container}>
+		<div className={styles.Container} style={{ fontSize: zoom }}>
 			<HeaderMenu
-				onNew={newText}
-				onSave={saveText}
-				onSaveAs={saveTextAs}
-				onExit={() => { close(); }}
+				options={{
+					"File": {
+						"New": newText,
+						"Save": saveText,
+						// "Save As": saveTextAs,
+						"Exit": () => {
+							close();
+						},
+					},
+					"View": {
+						[currentMode === "view" ? "Edit mode" : "Preview mode"]: () => {
+							setCurrentMode(currentMode === "view" ? "edit" : "view");
+						},
+						"Zoom In": () => {
+							setZoom(zoom + zoomSpeed);
+						},
+						"Zoom Out": () => {
+							setZoom(zoom - zoomSpeed);
+						},
+						"Reset Zoom": () => {
+							setZoom(defaultZoom);
+						}
+					}
+				}}
+				shortcuts={{
+					"File": {
+						"New": ["Control", "e"],
+						"Save": ["Control", "s"],
+						"Exit": ["Control", "x"],
+					},
+					"View": {
+						"Zoom In": ["Control", "+"],
+						"Zoom Out": ["Control", "-"],
+						"Reset Zoom": ["Control", "0"],
+					}
+				}}
 			/>
 			{currentMode === "view"
 				? <div className={styles.View}>
-					<Markdown options={{ overrides: {
-						a: {
-							props: {
-								target: "_blank"
+					{file.extension === "md"
+						? <Markdown options={{ overrides: {
+							a: {
+								props: {
+									target: "_blank"
+								}
 							}
-						}
-					} }}>
-						{content}
-					</Markdown>
+						} }}>
+							{content}
+						</Markdown>
+						: <p>{content}</p>
+					}
 				</div>
 				: <textarea
 					className={styles.View}
 					value={content}
 					onChange={onChange}
-					onKeyDown={onKeyDown}
 					spellCheck={false}
 					autoComplete="off"
 					autoFocus
