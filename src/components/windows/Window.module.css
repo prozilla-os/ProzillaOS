@@ -68,8 +68,12 @@
 
 .Header > p {
 	user-select: none;
+	width: auto;
 	margin: 0;
 	margin-right: auto;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .Header > button {
