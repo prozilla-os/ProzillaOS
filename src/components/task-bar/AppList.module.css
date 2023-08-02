@@ -1,0 +1,25 @@
+.App-list {
+	--scrollbar-color: rgba(0, 0, 0, 25%);
+	overflow-y: auto;
+	max-height: 100%;
+}
+
+.App-button {
+	display: flex;
+	gap: 1rem;
+	width: 100%;
+	padding: 0.25rem 0.5rem;
+	border-radius: 0.5rem;
+}
+
+.App-button > div,
+.App-button > div > div,
+.App-button > div > div > svg {
+	width: 2rem;
+	height: 2rem;
+}
+
+.App-button > p {
+	margin: 0;
+	white-space: nowrap;
+}

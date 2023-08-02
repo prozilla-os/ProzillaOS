@@ -14,7 +14,6 @@
 	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
 }
 
-
 .Container-outer:not(.Active) {
 	pointer-events: none;
 }
@@ -26,8 +25,11 @@
 
 .Container-inner {
 	display: flex;
-	min-width: 16rem;
-	max-width: 32rem;
+	flex-direction: column;
+	min-width: 13rem;
+	max-width: 29rem;
+	max-height: 20rem;
+	padding: 0.5rem;
 	border-top-left-radius: 0.5rem;
 	border-top-right-radius: 0.5rem;
 	border-bottom-right-radius: 0.5rem;
@@ -35,38 +37,14 @@
 	resize: horizontal;
 }
 
-.Buttons {
-	display: flex;
-	flex-direction: column-reverse;
-	align-items: center;
-	padding: 0.25rem;
-	margin-top: auto;
-	z-index: -1;
-}
-
-.Buttons > button {
-	padding: 0.5rem;
-	border-radius: 0.5rem;
-}
-
-.Buttons > button > svg {
-	height: 1.5rem;
-}
-
-.Apps {
-	display: flex;
-	flex-direction: column;
-	width: 100% !important;
-	max-height: 20rem;
-	padding: 1rem;
-	padding-right: 0.25rem;
-	padding-bottom: 0;
-}
-
-.Apps h2 {
+.Input {
 	width: 100%;
-	text-align: left;
-	font-size: 1rem;
-	margin: 0;
-	margin-bottom: 1rem;
+	padding: 0.25rem 0.5rem;
+	color: var(--foreground-color-a);
+	background-color: rgba(0, 0, 0, 25%);
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	font-family: inherit;
+	font-size: inherit;
 }

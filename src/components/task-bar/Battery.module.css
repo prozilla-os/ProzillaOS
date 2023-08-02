@@ -1,0 +1,13 @@
+.Button {
+	position: relative;
+}
+
+.Charging-indicator {
+	--outline-color: var(--background-color-c);
+	--outline-width: 2px;
+
+	position: absolute;
+	top: 0.55rem;
+	right: 0.15rem;
+	height: 0.7rem !important;
+}

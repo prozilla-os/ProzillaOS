@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./TaskBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBatteryFull, faSearch, faVolumeHigh, faWifi } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ApplicationsManager from "../../features/applications/applications.js";
 import { useWindows } from "../../hooks/windows/WindowsContext.js";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
@@ -10,6 +10,12 @@ import { ReactSVG } from "react-svg";
 import Application from "../../features/applications/application.js";
 import { HomeMenu } from "./HomeMenu.jsx";
 import OutsideClickListener from "../../hooks/utils/outsideClick.js";
+import { Battery } from "./Battery.jsx";
+import { Network } from "./Network.jsx";
+import { Volume } from "./Volume.jsx";
+import { SearchMenu } from "./SearchMenu.jsx";
+import { Calendar } from "./Calendar.jsx";
+import { useScrollWithShadow } from "../../hooks/utils/scrollWithShadows.js";
 
 /**
  * @param {Object} props 
@@ -41,56 +47,99 @@ function AppButton({ app }) {
 }
 
 export function Taskbar() {
-	const [date, setDate] = useState(new Date());
 	const [showHome, setShowHome] = useState(false);
+	const [showSearch, setShowSearch] = useState(false);
+	const [searchQuery, setSearchQuery] = useState("");
+	const ref = useRef(null);
+	const { boxShadow, onUpdate } = useScrollWithShadow({
+		ref,
+		shadow: {
+			offset: 20,
+			blurRadius: 10,
+			spreadRadius: -10,
+			color: {
+				a: 25
+			}
+		} 
+	});
+	const inputRef = useRef(null);
 
-	useEffect(() => {
-		setInterval(() => {
-			setDate(new Date());
-		}, 30000);
-	}, []);
+	const updateShowHome = (value) => {
+		setShowHome(value);
+
+		if (value) {
+			setShowSearch(false);
+		}
+	};
+
+	const updateShowSearch = (value) => {
+		setShowSearch(value);
+
+		if (value) {
+			if (searchQuery !== "") {
+				setSearchQuery("");
+			}
+
+			setShowHome(false);
+			
+			if (inputRef.current) {
+				inputRef.current.focus();
+			}
+		} else {
+			setTimeout(() => {
+				if (!showSearch) {
+					setSearchQuery("");
+				}
+			}, 200);
+		}
+	};
+
+	const search = (query) => {
+		updateShowSearch(true);
+	}
 
 	return (
 		<div className={styles["Task-bar"]}>
-			<div className={styles["Program-icons"]}>
+			<div className={styles["Menu-icons"]}>
 				<div className={styles["Home-container"]}>
-					<OutsideClickListener onOutsideClick={() => { setShowHome(false); }}>
-						<button title="Home" className={styles["Home-button"]} onClick={() => { setShowHome(!showHome); }}>
+					<OutsideClickListener onOutsideClick={() => { updateShowHome(false); }}>
+						<button title="Home"
+							className={`${styles["Menu-button"]} ${styles["Home-button"]}`}
+							onClick={() => { updateShowHome(!showHome); }}
+						>
 							<ReactSVG src={process.env.PUBLIC_URL + "/media/logo.svg"}/>
 						</button>
-						<HomeMenu active={showHome} setActive={setShowHome}/>
+						<HomeMenu active={showHome} setActive={updateShowHome} search={search}/>
 					</OutsideClickListener>
 				</div>
-				<button title="Search">
-					<FontAwesomeIcon icon={faSearch}/>
-				</button>
+				<div className={styles["Search-container"]}>
+					<OutsideClickListener onOutsideClick={() => { updateShowSearch(false); }}>
+						<button title="Search"
+							className={`${styles["Menu-button"]} ${styles["Search-button"]}`}
+							onClick={() => { updateShowSearch(!showSearch); }}
+						>
+							<FontAwesomeIcon icon={faSearch}/>
+						</button>
+						<SearchMenu
+							active={showSearch}
+							setActive={updateShowSearch}
+							searchQuery={searchQuery}
+							setSearchQuery={setSearchQuery}
+							inputRef={inputRef}
+						/>
+					</OutsideClickListener>
+				</div>
+			</div>
+			<div className={styles["App-icons"]} onScroll={onUpdate} onResize={onUpdate} ref={ref} style={{ boxShadow }}>
 				{ApplicationsManager.APPLICATIONS.map((app) => 
 					<AppButton app={app} key={app.id}/>
 				)}
 			</div>
 			<div className={styles["Util-icons"]}>
-				<button title="Battery">
-					<FontAwesomeIcon icon={faBatteryFull}/>
-				</button>
-				<button title="Wifi">
-					<FontAwesomeIcon icon={faWifi}/>
-				</button>
-				<button title="Volume">
-					<FontAwesomeIcon icon={faVolumeHigh}/>
-				</button>
-				<button title="Date & Time" style={{ userSelect: "none" }}>
-					{date.toLocaleString("en-US", {
-						hour: "numeric",
-						minute: "numeric",
-						hour12: false,
-					})}
-					<br/>
-					{date.toLocaleDateString("en-GB", {
-						day: "numeric",
-						month: "short",
-						year: "numeric",
-					})}
-				</button>
+				<Battery/>
+				<Network/>
+				<Volume/>
+				<Calendar/>
 				<button title="View Desktop" id="desktop-button"/>
 			</div>
 		</div>

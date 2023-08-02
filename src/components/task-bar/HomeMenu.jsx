@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./HomeMenu.module.css";
+import appStyles from "./AppList.module.css";
 import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
 import ApplicationsManager from "../../features/applications/applications.js";
@@ -8,7 +9,7 @@ import { closeTab } from "../../features/utils/browser.js";
 import { useKeyboardListener } from "../../hooks/utils/keyboard.js";
 import { useVirtualRoot } from "../../hooks/virtual-drive/VirtualRootContext.js";
 
-export function HomeMenu({ active, setActive }) {
+export function HomeMenu({ active, setActive, search }) {
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
 
@@ -23,6 +24,10 @@ export function HomeMenu({ active, setActive }) {
 			onlyAltKey = true;
 		} else {
 			onlyAltKey = false;
+
+			if (active && event.key.length === 1) {
+				search(event.key);
+			}
 		}
 	}
 
@@ -39,7 +44,7 @@ export function HomeMenu({ active, setActive }) {
 	useKeyboardListener({ onKeyDown, onKeyUp });
 
 	return (
-		<div className={classNames.join(" ")} onKeyDown={onKeyDown}>
+		<div className={classNames.join(" ")}>
 			<div className={styles["Container-inner"]}>
 				<div className={styles.Buttons}>
 					<button title="Power" onClick={() => { closeTab(); }}>
@@ -72,11 +77,11 @@ export function HomeMenu({ active, setActive }) {
 				</div>
 				<div className={styles.Apps}>
 					<h2>Apps</h2>
-					<div className={styles["App-list"]}>
+					<div className={appStyles["App-list"]}>
 						{ApplicationsManager.APPLICATIONS.map(({ name, id }) => 
 							<button
 								key={id}
-								className={styles["App-button"]}
+								className={appStyles["App-button"]}
 								onClick={() => {
 									setActive(false);
 									windowsManager.open(id);

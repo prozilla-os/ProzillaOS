@@ -7,7 +7,6 @@
 .Task-bar {
 	position: fixed;
 	display: flex;
-	justify-content: space-between;
 	bottom: 0;
 	left: 0;
 	width: 100%;
@@ -26,13 +25,15 @@
 	border: none;
 	outline: none;
 	transition: background-color 100ms ease-in-out;
+	z-index: -1;
 }
 
 .Task-bar button:hover {
 	background-color: var(--task-bar-button-hover-color);
 }
 
-.Home-container {
+.Home-container,
+.Search-container {
 	position: relative;
 	padding: 0 !important;
 }
@@ -42,27 +43,37 @@
 	filter: none;
 }
 
-.Program-icons {
+.Menu-icons,
+.App-icons {
 	display: flex;
 	align-items: center;
 	height: 100%;
+	z-index: -1;
 }
 
-.Program-icons > *, .Home-button {
+.App-icons {
+	overflow-x: auto;
+}
+
+.App-icons::-webkit-scrollbar {
+	display: none;
+}
+
+.App-icons > *,
+.Menu-button {
 	height: 100%;
 	padding: 0.75rem;
 }
 
-.Program-icons > * > svg {
+.App-icons > * > svg,
+.Menu-button > svg {
 	height: 1.25rem;
 }
 
-.Program-icons > * > div,
-.Program-icons > * > div > div,
-.Program-icons > * > div > div > svg,
-.Home-button > div,
-.Home-button > div > div,
-.Home-button > div > div > svg {
+.Menu-icons div,
+.Menu-icons div > svg,
+.App-icons div,
+.App-icons div > svg {
 	height: 100%;
 	width: auto;
 }
@@ -97,6 +108,9 @@
 	justify-content: flex-end;
 	align-items: center;
 	height: 100%;
+	margin-left: auto;
+	padding-left: 0.5rem;
+	z-index: -1;
 }
 
 .Util-icons > * {
