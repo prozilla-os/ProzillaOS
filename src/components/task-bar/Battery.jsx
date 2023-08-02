@@ -10,7 +10,7 @@ export function Battery() {
 	// const [dischargingTime, setDischargingTime] = useState(0);
 
 	useEffect(() => {
-		navigator.getBattery().then((battery) => {
+		navigator.getBattery?.()?.then((battery) => {
 			const updateIsCharging = () => {
 				setIsCharging(battery.charging);
 			};
@@ -44,7 +44,7 @@ export function Battery() {
 				// battery.removeEventListener("dischargingtimechange", updateDischargingTime);
 			}
 		});
-	});
+	}, []);
 
 	let icon = faBatteryFull;
 	if (percentage < 25) {
