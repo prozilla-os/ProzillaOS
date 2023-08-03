@@ -2,7 +2,7 @@
 
 # Configurations
 
-All configs can be found in the [src/config](../../src/config) directory.
+All configs can be found in the [config](../../src/config) directory.
 
 ## Settings
 

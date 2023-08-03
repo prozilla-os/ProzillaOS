@@ -6,7 +6,7 @@ A command line tool.
 
 ## Commands
 
-See [src/features/applications/terminal/commands.js](../../../../src/features/applications/terminal/commands.js) for a list of commands. You can edit this file to add/remove/edit commands.
+See [features/applications/terminal/commands.js](../../../../src/features/applications/terminal/commands.js) for a list of commands. You can edit this file to add/remove/edit commands.
 
 ### Examples
 
