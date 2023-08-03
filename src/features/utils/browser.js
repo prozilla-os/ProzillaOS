@@ -1,4 +1,5 @@
 export function closeTab() {
-	// The following method only works in some browsers
-	window.close();
+	if (window.confirm("Are you sure you want to shut down ProzillaOS?")) {
+		window.open("about:blank", "_self");
+	}
 }

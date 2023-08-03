@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./Battery.module.css";
 
 export function Battery() {
-	const [isCharging, setIsCharging] = useState(false);
+	const [isCharging, setIsCharging] = useState(true);
 	const [percentage, setPercentage] = useState(100);
 	// const [chargingTime, setChargingTime] = useState(0);
 	// const [dischargingTime, setDischargingTime] = useState(0);

@@ -8,13 +8,13 @@ import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js"
 import { ReactSVG } from "react-svg";
 // eslint-disable-next-line no-unused-vars
 import Application from "../../features/applications/application.js";
-import { HomeMenu } from "./HomeMenu.jsx";
+import { HomeMenu } from "./menus/HomeMenu.jsx";
 import OutsideClickListener from "../../hooks/utils/outsideClick.js";
-import { Battery } from "./Battery.jsx";
-import { Network } from "./Network.jsx";
-import { Volume } from "./Volume.jsx";
-import { SearchMenu } from "./SearchMenu.jsx";
-import { Calendar } from "./Calendar.jsx";
+import { Battery } from "./indicators/Battery.jsx";
+import { Network } from "./indicators/Network.jsx";
+import { Volume } from "./indicators/Volume.jsx";
+import { SearchMenu } from "./menus/SearchMenu.jsx";
+import { Calendar } from "./indicators/Calendar.jsx";
 import { useScrollWithShadow } from "../../hooks/utils/scrollWithShadows.js";
 
 /**

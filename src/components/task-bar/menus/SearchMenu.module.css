@@ -1,17 +1,31 @@
 .Container-outer {
 	position: absolute;
+	display: flex;
+	flex-direction: column;
 	left: 0;
 	bottom: 100%;
 	height: auto !important;
+	max-height: 20rem;
 	overflow: hidden;
 }
 
 .Container-inner {
 	opacity: 1;
+	display: flex;
+	gap: 0.5rem;
+	flex-direction: column-reverse;
+	min-width: 13rem;
+	max-width: 19rem;
+	padding: 0.5rem;
 	background-color: rgba(25, 25, 25, 75%);
+	border-top-left-radius: 0.5rem;
+	border-top-right-radius: 0.5rem;
+	border-bottom-right-radius: 0.5rem;
 	backdrop-filter: blur(15px);
 	transform: none;
 	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+	overflow: hidden;
+	resize: horizontal;
 }
 
 .Container-outer:not(.Active) {
@@ -23,18 +37,8 @@
 	transform: translateY(100px);
 }
 
-.Container-inner {
-	display: flex;
-	flex-direction: column;
-	min-width: 13rem;
-	max-width: 29rem;
-	max-height: 20rem;
-	padding: 0.5rem;
-	border-top-left-radius: 0.5rem;
-	border-top-right-radius: 0.5rem;
-	border-bottom-right-radius: 0.5rem;
-	overflow: hidden;
-	resize: horizontal;
+.Container-inner > div {
+	margin-top: auto;
 }
 
 .Input {

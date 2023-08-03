@@ -2,12 +2,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./HomeMenu.module.css";
 import appStyles from "./AppList.module.css";
 import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawesome/free-solid-svg-icons";
-import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
-import ApplicationsManager from "../../features/applications/applications.js";
+import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
+import ApplicationsManager from "../../../features/applications/applications.js";
 import { ReactSVG } from "react-svg";
-import { closeTab } from "../../features/utils/browser.js";
-import { useKeyboardListener } from "../../hooks/utils/keyboard.js";
-import { useVirtualRoot } from "../../hooks/virtual-drive/VirtualRootContext.js";
+import { closeTab } from "../../../features/utils/browser.js";
+import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
+import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 
 export function HomeMenu({ active, setActive, search }) {
 	const windowsManager = useWindowsManager();

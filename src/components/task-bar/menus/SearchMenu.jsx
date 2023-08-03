@@ -1,17 +1,25 @@
 import styles from "./SearchMenu.module.css";
 import appStyles from "./AppList.module.css";
-import ApplicationsManager from "../../features/applications/applications.js";
-import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
+import ApplicationsManager from "../../../features/applications/applications.js";
+import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
 import { ReactSVG } from "react-svg";
 import { useEffect } from "react";
+import { useState } from "react";
 
 export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inputRef }) {
 	const windowsManager = useWindowsManager();
+	const [apps, setApps] = useState(null);
 
 	useEffect(() => {
 		if (inputRef.current)
 			inputRef.current.focus();
 	}, [inputRef]);
+
+	useEffect(() => {
+		setApps(ApplicationsManager.APPLICATIONS.filter(({ name }) =>
+			name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+		));
+	}, [searchQuery]);
 
 	const onChange = (event) => {
 		const value = event.target.value;
@@ -19,16 +27,22 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	}
 
 	const classNames = [styles["Container-outer"]];
-	if (active)
+	if (active && apps)
 		classNames.push(styles.Active);
 
 	return (
 		<div className={classNames.join(" ")}>
 			<div className={styles["Container-inner"]}>
+				<input
+					ref={inputRef}
+					className={styles.Input}
+					value={searchQuery}
+					onChange={onChange}
+					spellCheck={false}
+					autoFocus
+				/>
 				<div className={appStyles["App-list"]}>
-					{ApplicationsManager.APPLICATIONS.filter(({ name }) =>
-						name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-					).map(({ name, id }) => 
+					{apps?.map(({ name, id }) => 
 						<button
 							key={id}
 							className={appStyles["App-button"]}
@@ -43,14 +57,6 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 						</button>
 					)}
 				</div>
-				<input
-					ref={inputRef}
-					className={styles.Input}
-					value={searchQuery}
-					onChange={onChange}
-					spellCheck={false}
-					autoFocus
-				/>
 			</div>
 		</div>
 	);
