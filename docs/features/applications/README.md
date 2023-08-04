@@ -17,16 +17,45 @@ Applications (sometimes shortened to apps) are processes that open a window when
 
 The header menu is a useful component that can be added to app windows for quick access to useful functions, like saving and opening files. The header menu can also be used to add shortcuts for functions.
 
+#### Example
+
+```js
+// components/applications/example/Example.jsx
+
+<HeaderMenu
+	options={{
+		"File": {
+			"New": () => {
+				// ...
+			},
+			"Save": () => {
+				// ...
+			},
+			"Exit": () => {
+				// ...
+			},
+		},
+	}}
+	shortcuts={{
+		"File": {
+			"New": ["Control", "e"],
+			"Save": ["Control", "s"],
+			"Exit": ["Control", "x"],
+		},
+	}}
+/>
+```
+
 ## Template components
 
 ### Webview
 
-The webview template can be used to turn a webpage into an application by simply setting a source property. For more information, see the [example](#turning-a-webpage-into-an-application) below.
+The webview template can be used to turn a webpage into an application by simply setting a source property.
 
 #### Example
 
 ```js
-// src/features/applications/applications.js
+// features/applications/applications.js
 
 import { WebView } from "../../components/applications/templates/WebView.jsx";
 
@@ -45,7 +74,7 @@ export default class ApplicationsManager {
 ### Adding a new application
 
 ```js
-// src/components/applications/example/Example.jsx
+// components/applications/example/Example.jsx
 
 export function Example() {
 	return (
@@ -55,7 +84,7 @@ export function Example() {
 ```
 
 ```js
-// src/features/applications/applications.js
+// features/applications/applications.js
 
 import { Example } from "../../components/applications/example/Example.jsx";
 

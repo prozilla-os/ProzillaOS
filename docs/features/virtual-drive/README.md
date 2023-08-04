@@ -16,7 +16,7 @@ The initial files added to every instance of ProzillaOS, can be found and config
 ### Component interacting with virtual drive
 
 ```js
-// src/components/applications/example/Example.jsx
+// components/applications/example/Example.jsx
 
 export function Example() {
 	const virtualRoot = useVirtualRoot();

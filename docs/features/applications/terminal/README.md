@@ -11,7 +11,7 @@ See [features/applications/terminal/commands.js](../../../../src/features/applic
 ### Examples
 
 ```js
-// src/features/applications/terminal/commands.js
+// features/applications/terminal/commands.js
 
 new Command("cd", (args, { currentDirectory, setCurrentDirectory }) => {
 	const path = args[0] ?? "~"; // Default to home directory
