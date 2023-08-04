@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 
 /**
- * Hook that alerts clicks outside of the passed ref
+ * @param {Object} params
+ * @param {Function} params.onKeyDown
+ * @param {Function} params.onKeyUp
  */
 export function useKeyboardListener({ onKeyDown, onKeyUp }) {
 	useEffect(() => {

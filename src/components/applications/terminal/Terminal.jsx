@@ -140,10 +140,30 @@ export function Terminal() {
 		return visibleHistory.slice(startIndex).map(({ text }, index) => {
 			return <OutputLine text={text} key={index}/>
 		});
-	}
+	};
+
+	const onMouseDown = (event) => {
+		if (event.button === 2) {
+			event.preventDefault();
+
+			navigator.clipboard.readText().then((text) => {
+				setInputValue(inputValue + text);
+			}).catch((error) => {
+				console.error(error);
+			});
+		}
+	};
+
+	const onContextMenu = (event) => {
+		event.preventDefault();
+	};
 
 	return (
-		<div className={styles.Terminal}>
+		<div
+			className={styles.Terminal}
+			onMouseDown={onMouseDown}
+			onContextMenu={onContextMenu}
+		>
 			{displayHistory()}
 			<InputLine
 				key={inputKey}
