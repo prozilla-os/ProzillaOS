@@ -101,6 +101,7 @@ export class VirtualFolder extends VirtualBase {
 		this.files.push(newFile);
 		newFile.parent = this;
 		callback?.(newFile);
+		this.getRoot().saveData();
 		return this;
 	}
 
@@ -115,6 +116,7 @@ export class VirtualFolder extends VirtualBase {
 		files.forEach(({name, extension}) => {
 			this.createFile(name, extension);
 		});
+		this.getRoot().saveData();
 		return this;
 	}
 
@@ -134,6 +136,7 @@ export class VirtualFolder extends VirtualBase {
 		this.subFolders.push(newFolder);
 		newFolder.parent = this;
 		callback?.(newFolder);
+		this.getRoot().saveData();
 		return this;
 	}
 
@@ -146,6 +149,7 @@ export class VirtualFolder extends VirtualBase {
 		folders.forEach((name) => {
 			this.createFolder(name);
 		});
+		this.getRoot().saveData();
 		return this;
 	}
 
@@ -171,6 +175,8 @@ export class VirtualFolder extends VirtualBase {
 		const parent = folders[folders.length - 1];
 		parent.files.push(file);
 		file.parent = parent;
+
+		this.getRoot().saveData();
 	}
 
 	/**
@@ -189,7 +195,9 @@ export class VirtualFolder extends VirtualBase {
 			if (!currentFolder.hasFolder(folderName)) {
 				currentFolder.createFolder(folderName);
 			}
-		})
+		});
+
+		this.getRoot().saveData();
 	}
 
 	/**
@@ -204,6 +212,8 @@ export class VirtualFolder extends VirtualBase {
 		} else if (child instanceof VirtualFolder) {
 			removeFromArray(child, this.subFolders);
 		}
+
+		this.getRoot().saveData();
 	}
 
 	/**
@@ -267,6 +277,8 @@ export class VirtualFolder extends VirtualBase {
 		this.files.concat(this.subFolders).forEach((item) => {
 			item.delete();
 		});
+
+		this.getRoot().saveData();
 	}
 
 	/**
@@ -293,5 +305,18 @@ export class VirtualFolder extends VirtualBase {
 		return this.subFolders.filter(({ name }) => 
 			!name.startsWith(".")
 		);
+	}
+
+	toJSON() {
+		const object = super.toJSON();
+
+		if (this.files.length > 0) {
+			object.fls = this.files.map((file) => file.toJSON());
+		}
+		if (this.subFolders.length > 0) {
+			object.fds = this.subFolders.map((folder) => folder.toJSON());
+		}
+
+		return object;
 	}
 }

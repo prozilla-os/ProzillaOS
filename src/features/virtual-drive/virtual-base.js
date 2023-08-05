@@ -21,6 +21,7 @@ export class VirtualBase extends EventEmitter {
 	 */
 	setName(name) {
 		this.name = name;
+		this.getRoot().saveData();
 		return this;
 	}
 
@@ -31,6 +32,7 @@ export class VirtualBase extends EventEmitter {
 	setAlias(alias) {
 		this.alias = alias;
 		this.getRoot().addShortcut(alias, this);
+		this.getRoot().saveData();
 		return this;
 	}
 
@@ -40,11 +42,14 @@ export class VirtualBase extends EventEmitter {
 	 */
 	setParent(parent) {
 		this.parent = parent;
+		this.getRoot().saveData();
 		return this;
 	}
 
 	delete() {
-		this.parent.remove?.(this);
+		const parent = this.parent;
+		parent.remove?.(this);
+		parent.getRoot().saveData();
 	}
 
 	open() {
@@ -70,5 +75,13 @@ export class VirtualBase extends EventEmitter {
 		}
 
 		return root;
+	}
+
+	toJSON() {
+		const object = {
+			nam: this.name
+		};
+
+		return object;
 	}
 }

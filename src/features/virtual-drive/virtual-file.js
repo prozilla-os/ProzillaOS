@@ -37,7 +37,10 @@ export class VirtualFile extends VirtualBase {
 	setSource(source) {
 		this.source = source;
 		this.content = null;
+
 		this.emit(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, this);
+		this.getRoot().saveData();
+		
 		return this;
 	}
 
@@ -49,7 +52,10 @@ export class VirtualFile extends VirtualBase {
 	setContent(content) {
 		this.content = content;
 		this.source = null;
+
 		this.emit(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, this);
+		this.getRoot().saveData();
+
 		return this;
 	}
 
@@ -79,5 +85,21 @@ export class VirtualFile extends VirtualBase {
 			console.error(`Error while reading file with id "${this.id}":`, error);
 			return null;
 		});
+	}
+
+	toJSON() {
+		const object = super.toJSON();
+		
+		if (this.extension != null) {
+			object.ext = this.extension;
+		}
+
+		if (this.content != null) {
+			object.cnt = this.content;
+		} else if (this.source != null) {
+			object.src = this.source;
+		}
+
+		return object;
 	}
 }
