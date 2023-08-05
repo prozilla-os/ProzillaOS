@@ -1,17 +1,19 @@
 /* eslint-disable eqeqeq */
+import Application from "./application.js";
 import { FileExplorer } from "../../components/applications/file-explorer/FileExplorer.jsx";
 import { MediaViewer } from "../../components/applications/media-viewer/MediaViewer.jsx";
 import { WebView } from "../../components/applications/.templates/WebView.jsx";
 import { Terminal } from "../../components/applications/terminal/Terminal.jsx";
 import { TextEditor } from "../../components/applications/text-editor/TextEditor.jsx";
-import Application from "./application.js";
+import { Settings } from "../../components/applications/settings/Settings.jsx";
 
 export default class ApplicationsManager {
 	static APPLICATIONS = [
 		new Application("Terminal", "terminal", Terminal),
+		new Application("Settings", "settings", Settings),
 		// new Application("Browser", "browser"),
 		new Application("Text Editor", "text-editor", TextEditor),
-		new Application("Code Editor", "code-editor"),
+		// new Application("Code Editor", "code-editor"),
 		new Application("File Explorer", "file-explorer", FileExplorer),
 		new Application("Media Viewer", "media-viewer", MediaViewer),
 		new Application("Wordle", "wordle", WebView, { source: "https://prozilla.dev/wordle" }),

@@ -50,7 +50,10 @@ export function HomeMenu({ active, setActive, search }) {
 					<button title="Power" onClick={() => { closeTab(); }}>
 						<FontAwesomeIcon icon={faPowerOff}/>
 					</button>
-					<button title="Settings">
+					<button title="Settings" onClick={() => {
+						setActive(false);
+						windowsManager.open("settings");
+					}}>
 						<FontAwesomeIcon icon={faGear}/>
 					</button>
 					<button title="Info" onClick={() => {

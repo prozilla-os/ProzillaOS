@@ -1,0 +1,89 @@
+.Container {
+	--tabs-width: 10rem;
+
+	flex: 1;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	background-color: var(--background-color-c);
+}
+
+.Tabs {
+	display: flex;
+	gap: 0.25rem;
+	flex-direction: column;
+	min-width: calc(var(--tabs-width) / 2);
+	width: var(--tabs-width);
+	height: 100%;
+	max-width: 50%;
+	padding: 0.5rem;
+	background-color: var(--background-color-b);
+	resize: horizontal;
+	overflow: hidden;
+}
+
+.Tab-button {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	width: 100%;
+	padding: 0.5rem;
+	background: none;
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	cursor: pointer;
+	transition: background-color 100ms ease-in-out;
+}
+
+.Tab-button:hover {
+	background-color: rgba(255, 255, 255, 10%);
+}
+
+.Tab-button svg {
+	height: 1.35rem;
+	aspect-ratio: 1;
+}
+
+.Tab-panel {
+	flex: 1;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	height: 100%;
+	padding: 0.5rem 1rem;
+	overflow: auto;
+}
+
+.Option {
+	text-align: start;
+	max-width: 100%;
+}
+
+.Input {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.Input > label {
+	flex: 1;
+	display: flex;
+}
+
+.Image-select > input {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.Image-select > input:checked + img {
+	outline: 0.25rem solid var(--foreground-color-a);
+}
+
+.Image-select > img {
+	width: 100%;
+	height: 100%;
+	border-radius: 0.5rem;
+	cursor: pointer;
+}

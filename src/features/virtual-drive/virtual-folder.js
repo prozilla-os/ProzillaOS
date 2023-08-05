@@ -271,24 +271,26 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * @param {Boolean=false} showHidden 
-	 */
-	getSubFolders(showHidden = false) {
-		if (showHidden)
-			return this.subFolders;
-
-		return this.subFolders.filter(({ name }) => 
-			!name.startsWith(".")
-		);
-	}
-
-	/**
-	 * @param {Boolean=false} showHidden 
+	 * @returns {Array<VirtualFile>}
 	 */
 	getFiles(showHidden = false) {
 		if (showHidden)
 			return this.files;
 
 		return this.files.filter(({ name }) => 
+			!name.startsWith(".")
+		);
+	}
+
+	/**
+	 * @param {Boolean=false} showHidden 
+	 * @returns {Array<VirtualFolder>}
+	 */
+	getSubFolders(showHidden = false) {
+		if (showHidden)
+			return this.subFolders;
+
+		return this.subFolders.filter(({ name }) => 
 			!name.startsWith(".")
 		);
 	}
