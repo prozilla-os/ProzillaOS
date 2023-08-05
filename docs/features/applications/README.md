@@ -10,6 +10,7 @@ Applications (sometimes shortened to apps) are processes that open a window when
 - [<img src="../../../public/media/applications/icons/file-explorer.svg" width=20 height=20 style="vertical-align: middle; background: none;"/> File Explorer](file-explorer/README.md)
 - [<img src="../../../public/media/applications/icons/media-viewer.svg" width=20 height=20 style="vertical-align: middle; background: none;"/> Media Viewer](media-viewer/README.md)
 - [<img src="../../../public/media/applications/icons/text-editor.svg" width=20 height=20 style="vertical-align: middle; background: none;"/> Text Editor](text-editor/README.md)
+- [<img src="../../../public/media/applications/icons/settings.svg" width=20 height=20 style="vertical-align: middle; background: none;"/> Settings](settings/README.md)
 
 ## Common components
 

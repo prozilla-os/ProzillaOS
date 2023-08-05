@@ -6,8 +6,8 @@ Most code for features can be found in the [features](../../src/features) direct
 
 ## Table of Contents
 
-- [Applications](./applications/README.md)
-- [Virtual Drive](./virtual-drive//README.md)
-- [Windows](./windows/README.md)
-- [Taskbar](./taskbar/README.md)
-- [Settings](./settings/README.md)
+- [Applications](applications/README.md)
+- [Virtual Drive](virtual-drive//README.md)
+- [Windows](windows/README.md)
+- [Taskbar](taskbar/README.md)
+- [Settings](settings/README.md)
