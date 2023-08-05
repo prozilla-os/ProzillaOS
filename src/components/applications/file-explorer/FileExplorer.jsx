@@ -37,6 +37,7 @@ export function FileExplorer({ startPath }) {
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate(startPath ?? "~"));
 	const [path, setPath] = useState(currentDirectory.path);
 	const windowsManager = useWindowsManager();
+	const [showHidden] = useState(true);
 
 	const changeDirectory = (path, absolute = false) => {
 		const directory = absolute ? virtualRoot.navigate(path) : currentDirectory.navigate(path);
@@ -107,7 +108,7 @@ export function FileExplorer({ startPath }) {
 					</button>
 				</div>
 				<div className={styles.Main}>
-					{currentDirectory.files.map((file, index) => 
+					{currentDirectory.getFiles(showHidden).map((file, index) => 
 						<button key={index} title={file.id} className={styles["File-button"]} onClick={(event) => {
 							event.preventDefault();
 							windowsManager.openFile(file);
@@ -116,7 +117,7 @@ export function FileExplorer({ startPath }) {
 							<p>{file.id}</p>
 						</button>
 					)}
-					{currentDirectory.subFolders.map(({ name }, index) => 
+					{currentDirectory.getSubFolders(showHidden).map(({ name }, index) => 
 						<button key={index} title={name} className={styles["Folder-button"]} onClick={() => {
 							changeDirectory(name);
 						}}>

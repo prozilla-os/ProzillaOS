@@ -65,7 +65,7 @@ export function TextEditor({ file, setTitle, close, mode }) {
 		if (currentFile == null)
 			return saveTextAs();
 
-		currentFile.content = content;
+		currentFile.setContent(content);
 		onChange({ target: { value: content } });
 	};
 

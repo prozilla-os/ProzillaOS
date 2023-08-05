@@ -57,15 +57,12 @@ export function useScrollWithShadow(options) {
 		if (!element)
 			return;
 
-		console.log(element);
-
 		setScrollStart(horizontal ? element.scrollLeft : element.scrollTop);
 		setScrollLength(horizontal ? element.scrollWidth : element.scrollHeight);
 		setClientLength(horizontal ? element.clientWidth : element.clientHeight);
 	}, [horizontal]);
 
 	const onUpdate = (event) => {
-		console.log(event);
 		updateValues(event.target);
 	};
 
@@ -75,7 +72,6 @@ export function useScrollWithShadow(options) {
 		};
 
 		if (ref.current && !initiated) {
-			console.log(ref.current);
 			setInitiated(true);
 			updateValues(ref.current);
 		}

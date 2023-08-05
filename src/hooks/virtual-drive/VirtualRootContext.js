@@ -37,6 +37,11 @@ function initVirtualRoot(virtualRoot) {
 	virtualRoot.createFolder("home", (folder) => {
 		folder.createFolder("prozilla-os", (folder) => {
 			folder.setAlias("~")
+				.createFolder(".config", (folder) => {
+					folder.createFile("desktop", "xml", (file) => {
+						file.setSource("/config/desktop.xml");
+					});
+				})
 				.createFolder("Images", (folder) => {
 					folder.createFile("Wallpaper1", "png", (file) => {
 						file.setSource("/media/wallpapers/Wallpaper1.png")

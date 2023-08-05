@@ -74,8 +74,17 @@ export default class WindowsManager {
 	/**
 	 * @param {Object} window 
 	 */
-	focus(window) {
+	focus(windowId) {
+		windowId = windowId.toString();
+
+		if (!this.windowIds.includes(windowId)) {
+			console.log(`Failed to focus window ${windowId}: window not found`);
+			return;
+		}
+
+		const window = this.windows[windowId];
 		window.lastInteraction = new Date().valueOf();
+		
 		this.updateWindows(this.windows);
 	}
 

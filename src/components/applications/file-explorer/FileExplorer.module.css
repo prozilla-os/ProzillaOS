@@ -115,6 +115,7 @@
 	flex: 1;
 	display: flex;
 	flex-wrap: wrap;
+	align-content: flex-start;
 	height: 100%;
 	padding: 0.5rem;
 	overflow: auto;

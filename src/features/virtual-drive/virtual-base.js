@@ -1,11 +1,13 @@
+import { EventEmitter } from "../utils/events.js";
 // eslint-disable-next-line no-unused-vars
 import { VirtualRoot } from "./virtual-root.js";
 
-export class VirtualBase {
+export class VirtualBase extends EventEmitter {
 	/**
 	 * @param {String} name 
 	 */
 	constructor(name) {
+		super();
 		this.name = name;
 	}
 

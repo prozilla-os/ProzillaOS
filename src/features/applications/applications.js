@@ -51,6 +51,7 @@ export default class ApplicationsManager {
 				break;
 			case "txt":
 			case "md":
+			case "xml":
 				app = this.getApplication("text-editor");
 				break;
 		}
