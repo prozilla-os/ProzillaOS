@@ -10,4 +10,4 @@ Most code for features can be found in the [features](../../src/features) direct
 - [Virtual Drive](./virtual-drive//README.md)
 - [Windows](./windows/README.md)
 - [Taskbar](./taskbar/README.md)
-
+- [Settings](./settings/README.md)
