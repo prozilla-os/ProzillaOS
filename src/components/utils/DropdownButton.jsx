@@ -15,7 +15,7 @@ export function DropdownButton({ label, options, shortcuts }) {
 	return (
 		<OutsideClickListener onOutsideClick={() => { setOpen(false); }}>
 			<div className={styles.Container}>
-				<button title={label} className={styles.Button} onClick={() => { setOpen(!open) }}>
+				<button title={label} className={styles.Button} onClick={() => { setOpen(!open); }}>
 					{label}
 				</button>
 				{open && options
@@ -37,5 +37,5 @@ export function DropdownButton({ label, options, shortcuts }) {
 				}
 			</div>
 		</OutsideClickListener>
-	)
+	);
 }

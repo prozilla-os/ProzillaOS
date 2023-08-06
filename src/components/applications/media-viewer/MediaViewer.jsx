@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-unused-vars
-import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js"
+
+import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
 import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
 import styles from "./MediaViewer.module.css";
 

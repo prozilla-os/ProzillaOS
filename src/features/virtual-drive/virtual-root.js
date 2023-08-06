@@ -1,5 +1,5 @@
 import { StorageManager } from "../storage/storage.js";
-// eslint-disable-next-line no-unused-vars
+
 import { VirtualFile } from "./virtual-file.js";
 import { VirtualFolder } from "./virtual-folder.js";
 
@@ -50,13 +50,13 @@ export class VirtualRoot extends VirtualFolder {
 					})
 					.createFolder("Images", (folder) => {
 						folder.createFile("Wallpaper1", "png", (file) => {
-							file.setSource("/media/wallpapers/Wallpaper1.png")
+							file.setSource("/media/wallpapers/Wallpaper1.png");
 						}).createFile("Wallpaper2", "png", (file) => {
-							file.setSource("/media/wallpapers/Wallpaper2.png")
+							file.setSource("/media/wallpapers/Wallpaper2.png");
 						}).createFile("Wallpaper3", "png", (file) => {
-							file.setSource("/media/wallpapers/Wallpaper3.png")
+							file.setSource("/media/wallpapers/Wallpaper3.png");
 						}).createFile("Wallpaper4", "png", (file) => {
-							file.setSource("/media/wallpapers/Wallpaper4.png")
+							file.setSource("/media/wallpapers/Wallpaper4.png");
 						});
 					})
 					.createFolder("Documents", (folder) => {
@@ -113,7 +113,7 @@ export class VirtualRoot extends VirtualFolder {
 				} else if (content != null) {
 					file.setContent(content);
 				}
-			})
+			});
 		};
 
 		const addFolder = ({ nam: name, fds: folders, fls: files }, parent = this) => {

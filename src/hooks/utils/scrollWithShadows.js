@@ -2,8 +2,8 @@
  * https://medium.com/dfind-consulting/react-scroll-hook-with-shadows-9ba2d47ae32
  */
 
-// eslint-disable-next-line no-unused-vars
-import React, { useCallback, useEffect, useRef } from "react";
+
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 
 /**
@@ -80,7 +80,7 @@ export function useScrollWithShadow(options) {
 
 		return () => {
 			window.removeEventListener("resize", onResize);
-		}
+		};
 	}, [ref, updateValues, initiated]);
 
 	const getBoxShadow = () => {

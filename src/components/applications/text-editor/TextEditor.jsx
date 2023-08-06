@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// eslint-disable-next-line no-unused-vars
+
 import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
 import styles from "./TextEditor.module.css";
 import { HeaderMenu } from "../.common/HeaderMenu.jsx";

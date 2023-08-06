@@ -7,7 +7,7 @@ export class EventEmitter {
 	/**
 	 * @type {Object<string, Array<Function>>}
 	 */
-	#events = {}
+	#events = {};
 
 	/**
 	 * Add event listener for an event

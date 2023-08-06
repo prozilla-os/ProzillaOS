@@ -138,7 +138,7 @@ export function Terminal() {
 		});
 
 		return visibleHistory.slice(startIndex).map(({ text }, index) => {
-			return <OutputLine text={text} key={index}/>
+			return <OutputLine text={text} key={index}/>;
 		});
 	};
 
@@ -173,5 +173,5 @@ export function Terminal() {
 				onChange={onChange}
 			/>
 		</div>
-	)
+	);
 }

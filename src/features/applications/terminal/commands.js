@@ -125,5 +125,5 @@ export class Command {
 		new Command("hostname", (args, { hostname }) => {
 			return hostname;
 		}),
-	]
+	];
 }

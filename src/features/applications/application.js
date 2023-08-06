@@ -22,5 +22,5 @@ export default class Application {
 		}
 
 		return <this.windowContent {...props}/>;
-	}
+	};
 }

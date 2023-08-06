@@ -1,7 +1,7 @@
 import ApplicationsManager from "../applications/applications.js";
 import { randomRange } from "../math/random.js";
 import Vector2 from "../math/vector2.js";
-// eslint-disable-next-line no-unused-vars
+
 import { VirtualFile } from "../virtual-drive/virtual-file.js";
 
 export default class WindowsManager {

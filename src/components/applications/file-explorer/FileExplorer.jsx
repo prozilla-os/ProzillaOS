@@ -3,7 +3,7 @@ import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFile, faFileLines, faFolder, faHouse, faImage, faSearch } from "@fortawesome/free-solid-svg-icons";
-// eslint-disable-next-line no-unused-vars
+
 import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
 import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
 
@@ -18,14 +18,14 @@ function FilePreview({ file }) {
 		case "png":
 			preview = (<div className={styles["File-button-preview"]}>
 				<img src={file.source} alt={file.id}/>
-			</div>)
+			</div>);
 			break;
 		case "txt":
 		case "md":
-			preview = <FontAwesomeIcon icon={faFileLines}/>
+			preview = <FontAwesomeIcon icon={faFileLines}/>;
 			break;
 		default:
-			preview = <FontAwesomeIcon icon={faFile}/>
+			preview = <FontAwesomeIcon icon={faFile}/>;
 			break;
 	}
 
@@ -51,7 +51,7 @@ export function FileExplorer({ startPath }) {
 			setCurrentDirectory(directory);
 			setPath(directory.path);
 		}
-	}
+	};
 
 	const onPathChange = (event) => {
 		return setPath(event.target.value);

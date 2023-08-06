@@ -9,7 +9,7 @@ export class VirtualFolder extends VirtualBase {
 	static TYPE = {
 		GENERAL: 0,
 		MEDIA: 1,
-	}
+	};
 	
 	/**
 	 * @param {string} name
@@ -237,7 +237,7 @@ export class VirtualFolder extends VirtualBase {
 			} else {
 				return currentDirectory?.findSubFolder(path);
 			}
-		}
+		};
 
 		if (segments.length === 1) {
 			const directory = getDirectory(segments[0], true);

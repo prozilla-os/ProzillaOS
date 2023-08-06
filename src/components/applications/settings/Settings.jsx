@@ -5,7 +5,7 @@ import { faPalette } from "@fortawesome/free-solid-svg-icons";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 import { useSettings } from "../../../hooks/settings/SettingsContext.js";
 import { SettingsManager } from "../../../features/settings/settings.js";
-// eslint-disable-next-line no-unused-vars
+
 import { VirtualRoot } from "../../../features/virtual-drive/virtual-root.js";
 
 /**

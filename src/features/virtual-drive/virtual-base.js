@@ -1,5 +1,5 @@
 import { EventEmitter } from "../utils/events.js";
-// eslint-disable-next-line no-unused-vars
+
 import { VirtualRoot } from "./virtual-root.js";
 
 export class VirtualBase extends EventEmitter {

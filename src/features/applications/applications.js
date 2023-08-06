@@ -19,7 +19,7 @@ export default class ApplicationsManager {
 		new Application("Wordle", "wordle", WebView, { source: "https://prozilla.dev/wordle" }),
 		new Application("Balls", "balls", WebView, { source: "https://prozilla.dev/ball-maze" }),
 		new Application("Minesweeper", "minesweeper", WebView, { source: "https://prozilla.dev/minesweeper" }),
-	]
+	];
 
 	/**
 	 * @param {string} id 
