@@ -35,7 +35,37 @@
 		"extends": [
 			"react-app",
 			"react-app/jest"
-		]
+		],
+		"plugins": [
+			"jsdoc"
+		],
+		"rules": {
+			"indent": ["error", "tab", { "SwitchCase": 1 }],
+
+			"jsdoc/no-undefined-types": "warn",
+			"jsdoc/require-param": "warn",
+			"jsdoc/check-tag-names": "warn",
+			"jsdoc/check-types": ["warn", {}],
+			"jsdoc/check-values": "warn",
+			"jsdoc/empty-tags": "warn",
+			"jsdoc/check-param-names": "warn",
+       		"jsdoc/check-property-names": "warn",
+			"jsdoc/check-access": "warn",
+			"jsdoc/check-alignment": "warn",
+			"jsdoc/multiline-blocks": "warn",
+			"jsdoc/no-blank-block-descriptions": "warn",
+			"jsdoc/require-hyphen-before-param-description": "warn"
+		},
+		"settings": {
+			"jsdoc": {
+				"preferredTypes": {
+					"Object":"object",
+					"object.<>":"Object<>",
+					"Object.<>":"Object<>",
+					"object<>":"Object<>"
+				}
+			}
+		}
 	},
 	"browserslist": {
 		"production": [
@@ -51,6 +81,7 @@
 	},
 	"devDependencies": {
 		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+		"eslint-plugin-jsdoc": "^46.4.6",
 		"gh-pages": "^5.0.0"
 	}
 }

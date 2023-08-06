@@ -170,7 +170,7 @@ export class VirtualRoot extends VirtualFolder {
 
 	/**
 	 * Adds a shortcut to a file or folder
-	 * @param {String} name 
+	 * @param {string} name 
 	 * @param {VirtualFile|VirtualFolder} destination 
 	 * @returns {VirtualRoot}
 	 */

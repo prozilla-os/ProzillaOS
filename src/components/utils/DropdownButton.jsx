@@ -4,9 +4,10 @@ import OutsideClickListener from "../../hooks/utils/outsideClick.js";
 import { formatShortcut } from "../../features/utils/string.js";
 
 /**
- * @param {Object} props 
- * @param {String} props.label
- * @param {Object.<string, Function>} props.options
+ * @param {object} props 
+ * @param {string} props.label
+ * @param {Object<string, Function>} props.options
+ * @param {Object<string, string[]>} props.shortcuts
  */
 export function DropdownButton({ label, options, shortcuts }) {
 	const [open, setOpen] = useState(false);
@@ -33,7 +34,7 @@ export function DropdownButton({ label, options, shortcuts }) {
 						)}
 					</div>)
 					: null
-			}
+				}
 			</div>
 		</OutsideClickListener>
 	)

@@ -13,8 +13,8 @@ export class VirtualFile extends VirtualBase {
 	};
 
 	/**
-	 * @param {String} name 
-	 * @param {String=} extension 
+	 * @param {string} name 
+	 * @param {string=} extension 
 	 */
 	constructor(name, extension) {
 		super(name);
@@ -22,7 +22,7 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	/**
-	 * @param {String} alias
+	 * @param {string} alias
 	 * @returns {VirtualFile}
 	 */
 	setAlias(alias) {
@@ -31,7 +31,7 @@ export class VirtualFile extends VirtualBase {
 
 	/**
 	 * Sets the source of this file and removes the content
-	 * @param {String} source 
+	 * @param {string} source 
 	 * @returns {VirtualFile}
 	 */
 	setSource(source) {
@@ -46,7 +46,7 @@ export class VirtualFile extends VirtualBase {
 
 	/**
 	 * Sets the content of this file and removes the source
-	 * @param {String|*} content 
+	 * @param {string | *} content 
 	 * @returns {VirtualFile}
 	 */
 	setContent(content) {
@@ -67,7 +67,7 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	/**
-	 * @return {Promise<String|null>}
+	 * @returns {Promise<string | null>}
 	 */
 	async read() {
 		if (this.content != null)

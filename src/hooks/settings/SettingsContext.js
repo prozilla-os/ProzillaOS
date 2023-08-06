@@ -6,7 +6,9 @@ const SettingsContext = createContext();
 
 /**
  * Note: needs to be inside a virtual root provider
- * @returns {React.Provider<SettingsManager>}
+ * @param props
+ * @param props.children
+ * @returns {import("react").Provider<SettingsManager>}
  */
 export function SettingsProvider({ children }) {
 	const virtualRoot = useVirtualRoot();

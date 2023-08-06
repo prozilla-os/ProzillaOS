@@ -1,17 +1,17 @@
 export class EventEmitter {
 	/**
-	 * @type {Object<String, String>}
+	 * @type {Object<string, string>}
 	 */
 	static EVENT_NAMES = {};
 
 	/**
-	 * @type {Object<String, Array<Function>>}
+	 * @type {Object<string, Array<Function>>}
 	 */
 	#events = {}
 
 	/**
 	 * Add event listener for an event
-	 * @param {EVENT_NAMES} eventName
+	 * @param {EventEmitter.EVENT_NAMES} eventName
 	 * @param {Function} callback
 	 */
 	on(eventName, callback) {
@@ -23,7 +23,7 @@ export class EventEmitter {
 	
 	/**
 	 * Remove event listener for an event
-	 * @param {EVENT_NAMES} eventName
+	 * @param {string} eventName
 	 * @param {Function} callback
 	 */
 	off(eventName, callback) {
@@ -36,7 +36,7 @@ export class EventEmitter {
 	
 	/**
 	 * Dispatch event
-	 * @param {EVENT_NAMES} eventName
+	 * @param {string} eventName
 	 * @param {*} data
 	 */
 	emit(eventName, data) {

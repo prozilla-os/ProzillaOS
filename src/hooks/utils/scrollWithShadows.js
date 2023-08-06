@@ -7,16 +7,16 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { useState } from "react";
 
 /**
- * @param {Object} options 
+ * @param {object} options 
  * @param {React.ElementRef} options.ref
  * @param {Boolean=true} options.horizontal
  * @param {Boolean=true} options.dynamicOffset
  * @param {Number=1} options.dynamicOffsetFactor
- * @param {Object} options.shadow
+ * @param {object} options.shadow
  * @param {Number=8} options.shadow.offset
  * @param {Number=5} options.shadow.blurRadius
  * @param {Number=-5} options.shadow.spreadRadius 
- * @param {Object} options.shadow.color 
+ * @param {object} options.shadow.color 
  * @param {Number=0} options.shadow.color.r 
  * @param {Number=0} options.shadow.color.g 
  * @param {Number=0} options.shadow.color.b 

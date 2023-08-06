@@ -1,3 +1,7 @@
+/**
+ * @param {string[]} shortcut 
+ * @returns {string}
+ */
 export function formatShortcut(shortcut) {
 	const specialKeys = [];
 	const singleKeys = [];

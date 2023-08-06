@@ -1,6 +1,6 @@
 export class Command {
 	/**
-	 * @param {String} name 
+	 * @param {string} name 
 	 * @param {Function} execute 
 	 */
 	constructor(name, execute) {

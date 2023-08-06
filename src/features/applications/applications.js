@@ -22,7 +22,7 @@ export default class ApplicationsManager {
 	]
 
 	/**
-	 * @param {String} id 
+	 * @param {string} id 
 	 * @returns {Application}
 	 */
 	static getApplication(id) {
@@ -40,7 +40,7 @@ export default class ApplicationsManager {
 
 	/**
 	 * Get the application associated with a file extension
-	 * @param {String} fileExtension 
+	 * @param {string} fileExtension 
 	 * @returns {Application}
 	 */
 	static getFileApplication(fileExtension) {

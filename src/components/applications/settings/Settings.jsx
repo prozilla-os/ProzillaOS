@@ -9,7 +9,7 @@ import { SettingsManager } from "../../../features/settings/settings.js";
 import { VirtualRoot } from "../../../features/virtual-drive/virtual-root.js";
 
 /**
- * @param {Object} props 
+ * @param {object} props 
  * @param {VirtualRoot} props.virtualRoot 
  * @param {SettingsManager} props.settingsManager 
  */

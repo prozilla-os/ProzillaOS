@@ -4,10 +4,9 @@ import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.
 import styles from "./MediaViewer.module.css";
 
 /**
- * 
- * @param {Object} props
+ * @param {object} props
  * @param {VirtualFile} props.file
- * @returns 
+ * @param {Function} props.close
  */
 export function MediaViewer({ file, close }) {
 	const windowsManager = useWindowsManager();

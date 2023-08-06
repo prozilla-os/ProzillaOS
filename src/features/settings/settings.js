@@ -13,7 +13,7 @@ export class Settings {
 
 	/**
 	 * @param {VirtualRoot} virtualRoot 
-	 * @param {String} path 
+	 * @param {string} path 
 	 */
 	constructor(virtualRoot, path) {
 		this.#virtualRoot = virtualRoot;
@@ -63,7 +63,7 @@ export class Settings {
 
 	/**
 	 * Checks if xml doc is missing
-	 * @returns {Promise<Boolean>}
+	 * @returns {Promise<boolean>}
 	 */
 	async isMissingXmlDoc() {
 		if (this.xmlDoc == null)
@@ -74,14 +74,14 @@ export class Settings {
 
 	/**
 	 * @callback valueCallback
-	 * @param {String} value
+	 * @param {string} value
 	 */
 
 	/**
 	 * Gets a value by a given key if it exists or calls a callback function whenever the value changes
-	 * @param {String} key 
+	 * @param {string} key 
 	 * @param {valueCallback} callback
-	 * @returns {Promise<String|null>}
+	 * @returns {Promise<string | null>}
 	 */
 	async get(key, callback) {
 		if (await this.isMissingXmlDoc())
@@ -107,8 +107,8 @@ export class Settings {
 	}
 
 	/**
-	 * @param {String} key 
-	 * @param {String} value 
+	 * @param {string} key 
+	 * @param {string} value 
 	 */
 	async set(key, value) {
 		if (await this.isMissingXmlDoc())
@@ -123,14 +123,14 @@ export class Settings {
 
 export class SettingsManager {
 	/**
-	 * @type {Object<String, String>}
+	 * @type {Object<string, string>}
 	 */
 	static VIRTUAL_PATHS = {
 		"desktop": "~/.config/desktop.xml"
 	};
 
 	/**
-	 * @type {Object<String, Settings>}
+	 * @type {Object<string, Settings>}
 	 */
 	#pathToSettings = {};
 
@@ -151,7 +151,7 @@ export class SettingsManager {
 	}
 
 	/**
-	 * @param {String} path 
+	 * @param {string} path 
 	 * @returns {Settings}
 	 */
 	get(path) {

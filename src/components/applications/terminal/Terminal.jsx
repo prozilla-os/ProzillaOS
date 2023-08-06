@@ -7,8 +7,8 @@ const USERNAME = "user";
 const HOSTNAME = "prozilla-os";
 
 /**
- * @param {Object} props 
- * @param {String} props.text
+ * @param {object} props 
+ * @param {string} props.text
  */
 function OutputLine({ text }) {
 	return (
@@ -17,9 +17,9 @@ function OutputLine({ text }) {
 }
 
 /**
- * @param {Object} props 
- * @param {String} props.value
- * @param {String} props.prefix
+ * @param {object} props 
+ * @param {string} props.value
+ * @param {string} props.prefix
  * @param {Function} props.onChange
  * @param {Function} props.onKeyUp
  * @param {Function} props.onKeyDown

@@ -12,8 +12,8 @@ export class VirtualFolder extends VirtualBase {
 	}
 	
 	/**
-	 * @param {String} name
-	 * @param {Number} type 
+	 * @param {string} name
+	 * @param {number} type 
 	 */
 	constructor(name, type) {
 		super(name);
@@ -23,7 +23,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * @param {String} alias
+	 * @param {string} alias
 	 * @returns {VirtualFolder}
 	 */
 	setAlias(alias) {
@@ -32,8 +32,8 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Returns true if this folder contains a file matching a name and extension
-	 * @param {String} name 
-	 * @param {String} extension 
+	 * @param {string} name 
+	 * @param {string} extension 
 	 * @returns {VirtualFile}
 	 */
 	hasFile(name, extension) {
@@ -42,7 +42,7 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Returns true if this folder contains a folder matching a name
-	 * @param {String} name 
+	 * @param {string} name 
 	 * @returns {boolean}
 	 */
 	hasFolder(name) {
@@ -51,8 +51,8 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Finds and returns a file inside this folder matching a name and extension
-	 * @param {String} name 
-	 * @param {String} extension 
+	 * @param {string} name 
+	 * @param {string} extension 
 	 * @returns {VirtualFile}
 	 */
 	findFile(name, extension) {
@@ -69,7 +69,7 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Finds and returns a folder inside this folder matching a name
-	 * @param {String} name 
+	 * @param {string} name 
 	 * @returns {VirtualFolder}
 	 */
 	findSubFolder(name) {
@@ -91,8 +91,8 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Creates a file with a name and extension
-	 * @param {String} name 
-	 * @param {String} extension 
+	 * @param {string} name 
+	 * @param {string} extension 
 	 * @param {createFileCallback} callback
 	 * @returns {VirtualFolder}
 	 */
@@ -107,9 +107,9 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Creates files based on an array of objects with file names and extensions
-	 * @param {Object[]} files 	
-	 * @param {String} Object[].name
-	 * @param {String} Object[].extension
+	 * @param {object[]} files 	
+	 * @param {string} files.name
+	 * @param {string} files.extension
 	 * @returns {VirtualFolder} 
 	 */
 	createFiles(files) {
@@ -127,7 +127,7 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Creates a folder with a name
-	 * @param {String} name 
+	 * @param {string} name 
 	 * @returns {VirtualFolder}
 	 * @param {createFolderCallback} callback
 	 */
@@ -142,7 +142,7 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Creates folders based on an array of folder names
-	 * @param {String[]} folders 
+	 * @param {string[]} folders 
 	 * @returns {VirtualFolder}
 	 */
 	createFolders(folders) {
@@ -156,7 +156,7 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Adds a file at a destination
 	 * @deprecated
-	 * @param {String} destination 
+	 * @param {string} destination 
 	 */
 	addFile(destination) {
 		const folderNames = destination.split("/");
@@ -182,7 +182,7 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Adds a folder at a destination
 	 * @deprecated
-	 * @param {String} destination 
+	 * @param {string} destination 
 	 */
 	addFolder(destination) {
 		if (destination.endsWith("/"))
@@ -218,7 +218,7 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Returns the file or folder at a relative path or null if it doesn't exist
-	 * @param {String} relativePath 
+	 * @param {string} relativePath 
 	 * @returns {VirtualFile|VirtualFolder|null}
 	 */
 	navigate(relativePath) {

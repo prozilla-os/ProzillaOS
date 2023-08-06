@@ -6,6 +6,14 @@ import { ReactSVG } from "react-svg";
 import { useEffect } from "react";
 import { useState } from "react";
 
+/**
+ * @param {object} props 
+ * @param {boolean} props.active
+ * @param {Function} props.setActive
+ * @param {string} props.searchQuery
+ * @param {Function} props.setSearchQuery
+ * @param {import("react").ElementRef} props.inputRef
+ */
 export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inputRef }) {
 	const windowsManager = useWindowsManager();
 	const [apps, setApps] = useState(null);

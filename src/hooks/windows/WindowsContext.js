@@ -3,7 +3,10 @@ import { createContext, useCallback, useContext, useState } from "react";
 const WindowsContext = createContext();
 
 /**
- * @returns {React.Provider<any>}
+ * @param props
+ * @param props.children
+ * @param props.windowsManager
+ * @returns {import("react").Provider<any>}
  */
 export function WindowsProvider({ children, windowsManager }) {
 	const [windows, setWindows] = useState([]);
@@ -22,6 +25,9 @@ export function WindowsProvider({ children, windowsManager }) {
 	);
 }
 
+/**
+ * @returns {object[]}
+ */
 export function useWindows() {
 	return useContext(WindowsContext);
 }

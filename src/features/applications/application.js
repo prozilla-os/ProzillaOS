@@ -1,9 +1,11 @@
+import React from "react";
+
 export default class Application {
 	/**
-	 * @param {String} name 
-	 * @param {String} id
+	 * @param {string} name 
+	 * @param {string} id
 	 * @param {React.ReactElement} windowContent 
-	 * @param {Object|null} windowOptions - Default window options
+	 * @param {object | null} windowOptions - Default window options
 	 */
 	constructor(name, id, windowContent, windowOptions) {
 		Object.assign(this, { name, id, windowContent, windowOptions });

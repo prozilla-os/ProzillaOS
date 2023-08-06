@@ -6,7 +6,6 @@ import ApplicationsManager from "../../features/applications/applications.js";
 import { useWindows } from "../../hooks/windows/WindowsContext.js";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
 import { ReactSVG } from "react-svg";
-// eslint-disable-next-line no-unused-vars
 import Application from "../../features/applications/application.js";
 import { HomeMenu } from "./menus/HomeMenu.jsx";
 import OutsideClickListener from "../../hooks/utils/outsideClick.js";
@@ -18,7 +17,7 @@ import { Calendar } from "./indicators/Calendar.jsx";
 import { useScrollWithShadow } from "../../hooks/utils/scrollWithShadows.js";
 
 /**
- * @param {Object} props 
+ * @param {object} props 
  * @param {Application} props.app 
  */
 function AppButton({ app }) {
@@ -96,7 +95,7 @@ export function Taskbar() {
 
 	const search = (query) => {
 		updateShowSearch(true);
-	}
+	};
 
 	return (
 		<div className={styles["Task-bar"]}>

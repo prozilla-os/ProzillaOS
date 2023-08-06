@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 /**
- * @param {Object} params
+ * @param {object} params
  * @param {Function} params.onKeyDown
  * @param {Function} params.onKeyUp
  */

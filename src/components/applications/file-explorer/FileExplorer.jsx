@@ -8,7 +8,7 @@ import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
 import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
 
 /**
- * @param {Object} props
+ * @param {object} props
  * @param {VirtualFile} props.file
  */
 function FilePreview({ file }) {

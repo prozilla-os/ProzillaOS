@@ -4,7 +4,9 @@ import { VirtualRoot } from "../../features/virtual-drive/virtual-root.js";
 const VirtualRootContext = createContext();
 
 /**
- * @returns {React.Provider<VirtualRoot>}
+ * @param props
+ * @param props.children
+ * @returns {import("react").Provider<VirtualRoot>}
  */
 export function VirtualRootProvider({ children }) {
 	const virtualRoot = new VirtualRoot().init();

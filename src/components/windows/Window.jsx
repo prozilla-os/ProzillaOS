@@ -12,13 +12,14 @@ import Application from "../../features/applications/application.js";
 import Vector2 from "../../features/math/vector2.js";
 
 /**
- * @param {Object} props
- * @param {String} props.id 
+ * @param {object} props
+ * @param {string} props.id 
  * @param {Application} props.app 
  * @param {Vector2} props.size 
  * @param {Vector2} props.position 
  * @param {boolean} props.focused 
  * @param {Function} props.onInteract
+ * @param {object} props.options
  */
 export function Window({ id, app, size, position, focused = false, onInteract, options }) {
 	const windowsManager = useWindowsManager();
@@ -28,18 +29,18 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 	const [minimized, setMinimized] = useState(false);
 
 	const [screenWidth, setScreenWidth] = useState(100);
-    const [screenHeight, setScreenHeight] = useState(100);
+	const [screenHeight, setScreenHeight] = useState(100);
 
 	const [title, setTitle] = useState(app.name);
 
-    useEffect(() => {
-        const resizeObserver = new ResizeObserver((event) => {
-            setScreenWidth(event[0].contentBoxSize[0].inlineSize);
-            setScreenHeight(event[0].contentBoxSize[0].blockSize);
-        });
+	useEffect(() => {
+		const resizeObserver = new ResizeObserver((event) => {
+			setScreenWidth(event[0].contentBoxSize[0].inlineSize);
+			setScreenHeight(event[0].contentBoxSize[0].blockSize);
+		});
 
-        resizeObserver.observe(document.getElementById("root"));
-    });
+		resizeObserver.observe(document.getElementById("root"));
+	});
 
 	const close = () => {
 		windowsManager.close(id);

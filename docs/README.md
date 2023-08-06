@@ -33,6 +33,10 @@
 2. Run `npm run deploy` - This will create a new build by running the redeploy script, add a CNAME pointing to your domain and then push the build folder to a branch called `gh-pages`.
 3. Configure your GitHub Pages to deploy the `gh-pages` branch to your domain.
 
+Once the initial setup is complete, you can simply run `npm run deploy` and your website will be built and deployed to GitHub Pages.
+
+> Note: When the deployment process is complete, you won't see the changes reflected on your website until a few moments later. This is because GitHub Pages needs to run its own build step before the website updates. You can view details about this process in the Actions tab on GitHub.
+
 ### Structure
 
 - [src](../src) directory

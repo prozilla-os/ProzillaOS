@@ -9,6 +9,12 @@ import { closeTab } from "../../../features/utils/browser.js";
 import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 
+/**
+ * @param {object} props 
+ * @param {boolean} props.active
+ * @param {Function} props.setActive
+ * @param {Function} props.search
+ */
 export function HomeMenu({ active, setActive, search }) {
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();

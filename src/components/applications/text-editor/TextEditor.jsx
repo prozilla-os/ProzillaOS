@@ -9,8 +9,11 @@ const defaultZoom = 16;
 const zoomSpeed = 4;
 
 /**
- * @param {Object} props
+ * @param {object} props
  * @param {VirtualFile} props.file
+ * @param {Function} props.setTitle
+ * @param {Function} props.close
+ * @param {string} props.mode
  */
 export function TextEditor({ file, setTitle, close, mode }) {
 	const [currentFile, setCurrentFile] = useState(file);

@@ -11,9 +11,9 @@ export default class WindowsManager {
 	}
 
 	/**
-	 * @param {String} appId 
-	 * @param {Object|null} options 
-	 * @returns {Object}
+	 * @param {string} appId 
+	 * @param {object | null} options 
+	 * @returns {object}
 	 */
 	open(appId, options) {
 		const app = ApplicationsManager.getApplication(appId);
@@ -45,7 +45,7 @@ export default class WindowsManager {
 
 	/**
 	 * @param {VirtualFile} file 
-	 * @returns {Object}
+	 * @returns {object}
 	 */
 	openFile(file) {
 		const app = ApplicationsManager.getFileApplication(file.extension);
@@ -54,7 +54,7 @@ export default class WindowsManager {
 	}
 
 	/**
-	 * @param {String} windowId 
+	 * @param {string} windowId 
 	 */
 	close(windowId) {
 		windowId = windowId.toString();
@@ -72,7 +72,7 @@ export default class WindowsManager {
 	}
 
 	/**
-	 * @param {Object} window 
+	 * @param {string} windowId
 	 */
 	focus(windowId) {
 		windowId = windowId.toString();
@@ -89,8 +89,8 @@ export default class WindowsManager {
 	}
 
 	/**
-	 * @param {String} appId 
-	 * @returns {Boolean}
+	 * @param {string} appId 
+	 * @returns {boolean}
 	 */
 	isAppActive(appId) {
 		let active = false;

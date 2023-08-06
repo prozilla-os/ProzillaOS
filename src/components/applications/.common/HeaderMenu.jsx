@@ -6,8 +6,8 @@ import styles from "./HeaderMenu.module.css";
 
 /**
  * @param {Object} props 
- * @param {Object<String, Object<String, Function>>} props.options
- * @param {Object<String, Object<String, Array<String>>>} props.shortcuts
+ * @param {Object<String, Object<string, function>>} props.options
+ * @param {Object<String, Object<string, string[]>>} props.shortcuts
  */
 export function HeaderMenu({ options, shortcuts }) {
 	const [activeKeys, setActiveKeys] = useState([]);

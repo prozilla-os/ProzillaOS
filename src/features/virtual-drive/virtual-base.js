@@ -4,7 +4,7 @@ import { VirtualRoot } from "./virtual-root.js";
 
 export class VirtualBase extends EventEmitter {
 	/**
-	 * @param {String} name 
+	 * @param {string} name 
 	 */
 	constructor(name) {
 		super();
@@ -16,7 +16,7 @@ export class VirtualBase extends EventEmitter {
 	}
 
 	/**
-	 * @param {String} name 
+	 * @param {string} name 
 	 * @returns {VirtualBase}
 	 */
 	setName(name) {
@@ -26,7 +26,7 @@ export class VirtualBase extends EventEmitter {
 	}
 
 	/**
-	 * @param {String} alias 
+	 * @param {string} alias 
 	 * @returns {ThisType}
 	 */
 	setAlias(alias) {

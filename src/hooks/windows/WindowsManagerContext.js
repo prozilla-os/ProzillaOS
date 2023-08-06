@@ -5,7 +5,9 @@ import { WindowsProvider } from "./WindowsContext.js";
 const WindowsManagerContext = createContext();
 
 /**
- * @returns {React.Provider<any>}
+ * @param {object} props
+ * @param {import("react").ElementType} props.children
+ * @returns {import("react").Provider<any>}
  */
 export function WindowsManagerProvider({ children }) {
 	const windowsManager = new WindowsManager();
