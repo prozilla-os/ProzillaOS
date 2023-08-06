@@ -4,10 +4,9 @@
 
 The virtual drive is a virtual file and directory system. The root directory is a virtual folder and the access point for all interactions with the virtual drive.
 
-The initial files added to every instance of ProzillaOS, can be found and configured in [hooks/virtual-drive/VirtualRootContext.js](../../../src/hooks/virtual-drive/VirtualRootContext.js)
-
 ## Table of Contents
 
+- [Virtual Root](./virtual-root/README.md)
 - [Virtual File](./virtual-file/README.md)
 - [Virtual Folder](./virtual-folder/README.md)
 

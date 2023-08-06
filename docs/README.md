@@ -5,6 +5,7 @@
 ## Table of Contents
 
 - [Features](features/README.md)
+- [Design](design/README.md)
 - [Roadmap](roadmap/README.md)
 - [Configurations](configurations/README.md)
 - [Contributing](contributing/README.md)
@@ -41,11 +42,11 @@ Once the initial setup is complete, you can simply run `npm run deploy` and your
 
 - [src](../src) directory
 	
-	Contains all code for the application, including CSS, JS and HTML files.
+	Contains all code for the application, including CSS, JS and HTML files. This directory makes use of a feature-based folder structure.
 
 - [public](../public) directory
 
-	Contains all static files like images, webfonts and vector graphics as well as the [index.html](../public/index.html) file, which contains all metadata and contains all bundled scripts after the build step. 
+	Contains all static files like images, webfonts and vector graphics as well as the [index.html](../public/index.html) file, which contains all metadata and contains all bundled scripts after the build step. Also includes the [config](../public/config) and [documents](../public/documents) folders from where certain files are loaded into the [virtual drive](features/virtual-drive/README.md).
 
 - [docs](.) directory
 
