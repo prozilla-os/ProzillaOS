@@ -6,9 +6,9 @@ import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
 import Draggable from "react-draggable";
 import { useEffect, useRef, useState } from "react";
-// eslint-disable-next-line no-unused-vars
+
 import Application from "../../features/applications/application.js";
-// eslint-disable-next-line no-unused-vars
+
 import Vector2 from "../../features/math/vector2.js";
 
 /**
@@ -42,8 +42,17 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 		resizeObserver.observe(document.getElementById("root"));
 	});
 
-	const close = () => {
+	const close = (event) => {
+		event.preventDefault();
 		windowsManager.close(id);
+	};
+
+	const focus = (event) => {
+		if (event.defaultPrevented)
+			return;
+
+		if ((event.target.closest(".Handle") == null || event.target.closest("button") == null))
+			onInteract(event);
 	};
 
 	const classNames = [styles["Window-container"]];
@@ -68,7 +77,7 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 			cancel="button"
 			nodeRef={nodeRef}
 			disabled={maximized}
-			onMouseDown={onInteract}
+			onMouseDown={focus}
 		>
 			<div
 				className={classNames.join(" ")}
@@ -77,10 +86,7 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 					width: maximized ? null : size.x,
 					height: maximized ? null : size.y,
 				}}
-				onClick={(event) => {
-					if (!event.defaultPrevented)
-						onInteract(event);
-				}}
+				onClick={focus}
 			>
 				<div className={`${styles.Header} Handle`}>
 					<ReactSVG className={styles["Window-icon"]} src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
@@ -91,7 +97,7 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 					<button title="Maximize" onClick={() => setMaximized(!maximized)}>
 						<FontAwesomeIcon icon={faSquare}/>
 					</button>
-					<button title="Close" onClick={close}>
+					<button title="Close" id="close-window" onClick={close}>
 						<FontAwesomeIcon icon={faXmark}/>
 					</button>
 				</div>
