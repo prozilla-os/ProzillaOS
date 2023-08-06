@@ -1,7 +1,8 @@
 import { StorageManager } from "../storage/storage.js";
-
 import { VirtualFile } from "./virtual-file.js";
 import { VirtualFolder } from "./virtual-folder.js";
+
+export const WALLPAPER_COUNT = 6;
 
 /**
  * A virtual folder that serves as the root folder
@@ -49,15 +50,11 @@ export class VirtualRoot extends VirtualFolder {
 						});
 					})
 					.createFolder("Images", (folder) => {
-						folder.createFile("Wallpaper1", "png", (file) => {
-							file.setSource("/media/wallpapers/Wallpaper1.png");
-						}).createFile("Wallpaper2", "png", (file) => {
-							file.setSource("/media/wallpapers/Wallpaper2.png");
-						}).createFile("Wallpaper3", "png", (file) => {
-							file.setSource("/media/wallpapers/Wallpaper3.png");
-						}).createFile("Wallpaper4", "png", (file) => {
-							file.setSource("/media/wallpapers/Wallpaper4.png");
-						});
+						for (let i = 0; i < WALLPAPER_COUNT; i++) {
+							folder.createFile(`Wallpaper${i + 1}`, "png", (file) => {
+								file.setSource(`/media/wallpapers/Wallpaper${i + 1}.png`);
+							});
+						}
 					})
 					.createFolder("Documents", (folder) => {
 						folder.createFile("text", "txt", (file) => {
@@ -93,7 +90,7 @@ export class VirtualRoot extends VirtualFolder {
 	loadData() {
 		let data = StorageManager.load("data");
 		if (data == null)
-			return this.loadDefaultData();
+			return;
 
 		let object;
 		try {
@@ -102,7 +99,7 @@ export class VirtualRoot extends VirtualFolder {
 			console.error(error);
 		}
 		if (object == null)
-			return this.loadDefaultData();
+			return;
 
 		const shortcuts = {...object.scs};
 
@@ -163,6 +160,7 @@ export class VirtualRoot extends VirtualFolder {
 	init() {
 		this.initiated = false;
 		this.setAlias("/");
+		this.loadDefaultData();
 		this.loadData();
 		this.initiated = true;
 		return this;

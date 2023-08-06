@@ -30,6 +30,9 @@ export class VirtualBase extends EventEmitter {
 	 * @returns {ThisType}
 	 */
 	setAlias(alias) {
+		if (this.alias === alias)
+			return;
+
 		this.alias = alias;
 		this.getRoot().addShortcut(alias, this);
 		this.getRoot().saveData();
@@ -41,6 +44,9 @@ export class VirtualBase extends EventEmitter {
 	 * @returns {VirtualBase}
 	 */
 	setParent(parent) {
+		if (this.parent === parent)
+			return;
+
 		this.parent = parent;
 		this.getRoot().saveData();
 		return this;
@@ -52,9 +58,7 @@ export class VirtualBase extends EventEmitter {
 		parent.getRoot().saveData();
 	}
 
-	open() {
-		
-	}
+	open() {}
 
 	get path() {
 		return this.alias ?? this.absolutePath;

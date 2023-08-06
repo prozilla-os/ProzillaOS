@@ -35,6 +35,9 @@ export class VirtualFile extends VirtualBase {
 	 * @returns {VirtualFile}
 	 */
 	setSource(source) {
+		if (this.source === source)
+			return;
+
 		this.source = source;
 		this.content = null;
 
@@ -50,6 +53,9 @@ export class VirtualFile extends VirtualBase {
 	 * @returns {VirtualFile}
 	 */
 	setContent(content) {
+		if (this.content === content)
+			return;
+
 		this.content = content;
 		this.source = null;
 

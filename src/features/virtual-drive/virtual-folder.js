@@ -97,9 +97,12 @@ export class VirtualFolder extends VirtualBase {
 	 * @returns {VirtualFolder}
 	 */
 	createFile(name, extension, callback) {
-		const newFile = new VirtualFile(name, extension);
-		this.files.push(newFile);
-		newFile.parent = this;
+		let newFile = this.findFile(name, extension);
+		if (newFile == null) {
+			newFile = new VirtualFile(name, extension);
+			this.files.push(newFile);
+			newFile.parent = this;
+		}
 		callback?.(newFile);
 		this.getRoot().saveData();
 		return this;
@@ -132,9 +135,12 @@ export class VirtualFolder extends VirtualBase {
 	 * @param {createFolderCallback} callback
 	 */
 	createFolder(name, callback) {
-		const newFolder = new VirtualFolder(name);
-		this.subFolders.push(newFolder);
-		newFolder.parent = this;
+		let newFolder = this.findSubFolder(name);
+		if (newFolder == null) {
+			newFolder = new VirtualFolder(name);
+			this.subFolders.push(newFolder);
+			newFolder.parent = this;
+		}
 		callback?.(newFolder);
 		this.getRoot().saveData();
 		return this;

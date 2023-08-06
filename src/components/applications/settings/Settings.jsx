@@ -24,7 +24,7 @@ function AppearanceTab({ virtualRoot, settingsManager }) {
 	const onChange = (event) => {
 		const value = event.target.value;
 		settings.set("wallpaper", value);
-	}
+	};
 
 	return (
 		<div className={styles["Option"]}>
