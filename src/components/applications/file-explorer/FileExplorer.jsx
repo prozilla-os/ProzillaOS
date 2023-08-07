@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFile, faFileLines, faFolder, faHouse, faImage, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFile, faFileLines, faFolder, faHouse, faImage, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
 import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
@@ -76,6 +76,9 @@ export function FileExplorer({ startPath }) {
 				</button>
 				<button title="Up" tabIndex={0} className={styles["Icon-button"]} onClick={() => { changeDirectory(".."); }}>
 					<FontAwesomeIcon icon={faArrowUp}/>
+				</button>
+				<button title="New" tabIndex={0} className={styles["Icon-button"]}>
+					<FontAwesomeIcon icon={faPlus}/>
 				</button>
 				<input
 					value={path}

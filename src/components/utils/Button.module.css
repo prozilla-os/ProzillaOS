@@ -1,0 +1,8 @@
+.Button {
+	color: var(--foreground-color-a);
+	background: none;
+	border: none;
+	outline: none;
+	transition: background-color 100ms ease-in-out;
+	cursor: pointer;
+}

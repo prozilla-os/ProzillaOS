@@ -8,6 +8,7 @@ import { SettingsManager } from "../../../features/settings/settings.js";
 import { VirtualRoot } from "../../../features/virtual-drive/virtual-root.js";
 import { StorageManager } from "../../../features/storage/storage.js";
 import { round } from "../../../features/math/round.js";
+import { Button } from "../../utils/Button.jsx";
 
 /**
  * @param {object} props 
@@ -61,7 +62,7 @@ function StorageTab({ virtualRoot }) {
 		</div>
 		<div className={styles["Option"]}>
 			<p className={styles["Label"]}>Manage data</p>
-			<button title="Reset" className={`${styles.Button} ${styles["Button-red"]}`}>Reset</button>
+			<Button className={`${styles.Button} ${styles["Button-red"]}`}>Reset</Button>
 		</div>
 	</>);
 }
