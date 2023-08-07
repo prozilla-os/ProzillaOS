@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./DropdownButton.module.css";
 import OutsideClickListener from "../../hooks/utils/outsideClick.js";
 import { formatShortcut } from "../../features/utils/string.js";
@@ -11,10 +11,11 @@ import { formatShortcut } from "../../features/utils/string.js";
  */
 export function DropdownButton({ label, options, shortcuts }) {
 	const [open, setOpen] = useState(false);
+	const [tabIndex, setTabIndex] = useState(-1);
 
-	const tabIndex = () => {
-		return open ? 0 : -1;
-	};
+	useEffect(() => {
+		setTabIndex(open ? 0 : -1);
+	}, [open]);
 
 	return (
 		<OutsideClickListener onOutsideClick={() => { setOpen(false); }}>
