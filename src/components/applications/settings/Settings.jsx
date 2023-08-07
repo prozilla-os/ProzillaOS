@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from "./Settings.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPalette } from "@fortawesome/free-solid-svg-icons";
+import { faHardDrive, faPalette } from "@fortawesome/free-solid-svg-icons";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 import { useSettings } from "../../../hooks/settings/SettingsContext.js";
 import { SettingsManager } from "../../../features/settings/settings.js";
-
 import { VirtualRoot } from "../../../features/virtual-drive/virtual-root.js";
+import { StorageManager } from "../../../features/storage/storage.js";
+import { round } from "../../../features/math/round.js";
 
 /**
  * @param {object} props 
@@ -26,9 +27,9 @@ function AppearanceTab({ virtualRoot, settingsManager }) {
 		settings.set("wallpaper", value);
 	};
 
-	return (
+	return (<>
 		<div className={styles["Option"]}>
-			<p>Wallpaper</p>
+			<p className={styles["Label"]}>Wallpaper</p>
 			<div className={styles["Input"]}>
 				{virtualRoot.navigate("~/Images")?.getFiles()?.map(({ name, id, source }) =>
 					<label className={styles["Image-select"]} key={id}>
@@ -38,7 +39,31 @@ function AppearanceTab({ virtualRoot, settingsManager }) {
 				)}
 			</div>
 		</div>
-	);
+	</>);
+}
+
+/**
+ * @param {object} root 
+ * @param {VirtualRoot} root.virtualRoot 
+ */
+function StorageTab({ virtualRoot }) {
+	const maxBytes = StorageManager.MAX_BYTES;
+	const usedBytes = StorageManager.getByteSize(virtualRoot.toString());
+
+	const maxKB = StorageManager.byteToKilobyte(maxBytes);
+	const usedKB = StorageManager.byteToKilobyte(usedBytes);
+	const freeKB = maxKB - usedKB;
+
+	return (<>
+		<div className={styles["Option"]}>
+			<p className={styles["Label"]}>Virtual Drive ({round(maxKB, 1)} KB)</p>
+			<p>{round(usedKB, 1)} KB used - {round(freeKB, 1)} KB free</p>
+		</div>
+		<div className={styles["Option"]}>
+			<p className={styles["Label"]}>Manage data</p>
+			<button title="Reset" className={`${styles.Button} ${styles["Button-red"]}`}>Reset</button>
+		</div>
+	</>);
 }
 
 export function Settings() {
@@ -49,15 +74,21 @@ export function Settings() {
 	return (
 		<div className={styles.Container}>
 			<div className={styles.Tabs}>
-				<button title="Home" className={styles["Tab-button"]} onClick={() => { setTabIndex(0); }}>
+				<button title="Appearance" className={styles["Tab-button"]} onClick={() => { setTabIndex(0); }}>
 					<FontAwesomeIcon icon={faPalette}/>
 					Appearance
+				</button>
+				<button title="Storage" className={styles["Tab-button"]} onClick={() => { setTabIndex(1); }}>
+					<FontAwesomeIcon icon={faHardDrive}/>
+					Storage
 				</button>
 			</div>
 			<div className={styles["Tab-panel"]}>
 				{tabIndex === 0
 					? <AppearanceTab virtualRoot={virtualRoot} settingsManager={settingsManager}/>
-					: null
+					: tabIndex === 1
+						? <StorageTab virtualRoot={virtualRoot}/>
+						: null
 				}
 			</div>
 		</div>

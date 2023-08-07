@@ -49,6 +49,7 @@
 	flex: 1;
 	display: flex;
 	flex-wrap: wrap;
+	flex-direction: column;
 	align-content: flex-start;
 	height: 100%;
 	padding: 0.5rem 1rem;
@@ -58,6 +59,14 @@
 .Option {
 	text-align: start;
 	max-width: 100%;
+}
+
+.Option > .Label {
+	color: var(--foreground-color-a);
+}
+
+.Option > p {
+	color: var(--foreground-color-c);
 }
 
 .Input {
@@ -86,4 +95,31 @@
 	height: 100%;
 	border-radius: 0.5rem;
 	cursor: pointer;
+}
+
+.Button {
+	--hover-color: var(--background-color-b);
+
+	padding: 0.5rem 1rem;
+	color: var(--foreground-color-a);
+	background-color: var(--background-color-a);
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	font-size: 1rem;
+	font-weight: 500;
+	letter-spacing: 0.05rem;
+	transition: background-color 100ms ease-in-out;
+	cursor: pointer;
+}
+
+.Button:hover, .Button:focus {
+	background-color: var(--hover-color);
+}
+
+.Button-red {
+	--hover-color: var(--red-b);
+
+	color: var(--background-color-a);
+	background-color: var(--red-a);
 }
