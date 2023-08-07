@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import Application from "./application.js";
 import { FileExplorer } from "../../components/applications/file-explorer/FileExplorer.jsx";
 import { MediaViewer } from "../../components/applications/media-viewer/MediaViewer.jsx";
@@ -29,7 +28,7 @@ export default class ApplicationsManager {
 		let application = null;
 
 		this.APPLICATIONS.forEach((app) => {
-			if (app.id == id) {
+			if (app.id === id) {
 				application = app;
 				return;
 			}

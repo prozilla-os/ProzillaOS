@@ -43,7 +43,7 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 	});
 
 	const close = (event) => {
-		event.preventDefault();
+		event?.preventDefault();
 		windowsManager.close(id);
 	};
 
@@ -89,15 +89,18 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 				onClick={focus}
 			>
 				<div className={`${styles.Header} Handle`}>
-					<ReactSVG className={styles["Window-icon"]} src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}/>
+					<ReactSVG
+						className={styles["Window-icon"]}
+						src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}
+					/>
 					<p>{title}</p>
-					<button title="Minimize" onClick={() => setMinimized(!minimized)}>
+					<button title="Minimize" tabIndex={0} onClick={() => setMinimized(!minimized)}>
 						<FontAwesomeIcon icon={faMinus}/>
 					</button>
-					<button title="Maximize" onClick={() => setMaximized(!maximized)}>
+					<button title="Maximize" tabIndex={0} onClick={() => setMaximized(!maximized)}>
 						<FontAwesomeIcon icon={faSquare}/>
 					</button>
-					<button title="Close" id="close-window" onClick={close}>
+					<button title="Close" tabIndex={0} id="close-window" onClick={close}>
 						<FontAwesomeIcon icon={faXmark}/>
 					</button>
 				</div>

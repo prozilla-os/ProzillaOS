@@ -17,6 +17,11 @@ import { useState } from "react";
 export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inputRef }) {
 	const windowsManager = useWindowsManager();
 	const [apps, setApps] = useState(null);
+	const [tabIndex, setTabIndex] = useState(active ? 0 : -1);
+
+	useEffect(() => {
+		setTabIndex(active ? 0 : -1);
+	}, [active]);
 
 	useEffect(() => {
 		if (inputRef.current)
@@ -32,7 +37,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	const onChange = (event) => {
 		const value = event.target.value;
 		setSearchQuery(value);
-	}
+	};
 
 	const classNames = [styles["Container-outer"]];
 	if (active && apps)
@@ -44,6 +49,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 				<input
 					ref={inputRef}
 					className={styles.Input}
+					tabIndex={tabIndex}
 					value={searchQuery}
 					onChange={onChange}
 					spellCheck={false}
@@ -54,6 +60,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 						<button
 							key={id}
 							className={appStyles["App-button"]}
+							tabIndex={tabIndex}
 							onClick={() => {
 								setActive(false);
 								windowsManager.open(id);

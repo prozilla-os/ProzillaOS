@@ -14,7 +14,7 @@
 	cursor: pointer;
 }
 
-.Button:hover {
+.Button:hover, .Button:focus {
 	background-color: rgba(255, 255, 255, 5%);
 }
 
@@ -42,7 +42,7 @@
 	cursor: pointer;
 }
 
-.Dropdown > button:hover {
+.Dropdown > button:hover, .Dropdown > button:focus {
 	background-color: rgba(255, 255, 255, 5%);
 }
 

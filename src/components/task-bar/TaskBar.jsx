@@ -36,6 +36,7 @@ function AppButton({ app }) {
 
 	return (
 		<button
+			tabIndex={0}
 			className={classNames.join(" ")}
 			onClick={() => { windowsManager.open(app.id); }}
 			title={app.name}
@@ -102,7 +103,9 @@ export function Taskbar() {
 			<div className={styles["Menu-icons"]}>
 				<div className={styles["Home-container"]}>
 					<OutsideClickListener onOutsideClick={() => { updateShowHome(false); }}>
-						<button title="Home"
+						<button
+							title="Home"
+							tabIndex={0}
 							className={`${styles["Menu-button"]} ${styles["Home-button"]}`}
 							onClick={() => { updateShowHome(!showHome); }}
 						>
@@ -113,7 +116,9 @@ export function Taskbar() {
 				</div>
 				<div className={styles["Search-container"]}>
 					<OutsideClickListener onOutsideClick={() => { updateShowSearch(false); }}>
-						<button title="Search"
+						<button
+							title="Search"
+							tabIndex={0}
 							className={`${styles["Menu-button"]} ${styles["Search-button"]}`}
 							onClick={() => { updateShowSearch(!showSearch); }}
 						>

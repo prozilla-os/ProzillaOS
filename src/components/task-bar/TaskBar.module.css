@@ -28,7 +28,7 @@
 	z-index: -1;
 }
 
-.Task-bar button:hover {
+.Task-bar button:hover, .Task-bar button:focus {
 	background-color: var(--task-bar-button-hover-color);
 }
 
@@ -95,7 +95,7 @@
 	-webkit-transform: translateX(-50%);
 }
 
-.App-icon:hover::after {
+.App-icon:hover::after, .App-icon:focus::after {
 	width: 100%;
 }
 

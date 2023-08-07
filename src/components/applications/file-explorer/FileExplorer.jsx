@@ -68,51 +68,52 @@ export function FileExplorer({ startPath }) {
 	return (
 		<div className={styles.Container}>
 			<div className={styles.Header}>
-				<button title="Back" className={styles["Icon-button"]}>
+				<button title="Back" tabIndex={0} className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faCaretLeft}/>
 				</button>
-				<button title="Forward" className={styles["Icon-button"]}>
+				<button title="Forward" tabIndex={0} className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faCaretRight}/>
 				</button>
-				<button title="Up" className={styles["Icon-button"]} onClick={() => { changeDirectory(".."); }}>
+				<button title="Up" tabIndex={0} className={styles["Icon-button"]} onClick={() => { changeDirectory(".."); }}>
 					<FontAwesomeIcon icon={faArrowUp}/>
 				</button>
 				<input
 					value={path}
 					type="text"
 					className={styles["Path-input"]}
+					tabIndex={0}
 					onChange={onPathChange}
 					onKeyDown={onKeyDown}
 				/>
-				<button title="Search" className={styles["Icon-button"]}>
+				<button title="Search" tabIndex={0} className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faSearch}/>
 				</button>
-				<button title="Settings" className={styles["Icon-button"]}>
+				<button title="Settings" tabIndex={0} className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faCog}/>
 				</button>
 			</div>
 			<div className={styles.Body}>
 				<div className={styles.Sidebar}>
-					<button title="Home" className={styles["Nav-button"]} onClick={() => { changeDirectory("~"); }}>
+					<button title="Home" tabIndex={0} className={styles["Nav-button"]} onClick={() => { changeDirectory("~"); }}>
 						<FontAwesomeIcon icon={faHouse}/>
 						Home
 					</button>
-					<button title="Desktop" className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Desktop"); }}>
+					<button title="Desktop" tabIndex={0} className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Desktop"); }}>
 						<FontAwesomeIcon icon={faDesktop}/>
 						Desktop
 					</button>
-					<button title="Documents" className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Documents"); }}>
+					<button title="Documents" tabIndex={0} className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Documents"); }}>
 						<FontAwesomeIcon icon={faFileLines}/>
 						Documents
 					</button>
-					<button title="Images" className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Images"); }}>
+					<button title="Images" tabIndex={0} className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Images"); }}>
 						<FontAwesomeIcon icon={faImage}/>
 						Images
 					</button>
 				</div>
 				<div className={styles.Main}>
 					{currentDirectory?.getFiles(showHidden)?.map((file, index) => 
-						<button key={index} title={file.id} className={styles["File-button"]} onClick={(event) => {
+						<button key={index} title={file.id} tabIndex={0} className={styles["File-button"]} onClick={(event) => {
 							event.preventDefault();
 							windowsManager.openFile(file);
 						}}>
@@ -121,7 +122,7 @@ export function FileExplorer({ startPath }) {
 						</button>
 					)}
 					{currentDirectory?.getSubFolders(showHidden)?.map(({ name }, index) => 
-						<button key={index} title={name} className={styles["Folder-button"]} onClick={() => {
+						<button key={index} title={name} tabIndex={0} className={styles["Folder-button"]} onClick={() => {
 							changeDirectory(name);
 						}}>
 							<FontAwesomeIcon icon={faFolder}/>

@@ -46,7 +46,7 @@
 	transition: all 200ms ease-in-out;
 }
 
-.Icon-button:hover::after {
+.Icon-button:hover::after, .Icon-button:focus::after {
 	background-color: rgba(255, 255, 255, 10%);
 	transform: scale(150%);
 }
@@ -102,7 +102,7 @@
 	transition: background-color 100ms ease-in-out;
 }
 
-.Nav-button:hover {
+.Nav-button:hover, .Nav-button:focus {
 	background-color: rgba(255, 255, 255, 10%);
 }
 
@@ -138,7 +138,8 @@
 	transition: background-color 100ms ease-in-out;
 }
 
-.File-button:hover, .Folder-button:hover {
+.File-button:hover, .Folder-button:hover,
+.File-button:focus, .Folder-button:focus {
 	background-color: rgba(255, 255, 255, 10%);
 }
 

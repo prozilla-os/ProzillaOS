@@ -42,7 +42,7 @@ export function Battery() {
 				battery.removeEventListener("levelchange", updatePercentage);
 				// battery.removeEventListener("chargingtimechange", updateChargingTime);
 				// battery.removeEventListener("dischargingtimechange", updateDischargingTime);
-			}
+			};
 		});
 	}, []);
 
@@ -58,7 +58,7 @@ export function Battery() {
 	}
 
 	return (
-		<button className={styles.Button} title="Battery">
+		<button className={styles.Button} title="Battery" tabIndex={0}>
 			{!isCharging
 				? <FontAwesomeIcon className={styles["Charging-indicator"]} icon={faMinus}/>
 				: null

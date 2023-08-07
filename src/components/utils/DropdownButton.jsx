@@ -12,16 +12,20 @@ import { formatShortcut } from "../../features/utils/string.js";
 export function DropdownButton({ label, options, shortcuts }) {
 	const [open, setOpen] = useState(false);
 
+	const tabIndex = () => {
+		return open ? 0 : -1;
+	};
+
 	return (
 		<OutsideClickListener onOutsideClick={() => { setOpen(false); }}>
 			<div className={styles.Container}>
-				<button title={label} className={styles.Button} onClick={() => { setOpen(!open); }}>
+				<button title={label} className={styles.Button} tabIndex={0} onClick={() => { setOpen(!open); }}>
 					{label}
 				</button>
 				{open && options
 					? (<div className={styles.Dropdown}>
 						{Object.entries(options).map(([label, callback]) =>
-							<button title={label} key={label} onClick={() => {
+							<button title={label} key={label} tabIndex={tabIndex} onClick={() => {
 								setOpen(false);
 								callback();
 							}}>

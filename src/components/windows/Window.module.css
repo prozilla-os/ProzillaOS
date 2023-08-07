@@ -92,7 +92,7 @@
 	outline: none;
 }
 
-.Header button:hover {
+.Header button:hover, .Header button:focus {
 	background-color: var(--header-button-hover-color);
 }
 

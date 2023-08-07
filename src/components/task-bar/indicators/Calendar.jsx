@@ -11,7 +11,7 @@ export function Calendar() {
 	}, []);
 
 	return (
-		<button className={styles.Button} title="Date & Time" style={{ userSelect: "none" }}>
+		<button className={styles.Button} title="Date & Time" style={{ userSelect: "none" }} tabIndex={0}>
 			{date.toLocaleString("en-US", {
 				hour: "numeric",
 				minute: "numeric",

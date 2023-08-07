@@ -8,6 +8,7 @@ import { ReactSVG } from "react-svg";
 import { closeTab } from "../../../features/utils/browser.js";
 import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
+import { useEffect, useState } from "react";
 
 /**
  * @param {object} props 
@@ -18,6 +19,11 @@ import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.
 export function HomeMenu({ active, setActive, search }) {
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
+	const [tabIndex, setTabIndex] = useState(active ? 0 : -1);
+
+	useEffect(() => {
+		setTabIndex(active ? 0 : -1);
+	}, [active]);
 
 	const classNames = [styles["Container-outer"]];
 	if (active)
@@ -35,7 +41,7 @@ export function HomeMenu({ active, setActive, search }) {
 				search(event.key);
 			}
 		}
-	}
+	};
 
 	const onKeyUp = (event) => {
 		if (event.key === "Alt" && onlyAltKey) {
@@ -45,7 +51,7 @@ export function HomeMenu({ active, setActive, search }) {
 		} else {
 			onlyAltKey = false;
 		}
-	}
+	};
 
 	useKeyboardListener({ onKeyDown, onKeyUp });
 
@@ -53,16 +59,16 @@ export function HomeMenu({ active, setActive, search }) {
 		<div className={classNames.join(" ")}>
 			<div className={styles["Container-inner"]}>
 				<div className={styles.Buttons}>
-					<button title="Power" onClick={() => { closeTab(); }}>
+					<button title="Power" tabIndex={tabIndex} onClick={() => { closeTab(); }}>
 						<FontAwesomeIcon icon={faPowerOff}/>
 					</button>
-					<button title="Settings" onClick={() => {
+					<button title="Settings" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
 						windowsManager.open("settings");
 					}}>
 						<FontAwesomeIcon icon={faGear}/>
 					</button>
-					<button title="Info" onClick={() => {
+					<button title="Info" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
 						windowsManager.open("text-editor", {
 							mode: "view",
@@ -71,13 +77,13 @@ export function HomeMenu({ active, setActive, search }) {
 					}}>
 						<FontAwesomeIcon icon={faCircleInfo}/>
 					</button>
-					<button title="Images" onClick={() => {
+					<button title="Images" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
 						windowsManager.open("file-explorer", { startPath: "~/Images" });
 					}}>
 						<FontAwesomeIcon icon={faImage}/>
 					</button>
-					<button title="Documents" onClick={() => {
+					<button title="Documents" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
 						windowsManager.open("file-explorer", { startPath: "~/Documents" }); }
 					}>
@@ -91,6 +97,7 @@ export function HomeMenu({ active, setActive, search }) {
 							<button
 								key={id}
 								className={appStyles["App-button"]}
+								tabIndex={tabIndex}
 								onClick={() => {
 									setActive(false);
 									windowsManager.open(id);
