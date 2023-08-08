@@ -72,11 +72,17 @@
 .Input {
 	display: flex;
 	gap: 0.5rem;
+	flex-wrap: wrap;
 }
 
 .Input > label {
 	flex: 1;
 	display: flex;
+}
+
+.Image-select {
+	min-width: 10rem;
+	max-width: 100%;
 }
 
 .Image-select > input {
