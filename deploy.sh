@@ -13,7 +13,7 @@ echo -e "Repository: $REPO_URL\n"
 
 echo $DOMAIN > build/CNAME
 echo Deploying to GitHub Pages...
-if gh-pages --silent -d build -m $COMMIT_MESSAGE -r $REPO_URL ; then
+if gh-pages -d build -m $COMMIT_MESSAGE -r $REPO_URL ; then
 	echo Successfully deployed to https://$DOMAIN/
 else
 	echo Failed to deploy
