@@ -219,7 +219,7 @@ export class VirtualFolder extends VirtualBase {
 			removeFromArray(child, this.subFolders);
 		}
 
-		this.getRoot().saveData();
+		this.getRoot()?.saveData();
 	}
 
 	/**
@@ -284,7 +284,7 @@ export class VirtualFolder extends VirtualBase {
 			item.delete();
 		});
 
-		this.getRoot().saveData();
+		this.getRoot()?.saveData();
 	}
 
 	/**

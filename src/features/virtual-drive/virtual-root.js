@@ -8,6 +8,9 @@ export const WALLPAPER_COUNT = 6;
  * A virtual folder that serves as the root folder
  */
 export class VirtualRoot extends VirtualFolder {
+	/**
+	 * @type {boolean}
+	 */
 	initiated = false;
 
 	constructor() {
@@ -175,6 +178,13 @@ export class VirtualRoot extends VirtualFolder {
 	addShortcut(name, destination) {
 		this.shortcuts[name] = destination;
 		return this;
+	}
+
+	reset() {
+		if (window.confirm("Are you sure you want to reset all your data?")) {
+			StorageManager.clear();
+			window.location.reload(false);
+		}
 	}
 
 	static isValidName(name) {

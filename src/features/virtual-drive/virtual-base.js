@@ -54,8 +54,12 @@ export class VirtualBase extends EventEmitter {
 
 	delete() {
 		const parent = this.parent;
+
+		if (parent == null)
+			return;
+
 		parent.remove?.(this);
-		parent.getRoot().saveData();
+		parent.getRoot()?.saveData();
 	}
 
 	open() {}
@@ -72,7 +76,7 @@ export class VirtualBase extends EventEmitter {
 	 * @returns {VirtualRoot}
 	 */
 	getRoot() {
-		const root = this.root ?? this.parent.getRoot();
+		const root = this.root ?? this.parent?.getRoot();
 
 		if (root === null) {
 			throw new Error("Root not found");
