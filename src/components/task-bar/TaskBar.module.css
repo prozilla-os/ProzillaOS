@@ -48,11 +48,11 @@
 	display: flex;
 	align-items: center;
 	height: 100%;
-	z-index: -1;
 }
 
 .App-icons {
 	overflow-x: auto;
+	pointer-events: none;
 }
 
 .App-icons::-webkit-scrollbar {
@@ -80,6 +80,7 @@
 
 .App-icon {
 	position: relative;
+	pointer-events: all;
 }
 
 .App-icon::after {
