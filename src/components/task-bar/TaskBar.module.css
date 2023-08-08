@@ -105,6 +105,7 @@
 
 .Util-icons {
 	display: flex;
+	gap: 0;
 	justify-content: flex-end;
 	align-items: center;
 	height: 100%;
@@ -115,10 +116,14 @@
 
 .Util-icons > * {
 	height: 100%;
+	width: min-content;
+	margin: 0;
 }
 
 .Util-icons > * > svg {
 	height: 1rem;
+	width: 1rem;
+	aspect-ratio: 1;
 }
 
 #desktop-button {

@@ -1,7 +1,6 @@
 import ApplicationsManager from "../applications/applications.js";
 import { randomRange } from "../math/random.js";
 import Vector2 from "../math/vector2.js";
-
 import { VirtualFile } from "../virtual-drive/virtual-file.js";
 
 export default class WindowsManager {
@@ -112,6 +111,9 @@ export default class WindowsManager {
 		this.updateWindows = updateWindows;
 	}
 
+	/**
+	 * @returns {string[]}
+	 */
 	get windowIds() {
 		return Object.keys(this.windows);
 	}

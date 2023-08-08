@@ -118,6 +118,14 @@ code {
 	font-family: var(--mono-font-family);
 }
 
+button {
+	margin: 0;
+	border: none;
+	outline: none;
+	transition: background-color 100ms ease-in-out;
+	cursor: pointer;
+}
+
 *::selection {
 	color: var(--background-color-c);
 	background-color: var(--grey-b);

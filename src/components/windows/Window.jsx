@@ -25,6 +25,10 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 
+	const [initialised, setInitialised] = useState(false);
+	const [startSize, setStartSize] = useState(size);
+	const [startPosition, setStartPosition] = useState(position);
+
 	const [maximized, setMaximized] = useState(false);
 	const [minimized, setMinimized] = useState(false);
 
@@ -37,10 +41,31 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 		const resizeObserver = new ResizeObserver((event) => {
 			setScreenWidth(event[0].contentBoxSize[0].inlineSize);
 			setScreenHeight(event[0].contentBoxSize[0].blockSize);
+			setInitialised(true);
 		});
 
 		resizeObserver.observe(document.getElementById("root"));
-	});
+	}, []);
+
+	useEffect(() => {
+		if (!initialised)
+			return;
+
+		if (size.x > screenWidth || size.y > screenHeight) {
+			setStartSize(new Vector2(screenWidth - 32, screenHeight - 32));
+			setStartPosition(new Vector2(16, 16));
+			setMaximized(true);
+		} else {
+			if (position.x > screenWidth) {
+				position.x = 0;
+				setStartPosition(position);
+			}
+			if (position.y > screenHeight) {
+				position.y = 0;
+				setStartPosition(position);
+			}
+		}
+	}, [initialised, position, size, screenHeight, screenWidth]);
 
 	const close = (event) => {
 		event?.preventDefault();
@@ -65,13 +90,13 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 		<Draggable
 			axis="both"
 			handle={".Handle"}
-			defaultPosition={{ x: position.x, y: position.y }}
+			defaultPosition={startPosition}
 			position={null}
 			scale={1}
 			bounds={{
 				top: 0,
 				bottom: screenHeight - 55,
-				left: -size.x + 85,
+				left: -startSize.x + 85,
 				right: screenWidth - 5
 			}}
 			cancel="button"
@@ -83,8 +108,8 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 				className={classNames.join(" ")}
 				ref={nodeRef}
 				style={{
-					width: maximized ? null : size.x,
-					height: maximized ? null : size.y,
+					width: maximized ? null : startSize.x,
+					height: maximized ? null : startSize.y,
 				}}
 				onClick={focus}
 			>
