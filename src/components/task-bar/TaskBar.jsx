@@ -36,6 +36,7 @@ function AppButton({ app }) {
 
 	return (
 		<button
+			key={app.id}
 			tabIndex={0}
 			className={classNames.join(" ")}
 			onClick={() => { windowsManager.open(app.id); }}
@@ -134,10 +135,12 @@ export function Taskbar() {
 					</OutsideClickListener>
 				</div>
 			</div>
-			<div className={styles["App-icons"]} onScroll={onUpdate} onResize={onUpdate} ref={ref} style={{ boxShadow }}>
-				{ApplicationsManager.APPLICATIONS.map((app) => 
-					<AppButton app={app} key={app.id}/>
-				)}
+			<div className={styles["App-icons"]} style={{ boxShadow }}>
+				<div className={styles["App-icons-inner"]} onScroll={onUpdate} onResize={onUpdate} ref={ref}>
+					{ApplicationsManager.APPLICATIONS.map((app) => 
+						<AppButton app={app} key={app.id}/>
+					)}
+				</div>
 			</div>
 			<div className={styles["Util-icons"]}>
 				<Battery/>

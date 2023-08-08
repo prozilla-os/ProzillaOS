@@ -28,7 +28,8 @@
 	z-index: -1;
 }
 
-.Task-bar button:hover, .Task-bar button:focus-visible {
+.Task-bar button:hover,
+.Task-bar button:focus-visible {
 	background-color: var(--task-bar-button-hover-color);
 }
 
@@ -44,43 +45,60 @@
 }
 
 .Menu-icons,
-.App-icons {
+.App-icons-inner {
 	display: flex;
 	align-items: center;
 	height: 100%;
 }
 
 .App-icons {
-	overflow-x: auto;
+	position: relative;
+	width: 100%;
+	height: auto;
+	overflow: hidden;
 	pointer-events: none;
 }
 
-.App-icons::-webkit-scrollbar {
+.App-icons-inner {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	pointer-events: auto;
+	z-index: -1;
+}
+
+.App-icons-inner::-webkit-scrollbar {
 	display: none;
 }
 
-.App-icons > *,
+.App-icons-inner > *,
 .Menu-button {
 	height: 100%;
 	padding: 0.75rem;
 }
 
-.App-icons > * > svg,
+.App-icons-inner > * > svg,
 .Menu-button > svg {
 	height: 1.25rem;
 }
 
+.App-icons-inner div,
+.App-icons-inner div > svg,
 .Menu-icons div,
-.Menu-icons div > svg,
-.App-icons div,
-.App-icons div > svg {
+.Menu-icons div > svg {
 	height: 100%;
 	width: auto;
 }
 
 .App-icon {
 	position: relative;
-	pointer-events: all;
+	width: var(--task-bar-height);
+	height: var(--task-bar-height);
+	aspect-ratio: 1;
 }
 
 .App-icon::after {
@@ -96,7 +114,8 @@
 	-webkit-transform: translateX(-50%);
 }
 
-.App-icon:hover::after, .App-icon:focus-visible::after {
+.App-icon:hover::after,
+.App-icon:focus-visible::after {
 	width: 100%;
 }
 
