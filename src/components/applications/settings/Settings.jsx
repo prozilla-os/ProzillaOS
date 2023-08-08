@@ -62,7 +62,12 @@ function StorageTab({ virtualRoot }) {
 		</div>
 		<div className={styles["Option"]}>
 			<p className={styles["Label"]}>Manage data</p>
-			<Button className={`${styles.Button} ${styles["Button-red"]}`}>Reset</Button>
+			<Button
+				className={`${styles.Button} ${styles["Button-red"]}`}
+				onClick={() => { virtualRoot.reset?.(); }}
+			>
+				Reset
+			</Button>
 		</div>
 	</>);
 }

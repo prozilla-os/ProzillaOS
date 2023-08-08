@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./Window.module.css";
-import { faMinus, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { faSquare } from "@fortawesome/free-regular-svg-icons";
+import { faMinus, faWindowMaximize as fasWindowMaximize, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
 import Draggable from "react-draggable";
@@ -10,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import Application from "../../features/applications/application.js";
 
 import Vector2 from "../../features/math/vector2.js";
+import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 
 /**
  * @param {object} props
@@ -123,7 +123,7 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 						<FontAwesomeIcon icon={faMinus}/>
 					</button>
 					<button title="Maximize" tabIndex={0} onClick={() => setMaximized(!maximized)}>
-						<FontAwesomeIcon icon={faSquare}/>
+						<FontAwesomeIcon icon={maximized ? fasWindowMaximize : faWindowMaximize}/>
 					</button>
 					<button title="Close" tabIndex={0} id="close-window" onClick={close}>
 						<FontAwesomeIcon icon={faXmark}/>

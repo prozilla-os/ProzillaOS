@@ -9,6 +9,7 @@ import { closeTab } from "../../../features/utils/browser.js";
 import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 import { useEffect, useState } from "react";
+import Vector2 from "../../../features/math/vector2.js";
 
 /**
  * @param {object} props 
@@ -72,7 +73,8 @@ export function HomeMenu({ active, setActive, search }) {
 						setActive(false);
 						windowsManager.open("text-editor", {
 							mode: "view",
-							file: virtualRoot.navigate("~/Documents").findFile("info", "md")
+							file: virtualRoot.navigate("~/Documents").findFile("info", "md"),
+							size: new Vector2(575, 675),
 						});
 					}}>
 						<FontAwesomeIcon icon={faCircleInfo}/>

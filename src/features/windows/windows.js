@@ -3,6 +3,9 @@ import { randomRange } from "../math/random.js";
 import Vector2 from "../math/vector2.js";
 import { VirtualFile } from "../virtual-drive/virtual-file.js";
 
+export const SCREEN_MARGIN = 32;
+export const TASKBAR_HEIGHT = 48;
+
 export default class WindowsManager {
 	constructor() {
 		this.windows = {};
@@ -12,12 +15,19 @@ export default class WindowsManager {
 	/**
 	 * @param {string} appId 
 	 * @param {object | null} options 
-	 * @returns {object}
+	 * @returns {object | null}
 	 */
 	open(appId, options) {
 		const app = ApplicationsManager.getApplication(appId);
-		const size = new Vector2(700, 400);
-		const position = new Vector2(randomRange(50, 600), randomRange(50, 450));
+
+		if (app == null) {
+			console.warn(`Failed to open app ${appId}: app not found`);
+			return;
+		}
+
+		const size = options?.size ?? app.windowOptions?.size ?? new Vector2(700, 400);
+		const position = new Vector2(randomRange(SCREEN_MARGIN, window.innerWidth - size.x - SCREEN_MARGIN),
+			randomRange(SCREEN_MARGIN, window.innerHeight - size.y - SCREEN_MARGIN - TASKBAR_HEIGHT));
 
 		let id = 0;
 		while (this.windowIds.includes(id.toString())) {
@@ -59,7 +69,7 @@ export default class WindowsManager {
 		windowId = windowId.toString();
 
 		if (!this.windowIds.includes(windowId)) {
-			console.log(`Failed to close window ${windowId}: window not found`);
+			console.warn(`Failed to close window ${windowId}: window not found`);
 			return;
 		}
 		
@@ -77,7 +87,7 @@ export default class WindowsManager {
 		windowId = windowId.toString();
 
 		if (!this.windowIds.includes(windowId)) {
-			console.log(`Failed to focus window ${windowId}: window not found`);
+			console.warn(`Failed to focus window ${windowId}: window not found`);
 			return;
 		}
 

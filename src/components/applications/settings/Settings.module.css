@@ -119,7 +119,7 @@
 	cursor: pointer;
 }
 
-.Button:hover, .Button:focus-visible-visible {
+.Button:hover, .Button:focus-visible {
 	background-color: var(--hover-color);
 }
 

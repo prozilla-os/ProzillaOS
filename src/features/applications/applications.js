@@ -5,24 +5,36 @@ import { WebView } from "../../components/applications/.templates/WebView.jsx";
 import { Terminal } from "../../components/applications/terminal/Terminal.jsx";
 import { TextEditor } from "../../components/applications/text-editor/TextEditor.jsx";
 import { Settings } from "../../components/applications/settings/Settings.jsx";
+import { Calculator } from "../../components/applications/calculator/Calculator.jsx";
+import Vector2 from "../math/vector2.js";
 
 export default class ApplicationsManager {
 	static APPLICATIONS = [
 		new Application("Terminal", "terminal", Terminal),
 		new Application("Settings", "settings", Settings),
 		// new Application("Browser", "browser"),
+		new Application("Calculator", "calculator", Calculator, { size: new Vector2(400, 600) }),
 		new Application("Text Editor", "text-editor", TextEditor),
 		// new Application("Code Editor", "code-editor"),
 		new Application("File Explorer", "file-explorer", FileExplorer),
 		new Application("Media Viewer", "media-viewer", MediaViewer),
-		new Application("Wordle", "wordle", WebView, { source: "https://prozilla.dev/wordle" }),
-		new Application("Balls", "balls", WebView, { source: "https://prozilla.dev/ball-maze" }),
-		new Application("Minesweeper", "minesweeper", WebView, { source: "https://prozilla.dev/minesweeper" }),
+		new Application("Wordle", "wordle", WebView, {
+			source: "https://prozilla.dev/wordle",
+			size: new Vector2(400, 650)
+		}),
+		new Application("Balls", "balls", WebView, {
+			source: "https://prozilla.dev/ball-maze",
+			size: new Vector2(600, 600)
+		}),
+		new Application("Minesweeper", "minesweeper", WebView, {
+			source: "https://prozilla.dev/minesweeper",
+			size: new Vector2(500, 580)
+		}),
 	];
 
 	/**
 	 * @param {string} id 
-	 * @returns {Application}
+	 * @returns {Application | null}
 	 */
 	static getApplication(id) {
 		let application = null;
