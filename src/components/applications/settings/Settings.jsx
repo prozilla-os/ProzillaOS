@@ -9,6 +9,7 @@ import { VirtualRoot } from "../../../features/virtual-drive/virtual-root.js";
 import { StorageManager } from "../../../features/storage/storage.js";
 import { round } from "../../../features/math/round.js";
 import { Button } from "../../utils/Button.jsx";
+import { ProgressBar } from "../../utils/ProgressBar.jsx";
 
 /**
  * @param {object} props 
@@ -58,6 +59,7 @@ function StorageTab({ virtualRoot }) {
 	return (<>
 		<div className={styles["Option"]}>
 			<p className={styles["Label"]}>Virtual Drive ({round(maxKB, 1)} KB)</p>
+			<ProgressBar fillPercentage={usedKB / maxKB * 100} className={styles["Progress-bar"]}/>
 			<p>{round(usedKB, 1)} KB used - {round(freeKB, 1)} KB free</p>
 		</div>
 		<div className={styles["Option"]}>

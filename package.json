@@ -42,6 +42,9 @@
 		"rules": {
 			"indent": ["error", "tab", { "SwitchCase": 1 }],
 			"semi": "error",
+			"no-var": "error",
+			"prefer-const": "error",
+			"quotes": ["error", "double"],
 
 			"jsdoc/no-undefined-types": "warn",
 			"jsdoc/require-param": "warn",

@@ -29,6 +29,10 @@
 	text-align: start;
 }
 
+.Input {
+	height: 1.25rem;
+}
+
 .Input input {
 	width: 100%;
 	height: 100%;

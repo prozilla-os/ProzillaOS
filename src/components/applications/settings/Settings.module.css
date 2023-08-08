@@ -17,7 +17,7 @@
 	height: 100%;
 	max-width: 50%;
 	padding: 0.5rem;
-	background-color: var(--background-color-b);
+	background-color: var(--background-color-ba);
 	resize: horizontal;
 	overflow: hidden;
 }
@@ -128,4 +128,8 @@
 
 	color: var(--background-color-a);
 	background-color: var(--red-a);
+}
+
+.Progress-bar {
+	width: 15rem;
 }

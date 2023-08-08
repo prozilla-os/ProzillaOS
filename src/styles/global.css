@@ -20,7 +20,9 @@
 	--dark-grey-a: hsl(211, 14%, 40%);
 	--dark-grey-b: hsl(212, 29%, 19%);
 	--dark-grey-c: hsl(212, 29%, 15%);
+	--dark-grey-ca: hsl(212, 27%, 12%);
 	--dark-grey-d: hsl(212, 14%, 10%);
+	--dark-grey-e: hsl(212, 12%, 8%);
 
 	--foreground-color-a: #fff;
 	--foreground-color-b: var(--grey-a);
@@ -28,7 +30,9 @@
 
 	--background-color-a: var(--dark-grey-b);
 	--background-color-b: var(--dark-grey-c);
+	--background-color-ba: var(--dark-grey-ca);
 	--background-color-c: var(--dark-grey-d);
+	--background-color-d: var(--dark-grey-e);
 
 	--scrollbar-color: hsla(211, 29%, 40%, 25%);
 
