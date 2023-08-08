@@ -53,7 +53,6 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 					value={searchQuery}
 					onChange={onChange}
 					spellCheck={false}
-					autoFocus
 				/>
 				<div className={appStyles["App-list"]}>
 					{apps?.map(({ name, id }) => 

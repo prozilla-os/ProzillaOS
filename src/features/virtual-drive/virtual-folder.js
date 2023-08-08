@@ -160,53 +160,6 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Adds a file at a destination
-	 * @deprecated
-	 * @param {string} destination 
-	 */
-	addFile(destination) {
-		const folderNames = destination.split("/");
-		const fileExtendedName = folderNames.pop().split();
-		const fileExtendedNameSegments = fileExtendedName.split(".");
-
-		const fileName = fileExtendedNameSegments[0];
-		const fileExtension = fileExtendedNameSegments.length > 1 ? fileExtendedNameSegments[1] : "txt";
-
-		// To do: check if file already exists
-
-		const file = new VirtualFile(fileName, fileExtension);
-
-		const folders = this.addFolder(folderNames.join("/"));
-
-		const parent = folders[folders.length - 1];
-		parent.files.push(file);
-		file.parent = parent;
-
-		this.getRoot().saveData();
-	}
-
-	/**
-	 * Adds a folder at a destination
-	 * @deprecated
-	 * @param {string} destination 
-	 */
-	addFolder(destination) {
-		if (destination.endsWith("/"))
-			destination = destination.slice(0, -1);
-
-		const folderNames = destination.split("/");
-
-		let currentFolder = this;
-		folderNames.forEach((folderName) => {
-			if (!currentFolder.hasFolder(folderName)) {
-				currentFolder.createFolder(folderName);
-			}
-		});
-
-		this.getRoot().saveData();
-	}
-
-	/**
 	 * Removes a file or folder from this folder
 	 * @param {VirtualFile|VirtualFolder} child 
 	 */

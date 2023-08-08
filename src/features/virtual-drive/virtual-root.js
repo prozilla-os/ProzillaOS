@@ -91,7 +91,7 @@ export class VirtualRoot extends VirtualFolder {
 	}
 
 	loadData() {
-		let data = StorageManager.load("data");
+		const data = StorageManager.load("data");
 		if (data == null)
 			return;
 
