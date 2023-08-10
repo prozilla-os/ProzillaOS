@@ -8,10 +8,18 @@ ProzillaOS is designed in Figma by Prozilla. You can view the design file [here]
 
 <img src="../../public/media/screenshots/Screenshot1.png"/>
 
-## UI Icons
+### Font
 
-ProzillaOS uses [FontAwesome](https://fontawesome.com/) icons in its UI.
+The font used by ProzillaOS is [Poppins](https://fonts.google.com/specimen/Poppins) from Google Fonts by  Indian Type Foundry, Jonny Pinhorn.
 
-## App Icons
+### UI Icons
 
-The apps use icons that are mostly modified versions of FontAwesome icons, designed by Prozilla.
+ProzillaOS uses [Font Awesome](https://fontawesome.com/) icons in its UI.
+
+### App Icons
+
+The apps use icons that are either modified versions of FontAwesome icons or originals, designed by Prozilla.
+
+### Color Palette
+
+The color palette is the [Canadian Palette](https://flatuicolors.com/palette/ca) from Flat UI Colors 2 by Ahmet Sulek.
