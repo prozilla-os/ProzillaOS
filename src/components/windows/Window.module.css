@@ -1,5 +1,5 @@
 :root {
-	--header-height: 1.75rem;
+	--header-height: 2.5rem;
 	--header-button-hover-color: rgba(255, 255, 255, 5%);
 }
 
@@ -38,11 +38,14 @@
 }
 
 .Header {
+	--window-icon-size: 1.5rem;
+	--window-icon-margin: 0.75rem;
+
 	display: flex;
 	align-items: center;
 	height: var(--header-height);
 	padding: 0.25rem;
-	padding-left: 0.5rem;
+	padding-left: var(--window-icon-margin);
 	padding-right: 0;
 	background-color: var(--background-color-b);
 	cursor: grab;
@@ -56,8 +59,8 @@
 }
 
 .Window-icon {
-	height: 1rem;
-	margin-right: 0.4rem;
+	height: var(--window-icon-size);
+	margin-right: calc(var(--window-icon-margin) - 0.1rem);
 }
 
 .Window-icon > div {
@@ -75,23 +78,30 @@
 	overflow: hidden;
 }
 
-.Header > button {
-	margin: 0;
-	padding: 0.5rem;
-	height: var(--header-height);
+.Header-button {
 	display: flex;
 	align-items: center;
-}
-
-.Header button {
+	justify-content: center;
+	height: var(--header-height);
+	margin: 0;
+	padding: 0.75rem;
 	color: var(--foreground-color-a);
 	background: none;
 	cursor: pointer;
 	border: none;
 	outline: none;
+	aspect-ratio: 1;
 }
 
-.Header button:hover, .Header button:focus-visible {
+.Header-button > svg {
+	height: 100%;
+}
+
+.Exit-button {
+	--header-button-hover-color: var(--red-b);
+}
+
+.Header-button:hover, .Header-button:focus-visible {
 	background-color: var(--header-button-hover-color);
 }
 

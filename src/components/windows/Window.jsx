@@ -124,17 +124,24 @@ export const Window = memo(function Window({ id, app, size, position, focused = 
 						src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}
 					/>
 					<p className={utilStyles["Text-semibold"]}>{title}</p>
-					<button title="Minimize" tabIndex={0} onClick={() => setMinimized(!minimized)}>
+					<button aria-label="Minimize" className={styles["Header-button"]} tabIndex={0} id="minimize-window"
+						onClick={() => {
+							setMinimized(!minimized);
+						}}
+					>
 						<FontAwesomeIcon icon={faMinus}/>
 					</button>
-					<button title="Maximize" tabIndex={0} id="maximize-window" onClick={(event) => {
-						event.preventDefault();
-						setMaximized(!maximized);
-						focus(event, true);
-					}}>
+					<button aria-label="Maximize" className={styles["Header-button"]} tabIndex={0} id="maximize-window"
+						onClick={(event) => {
+							event.preventDefault();
+							setMaximized(!maximized);
+							focus(event, true);
+						}}
+					>
 						<FontAwesomeIcon icon={maximized ? fasWindowMaximize : faWindowMaximize}/>
 					</button>
-					<button title="Close" tabIndex={0} id="close-window" onClick={close}>
+					<button aria-label="Close" className={`${styles["Header-button"]} ${styles["Exit-button"]}`} tabIndex={0} id="close-window"
+						onClick={close}>
 						<FontAwesomeIcon icon={faXmark}/>
 					</button>
 				</div>
