@@ -47,13 +47,13 @@ export function Battery() {
 	}, []);
 
 	let icon = faBatteryFull;
-	if (percentage < 25) {
+	if (percentage < 10) {
 		icon = faBatteryEmpty;
-	} else if (percentage < 50) {
+	} else if (percentage < 35) {
 		icon = faBatteryQuarter;
-	} else if (percentage < 75) {
+	} else if (percentage < 65) {
 		icon = faBatteryHalf;
-	} else if (percentage < 100) {
+	} else if (percentage < 90) {
 		icon = faBatteryThreeQuarters;
 	}
 
