@@ -145,7 +145,7 @@ export const Window = memo(function Window({ id, app, size, position, focused = 
 						<FontAwesomeIcon icon={faXmark}/>
 					</button>
 				</div>
-				<div className={styles["Window-content"]} onClick={(event) => { console.log(event); }}>
+				<div className={styles["Window-content"]}>
 					<app.WindowContent {...options} app={app} setTitle={setTitle} close={close} focus={focus}/>
 				</div>
 			</div>
