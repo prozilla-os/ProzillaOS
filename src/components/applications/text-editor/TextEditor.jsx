@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-
 import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
 import styles from "./TextEditor.module.css";
 import { HeaderMenu } from "../.common/HeaderMenu.jsx";
 import Markdown from "markdown-to-jsx";
+import Application from "../../../features/applications/application.js";
 
-const defaultZoom = 16;
-const zoomSpeed = 4;
+const DEFAULT_ZOOM = 16;
+const ZOOM_FACTOR = 4;
 
 /**
  * @param {object} props
@@ -14,13 +14,14 @@ const zoomSpeed = 4;
  * @param {Function} props.setTitle
  * @param {Function} props.close
  * @param {string} props.mode
+ * @param {Application} props.app
  */
-export function TextEditor({ file, setTitle, close, mode }) {
+export function TextEditor({ file, setTitle, close, mode, app }) {
 	const [currentFile, setCurrentFile] = useState(file);
 	const [currentMode, setCurrentMode] = useState(mode);
 	const [content, setContent] = useState(file?.content ?? "");
 	const [unsavedChanges, setUnsavedChanges] = useState(file == null);
-	const [zoom, setZoom] = useState(defaultZoom);
+	const [zoom, setZoom] = useState(DEFAULT_ZOOM);
 
 	useEffect(() => {
 		(async () => {
@@ -51,8 +52,8 @@ export function TextEditor({ file, setTitle, close, mode }) {
 		if (currentMode === "view")
 			label += " (preview)";
 
-		setTitle(`${label} - Text Editor`);
-	}, [currentFile, setTitle, unsavedChanges, currentMode]);
+		setTitle(`${label} - ${app.name}`);
+	}, [currentFile, setTitle, unsavedChanges, currentMode, app.name]);
 
 	const newText = () => {
 		setCurrentFile(null);
@@ -101,13 +102,13 @@ export function TextEditor({ file, setTitle, close, mode }) {
 							setCurrentMode(currentMode === "view" ? "edit" : "view");
 						},
 						"Zoom In": () => {
-							setZoom(zoom + zoomSpeed);
+							setZoom(zoom + ZOOM_FACTOR);
 						},
 						"Zoom Out": () => {
-							setZoom(zoom - zoomSpeed);
+							setZoom(zoom - ZOOM_FACTOR);
 						},
 						"Reset Zoom": () => {
-							setZoom(defaultZoom);
+							setZoom(DEFAULT_ZOOM);
 						}
 					}
 				}}

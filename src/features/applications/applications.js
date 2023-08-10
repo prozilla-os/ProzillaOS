@@ -14,10 +14,10 @@ export default class ApplicationsManager {
 		new Application("Settings", "settings", Settings),
 		// new Application("Browser", "browser"),
 		// new Application("Calculator", "calculator", Calculator, { size: new Vector2(400, 600) }),
-		new Application("Text Editor", "text-editor", TextEditor),
+		new Application("Notes", "text-editor", TextEditor),
 		// new Application("Code Editor", "code-editor"),
-		new Application("File Explorer", "file-explorer", FileExplorer),
-		new Application("Media Viewer", "media-viewer", MediaViewer),
+		new Application("Files", "file-explorer", FileExplorer),
+		new Application("Photos", "media-viewer", MediaViewer),
 		new Application("Wordle", "wordle", WebView, {
 			source: "https://prozilla.dev/wordle",
 			size: new Vector2(400, 650)

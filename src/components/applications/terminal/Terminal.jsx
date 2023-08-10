@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Terminal.module.css";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 import { Command } from "../../../features/applications/terminal/commands.js";
@@ -43,14 +43,16 @@ function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown }) {
 	);
 }
 
-export function Terminal() {
+export function Terminal({ setTitle }) {
 	const [inputKey, setInputKey] = useState(0);
 	const [inputValue, setInputValue] = useState("");
 	const [history, setHistory] = useState([]);
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate("~"));
 
-	// console.log(currentDirectory);
+	useEffect(() => {
+		setTitle(`${USERNAME}@${HOSTNAME}: ${currentDirectory.root ? "/" : currentDirectory.path}`);
+	}, [currentDirectory.path, currentDirectory.root, setTitle]);
 
 	const prefix = `${USERNAME}@${HOSTNAME}:${currentDirectory.root ? "/" : currentDirectory.path}$ `;
 

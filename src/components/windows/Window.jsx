@@ -139,7 +139,7 @@ export const Window = memo(function Window({ id, app, size, position, focused = 
 					</button>
 				</div>
 				<div className={styles["Window-content"]} onClick={(event) => { console.log(event); }}>
-					<app.WindowContent {...options} setTitle={setTitle} close={close} focus={focus}/>
+					<app.WindowContent {...options} app={app} setTitle={setTitle} close={close} focus={focus}/>
 				</div>
 			</div>
 		</Draggable>
