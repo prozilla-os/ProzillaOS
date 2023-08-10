@@ -59,7 +59,7 @@
 	padding-bottom: 0;
 }
 
-.Apps h2 {
+.Apps > h1 {
 	width: 100%;
 	text-align: left;
 	font-size: 1rem;

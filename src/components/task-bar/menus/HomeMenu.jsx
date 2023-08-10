@@ -10,6 +10,7 @@ import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 import { useEffect, useState } from "react";
 import Vector2 from "../../../features/math/vector2.js";
+import utilStyles from "../../../styles/utils.module.css";
 
 /**
  * @param {object} props 
@@ -93,7 +94,7 @@ export function HomeMenu({ active, setActive, search }) {
 					</button>
 				</div>
 				<div className={styles.Apps}>
-					<h2>Apps</h2>
+					<h1 className={utilStyles["Text-bold"]}>ProzillaOS</h1>
 					<div className={appStyles["App-list"]}>
 						{ApplicationsManager.APPLICATIONS.map(({ name, id }) => 
 							<button
@@ -107,7 +108,7 @@ export function HomeMenu({ active, setActive, search }) {
 								title={name}
 							>
 								<ReactSVG src={`${process.env.PUBLIC_URL}/media/applications/icons/${id}.svg`}/>
-								<p>{name}</p>
+								<h2 className={utilStyles["Text-regular"]}>{name}</h2>
 							</button>
 						)}
 					</div>

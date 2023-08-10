@@ -8,6 +8,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import Application from "../../features/applications/application.js";
 import Vector2 from "../../features/math/vector2.js";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
+import utilStyles from "../../styles/utils.module.css";
 
 /**
  * @param {object} props
@@ -122,7 +123,7 @@ export const Window = memo(function Window({ id, app, size, position, focused = 
 						className={styles["Window-icon"]}
 						src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}
 					/>
-					<p>{title}</p>
+					<p className={utilStyles["Text-semibold"]}>{title}</p>
 					<button title="Minimize" tabIndex={0} onClick={() => setMinimized(!minimized)}>
 						<FontAwesomeIcon icon={faMinus}/>
 					</button>

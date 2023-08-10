@@ -126,7 +126,7 @@ export function TextEditor({ file, setTitle, close, mode }) {
 			/>
 			{currentMode === "view"
 				? <div className={styles.View}>
-					{file.extension === "md"
+					{file?.extension === "md"
 						? <Markdown options={{ overrides: {
 							a: {
 								props: {

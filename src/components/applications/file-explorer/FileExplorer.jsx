@@ -3,9 +3,9 @@ import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFile, faFileLines, faFolder, faHouse, faImage, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
-
 import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
 import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
+import utilStyles from "../../../styles/utils.module.css";
 
 /**
  * @param {object} props
@@ -97,37 +97,53 @@ export function FileExplorer({ startPath }) {
 			</div>
 			<div className={styles.Body}>
 				<div className={styles.Sidebar}>
-					<button title="Home" tabIndex={0} className={styles["Nav-button"]} onClick={() => { changeDirectory("~"); }}>
+					<button
+						tabIndex={0}
+						className={`${styles["Nav-button"]} ${utilStyles["Text-semibold"]}`}
+						onClick={() => { changeDirectory("~"); }}>
 						<FontAwesomeIcon icon={faHouse}/>
 						Home
 					</button>
-					<button title="Desktop" tabIndex={0} className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Desktop"); }}>
+					<button
+						tabIndex={0}
+						className={`${styles["Nav-button"]} ${utilStyles["Text-semibold"]}`}
+						onClick={() => { changeDirectory("~/Desktop"); }}>
 						<FontAwesomeIcon icon={faDesktop}/>
 						Desktop
 					</button>
-					<button title="Documents" tabIndex={0} className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Documents"); }}>
+					<button
+						tabIndex={0}
+						className={`${styles["Nav-button"]} ${utilStyles["Text-semibold"]}`}
+						onClick={() => { changeDirectory("~/Documents"); }}>
 						<FontAwesomeIcon icon={faFileLines}/>
 						Documents
 					</button>
-					<button title="Images" tabIndex={0} className={styles["Nav-button"]} onClick={() => { changeDirectory("~/Images"); }}>
+					<button
+						tabIndex={0}
+						className={`${styles["Nav-button"]} ${utilStyles["Text-semibold"]}`}
+						onClick={() => { changeDirectory("~/Images"); }}>
 						<FontAwesomeIcon icon={faImage}/>
 						Images
 					</button>
 				</div>
 				<div className={styles.Main}>
 					{currentDirectory?.getFiles(showHidden)?.map((file, index) => 
-						<button key={index} title={file.id} tabIndex={0} className={styles["File-button"]} onClick={(event) => {
-							event.preventDefault();
-							windowsManager.openFile(file);
-						}}>
+						<button key={index} title={file.id} tabIndex={0} className={styles["File-button"]}
+							onClick={(event) => {
+								event.preventDefault();
+								windowsManager.openFile(file);
+							}}
+						>
 							<FilePreview file={file}/>
 							<p>{file.id}</p>
 						</button>
 					)}
 					{currentDirectory?.getSubFolders(showHidden)?.map(({ name }, index) => 
-						<button key={index} title={name} tabIndex={0} className={styles["Folder-button"]} onClick={() => {
-							changeDirectory(name);
-						}}>
+						<button key={index} title={name} tabIndex={0} className={styles["Folder-button"]}
+							onClick={() => {
+								changeDirectory(name);
+							}}
+						>
 							<FontAwesomeIcon icon={faFolder}/>
 							<p>{name}</p>
 						</button>

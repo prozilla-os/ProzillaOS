@@ -18,7 +18,6 @@
 	box-shadow: calc(var(--shadow-size) * -1) var(--shadow-size) calc(var(--shadow-size) * var(--shadow-spread)) 0px rgba(0, 0, 0, var(--shadow-opacity));
 	resize: both;
 	overflow: hidden;
-	/* animation: pop-in 200ms ease-in-out; */
 }
 
 @keyframes pop-in {

@@ -22,7 +22,7 @@
 	height: 2rem;
 }
 
-.App-button > p {
+.App-button > p, .App-button > h2 {
 	margin: 0;
 	white-space: nowrap;
 }

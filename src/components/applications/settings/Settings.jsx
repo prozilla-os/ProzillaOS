@@ -10,6 +10,7 @@ import { StorageManager } from "../../../features/storage/storage.js";
 import { round } from "../../../features/math/round.js";
 import { Button } from "../../utils/Button.jsx";
 import { ProgressBar } from "../../utils/ProgressBar.jsx";
+import utilStyles from "../../../styles/utils.module.css";
 
 /**
  * @param {object} props 
@@ -60,12 +61,12 @@ function StorageTab({ virtualRoot }) {
 		<div className={styles["Option"]}>
 			<p className={styles["Label"]}>Virtual Drive ({round(maxKB, 1)} KB)</p>
 			<ProgressBar fillPercentage={usedKB / maxKB * 100} className={styles["Progress-bar"]}/>
-			<p>{round(usedKB, 1)} KB used - {round(freeKB, 1)} KB free</p>
+			<p className={utilStyles["Text-light"]}>{round(usedKB, 1)} KB used - {round(freeKB, 1)} KB free</p>
 		</div>
 		<div className={styles["Option"]}>
 			<p className={styles["Label"]}>Manage data</p>
 			<Button
-				className={`${styles.Button} ${styles["Button-red"]}`}
+				className={`${styles.Button} ${styles["Button-red"]} ${utilStyles["Text-bold"]}`}
 				onClick={() => { virtualRoot.reset?.(); }}
 			>
 				Reset
@@ -82,11 +83,11 @@ export function Settings() {
 	return (
 		<div className={styles.Container}>
 			<div className={styles.Tabs}>
-				<button title="Appearance" className={styles["Tab-button"]} onClick={() => { setTabIndex(0); }}>
+				<button title="Appearance" className={`${styles["Tab-button"]} ${utilStyles["Text-semibold"]}`} onClick={() => { setTabIndex(0); }}>
 					<FontAwesomeIcon icon={faPalette}/>
 					Appearance
 				</button>
-				<button title="Storage" className={styles["Tab-button"]} onClick={() => { setTabIndex(1); }}>
+				<button title="Storage" className={`${styles["Tab-button"]} ${utilStyles["Text-semibold"]}`} onClick={() => { setTabIndex(1); }}>
 					<FontAwesomeIcon icon={faHardDrive}/>
 					Storage
 				</button>
