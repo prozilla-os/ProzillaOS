@@ -13,7 +13,7 @@ export default class ApplicationsManager {
 		new Application("Terminal", "terminal", Terminal),
 		new Application("Settings", "settings", Settings),
 		// new Application("Browser", "browser"),
-		new Application("Calculator", "calculator", Calculator, { size: new Vector2(400, 600) }),
+		// new Application("Calculator", "calculator", Calculator, { size: new Vector2(400, 600) }),
 		new Application("Text Editor", "text-editor", TextEditor),
 		// new Application("Code Editor", "code-editor"),
 		new Application("File Explorer", "file-explorer", FileExplorer),

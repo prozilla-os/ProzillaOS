@@ -4,10 +4,8 @@ import { faMinus, faWindowMaximize as fasWindowMaximize, faXmark } from "@fortaw
 import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
 import Draggable from "react-draggable";
-import { useEffect, useRef, useState } from "react";
-
+import { memo, useEffect, useRef, useState } from "react";
 import Application from "../../features/applications/application.js";
-
 import Vector2 from "../../features/math/vector2.js";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 
@@ -21,7 +19,7 @@ import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
  * @param {Function} props.onInteract
  * @param {object} props.options
  */
-export function Window({ id, app, size, position, focused = false, onInteract, options }) {
+export const Window = memo(function Window({ id, app, size, position, focused = false, onInteract, options }) {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 
@@ -72,12 +70,15 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 		windowsManager.close(id);
 	};
 
-	const focus = (event) => {
+	const focus = (event, force = false) => {
+		if (force)
+			return onInteract();
+
 		if (event.defaultPrevented)
 			return;
 
-		if ((event.target.closest(".Handle") == null || event.target.closest("button") == null))
-			onInteract(event);
+		if (event.target?.closest?.(".Handle") == null || event.target?.closest?.("button") == null)
+			onInteract();
 	};
 
 	const classNames = [styles["Window-container"]];
@@ -86,8 +87,11 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 	if (minimized)
 		classNames.push(styles.Minimized);
 
+	// console.log(`Rendering window: ${id}`);
+
 	return (
 		<Draggable
+			key={id}
 			axis="both"
 			handle={".Handle"}
 			defaultPosition={startPosition}
@@ -122,17 +126,21 @@ export function Window({ id, app, size, position, focused = false, onInteract, o
 					<button title="Minimize" tabIndex={0} onClick={() => setMinimized(!minimized)}>
 						<FontAwesomeIcon icon={faMinus}/>
 					</button>
-					<button title="Maximize" tabIndex={0} onClick={() => setMaximized(!maximized)}>
+					<button title="Maximize" tabIndex={0} id="maximize-window" onClick={(event) => {
+						event.preventDefault();
+						setMaximized(!maximized);
+						focus(event, true);
+					}}>
 						<FontAwesomeIcon icon={maximized ? fasWindowMaximize : faWindowMaximize}/>
 					</button>
 					<button title="Close" tabIndex={0} id="close-window" onClick={close}>
 						<FontAwesomeIcon icon={faXmark}/>
 					</button>
 				</div>
-				<div className={styles["Window-content"]}>
-					<app.WindowContent {...options} setTitle={setTitle} close={close}/>
+				<div className={styles["Window-content"]} onClick={(event) => { console.log(event); }}>
+					<app.WindowContent {...options} setTitle={setTitle} close={close} focus={focus}/>
 				</div>
 			</div>
 		</Draggable>
 	);
-}
+});

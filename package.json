@@ -18,7 +18,6 @@
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-draggable": "^4.4.5",
-		"react-iframe": "^1.8.5",
 		"react-scripts": "5.0.1",
 		"react-svg": "^16.1.18",
 		"web-vitals": "^2.1.4"
@@ -40,20 +39,31 @@
 			"jsdoc"
 		],
 		"rules": {
-			"indent": ["error", "tab", { "SwitchCase": 1 }],
+			"indent": [
+				"error",
+				"tab",
+				{
+					"SwitchCase": 1
+				}
+			],
 			"semi": "error",
 			"no-var": "error",
 			"prefer-const": "error",
-			"quotes": ["error", "double"],
-
+			"quotes": [
+				"error",
+				"double"
+			],
 			"jsdoc/no-undefined-types": "warn",
 			"jsdoc/require-param": "warn",
 			"jsdoc/check-tag-names": "warn",
-			"jsdoc/check-types": ["warn", {}],
+			"jsdoc/check-types": [
+				"warn",
+				{}
+			],
 			"jsdoc/check-values": "warn",
 			"jsdoc/empty-tags": "warn",
 			"jsdoc/check-param-names": "warn",
-       		"jsdoc/check-property-names": "warn",
+			"jsdoc/check-property-names": "warn",
 			"jsdoc/check-access": "warn",
 			"jsdoc/check-alignment": "warn",
 			"jsdoc/multiline-blocks": "warn",
@@ -63,10 +73,10 @@
 		"settings": {
 			"jsdoc": {
 				"preferredTypes": {
-					"Object":"object",
-					"object.<>":"Object<>",
-					"Object.<>":"Object<>",
-					"object<>":"Object<>"
+					"Object": "object",
+					"object.<>": "Object<>",
+					"Object.<>": "Object<>",
+					"object<>": "Object<>"
 				}
 			}
 		}

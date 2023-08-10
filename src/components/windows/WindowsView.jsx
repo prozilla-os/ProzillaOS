@@ -1,17 +1,23 @@
 import { Window } from "./Window.jsx";
 import { useWindows } from "../../hooks/windows/WindowsContext.js";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
+import { useEffect, useState } from "react";
 
 export function WindowsView() {
 	const windows = useWindows();
 	const windowsManager = useWindowsManager();
+	const [sortedWindows, setSortedWindows] = useState([]);
+
+	useEffect(() => {
+		setSortedWindows([...windows].sort((windowA, windowB) =>
+			windowA.lastInteraction - windowB.lastInteraction
+		));
+	}, [windows]);
 
 	// TO DO: prevent windows from being rerendered when order is changed
 
 	return (<div>
-		{windows.sort((windowA, windowB) =>
-			windowA.lastInteraction - windowB.lastInteraction
-		).map(({ id, app, size, position, options }) => 
+		{sortedWindows.map(({ id, app, size, position, options }) => 
 			<Window
 				onInteract={() => { windowsManager.focus(id); }}
 				id={id}
