@@ -5,6 +5,7 @@ import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.
 import { ReactSVG } from "react-svg";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
 
 /**
  * @param {object} props 
@@ -42,6 +43,15 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	const classNames = [styles["Container-outer"]];
 	if (active && apps)
 		classNames.push(styles.Active);
+
+	const onKeyDown = (event) => {
+		if (event.key === "f" && event.ctrlKey) {
+			event.preventDefault();
+			setActive(true);
+		}
+	};
+
+	useKeyboardListener({ onKeyDown });
 
 	return (
 		<div className={classNames.join(" ")}>

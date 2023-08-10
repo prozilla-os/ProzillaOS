@@ -27,8 +27,7 @@ function AppButton({ app }) {
 
 	useEffect(() => {
 		setActive(windowsManager.isAppActive(app.id));
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [windows]);
+	}, [app.id, windows, windowsManager]);
 
 	const classNames = [styles["App-icon"]];
 	if (active)

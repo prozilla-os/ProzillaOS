@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
 import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
 import styles from "./MediaViewer.module.css";
@@ -7,9 +8,15 @@ import styles from "./MediaViewer.module.css";
  * @param {object} props
  * @param {VirtualFile} props.file
  * @param {Function} props.close
+ * @param {Function} props.setTitle
  */
-export function MediaViewer({ file, close }) {
+export function MediaViewer({ file, close, setTitle }) {
 	const windowsManager = useWindowsManager();
+
+	useEffect(() => {
+		if (file != null)
+			setTitle(file.id);
+	}, [file, setTitle]);
 
 	if (file == null) {
 		setTimeout(() => {

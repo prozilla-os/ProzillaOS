@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Settings.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHardDrive, faPalette } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faHardDrive, faPalette } from "@fortawesome/free-solid-svg-icons";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 import { useSettings } from "../../../hooks/settings/SettingsContext.js";
 import { SettingsManager } from "../../../features/settings/settings.js";
@@ -11,6 +11,8 @@ import { round } from "../../../features/math/round.js";
 import { Button } from "../../utils/Button.jsx";
 import { ProgressBar } from "../../utils/ProgressBar.jsx";
 import utilStyles from "../../../styles/utils.module.css";
+import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
+import Vector2 from "../../../features/math/vector2.js";
 
 /**
  * @param {object} props 
@@ -75,21 +77,57 @@ function StorageTab({ virtualRoot }) {
 	</>);
 }
 
+function AboutTab({ windowsManager, virtualRoot }) {
+	return (<>
+		<div className={styles["Option"]}>
+			<p className={styles["Label"]}>About ProzillaOS</p>
+			<p className={utilStyles["Text-light"]}>ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows made with React.js by Prozilla.</p>
+			<Button
+				className={`${styles.Button} ${utilStyles["Text-bold"]}`}
+				onClick={(event) => {
+					event.preventDefault();
+					windowsManager.open("text-editor", {
+						mode: "view",
+						file: virtualRoot.navigate("~/Documents").findFile("info", "md"),
+						size: new Vector2(575, 675),
+					});
+				}}
+			>
+				Open info.md
+			</Button>
+			<Button
+				className={`${styles.Button} ${utilStyles["Text-bold"]}`}
+				onClick={(event) => {
+					event.preventDefault();
+					window.open("https://github.com/Prozilla/prozilla-os");
+				}}
+			>
+				View source
+			</Button>
+		</div>
+	</>);
+}
+
 export function Settings() {
 	const [tabIndex, setTabIndex] = useState(0);
 	const virtualRoot = useVirtualRoot();
 	const settingsManager = useSettings();
+	const windowsManager = useWindowsManager();
 
 	return (
 		<div className={styles.Container}>
 			<div className={styles.Tabs}>
-				<button title="Appearance" className={`${styles["Tab-button"]} ${utilStyles["Text-semibold"]}`} onClick={() => { setTabIndex(0); }}>
+				<button title="Appearance" className={styles["Tab-button"]} onClick={() => { setTabIndex(0); }}>
 					<FontAwesomeIcon icon={faPalette}/>
-					Appearance
+					<p className={utilStyles["Text-semibold"]}>Appearance</p>
 				</button>
-				<button title="Storage" className={`${styles["Tab-button"]} ${utilStyles["Text-semibold"]}`} onClick={() => { setTabIndex(1); }}>
+				<button title="Storage" className={styles["Tab-button"]} onClick={() => { setTabIndex(1); }}>
 					<FontAwesomeIcon icon={faHardDrive}/>
-					Storage
+					<p className={utilStyles["Text-semibold"]}>Storage</p>
+				</button>
+				<button title="Storage" className={styles["Tab-button"]} onClick={() => { setTabIndex(2); }}>
+					<FontAwesomeIcon icon={faCircleInfo}/>
+					<p className={utilStyles["Text-semibold"]}>About</p>
 				</button>
 			</div>
 			<div className={styles["Tab-panel"]}>
@@ -97,7 +135,9 @@ export function Settings() {
 					? <AppearanceTab virtualRoot={virtualRoot} settingsManager={settingsManager}/>
 					: tabIndex === 1
 						? <StorageTab virtualRoot={virtualRoot}/>
-						: null
+						: tabIndex === 2
+							? <AboutTab virtualRoot={virtualRoot} windowsManager={windowsManager}/>
+							: null
 				}
 			</div>
 		</div>

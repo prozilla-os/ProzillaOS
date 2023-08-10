@@ -10,7 +10,7 @@ import Vector2 from "../math/vector2.js";
 
 export default class ApplicationsManager {
 	static APPLICATIONS = [
-		new Application("Terminal", "terminal", Terminal),
+		new Application("Commands", "terminal", Terminal),
 		new Application("Settings", "settings", Settings),
 		// new Application("Browser", "browser"),
 		// new Application("Calculator", "calculator", Calculator, { size: new Vector2(400, 600) }),
