@@ -2,7 +2,7 @@ import { StorageManager } from "../storage/storage.js";
 import { VirtualFile } from "./virtual-file.js";
 import { VirtualFolder } from "./virtual-folder.js";
 
-export const WALLPAPER_COUNT = 6;
+export const WALLPAPER_COUNT = 7;
 
 /**
  * A virtual folder that serves as the root folder
