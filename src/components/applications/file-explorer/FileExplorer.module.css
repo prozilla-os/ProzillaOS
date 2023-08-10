@@ -144,6 +144,9 @@
 }
 
 .File-button-preview {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	height: 100%;
 	overflow: hidden;
 }
@@ -152,6 +155,12 @@
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
+}
+
+.File-button-preview > img {
+	height: auto;
+	max-height: 100%;
+	border-radius: 0.5rem;
 }
 
 .File-button svg, .Folder-button svg {
