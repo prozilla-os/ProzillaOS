@@ -84,6 +84,7 @@ export function Taskbar() {
 			
 			if (inputRef.current) {
 				inputRef.current.focus();
+				window.scrollTo(0, document.body.scrollHeight);
 			}
 		} else {
 			setTimeout(() => {

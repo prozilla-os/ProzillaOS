@@ -25,8 +25,10 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	}, [active]);
 
 	useEffect(() => {
-		if (inputRef.current)
+		if (inputRef.current) {
 			inputRef.current.focus();
+			window.scrollTo(0, document.body.scrollHeight);
+		}
 	}, [inputRef]);
 
 	useEffect(() => {
