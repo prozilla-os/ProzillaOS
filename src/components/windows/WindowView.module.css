@@ -4,10 +4,6 @@
 }
 
 .Window-container {
-	--shadow-size: 0.3rem;
-	--shadow-opacity: 35%;
-	--shadow-spread: 3;
-
 	position: absolute;
 	display: flex;
 	flex-direction: column;
@@ -15,7 +11,7 @@
 	min-height: 150px;
 	background-color: var(--background-color-c);
 	border-radius: 0.5rem;
-	box-shadow: calc(var(--shadow-size) * -1) var(--shadow-size) calc(var(--shadow-size) * var(--shadow-spread)) 0px rgba(0, 0, 0, var(--shadow-opacity));
+	box-shadow: var(--window-box-shadow);
 	resize: both;
 	overflow: hidden;
 }

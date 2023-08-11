@@ -1,5 +1,6 @@
 .Container {
 	position: relative;
+	height: 100%;
 }
 
 .Button {
@@ -24,7 +25,10 @@
 	position: absolute;
 	top: 100%;
 	left: 0;
+	padding: 0.35rem;
 	background-color: var(--background-color-b);
+	border-bottom-left-radius: 0.5rem;
+	border-bottom-right-radius: 0.5rem;
 }
 
 .Dropdown > button {
@@ -32,11 +36,12 @@
 	gap: 0.75rem;
 	justify-content: space-between;
 	width: 100%;
-	padding: 0.125rem 0.4rem;
+	padding: 0.25rem 0.5rem;
 	background: none;
 	border: none;
+	border-radius: 0.5rem;
 	outline: none;
-	font-size: 0.8rem;
+	font-size: 0.85rem;
 	text-align: start;
 	white-space: nowrap;
 	cursor: pointer;

@@ -6,4 +6,9 @@
 	height: 100%;
 	text-align: center;
 	overflow: hidden;
+	pointer-events: none;
+}
+
+.App > * {
+	pointer-events: auto;
 }

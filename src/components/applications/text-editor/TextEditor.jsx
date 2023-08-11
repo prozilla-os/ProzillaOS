@@ -93,7 +93,7 @@ export function TextEditor({ file, setTitle, close, mode, app }) {
 						"New": newText,
 						"Save": saveText,
 						// "Save As": saveTextAs,
-						"Exit": () => {
+						"Quit": () => {
 							close();
 						},
 					},
@@ -116,7 +116,7 @@ export function TextEditor({ file, setTitle, close, mode, app }) {
 					"File": {
 						"New": ["Control", "e"],
 						"Save": ["Control", "s"],
-						"Exit": ["Control", "x"],
+						"Quit": ["Control", "q"],
 					},
 					"View": {
 						"Zoom In": ["Control", "+"],

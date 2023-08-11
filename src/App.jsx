@@ -5,8 +5,22 @@ import { WindowsView } from "./components/windows/WindowsView.jsx";
 import { VirtualRootProvider } from "./hooks/virtual-drive/VirtualRootContext.js";
 import { Desktop } from "./components/desktop/Desktop.jsx";
 import { SettingsProvider } from "./hooks/settings/SettingsContext.js";
+import { ModalsView } from "./components/modals/ModalsView.jsx";
+import { useEffect } from "react";
 
 function App() {
+	useEffect(() => {
+		const onContextMenu = (event) => {
+			event.preventDefault();
+		};
+
+		document.addEventListener("contextmenu", onContextMenu);
+
+		return () => {
+			document.removeEventListener("contextmenu", onContextMenu);
+		};
+	}, []);
+
 	return (
 		<VirtualRootProvider>
 			<WindowsManagerProvider>
@@ -14,6 +28,7 @@ function App() {
 					<div className={styles.App}>
 						<Taskbar/>
 						<WindowsView/>
+						<ModalsView/>
 						<Desktop/>
 					</div>
 				</SettingsProvider>
