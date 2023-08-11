@@ -46,7 +46,7 @@ export default class ModalsManager {
 			return;
 		}
 
-		console.log(`Closing window ${modalId}`);
+		console.log(`Closing modal ${modalId}`);
 		delete this.modals[modalId];
 
 		if (sendModalsUpdate)

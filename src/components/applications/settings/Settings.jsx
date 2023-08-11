@@ -108,8 +108,11 @@ function AboutTab({ windowsManager, virtualRoot }) {
 	</>);
 }
 
-export function Settings() {
-	const [tabIndex, setTabIndex] = useState(0);
+/**
+ * @param {number} param0 
+ */
+export function Settings({ initialTabIndex }) {
+	const [tabIndex, setTabIndex] = useState(initialTabIndex ?? 0);
 	const virtualRoot = useVirtualRoot();
 	const settingsManager = useSettings();
 	const windowsManager = useWindowsManager();
