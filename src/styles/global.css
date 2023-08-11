@@ -37,11 +37,19 @@
 	--background-color-d: var(--dark-grey-e);
 
 	--scrollbar-color: hsla(211, 29%, 40%, 25%);
+
+	--window-shadow-size: 0.3rem;
+	--window-shadow-opacity: 35%;
+	--window-shadow-spread: 3;
+	--window-box-shadow: calc(var(--window-shadow-size) * -1) var(--window-shadow-size)
+		calc(var(--window-shadow-size) * var(--window-shadow-spread)) 0px
+		rgba(0, 0, 0, var(--window-shadow-opacity));
 }
 
 html, body, #root {
 	width: 100%;
 	height: 100%;
+	pointer-events: none;
 }
 
 html {

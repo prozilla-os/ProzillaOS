@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./Window.module.css";
+import styles from "./WindowView.module.css";
 import { faMinus, faWindowMaximize as fasWindowMaximize, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
@@ -20,7 +20,7 @@ import utilStyles from "../../styles/utils.module.css";
  * @param {Function} props.onInteract
  * @param {object} props.options
  */
-export const Window = memo(function Window({ id, app, size, position, focused = false, onInteract, options }) {
+export const WindowView = memo(function Window({ id, app, size, position, focused = false, onInteract, options }) {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 

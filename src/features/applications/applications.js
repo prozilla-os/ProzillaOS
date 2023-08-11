@@ -5,7 +5,7 @@ import { WebView } from "../../components/applications/.templates/WebView.jsx";
 import { Terminal } from "../../components/applications/terminal/Terminal.jsx";
 import { TextEditor } from "../../components/applications/text-editor/TextEditor.jsx";
 import { Settings } from "../../components/applications/settings/Settings.jsx";
-import { Calculator } from "../../components/applications/calculator/Calculator.jsx";
+// import { Calculator } from "../../components/applications/calculator/Calculator.jsx";
 import Vector2 from "../math/vector2.js";
 
 export default class ApplicationsManager {

@@ -1,7 +1,7 @@
-import { Window } from "./Window.jsx";
 import { useWindows } from "../../hooks/windows/WindowsContext.js";
 import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
 import { useEffect, useState } from "react";
+import { WindowView } from "./WindowView.jsx";
 
 export function WindowsView() {
 	const windows = useWindows();
@@ -18,7 +18,7 @@ export function WindowsView() {
 
 	return (<div>
 		{sortedWindows.map(({ id, app, size, position, options }) => 
-			<Window
+			<WindowView
 				onInteract={() => { windowsManager.focus(id); }}
 				id={id}
 				key={id}
