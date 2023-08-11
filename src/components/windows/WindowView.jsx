@@ -9,6 +9,9 @@ import Application from "../../features/applications/application.js";
 import Vector2 from "../../features/math/vector2.js";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import utilStyles from "../../styles/utils.module.css";
+import { useModals } from "../../hooks/modals/Modals.js";
+import { ModalsView } from "../modals/ModalsView.jsx";
+import { useContextMenu } from "../../hooks/modals/ContextMenu.js";
 
 /**
  * @param {object} props
@@ -23,6 +26,7 @@ import utilStyles from "../../styles/utils.module.css";
 export const WindowView = memo(function Window({ id, app, size, position, focused = false, onInteract, options }) {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
+	const [modalsManager, modals] = useModals();
 
 	const [initialised, setInitialised] = useState(false);
 	const [startSize, setStartSize] = useState(size);
@@ -35,6 +39,18 @@ export const WindowView = memo(function Window({ id, app, size, position, focuse
 	const [screenHeight, setScreenHeight] = useState(100);
 
 	const [title, setTitle] = useState(app.name);
+
+	const { onContextMenu } = useContextMenu({
+		modalsManager,
+		options: {
+			"Maximize": () => { setMaximized(!maximized); },
+			"Close": () => { close(); }
+		},
+		shortcuts: {
+			"Maximize": ["F11"],
+			"Close": ["Control", "q"]
+		}
+	});
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver((event) => {
@@ -88,9 +104,8 @@ export const WindowView = memo(function Window({ id, app, size, position, focuse
 	if (minimized)
 		classNames.push(styles.Minimized);
 
-	// console.log(`Rendering window: ${id}`);
-
-	return (
+	return (<>
+		<ModalsView modalsManager={modalsManager} modals={modals} style={{ zIndex: 1 }}/>
 		<Draggable
 			key={id}
 			axis="both"
@@ -118,7 +133,7 @@ export const WindowView = memo(function Window({ id, app, size, position, focuse
 				}}
 				onClick={focus}
 			>
-				<div className={`${styles.Header} Handle`}>
+				<div className={`${styles.Header} Handle`} onContextMenu={onContextMenu}>
 					<ReactSVG
 						className={styles["Window-icon"]}
 						src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}
@@ -150,5 +165,5 @@ export const WindowView = memo(function Window({ id, app, size, position, focuse
 				</div>
 			</div>
 		</Draggable>
-	);
+	</>);
 });

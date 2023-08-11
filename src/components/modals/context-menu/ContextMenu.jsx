@@ -11,7 +11,7 @@ import styles from "./ContextMenu.module.css";
 export function ContextMenu({ modal, options, shortcuts }) {
 	return (<div className={styles.Container}>
 		{Object.entries(options).map(([label, callback]) =>
-			<button title={label} className={styles.Button} key={label} tabIndex={0} onClick={() => {
+			<button className={styles.Button} key={label} tabIndex={0} onClick={() => {
 				modal.close();
 				callback();
 			}}>

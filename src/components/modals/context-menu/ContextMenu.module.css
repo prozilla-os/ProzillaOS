@@ -1,6 +1,7 @@
 .Container {
 	padding: 0.5rem;
 	border-top-left-radius: 0;
+	background-color: var(--background-color-b);
 }
 
 .Button {
@@ -23,7 +24,7 @@
 	background-color: rgba(255, 255, 255, 5%);
 }
 
-.Label {
+.Label, .Shortcut {
 	margin: 0;
 }
 
