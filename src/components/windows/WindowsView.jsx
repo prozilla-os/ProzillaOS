@@ -17,9 +17,10 @@ export function WindowsView() {
 	// TO DO: prevent windows from being rerendered when order is changed
 
 	return (<div>
-		{sortedWindows.map(({ id, app, size, position, options }) => 
+		{sortedWindows.map(({ id, app, size, position, options }, index) => 
 			<WindowView
 				onInteract={() => { windowsManager.focus(id); }}
+				active={index === 0}
 				id={id}
 				key={id}
 				app={app}

@@ -22,8 +22,9 @@ import { useContextMenu } from "../../hooks/modals/ContextMenu.js";
  * @param {boolean} props.focused 
  * @param {Function} props.onInteract
  * @param {object} props.options
+ * @param {boolean} props.active
  */
-export const WindowView = memo(function Window({ id, app, size, position, focused = false, onInteract, options }) {
+export const WindowView = memo(function Window({ id, app, size, position, onInteract, options, active }) {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 	const [modalsManager, modals] = useModals();
@@ -161,7 +162,7 @@ export const WindowView = memo(function Window({ id, app, size, position, focuse
 					</button>
 				</div>
 				<div className={styles["Window-content"]}>
-					<app.WindowContent {...options} app={app} setTitle={setTitle} close={close} focus={focus}/>
+					<app.WindowContent {...options} app={app} setTitle={setTitle} close={close} focus={focus} active={active}/>
 				</div>
 			</div>
 		</Draggable>

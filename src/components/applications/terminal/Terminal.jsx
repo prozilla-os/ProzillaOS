@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Terminal.module.css";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
 import { Command } from "../../../features/applications/terminal/commands.js";
+import { clamp } from "../../../features/math/clamp.js";
 
 const USERNAME = "user";
 const HOSTNAME = "prozilla-os";
@@ -27,22 +28,45 @@ function OutputLine({ text }) {
  * @param {Function} props.onChange
  * @param {Function} props.onKeyUp
  * @param {Function} props.onKeyDown
+ * @param {import("react").MutableRefObject} props.inputRef
  */
-function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown }) {
+function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown, inputRef }) {
+	const [cursorPosition, setCursorPosition] = useState(0);
+
+	const checkCursorPosition = () => {
+		setCursorPosition(inputRef.current?.selectionStart);
+	};
+
 	return (
 		<span className={styles.Input}>
 			{prefix && <p className={[styles.Prefix]}>{prefix}</p>}
-			<label htmlFor="input"/>
-			<input
-				id="input"
-				value={value}
-				onChange={onChange}
-				onKeyUp={onKeyUp}
-				onKeyDown={onKeyDown}
-				spellCheck={false}
-				autoComplete="off"
-				autoFocus
-			/>
+			<span className={styles["Input-container"]} style={{ "--cursor-offset": cursorPosition }}>
+				<span aria-hidden="true">{value}</span>
+				<input
+					id="input"
+					value={value}
+					onChange={(event) => {
+						onChange(event);
+						checkCursorPosition();
+					}}
+					ref={inputRef}
+					onKeyUp={onKeyUp}
+					onKeyDown={(event) => {
+						onKeyDown(event);
+						checkCursorPosition();
+					}}
+					onClick={checkCursorPosition}
+					onTouchEnd={checkCursorPosition}
+					onSelect={checkCursorPosition}
+					onCut={checkCursorPosition}
+					onCopy={checkCursorPosition}
+					onPaste={checkCursorPosition}
+					spellCheck={false}
+					autoComplete="off"
+					autoFocus
+					size=""
+				/>
+			</span>
 		</span>
 	);
 }
@@ -53,6 +77,8 @@ export function Terminal({ setTitle }) {
 	const [history, setHistory] = useState([]);
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate("~"));
+	const inputRef = useRef(null);
+	const [historyIndex, setHistoryIndex] = useState(0);
 
 	useEffect(() => {
 		setTitle(`${USERNAME}@${HOSTNAME}: ${currentDirectory.root ? "/" : currentDirectory.path}`);
@@ -76,7 +102,8 @@ export function Terminal({ setTitle }) {
 	const submitInput = (value) => {
 		pushHistory({
 			text: prefix + value,
-			isInput: true
+			isInput: true,
+			value
 		});
 
 		setInputValue("");
@@ -119,13 +146,38 @@ export function Terminal({ setTitle }) {
 		}
 	};
 
+	const updateHistoryIndex = (delta) => {
+		const inputHistory = history.filter(({ isInput }) => isInput);
+		const index = clamp(historyIndex + delta, 0, inputHistory.length);
+
+		if (index === historyIndex) {
+			if (delta < 0) {
+				setInputValue("");
+			}
+
+			return;
+		}
+
+		if (index === 0) {
+			setInputValue("");
+		} else {
+			setInputValue(inputHistory[inputHistory.length - index].value);
+		}
+
+		setHistoryIndex(index);
+	};
+
 	const onKeyDown = (event) => {
 		const value = event.target.value;
+		const { key } = event;
 
-		// console.log(event);
-		if (event.key === "Enter") {
+		if (key === "Enter") {
 			submitInput(value);
 			setInputKey((previousKey) =>  previousKey + 1);
+		} else if (key === "ArrowUp") {
+			updateHistoryIndex(1);
+		} else if (key === "ArrowDown") {
+			updateHistoryIndex(-1);
 		}
 	};
 
@@ -169,6 +221,12 @@ export function Terminal({ setTitle }) {
 			className={styles.Terminal}
 			onMouseDown={onMouseDown}
 			onContextMenu={onContextMenu}
+			onClick={(event) => {
+				if (window.getSelection().toString() === "") {
+					event.preventDefault();
+					inputRef.current?.focus();
+				}
+			}}
 		>
 			{displayHistory()}
 			<InputLine
@@ -177,6 +235,8 @@ export function Terminal({ setTitle }) {
 				prefix={prefix}
 				onKeyDown={onKeyDown}
 				onChange={onChange}
+				inputRef={inputRef}
+				history={history}
 			/>
 		</div>
 	);

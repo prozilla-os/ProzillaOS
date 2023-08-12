@@ -1,13 +1,18 @@
 .Terminal {
+	--char-width: 0.626rem;
+
 	display: flex;
 	flex-direction: column;
+	align-items: flex-start;
 	padding: 0.5rem;
-	overflow-y: auto;
+	overflow: auto;
 	height: 100%;
+	cursor: text;
 }
 
 .Terminal * {
 	font-family: var(--mono-font-family);
+	letter-spacing: 0.01rem;
 }
 
 .Terminal p {
@@ -27,21 +32,54 @@
 	line-height: 1.25rem;
 	font-size: 1rem;
 	text-align: start;
-	white-space: break-spaces;
+	white-space: pre;
 }
 
 .Input {
 	height: 1.25rem;
 }
 
-.Input input {
-	width: 100%;
+.Input-container {
+	--cursor-width: var(--char-width);
+	--cursor-offset: 0;
+
+	position: relative;
 	height: 100%;
+	width: fit-content;
+	margin-left: var(--char-width);
+}
+
+.Input-container::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: calc(var(--cursor-offset) * var(--char-width) * 0.9746124950079872);
+	width: var(--cursor-width);
+	height: 100%;
+	background-color: var(--foreground-color-a);
+	animation: blink 1000ms step-end infinite;
+}
+
+.Input-container input {
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	width: 100%;
+	padding: 0;
 	background: none;
 	border: none;
 	outline: none;
 	font-size: inherit;
-	margin-left: 0.45rem;
+	caret-color: transparent;
+}
+
+@keyframes blink {
+	from, to {
+		background-color: transparent;
+	}
+	50% {
+		background-color: var(--foreground-color-a);
+	}
 }
 
 .Input label {

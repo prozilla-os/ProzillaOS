@@ -2,23 +2,22 @@ import { START_DATE } from "../../../index.js";
 import { formatRelativeTime } from "../../utils/date.js";
 import ApplicationsManager from "../applications.js";
 
-export const ASCII_LOGO = `                        
+export const ASCII_LOGO = `
                 :.            
                -==.           
              .=====:          
      ---::..:=======-.        
      :===+=----------::..     
       =+=---------------:..   
-      --------------=-----:.  
-  .:-+=---=*#*#*==*#*##=---.  
-  :==+---=#%+=+%#+##**+=---:. 
-    .=---=#%+=+%*+*++*%+---:. 
-     ==---=*###*==*###*=---.  
+      --------------------:.  
+  .:-+=----*###*--*####=---.  
+  :==+----#%+-+%#-##%*+----:. 
+    .=----#%+-+%#-*+-%#+---:. 
+     ==----*###*--*###*----.  
     ==+-------------------:.  
     ...::---------------:.    
          .::---------::..     
-            ....::...         
-`;
+            ....::...         `;
 
 export class Command {
 	/**
@@ -149,9 +148,10 @@ export class Command {
 		}),
 		new Command("neofetch", (args, { username, hostname }) => {
 			const leftColumn = ASCII_LOGO.split("\n");
+			const rightColumnWidth = username.length + hostname.length + 1;
 			const rightColumn = [
 				`${username}@${hostname}`,
-				"-".repeat(username.length + hostname.length + 1),
+				"-".repeat(rightColumnWidth),
 				"OS: ProzillaOS",
 				`UPTIME: ${formatRelativeTime(START_DATE, 2, false)}`,
 				`RESOLUTION: ${window.innerWidth}x${window.innerHeight}`,
@@ -161,11 +161,14 @@ export class Command {
 			];
 
 			const combined = [];
-			for (let i = 1; i < leftColumn.length - 1; i++) {
+			for (let i = 1; i < leftColumn.length; i++) {
 				let line = `${leftColumn[i]}  `;
 
 				if (i <= rightColumn.length) {
 					line += rightColumn[i - 1];
+				} else {
+					// This fixes a weird display bug on Safari mobile
+					line += " ".repeat(rightColumnWidth);
 				}
 
 				combined.push(line);
