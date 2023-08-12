@@ -1,3 +1,25 @@
+import { START_DATE } from "../../../index.js";
+import { formatRelativeTime } from "../../utils/date.js";
+import ApplicationsManager from "../applications.js";
+
+export const ASCII_LOGO = `                        
+                :.            
+               -==.           
+             .=====:          
+     ---::..:=======-.        
+     :===+=----------::..     
+      =+=---------------:..   
+      --------------=-----:.  
+  .:-+=---=*#*#*==*#*##=---.  
+  :==+---=#%+=+%#+##**+=---:. 
+    .=---=#%+=+%*+*++*%+---:. 
+     ==---=*###*==*###*=---.  
+    ==+-------------------:.  
+    ...::---------------:.    
+         .::---------::..     
+            ....::...         
+`;
+
 export class Command {
 	/**
 	 * @param {string} name 
@@ -124,6 +146,32 @@ export class Command {
 		}),
 		new Command("hostname", (args, { hostname }) => {
 			return hostname;
+		}),
+		new Command("neofetch", (args, { username, hostname }) => {
+			const leftColumn = ASCII_LOGO.split("\n");
+			const rightColumn = [
+				`${username}@${hostname}`,
+				"-".repeat(username.length + hostname.length + 1),
+				"OS: ProzillaOS",
+				`UPTIME: ${formatRelativeTime(START_DATE, 2, false)}`,
+				`RESOLUTION: ${window.innerWidth}x${window.innerHeight}`,
+				"THEME: default",
+				"ICONS: Font Awesome",
+				`TERMINAL: ${ApplicationsManager.getApplication("terminal")?.name ?? "Unknown"}`,
+			];
+
+			const combined = [];
+			for (let i = 1; i < leftColumn.length - 1; i++) {
+				let line = `${leftColumn[i]}  `;
+
+				if (i <= rightColumn.length) {
+					line += rightColumn[i - 1];
+				}
+
+				combined.push(line);
+			}
+
+			return combined.join("\n");
 		}),
 	];
 }

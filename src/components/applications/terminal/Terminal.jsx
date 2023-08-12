@@ -11,9 +11,13 @@ const HOSTNAME = "prozilla-os";
  * @param {string} props.text
  */
 function OutputLine({ text }) {
-	return (
-		<p className={styles.Output}>{text}</p>
-	);
+	const lines = text?.split("\n");
+
+	return (<>
+		{lines.map((line, index) =>
+			<p key={index} className={styles.Output}>{line}</p>
+		)}
+	</>);
 }
 
 /**

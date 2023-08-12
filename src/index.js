@@ -3,6 +3,9 @@ import ReactDOM from "react-dom/client";
 import "./styles/global.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { ASCII_LOGO } from "./features/applications/terminal/commands.js";
+
+export const START_DATE = new Date();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -10,6 +13,8 @@ root.render(
 		<App/>
 	</React.StrictMode>
 );
+
+console.log(ASCII_LOGO);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

@@ -53,6 +53,7 @@
 				"error",
 				"double"
 			],
+			"default-case": "off",
 			"jsdoc/no-undefined-types": "warn",
 			"jsdoc/require-param": "warn",
 			"jsdoc/check-tag-names": "warn",

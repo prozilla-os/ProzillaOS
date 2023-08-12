@@ -27,6 +27,7 @@
 	line-height: 1.25rem;
 	font-size: 1rem;
 	text-align: start;
+	white-space: break-spaces;
 }
 
 .Input {
