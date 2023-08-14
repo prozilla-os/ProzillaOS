@@ -61,6 +61,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 				<input
 					ref={inputRef}
 					className={styles.Input}
+					aria-label="Search query"
 					tabIndex={tabIndex}
 					value={searchQuery}
 					onChange={onChange}

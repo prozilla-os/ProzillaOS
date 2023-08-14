@@ -45,6 +45,7 @@ function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown, inputRef }) {
 				<input
 					id="input"
 					value={value}
+					aria-label="Command input"
 					onChange={(event) => {
 						onChange(event);
 						checkCursorPosition();

@@ -94,6 +94,7 @@ export function FileExplorer({ startPath }) {
 				<input
 					value={path}
 					type="text"
+					aria-label="Path"
 					className={styles["Path-input"]}
 					tabIndex={0}
 					onChange={onPathChange}

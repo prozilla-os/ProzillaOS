@@ -9,51 +9,60 @@
 	font-family: "Poppins";
 	src: url("/public/media/fonts/Poppins/Poppins-Thin.ttf");
 	font-weight: 100;
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Poppins";
 	src: url("/public/media/fonts/Poppins/Poppins-ExtraLight.ttf");
 	font-weight: 200;
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Poppins";
 	src: url("/public/media/fonts/Poppins/Poppins-Light.ttf");
 	font-weight: 300;
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Poppins";
 	src: url("/public/media/fonts/Poppins/Poppins-Regular.ttf");
 	font-weight: 400;
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Poppins";
 	src: url("/public/media/fonts/Poppins/Poppins-SemiBold.ttf");
 	font-weight: 500;
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Poppins";
 	src: url("/public/media/fonts/Poppins/Poppins-Bold.ttf");
 	font-weight: 600;
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Poppins";
 	src: url("/public/media/fonts/Poppins/Poppins-ExtraBold.ttf");
 	font-weight: 700;
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Poppins";
 	src: url("/public/media/fonts/Poppins/Poppins-Black.ttf");
 	font-weight: 800;
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Roboto Mono";
 	src: url("/public/media/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf");
+	font-display: swap;
 }

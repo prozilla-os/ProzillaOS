@@ -41,6 +41,7 @@ function AppearanceTab({ virtualRoot, settingsManager }) {
 						<input
 							type="radio"
 							value={source}
+							aria-label="Wallpaper image"
 							checked={source === wallpaper ? "checked" : ""}
 							onChange={onChange}
 						/>
