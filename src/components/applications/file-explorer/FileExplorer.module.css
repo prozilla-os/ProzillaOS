@@ -103,7 +103,7 @@
 }
 
 .Nav-button:hover, .Nav-button:focus-visible {
-	background-color: rgba(255, 255, 255, 10%);
+	background-color: hsla(var(--background-color-a-hsl), 75%);
 }
 
 .Nav-button svg {
@@ -140,7 +140,7 @@
 
 .File-button:hover, .Folder-button:hover,
 .File-button:focus-visible, .Folder-button:focus-visible {
-	background-color: rgba(255, 255, 255, 10%);
+	background-color: hsla(var(--background-color-a-hsl), 35%);
 }
 
 .File-button-preview {

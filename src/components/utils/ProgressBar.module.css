@@ -1,6 +1,7 @@
 .Container {
 	position: relative;
-	width: 100%;
+	width: 15rem;
+	max-width: 100%;
 	min-height: 2rem;
 	max-height: 100%;
 	background-color: var(--background-color-d);
@@ -13,6 +14,7 @@
 	left: 0;
 	top: 0;
 	width: var(--fill);
+	min-width: 1px;
 	height: 100%;
 	background-color: var(--blue-a);
 }

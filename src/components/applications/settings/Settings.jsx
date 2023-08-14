@@ -60,10 +60,13 @@ function StorageTab({ virtualRoot }) {
 	const freeKB = maxKB - usedKB;
 
 	return (<>
-		<div className={styles["Option"]}>
+		<div className={`${styles["Option"]} ${styles["Progress-bar-container"]}`}>
 			<p className={styles["Label"]}>Virtual Drive ({round(maxKB, 1)} KB)</p>
 			<ProgressBar fillPercentage={usedKB / maxKB * 100} className={styles["Progress-bar"]}/>
-			<p className={utilStyles["Text-light"]}>{round(usedKB, 1)} KB used - {round(freeKB, 1)} KB free</p>
+			<span className={styles["Progress-bar-labels"]}>
+				<p className={utilStyles["Text-light"]}>{round(usedKB, 1)} KB used</p>
+				<p className={utilStyles["Text-light"]}>{round(freeKB, 1)} KB free</p>
+			</span>
 		</div>
 		<div className={styles["Option"]}>
 			<p className={styles["Label"]}>Manage data</p>
@@ -82,28 +85,30 @@ function AboutTab({ windowsManager, virtualRoot }) {
 		<div className={styles["Option"]}>
 			<p className={styles["Label"]}>About ProzillaOS</p>
 			<p className={utilStyles["Text-light"]}>ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows made with React.js by Prozilla.</p>
-			<Button
-				className={`${styles.Button} ${utilStyles["Text-bold"]}`}
-				onClick={(event) => {
-					event.preventDefault();
-					windowsManager.open("text-editor", {
-						mode: "view",
-						file: virtualRoot.navigate("~/Documents").findFile("info", "md"),
-						size: new Vector2(575, 675),
-					});
-				}}
-			>
-				Open info.md
-			</Button>
-			<Button
-				className={`${styles.Button} ${utilStyles["Text-bold"]}`}
-				onClick={(event) => {
-					event.preventDefault();
-					window.open("https://github.com/Prozilla/prozilla-os");
-				}}
-			>
-				View source
-			</Button>
+			<div className={styles["Button-group"]}>
+				<Button
+					className={`${styles.Button} ${utilStyles["Text-bold"]}`}
+					onClick={(event) => {
+						event.preventDefault();
+						windowsManager.open("text-editor", {
+							mode: "view",
+							file: virtualRoot.navigate("~/Documents").findFile("info", "md"),
+							size: new Vector2(575, 675),
+						});
+					}}
+				>
+					Open info.md
+				</Button>
+				<Button
+					className={`${styles.Button} ${utilStyles["Text-bold"]}`}
+					onClick={(event) => {
+						event.preventDefault();
+						window.open("https://github.com/Prozilla/prozilla-os");
+					}}
+				>
+					View source
+				</Button>
+			</div>
 		</div>
 	</>);
 }
@@ -117,18 +122,27 @@ export function Settings({ initialTabIndex }) {
 	const settingsManager = useSettings();
 	const windowsManager = useWindowsManager();
 
+	const getClassName = (index) => {
+		const classNames = [styles["Tab-button"]];
+
+		if (index === tabIndex)
+			classNames.push(styles["Active-tab"]);
+		
+		return classNames.join(" ");
+	};
+
 	return (
 		<div className={styles.Container}>
 			<div className={styles.Tabs}>
-				<button title="Appearance" className={styles["Tab-button"]} onClick={() => { setTabIndex(0); }}>
+				<button title="Appearance" className={getClassName(0)} onClick={() => { setTabIndex(0); }}>
 					<FontAwesomeIcon icon={faPalette}/>
 					<p className={utilStyles["Text-semibold"]}>Appearance</p>
 				</button>
-				<button title="Storage" className={styles["Tab-button"]} onClick={() => { setTabIndex(1); }}>
+				<button title="Storage" className={getClassName(1)} onClick={() => { setTabIndex(1); }}>
 					<FontAwesomeIcon icon={faHardDrive}/>
 					<p className={utilStyles["Text-semibold"]}>Storage</p>
 				</button>
-				<button title="Storage" className={styles["Tab-button"]} onClick={() => { setTabIndex(2); }}>
+				<button title="Storage" className={getClassName(2)} onClick={() => { setTabIndex(2); }}>
 					<FontAwesomeIcon icon={faCircleInfo}/>
 					<p className={utilStyles["Text-semibold"]}>About</p>
 				</button>

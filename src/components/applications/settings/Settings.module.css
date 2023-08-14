@@ -36,8 +36,13 @@
 	transition: background-color 100ms ease-in-out;
 }
 
-.Tab-button:hover, .Tab-button:focus-visible {
-	background-color: rgba(255, 255, 255, 10%);
+.Tab-button.Active-tab {
+	background-color: var(--background-color-a);
+}
+
+.Tab-button:not(.Active-tab):hover,
+.Tab-button:not(.Active-tab):focus-visible {
+	background-color: hsla(var(--background-color-a-hsl), 50%);
 }
 
 .Tab-button > svg {
@@ -52,7 +57,6 @@
 .Tab-panel {
 	flex: 1;
 	display: flex;
-	flex-wrap: wrap;
 	flex-direction: column;
 	align-content: flex-start;
 	height: 100%;
@@ -66,7 +70,7 @@
 	align-items: flex-start;
 	justify-content: flex-start;
 	text-align: start;
-	max-width: 100%;
+	width: 100%;
 }
 
 .Option > .Label {
@@ -107,6 +111,17 @@
 	cursor: pointer;
 }
 
+.Button-group {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+	margin-bottom: 0.75rem;
+}
+
+.Button-group .Button {
+	margin-bottom: 0;
+}
+
 .Button {
 	--hover-color: var(--background-color-b);
 
@@ -132,6 +147,17 @@
 	background-color: var(--red-a);
 }
 
+.Progress-bar-container {
+	width: 100%;
+	max-width: 35rem;
+}
+
 .Progress-bar {
-	width: 15rem;
+	width: 100% !important;
+}
+
+.Progress-bar-labels {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
 }

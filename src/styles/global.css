@@ -7,7 +7,7 @@
 	--yellow-b: #ff9f43;
 	--red-a: #ff6b6b;
 	--red-b: #ee5253;
-	--light-blue-a: #ee5253;
+	--light-blue-a: #48dbfb;
 	--light-blue-b: #0abde3;
 	--green-a: #1dd1a1;
 	--green-b: #10ac84;
@@ -35,6 +35,8 @@
 	--background-color-ba: var(--dark-grey-ca);
 	--background-color-c: var(--dark-grey-d);
 	--background-color-d: var(--dark-grey-e);
+
+	--background-color-a-hsl: 212, 29%, 19%;
 
 	--scrollbar-color: hsla(211, 29%, 40%, 25%);
 
