@@ -38,8 +38,13 @@ function AppearanceTab({ virtualRoot, settingsManager }) {
 			<div className={styles["Input"]}>
 				{virtualRoot.navigate("~/Images")?.getFiles()?.map(({ name, id, source }) =>
 					<label className={styles["Image-select"]} key={id}>
-						<input type="radio" value={source} checked={source === wallpaper ? "checked" : ""} onChange={onChange}/>
-						<img src={source} alt={id}/>
+						<input
+							type="radio"
+							value={source}
+							checked={source === wallpaper ? "checked" : ""}
+							onChange={onChange}
+						/>
+						<img src={source} alt={id} draggable="false"/>
 					</label>
 				)}
 			</div>

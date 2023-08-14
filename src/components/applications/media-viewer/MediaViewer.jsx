@@ -34,7 +34,7 @@ export function MediaViewer({ file, close, setTitle }) {
 
 	return (
 		<div className={styles.Container}>
-			<img src={file.source} alt={file.id}/>
+			<img src={file.source} alt={file.id} draggable="false"/>
 		</div>
 	);
 }

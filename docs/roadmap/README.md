@@ -16,6 +16,10 @@ A fully functional VSC clone called Code Editor.
 
 Modular windows, including alerts, confirmation dialogs and a file selector.
 
-## Convert to TypeScript
+## Tabs
 
-Convert this project to TypeScript to improve type safety and bring the many other pros of TypeScript to this project.
+## Calculator App
+
+## App centre
+
+Allows user to download additional apps

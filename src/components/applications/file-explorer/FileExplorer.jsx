@@ -6,6 +6,9 @@ import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFile, faFileL
 import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
 import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
 import utilStyles from "../../../styles/utils.module.css";
+// import { useContextMenu } from "../../../hooks/modals/ContextMenu.js";
+import { useModals } from "../../../hooks/modals/Modals.js";
+import { ModalsView } from "../../modals/ModalsView.jsx";
 
 /**
  * @param {object} props
@@ -17,7 +20,7 @@ function FilePreview({ file }) {
 	switch (file.extension) {
 		case "png":
 			preview = (<div className={styles["File-button-preview"]}>
-				<img src={file.source} alt={file.id}/>
+				<img src={file.source} alt={file.id} draggable="false"/>
 			</div>);
 			break;
 		case "txt":
@@ -38,6 +41,13 @@ export function FileExplorer({ startPath }) {
 	const [path, setPath] = useState(currentDirectory?.path ?? "");
 	const windowsManager = useWindowsManager();
 	const [showHidden] = useState(true);
+	const [modalsManager, modals] = useModals();
+	// const { onContextMenuFile } = useContextMenu({
+	// 	modalsManager,
+	// 	options: {
+	// 		"Open": () => {}
+	// 	}
+	// });
 
 	const changeDirectory = (path, absolute = false) => {
 		if (currentDirectory == null)
@@ -67,6 +77,7 @@ export function FileExplorer({ startPath }) {
 
 	return (
 		<div className={styles.Container}>
+			<ModalsView modalsManager={modalsManager} modals={modals}/>
 			<div className={styles.Header}>
 				<button title="Back" tabIndex={0} className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faCaretLeft}/>

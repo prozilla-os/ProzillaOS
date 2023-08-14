@@ -14,7 +14,7 @@ import { useShortcuts } from "../utils/keyboard.js";
 export function useContextMenu({ modalsManager, options, shortcuts }) {
 	const onContextMenu = (event) => {
 		modalsManager.open(new Modal(ContextMenu)
-			.setPosition(new Vector2(event.clientX, event.clientY))
+			.setPosition(new Vector2(event?.clientX ?? 0, event?.clientY ?? 0))
 			.setProps({ options, shortcuts }));
 	};
 

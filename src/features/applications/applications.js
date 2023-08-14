@@ -12,12 +12,12 @@ export default class ApplicationsManager {
 	static APPLICATIONS = [
 		new Application("Commands", "terminal", Terminal),
 		new Application("Settings", "settings", Settings),
+		new Application("Photos", "media-viewer", MediaViewer),
 		// new Application("Browser", "browser"),
 		// new Application("Calculator", "calculator", Calculator, { size: new Vector2(400, 600) }),
 		new Application("Notes", "text-editor", TextEditor),
 		// new Application("Code Editor", "code-editor"),
 		new Application("Files", "file-explorer", FileExplorer),
-		new Application("Photos", "media-viewer", MediaViewer),
 		new Application("Wordle", "wordle", WebView, {
 			source: "https://prozilla.dev/wordle",
 			size: new Vector2(400, 650)
