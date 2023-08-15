@@ -7,9 +7,7 @@
 - [Features](features/README.md)
 - [Design](design/README.md)
 - [Roadmap](roadmap/README.md)
-- [Configurations](configurations/README.md)
 - [Contributing](contributing/README.md)
-- [React](react/README.md)
 
 ## Overview
 
@@ -55,3 +53,24 @@ Once the initial setup is complete, you can simply run `npm run deploy` and your
 - [build](../build) directory
 
 	Contains the static build files after [building](#building--deploying) the application. This directory is not included in the GitHub repository.
+
+### Coding style
+
+Type | Case | Example
+--- | --- | ---
+Folders | kebab-case | `virtual-drive`
+`.js` files | camelCase | `virtualRoot.js`
+`.jsx` files | PascalCase | `Desktop.jsx`
+`.css` files & files in `public` dir | kebab-case | `global.css`
+Local `.module.css` files | PascalCase | `Desktop.module.css`
+Global `.module.css` files | kebab-case | `utils.module.css`
+Variables | camelCase | ```const fooBar = true;```
+Global constant variables | MACRO_CASE | ```export const NAME = "ProzillaOS";```
+Classes | PascalCase | ```class WindowsManager { }```
+React components | PascalCase | ```export function WindowsView({ }) { }```
+Functions | camelCase | ```function focusWindow() { }```
+
+### External files
+
+- [Design file (Figma)](https://www.figma.com/file/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?type=design&node-id=0%3A1&mode=design&t=7KR1tKCp9H5cK3hf-1)
+- [Task board (Notion)](https://prozilla.notion.site/8325fabca1fb4f9885b6d6dfd5aa64c8?v=1a59f7ce50914f5ea711fe6460e52868&pvs=4)

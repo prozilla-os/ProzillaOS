@@ -2,14 +2,18 @@
 
 # Applications
 
+> Related document: [Windows](../windows/README.md)
+
 Applications (sometimes shortened to apps) are processes that open a window when ran. The window allows the user to view and interact with the app. Apps have a `title`, `id` and a `windowContent` property that refers to the React component of the application interface.
+
+> Some applications have a different name in the UI, these names are written between brackets and quotation marks. The other name is the one used in code and file/folder names.
 
 ## Table of Contents
 
-- [<img src="../../../public/media/applications/icons/terminal.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Terminal](terminal/README.md)
-- [<img src="../../../public/media/applications/icons/file-explorer.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> File Explorer](file-explorer/README.md)
-- [<img src="../../../public/media/applications/icons/media-viewer.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Media Viewer](media-viewer/README.md)
-- [<img src="../../../public/media/applications/icons/text-editor.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Text Editor](text-editor/README.md)
+- [<img src="../../../public/media/applications/icons/terminal.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Terminal ("Commands")](terminal/README.md)
+- [<img src="../../../public/media/applications/icons/file-explorer.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> File Explorer ("Files")](file-explorer/README.md)
+- [<img src="../../../public/media/applications/icons/media-viewer.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Media Viewer ("Photos")](media-viewer/README.md)
+- [<img src="../../../public/media/applications/icons/text-editor.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Text Editor ("Notes")](text-editor/README.md)
 - [<img src="../../../public/media/applications/icons/settings.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Settings](settings/README.md)
 
 ## Common components
@@ -21,7 +25,7 @@ The header menu is a useful component that can be added to app windows for quick
 #### Example
 
 ```js
-// components/applications/example/Example.jsx
+// components/applications/.common/HeaderMenu.jsx
 
 <HeaderMenu
 	options={{
@@ -47,7 +51,7 @@ The header menu is a useful component that can be added to app windows for quick
 />
 ```
 
-## Template components
+## App templates
 
 ### Webview
 
@@ -70,7 +74,7 @@ export default class ApplicationsManager {
 }
 ```
 
-## Examples
+## App examples
 
 ### Adding a new application
 

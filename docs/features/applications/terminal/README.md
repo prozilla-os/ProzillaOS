@@ -1,6 +1,6 @@
 [← Back](../README.md)
 
-# <img src="../../../../public/media/applications/icons/terminal.svg" width=30 height=30 style="vertical-align: middle; background: none;"/> Terminal 
+# <img src="../../../../public/media/applications/icons/terminal.svg" width=30 height=30 style="vertical-align: middle; background: none;"/> Terminal ("Commands")
 
 A command line tool.
 

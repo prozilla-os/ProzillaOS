@@ -6,7 +6,7 @@ ProzillaOS is designed in Figma by Prozilla. You can view the design file [here]
 
 ### Preview
 
-<img src="../../public/media/screenshots/Screenshot1.png"/>
+<img src="../../public/media/screenshots/screenshot-1.png"/>
 
 ### Font
 

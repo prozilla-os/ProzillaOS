@@ -2,6 +2,8 @@
 
 # Virtual Drive
 
+> Related document: [Storage](../storage/README.md)
+
 The virtual drive is a virtual file and directory system. The root directory is a virtual folder and the access point for all interactions with the virtual drive.
 
 ## Table of Contents
