@@ -1,4 +1,4 @@
-import { VirtualBase } from "./virtual-base.js";
+import { VirtualBase } from "./virtualBase.js";
 
 /**
  * A virtual file that can be stored inside a folder

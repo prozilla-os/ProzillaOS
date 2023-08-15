@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
+import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFile, faFileLines, faFolder, faHouse, faImage, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
-import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
+import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
+import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import utilStyles from "../../../styles/utils.module.css";
 // import { useContextMenu } from "../../../hooks/modals/ContextMenu.js";
-import { useModals } from "../../../hooks/modals/Modals.js";
+import { useModals } from "../../../hooks/modals/modals.js";
 import { ModalsView } from "../../modals/ModalsView.jsx";
 
 /**

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { SettingsManager } from "../../features/settings/settings.js";
-import { useSettingsManager } from "../../hooks/settings/SettingsContext.js";
+import { SettingsManager } from "../../features/settings/settingsManager.js";
+import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
 import styles from "./Desktop.module.css";
 import { useEffect } from "react";
-import { useModals } from "../../hooks/modals/Modals.js";
+import { useModals } from "../../hooks/modals/modals.js";
 import { ModalsView } from "../modals/ModalsView.jsx";
-import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
-import { useContextMenu } from "../../hooks/modals/ContextMenu.js";
+import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
+import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 
 export function Desktop() {
 	const settingsManager = useSettingsManager();

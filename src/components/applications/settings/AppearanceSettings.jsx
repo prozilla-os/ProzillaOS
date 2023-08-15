@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { SettingsManager } from "../../../features/settings/settings.js";
+import { SettingsManager } from "../../../features/settings/settingsManager.js";
 import styles from "./Settings.module.css";
-import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
-import { useSettingsManager } from "../../../hooks/settings/SettingsContext.js";
+import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
+import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext.js";
 
 export function AppearanceSettings() {
 	const virtualRoot = useVirtualRoot();

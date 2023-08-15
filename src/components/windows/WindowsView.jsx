@@ -1,5 +1,5 @@
-import { useWindows } from "../../hooks/windows/WindowsContext.js";
-import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
+import { useWindows } from "../../hooks/windows/windowsContext.js";
+import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import { useEffect, useState } from "react";
 import { WindowView } from "./WindowView.jsx";
 

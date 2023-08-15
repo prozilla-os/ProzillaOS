@@ -1,6 +1,6 @@
 import { removeFromArray } from "../utils/array.js";
-import { VirtualBase } from "./virtual-base.js";
-import { VirtualFile } from "./virtual-file.js";
+import { VirtualBase } from "./virtualBase.js";
+import { VirtualFile } from "./virtualFile.js";
 
 /**
  * A virtual folder that can contains files and sub-folders

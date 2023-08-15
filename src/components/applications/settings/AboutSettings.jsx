@@ -2,8 +2,8 @@ import { Button } from "../../utils/Button.jsx";
 import styles from "./Settings.module.css";
 import utilStyles from "../../../styles/utils.module.css";
 import Vector2 from "../../../features/math/vector2.js";
-import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
-import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
+import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
+import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 
 export function AboutSettings() {
 	const windowsManager = useWindowsManager();

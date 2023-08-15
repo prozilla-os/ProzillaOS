@@ -1,6 +1,6 @@
 import { EventEmitter } from "../utils/events.js";
 
-import { VirtualRoot } from "./virtual-root.js";
+import { VirtualRoot } from "./virtualRoot.js";
 
 export class VirtualBase extends EventEmitter {
 	/**

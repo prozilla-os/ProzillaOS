@@ -2,16 +2,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./WindowView.module.css";
 import { faMinus, faWindowMaximize as fasWindowMaximize, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ReactSVG } from "react-svg";
-import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js";
+import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import Draggable from "react-draggable";
 import { memo, useEffect, useRef, useState } from "react";
 import Application from "../../features/applications/application.js";
 import Vector2 from "../../features/math/vector2.js";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import utilStyles from "../../styles/utils.module.css";
-import { useModals } from "../../hooks/modals/Modals.js";
+import { useModals } from "../../hooks/modals/modals.js";
 import { ModalsView } from "../modals/ModalsView.jsx";
-import { useContextMenu } from "../../hooks/modals/ContextMenu.js";
+import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 
 /**
  * @param {object} props

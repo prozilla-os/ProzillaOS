@@ -6,7 +6,7 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows 
 
 **Live demo: [os.prozilla.dev](https://os.prozilla.dev/)**
 
-<img src="public/media/Banner2.png"/>
+<img src="public/media/banner.png"/>
 
 > Please note that ProzillaOS is a WIP and far from complete. Many additional features will be added in the near future.
 
@@ -30,7 +30,7 @@ ProzillaOS was designed in Figma by Prozilla. You can view the design file [here
 
 ### Preview
 
-<img src="public/media/screenshots/Screenshot1.png"/>
+<img src="public/media/screenshots/screenshot-1.png"/>
 
 ## Support ProzillaOS
 

@@ -1,23 +1,7 @@
+import { ASCII_LOGO } from "../../../constants/branding.js";
 import { START_DATE } from "../../../index.js";
 import { formatRelativeTime } from "../../utils/date.js";
 import ApplicationsManager from "../applications.js";
-
-export const ASCII_LOGO = `
-                :.            
-               -==.           
-             .=====:          
-     ---::..:=======-.        
-     :===+=----------::..     
-      =+=---------------:..   
-      --------------------:.  
-  .:-+=----*###*--*####=---.  
-  :==+----#%+-+%#-##%*+----:. 
-    .=----#%+-+%#-*+-%#+---:. 
-     ==----*###*--*###*----.  
-    ==+-------------------:.  
-    ...::---------------:.    
-         .::---------::..     
-            ....::...         `;
 
 export class Command {
 	/**

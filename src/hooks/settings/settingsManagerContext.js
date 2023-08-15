@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
-import { SettingsManager } from "../../features/settings/settings.js";
-import { useVirtualRoot } from "../virtual-drive/VirtualRootContext.js";
+import { SettingsManager } from "../../features/settings/settingsManager.js";
+import { useVirtualRoot } from "../virtual-drive/virtualRootContext.js";
 
 const SettingsContext = createContext();
 

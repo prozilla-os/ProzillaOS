@@ -1,10 +1,10 @@
 import styles from "./App.module.css";
 import { Taskbar } from "./components/task-bar/TaskBar.jsx";
-import { WindowsManagerProvider } from "./hooks/windows/WindowsManagerContext.js";
+import { WindowsManagerProvider } from "./hooks/windows/windowsManagerContext.js";
 import { WindowsView } from "./components/windows/WindowsView.jsx";
-import { VirtualRootProvider } from "./hooks/virtual-drive/VirtualRootContext.js";
+import { VirtualRootProvider } from "./hooks/virtual-drive/virtualRootContext.js";
 import { Desktop } from "./components/desktop/Desktop.jsx";
-import { SettingsManagerProvider } from "./hooks/settings/SettingsContext.js";
+import { SettingsManagerProvider } from "./hooks/settings/settingsManagerContext.js";
 import { ModalsView } from "./components/modals/ModalsView.jsx";
 import { useEffect } from "react";
 

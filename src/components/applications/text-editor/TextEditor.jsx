@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
+import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
 import styles from "./TextEditor.module.css";
 import { HeaderMenu } from "../.common/HeaderMenu.jsx";
 import Markdown from "markdown-to-jsx";

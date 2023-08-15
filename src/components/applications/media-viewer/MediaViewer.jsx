@@ -1,7 +1,7 @@
 
 import { useEffect } from "react";
-import { VirtualFile } from "../../../features/virtual-drive/virtual-file.js";
-import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
+import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
+import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import styles from "./MediaViewer.module.css";
 
 /**

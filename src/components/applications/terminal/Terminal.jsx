@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./Terminal.module.css";
-import { useVirtualRoot } from "../../../hooks/virtual-drive/VirtualRootContext.js";
+import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 import { Command } from "../../../features/applications/terminal/commands.js";
 import { clamp } from "../../../features/math/clamp.js";
 

@@ -1,7 +1,7 @@
 import styles from "./SearchMenu.module.css";
 import appStyles from "./AppList.module.css";
 import ApplicationsManager from "../../../features/applications/applications.js";
-import { useWindowsManager } from "../../../hooks/windows/WindowsManagerContext.js";
+import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import { ReactSVG } from "react-svg";
 import { useEffect } from "react";
 import { useState } from "react";

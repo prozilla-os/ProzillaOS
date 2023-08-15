@@ -1,8 +1,7 @@
-import { StorageManager } from "../storage/storage.js";
-import { VirtualFile } from "./virtual-file.js";
-import { VirtualFolder } from "./virtual-folder.js";
-
-export const WALLPAPER_COUNT = 8;
+import { WALLPAPER_COUNT } from "../../constants/virtualDrive.js";
+import { StorageManager } from "../storage/storageManager.js";
+import { VirtualFile } from "./virtualFile.js";
+import { VirtualFolder } from "./virtualFolder.js";
 
 /**
  * A virtual folder that serves as the root folder
@@ -55,7 +54,7 @@ export class VirtualRoot extends VirtualFolder {
 					.createFolder("Images", (folder) => {
 						for (let i = 0; i < WALLPAPER_COUNT; i++) {
 							folder.createFile(`Wallpaper${i + 1}`, "png", (file) => {
-								file.setSource(`/media/wallpapers/Wallpaper${i + 1}.png`);
+								file.setSource(`/media/wallpapers/wallpaper-${i + 1}.png`);
 							});
 						}
 					})
@@ -172,7 +171,7 @@ export class VirtualRoot extends VirtualFolder {
 	/**
 	 * Adds a shortcut to a file or folder
 	 * @param {string} name 
-	 * @param {VirtualFile|VirtualFolder} destination 
+	 * @param {VirtualFile | VirtualFolder} destination 
 	 * @returns {VirtualRoot}
 	 */
 	addShortcut(name, destination) {
