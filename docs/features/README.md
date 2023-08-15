@@ -14,3 +14,4 @@ Most code for features can be found in the [features](../../src/features) direct
 - [Taskbar](taskbar/README.md)
 - [Settings](settings/README.md)
 - [Modals](modals/README.md)
+- [Storage](storage/README.md)
