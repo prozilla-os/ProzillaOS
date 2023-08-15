@@ -19,7 +19,6 @@ See [docs](docs/README.md) for more info.
 - [Features](docs/features/README.md)
 - [Design](docs/design/README.md)
 - [Roadmap](docs/roadmap/README.md)
-- [Configurations](docs/configurations/README.md)
 - [Contributing](docs/contributing/README.md)
 
 ## Design
