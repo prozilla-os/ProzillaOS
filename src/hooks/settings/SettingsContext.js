@@ -10,7 +10,7 @@ const SettingsContext = createContext();
  * @param props.children
  * @returns {import("react").Provider<SettingsManager>}
  */
-export function SettingsProvider({ children }) {
+export function SettingsManagerProvider({ children }) {
 	const virtualRoot = useVirtualRoot();
 	const settingsManager = new SettingsManager(virtualRoot);
 
@@ -24,6 +24,6 @@ export function SettingsProvider({ children }) {
 /**
  * @returns {SettingsManager}
  */
-export function useSettings() {
+export function useSettingsManager() {
 	return useContext(SettingsContext);
 }

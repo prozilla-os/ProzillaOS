@@ -4,7 +4,7 @@ import { WindowsManagerProvider } from "./hooks/windows/WindowsManagerContext.js
 import { WindowsView } from "./components/windows/WindowsView.jsx";
 import { VirtualRootProvider } from "./hooks/virtual-drive/VirtualRootContext.js";
 import { Desktop } from "./components/desktop/Desktop.jsx";
-import { SettingsProvider } from "./hooks/settings/SettingsContext.js";
+import { SettingsManagerProvider } from "./hooks/settings/SettingsContext.js";
 import { ModalsView } from "./components/modals/ModalsView.jsx";
 import { useEffect } from "react";
 
@@ -24,14 +24,14 @@ function App() {
 	return (
 		<VirtualRootProvider>
 			<WindowsManagerProvider>
-				<SettingsProvider>
+				<SettingsManagerProvider>
 					<div className={styles.App}>
 						<Taskbar/>
 						<WindowsView/>
 						<ModalsView/>
 						<Desktop/>
 					</div>
-				</SettingsProvider>
+				</SettingsManagerProvider>
 			</WindowsManagerProvider>
 		</VirtualRootProvider>
 	);

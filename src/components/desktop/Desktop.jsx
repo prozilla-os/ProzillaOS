@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SettingsManager } from "../../features/settings/settings.js";
-import { useSettings } from "../../hooks/settings/SettingsContext.js";
+import { useSettingsManager } from "../../hooks/settings/SettingsContext.js";
 import styles from "./Desktop.module.css";
 import { useEffect } from "react";
 import { useModals } from "../../hooks/modals/Modals.js";
@@ -9,7 +9,7 @@ import { useWindowsManager } from "../../hooks/windows/WindowsManagerContext.js"
 import { useContextMenu } from "../../hooks/modals/ContextMenu.js";
 
 export function Desktop() {
-	const settingsManager = useSettings();
+	const settingsManager = useSettingsManager();
 	const [wallpaper, setWallpaper] = useState(null);
 	const [modalsManager, modals] = useModals();
 	const windowsManager = useWindowsManager();

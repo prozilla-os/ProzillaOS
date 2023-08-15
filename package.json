@@ -20,6 +20,7 @@
 		"react-draggable": "^4.4.5",
 		"react-scripts": "5.0.1",
 		"react-svg": "^16.1.18",
+		"react-tabs": "^6.0.2",
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
