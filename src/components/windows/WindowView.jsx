@@ -24,7 +24,7 @@ import { useContextMenu } from "../../hooks/modals/contextMenu.js";
  * @param {object} props.options
  * @param {boolean} props.active
  */
-export const WindowView = memo(function Window({ id, app, size, position, onInteract, options, active }) {
+export const WindowView = memo(({ id, app, size, position, onInteract, options, active }) => {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 	const [modalsManager, modals] = useModals();

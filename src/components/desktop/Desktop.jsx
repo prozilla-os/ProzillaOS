@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { SettingsManager } from "../../features/settings/settingsManager.js";
 import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
 import styles from "./Desktop.module.css";
@@ -8,7 +8,7 @@ import { ModalsView } from "../modals/ModalsView.jsx";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 
-export function Desktop() {
+export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
 	const [wallpaper, setWallpaper] = useState(null);
 	const [modalsManager, modals] = useModals();
@@ -37,4 +37,4 @@ export function Desktop() {
 			<ModalsView modalsManager={modalsManager} modals={modals}/>
 		</div>
 	</>);
-}
+});

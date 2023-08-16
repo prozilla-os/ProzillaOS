@@ -1,9 +1,9 @@
 import { useWindows } from "../../hooks/windows/windowsContext.js";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { WindowView } from "./WindowView.jsx";
 
-export function WindowsView() {
+export const WindowsView = memo(() => {
 	const windows = useWindows();
 	const windowsManager = useWindowsManager();
 	const [sortedWindows, setSortedWindows] = useState([]);
@@ -30,4 +30,4 @@ export function WindowsView() {
 			/>
 		)}
 	</div>);
-}
+});

@@ -1,12 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import styles from "./TaskBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ApplicationsManager from "../../features/applications/applications.js";
-import { useWindows } from "../../hooks/windows/windowsContext.js";
-import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import { ReactSVG } from "react-svg";
-import Application from "../../features/applications/application.js";
 import { HomeMenu } from "./menus/HomeMenu.jsx";
 import OutsideClickListener from "../../hooks/utils/outsideClick.js";
 import { Battery } from "./indicators/Battery.jsx";
@@ -15,38 +12,9 @@ import { Volume } from "./indicators/Volume.jsx";
 import { SearchMenu } from "./menus/SearchMenu.jsx";
 import { Calendar } from "./indicators/Calendar.jsx";
 import { useScrollWithShadow } from "../../hooks/utils/scrollWithShadows.js";
+import { AppButton } from "./AppButton.jsx";
 
-/**
- * @param {object} props 
- * @param {Application} props.app 
- */
-function AppButton({ app }) {
-	const [active, setActive] = useState(false);
-	const windows = useWindows();
-	const windowsManager = useWindowsManager();
-
-	useEffect(() => {
-		setActive(windowsManager.isAppActive(app.id));
-	}, [app.id, windows, windowsManager]);
-
-	const classNames = [styles["App-icon"]];
-	if (active)
-		classNames.push(styles.Active);
-
-	return (
-		<button
-			key={app.id}
-			tabIndex={0}
-			className={classNames.join(" ")}
-			onClick={() => { windowsManager.open(app.id); }}
-			title={app.name}
-		>
-			<ReactSVG src={`${process.env.PUBLIC_URL}/media/applications/icons/${app.id}.svg`}/>
-		</button>
-	);
-}
-
-export function Taskbar() {
+export const Taskbar = memo(() => {
 	const [showHome, setShowHome] = useState(false);
 	const [showSearch, setShowSearch] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
@@ -151,4 +119,4 @@ export function Taskbar() {
 			</div>
 		</div>
 	);
-}
+}, []);

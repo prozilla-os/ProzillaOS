@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Modal } from "../../features/modals/modal.js";
 import ModalsManager from "../../features/modals/modals.js";
 import { ModalView } from "./ModalView.jsx";
@@ -10,7 +11,7 @@ import styles from "./ModalsView.module.css";
  * @param {import("react").CSSProperties} root.style 
  * @param {import("react").className} root.className 
  */
-export function ModalsView({ modalsManager, modals, style, className }) {
+export const ModalsView = memo(({ modalsManager, modals, style, className }) => {
 	return (
 		<div style={style} className={`${styles.Container} ${className}`}>
 			{modals?.map((modal) =>
@@ -18,4 +19,4 @@ export function ModalsView({ modalsManager, modals, style, className }) {
 			)}
 		</div>
 	);
-}
+});
