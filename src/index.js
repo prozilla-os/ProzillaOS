@@ -7,6 +7,7 @@ import { ASCII_LOGO } from "./constants/branding.js";
 
 export const START_DATE = new Date();
 
+// Render app
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
@@ -14,7 +15,11 @@ root.render(
 	</React.StrictMode>
 );
 
-console.log(ASCII_LOGO);
+// Log welcome message
+const asciiLogoWidth = ASCII_LOGO.split("\n")[1].length;
+const welcomeMessage = "Welcome to ProzillaOS";
+const space = "\n\n" + " ".repeat(Math.ceil((asciiLogoWidth - welcomeMessage.length) / 2));
+console.info(ASCII_LOGO + space + welcomeMessage);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

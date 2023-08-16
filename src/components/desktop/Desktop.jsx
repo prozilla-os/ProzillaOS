@@ -29,7 +29,11 @@ export function Desktop() {
 	}, [settingsManager]);
 
 	return (<>
-		<div className={styles.Container} style={{ backgroundImage: `url(${wallpaper})` }} onContextMenu={onContextMenu}>
+		<div
+			className={styles.Container}
+			style={{ backgroundImage: wallpaper ? `url(${wallpaper})` : null }}
+			onContextMenu={onContextMenu}
+		>
 			<ModalsView modalsManager={modalsManager} modals={modals}/>
 		</div>
 	</>);

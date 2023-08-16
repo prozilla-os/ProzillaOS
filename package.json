@@ -56,7 +56,9 @@
 				"double"
 			],
 			"default-case": "off",
-			"no-multi-comp": "off",
+			"arrow-parens": "error",
+			"space-infix-ops": "warn",
+			"react/no-multi-comp": "error",
 			"jsdoc/no-undefined-types": "warn",
 			"jsdoc/require-param": "warn",
 			"jsdoc/check-tag-names": "warn",
