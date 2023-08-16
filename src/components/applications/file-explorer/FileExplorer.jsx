@@ -140,7 +140,7 @@ export function FileExplorer({ startPath }) {
 				</div>
 				<div className={styles.Main}>
 					{currentDirectory?.getFiles(showHidden)?.map((file, index) => 
-						<button key={index} title={file.id} tabIndex={0} className={styles["File-button"]}
+						<button key={index} tabIndex={0} className={styles["File-button"]}
 							onClick={(event) => {
 								event.preventDefault();
 								windowsManager.openFile(file);
@@ -151,7 +151,7 @@ export function FileExplorer({ startPath }) {
 						</button>
 					)}
 					{currentDirectory?.getSubFolders(showHidden)?.map(({ name }, index) => 
-						<button key={index} title={name} tabIndex={0} className={styles["Folder-button"]}
+						<button key={index} tabIndex={0} className={styles["Folder-button"]}
 							onClick={() => {
 								changeDirectory(name);
 							}}

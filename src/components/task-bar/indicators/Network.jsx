@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function Network() {
 	return (
-		<button title="Wifi" tabIndex={0}>
+		<button title="Network" tabIndex={0}>
 			<FontAwesomeIcon icon={faWifi}/>
 		</button>
 	);

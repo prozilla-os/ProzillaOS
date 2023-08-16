@@ -1,4 +1,4 @@
-<img src="/media/banner.png" width="1440" height="700" style="aspect-ratio: 3 / 1; width: 100%; height: auto; object-fit: cover;" alt="Banner with ProzillaOS' name and logo"/>
+<img src="/media/banner-logo-title.png" width="1440" height="700" style="aspect-ratio: 3 / 1; width: 100%; height: auto; object-fit: cover;" alt="Banner with ProzillaOS' name and logo"/>
 
 # Info
 

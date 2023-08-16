@@ -61,7 +61,7 @@ export function HomeMenu({ active, setActive, search }) {
 		<div className={classNames.join(" ")}>
 			<div className={styles["Container-inner"]}>
 				<div className={styles.Buttons}>
-					<button title="Power" tabIndex={tabIndex} onClick={() => { closeTab(); }}>
+					<button title="Shut Down" tabIndex={tabIndex} onClick={() => { closeTab(); }}>
 						<FontAwesomeIcon icon={faPowerOff}/>
 					</button>
 					<button title="Settings" tabIndex={tabIndex} onClick={() => {

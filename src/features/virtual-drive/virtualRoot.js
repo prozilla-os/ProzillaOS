@@ -1,4 +1,4 @@
-import { WALLPAPER_COUNT } from "../../constants/virtualDrive.js";
+import { WALLPAPERS } from "../../constants/desktop.js";
 import { StorageManager } from "../storage/storageManager.js";
 import { VirtualFile } from "./virtualFile.js";
 import { VirtualFolder } from "./virtualFolder.js";
@@ -42,7 +42,6 @@ export class VirtualRoot extends VirtualFolder {
 			folder.createFolders(["bin", "sbin", "lib", "share"]);
 		});
 			
-
 		this.createFolder("home", (folder) => {
 			folder.createFolder("prozilla-os", (folder) => {
 				folder.setAlias("~")
@@ -52,9 +51,10 @@ export class VirtualRoot extends VirtualFolder {
 						});
 					})
 					.createFolder("Images", (folder) => {
-						for (let i = 0; i < WALLPAPER_COUNT; i++) {
+						for (let i = 0; i < WALLPAPERS.length; i++) {
+							const source = WALLPAPERS[i];
 							folder.createFile(`Wallpaper${i + 1}`, "png", (file) => {
-								file.setSource(`/media/wallpapers/wallpaper-${i + 1}.png`);
+								file.setSource(source);
 							});
 						}
 					})

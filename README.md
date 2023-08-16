@@ -1,12 +1,12 @@
-<img alt="GitHub" src="https://img.shields.io/github/license/prozilla/Prozilla-OS?style=flat-square&color=ee5253&label=License"> <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/prozilla/prozilla-os?style=flat-square&color=feca57&label=%E2%AD%90">  <img alt="GitHub forks" src="https://img.shields.io/github/forks/prozilla/prozilla-os?style=flat-square&color=54a0ff&label=Forks">
+<img alt="License" src="https://img.shields.io/github/license/prozilla/Prozilla-OS?style=flat-square&color=ee5253&label=License"> <img alt="Stars" src="https://img.shields.io/github/stars/prozilla/prozilla-os?style=flat-square&color=feca57&label=%E2%AD%90">  <img alt="Forks" src="https://img.shields.io/github/forks/prozilla/prozilla-os?style=flat-square&color=54a0ff&label=Forks">
 
-# <img src="public/media/logo.svg" align="left" width=40 height=40/> ProzillaOS
+# <img src="public/media/logo.svg" align="left" width=40 height=40 alt="Logo"/> ProzillaOS
 
 ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows made with React by Prozilla.
 
 **Live demo: [os.prozilla.dev](https://os.prozilla.dev/)**
 
-<img src="public/media/banner.png"/>
+<img src="public/media/banner-logo-title.png" alt="Banner with ProzillaOS' name and logo"/>
 
 > Please note that ProzillaOS is a WIP and far from complete. Many additional features will be added in the near future.
 
@@ -29,7 +29,7 @@ ProzillaOS was designed in Figma by Prozilla. You can view the design file [here
 
 ### Preview
 
-<img src="public/media/screenshots/screenshot-1.png"/>
+<img src="public/media/screenshots/screenshot-files-settings-taskbar-desktop.png" alt="Screenshot of ProzillaOS"/>
 
 ## Support ProzillaOS
 

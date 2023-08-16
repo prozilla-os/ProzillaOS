@@ -77,7 +77,6 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 								setActive(false);
 								windowsManager.open(id);
 							}}
-							title={name}
 						>
 							<ReactSVG src={`${process.env.PUBLIC_URL}/media/applications/icons/${id}.svg`}/>
 							<p>{name}</p>
