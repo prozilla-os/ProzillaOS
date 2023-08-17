@@ -7,6 +7,7 @@ import { useModals } from "../../hooks/modals/modals.js";
 import { ModalsView } from "../modals/ModalsView.jsx";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
+import { FALLBACK_WALLPAPER } from "../../constants/desktop.js";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
@@ -28,12 +29,20 @@ export const Desktop = memo(() => {
 		})();
 	}, [settingsManager]);
 
+	const onError = () => {
+		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
+		settings.set("wallpaper", FALLBACK_WALLPAPER);
+	};
+
 	return (<>
 		<div
 			className={styles.Container}
-			style={{ backgroundImage: wallpaper ? `url(${wallpaper})` : null }}
 			onContextMenu={onContextMenu}
 		>
+			{wallpaper
+				? <img src={wallpaper} className={styles.Wallpaper} alt="Desktop wallpaper" onError={onError}/>
+				: null
+			}
 			<ModalsView modalsManager={modalsManager} modals={modals}/>
 		</div>
 	</>);

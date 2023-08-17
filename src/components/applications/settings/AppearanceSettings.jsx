@@ -4,6 +4,8 @@ import styles from "./Settings.module.css";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext.js";
 
+const wallpapersPath = "~/Images/Wallpapers";
+
 export function AppearanceSettings() {
 	const virtualRoot = useVirtualRoot();
 	const settingsManager = useSettingsManager();
@@ -23,7 +25,7 @@ export function AppearanceSettings() {
 		<div className={styles["Option"]}>
 			<p className={styles["Label"]}>Wallpaper</p>
 			<div className={styles["Input"]}>
-				{virtualRoot.navigate("~/Images")?.getFiles()?.map(({ id, source }) =>
+				{virtualRoot.navigate(wallpapersPath)?.getFiles()?.toReversed().map(({ id, source }) =>
 					<label className={styles["Image-select"]} key={id}>
 						<input
 							type="radio"

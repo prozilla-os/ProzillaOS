@@ -97,6 +97,9 @@ export class VirtualFolder extends VirtualBase {
 	 * @returns {VirtualFolder}
 	 */
 	createFile(name, extension, callback) {
+		if (!this.canBeEdited)
+			return;
+
 		let newFile = this.findFile(name, extension);
 		if (newFile == null) {
 			newFile = new VirtualFile(name, extension);
@@ -104,7 +107,8 @@ export class VirtualFolder extends VirtualBase {
 			newFile.parent = this;
 		}
 		callback?.(newFile);
-		this.getRoot().saveData();
+
+		newFile.confirmChanges();
 		return this;
 	}
 
@@ -116,10 +120,14 @@ export class VirtualFolder extends VirtualBase {
 	 * @returns {VirtualFolder} 
 	 */
 	createFiles(files) {
+		if (!this.canBeEdited)
+			return;
+
 		files.forEach(({name, extension}) => {
 			this.createFile(name, extension);
 		});
-		this.getRoot().saveData();
+
+		this.confirmChanges();
 		return this;
 	}
 
@@ -135,6 +143,9 @@ export class VirtualFolder extends VirtualBase {
 	 * @param {createFolderCallback} callback
 	 */
 	createFolder(name, callback) {
+		if (!this.canBeEdited)
+			return;
+
 		let newFolder = this.findSubFolder(name);
 		if (newFolder == null) {
 			newFolder = new VirtualFolder(name);
@@ -142,7 +153,8 @@ export class VirtualFolder extends VirtualBase {
 			newFolder.parent = this;
 		}
 		callback?.(newFolder);
-		this.getRoot().saveData();
+		
+		newFolder.confirmChanges();
 		return this;
 	}
 
@@ -152,18 +164,25 @@ export class VirtualFolder extends VirtualBase {
 	 * @returns {VirtualFolder}
 	 */
 	createFolders(folders) {
+		if (!this.canBeEdited)
+			return;
+
 		folders.forEach((name) => {
 			this.createFolder(name);
 		});
-		this.getRoot().saveData();
+
+		this.confirmChanges();
 		return this;
 	}
 
 	/**
 	 * Removes a file or folder from this folder
-	 * @param {VirtualFile|VirtualFolder} child 
+	 * @param {VirtualFile | VirtualFolder} child 
 	 */
 	remove(child) {
+		if (!this.canBeEdited)
+			return;
+
 		child.parent = null;
 
 		if (child instanceof VirtualFile) {
@@ -172,13 +191,13 @@ export class VirtualFolder extends VirtualBase {
 			removeFromArray(child, this.subFolders);
 		}
 
-		this.getRoot()?.saveData();
+		child.confirmChanges();
 	}
 
 	/**
 	 * Returns the file or folder at a relative path or null if it doesn't exist
 	 * @param {string} relativePath 
-	 * @returns {VirtualFile|VirtualFolder|null}
+	 * @returns {VirtualFile | VirtualFolder | null}
 	 */
 	navigate(relativePath) {
 		const segments = relativePath.split("/");
@@ -231,16 +250,20 @@ export class VirtualFolder extends VirtualBase {
 	 * Deletes this folder and all its files and sub-folders recursively
 	 */
 	delete() {
+		if (!this.canBeEdited)
+			return;
+
 		super.delete();
 
 		this.files.concat(this.subFolders).forEach((item) => {
 			item.delete();
 		});
 
-		this.getRoot()?.saveData();
+		this.confirmChanges();
 	}
 
 	/**
+	 * Returns all files inside this folder
 	 * @param {Boolean=false} showHidden 
 	 * @returns {Array<VirtualFile>}
 	 */
@@ -254,6 +277,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
+	 * Returns all subfolders inside this folder
 	 * @param {Boolean=false} showHidden 
 	 * @returns {Array<VirtualFolder>}
 	 */
@@ -266,15 +290,35 @@ export class VirtualFolder extends VirtualBase {
 		);
 	}
 
+	/**
+	 * @returns {object | null}
+	 */
 	toJSON() {
 		const object = super.toJSON();
 
+		if (object == null)
+			return null;
+
 		if (this.files.length > 0) {
-			object.fls = this.files.map((file) => file.toJSON());
+			const files = this.files
+				.map((file) => file.toJSON())
+				.filter((file) => file != null);
+
+			if (files.length > 0)
+				object.fls = files;
 		}
 		if (this.subFolders.length > 0) {
-			object.fds = this.subFolders.map((folder) => folder.toJSON());
+			const folders = this.subFolders
+				.map((folder) => folder.toJSON())
+				.filter((folder) => folder != null);
+
+			if (folders.length > 0)
+				object.fds = folders;
 		}
+
+		// Don't store folder if it's empty
+		if ((!object.fls || object.fls.length === 0) && (!object.fds || object.fds.length === 0))
+			return null;
 
 		return object;
 	}

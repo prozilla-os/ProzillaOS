@@ -35,15 +35,15 @@ export class VirtualFile extends VirtualBase {
 	 * @returns {VirtualFile}
 	 */
 	setSource(source) {
-		if (this.source === source)
+		if (this.source === source || !this.canBeEdited)
 			return;
 
 		this.source = source;
 		this.content = null;
 
 		this.emit(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, this);
-		this.getRoot().saveData();
-		
+
+		this.confirmChanges();
 		return this;
 	}
 
@@ -53,15 +53,15 @@ export class VirtualFile extends VirtualBase {
 	 * @returns {VirtualFile}
 	 */
 	setContent(content) {
-		if (this.content === content)
+		if (this.content === content || !this.canBeEdited)
 			return;
 
 		this.content = content;
 		this.source = null;
 
 		this.emit(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, this);
-		this.getRoot().saveData();
 
+		this.confirmChanges();
 		return this;
 	}
 
@@ -93,8 +93,18 @@ export class VirtualFile extends VirtualBase {
 		});
 	}
 
+	/**
+	 * @returns {object | null}
+	 */
 	toJSON() {
+		// Don't return file if it can't or hasn't been edited
+		if (!this.canBeEdited || (this.editedByUser == null || !this.editedByUser))
+			return null;
+
 		const object = super.toJSON();
+
+		if (object == null)
+			return null;
 		
 		if (this.extension != null) {
 			object.ext = this.extension;

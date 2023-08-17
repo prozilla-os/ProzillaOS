@@ -8,3 +8,5 @@ export const WALLPAPERS = [
 	"/media/wallpapers/vibrant-wallpaper-purple-yellow.png",
 	"/media/wallpapers/wave-abstract-wallpaper-teal.png",
 ];
+
+export const FALLBACK_WALLPAPER = WALLPAPERS[4];

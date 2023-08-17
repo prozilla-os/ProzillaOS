@@ -7,14 +7,16 @@ import { VirtualFolder } from "./virtualFolder.js";
  * A virtual folder that serves as the root folder
  */
 export class VirtualRoot extends VirtualFolder {
-	/**
-	 * @type {boolean}
-	 */
+	/** @type {boolean} */
 	initiated = false;
+
+	/** @type {boolean} */
+	loadedDefaultData = false;
 
 	constructor() {
 		super("root");
 		this.root = this;
+		this.isRoot = true;
 		this.shortcuts = {};
 	}
 
@@ -51,18 +53,21 @@ export class VirtualRoot extends VirtualFolder {
 						});
 					})
 					.createFolder("Images", (folder) => {
-						for (let i = 0; i < WALLPAPERS.length; i++) {
-							const source = WALLPAPERS[i];
-							folder.createFile(`Wallpaper${i + 1}`, "png", (file) => {
-								file.setSource(source);
-							});
-						}
+						folder.createFolder("Wallpapers", (folder) => {
+							folder.setProtected(true);
+							for (let i = 0; i < WALLPAPERS.length; i++) {
+								const source = WALLPAPERS[i];
+								folder.createFile(`Wallpaper${i + 1}`, "png", (file) => {
+									file.setSource(source);
+								});
+							}
+						});
 					})
 					.createFolder("Documents", (folder) => {
 						folder.createFile("text", "txt", (file) => {
 							file.setContent("Hello world!");
 						}).createFile("info", "md", (file) => {
-							file.setSource("/documents/info.md");
+							file.setProtected(true).setSource("/documents/info.md");
 						});
 					})
 					.createFolder("Desktop");
@@ -117,10 +122,10 @@ export class VirtualRoot extends VirtualFolder {
 
 		const addFolder = ({ nam: name, fds: folders, fls: files }, parent = this) => {
 			parent.createFolder(name, (folder) => {
-				if (Object.values(shortcuts).includes(folder.absolutePath)) {
+				if (Object.values(shortcuts).includes(folder.displayPath)) {
 					let alias;
 					for (const [key, value] of Object.entries(shortcuts)) {
-						if (value === folder.absolutePath)
+						if (value === folder.displayPath)
 							alias = key;
 					}
 					folder.setAlias(alias);
@@ -148,23 +153,40 @@ export class VirtualRoot extends VirtualFolder {
 				addFile(file);
 			});
 		}
-
-		console.log(this);
 	}
 
+	/**
+	 * Calls the storage manager's store function with this root's data as a string
+	 */
 	saveData() {
 		if (!this.initiated)
 			return;
 
-		StorageManager.store("data", this.toString());
+		const data = this.toString();
+
+		if (data == null)
+			return;
+
+		StorageManager.store("data", data);
 	}
 
+	/**
+	 * Initiates this root by loading the default data and then the user's data on top
+	 * @returns {VirtualRoot}
+	 */
 	init() {
 		this.initiated = false;
+
+		// Load default data
+		this.loadedDefaultData = false;
 		this.setAlias("/");
 		this.loadDefaultData();
+		this.loadedDefaultData = true;
+
+		// Load user's data
 		this.loadData();
 		this.initiated = true;
+
 		return this;
 	}
 
@@ -179,6 +201,9 @@ export class VirtualRoot extends VirtualFolder {
 		return this;
 	}
 
+	/**
+	 * Tells the storage manager to clear all data and reloads the window
+	 */
 	reset() {
 		if (window.confirm("Are you sure you want to reset all your data?")) {
 			StorageManager.clear();
@@ -202,12 +227,18 @@ export class VirtualRoot extends VirtualFolder {
 		return "";
 	}
 
-	get absolutePath() {
+	get displayPath() {
 		return "/";
 	}
 
+	/**
+	 * @returns {object | null}
+	 */
 	toJSON() {
 		const object = super.toJSON();
+
+		if (object == null)
+			return null;
 
 		if (Object.entries(this.shortcuts).length > 0) {
 			object.scs = {};
@@ -220,8 +251,15 @@ export class VirtualRoot extends VirtualFolder {
 		return object;
 	}
 
+	/**
+	 * @returns {string | null}
+	 */
 	toString() {
 		const json = this.toJSON();
+
+		if (json == null)
+			return null;
+
 		return JSON.stringify(json);
 	}
 }

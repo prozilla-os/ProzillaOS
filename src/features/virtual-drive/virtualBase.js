@@ -1,5 +1,4 @@
 import { EventEmitter } from "../utils/events.js";
-
 import { VirtualRoot } from "./virtualRoot.js";
 
 export class VirtualBase extends EventEmitter {
@@ -20,8 +19,12 @@ export class VirtualBase extends EventEmitter {
 	 * @returns {VirtualBase}
 	 */
 	setName(name) {
+		if (this.name === name || !this.canBeEdited)
+			return;
+
 		this.name = name;
-		this.getRoot().saveData();
+		
+		this.confirmChanges();
 		return this;
 	}
 
@@ -30,12 +33,13 @@ export class VirtualBase extends EventEmitter {
 	 * @returns {ThisType}
 	 */
 	setAlias(alias) {
-		if (this.alias === alias)
+		if (this.alias === alias || !this.canBeEdited)
 			return;
 
 		this.alias = alias;
 		this.getRoot().addShortcut(alias, this);
-		this.getRoot().saveData();
+
+		this.confirmChanges();
 		return this;
 	}
 
@@ -44,32 +48,90 @@ export class VirtualBase extends EventEmitter {
 	 * @returns {VirtualBase}
 	 */
 	setParent(parent) {
-		if (this.parent === parent)
+		if (this.parent === parent || !this.canBeEdited)
 			return;
 
 		this.parent = parent;
-		this.getRoot().saveData();
+
+		this.confirmChanges();
+		return this;
+	}
+
+	/**
+	 * @param {boolean} value 
+	 * @returns {VirtualBase}
+	 */
+	setProtected(value) {
+		if (!this.canBeEdited)
+			return;
+
+		this.isProtected = value;
 		return this;
 	}
 
 	delete() {
+		if (!this.canBeEdited)
+			return;
+
 		const parent = this.parent;
 
 		if (parent == null)
 			return;
 
 		parent.remove?.(this);
-		parent.getRoot()?.saveData();
+		this.confirmChanges(parent.getRoot());
+	}
+
+	/**
+	 * @param {VirtualRoot} [root] 
+	 */
+	confirmChanges(root = null) {
+		if (this.getRoot().loadedDefaultData)
+			this.editedByUser = true;
+
+		if (root == null)
+			root = this.getRoot();
+
+		root?.saveData();
 	}
 
 	open() {}
 
 	get path() {
-		return this.alias ?? this.absolutePath;
+		return this.alias ?? this.displayPath;
 	}
 
-	get absolutePath() {
+	/**
+	 * Returns path without using alias
+	 */
+	get displayPath() {
 		return this.parent?.path + "/" + this.id;
+	}
+
+	/**
+	 * Returns path without using any aliases
+	 * @returns {string}
+	 */
+	get absolutePath() {
+		if (this.parent?.isRoot) {
+			return "/" + this.id;
+		} else {
+			return this.parent?.absolutePath + "/" + this.id;
+		}
+	}
+
+	/**
+	 * Returns whether this can be edited in its current state
+	 * @returns {boolean}
+	 */
+	get canBeEdited() {
+		const isProtected = this.isProtected && this.getRoot().loadedDefaultData;
+
+		if (!isProtected && this.parent != null) {
+			return this.parent.canBeEdited;
+		} else {
+			return !isProtected;
+		}
 	}
 
 	/**
@@ -85,6 +147,9 @@ export class VirtualBase extends EventEmitter {
 		return root;
 	}
 
+	/**
+	 * @returns {object | null}
+	 */
 	toJSON() {
 		const object = {
 			nam: this.name

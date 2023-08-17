@@ -6,6 +6,9 @@ export class StorageManager {
 	 * @param {string} value 
 	 */
 	static store(key, value) {
+		if (key == null || value == null)
+			return;
+
 		localStorage.setItem(key, value);
 	}
 
@@ -14,6 +17,9 @@ export class StorageManager {
 	 * @returns {string | null}
 	 */
 	static load(key) {
+		if (key == null)
+			return null;
+		
 		return localStorage.getItem(key);
 	}
 

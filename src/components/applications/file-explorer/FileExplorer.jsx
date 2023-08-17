@@ -59,7 +59,7 @@ export function FileExplorer({ startPath }) {
 
 		if (directory) {
 			setCurrentDirectory(directory);
-			setPath(directory.path);
+			setPath(directory.root ? "/" : directory.path);
 		}
 	};
 
@@ -68,10 +68,16 @@ export function FileExplorer({ startPath }) {
 	};
 
 	const onKeyDown = (event) => {
-		const value = event.target.value;
+		let value = event.target.value;
 
 		if (event.key === "Enter") {
-			setCurrentDirectory(virtualRoot.navigate(value));
+			if (value === "")
+				value = "~";
+
+			const directory = virtualRoot.navigate(value);
+
+			setCurrentDirectory(directory);
+			setPath(directory.root ? "/" : directory.path);
 		}
 	};
 
@@ -139,6 +145,16 @@ export function FileExplorer({ startPath }) {
 					</button>
 				</div>
 				<div className={styles.Main}>
+					{currentDirectory?.getSubFolders(showHidden)?.map(({ name }, index) => 
+						<button key={index} tabIndex={0} className={styles["Folder-button"]}
+							onClick={() => {
+								changeDirectory(name);
+							}}
+						>
+							<FontAwesomeIcon icon={faFolder}/>
+							<p>{name}</p>
+						</button>
+					)}
 					{currentDirectory?.getFiles(showHidden)?.map((file, index) => 
 						<button key={index} tabIndex={0} className={styles["File-button"]}
 							onClick={(event) => {
@@ -148,16 +164,6 @@ export function FileExplorer({ startPath }) {
 						>
 							<FilePreview file={file}/>
 							<p>{file.id}</p>
-						</button>
-					)}
-					{currentDirectory?.getSubFolders(showHidden)?.map(({ name }, index) => 
-						<button key={index} tabIndex={0} className={styles["Folder-button"]}
-							onClick={() => {
-								changeDirectory(name);
-							}}
-						>
-							<FontAwesomeIcon icon={faFolder}/>
-							<p>{name}</p>
 						</button>
 					)}
 				</div>
