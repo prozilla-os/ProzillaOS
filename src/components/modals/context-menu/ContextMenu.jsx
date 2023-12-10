@@ -13,7 +13,7 @@ export function ContextMenu({ modal, options, shortcuts }) {
 		{Object.entries(options).map(([label, callback]) =>
 			<button className={styles.Button} key={label} tabIndex={0} onClick={() => {
 				modal.close();
-				callback();
+				callback(modal.props?.params);
 			}}>
 				<p className={styles.Label}>{label}</p>
 				{shortcuts && Object.keys(shortcuts).includes(label)

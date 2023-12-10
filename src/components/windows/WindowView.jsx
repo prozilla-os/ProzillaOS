@@ -110,7 +110,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 		<Draggable
 			key={id}
 			axis="both"
-			handle={".Handle"}
+			handle={".Window-handle"}
 			defaultPosition={startPosition}
 			position={null}
 			scale={1}
@@ -134,7 +134,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 				}}
 				onClick={focus}
 			>
-				<div className={`${styles.Header} Handle`} onContextMenu={onContextMenu}>
+				<div className={`${styles.Header} Window-handle`} onContextMenu={onContextMenu}>
 					<ReactSVG
 						className={styles["Window-icon"]}
 						src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}

@@ -5,7 +5,7 @@ import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawe
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import ApplicationsManager from "../../../features/applications/applications.js";
 import { ReactSVG } from "react-svg";
-import { closeTab } from "../../../features/utils/browser.js";
+import { closeViewport } from "../../../features/utils/browser.js";
 import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 import { useEffect, useState } from "react";
@@ -61,7 +61,7 @@ export function HomeMenu({ active, setActive, search }) {
 		<div className={classNames.join(" ")}>
 			<div className={styles["Container-inner"]}>
 				<div className={styles.Buttons}>
-					<button title="Shut Down" tabIndex={tabIndex} onClick={() => { closeTab(); }}>
+					<button title="Shut Down" tabIndex={tabIndex} onClick={() => { closeViewport(); }}>
 						<FontAwesomeIcon icon={faPowerOff}/>
 					</button>
 					<button title="Settings" tabIndex={tabIndex} onClick={() => {

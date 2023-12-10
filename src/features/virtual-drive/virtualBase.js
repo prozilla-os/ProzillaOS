@@ -73,6 +73,8 @@ export class VirtualBase extends EventEmitter {
 		if (!this.canBeEdited)
 			return;
 
+		console.log(this);
+
 		const parent = this.parent;
 
 		if (parent == null)
@@ -85,12 +87,12 @@ export class VirtualBase extends EventEmitter {
 	/**
 	 * @param {VirtualRoot} [root] 
 	 */
-	confirmChanges(root = null) {
-		if (this.getRoot().loadedDefaultData)
-			this.editedByUser = true;
-
+	confirmChanges(root) {
 		if (root == null)
 			root = this.getRoot();
+
+		if (root?.loadedDefaultData)
+			this.editedByUser = true;
 
 		root?.saveData();
 	}

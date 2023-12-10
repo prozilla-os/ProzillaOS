@@ -21,7 +21,7 @@ export default class Modal {
 	/** @type {number | null} */
 	id = null;
 	/** @type {boolean} */
-	closeOnOutsideClick = true;
+	dismissible = true;
 
 	/**
 	 * @param {import("react").ReactElement} element
@@ -61,6 +61,15 @@ export default class Modal {
 	}
 
 	/**
+	 * @param {Vector2} size 
+	 * @returns {Modal}
+	 */
+	setSize(size) {
+		this.size = size;
+		return this;
+	}
+
+	/**
 	 * @param {object} props 
 	 * @returns {Modal}
 	 */
@@ -70,11 +79,11 @@ export default class Modal {
 	}
 
 	/**
-	 * @param {boolean} closeOnOutsideClick 
+	 * @param {boolean} dismissible 
 	 * @returns {Modal}
 	 */
-	setCloseOnOutsideClick(closeOnOutsideClick) {
-		this.closeOnOutsideClick = closeOnOutsideClick;
+	setDismissible(dismissible) {
+		this.dismissible = dismissible;
 		return this;
 	}
 

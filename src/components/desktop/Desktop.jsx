@@ -8,6 +8,7 @@ import { ModalsView } from "../modals/ModalsView.jsx";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import { FALLBACK_WALLPAPER } from "../../constants/desktop.js";
+import { reloadViewport } from "../../features/utils/browser.js";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
@@ -17,8 +18,9 @@ export const Desktop = memo(() => {
 	const { onContextMenu } = useContextMenu({
 		modalsManager,
 		options: {
+			"Refresh": () => { reloadViewport(); },
 			"Change appearance": () => { windowsManager.open("settings", { initialTabIndex: 0 }); },
-			"Open in Files": () => { windowsManager.open("file-explorer", { startPath: "~/Desktop" }); }
+			"Open in Files": () => { windowsManager.open("file-explorer", { startPath: "~/Desktop" }); },
 		}
 	});
 

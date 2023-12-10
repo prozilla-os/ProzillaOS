@@ -5,10 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFile, faFileLines, faFolder, faHouse, faImage, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
-import utilStyles from "../../../styles/utils.module.css";
-// import { useContextMenu } from "../../../hooks/modals/ContextMenu.js";
+import { useContextMenu } from "../../../hooks/modals/contextMenu.js";
 import { useModals } from "../../../hooks/modals/modals.js";
 import { ModalsView } from "../../modals/ModalsView.jsx";
+import { QuickAccessButton } from "./QuickAccessButton.jsx";
+import { useDialogBox } from "../../../hooks/modals/dialogBox.js";
+import Vector2 from "../../../features/math/vector2.js";
+import { DIALOG_CONTENT_TYPES } from "../../modals/dialog-box/DialogBox.jsx";
 
 /**
  * @param {object} props
@@ -35,19 +38,36 @@ function FilePreview({ file }) {
 	return preview;
 }
 
-export function FileExplorer({ startPath }) {
+export function FileExplorer({ startPath, app }) {
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate(startPath ?? "~"));
 	const [path, setPath] = useState(currentDirectory?.path ?? "");
 	const windowsManager = useWindowsManager();
 	const [showHidden] = useState(true);
 	const [modalsManager, modals] = useModals();
-	// const { onContextMenuFile } = useContextMenu({
-	// 	modalsManager,
-	// 	options: {
-	// 		"Open": () => {}
-	// 	}
-	// });
+
+	const { onContextMenu: onContextMenuFile } = useContextMenu({
+		modalsManager,
+		options: {
+			"Open": ({ file }) => { windowsManager.openFile(file); },
+			"Delete": ({ file }) => { file.delete(); },
+		}
+	});
+	const { onContextMenu: onContextMenuFolder } = useContextMenu({
+		modalsManager,
+		options: {
+			"Open": ({ name }) => { changeDirectory(name); },
+			"Delete": ({ name }) => { currentDirectory.findSubFolder(name)?.delete(); }
+		}
+	});
+	const { onContextMenu: onNew } = useContextMenu({
+		modalsManager,
+		options: {
+			"File": () => { currentDirectory.createFile("New File"); },
+			"Folder": () => { currentDirectory.createFolder("New Folder"); }
+		}
+	});
+	const { onDialogBox } = useDialogBox({ modalsManager });
 
 	const changeDirectory = (path, absolute = false) => {
 		if (currentDirectory == null)
@@ -94,7 +114,25 @@ export function FileExplorer({ startPath }) {
 				<button title="Up" tabIndex={0} className={styles["Icon-button"]} onClick={() => { changeDirectory(".."); }}>
 					<FontAwesomeIcon icon={faArrowUp}/>
 				</button>
-				<button title="New" tabIndex={0} className={styles["Icon-button"]}>
+				<button title="New" tabIndex={0} className={styles["Icon-button"]}
+					onClick={(event) => {
+						onDialogBox(event, {
+							app,
+							title: "Error",
+							size: new Vector2(300, 150),
+							children: <>
+								<p>This folder is protected.</p>
+								<button data-type={DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
+							</>
+						});
+
+						// if (currentDirectory.canBeEdited) {
+						// 	onNew(event);
+						// } else {
+							
+						// }
+					}}
+				>
 					<FontAwesomeIcon icon={faPlus}/>
 				</button>
 				<input
@@ -115,38 +153,17 @@ export function FileExplorer({ startPath }) {
 			</div>
 			<div className={styles.Body}>
 				<div className={styles.Sidebar}>
-					<button
-						tabIndex={0}
-						className={`${styles["Nav-button"]} ${utilStyles["Text-semibold"]}`}
-						onClick={() => { changeDirectory("~"); }}>
-						<FontAwesomeIcon icon={faHouse}/>
-						Home
-					</button>
-					<button
-						tabIndex={0}
-						className={`${styles["Nav-button"]} ${utilStyles["Text-semibold"]}`}
-						onClick={() => { changeDirectory("~/Desktop"); }}>
-						<FontAwesomeIcon icon={faDesktop}/>
-						Desktop
-					</button>
-					<button
-						tabIndex={0}
-						className={`${styles["Nav-button"]} ${utilStyles["Text-semibold"]}`}
-						onClick={() => { changeDirectory("~/Documents"); }}>
-						<FontAwesomeIcon icon={faFileLines}/>
-						Documents
-					</button>
-					<button
-						tabIndex={0}
-						className={`${styles["Nav-button"]} ${utilStyles["Text-semibold"]}`}
-						onClick={() => { changeDirectory("~/Images"); }}>
-						<FontAwesomeIcon icon={faImage}/>
-						Images
-					</button>
+					<QuickAccessButton name={"Home"} onClick={() => { changeDirectory("~"); }} icon={faHouse}/>
+					<QuickAccessButton name={"Desktop"} onClick={() => { changeDirectory("~/Desktop"); }} icon={faDesktop}/>
+					<QuickAccessButton name={"Documents"} onClick={() => { changeDirectory("~/Documents"); }} icon={faFileLines}/>
+					<QuickAccessButton name={"Images"} onClick={() => { changeDirectory("~/Images"); }} icon={faImage}/>
 				</div>
-				<div className={styles.Main}>
+				<div id="main" className={styles.Main}>
 					{currentDirectory?.getSubFolders(showHidden)?.map(({ name }, index) => 
 						<button key={index} tabIndex={0} className={styles["Folder-button"]}
+							onContextMenu={(event) => {
+								onContextMenuFolder(event, { name });
+							}}
 							onClick={() => {
 								changeDirectory(name);
 							}}
@@ -157,6 +174,9 @@ export function FileExplorer({ startPath }) {
 					)}
 					{currentDirectory?.getFiles(showHidden)?.map((file, index) => 
 						<button key={index} tabIndex={0} className={styles["File-button"]}
+							onContextMenu={(event) => {
+								onContextMenuFile(event, { file });
+							}}
 							onClick={(event) => {
 								event.preventDefault();
 								windowsManager.openFile(file);

@@ -8,7 +8,7 @@
 }
 
 .Container > * {
-	background-color: var(--background-color-a);
+	background: var(--background-color-a);
 	border-radius: 0.5rem;
 	box-shadow: var(--window-box-shadow);
 }

@@ -1,7 +1,7 @@
 .Container {
 	padding: 0.5rem;
-	border-top-left-radius: 0;
-	background-color: var(--background-color-b);
+	border-top-left-radius: 0 !important;
+	background-color: var(--background-color-b) !important;
 }
 
 .Button {

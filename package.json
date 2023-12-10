@@ -5,6 +5,14 @@
 	"author": "Prozilla",
 	"homepage": "https://os.prozilla.dev/",
 	"repository": "https://github.com/Prozilla/Prozilla-OS",
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"predeploy": "npm run build",
+		"deploy": "sh deploy.sh"
+	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.4.0",
 		"@fortawesome/free-regular-svg-icons": "^6.4.0",
@@ -23,13 +31,10 @@
 		"react-tabs": "^6.0.2",
 		"web-vitals": "^2.1.4"
 	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
-		"predeploy": "npm run build",
-		"deploy": "sh deploy.sh"
+	"devDependencies": {
+		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+		"eslint-plugin-jsdoc": "^46.4.6",
+		"gh-pages": "^5.0.0"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -98,10 +103,5 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
-	},
-	"devDependencies": {
-		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-		"eslint-plugin-jsdoc": "^46.4.6",
-		"gh-pages": "^5.0.0"
 	}
 }

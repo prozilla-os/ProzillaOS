@@ -1,4 +1,4 @@
-.Window-container {
+.Container {
 	--header-height: 2.5rem;
 	--header-button-hover-color: rgba(255, 255, 255, 5%);
 
@@ -14,50 +14,33 @@
 	overflow: hidden;
 }
 
-@keyframes pop-in {
-	0% {
-		scale: 0;
-	}
-	100% {
-		scale: 100%;
-	}
-}
-
-.Window-container.Maximized {
-	width: 100%;
-	height: calc(100% - var(--task-bar-height));
-	border-radius: 0;
-	transform: none !important;
-	resize: none;
-}
-
 .Header {
-	--window-icon-size: 1.5rem;
-	--window-icon-margin: 0.75rem;
+	--dialog-icon-size: 1.5rem;
+	--dialog-icon-margin: 0.75rem;
 
 	display: flex;
 	align-items: center;
 	height: var(--header-height);
 	padding: 0.25rem;
-	padding-left: var(--window-icon-margin);
+	padding-left: var(--dialog-icon-margin);
 	padding-right: 0;
 	background-color: var(--background-color-b);
 	cursor: grab;
 }
 
-.Window-icon,
-.Window-icon > div,
-.Window-icon > div > svg {
+.Dialog-icon,
+.Dialog-icon > div,
+.Dialog-icon > div > svg {
 	height: 100%;
 	width: auto;
 }
 
-.Window-icon {
-	height: var(--window-icon-size);
-	margin-right: calc(var(--window-icon-margin) - 0.1rem);
+.Dialog-icon {
+	height: var(--dialog-icon-size);
+	margin-right: calc(var(--dialog-icon-margin) - 0.1rem);
 }
 
-.Window-icon > div {
+.Dialog-icon > div {
 	display: flex;
 	align-items: center;
 }
@@ -99,8 +82,30 @@
 	background-color: var(--header-button-hover-color);
 }
 
-.Window-content {
+.Dialog-content {
 	position: relative;
-	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
 	height: 100%;
+	overflow: hidden;
+}
+
+.Dialog-content button {
+	margin-bottom: 0.75rem;
+	padding: 0.5rem 1rem;
+	width: fit-content;
+	color: var(--foreground-color-a);
+	background-color: var(--background-color-a);
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	transition: background-color 100ms ease-in-out;
+	cursor: pointer;
+}
+
+.Dialog-content button:hover, .Dialog-content button:focus-visible {
+	background-color: var(--background-color-b);
 }

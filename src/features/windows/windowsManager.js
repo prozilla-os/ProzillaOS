@@ -57,7 +57,9 @@ export default class WindowsManager {
 	 * @returns {object}
 	 */
 	openFile(file) {
+		console.log(file);
 		const app = ApplicationsManager.getFileApplication(file.extension);
+		console.log(app);
 		if (app != null)
 			return this.open(app.id, { file });
 	}

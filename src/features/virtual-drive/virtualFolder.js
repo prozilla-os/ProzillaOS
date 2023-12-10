@@ -316,8 +316,8 @@ export class VirtualFolder extends VirtualBase {
 				object.fds = folders;
 		}
 
-		// Don't store folder if it's empty
-		if ((!object.fls || object.fls.length === 0) && (!object.fds || object.fds.length === 0))
+		// Don't store folder if it's empty and untouched
+		if (!this.editedByUser && (!object.fls || object.fls.length === 0) && (!object.fds || object.fds.length === 0))
 			return null;
 
 		return object;

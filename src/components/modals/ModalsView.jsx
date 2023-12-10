@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 import { Modal } from "../../features/modals/modal.js";
 import ModalsManager from "../../features/modals/modals.js";
 import { ModalView } from "./ModalView.jsx";
@@ -12,8 +12,15 @@ import styles from "./ModalsView.module.css";
  * @param {import("react").className} root.className 
  */
 export const ModalsView = memo(({ modalsManager, modals, style, className }) => {
+	const ref = useRef(null);
+
+	useEffect(() => {
+		if (modalsManager)
+			modalsManager.containerRef = ref;
+	}, [modalsManager, ref]);
+
 	return (
-		<div style={style} className={`${styles.Container} ${className}`}>
+		<div ref={ref} style={style} className={`${styles.Container} ${className}`}>
 			{modals?.map((modal) =>
 				<ModalView key={modal.id} modal={modal}/>
 			)}
