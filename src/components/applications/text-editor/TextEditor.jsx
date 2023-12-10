@@ -4,9 +4,7 @@ import styles from "./TextEditor.module.css";
 import { HeaderMenu } from "../.common/HeaderMenu.jsx";
 import Markdown from "markdown-to-jsx";
 import Application from "../../../features/applications/application.js";
-
-const DEFAULT_ZOOM = 16;
-const ZOOM_FACTOR = 4;
+import { DEFAULT_ZOOM, ZOOM_FACTOR } from "../../../constants/applications/textEditor.js";
 
 /**
  * @param {object} props

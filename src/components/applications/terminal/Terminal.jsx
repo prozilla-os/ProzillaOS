@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./Terminal.module.css";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
-import { Command } from "../../../features/applications/terminal/commands.js";
 import { clamp } from "../../../features/math/clamp.js";
 import { OutputLine } from "./OutputLine.jsx";
 import { InputLine } from "./InputLine.jsx";
-
-const USERNAME = "user";
-const HOSTNAME = "prozilla-os";
+import { HOSTNAME, USERNAME } from "../../../constants/applications/terminal.js";
+import CommandsManager from "../../../features/applications/terminal/commands.js";
 
 export function Terminal({ setTitle }) {
 	const [inputKey, setInputKey] = useState(0);
@@ -37,28 +35,29 @@ export function Terminal({ setTitle }) {
 		});
 	};
 
-	const submitInput = (value) => {
-		pushHistory({
-			text: prefix + value,
-			isInput: true,
-			value
-		});
-
-		setInputValue("");
-
+	const handleInput = (value) => {
+		const rawInputValueStart = value.indexOf(" ") + 1;
+		const rawInputValue = rawInputValueStart <= 0 ? "" : value.substr(rawInputValueStart);
 		value = value.trim();
 
 		if (value === "")
 			return;
 
 		const args = value.split(/ +/);
+
+		if (args[0].toLowerCase() === "sudo" && args.length > 1) {
+			args.shift();
+		}
+
 		const commandName = args.shift().toLowerCase();
 
-		const command = Command.find(commandName);
+		const command = CommandsManager.find(commandName);
 
-		if (!command) {
-			return promptOutput(`${commandName}: Command not found`);
-		}
+		if (!command)
+			return `${commandName}: Command not found`;
+
+		if (command.requireArgs && args.length === 0)
+			return `${commandName}: Incorrect syntax: ${commandName} requires at least 1 argument`;
 		
 		let response = null;
 
@@ -71,17 +70,41 @@ export function Terminal({ setTitle }) {
 				setCurrentDirectory,
 				username: USERNAME,
 				hostname: HOSTNAME,
+				rawInputValue
 			});
 
 			if (response == null)
-				return promptOutput(`${commandName}: Command failed`);
+				return `${commandName}: Command failed`;
 			
 			if (!response.blank)
-				promptOutput(response);
+				return response;
 		} catch (error) {
 			console.error(error);
-			promptOutput(`${commandName}: Command failed`);
+			return `${commandName}: Command failed`;
 		}
+	};
+
+	const submitInput = (value) => {
+		pushHistory({
+			text: prefix + value,
+			isInput: true,
+			value
+		});
+
+		setInputValue("");
+		setHistoryIndex(0);
+
+		// Piping is used to chain commands
+		const segments = value.split(" | ");
+
+		let output = null;
+		segments.forEach((segment) => {
+			// Output from the previous command gets added as an argument for the next command
+			output = handleInput(output ? `${segment} ${output}` : segment);
+		});
+
+		if (output)
+			promptOutput(output);
 	};
 
 	const updateHistoryIndex = (delta) => {
@@ -142,7 +165,7 @@ export function Terminal({ setTitle }) {
 		if (event.button === 2) {
 			event.preventDefault();
 
-			navigator.clipboard.readText().then((text) => {
+			navigator.clipboard.readText?.().then((text) => {
 				setInputValue(inputValue + text);
 			}).catch((error) => {
 				console.error(error);

@@ -11,7 +11,7 @@ import { ModalsView } from "../../modals/ModalsView.jsx";
 import { QuickAccessButton } from "./QuickAccessButton.jsx";
 import { useDialogBox } from "../../../hooks/modals/dialogBox.js";
 import Vector2 from "../../../features/math/vector2.js";
-import { DIALOG_CONTENT_TYPES } from "../../modals/dialog-box/DialogBox.jsx";
+import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.js";
 
 /**
  * @param {object} props

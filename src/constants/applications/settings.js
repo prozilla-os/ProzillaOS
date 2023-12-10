@@ -1,0 +1,1 @@
+export const WALLPAPERS_PATH = "~/Images/Wallpapers";

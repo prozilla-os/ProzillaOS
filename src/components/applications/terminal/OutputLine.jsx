@@ -9,7 +9,7 @@ export function OutputLine({ text }) {
 
 	return (<>
 		{lines.map((line, index) =>
-			<p key={index} className={styles.Output}>{line}</p>
+			<pre key={index} className={styles.Output}>{line === "" ? " " : line}</pre>
 		)}
 	</>);
 }

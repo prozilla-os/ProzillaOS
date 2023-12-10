@@ -6,10 +6,7 @@ import { ReactSVG } from "react-svg";
 import utilStyles from "../../../styles/utils.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-
-export const DIALOG_CONTENT_TYPES = {
-	CloseButton: 0
-};
+import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.js";
 
 export function DialogBox({ modal, params }) {
 	const { app, title, children } = params;

@@ -2,12 +2,11 @@ import { useCallback } from "react";
 import Modal from "../../features/modals/modal.js";
 import { DialogBox } from "../../components/modals/dialog-box/DialogBox.jsx";
 import Vector2 from "../../features/math/vector2.js";
-
-const DEFAULT_SIZE = new Vector2(400, 200);
+import { DEFAULT_DIALOG_SIZE } from "../../constants/modals.js";
 
 export function useDialogBox({ modalsManager }) {
 	const onDialogBox = useCallback((event, params = {}) => {
-		const size = params.size ?? DEFAULT_SIZE;
+		const size = params.size ?? DEFAULT_DIALOG_SIZE;
 		let positionX = (window.innerWidth - size.x) / 4;
 		let positionY = (window.innerHeight - size.y) / 4;
 

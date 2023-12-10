@@ -8,3 +8,11 @@ export function removeFromArray(item, array) {
 		array.splice(index, 1);
 	}
 }
+
+/**
+ * @param {*[]} array 
+ * @returns {*}
+ */
+export function randomFromArray(array) {
+	return array[Math.floor(Math.random() * array.length)];
+}

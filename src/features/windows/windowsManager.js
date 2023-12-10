@@ -1,10 +1,8 @@
+import { SCREEN_MARGIN, TASKBAR_HEIGHT } from "../../constants/windows.js";
 import ApplicationsManager from "../applications/applications.js";
 import { randomRange } from "../math/random.js";
 import Vector2 from "../math/vector2.js";
 import { VirtualFile } from "../virtual-drive/virtualFile.js";
-
-export const SCREEN_MARGIN = 32;
-export const TASKBAR_HEIGHT = 48;
 
 export default class WindowsManager {
 	constructor() {
