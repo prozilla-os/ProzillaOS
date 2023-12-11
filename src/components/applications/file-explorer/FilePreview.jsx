@@ -1,6 +1,6 @@
 import { faFile, faFileInvoice, faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./FileExplorer.module.css";
+import styles from "./FilePreview.module.css";
 import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
 
 /**

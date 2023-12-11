@@ -9,12 +9,15 @@ import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js"
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import { FALLBACK_WALLPAPER } from "../../constants/desktop.js";
 import { reloadViewport } from "../../features/utils/browser.js";
+import { useVirtualRoot } from "../../hooks/virtual-drive/virtualRootContext.js";
+import { DirectoryList } from "../applications/file-explorer/DirectoryList.jsx";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
 	const [wallpaper, setWallpaper] = useState(null);
 	const [modalsManager, modals] = useModals();
 	const windowsManager = useWindowsManager();
+	const virtualRoot = useVirtualRoot();
 	const { onContextMenu } = useContextMenu({
 		modalsManager,
 		options: {
@@ -31,6 +34,8 @@ export const Desktop = memo(() => {
 		})();
 	}, [settingsManager]);
 
+	const directory = virtualRoot.navigate("~/Desktop");
+
 	const onError = () => {
 		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
 		settings.set("wallpaper", FALLBACK_WALLPAPER);
@@ -41,11 +46,25 @@ export const Desktop = memo(() => {
 			className={styles.Container}
 			onContextMenu={onContextMenu}
 		>
+			<ModalsView modalsManager={modalsManager} modals={modals}/>
+			<div className={styles.Content}>
+				<DirectoryList
+					directory={directory}
+					fileClassname={styles["Item"]}
+					folderClassname={styles["Item"]}
+					onClickFile={(event, file) => {
+						event.preventDefault();
+						windowsManager.openFile(file);
+					}}
+					onClickFolder={(event, { linkedPath, path }) => {
+						windowsManager.open("file-explorer", { startPath: linkedPath ?? path });
+					}}
+				/>
+			</div>
 			{wallpaper
 				? <img src={wallpaper} className={styles.Wallpaper} alt="Desktop wallpaper" onError={onError}/>
 				: null
 			}
-			<ModalsView modalsManager={modalsManager} modals={modals}/>
 		</div>
 	</>);
 });

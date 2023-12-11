@@ -16,3 +16,29 @@
 	object-fit: cover;
 	pointer-events: none;
 }
+
+.Content {
+	--scale: 1rem;
+
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	justify-content: flex-start;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding: 0.5rem;
+	z-index: 1;
+}
+
+.Item {
+	padding: 0.25rem;
+	text-shadow: 0.1rem 0.1rem 0.2rem hsla(var(--background-color-a-hsl), 50%);
+}
+
+.Item > svg, .Item > div > svg {
+	filter: drop-shadow(0.1rem 0.1rem 0.2rem hsla(var(--background-color-a-hsl), 50%));
+}

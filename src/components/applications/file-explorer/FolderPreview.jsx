@@ -1,6 +1,6 @@
 import { faFolder, faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./FileExplorer.module.css";
+import styles from "./FolderPreview.module.css";
 import { VirtualFolder } from "../../../features/virtual-drive/virtualFolder.js";
 
 /**

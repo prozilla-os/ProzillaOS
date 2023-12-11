@@ -11,8 +11,7 @@ import { QuickAccessButton } from "./QuickAccessButton.jsx";
 import { useDialogBox } from "../../../hooks/modals/dialogBox.js";
 import Vector2 from "../../../features/math/vector2.js";
 import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.js";
-import { FilePreview } from "./FilePreview.jsx";
-import { FolderPreview } from "./FolderPreview.jsx";
+import { DirectoryList } from "./DirectoryList.jsx";
 
 export function FileExplorer({ startPath, app }) {
 	const virtualRoot = useVirtualRoot();
@@ -135,33 +134,19 @@ export function FileExplorer({ startPath, app }) {
 					<QuickAccessButton name={"Images"} onClick={() => { changeDirectory("~/Images"); }} icon={faImage}/>
 				</div>
 				<div id="main" className={styles.Main}>
-					{currentDirectory?.getSubFolders(showHidden)?.map((folder, index) => 
-						<button key={index} tabIndex={0} className={styles["Folder-button"]}
-							onContextMenu={(event) => {
-								onContextMenuFolder(event, { name: folder.name });
-							}}
-							onClick={() => {
-								changeDirectory(folder.linkedPath ?? folder.name);
-							}}
-						>
-							<FolderPreview folder={folder}/>
-							<p>{folder.name}</p>
-						</button>
-					)}
-					{currentDirectory?.getFiles(showHidden)?.map((file, index) => 
-						<button key={index} tabIndex={0} className={styles["File-button"]}
-							onContextMenu={(event) => {
-								onContextMenuFile(event, { file });
-							}}
-							onClick={(event) => {
-								event.preventDefault();
-								windowsManager.openFile(file);
-							}}
-						>
-							<FilePreview file={file}/>
-							<p>{file.id}</p>
-						</button>
-					)}
+					<DirectoryList
+						directory={currentDirectory} 
+						showHidden={showHidden}
+						onClickFile={(event, file) => {
+							event.preventDefault();
+							windowsManager.openFile(file);
+						}}
+						onClickFolder={(event, folder) => {
+							changeDirectory(folder.linkedPath ?? folder.name);
+						}}
+						onContextMenuFile={onContextMenuFile}
+						onContextMenuFolder={onContextMenuFolder}
+					/>
 				</div>
 			</div>
 		</div>
