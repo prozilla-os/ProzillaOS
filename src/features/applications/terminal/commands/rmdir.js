@@ -5,7 +5,7 @@ export const rmdir = new Command("rmdir", (args, { currentDirectory }) => {
 	const folder = currentDirectory.findSubFolder(name);
 
 	if (!folder)
-		return `rmdir: ${args[0]}: No such directory`;
+		return `${this.name}: ${args[0]}: No such directory`;
 	
 	folder.delete();
 	return { blank: true };

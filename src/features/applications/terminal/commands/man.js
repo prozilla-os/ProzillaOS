@@ -6,22 +6,38 @@ const MARGIN = 5;
 export const man = new Command("man")
 	.setRequireArgs(true)
 	.setManual({
-		purpose: "show system reference manuals",
-		usage: "man [OPTION]... page",
+		purpose: "Show system reference manuals",
+		usage: "man [OPTION]... page\n"
+			+ "man -k [OPTION]... regexp",
 		description: "Each page arguments given to man is normally the name of a command.\n"
-			+ "The manual page associated with this command is then found and displayed."
+			+ "The manual page associated with this command is then found and displayed.",
+		options: {
+			"-k": "Search for manual page using regexp"
+		}
 	})
-	.setExecute((args) => {
+	.setExecute(function(args, { options }) {
+		// Search function
+		if (options.includes("k")) {
+			const commands = CommandsManager.search(args[0]);
+			return commands.map((command) => {
+				if (command.manual?.purpose) {
+					return  `${command.name} - ${command.manual.purpose}`;
+				} else {
+					return command.name;
+				}
+			}).join("\n");
+		}
+
 		const commandName = args[0].toLowerCase();
 		const command = CommandsManager.find(commandName);
 
 		if (!command)
-			return `man: ${commandName}: Command not found`;
+			return `${this.name}: ${commandName}: Command not found`;
 
 		const manual = command.manual;
 
 		if (!manual)
-			return `man: ${commandName}: No manual found`;
+			return `${this.name}: ${commandName}: No manual found`;
 
 		const formatText = (text) => {
 			const lines = text.split("\n").map((line) => " ".repeat(MARGIN) + line);
@@ -47,6 +63,15 @@ export const man = new Command("man")
 			sections.push([
 				"DESCRIPTION",
 				formatText(manual.description)
+			]);
+		}
+
+		if (manual.options) {
+			sections.push([
+				"OPTIONS",
+				formatText(Object.entries(manual.options).map(([key, value]) => {
+					return `${key} ${value}`;
+				}).join("\n"))
 			]);
 		}
 

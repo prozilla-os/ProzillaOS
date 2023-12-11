@@ -5,7 +5,7 @@ export const rm = new Command("rm", (args, { currentDirectory }) => {
 	const file = currentDirectory.findFile(name, extension);
 
 	if (!file)
-		return `rm: ${args[0]}: No such file`;
+		return `${this.name}: ${args[0]}: No such file`;
 	
 	file.delete();
 	return { blank: true };

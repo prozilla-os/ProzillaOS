@@ -7,7 +7,7 @@ export const ls = new Command("ls")
 		description: "List information about the FILEs (the current directory by default).\n"
 			+ "Sort entries alphabetically if none of -cftuvSUX nor --sort is specified."
 	})
-	.setExecute((args, { currentDirectory }) => {
+	.setExecute(function(args, { currentDirectory }) {
 		let directory = currentDirectory;
 	
 		if (args.length > 0) {
@@ -15,7 +15,7 @@ export const ls = new Command("ls")
 		}
 	
 		if (!directory)
-			return `ls: Cannot access '${args[0]}': No such file or directory`;
+			return `${this.name}: Cannot access '${args[0]}': No such file or directory`;
 	
 		const folderNames = directory.subFolders.map((folder) => folder.id);
 		const fileNames = directory.files.map((file) => file.id);

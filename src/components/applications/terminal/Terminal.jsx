@@ -6,8 +6,9 @@ import { OutputLine } from "./OutputLine.jsx";
 import { InputLine } from "./InputLine.jsx";
 import { HOSTNAME, USERNAME } from "../../../constants/applications/terminal.js";
 import CommandsManager from "../../../features/applications/terminal/commands.js";
+import { removeFromArray } from "../../../features/utils/array.js";
 
-export function Terminal({ setTitle }) {
+export function Terminal({ setTitle, close: exit }) {
 	const [inputKey, setInputKey] = useState(0);
 	const [inputValue, setInputValue] = useState("");
 	const [history, setHistory] = useState([]);
@@ -43,22 +44,46 @@ export function Terminal({ setTitle }) {
 		if (value === "")
 			return;
 
-		const args = value.split(/ +/);
+		// Get arguments
+		const args = value.match(/(?:[^\s"]+|"[^"]*")+/g);
 
 		if (args[0].toLowerCase() === "sudo" && args.length > 1) {
 			args.shift();
 		}
 
+		// Get command
 		const commandName = args.shift().toLowerCase();
-
 		const command = CommandsManager.find(commandName);
 
 		if (!command)
 			return `${commandName}: Command not found`;
 
+		// Get options
+		const options = [];
+		args.filter((arg) => arg.startsWith("-")).forEach((option) => {
+			if (option.startsWith("--")) {
+				const longOption = option.substring(2).toLowerCase();
+				if (!options.includes(longOption))
+					options.push(longOption);
+			} else {
+				const shortOptions = option.substring(1).split("");
+				shortOptions.forEach((shortOption) => {
+					if (!options.includes(shortOption))
+						options.push(shortOption);
+				});
+			}
+			
+			removeFromArray(option, args);
+		});
+
+		// Check usage
 		if (command.requireArgs && args.length === 0)
-			return `${commandName}: Incorrect syntax: ${commandName} requires at least 1 argument`;
+			return `${commandName}: Incorrect usage: ${commandName} requires at least 1 argument`;
+
+		if (command.requireOptions && options.length === 0)
+			return `${commandName}: Incorrect usage: ${commandName} requires at least 1 option`;
 		
+		// Execute command
 		let response = null;
 
 		try {
@@ -70,7 +95,9 @@ export function Terminal({ setTitle }) {
 				setCurrentDirectory,
 				username: USERNAME,
 				hostname: HOSTNAME,
-				rawInputValue
+				rawInputValue,
+				options,
+				exit
 			});
 
 			if (response == null)

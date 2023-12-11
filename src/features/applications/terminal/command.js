@@ -1,28 +1,33 @@
 import { VirtualFolder } from "../../virtual-drive/virtualFolder.js";
 import { VirtualRoot } from "../../virtual-drive/virtualRoot.js";
 
+/**
+ * @callback executeType
+ * @param {string[]} args 
+ * @param {object} options
+ * @param {Function} options.promptOutput
+ * @param {Function} options.pushHistory 
+ * @param {VirtualRoot} options.virtualRoot 
+ * @param {VirtualFolder} options.currentDirectory 
+ * @param {Function} options.setCurrentDirectory 
+ * @param {string} options.username 
+ * @param {string} options.hostname 
+ * @param {string} options.rawInputValue 
+ * @param {string[]} options.options 
+ * @param {Function} options.exit
+ * @returns {string|{ blank: boolean }}
+ */
+
 export default class Command {
 	/** @type {string} */
 	name;
 
-	/**
-	 * @param {string[]} args 
-	 * @param {object} options
-	 * @param {Function} options.promptOutput
-	 * @param {Function} options.pushHistory 
-	 * @param {VirtualRoot} options.virtualRoot 
-	 * @param {VirtualFolder} options.currentDirectory 
-	 * @param {Function} options.setCurrentDirectory 
-	 * @param {string} options.username 
-	 * @param {string} options.hostname 
-	 * @param {string} options.rawInputValue 
-	 * @returns {string|{ blank: boolean }}
-	 */
-	execute = (args, options) => {};
+	/** @type {executeType} */
+	execute = () => {};
 
 	/**
 	 * @param {string} name 
-	 * @param {Function} execute 
+	 * @param {executeType} execute 
 	 */
 	constructor(name, execute) {
 		this.name = name;
@@ -39,7 +44,7 @@ export default class Command {
 	}
 
 	/**
-	 * @param {Function} execute 
+	 * @param {executeType} execute 
 	 * @returns {Command}
 	 */
 	setExecute(execute) {
@@ -57,11 +62,20 @@ export default class Command {
 	}
 
 	/**
-	 * @param {{ purpose: string, usage: string, description: string}} name 
+	 * @param {boolean} value 
 	 * @returns {Command}
 	 */
-	setManual({ purpose, usage, description }) {
-		this.manual = { purpose, usage, description };
+	setRequireOptions(value) {
+		this.requireOptions = value;
+		return this;
+	}
+
+	/**
+	 * @param {{ purpose: string, usage: string, description: string, options: object }} manual 
+	 * @returns {Command}
+	 */
+	setManual({ purpose, usage, description, options }) {
+		this.manual = { purpose, usage, description, options };
 		return this;
 	}
 }
