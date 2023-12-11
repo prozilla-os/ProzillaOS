@@ -94,6 +94,13 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	/**
+	 * @returns {boolean}
+	 */
+	isFile() {
+		return true;
+	}
+
+	/**
 	 * @returns {object | null}
 	 */
 	toJSON() {

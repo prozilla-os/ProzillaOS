@@ -1,4 +1,6 @@
 import { removeFromArray } from "../utils/array.js";
+import { VirtualFileLink } from "./VirtualFileLink.js";
+import { VirtualFolderLink } from "./VirtualFolderLink.js";
 import { VirtualBase } from "./virtualBase.js";
 import { VirtualFile } from "./virtualFile.js";
 
@@ -132,6 +134,51 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
+	 * @callback createFileLinkCallback
+	 * @param {VirtualFileLink} newFileLink
+	 */
+
+	/**
+	 * Creates a file link with a name
+	 * @param {string} name 
+	 * @param {createFileLinkCallback} callback
+	 * @returns {VirtualFolder}
+	 */
+	createFileLink(name, callback) {
+		if (!this.canBeEdited)
+			return;
+
+		let newFile = this.findFile(name);
+		if (newFile == null) {
+			newFile = new VirtualFileLink(name);
+			this.files.push(newFile);
+			newFile.parent = this;
+		}
+		callback?.(newFile);
+
+		newFile.confirmChanges();
+		return this;
+	}
+
+	/**
+	 * Creates files based on an array of objects with file names and extensions
+	 * @param {object[]} files 	
+	 * @param {string} files.name
+	 * @returns {VirtualFolder} 
+	 */
+	createFileLinks(files) {
+		if (!this.canBeEdited)
+			return;
+
+		files.forEach(({ name }) => {
+			this.createFileLink(name);
+		});
+
+		this.confirmChanges();
+		return this;
+	}
+
+	/**
 	 * @callback createFolderCallback
 	 * @param {VirtualFolder} newFolder
 	 */
@@ -139,8 +186,8 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Creates a folder with a name
 	 * @param {string} name 
-	 * @returns {VirtualFolder}
 	 * @param {createFolderCallback} callback
+	 * @returns {VirtualFolder}
 	 */
 	createFolder(name, callback) {
 		if (!this.canBeEdited)
@@ -160,14 +207,58 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Creates folders based on an array of folder names
-	 * @param {string[]} folders 
+	 * @param {string[]} names 
 	 * @returns {VirtualFolder}
 	 */
-	createFolders(folders) {
+	createFolders(names) {
 		if (!this.canBeEdited)
 			return;
 
-		folders.forEach((name) => {
+		names.forEach((name) => {
+			this.createFolder(name);
+		});
+
+		this.confirmChanges();
+		return this;
+	}
+
+	/**
+	 * @callback createFolderLinkCallback
+	 * @param {VirtualFolderLink} newFolderLink
+	 */
+
+	/**
+	 * Creates a folder link with a name
+	 * @param {string} name 
+	 * @param {createFolderLinkCallback} callback
+	 * @returns {VirtualFolderLink}
+	 */
+	createFolderLink(name, callback) {
+		if (!this.canBeEdited)
+			return;
+
+		let newFolder = this.findSubFolder(name);
+		if (newFolder == null) {
+			newFolder = new VirtualFolderLink(name);
+			this.subFolders.push(newFolder);
+			newFolder.parent = this;
+		}
+		callback?.(newFolder);
+		
+		newFolder.confirmChanges();
+		return this;
+	}
+
+	/**
+	 * Creates folder links based on an array of folder names
+	 * @param {string[]} names 
+	 * @returns {VirtualFolder}
+	 */
+	createFolderLinks(names) {
+		if (!this.canBeEdited)
+			return;
+
+		names.forEach((name) => {
 			this.createFolder(name);
 		});
 
@@ -177,7 +268,7 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Removes a file or folder from this folder
-	 * @param {VirtualFile | VirtualFolder} child 
+	 * @param {VirtualFile | VirtualFolder | VirtualFolderLink} child 
 	 */
 	remove(child) {
 		if (!this.canBeEdited)
@@ -185,9 +276,9 @@ export class VirtualFolder extends VirtualBase {
 
 		child.parent = null;
 
-		if (child instanceof VirtualFile) {
+		if (child.isFile()) {
 			removeFromArray(child, this.files);
-		} else if (child instanceof VirtualFolder) {
+		} else if (child.isFolder()) {
 			removeFromArray(child, this.subFolders);
 		}
 
@@ -288,6 +379,13 @@ export class VirtualFolder extends VirtualBase {
 		return this.subFolders.filter(({ name }) => 
 			!name.startsWith(".")
 		);
+	}
+
+	/**
+	 * @returns {boolean}
+	 */
+	isFolder() {
+		return true;
 	}
 
 	/**

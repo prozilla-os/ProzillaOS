@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFile, faFileLines, faFolder, faHouse, faImage, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
+import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import { useContextMenu } from "../../../hooks/modals/contextMenu.js";
 import { useModals } from "../../../hooks/modals/modals.js";
@@ -12,31 +11,8 @@ import { QuickAccessButton } from "./QuickAccessButton.jsx";
 import { useDialogBox } from "../../../hooks/modals/dialogBox.js";
 import Vector2 from "../../../features/math/vector2.js";
 import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.js";
-
-/**
- * @param {object} props
- * @param {VirtualFile} props.file
- */
-function FilePreview({ file }) {
-	let preview = null;
-
-	switch (file.extension) {
-		case "png":
-			preview = (<div className={styles["File-button-preview"]}>
-				<img src={file.source} alt={file.id} draggable="false"/>
-			</div>);
-			break;
-		case "txt":
-		case "md":
-			preview = <FontAwesomeIcon icon={faFileLines}/>;
-			break;
-		default:
-			preview = <FontAwesomeIcon icon={faFile}/>;
-			break;
-	}
-
-	return preview;
-}
+import { FilePreview } from "./FilePreview.jsx";
+import { FolderPreview } from "./FolderPreview.jsx";
 
 export function FileExplorer({ startPath, app }) {
 	const virtualRoot = useVirtualRoot();
@@ -60,13 +36,13 @@ export function FileExplorer({ startPath, app }) {
 			"Delete": ({ name }) => { currentDirectory.findSubFolder(name)?.delete(); }
 		}
 	});
-	const { onContextMenu: onNew } = useContextMenu({
-		modalsManager,
-		options: {
-			"File": () => { currentDirectory.createFile("New File"); },
-			"Folder": () => { currentDirectory.createFolder("New Folder"); }
-		}
-	});
+	// const { onContextMenu: onNew } = useContextMenu({
+	// 	modalsManager,
+	// 	options: {
+	// 		"File": () => { currentDirectory.createFile("New File"); },
+	// 		"Folder": () => { currentDirectory.createFolder("New Folder"); }
+	// 	}
+	// });
 	const { onDialogBox } = useDialogBox({ modalsManager });
 
 	const changeDirectory = (path, absolute = false) => {
@@ -159,17 +135,17 @@ export function FileExplorer({ startPath, app }) {
 					<QuickAccessButton name={"Images"} onClick={() => { changeDirectory("~/Images"); }} icon={faImage}/>
 				</div>
 				<div id="main" className={styles.Main}>
-					{currentDirectory?.getSubFolders(showHidden)?.map(({ name }, index) => 
+					{currentDirectory?.getSubFolders(showHidden)?.map((folder, index) => 
 						<button key={index} tabIndex={0} className={styles["Folder-button"]}
 							onContextMenu={(event) => {
-								onContextMenuFolder(event, { name });
+								onContextMenuFolder(event, { name: folder.name });
 							}}
 							onClick={() => {
-								changeDirectory(name);
+								changeDirectory(folder.linkedPath ?? folder.name);
 							}}
 						>
-							<FontAwesomeIcon icon={faFolder}/>
-							<p>{name}</p>
+							<FolderPreview folder={folder}/>
+							<p>{folder.name}</p>
 						</button>
 					)}
 					{currentDirectory?.getFiles(showHidden)?.map((file, index) => 

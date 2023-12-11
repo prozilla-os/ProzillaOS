@@ -150,6 +150,20 @@ export class VirtualBase extends EventEmitter {
 	}
 
 	/**
+	 * @returns {boolean}
+	 */
+	isFile() {
+		return false;
+	}
+
+	/**
+	 * @returns {boolean}
+	 */
+	isFolder() {
+		return false;
+	}
+
+	/**
 	 * @returns {object | null}
 	 */
 	toJSON() {

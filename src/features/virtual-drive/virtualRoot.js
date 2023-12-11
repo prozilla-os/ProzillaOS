@@ -1,5 +1,6 @@
 import { WALLPAPERS } from "../../constants/desktop.js";
 import { StorageManager } from "../storage/storageManager.js";
+import { VirtualFolderLink } from "./VirtualFolderLink.js";
 import { VirtualFile } from "./virtualFile.js";
 import { VirtualFolder } from "./virtualFolder.js";
 
@@ -43,6 +44,8 @@ export class VirtualRoot extends VirtualFolder {
 		this.createFolder("usr", (folder) => {
 			folder.createFolders(["bin", "sbin", "lib", "share"]);
 		});
+
+		const linkedPaths = {};
 			
 		this.createFolder("home", (folder) => {
 			folder.createFolder("prozilla-os", (folder) => {
@@ -53,6 +56,7 @@ export class VirtualRoot extends VirtualFolder {
 						});
 					})
 					.createFolder("Images", (folder) => {
+						linkedPaths.images = folder.path;
 						folder.createFolder("Wallpapers", (folder) => {
 							folder.setProtected(true);
 							for (let i = 0; i < WALLPAPERS.length; i++) {
@@ -61,16 +65,28 @@ export class VirtualRoot extends VirtualFolder {
 									file.setSource(source);
 								});
 							}
+						}).createFile("ProzillaOS", "png", (file) => {
+							file.setSource("/media/banner-logo-title.png");
 						});
 					})
 					.createFolder("Documents", (folder) => {
+						linkedPaths.documents = folder.path;
 						folder.createFile("text", "txt", (file) => {
 							file.setContent("Hello world!");
 						}).createFile("info", "md", (file) => {
+							linkedPaths.info = file.path;
 							file.setProtected(true).setSource("/documents/info.md");
 						});
 					})
-					.createFolder("Desktop");
+					.createFolder("Desktop", (folder) => {
+						folder.createFileLink("info.md", (fileLink) => {
+							fileLink.setLinkedPath(linkedPaths.info);
+						}).createFolderLink("Images", (folderLink) => {
+							folderLink.setLinkedPath(linkedPaths.images);
+						}).createFolderLink("Documents", (folderLink) => {
+							folderLink.setLinkedPath(linkedPaths.documents);
+						});
+					});
 			});
 		});
 
@@ -110,7 +126,14 @@ export class VirtualRoot extends VirtualFolder {
 
 		const shortcuts = {...object.scs};
 
-		const addFile = ({ nam: name, ext: extension, src: source, cnt: content }, parent = this) => {
+		const addFile = ({ nam: name, ext: extension, src: source, cnt: content, lnk: link }, parent = this) => {
+			if (link) {
+				parent.createFileLink(name, (fileLink) => {
+					fileLink.setLinkedPath(link);
+				});
+				return;
+			}
+			
 			parent.createFile(name, extension, (file) => {
 				if (source != null) {
 					file.setSource(source);
@@ -120,7 +143,14 @@ export class VirtualRoot extends VirtualFolder {
 			});
 		};
 
-		const addFolder = ({ nam: name, fds: folders, fls: files }, parent = this) => {
+		const addFolder = ({ nam: name, fds: folders, fls: files, lnk: link }, parent = this) => {
+			if (link) {
+				parent.createFolderLink(name, (folderLink) => {
+					folderLink.setLinkedPath(link);
+				});
+				return;
+			}
+
 			parent.createFolder(name, (folder) => {
 				if (Object.values(shortcuts).includes(folder.displayPath)) {
 					let alias;
@@ -193,7 +223,7 @@ export class VirtualRoot extends VirtualFolder {
 	/**
 	 * Adds a shortcut to a file or folder
 	 * @param {string} name 
-	 * @param {VirtualFile | VirtualFolder} destination 
+	 * @param {VirtualFile | VirtualFolder | VirtualFolderLink} destination 
 	 * @returns {VirtualRoot}
 	 */
 	addShortcut(name, destination) {
