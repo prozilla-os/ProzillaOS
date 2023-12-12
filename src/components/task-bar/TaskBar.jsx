@@ -2,7 +2,7 @@ import { memo, useRef, useState } from "react";
 import styles from "./TaskBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import ApplicationsManager from "../../features/applications/applications.js";
+import AppsManager from "../../features/applications/applications.js";
 import { ReactSVG } from "react-svg";
 import { HomeMenu } from "./menus/HomeMenu.jsx";
 import OutsideClickListener from "../../hooks/utils/outsideClick.js";
@@ -105,7 +105,7 @@ export const Taskbar = memo(() => {
 			</div>
 			<div className={styles["App-icons"]} style={{ boxShadow }}>
 				<div className={styles["App-icons-inner"]} onScroll={onUpdate} onResize={onUpdate} ref={ref}>
-					{ApplicationsManager.APPLICATIONS.map((app) => 
+					{AppsManager.APPLICATIONS.map((app) => 
 						<AppButton app={app} key={app.id}/>
 					)}
 				</div>

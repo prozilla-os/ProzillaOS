@@ -1,6 +1,6 @@
 import styles from "./SearchMenu.module.css";
 import appStyles from "./AppList.module.css";
-import ApplicationsManager from "../../../features/applications/applications.js";
+import AppsManager from "../../../features/applications/applications.js";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import { ReactSVG } from "react-svg";
 import { useEffect } from "react";
@@ -32,7 +32,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	}, [inputRef]);
 
 	useEffect(() => {
-		setApps(ApplicationsManager.APPLICATIONS.filter(({ name }) =>
+		setApps(AppsManager.APPLICATIONS.filter(({ name }) =>
 			name.toLowerCase().includes(searchQuery.toLowerCase().trim())
 		));
 	}, [searchQuery]);
@@ -78,7 +78,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 								windowsManager.open(id);
 							}}
 						>
-							<ReactSVG src={`${process.env.PUBLIC_URL}/media/applications/icons/${id}.svg`}/>
+							<ReactSVG src={AppsManager.getAppIconUrl(id)}/>
 							<p>{name}</p>
 						</button>
 					)}

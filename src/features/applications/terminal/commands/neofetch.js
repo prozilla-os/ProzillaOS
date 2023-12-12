@@ -1,7 +1,8 @@
+import { APPS } from "../../../../constants/applications.js";
 import { ASCII_LOGO, NAME } from "../../../../constants/branding.js";
 import { START_DATE } from "../../../../index.js";
 import { formatRelativeTime } from "../../../utils/date.js";
-import ApplicationsManager from "../../applications.js";
+import AppsManager from "../../applications.js";
 import Command from "../command.js";
 
 export const neofetch = new Command("neofetch", (args, { username, hostname }) => {
@@ -32,7 +33,7 @@ export const neofetch = new Command("neofetch", (args, { username, hostname }) =
 		`RESOLUTION: ${window.innerWidth}x${window.innerHeight}`,
 		"THEME: default",
 		"ICONS: Font Awesome",
-		`TERMINAL: ${ApplicationsManager.getApplication("terminal")?.name ?? "Unknown"}`,
+		`TERMINAL: ${AppsManager.getApp(APPS.TERMINAL)?.name ?? "Unknown"}`,
 		`BROWSER: ${browserName}`,
 		`PLATFORM: ${navigator.platform}`,
 		`LANGUAGE: ${navigator.language}`,

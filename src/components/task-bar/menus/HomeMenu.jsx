@@ -3,7 +3,7 @@ import styles from "./HomeMenu.module.css";
 import appStyles from "./AppList.module.css";
 import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
-import ApplicationsManager from "../../../features/applications/applications.js";
+import AppsManager from "../../../features/applications/applications.js";
 import { ReactSVG } from "react-svg";
 import { closeViewport } from "../../../features/utils/browser.js";
 import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
@@ -11,6 +11,7 @@ import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.
 import { useEffect, useState } from "react";
 import Vector2 from "../../../features/math/vector2.js";
 import utilStyles from "../../../styles/utils.module.css";
+import { APPS } from "../../../constants/applications.js";
 
 /**
  * @param {object} props 
@@ -82,13 +83,13 @@ export function HomeMenu({ active, setActive, search }) {
 					</button>
 					<button title="Images" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager.open("file-explorer", { startPath: "~/Images" });
+						windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Images" });
 					}}>
 						<FontAwesomeIcon icon={faImage}/>
 					</button>
 					<button title="Documents" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager.open("file-explorer", { startPath: "~/Documents" }); }
+						windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Documents" }); }
 					}>
 						<FontAwesomeIcon icon={faFileLines}/>
 					</button>
@@ -96,7 +97,7 @@ export function HomeMenu({ active, setActive, search }) {
 				<div className={styles.Apps}>
 					<h1 className={utilStyles["Text-bold"]}>ProzillaOS</h1>
 					<div className={appStyles["App-list"]}>
-						{ApplicationsManager.APPLICATIONS.map(({ name, id }) => 
+						{AppsManager.APPLICATIONS.map(({ name, id }) => 
 							<button
 								key={id}
 								className={appStyles["App-button"]}
@@ -107,7 +108,7 @@ export function HomeMenu({ active, setActive, search }) {
 								}}
 								title={name}
 							>
-								<ReactSVG src={`${process.env.PUBLIC_URL}/media/applications/icons/${id}.svg`}/>
+								<ReactSVG src={AppsManager.getAppIconUrl(id)}/>
 								<h2 className={utilStyles["Text-regular"]}>{name}</h2>
 							</button>
 						)}

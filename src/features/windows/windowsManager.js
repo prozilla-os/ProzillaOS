@@ -1,5 +1,5 @@
 import { SCREEN_MARGIN, TASKBAR_HEIGHT } from "../../constants/windows.js";
-import ApplicationsManager from "../applications/applications.js";
+import AppsManager from "../applications/applications.js";
 import { randomRange } from "../math/random.js";
 import Vector2 from "../math/vector2.js";
 import { VirtualFile } from "../virtual-drive/virtualFile.js";
@@ -16,7 +16,7 @@ export default class WindowsManager {
 	 * @returns {object | null}
 	 */
 	open(appId, options) {
-		const app = ApplicationsManager.getApplication(appId);
+		const app = AppsManager.getApp(appId);
 
 		if (app == null) {
 			console.warn(`Failed to open app ${appId}: app not found`);
@@ -52,14 +52,13 @@ export default class WindowsManager {
 
 	/**
 	 * @param {VirtualFile} file 
+	 * @param {object} options 
 	 * @returns {object}
 	 */
-	openFile(file) {
-		console.log(file);
-		const app = ApplicationsManager.getFileApplication(file.extension);
-		console.log(app);
+	openFile(file, options = {}) {
+		const app = AppsManager.getFileApp(file.extension);
 		if (app != null)
-			return this.open(app.id, { file });
+			return this.open(app.id, { file, ...options });
 	}
 
 	/**

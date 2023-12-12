@@ -1,4 +1,6 @@
+import { APPS } from "../../constants/applications.js";
 import { WALLPAPERS } from "../../constants/desktop.js";
+import AppsManager from "../applications/applications.js";
 import { StorageManager } from "../storage/storageManager.js";
 import { VirtualFolderLink } from "./VirtualFolderLink.js";
 import { VirtualFile } from "./virtualFile.js";
@@ -56,7 +58,7 @@ export class VirtualRoot extends VirtualFolder {
 						});
 					})
 					.createFolder("Images", (folder) => {
-						linkedPaths.images = folder.path;
+						folder.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder-images"));
 						folder.createFolder("Wallpapers", (folder) => {
 							folder.setProtected(true);
 							for (let i = 0; i < WALLPAPERS.length; i++) {
@@ -68,15 +70,19 @@ export class VirtualRoot extends VirtualFolder {
 						}).createFile("ProzillaOS", "png", (file) => {
 							file.setSource("/media/banner-logo-title.png");
 						});
+						linkedPaths.images = folder.path;
 					})
 					.createFolder("Documents", (folder) => {
-						linkedPaths.documents = folder.path;
+						folder.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder-text"));
 						folder.createFile("text", "txt", (file) => {
 							file.setContent("Hello world!");
 						}).createFile("info", "md", (file) => {
+							file.setProtected(true)
+								.setSource("/documents/info.md")
+								.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-info"));
 							linkedPaths.info = file.path;
-							file.setProtected(true).setSource("/documents/info.md");
 						});
+						linkedPaths.documents = folder.path;
 					})
 					.createFolder("Desktop", (folder) => {
 						folder.createFileLink("info.md", (fileLink) => {
@@ -126,10 +132,20 @@ export class VirtualRoot extends VirtualFolder {
 
 		const shortcuts = {...object.scs};
 
-		const addFile = ({ nam: name, ext: extension, src: source, cnt: content, lnk: link }, parent = this) => {
+		const addFile = ({
+			nam: name,
+			ext: extension,
+			src: source,
+			cnt: content,
+			lnk: link,
+			ico: iconUrl,
+		}, parent = this) => {
 			if (link) {
 				parent.createFileLink(name, (fileLink) => {
 					fileLink.setLinkedPath(link);
+					if (iconUrl != null) {
+						fileLink.setIconUrl(iconUrl);
+					}
 				});
 				return;
 			}
@@ -140,13 +156,25 @@ export class VirtualRoot extends VirtualFolder {
 				} else if (content != null) {
 					file.setContent(content);
 				}
+				if (iconUrl != null) {
+					file.setIconUrl(iconUrl);
+				}
 			});
 		};
 
-		const addFolder = ({ nam: name, fds: folders, fls: files, lnk: link }, parent = this) => {
+		const addFolder = ({
+			nam: name,
+			fds: folders,
+			fls: files,
+			lnk: link,
+			ico: iconUrl,
+		}, parent = this) => {
 			if (link) {
 				parent.createFolderLink(name, (folderLink) => {
 					folderLink.setLinkedPath(link);
+					if (iconUrl != null) {
+						folderLink.setIconUrl(iconUrl);
+					}
 				});
 				return;
 			}
@@ -169,6 +197,9 @@ export class VirtualRoot extends VirtualFolder {
 					files.forEach((file) => {
 						addFile(file, folder);
 					});
+				}
+				if (iconUrl != null) {
+					folder.setIconUrl(iconUrl);
 				}
 			});
 		};

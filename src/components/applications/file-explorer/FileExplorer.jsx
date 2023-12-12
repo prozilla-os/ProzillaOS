@@ -11,7 +11,7 @@ import { QuickAccessButton } from "./QuickAccessButton.jsx";
 import { useDialogBox } from "../../../hooks/modals/dialogBox.js";
 import Vector2 from "../../../features/math/vector2.js";
 import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.js";
-import { DirectoryList } from "./DirectoryList.jsx";
+import { DirectoryList } from "./directory-list/DirectoryList.jsx";
 
 export function FileExplorer({ startPath, app }) {
 	const virtualRoot = useVirtualRoot();
@@ -130,8 +130,8 @@ export function FileExplorer({ startPath, app }) {
 				<div className={styles.Sidebar}>
 					<QuickAccessButton name={"Home"} onClick={() => { changeDirectory("~"); }} icon={faHouse}/>
 					<QuickAccessButton name={"Desktop"} onClick={() => { changeDirectory("~/Desktop"); }} icon={faDesktop}/>
-					<QuickAccessButton name={"Documents"} onClick={() => { changeDirectory("~/Documents"); }} icon={faFileLines}/>
 					<QuickAccessButton name={"Images"} onClick={() => { changeDirectory("~/Images"); }} icon={faImage}/>
+					<QuickAccessButton name={"Documents"} onClick={() => { changeDirectory("~/Documents"); }} icon={faFileLines}/>
 				</div>
 				<div id="main" className={styles.Main}>
 					<DirectoryList

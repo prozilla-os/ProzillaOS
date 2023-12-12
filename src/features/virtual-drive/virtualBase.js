@@ -69,6 +69,27 @@ export class VirtualBase extends EventEmitter {
 		return this;
 	}
 
+	/**
+	 * @param {string} iconUrl 
+	 * @returns {VirtualBase}
+	 */
+	setIconUrl(iconUrl) {
+		if (this.iconUrl === iconUrl || !this.canBeEdited)
+			return;
+
+		this.iconUrl = iconUrl;
+
+		this.confirmChanges();
+		return this;
+	}
+
+	/**
+	 * @returns {string}
+	 */
+	getIconUrl = () => {
+		return this.iconUrl ?? this.linkedFile?.iconUrl ?? this.linkedFolder?.iconUrl;
+	};
+
 	delete() {
 		if (!this.canBeEdited)
 			return;
@@ -168,7 +189,8 @@ export class VirtualBase extends EventEmitter {
 	 */
 	toJSON() {
 		const object = {
-			nam: this.name
+			nam: this.name,
+			ico: this.iconUrl,
 		};
 
 		return object;

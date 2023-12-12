@@ -10,7 +10,9 @@ import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import { FALLBACK_WALLPAPER } from "../../constants/desktop.js";
 import { reloadViewport } from "../../features/utils/browser.js";
 import { useVirtualRoot } from "../../hooks/virtual-drive/virtualRootContext.js";
-import { DirectoryList } from "../applications/file-explorer/DirectoryList.jsx";
+import { DirectoryList } from "../applications/file-explorer/directory-list/DirectoryList.jsx";
+import { APPS } from "../../constants/applications.js";
+import Vector2 from "../../features/math/vector2.js";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
@@ -23,7 +25,7 @@ export const Desktop = memo(() => {
 		options: {
 			"Refresh": () => { reloadViewport(); },
 			"Change appearance": () => { windowsManager.open("settings", { initialTabIndex: 0 }); },
-			"Open in Files": () => { windowsManager.open("file-explorer", { startPath: "~/Desktop" }); },
+			"Open in Files": () => { windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Desktop" }); },
 		}
 	});
 
@@ -54,10 +56,17 @@ export const Desktop = memo(() => {
 					folderClassname={styles["Item"]}
 					onClickFile={(event, file) => {
 						event.preventDefault();
-						windowsManager.openFile(file);
+
+						const options = {};
+						if (file.name === "info.md") {
+							options.mode = "view";
+							options.size = new Vector2(575, 675);
+						}
+
+						windowsManager.openFile(file, options);
 					}}
 					onClickFolder={(event, { linkedPath, path }) => {
-						windowsManager.open("file-explorer", { startPath: linkedPath ?? path });
+						windowsManager.open(APPS.FILE_EXPLORER, { startPath: linkedPath ?? path });
 					}}
 				/>
 			</div>

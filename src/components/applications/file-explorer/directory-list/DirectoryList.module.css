@@ -1,6 +1,6 @@
 .File-button, .Folder-button {
 	display: flex;
-	gap: 0.5rem;
+	gap: 0.25rem;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
@@ -15,21 +15,11 @@
 	transition: background-color 100ms ease-in-out;
 }
 
-.File-button:hover, .Folder-button:hover,
-.File-button:focus-visible, .Folder-button:focus-visible {
+.File-button:hover,
+.Folder-button:hover,
+.File-button:focus-visible,
+.Folder-button:focus-visible {
 	background-color: hsla(var(--background-color-a-hsl), 35%);
-}
-
-.File-button svg, .Folder-button > div {
-	width: 50%;
-	height: auto;
-	aspect-ratio: 1;
-}
-
-.Folder-button > div > svg {
-	width: 100%;
-	height: 100%;
-	aspect-ratio: 1;
 }
 
 .File-button p, .Folder-button p {
@@ -38,6 +28,13 @@
 	word-wrap: break-word;
 }
 
-.Folder-button > div {
-	position: relative;
+.File-icon div, .Folder-icon div {
+	width: 100%;
+	height: 100%;
+}
+
+.File-icon svg, .Folder-icon svg {
+	width: 50%;
+	height: auto;
+	aspect-ratio: 1;
 }

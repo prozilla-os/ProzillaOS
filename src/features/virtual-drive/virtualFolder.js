@@ -26,7 +26,7 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * @param {string} alias
-	 * @returns {VirtualFolder}
+	 * @returns {ThisType}
 	 */
 	setAlias(alias) {
 		return super.setAlias(alias);
@@ -36,7 +36,7 @@ export class VirtualFolder extends VirtualBase {
 	 * Returns true if this folder contains a file matching a name and extension
 	 * @param {string} name 
 	 * @param {string} extension 
-	 * @returns {VirtualFile}
+	 * @returns {ThisType}
 	 */
 	hasFile(name, extension) {
 		return this.findFile(name, extension) !== null;
@@ -61,7 +61,9 @@ export class VirtualFolder extends VirtualBase {
 		let resultFile = null;
 
 		this.files.forEach((file) => {
-			if ((file.name === name || (file.alias && file.alias === name)) && file.extension === extension) {
+			const matchingName = (file.name === name || (file.alias && file.alias === name));
+			const matchingExtension = (extension == null || file.extension === extension);
+			if (matchingName && matchingExtension) {
 				return resultFile = file;
 			}
 		});

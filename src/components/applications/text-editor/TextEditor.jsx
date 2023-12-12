@@ -5,6 +5,7 @@ import { HeaderMenu } from "../.common/HeaderMenu.jsx";
 import Markdown from "markdown-to-jsx";
 import Application from "../../../features/applications/application.js";
 import { DEFAULT_ZOOM, ZOOM_FACTOR } from "../../../constants/applications/textEditor.js";
+import AppsManager from "../../../features/applications/applications.js";
 
 /**
  * @param {object} props
@@ -13,8 +14,9 @@ import { DEFAULT_ZOOM, ZOOM_FACTOR } from "../../../constants/applications/textE
  * @param {Function} props.close
  * @param {string} props.mode
  * @param {Application} props.app
+ * @param {Function} props.setIconUrl
  */
-export function TextEditor({ file, setTitle, close, mode, app }) {
+export function TextEditor({ file, setTitle, setIconUrl, close, mode, app }) {
 	const [currentFile, setCurrentFile] = useState(file);
 	const [currentMode, setCurrentMode] = useState(mode);
 	const [content, setContent] = useState(file?.content ?? "");
@@ -25,6 +27,7 @@ export function TextEditor({ file, setTitle, close, mode, app }) {
 		(async () => {
 			let newContent = "";
 
+			// Load file
 			if (currentFile) {
 				if (currentFile.content) {
 					newContent = currentFile.content;
@@ -35,13 +38,21 @@ export function TextEditor({ file, setTitle, close, mode, app }) {
 						newContent = response;
 					});
 				}
+
+				const iconUrl = currentFile.getIconUrl();
+				console.log(iconUrl);
+				if (iconUrl)
+					setIconUrl(iconUrl);
+			} else {
+				setIconUrl(AppsManager.getAppIconUrl(app.id));
 			}
 	
 			setContent(newContent);
 		})();
-	}, [currentFile]);
+	}, [app.id, currentFile, setIconUrl]);
 
 	useEffect(() => {
+		// Update title
 		let label = currentFile?.id ?? "Untitled";
 
 		if (unsavedChanges)

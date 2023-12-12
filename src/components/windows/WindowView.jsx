@@ -12,6 +12,7 @@ import utilStyles from "../../styles/utils.module.css";
 import { useModals } from "../../hooks/modals/modals.js";
 import { ModalsView } from "../modals/ModalsView.jsx";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
+import AppsManager from "../../features/applications/applications.js";
 
 /**
  * @param {object} props
@@ -40,6 +41,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 	const [screenHeight, setScreenHeight] = useState(100);
 
 	const [title, setTitle] = useState(app.name);
+	const [iconUrl, setIconUrl] = useState(AppsManager.getAppIconUrl(app.id));
 
 	const { onContextMenu } = useContextMenu({
 		modalsManager,
@@ -137,7 +139,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 				<div className={`${styles.Header} Window-handle`} onContextMenu={onContextMenu}>
 					<ReactSVG
 						className={styles["Window-icon"]}
-						src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}
+						src={iconUrl}
 					/>
 					<p className={utilStyles["Text-semibold"]}>{title}</p>
 					<button aria-label="Minimize" className={styles["Header-button"]} tabIndex={0} id="minimize-window"
@@ -162,7 +164,15 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 					</button>
 				</div>
 				<div className={styles["Window-content"]}>
-					<app.WindowContent {...options} app={app} setTitle={setTitle} close={close} focus={focus} active={active}/>
+					<app.WindowContent
+						{...options}
+						app={app}
+						setTitle={setTitle}
+						setIconUrl={setIconUrl}
+						close={close}
+						focus={focus}
+						active={active}
+					/>
 				</div>
 			</div>
 		</Draggable>

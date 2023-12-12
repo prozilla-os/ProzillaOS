@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import styles from "./MediaViewer.module.css";
+import { APPS } from "../../../constants/applications.js";
 
 /**
  * @param {object} props
@@ -20,7 +21,7 @@ export function MediaViewer({ file, close, setTitle }) {
 
 	if (file == null) {
 		setTimeout(() => {
-			windowsManager.open("file-explorer", { startPath: "~/Images" });
+			windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Images" });
 			close();
 		}, 10);
 		return;

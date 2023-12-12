@@ -1,7 +1,7 @@
-import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
-import { VirtualFolder } from "../../../features/virtual-drive/virtualFolder.js";
-import { FilePreview } from "./FilePreview.jsx";
-import { FolderPreview } from "./FolderPreview.jsx";
+import { VirtualFile } from "../../../../features/virtual-drive/virtualFile.js";
+import { VirtualFolder } from "../../../../features/virtual-drive/virtualFolder.js";
+import { FileIcon } from "./FileIcon.jsx";
+import { FolderIcon } from "./FolderIcon.jsx";
 import styles from "./DirectoryList.module.css";
 
 /**
@@ -32,23 +32,28 @@ export function DirectoryList({ directory, showHidden = false, folderClassname, 
 	if (!directory)
 		return null;
 
-	// const folders = directory.getSubFolders(showHidden);
-	// const files = directory.getFiles(showHidden);
+	const folderClassNames = [styles["Folder-button"]];
+	const fileClassNames = [styles["File-button"]];
+
+	if (folderClassname)
+		folderClassNames.push(folderClassname);
+	if (fileClassname)
+		fileClassNames.push(fileClassname);
 
 	return <>
 		{directory?.getSubFolders(showHidden)?.map((folder) => 
 			<button
 				key={folder.id}
 				tabIndex={0}
-				className={`${styles["Folder-button"]} ${folderClassname}`}
+				className={folderClassNames.join(" ")}
 				onContextMenu={(event) => {
-					onContextMenuFolder(event, folder);
+					onContextMenuFolder?.(event, folder);
 				}}
 				onClick={(event) => {
-					onClickFolder(event, folder);
+					onClickFolder?.(event, folder);
 				}}
 			>
-				<FolderPreview folder={folder}/>
+				<FolderIcon folder={folder} iconUrl={folder.getIconUrl()}/>
 				<p>{folder.name}</p>
 			</button>
 		)}
@@ -56,15 +61,15 @@ export function DirectoryList({ directory, showHidden = false, folderClassname, 
 			<button
 				key={file.id}
 				tabIndex={0}
-				className={`${styles["File-button"]} ${fileClassname}`}
+				className={fileClassNames.join(" ")}
 				onContextMenu={(event) => {
-					onContextMenuFile(event, file);
+					onContextMenuFile?.(event, file);
 				}}
 				onClick={(event) => {
-					onClickFile(event, file);
+					onClickFile?.(event, file);
 				}}
 			>
-				<FilePreview file={file}/>
+				<FileIcon file={file} iconUrl={file.getIconUrl()}/>
 				<p>{file.id}</p>
 			</button>
 		)}
