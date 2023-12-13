@@ -1,1 +1,1 @@
-export const TASK_BAR_HEIGHT = 3 * 16;
+export const TASKBAR_HEIGHT = 3 * 16;

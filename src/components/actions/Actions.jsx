@@ -1,12 +1,12 @@
 import { Children, cloneElement, isValidElement, useEffect, useRef, useState } from "react";
 import { useShortcuts } from "../../hooks/utils/keyboard.js";
-import style from "./Actions.module.css";
+import styles from "./Actions.module.css";
 import { useScreenDimensions } from "../../hooks/utils/screen.js";
-import { TASK_BAR_HEIGHT } from "../../constants/taskBar.js";
+import { TASKBAR_HEIGHT } from "../../constants/taskBar.js";
 
 export const STYLES = {
-	CONTEXT_MENU: style["Context-menu"],
-	SHORTCUTS_LISTENER: style["Shortcuts-listener"],
+	CONTEXT_MENU: styles["Context-menu"],
+	SHORTCUTS_LISTENER: styles["Shortcuts-listener"],
 };
 
 /**
@@ -16,7 +16,7 @@ export const STYLES = {
  * @param {Function} props.onAnyTrigger
  * @param {import("react").ElementType} props.children 
  * @param {*} props.triggerParams
- * @param {boolean} props.avoidTaskBar
+ * @param {boolean} props.avoidTaskbar
  */
 
 /** 
@@ -31,7 +31,7 @@ export const STYLES = {
  * 	}}
  * />
  */
-export function Actions({ children, className, onAnyTrigger, triggerParams, avoidTaskBar = true }) {
+export function Actions({ children, className, onAnyTrigger, triggerParams, avoidTaskbar = true }) {
 	const isListener = (className === STYLES.SHORTCUTS_LISTENER);
 
 	const ref = useRef(null);
@@ -88,8 +88,8 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 		const maxX = screenWidth;
 		let maxY = screenHeight;
 
-		if (avoidTaskBar)
-			maxY -= TASK_BAR_HEIGHT;
+		if (avoidTaskbar)
+			maxY -= TASKBAR_HEIGHT;
 
 		const isOverflowingRight = (rect.x + rect.width > maxX);
 		const isOverflowingBottom = (rect.y + rect.height > maxY);
@@ -100,20 +100,20 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 			setAlignTop(true);
 
 		setInitiated(true);
-	}, [alignLeft, avoidTaskBar, screenHeight, screenWidth]);
+	}, [alignLeft, avoidTaskbar, screenHeight, screenWidth]);
 
 	if (isListener)
 		return iterateOverChildren(children);
 
-	const classNames = [style.Container];
+	const classNames = [styles.Container];
 	if (className != null)
 		classNames.push(className);
 	if (alignLeft)
-		classNames.push(style["Align-left"]);
+		classNames.push(styles["Align-left"]);
 	if (alignTop)
-		classNames.push(style["Align-top"]);
+		classNames.push(styles["Align-top"]);
 	if (!initiated)
-		classNames.push(style.Uninitiated);
+		classNames.push(styles.Uninitiated);
 
 	return (<div ref={ref} className={classNames.join(" ")}>
 		{iterateOverChildren(children)}

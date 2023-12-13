@@ -1,4 +1,4 @@
-import { TASK_BAR_HEIGHT } from "../../constants/taskBar.js";
+import { TASKBAR_HEIGHT } from "../../constants/taskBar.js";
 import { SCREEN_MARGIN } from "../../constants/windows.js";
 import AppsManager from "../applications/applications.js";
 import { randomRange } from "../math/random.js";
@@ -26,7 +26,7 @@ export default class WindowsManager {
 
 		const size = options?.size ?? app.windowOptions?.size ?? new Vector2(700, 400);
 		const position = new Vector2(randomRange(SCREEN_MARGIN, window.innerWidth - size.x - SCREEN_MARGIN),
-			randomRange(SCREEN_MARGIN, window.innerHeight - size.y - SCREEN_MARGIN - TASK_BAR_HEIGHT));
+			randomRange(SCREEN_MARGIN, window.innerHeight - size.y - SCREEN_MARGIN - TASKBAR_HEIGHT));
 
 		let id = 0;
 		while (this.windowIds.includes(id.toString())) {
@@ -45,6 +45,8 @@ export default class WindowsManager {
 			options,
 			lastInteraction: new Date().valueOf()
 		};
+
+		app.isActive = true;
 
 		this.updateWindows(this.windows);
 		return this.windows[id];
@@ -72,6 +74,9 @@ export default class WindowsManager {
 			console.warn(`Failed to close window ${windowId}: window not found`);
 			return;
 		}
+
+		const { app } = this.windows[windowId];
+		app.isActive = this.isAppActive(app.id);
 		
 		console.info(`Closing window ${windowId}`);
 		delete this.windows[windowId];
@@ -112,6 +117,23 @@ export default class WindowsManager {
 		});
 
 		return active;
+	}
+
+	/**
+	 * @param {string} appId
+	 * @returns {string}
+	 */
+	getAppWindowId(appId) {
+		let windowId = null;
+
+		Object.values(this.windows).forEach((window) => {
+			if (window.app.id === appId) {
+				windowId = window.id;
+				return;
+			}
+		});
+
+		return windowId;
 	}
 
 	/**

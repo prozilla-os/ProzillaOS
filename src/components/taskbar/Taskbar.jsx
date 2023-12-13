@@ -1,5 +1,5 @@
-import { memo, useRef, useState } from "react";
-import styles from "./TaskBar.module.css";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+import styles from "./Taskbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
 import AppsManager from "../../features/applications/applications.js";
@@ -12,7 +12,7 @@ import { Volume } from "./indicators/Volume.jsx";
 import { SearchMenu } from "./menus/SearchMenu.jsx";
 import { Calendar } from "./indicators/Calendar.jsx";
 import { useScrollWithShadow } from "../../hooks/utils/scrollWithShadows.js";
-import { AppButton } from "./AppButton.jsx";
+import { AppButton } from "./app-icon/AppIcon.jsx";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import { Actions } from "../actions/Actions.jsx";
 import { useModals } from "../../hooks/modals/modals.js";
@@ -20,13 +20,17 @@ import { ClickAction } from "../actions/actions/ClickAction.jsx";
 import { APPS, APP_NAMES } from "../../constants/applications.js";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import { ModalsView } from "../modals/ModalsView.jsx";
-import { TASK_BAR_HEIGHT } from "../../constants/taskBar.js";
+import { TASKBAR_HEIGHT } from "../../constants/taskBar.js";
+import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
+import { SettingsManager } from "../../features/settings/settingsManager.js";
+import { useWindows } from "../../hooks/windows/windowsContext.js";
 
 export const Taskbar = memo(() => {
+	const ref = useRef(null);
+	const settingsManager = useSettingsManager();
 	const [showHome, setShowHome] = useState(false);
 	const [showSearch, setShowSearch] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
-	const ref = useRef(null);
 	const { boxShadow, onUpdate } = useScrollWithShadow({ ref, shadow: {
 		offset: 20,
 		blurRadius: 10,
@@ -36,13 +40,49 @@ export const Taskbar = memo(() => {
 	const inputRef = useRef(null);
 	const [modalsManager, modals] = useModals();
 	const windowsManager = useWindowsManager();
+	const windows = useWindows();
 	const { onContextMenu } = useContextMenu({ modalsManager, Actions: (props) =>
-		<Actions avoidTaskBar={false} {...props}>
+		<Actions avoidTaskbar={false} {...props}>
 			<ClickAction label={`Open ${APP_NAMES.SETTINGS}`} icon={faCog} onTrigger={() => {
 				windowsManager.open(APPS.SETTINGS);
 			}}/>
 		</Actions>
 	});
+	const [pins, setPins] = useState([]);
+
+	const apps = useMemo(() => AppsManager.APPLICATIONS.sort((appA, appB) => {
+		const indexA = pins.indexOf(appA.id);
+		const indexB = pins.indexOf(appB.id);
+		if (indexA < 0 && indexB > 0) {
+			return 1;
+		} else if (indexA > 0 && indexB < 0) {
+			return -1;
+		} else if (indexA < 0 && indexB < 0) {
+			return 0;
+		} else {
+			return indexA - indexB;
+		}
+	}).map((app) => {
+		const isActive = windows.map((window) => window.app.id).includes(app.id);
+		const shouldBeShown = (pins.includes(app.id) || isActive);
+		return (<AppButton
+			modalsManager={modalsManager}
+			pins={pins}
+			app={app} 
+			key={app.id}
+			active={isActive}
+			visible={shouldBeShown}
+		/>);
+	}), [modalsManager, pins, windows]);
+
+	useEffect(() => {
+		(async () => {
+			const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.taskbar);
+			settings.get("pins", (pins) => {
+				setPins(pins.split(","));
+			});
+		})();
+	}, [settingsManager]);
 
 	const updateShowHome = (value) => {
 		setShowHome(value);
@@ -82,8 +122,8 @@ export const Taskbar = memo(() => {
 	return (<>
 		<ModalsView modalsManager={modalsManager} modals={modals}/>
 		<div
-			style={{ "--task-bar-height": `${TASK_BAR_HEIGHT}px` }}
-			className={styles["Task-bar"]}
+			style={{ "--taskbar-height": `${TASKBAR_HEIGHT}px` }}
+			className={styles["Taskbar"]}
 			data-allow-context-menu={true}
 			onContextMenu={(event) => {
 				if (event.target.getAttribute("data-allow-context-menu"))
@@ -132,9 +172,7 @@ export const Taskbar = memo(() => {
 					onResize={onUpdate}
 					ref={ref}
 				>
-					{AppsManager.APPLICATIONS.map((app) => 
-						<AppButton app={app} key={app.id}/>
-					)}
+					{apps}
 				</div>
 			</div>
 			<div className={styles["Util-icons"]}>
@@ -142,7 +180,7 @@ export const Taskbar = memo(() => {
 				<Network/>
 				<Volume/>
 				<Calendar/>
-				<button title="View Desktop" id="desktop-button"/>
+				<button title="Show Desktop" id="desktop-button"/>
 			</div>
 		</div>
 	</>);

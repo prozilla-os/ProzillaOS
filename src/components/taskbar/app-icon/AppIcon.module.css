@@ -1,0 +1,58 @@
+.App-icon {
+	opacity: 1;
+	position: relative;
+	width: var(--taskbar-height);
+	height: var(--taskbar-height);
+	aspect-ratio: 1;
+	animation: appear 100ms ease-out forwards;
+}
+
+.App-icon.Hidden {
+	animation: disappear 400ms ease-in-out forwards;
+	pointer-events: none;
+}
+
+@keyframes appear {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes disappear {
+	0% {
+		opacity: 1;
+	}
+	25% {
+		opacity: 0;
+		margin-right: 0;
+	}
+	100% {
+		opacity: 0;
+		margin-right: calc(var(--taskbar-height) * -1);
+	}
+}
+
+.App-icon::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	width: 90%;
+	height: 0.15rem;
+	background-color: var(--grey-a);
+	transition: height 200ms ease-in-out, width 200ms ease-in-out;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+}
+
+.App-icon:hover::after,
+.App-icon:focus-visible::after {
+	width: 100%;
+}
+
+.App-icon:not(.Active)::after {
+	height: 0;
+}

@@ -6,7 +6,8 @@ export class SettingsManager {
 	 * @type {Object<string, string>}
 	 */
 	static VIRTUAL_PATHS = {
-		"desktop": "~/.config/desktop.xml"
+		desktop: "~/.config/desktop.xml",
+		taskbar: "~/.config/taskbar.xml"
 	};
 
 	/**

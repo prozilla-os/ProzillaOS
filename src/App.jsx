@@ -1,5 +1,5 @@
 import styles from "./App.module.css";
-import { Taskbar } from "./components/task-bar/TaskBar.jsx";
+import { Taskbar } from "./components/taskbar/Taskbar.jsx";
 import { WindowsManagerProvider } from "./hooks/windows/windowsManagerContext.js";
 import { WindowsView } from "./components/windows/WindowsView.jsx";
 import { VirtualRootProvider } from "./hooks/virtual-drive/virtualRootContext.js";

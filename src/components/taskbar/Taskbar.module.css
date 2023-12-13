@@ -1,22 +1,22 @@
 :root {
-	--task-bar-height: 3rem;
-	--task-bar-color: rgba(0, 0, 0, 75%);
-	--task-bar-button-hover-color: rgba(255, 255, 255, 5%);
+	--taskbar-height: 3rem;
+	--taskbar-color: rgba(0, 0, 0, 75%);
+	--taskbar-button-hover-color: rgba(255, 255, 255, 5%);
 }
 
-.Task-bar {
+.Taskbar {
 	position: fixed;
 	display: flex;
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	height: var(--task-bar-height);
-	background-color: var(--task-bar-color);
+	height: var(--taskbar-height);
+	background-color: var(--taskbar-color);
 	backdrop-filter: blur(15px);
 	z-index: 10;
 }
 
-.Task-bar button {
+.Taskbar button {
 	display: flex;
 	align-items: center;
 	color: var(--foreground-color-a);
@@ -28,9 +28,9 @@
 	z-index: -1;
 }
 
-.Task-bar button:hover,
-.Task-bar button:focus-visible {
-	background-color: var(--task-bar-button-hover-color);
+.Taskbar button:hover,
+.Taskbar button:focus-visible {
+	background-color: var(--taskbar-button-hover-color);
 }
 
 .Home-container,
@@ -92,35 +92,6 @@
 .Menu-icons div > svg {
 	height: 100%;
 	width: auto;
-}
-
-.App-icon {
-	position: relative;
-	width: var(--task-bar-height);
-	height: var(--task-bar-height);
-	aspect-ratio: 1;
-}
-
-.App-icon::after {
-	content: "";
-	position: absolute;
-	left: 50%;
-	bottom: 0;
-	width: 90%;
-	height: 0.15rem;
-	background-color: var(--grey-a);
-	transition: height 200ms ease-in-out, width 200ms ease-in-out;
-	transform: translateX(-50%);
-	-webkit-transform: translateX(-50%);
-}
-
-.App-icon:hover::after,
-.App-icon:focus-visible::after {
-	width: 100%;
-}
-
-.App-icon:not(.Active)::after {
-	height: 0;
 }
 
 .Util-icons {

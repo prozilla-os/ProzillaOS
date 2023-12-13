@@ -55,6 +55,8 @@ export class VirtualRoot extends VirtualFolder {
 					.createFolder(".config", (folder) => {
 						folder.createFile("desktop", "xml", (file) => {
 							file.setSource("/config/desktop.xml");
+						}).createFile("taskbar", "xml", (file) => {
+							file.setSource("/config/taskbar.xml");
 						});
 					})
 					.createFolder("Images", (folder) => {
