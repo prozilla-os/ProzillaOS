@@ -5,34 +5,34 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import { useContextMenu } from "../../../hooks/modals/contextMenu.js";
-import { useModals } from "../../../hooks/modals/modals.js";
-import { ModalsView } from "../../modals/ModalsView.jsx";
 import { QuickAccessButton } from "./QuickAccessButton.jsx";
 import { useDialogBox } from "../../../hooks/modals/dialogBox.js";
 import Vector2 from "../../../features/math/vector2.js";
 import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.js";
 import { DirectoryList } from "./directory-list/DirectoryList.jsx";
 
-export function FileExplorer({ startPath, app }) {
+/**
+ * @param {import("../../windows/WindowView.jsx").windowProps} props 
+ */
+export function FileExplorer({ startPath, app, modalsManager }) {
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate(startPath ?? "~"));
 	const [path, setPath] = useState(currentDirectory?.path ?? "");
 	const windowsManager = useWindowsManager();
 	const [showHidden] = useState(true);
-	const [modalsManager, modals] = useModals();
 
 	const { onContextMenu: onContextMenuFile } = useContextMenu({
 		modalsManager,
 		options: {
-			"Open": ({ file }) => { windowsManager.openFile(file); },
-			"Delete": ({ file }) => { file.delete(); },
+			"Open": (file) => {	file.open(windowsManager); },
+			"Delete": (file) => { file.delete(); },
 		}
 	});
 	const { onContextMenu: onContextMenuFolder } = useContextMenu({
 		modalsManager,
 		options: {
-			"Open": ({ name }) => { changeDirectory(name); },
-			"Delete": ({ name }) => { currentDirectory.findSubFolder(name)?.delete(); }
+			"Open": (folder) => { changeDirectory(folder.name); },
+			"Delete": (folder) => { folder.delete(); }
 		}
 	});
 	// const { onContextMenu: onNew } = useContextMenu({
@@ -78,7 +78,6 @@ export function FileExplorer({ startPath, app }) {
 
 	return (
 		<div className={styles.Container}>
-			<ModalsView modalsManager={modalsManager} modals={modals}/>
 			<div className={styles.Header}>
 				<button title="Back" tabIndex={0} className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faCaretLeft}/>

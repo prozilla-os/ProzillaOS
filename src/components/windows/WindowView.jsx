@@ -15,6 +15,17 @@ import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import AppsManager from "../../features/applications/applications.js";
 
 /**
+ * @typedef {object} windowProps
+ * @property {Application} app
+ * @property {Function} setTitle
+ * @property {Function} setIconUrl
+ * @property {Function} close
+ * @property {Function} focus
+ * @property {boolean} active
+ * @property {import("../../features/modals/modals.js").default} modalsManager
+ */
+
+/**
  * @param {object} props
  * @param {string} props.id 
  * @param {Application} props.app 
@@ -172,6 +183,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 						close={close}
 						focus={focus}
 						active={active}
+						modalsManager={modalsManager}
 					/>
 				</div>
 			</div>

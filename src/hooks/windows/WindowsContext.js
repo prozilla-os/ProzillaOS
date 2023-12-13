@@ -12,7 +12,6 @@ export function WindowsProvider({ children, windowsManager }) {
 	const [windows, setWindows] = useState([]);
 
 	const updateWindows = useCallback((updatedWindows) => {
-		// console.log(updatedWindows);
 		setWindows(Object.values(updatedWindows));
 	}, []);
 

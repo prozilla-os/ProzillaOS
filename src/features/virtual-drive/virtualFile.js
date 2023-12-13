@@ -1,3 +1,4 @@
+import WindowsManager from "../windows/windows.js";
 import { VirtualBase } from "./virtualBase.js";
 
 /**
@@ -70,6 +71,14 @@ export class VirtualFile extends VirtualBase {
 			return this.name;
 
 		return `${this.name}.${this.extension}`;
+	}
+
+	/**
+	 * Opens this file in an app associated with its extension
+	 * @param {WindowsManager} windowsManager
+	 */
+	open(windowsManager) {
+		return windowsManager.openFile(this);
 	}
 
 	/**

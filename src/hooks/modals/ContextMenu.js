@@ -22,6 +22,9 @@ import { useShortcuts } from "../utils/keyboard.js";
 export function useContextMenu({ modalsManager, options, shortcuts }) {
 	// Open a new modal when context menu is triggered
 	const onContextMenu = useCallback((event, params = {}) => {
+		event.preventDefault();
+		event.stopPropagation();
+
 		let positionX = (event?.clientX ?? 0);
 		let positionY = (event?.clientY ?? 0);
 

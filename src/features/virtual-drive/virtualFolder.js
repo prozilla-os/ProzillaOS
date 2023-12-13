@@ -1,4 +1,6 @@
+import { APPS } from "../../constants/applications.js";
 import { removeFromArray } from "../utils/array.js";
+import WindowsManager from "../windows/windows.js";
 import { VirtualFileLink } from "./VirtualFileLink.js";
 import { VirtualFolderLink } from "./VirtualFolderLink.js";
 import { VirtualBase } from "./virtualBase.js";
@@ -337,6 +339,14 @@ export class VirtualFolder extends VirtualBase {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Opens this folder in file explorer
+	 * @param {WindowsManager} windowsManager
+	 */
+	open(windowsManager) {
+		return windowsManager.open(APPS.FILE_EXPLORER, { startPath: this.path });
 	}
 
 	/**

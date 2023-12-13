@@ -98,6 +98,11 @@ export class VirtualFileLink extends VirtualFile {
 		return this.isValid() ? this.linkedFile.id : null;
 	}
 
+	/** @type {VirtualFile["open"]} */
+	open(...args) {
+		if (this.isValid()) return this.linkedFile.open(...args);
+	}
+
 	/** @type {VirtualFile["read"]} */
 	read(...args) {
 		if (this.isValid()) return this.linkedFile.read(...args);

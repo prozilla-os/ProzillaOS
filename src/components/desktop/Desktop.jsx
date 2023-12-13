@@ -11,7 +11,7 @@ import { FALLBACK_WALLPAPER } from "../../constants/desktop.js";
 import { reloadViewport } from "../../features/utils/browser.js";
 import { useVirtualRoot } from "../../hooks/virtual-drive/virtualRootContext.js";
 import { DirectoryList } from "../applications/file-explorer/directory-list/DirectoryList.jsx";
-import { APPS } from "../../constants/applications.js";
+import { APPS, APP_NAMES } from "../../constants/applications.js";
 import Vector2 from "../../features/math/vector2.js";
 
 export const Desktop = memo(() => {
@@ -20,12 +20,35 @@ export const Desktop = memo(() => {
 	const [modalsManager, modals] = useModals();
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
+
 	const { onContextMenu } = useContextMenu({
 		modalsManager,
 		options: {
 			"Refresh": () => { reloadViewport(); },
 			"Change appearance": () => { windowsManager.open("settings", { initialTabIndex: 0 }); },
-			"Open in Files": () => { windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Desktop" }); },
+			[`Open in ${APP_NAMES.FILE_EXPLORER}`]: () => {
+				windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Desktop" });
+			},
+		}
+	});
+	const { onContextMenu: onContextMenuFile } = useContextMenu({
+		modalsManager,
+		options: {
+			"Open": (file) => {	file.open(windowsManager); },
+			[`Reveal in ${APP_NAMES.FILE_EXPLORER}`]: (file) => {
+				windowsManager.open(APPS.FILE_EXPLORER, { startPath: file.parent.path });
+			},
+			"Delete": (file) => { file.delete(); },
+		}
+	});
+	const { onContextMenu: onContextMenuFolder } = useContextMenu({
+		modalsManager,
+		options: {
+			"Open": (folder) => { folder.open(windowsManager); },
+			[`Reveal in ${APP_NAMES.FILE_EXPLORER}`]: (folder) => {
+				windowsManager.open(APPS.FILE_EXPLORER, { startPath: folder.parent.path });
+			},
+			"Delete": (folder) => { folder.delete(); },
 		}
 	});
 
@@ -68,6 +91,8 @@ export const Desktop = memo(() => {
 					onClickFolder={(event, { linkedPath, path }) => {
 						windowsManager.open(APPS.FILE_EXPLORER, { startPath: linkedPath ?? path });
 					}}
+					onContextMenuFile={onContextMenuFile}
+					onContextMenuFolder={onContextMenuFolder}
 				/>
 			</div>
 			{wallpaper

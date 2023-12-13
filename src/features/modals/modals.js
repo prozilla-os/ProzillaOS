@@ -42,11 +42,11 @@ export default class ModalsManager {
 		modalId = modalId.toString();
 
 		if (!this.modalIds.includes(modalId)) {
-			console.log(`Failed to close modal ${modalId}: modal not found`);
+			console.warn(`Failed to close modal ${modalId}: modal not found`);
 			return;
 		}
 
-		console.log(`Closing modal ${modalId}`);
+		console.info(`Closing modal ${modalId}`);
 		delete this.modals[modalId];
 
 		if (sendModalsUpdate)
@@ -60,7 +60,7 @@ export default class ModalsManager {
 		modalId = modalId.toString();
 
 		if (!this.modalIds.includes(modalId)) {
-			console.log(`Failed to focus modal ${modalId}: modal not found`);
+			console.warn(`Failed to focus modal ${modalId}: modal not found`);
 			return;
 		}
 

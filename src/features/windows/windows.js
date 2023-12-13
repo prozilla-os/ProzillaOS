@@ -34,7 +34,7 @@ export default class WindowsManager {
 
 		id = id.toString();
 
-		console.log(`Opening window ${id}:${app.id}`);
+		console.info(`Opening window ${id}:${app.id}`);
 
 		this.windows[id] = {
 			id,
@@ -56,7 +56,7 @@ export default class WindowsManager {
 	 * @returns {object}
 	 */
 	openFile(file, options = {}) {
-		const app = AppsManager.getFileApp(file.extension);
+		const app = AppsManager.getFileApp(file?.extension);
 		if (app != null)
 			return this.open(app.id, { file, ...options });
 	}
@@ -72,7 +72,7 @@ export default class WindowsManager {
 			return;
 		}
 		
-		console.log(`Closing window ${windowId}`);
+		console.info(`Closing window ${windowId}`);
 		delete this.windows[windowId];
 
 		this.updateWindows(this.windows);

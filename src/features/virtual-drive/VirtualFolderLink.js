@@ -130,4 +130,9 @@ export class VirtualFolderLink extends VirtualFolder {
 	getSubFolders(...args) {
 		if (this.isValid()) return this.linkedFolder.getSubFolders(...args);
 	}
+
+	/** @type {VirtualFolder["open"]} */
+	open(...args) {
+		if (this.isValid()) return this.linkedFolder.open(...args);
+	}
 }

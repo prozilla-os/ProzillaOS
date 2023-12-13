@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
 import styles from "./TextEditor.module.css";
 import { HeaderMenu } from "../.common/HeaderMenu.jsx";
 import Markdown from "markdown-to-jsx";
-import Application from "../../../features/applications/application.js";
 import { DEFAULT_ZOOM, ZOOM_FACTOR } from "../../../constants/applications/textEditor.js";
 import AppsManager from "../../../features/applications/applications.js";
 
 /**
- * @param {object} props
- * @param {VirtualFile} props.file
- * @param {Function} props.setTitle
- * @param {Function} props.close
- * @param {string} props.mode
- * @param {Application} props.app
- * @param {Function} props.setIconUrl
+ * @param {import("../../windows/WindowView.jsx").windowProps} props 
  */
 export function TextEditor({ file, setTitle, setIconUrl, close, mode, app }) {
 	const [currentFile, setCurrentFile] = useState(file);
@@ -40,7 +32,6 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app }) {
 				}
 
 				const iconUrl = currentFile.getIconUrl();
-				console.log(iconUrl);
 				if (iconUrl)
 					setIconUrl(iconUrl);
 			} else {

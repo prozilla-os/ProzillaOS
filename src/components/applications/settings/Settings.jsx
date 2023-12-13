@@ -8,8 +8,7 @@ import { AboutSettings } from "./AboutSettings.jsx";
 import { StorageTab } from "./StorageSettings.jsx";
 
 /**
- * @param {object} props
- * @param {number} props.initialTabIndex
+ * @param {import("../../windows/WindowView.jsx").windowProps} props 
  */
 export function Settings({ initialTabIndex }) {
 	return (

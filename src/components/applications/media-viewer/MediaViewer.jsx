@@ -1,15 +1,11 @@
 
 import { useEffect } from "react";
-import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import styles from "./MediaViewer.module.css";
 import { APPS } from "../../../constants/applications.js";
 
 /**
- * @param {object} props
- * @param {VirtualFile} props.file
- * @param {Function} props.close
- * @param {Function} props.setTitle
+ * @param {import("../../windows/WindowView.jsx").windowProps} props 
  */
 export function MediaViewer({ file, close, setTitle }) {
 	const windowsManager = useWindowsManager();

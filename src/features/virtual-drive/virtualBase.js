@@ -94,8 +94,6 @@ export class VirtualBase extends EventEmitter {
 		if (!this.canBeEdited)
 			return;
 
-		console.log(this);
-
 		const parent = this.parent;
 
 		if (parent == null)

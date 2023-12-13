@@ -8,6 +8,9 @@ import { HOSTNAME, USERNAME } from "../../../constants/applications/terminal.js"
 import CommandsManager from "../../../features/applications/terminal/commands.js";
 import { removeFromArray } from "../../../features/utils/array.js";
 
+/**
+ * @param {import("../../windows/WindowView.jsx").windowProps} props 
+ */
 export function Terminal({ setTitle, close: exit }) {
 	const [inputKey, setInputKey] = useState(0);
 	const [inputValue, setInputValue] = useState("");

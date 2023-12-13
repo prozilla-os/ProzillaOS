@@ -65,10 +65,10 @@ export function DialogBox({ modal, params }) {
 		position={null}
 		scale={1}
 		bounds={{
-			top: 0,
-			bottom: screenHeight - 55,
-			left: -modal.size.x + 85,
-			right: screenWidth - 5
+			top: -modal.position.y - 1,
+			bottom: screenHeight - 55 - modal.position.y,
+			left: -modal.size.x + 85 - modal.position.x,
+			right: screenWidth - 5 - modal.position.x
 		}}
 		cancel="button"
 		nodeRef={nodeRef}
