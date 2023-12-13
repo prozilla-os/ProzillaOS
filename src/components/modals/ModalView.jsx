@@ -24,15 +24,18 @@ export const ModalView = memo(({ modal }) => {
 		};
 	}, [modal]);
 
-	const container = (<div className={styles.Container} style={{ "--position-x": modal.position.x, "--position-y": modal.position.y }}>
+	const Container = () => (<div
+		className={styles.Container}
+		style={{ "--position-x": modal.position.x, "--position-y": modal.position.y }}
+	>
 		<modal.element modal={modal} {...modal.props}/>
 	</div>);
 
 	if (modal.dismissible) {
 		return (<OutsideClickListener onOutsideClick={() => { modal.close(); }}>
-			{container}
+			<Container/>
 		</OutsideClickListener>);
 	} else {
-		return container;
+		return <Container/>;
 	}
 });

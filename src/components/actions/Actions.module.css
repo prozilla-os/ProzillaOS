@@ -1,0 +1,91 @@
+.Container {
+	/* These variables describe the position of the container relative to top left corner of its parent */
+	--left: 0;
+	--top: 0;
+	--right: calc(1 - var(--left));
+	--bottom: calc(1 - var(--top));
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 1;
+	transition: opacity 100ms ease-out;
+}
+
+.Container.Uninitiated {
+	opacity: 0;
+}
+
+.Container.Align-left {
+	--left: 1;
+
+	left: unset;
+	right: 0;
+}
+
+.Container.Align-top {
+	--top: 1;
+
+	top: unset;
+	bottom: 0;
+}
+
+.Context-menu.Container {
+	--border-radius: 0.5rem;
+
+	padding: 0.375rem;
+	border-top-left-radius: calc((1 - var(--right) * var(--bottom)) * var(--border-radius)) !important;
+	border-top-right-radius: calc((1 - var(--left) * var(--bottom)) * var(--border-radius)) !important;
+	border-bottom-left-radius: calc((1 - var(--right) * var(--top)) * var(--border-radius)) !important;
+	border-bottom-right-radius: calc((1 - var(--left) * var(--top)) * var(--border-radius)) !important;
+	background-color: var(--background-color-b) !important;
+}
+
+.Context-menu .Button {
+	display: flex;
+	gap: 0.75rem;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0.25rem 0.5rem;
+	background: none;
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	font-size: 0.875rem;
+	text-align: start;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.Context-menu .Button:hover,
+.Context-menu .Button:focus-visible {
+	background-color: hsla(var(--background-color-a-hsl), 75%);
+}
+
+.Context-menu .Label {
+	display: flex;
+	gap: 0.5rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.Context-menu .Label p,
+.Context-menu .Shortcut {
+	margin: 0;
+}
+
+.Context-menu .Icon {
+	display: flex;
+	width: 0.875rem;
+	height: 0.875rem;
+}
+
+.Context-menu .Icon > svg {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.Context-menu .Shortcut {
+	color: var(--foreground-color-b);
+}

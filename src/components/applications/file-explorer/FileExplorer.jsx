@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import { useContextMenu } from "../../../hooks/modals/contextMenu.js";
 import { QuickAccessButton } from "./QuickAccessButton.jsx";
@@ -10,6 +10,8 @@ import { useDialogBox } from "../../../hooks/modals/dialogBox.js";
 import Vector2 from "../../../features/math/vector2.js";
 import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.js";
 import { DirectoryList } from "./directory-list/DirectoryList.jsx";
+import { Actions } from "../../actions/Actions.jsx";
+import { ClickAction } from "../../actions/actions/ClickAction.jsx";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
@@ -21,19 +23,25 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 	const windowsManager = useWindowsManager();
 	const [showHidden] = useState(true);
 
-	const { onContextMenu: onContextMenuFile } = useContextMenu({
-		modalsManager,
-		options: {
-			"Open": (file) => {	file.open(windowsManager); },
-			"Delete": (file) => { file.delete(); },
-		}
+	const { onContextMenu: onContextMenuFile } = useContextMenu({ modalsManager, Actions: (props) =>
+		<Actions {...props}>
+			<ClickAction label="Open" onTrigger={(event, file) => {
+				file.open(windowsManager);
+			}}/>
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
+				file.delete();
+			}}/>
+		</Actions>
 	});
-	const { onContextMenu: onContextMenuFolder } = useContextMenu({
-		modalsManager,
-		options: {
-			"Open": (folder) => { changeDirectory(folder.name); },
-			"Delete": (folder) => { folder.delete(); }
-		}
+	const { onContextMenu: onContextMenuFolder } = useContextMenu({ modalsManager, Actions: (props) =>
+		<Actions {...props}>
+			<ClickAction label="Open" onTrigger={(event, folder) => {
+				changeDirectory(folder.name);
+			}}/>
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder) => {
+				folder.delete();
+			}}/>
+		</Actions>
 	});
 	// const { onContextMenu: onNew } = useContextMenu({
 	// 	modalsManager,
@@ -50,7 +58,7 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 
 		const directory = absolute ? virtualRoot.navigate(path) : currentDirectory.navigate(path);
 
-		console.log(directory);
+		console.debug(directory);
 
 		if (directory) {
 			setCurrentDirectory(directory);

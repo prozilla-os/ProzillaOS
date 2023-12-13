@@ -7,30 +7,18 @@ import utilStyles from "../../../styles/utils.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.js";
+import { useScreenDimensions } from "../../../hooks/utils/screen.js";
 
 export function DialogBox({ modal, params }) {
 	const { app, title, children } = params;
 
 	const nodeRef = useRef(null);
 
-	const [initialised, setInitialised] = useState(false);
 	const [startPosition, setStartPosition] = useState(modal.position);
-
-	const [screenWidth, setScreenWidth] = useState(100);
-	const [screenHeight, setScreenHeight] = useState(100);
+	const [screenWidth, screenHeight] = useScreenDimensions();
 
 	useEffect(() => {
-		const resizeObserver = new ResizeObserver((event) => {
-			setScreenWidth(event[0].contentBoxSize[0].inlineSize);
-			setScreenHeight(event[0].contentBoxSize[0].blockSize);
-			setInitialised(true);
-		});
-
-		resizeObserver.observe(document.getElementById("root"));
-	}, []);
-
-	useEffect(() => {
-		if (!initialised)
+		if (screenWidth == null || screenHeight == null)
 			return;
 
 		if (modal.size.x > screenWidth || modal.size.y > screenHeight) {
@@ -45,7 +33,7 @@ export function DialogBox({ modal, params }) {
 				setStartPosition(modal.position);
 			}
 		}
-	}, [initialised, modal, screenHeight, screenWidth]);
+	}, [modal, screenHeight, screenWidth]);
 
 	const onClick = (event) => {
 		event.preventDefault();

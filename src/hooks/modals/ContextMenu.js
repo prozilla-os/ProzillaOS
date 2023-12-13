@@ -1,9 +1,8 @@
 import { useCallback } from "react";
-import { ContextMenu } from "../../components/modals/context-menu/ContextMenu.jsx";
 import Vector2 from "../../features/math/vector2.js";
 import Modal from "../../features/modals/modal.js";
 import ModalsManager from "../../features/modals/modals.js";
-import { useShortcuts } from "../utils/keyboard.js";
+import { STYLES } from "../../components/actions/Actions.jsx";
 
 /**
  * @typedef {Function} onContextMenuType
@@ -15,11 +14,13 @@ import { useShortcuts } from "../utils/keyboard.js";
 /**
  * @param {object} props 
  * @param {ModalsManager} props.modalsManager
- * @param {Object<string, Object<string, Function>>} props.options
- * @param {Object<string, Object<string, string[]>>} props.shortcuts
- * @returns {{ onContextMenu: onContextMenuType }}
+ * @param {import("../../components/actions/Actions.jsx").actionsType} props.Actions
+ * @returns {{
+ * 	onContextMenu: onContextMenuType,
+ * 	ShortcutsListener: import("../../components/actions/Actions.jsx").actionsType
+ * }}
  */
-export function useContextMenu({ modalsManager, options, shortcuts }) {
+export function useContextMenu({ modalsManager, Actions }) {
 	// Open a new modal when context menu is triggered
 	const onContextMenu = useCallback((event, params = {}) => {
 		event.preventDefault();
@@ -34,15 +35,21 @@ export function useContextMenu({ modalsManager, options, shortcuts }) {
 			positionY -= containerRect.y / 2;
 		}
 
-		const newModal = new Modal(ContextMenu)
+		const newModal = new Modal(Actions)
 			.setPosition(new Vector2(positionX, positionY))
-			.setProps({ options, shortcuts, params });
+			.setProps({
+				triggerParams: params,
+				className: STYLES.CONTEXT_MENU,
+				onAnyTrigger: () => {
+					newModal.close();
+				}
+			});
 
 		modalsManager.open(newModal);
 		return newModal;
-	}, [modalsManager, options, shortcuts]);
+	}, [Actions, modalsManager]);
 
-	useShortcuts({ options, shortcuts, useCategories: false });
+	const ShortcutsListener = () => <><Actions className={STYLES.SHORTCUTS_LISTENER}/></>;
 
-	return { onContextMenu };
+	return { onContextMenu, ShortcutsListener };
 }

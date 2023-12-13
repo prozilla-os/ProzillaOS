@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./WindowView.module.css";
-import { faMinus, faWindowMaximize as fasWindowMaximize, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faExpand, faMinus, faWindowMaximize as fasWindowMaximize, faTimes, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import Draggable from "react-draggable";
@@ -13,6 +13,9 @@ import { useModals } from "../../hooks/modals/modals.js";
 import { ModalsView } from "../modals/ModalsView.jsx";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import AppsManager from "../../features/applications/applications.js";
+import { ClickAction } from "../actions/actions/ClickAction.jsx";
+import { Actions } from "../actions/Actions.jsx";
+import { useScreenDimensions } from "../../hooks/utils/screen.js";
 
 /**
  * @typedef {object} windowProps
@@ -41,43 +44,30 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 	const nodeRef = useRef(null);
 	const [modalsManager, modals] = useModals();
 
-	const [initialised, setInitialised] = useState(false);
 	const [startSize, setStartSize] = useState(size);
 	const [startPosition, setStartPosition] = useState(position);
 
 	const [maximized, setMaximized] = useState(false);
 	const [minimized, setMinimized] = useState(false);
 
-	const [screenWidth, setScreenWidth] = useState(100);
-	const [screenHeight, setScreenHeight] = useState(100);
+	const [screenWidth, screenHeight] = useScreenDimensions();
 
 	const [title, setTitle] = useState(app.name);
 	const [iconUrl, setIconUrl] = useState(AppsManager.getAppIconUrl(app.id));
 
-	const { onContextMenu } = useContextMenu({
-		modalsManager,
-		options: {
-			"Maximize": () => { setMaximized(!maximized); },
-			"Close": () => { close(); }
-		},
-		shortcuts: {
-			"Maximize": ["F11"],
-			"Close": ["Control", "q"]
-		}
+	const { onContextMenu, ShortcutsListener } = useContextMenu({ modalsManager, Actions: (props) =>
+		<Actions {...props}>
+			<ClickAction label="Maximize" icon={faExpand} shortcut={["F11"]} onTrigger={() => {
+				setMaximized(!maximized);
+			}}/>
+			<ClickAction label="Close" icon={faTimes} shortcut={["Control", "q"]} onTrigger={() => {
+				close();
+			}}/>
+		</Actions>
 	});
 
 	useEffect(() => {
-		const resizeObserver = new ResizeObserver((event) => {
-			setScreenWidth(event[0].contentBoxSize[0].inlineSize);
-			setScreenHeight(event[0].contentBoxSize[0].blockSize);
-			setInitialised(true);
-		});
-
-		resizeObserver.observe(document.getElementById("root"));
-	}, []);
-
-	useEffect(() => {
-		if (!initialised)
+		if (screenWidth == null || screenHeight == null)
 			return;
 
 		if (size.x > screenWidth || size.y > screenHeight) {
@@ -94,7 +84,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 				setStartPosition(position);
 			}
 		}
-	}, [initialised, position, size, screenHeight, screenWidth]);
+	}, [position, size, screenHeight, screenWidth]);
 
 	const close = (event) => {
 		event?.preventDefault();
@@ -119,6 +109,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 		classNames.push(styles.Minimized);
 
 	return (<>
+		<ShortcutsListener/>
 		<ModalsView modalsManager={modalsManager} modals={modals} style={{ zIndex: 1 }}/>
 		<Draggable
 			key={id}

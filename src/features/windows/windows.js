@@ -1,4 +1,5 @@
-import { SCREEN_MARGIN, TASKBAR_HEIGHT } from "../../constants/windows.js";
+import { TASK_BAR_HEIGHT } from "../../constants/taskBar.js";
+import { SCREEN_MARGIN } from "../../constants/windows.js";
 import AppsManager from "../applications/applications.js";
 import { randomRange } from "../math/random.js";
 import Vector2 from "../math/vector2.js";
@@ -25,7 +26,7 @@ export default class WindowsManager {
 
 		const size = options?.size ?? app.windowOptions?.size ?? new Vector2(700, 400);
 		const position = new Vector2(randomRange(SCREEN_MARGIN, window.innerWidth - size.x - SCREEN_MARGIN),
-			randomRange(SCREEN_MARGIN, window.innerHeight - size.y - SCREEN_MARGIN - TASKBAR_HEIGHT));
+			randomRange(SCREEN_MARGIN, window.innerHeight - size.y - SCREEN_MARGIN - TASK_BAR_HEIGHT));
 
 		let id = 0;
 		while (this.windowIds.includes(id.toString())) {

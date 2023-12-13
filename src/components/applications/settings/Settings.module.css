@@ -131,28 +131,18 @@
 }
 
 .Button {
-	--hover-color: var(--background-color-b);
+	--normal-color: var(--background-color-a) !important;
+	--hover-color: var(--background-color-b) !important;
 
-	margin-bottom: 0.75rem;
+	margin-bottom: 0.75rem !important;
 	padding: 0.5rem 1rem;
-	color: var(--foreground-color-a);
-	background-color: var(--background-color-a);
-	border: none;
 	border-radius: 0.5rem;
-	outline: none;
-	transition: background-color 100ms ease-in-out;
-	cursor: pointer;
-}
-
-.Button:hover, .Button:focus-visible {
-	background-color: var(--hover-color);
 }
 
 .Button-red {
-	--hover-color: var(--red-b);
-
-	color: var(--background-color-a);
-	background-color: var(--red-a);
+	--text-color: var(--background-color-a) !important;
+	--normal-color: var(--red-a) !important;
+	--hover-color: var(--red-b) !important;
 }
 
 .Progress-bar-container {

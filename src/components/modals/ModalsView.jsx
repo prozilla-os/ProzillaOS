@@ -11,7 +11,7 @@ import styles from "./ModalsView.module.css";
  * @param {import("react").CSSProperties} root.style 
  * @param {import("react").className} root.className 
  */
-export const ModalsView = memo(({ modalsManager, modals, style, className }) => {
+export const ModalsView = memo(({ modalsManager, modals, style, className, ...props }) => {
 	const ref = useRef(null);
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ export const ModalsView = memo(({ modalsManager, modals, style, className }) => 
 	}, [modalsManager, ref]);
 
 	return (
-		<div ref={ref} style={style} className={`${styles.Container} ${className}`}>
+		<div ref={ref} style={style} className={`${styles.Container} ${className ?? ""}`} {...props}>
 			{modals?.map((modal) =>
 				<ModalView key={modal.id} modal={modal}/>
 			)}

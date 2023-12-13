@@ -13,6 +13,9 @@ import { useVirtualRoot } from "../../hooks/virtual-drive/virtualRootContext.js"
 import { DirectoryList } from "../applications/file-explorer/directory-list/DirectoryList.jsx";
 import { APPS, APP_NAMES } from "../../constants/applications.js";
 import Vector2 from "../../features/math/vector2.js";
+import { Actions } from "../actions/Actions.jsx";
+import { ClickAction } from "../actions/actions/ClickAction.jsx";
+import { faArrowsRotate, faFolder, faPaintBrush, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
@@ -21,35 +24,44 @@ export const Desktop = memo(() => {
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
 
-	const { onContextMenu } = useContextMenu({
-		modalsManager,
-		options: {
-			"Refresh": () => { reloadViewport(); },
-			"Change appearance": () => { windowsManager.open("settings", { initialTabIndex: 0 }); },
-			[`Open in ${APP_NAMES.FILE_EXPLORER}`]: () => {
+	const { onContextMenu, ShortcutsListener } = useContextMenu({ modalsManager, Actions: (props) =>
+		<Actions {...props}>
+			<ClickAction label="Reload" shortcut={["Control", "r"]} icon={faArrowsRotate} onTrigger={() => {
+				reloadViewport();
+			}}/>
+			<ClickAction label="Change appearance" icon={faPaintBrush} onTrigger={() => {
+				windowsManager.open("settings", { initialTabIndex: 0 });
+			}}/>
+			<ClickAction label={`Open in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={() => {
 				windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Desktop" });
-			},
-		}
+			}}/>
+		</Actions>
 	});
-	const { onContextMenu: onContextMenuFile } = useContextMenu({
-		modalsManager,
-		options: {
-			"Open": (file) => {	file.open(windowsManager); },
-			[`Reveal in ${APP_NAMES.FILE_EXPLORER}`]: (file) => {
-				windowsManager.open(APPS.FILE_EXPLORER, { startPath: file.parent.path });
-			},
-			"Delete": (file) => { file.delete(); },
-		}
+	const { onContextMenu: onContextMenuFile } = useContextMenu({ modalsManager, Actions: (props) =>
+		<Actions {...props}>
+			<ClickAction label="Open" onTrigger={(event, file) => {
+				file.open(windowsManager);
+			}}/>
+			<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={(event, file) => {
+				file.parent.open(windowsManager);
+			}}/>
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
+				file.delete();
+			}}/>
+		</Actions>
 	});
-	const { onContextMenu: onContextMenuFolder } = useContextMenu({
-		modalsManager,
-		options: {
-			"Open": (folder) => { folder.open(windowsManager); },
-			[`Reveal in ${APP_NAMES.FILE_EXPLORER}`]: (folder) => {
-				windowsManager.open(APPS.FILE_EXPLORER, { startPath: folder.parent.path });
-			},
-			"Delete": (folder) => { folder.delete(); },
-		}
+	const { onContextMenu: onContextMenuFolder } = useContextMenu({ modalsManager, Actions: (props) =>
+		<Actions {...props}>
+			<ClickAction label="Open" onTrigger={(event, folder) => {
+				folder.open(windowsManager);
+			}}/>
+			<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={(event, folder) => {
+				folder.parent.open(windowsManager);
+			}}/>
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder) => {
+				folder.delete();
+			}}/>
+		</Actions>
 	});
 
 	useEffect(() => {
@@ -67,6 +79,7 @@ export const Desktop = memo(() => {
 	};
 
 	return (<>
+		<ShortcutsListener/>
 		<div
 			className={styles.Container}
 			onContextMenu={onContextMenu}

@@ -29,10 +29,7 @@ export function AboutSettings() {
 				</Button>
 				<Button
 					className={`${styles.Button} ${utilStyles["Text-bold"]}`}
-					onClick={(event) => {
-						event.preventDefault();
-						window.open("https://github.com/Prozilla/prozilla-os");
-					}}
+					href="https://github.com/Prozilla/prozilla-os"
 				>
 					View source
 				</Button>

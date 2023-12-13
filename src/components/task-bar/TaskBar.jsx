@@ -1,7 +1,7 @@
 import { memo, useRef, useState } from "react";
 import styles from "./TaskBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
 import AppsManager from "../../features/applications/applications.js";
 import { ReactSVG } from "react-svg";
 import { HomeMenu } from "./menus/HomeMenu.jsx";
@@ -13,24 +13,36 @@ import { SearchMenu } from "./menus/SearchMenu.jsx";
 import { Calendar } from "./indicators/Calendar.jsx";
 import { useScrollWithShadow } from "../../hooks/utils/scrollWithShadows.js";
 import { AppButton } from "./AppButton.jsx";
+import { useContextMenu } from "../../hooks/modals/contextMenu.js";
+import { Actions } from "../actions/Actions.jsx";
+import { useModals } from "../../hooks/modals/modals.js";
+import { ClickAction } from "../actions/actions/ClickAction.jsx";
+import { APPS, APP_NAMES } from "../../constants/applications.js";
+import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
+import { ModalsView } from "../modals/ModalsView.jsx";
+import { TASK_BAR_HEIGHT } from "../../constants/taskBar.js";
 
 export const Taskbar = memo(() => {
 	const [showHome, setShowHome] = useState(false);
 	const [showSearch, setShowSearch] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const ref = useRef(null);
-	const { boxShadow, onUpdate } = useScrollWithShadow({
-		ref,
-		shadow: {
-			offset: 20,
-			blurRadius: 10,
-			spreadRadius: -10,
-			color: {
-				a: 25
-			}
-		} 
-	});
+	const { boxShadow, onUpdate } = useScrollWithShadow({ ref, shadow: {
+		offset: 20,
+		blurRadius: 10,
+		spreadRadius: -10,
+		color: { a: 25 }
+	} });
 	const inputRef = useRef(null);
+	const [modalsManager, modals] = useModals();
+	const windowsManager = useWindowsManager();
+	const { onContextMenu } = useContextMenu({ modalsManager, Actions: (props) =>
+		<Actions avoidTaskBar={false} {...props}>
+			<ClickAction label={`Open ${APP_NAMES.SETTINGS}`} icon={faCog} onTrigger={() => {
+				windowsManager.open(APPS.SETTINGS);
+			}}/>
+		</Actions>
+	});
 
 	const updateShowHome = (value) => {
 		setShowHome(value);
@@ -67,8 +79,17 @@ export const Taskbar = memo(() => {
 		updateShowSearch(true);
 	};
 
-	return (
-		<div className={styles["Task-bar"]}>
+	return (<>
+		<ModalsView modalsManager={modalsManager} modals={modals}/>
+		<div
+			style={{ "--task-bar-height": `${TASK_BAR_HEIGHT}px` }}
+			className={styles["Task-bar"]}
+			data-allow-context-menu={true}
+			onContextMenu={(event) => {
+				if (event.target.getAttribute("data-allow-context-menu"))
+					onContextMenu(event);
+			}}
+		>
 			<div className={styles["Menu-icons"]}>
 				<div className={styles["Home-container"]}>
 					<OutsideClickListener onOutsideClick={() => { updateShowHome(false); }}>
@@ -103,8 +124,14 @@ export const Taskbar = memo(() => {
 					</OutsideClickListener>
 				</div>
 			</div>
-			<div className={styles["App-icons"]} style={{ boxShadow }}>
-				<div className={styles["App-icons-inner"]} onScroll={onUpdate} onResize={onUpdate} ref={ref}>
+			<div className={styles["App-icons"]} data-allow-context-menu={true} style={{ boxShadow }}>
+				<div
+					className={styles["App-icons-inner"]}
+					data-allow-context-menu={true}
+					onScroll={onUpdate}
+					onResize={onUpdate}
+					ref={ref}
+				>
 					{AppsManager.APPLICATIONS.map((app) => 
 						<AppButton app={app} key={app.id}/>
 					)}
@@ -118,5 +145,5 @@ export const Taskbar = memo(() => {
 				<button title="View Desktop" id="desktop-button"/>
 			</div>
 		</div>
-	);
+	</>);
 }, []);
