@@ -72,7 +72,7 @@ export function DialogBox({ modal, params }) {
 			<div className={`${styles.Header} Dialog-handle`}>
 				<ReactSVG
 					className={styles["Dialog-icon"]}
-					src={process.env.PUBLIC_URL + `/media/applications/icons/${app.id}.svg`}
+					src={process.env.PUBLIC_URL + `/assets/applications/icons/${app.id}.svg`}
 				/>
 				<p className={utilStyles["Text-semibold"]}>{title}</p>
 				<button aria-label="Close" className={`${styles["Header-button"]} ${styles["Exit-button"]}`} tabIndex={0} id="close-dialog"

@@ -4,7 +4,9 @@
 
 Each group of settings is controlled by a separate xml file. The virtual directory for these files is `~/.config`. The default values for these files can be viewed and edited inside the [public/config](../../../public/config/) directory.
 
-## Example
+## Examples
+
+### Example of config file containing settings
 
 ```xml
 <!-- public/config/desktop.xml -->
@@ -14,8 +16,27 @@ Each group of settings is controlled by a separate xml file. The virtual directo
  	The virtual file can be found at "~/.config/desktop.xml".
 -->
 
-<?xml version="1.0"?>
 <options>
-	<wallpaper>/media/wallpapers/wallpaper-1.png</wallpaper>
+	<wallpaper>/assets/wallpapers/vibrant-wallpaper-purple-yellow.png</wallpaper>
 </options>
+```
+
+### Example of component reading settings
+
+```js
+// components/desktop/Desktop.jsx
+
+export function Desktop() {
+	const settingsManager = useSettingsManager();
+	const [wallpaper, setWallpaper] = useState(null);
+
+	useEffect(() => {
+		(async () => {
+			const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
+			settings.get("wallpaper", setWallpaper);
+		})();
+	}, [settingsManager]);
+
+	return <img src={wallpaper}/>;
+}
 ```

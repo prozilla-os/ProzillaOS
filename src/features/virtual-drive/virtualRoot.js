@@ -70,7 +70,7 @@ export class VirtualRoot extends VirtualFolder {
 								});
 							}
 						}).createFile("ProzillaOS", "png", (file) => {
-							file.setSource("/media/banner-logo-title.png");
+							file.setSource("/assets/banner-logo-title.png");
 						});
 						linkedPaths.images = folder.path;
 					})

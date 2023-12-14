@@ -81,9 +81,9 @@ export default class AppsManager {
 	 */
 	static getAppIconUrl(appId, iconName) {
 		if (iconName == null) {
-			return `${process.env.PUBLIC_URL}/media/applications/icons/${appId}.svg`;
+			return `${process.env.PUBLIC_URL}/assets/applications/icons/${appId}.svg`;
 		} else {
-			return `${process.env.PUBLIC_URL}/media/applications/${appId}/icons/${iconName}.svg`;
+			return `${process.env.PUBLIC_URL}/assets/applications/${appId}/icons/${iconName}.svg`;
 		}
 	}
 }

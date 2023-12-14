@@ -60,7 +60,7 @@ export const AppButton = memo(({ app, modalsManager, pins, active, visible }) =>
 			}}
 			title={app.name}
 		>
-			<ReactSVG src={`${process.env.PUBLIC_URL}/media/applications/icons/${app.id}.svg`}/>
+			<ReactSVG src={`${process.env.PUBLIC_URL}/assets/applications/icons/${app.id}.svg`}/>
 		</button>
 	);
 });

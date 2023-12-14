@@ -5,34 +5,34 @@
 	<url>
 		<loc>https://os.prozilla.dev/</loc>
 		<image:image>
-			<image:loc>https://os.prozilla.dev/media/banner-logo-title.png</image:loc>
+			<image:loc>https://os.prozilla.dev/assets/banner-logo-title.png</image:loc>
 		</image:image>
 		<image:image>
-			<image:loc>https://os.prozilla.dev/media/screenshots/screenshot-files-settings-taskbar-desktop.png</image:loc>
+			<image:loc>https://os.prozilla.dev/assets/screenshots/screenshot-files-settings-taskbar-desktop.png</image:loc>
 		</image:image>
 		<image:image>
-			<image:loc>https://os.prozilla.dev/media/wallpapers/abstract-mesh-gradient-orange-red-purple.png</image:loc>
+			<image:loc>https://os.prozilla.dev/assets/wallpapers/abstract-mesh-gradient-orange-red-purple.png</image:loc>
 		</image:image>
 		<image:image>
-			<image:loc>https://os.prozilla.dev/media/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png</image:loc>
+			<image:loc>https://os.prozilla.dev/assets/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png</image:loc>
 		</image:image>
 		<image:image>
-			<image:loc>https://os.prozilla.dev/media/wallpapers/colorful-abstract-wallpaper-blue-red-green.png</image:loc>
+			<image:loc>https://os.prozilla.dev/assets/wallpapers/colorful-abstract-wallpaper-blue-red-green.png</image:loc>
 		</image:image>
 		<image:image>
-			<image:loc>https://os.prozilla.dev/media/wallpapers/colorful-mesh-gradient-yellow-blue-green.png</image:loc>
+			<image:loc>https://os.prozilla.dev/assets/wallpapers/colorful-mesh-gradient-yellow-blue-green.png</image:loc>
 		</image:image>
 		<image:image>
-			<image:loc>https://os.prozilla.dev/media/wallpapers/mesh-gradient-wallpaper-red-purple.png</image:loc>
+			<image:loc>https://os.prozilla.dev/assets/wallpapers/mesh-gradient-wallpaper-red-purple.png</image:loc>
 		</image:image>
 		<image:image>
-			<image:loc>https://os.prozilla.dev/media/wallpapers/vibrant-wallpaper-blue-purple-red.png</image:loc>
+			<image:loc>https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png</image:loc>
 		</image:image>
 		<image:image>
-			<image:loc>https://os.prozilla.dev/media/wallpapers/vibrant-wallpaper-purple-yellow.png</image:loc>
+			<image:loc>https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-purple-yellow.png</image:loc>
 		</image:image>
 		<image:image>
-			<image:loc>https://os.prozilla.dev/media/wallpapers/wave-abstract-wallpaper-teal.png</image:loc>
+			<image:loc>https://os.prozilla.dev/assets/wallpapers/wave-abstract-wallpaper-teal.png</image:loc>
 		</image:image>
 	</url>
 </urlset>

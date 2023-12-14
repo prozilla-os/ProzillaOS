@@ -139,7 +139,7 @@ export const Taskbar = memo(() => {
 							className={`${styles["Menu-button"]} ${styles["Home-button"]}`}
 							onClick={() => { updateShowHome(!showHome); }}
 						>
-							<ReactSVG src={process.env.PUBLIC_URL + "/media/logo.svg"}/>
+							<ReactSVG src={process.env.PUBLIC_URL + "/assets/logo.svg"}/>
 						</button>
 						<HomeMenu active={showHome} setActive={updateShowHome} search={search}/>
 					</OutsideClickListener>

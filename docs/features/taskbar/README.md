@@ -8,6 +8,6 @@ The taskbar can be split up into 3 main segments:
 
 - Menus - This includes the home menu, where you can find quick access and a list of applications and the search menu, where you can search for applications by name.
 
-- Apps list - This is a list of pinned applications, similar to how Window's taskbar pinning works.
+- App list - This is a list of pinned and active applications.
 
 - Indicators - This is a group of indicators that are used to display information, like battery power, network connection and volume.

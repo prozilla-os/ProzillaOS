@@ -1,12 +1,12 @@
 export const WALLPAPERS = [
-	"/media/wallpapers/abstract-mesh-gradient-orange-red-purple.png",
-	"/media/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png",
-	"/media/wallpapers/colorful-abstract-wallpaper-blue-red-green.png",
-	"/media/wallpapers/colorful-mesh-gradient-yellow-blue-green.png",
-	"/media/wallpapers/mesh-gradient-wallpaper-red-purple.png",
-	"/media/wallpapers/vibrant-wallpaper-blue-purple-red.png",
-	"/media/wallpapers/vibrant-wallpaper-purple-yellow.png",
-	"/media/wallpapers/wave-abstract-wallpaper-teal.png",
+	"/assets/wallpapers/abstract-mesh-gradient-orange-red-purple.png",
+	"/assets/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png",
+	"/assets/wallpapers/colorful-abstract-wallpaper-blue-red-green.png",
+	"/assets/wallpapers/colorful-mesh-gradient-yellow-blue-green.png",
+	"/assets/wallpapers/mesh-gradient-wallpaper-red-purple.png",
+	"/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png",
+	"/assets/wallpapers/vibrant-wallpaper-purple-yellow.png",
+	"/assets/wallpapers/wave-abstract-wallpaper-teal.png",
 ];
 
-export const FALLBACK_WALLPAPER = WALLPAPERS[4];
+export const FALLBACK_WALLPAPER = WALLPAPERS[6];

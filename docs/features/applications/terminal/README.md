@@ -1,26 +1,42 @@
 [← Back](../README.md)
 
-# <img src="../../../../public/media/applications/icons/terminal.svg" width=30 height=30 style="vertical-align: middle; background: none;"/> Terminal ("Commands")
+# <img src="../../../../public/assets/applications/icons/terminal.svg" width=30 height=30 style="vertical-align: middle; background: none;"/> Terminal ("Commands")
 
 A command line tool.
+
+## Screenshot
+
+![Terminal window with neofetch command](screenshot.png)
 
 ## Commands
 
 See [features/applications/terminal/commands.js](../../../../src/features/applications/terminal/commands.js) for a list of commands. You can edit this file to add/remove/edit commands.
 
-### Examples
+## Examples
+
+### Touch command
 
 ```js
-// features/applications/terminal/commands.js
+// features/applications/terminal/commands/touch.js
 
-new Command("cd", (args, { currentDirectory, setCurrentDirectory }) => {
-	const path = args[0] ?? "~"; // Default to home directory
-	const destination = currentDirectory.navigate(path);
-
-	if (!destination)
-		return `cd: ${args[0]}: No such file or directory`;
-
-	setCurrentDirectory(destination);
-	return { blank: true }; // Returns without printing anything to the terminal
-}),
+export const touch = new Command("touch")
+	.setRequireArgs(true)
+	.setManual({
+		purpose: "Change file timestamps",
+		usage: "touch [OPTION]... FILE...",
+		description: "Update the access and modification times of each FILE to the current time.\n\n"
+			+ "A FILE argument that does not exist is created empty."
+	})
+	.setExecute(function(args, { currentDirectory }) {
+		if (args[0] === "girls\\" && args[1] === "boo**")
+			return `${this.name}: Cannot touch 'girls boo**': Permission denied`;
+	
+		const [name, extension] = args[0].split(".");
+	
+		if (currentDirectory.findFile(name, extension))
+			return { blank: true };
+	
+		currentDirectory.createFile(name, extension);
+		return { blank: true };
+	});
 ```

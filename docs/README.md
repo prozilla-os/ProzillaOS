@@ -34,7 +34,7 @@
 
 Once the initial setup is complete, you can simply run `npm run deploy` and your website will be built and deployed to GitHub Pages.
 
-> Note: When the deployment process is complete, you won't see the changes reflected on your website until a few moments later. This is because GitHub Pages needs to run its own build step before the website updates. You can view details about this process in the Actions tab on GitHub.
+> Note: When the deployment process is complete, you won't see the changes reflected on your website until a few moments later. This is because GitHub Pages needs to run its own build step before the website updates. You can view details about this process in the `Actions` tab on GitHub.
 
 ### Structure
 
@@ -72,5 +72,5 @@ Functions | camelCase | ```function focusWindow() { }```
 
 ### External files
 
-- [Design file (Figma)](https://www.figma.com/file/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?type=design&node-id=0%3A1&mode=design&t=7KR1tKCp9H5cK3hf-1)
-- [Task board (Notion)](https://prozilla.notion.site/8325fabca1fb4f9885b6d6dfd5aa64c8?v=1a59f7ce50914f5ea711fe6460e52868&pvs=4)
+- [Design file - Figma](https://www.figma.com/file/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?type=design&node-id=0%3A1&mode=design&t=7KR1tKCp9H5cK3hf-1)
+- [Task board - Notion](https://prozilla.notion.site/8325fabca1fb4f9885b6d6dfd5aa64c8?v=1a59f7ce50914f5ea711fe6460e52868&pvs=4)
