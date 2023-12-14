@@ -180,7 +180,7 @@ export const Taskbar = memo(() => {
 				<Network/>
 				<Volume/>
 				<Calendar/>
-				<button title="Show Desktop" id="desktop-button"/>
+				<button title="Show Desktop" id="desktop-button" onClick={() => { windowsManager.minimizeAll(); }}/>
 			</div>
 		</div>
 	</>);

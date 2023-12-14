@@ -21,7 +21,7 @@
 	border-top-left-radius: 0.5rem;
 	border-top-right-radius: 0.5rem;
 	border-bottom-right-radius: 0.5rem;
-	backdrop-filter: blur(15px);
+	backdrop-filter: var(--taskbar-filter);
 	transform: none;
 	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
 	overflow: hidden;

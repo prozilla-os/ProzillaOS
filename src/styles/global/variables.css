@@ -1,0 +1,47 @@
+:root {
+	--pink-a: #ff9ff3;
+	--pink-b: #f368e0;
+	--yellow-a: #feca57;
+	--yellow-b: #ff9f43;
+	--red-a: #ff6b6b;
+	--red-b: #ee5253;
+	--light-blue-a: #48dbfb;
+	--light-blue-b: #0abde3;
+	--green-a: #1dd1a1;
+	--green-b: #10ac84;
+	--cyan-a: #00d2d3;
+	--cyan-b: #01a3a4;
+	--blue-a: #54a0ff;
+	--blue-b: #2e86de;
+	--purple-a: #5f27cd;
+	--purple-b: #341f97;
+	--grey-a: #c8d6e5;
+	--grey-b: #8395a7;
+	--dark-grey-a: hsl(211, 14%, 40%);
+	--dark-grey-b: hsl(212, 29%, 19%);
+	--dark-grey-c: hsl(212, 29%, 15%);
+	--dark-grey-ca: hsl(212, 27%, 12%);
+	--dark-grey-d: hsl(212, 14%, 10%);
+	--dark-grey-e: hsl(212, 12%, 8%);
+
+	--foreground-color-a: #fff;
+	--foreground-color-b: var(--grey-a);
+	--foreground-color-c: var(--grey-b);
+
+	--background-color-a: var(--dark-grey-b);
+	--background-color-b: var(--dark-grey-c);
+	--background-color-ba: var(--dark-grey-ca);
+	--background-color-c: var(--dark-grey-d);
+	--background-color-d: var(--dark-grey-e);
+
+	--background-color-a-hsl: 212, 29%, 19%;
+
+	--scrollbar-color: hsla(211, 29%, 40%, 25%);
+
+	--window-shadow-size: 0.3rem;
+	--window-shadow-opacity: 35%;
+	--window-shadow-spread: 3;
+	--window-box-shadow: calc(var(--window-shadow-size) * -1) var(--window-shadow-size)
+		calc(var(--window-shadow-size) * var(--window-shadow-spread)) 0px
+		rgba(0, 0, 0, var(--window-shadow-opacity));
+}

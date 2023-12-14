@@ -38,25 +38,24 @@ import { useScreenDimensions } from "../../hooks/utils/screen.js";
  * @param {Function} props.onInteract
  * @param {object} props.options
  * @param {boolean} props.active
+ * @param {boolean} props.minimized
+ * @param {Function} props.toggleMinimized
  */
-export const WindowView = memo(({ id, app, size, position, onInteract, options, active }) => {
+export const WindowView = memo(({ id, app, size, position, onInteract, options, active, minimized, toggleMinimized }) => {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 	const [modalsManager, modals] = useModals();
 
 	const [startSize, setStartSize] = useState(size);
 	const [startPosition, setStartPosition] = useState(position);
-
 	const [maximized, setMaximized] = useState(false);
-	const [minimized, setMinimized] = useState(false);
-
 	const [screenWidth, screenHeight] = useScreenDimensions();
-
 	const [title, setTitle] = useState(app.name);
 	const [iconUrl, setIconUrl] = useState(AppsManager.getAppIconUrl(app.id));
 
 	const { onContextMenu, ShortcutsListener } = useContextMenu({ modalsManager, Actions: (props) =>
 		<Actions {...props}>
+			<ClickAction label="Minimize" icon={faMinus} onTrigger={toggleMinimized}/>
 			<ClickAction label="Maximize" icon={faExpand} shortcut={["F11"]} onTrigger={() => {
 				setMaximized(!maximized);
 			}}/>
@@ -95,10 +94,10 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 		if (force)
 			return onInteract();
 
-		if (event.defaultPrevented)
+		if (event?.defaultPrevented)
 			return;
 
-		if (event.target?.closest?.(".Handle") == null || event.target?.closest?.("button") == null)
+		if (event == null || event.target?.closest?.(".Handle") == null || event.target?.closest?.("button") == null)
 			onInteract();
 	};
 
@@ -127,55 +126,57 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 			cancel="button"
 			nodeRef={nodeRef}
 			disabled={maximized}
-			onMouseDown={focus}
+			onStart={focus}
 		>
 			<div
 				className={classNames.join(" ")}
 				ref={nodeRef}
-				style={{
-					width: maximized ? null : startSize.x,
-					height: maximized ? null : startSize.y,
-				}}
 				onClick={focus}
 			>
-				<div className={`${styles.Header} Window-handle`} onContextMenu={onContextMenu}>
-					<ReactSVG
-						className={styles["Window-icon"]}
-						src={iconUrl}
-					/>
-					<p className={utilStyles["Text-semibold"]}>{title}</p>
-					<button aria-label="Minimize" className={styles["Header-button"]} tabIndex={0} id="minimize-window"
-						onClick={() => {
-							setMinimized(!minimized);
-						}}
-					>
-						<FontAwesomeIcon icon={faMinus}/>
-					</button>
-					<button aria-label="Maximize" className={styles["Header-button"]} tabIndex={0} id="maximize-window"
-						onClick={(event) => {
-							event.preventDefault();
-							setMaximized(!maximized);
-							focus(event, true);
-						}}
-					>
-						<FontAwesomeIcon icon={maximized ? fasWindowMaximize : faWindowMaximize}/>
-					</button>
-					<button aria-label="Close" className={`${styles["Header-button"]} ${styles["Exit-button"]}`} tabIndex={0} id="close-window"
-						onClick={close}>
-						<FontAwesomeIcon icon={faXmark}/>
-					</button>
-				</div>
-				<div className={styles["Window-content"]}>
-					<app.WindowContent
-						{...options}
-						app={app}
-						setTitle={setTitle}
-						setIconUrl={setIconUrl}
-						close={close}
-						focus={focus}
-						active={active}
-						modalsManager={modalsManager}
-					/>
+				<div
+					className={styles["Window-inner"]}
+					style={{
+						width: maximized ? null : startSize.x,
+						height: maximized ? null : startSize.y,
+					}}
+				>
+					<div className={`${styles.Header} Window-handle`} onContextMenu={onContextMenu}>
+						<ReactSVG
+							className={styles["Window-icon"]}
+							src={iconUrl}
+						/>
+						<p className={utilStyles["Text-semibold"]}>{title}</p>
+						<button aria-label="Minimize" className={styles["Header-button"]} tabIndex={0} id="minimize-window"
+							onClick={toggleMinimized}
+						>
+							<FontAwesomeIcon icon={faMinus}/>
+						</button>
+						<button aria-label="Maximize" className={styles["Header-button"]} tabIndex={0} id="maximize-window"
+							onClick={(event) => {
+								event.preventDefault();
+								setMaximized(!maximized);
+								focus(event, true);
+							}}
+						>
+							<FontAwesomeIcon icon={maximized ? fasWindowMaximize : faWindowMaximize}/>
+						</button>
+						<button aria-label="Close" className={`${styles["Header-button"]} ${styles["Exit-button"]}`} tabIndex={0} id="close-window"
+							onClick={close}>
+							<FontAwesomeIcon icon={faXmark}/>
+						</button>
+					</div>
+					<div className={styles["Window-content"]}>
+						<app.WindowContent
+							{...options}
+							app={app}
+							setTitle={setTitle}
+							setIconUrl={setIconUrl}
+							close={close}
+							focus={focus}
+							active={active}
+							modalsManager={modalsManager}
+						/>
+					</div>
 				</div>
 			</div>
 		</Draggable>

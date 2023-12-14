@@ -2,6 +2,7 @@
 	--taskbar-height: 3rem;
 	--taskbar-color: rgba(0, 0, 0, 75%);
 	--taskbar-button-hover-color: rgba(255, 255, 255, 5%);
+	--taskbar-filter: blur(1rem);
 }
 
 .Taskbar {
@@ -12,7 +13,7 @@
 	width: 100%;
 	height: var(--taskbar-height);
 	background-color: var(--taskbar-color);
-	backdrop-filter: blur(15px);
+	backdrop-filter: var(--taskbar-filter);
 	z-index: 10;
 }
 

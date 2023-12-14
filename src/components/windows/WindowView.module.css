@@ -3,15 +3,6 @@
 	--header-button-hover-color: rgba(255, 255, 255, 5%);
 
 	position: absolute;
-	display: flex;
-	flex-direction: column;
-	min-width: 300px;
-	min-height: 150px;
-	background-color: var(--background-color-c);
-	border-radius: 0.5rem;
-	box-shadow: var(--window-box-shadow);
-	resize: both;
-	overflow: hidden;
 }
 
 @keyframes pop-in {
@@ -25,10 +16,61 @@
 
 .Window-container.Maximized {
 	width: 100%;
+	height: 100%;
+	transform: none !important;
+}
+
+.Window-container.Maximized .Window-inner {
+	width: 100%;
 	height: calc(100% - var(--taskbar-height));
 	border-radius: 0;
-	transform: none !important;
 	resize: none;
+}
+
+.Window-inner {
+	display: flex;
+	flex-direction: column;
+	min-width: 300px;
+	min-height: 150px;
+	background-color: var(--background-color-c);
+	border-radius: 0.5rem;
+	box-shadow: var(--window-box-shadow);
+	resize: both;
+	overflow: hidden;
+	transform-origin: center center;
+	animation: appear 250ms ease-in-out forwards;
+}
+
+.Window-container.Minimized .Window-inner {
+	animation: disappear 250ms ease-in-out forwards;
+}
+
+@keyframes appear {
+	0% {
+		opacity: 0;
+		transform: translateY(25vh) scale(0);
+	}
+	25% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes disappear {
+	0% {
+		opacity: 1;
+		transform: none;
+	}
+	75% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(25vh) scale(0);
+	}
 }
 
 .Header {

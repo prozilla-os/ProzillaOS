@@ -17,6 +17,7 @@ import { removeFromArray } from "../../../features/utils/array.js";
  * @param {Application} props.app 
  * @param {ModalsManager} props.modalsManager 
  * @param {string[]} props.pins
+ * @param {boolean} props.focused
  */
 export const AppButton = memo(({ app, modalsManager, pins, active, visible }) => {
 	const isPinned = pins.includes(app.id);
@@ -53,7 +54,17 @@ export const AppButton = memo(({ app, modalsManager, pins, active, visible }) =>
 			key={app.id}
 			tabIndex={0}
 			className={classNames.join(" ")}
-			onClick={() => { windowsManager.open(app.id); }}
+			onClick={() => {
+				const windowId =  windowsManager.getAppWindowId(app.id);
+
+				if (!active) {
+					windowsManager.open(app.id);
+				} else if (!windowsManager.isFocused(windowId)) {
+					windowsManager.focus(windowId);
+				} else {
+					windowsManager.setMinimized(windowId);
+				}
+			}}
 			onContextMenu={(event) => {
 				if (visible)
 					onContextMenu(event);

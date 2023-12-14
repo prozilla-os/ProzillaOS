@@ -43,8 +43,9 @@ export default class WindowsManager {
 			size,
 			position,
 			options,
-			lastInteraction: new Date().valueOf()
 		};
+
+		this.focus(id);
 
 		app.isActive = true;
 
@@ -96,9 +97,49 @@ export default class WindowsManager {
 			return;
 		}
 
+		Object.values(this.windows).forEach((window) => {
+			const isFocused = (window.id === windowId);
+			window.isFocused = isFocused;
+
+			if (isFocused) {
+				window.lastInteraction = new Date().valueOf();
+				window.minimized = false;
+			}
+		});
+
+		this.updateWindows(this.windows);
+	}
+
+	/**
+	 * @param {string} windowId
+	 */
+	isFocused(windowId) {
+		return this.windows[windowId].isFocused;
+	}
+
+	/**
+	 * @param {string} windowId
+	 * @param {boolean=} minimized
+	 */
+	setMinimized(windowId, minimized) {
+		windowId = windowId.toString();
+
+		if (!this.windowIds.includes(windowId)) {
+			console.warn(`Failed to set minimized on window ${windowId}: window not found`);
+			return;
+		}
+
 		const window = this.windows[windowId];
-		window.lastInteraction = new Date().valueOf();
-		
+		window.minimized = minimized ?? !window.minimized;
+
+		this.updateWindows(this.windows);
+	}
+
+	minimizeAll() {
+		Object.values(this.windows).forEach((window) => {
+			window.minimized = true;
+		});
+
 		this.updateWindows(this.windows);
 	}
 
