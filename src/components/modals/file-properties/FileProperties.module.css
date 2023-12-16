@@ -1,0 +1,90 @@
+.Container {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	padding: 1rem;
+}
+
+.Icon {
+	width: 3rem;
+	height: 3rem;
+}
+
+.Icon div {
+	width: inherit;
+	height: inherit;
+	object-fit: contain;
+}
+
+.Icon svg {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.Section {
+	--divider-width: 0.25rem;
+
+	position: relative;
+	display: flex;
+	gap: 0.25rem;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+	width: 100%;
+	padding: 1rem 0;
+	padding-bottom: calc(1rem + var(--divider-width));
+}
+
+.Section:first-child {
+	gap: 0.5rem;
+	align-items: center;
+	flex-direction: row;
+	padding-top: 0;
+}
+
+.Section:first-child .Line {
+	font-size: 1.25rem;
+}
+
+.Section:not(:last-child)::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: var(--divider-width);
+	border-radius: 0.25rem;
+	background-color: var(--background-color-a);
+}
+
+.Line {
+	margin: 0;
+	text-align: left;
+	padding-left: 2rem;
+ 	text-indent: -2rem;
+}
+
+.App-icon {
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	vertical-align: middle;
+	margin-left: 0.5rem;
+	margin-right: 0.25rem;
+}
+
+.App-icon div {
+	position: relative;
+	width: inherit;
+	height: inherit;
+	object-fit: contain;
+}
+
+.App-icon svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	max-width: 100%;
+	max-height: 100%;
+}

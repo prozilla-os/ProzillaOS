@@ -66,6 +66,7 @@ export const Taskbar = memo(() => {
 		const isActive = windows.map((window) => window.app.id).includes(app.id);
 		const shouldBeShown = (pins.includes(app.id) || isActive);
 		return (<AppButton
+			windowsManager={windowsManager}
 			modalsManager={modalsManager}
 			pins={pins}
 			app={app} 
@@ -73,7 +74,7 @@ export const Taskbar = memo(() => {
 			active={isActive}
 			visible={shouldBeShown}
 		/>);
-	}), [modalsManager, pins, windows]);
+	}), [modalsManager, pins, windows, windowsManager]);
 
 	useEffect(() => {
 		(async () => {

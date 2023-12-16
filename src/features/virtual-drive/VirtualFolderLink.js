@@ -1,3 +1,5 @@
+import { APPS } from "../../constants/applications.js";
+import AppsManager from "../applications/applications.js";
 import { VirtualFolder } from "./virtualFolder.js";
 
 /**
@@ -57,6 +59,16 @@ export class VirtualFolderLink extends VirtualFolder {
 		this.setLinkedPath(this.linkedPath);
 
 		return (this.linkedFolder != null);
+	}
+
+	/**
+	 * @returns {string}
+	 */
+	getIconUrl() {
+		if (this.iconUrl != null)
+			return this.iconUrl;
+
+		return AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder-link");
 	}
 
 	/**
@@ -134,5 +146,10 @@ export class VirtualFolderLink extends VirtualFolder {
 	/** @type {VirtualFolder["open"]} */
 	open(...args) {
 		if (this.isValid()) return this.linkedFolder.open(...args);
+	}
+
+	/** @type {VirtualFolder["getItemCount"]} */
+	getItemCount(...args) {
+		if (this.isValid()) return this.linkedFolder.getItemCount(...args);
 	}
 }

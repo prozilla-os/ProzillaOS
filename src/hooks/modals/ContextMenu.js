@@ -5,7 +5,7 @@ import ModalsManager from "../../features/modals/modals.js";
 import { STYLES } from "../../components/actions/Actions.jsx";
 
 /**
- * @typedef {Function} onContextMenuType
+ * @callback onContextMenuType
  * @param {object} event
  * @param {object} params
  * @returns {Modal}

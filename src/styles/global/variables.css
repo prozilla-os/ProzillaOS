@@ -18,8 +18,8 @@
 	--grey-a: #c8d6e5;
 	--grey-b: #8395a7;
 	--dark-grey-a: hsl(211, 14%, 40%);
-	--dark-grey-b: hsl(212, 29%, 19%);
-	--dark-grey-c: hsl(212, 29%, 15%);
+	--dark-grey-b: hsl(var(--background-color-a-hsl));
+	--dark-grey-c: hsl(var(--background-color-c-hsl));
 	--dark-grey-ca: hsl(212, 27%, 12%);
 	--dark-grey-d: hsl(212, 14%, 10%);
 	--dark-grey-e: hsl(212, 12%, 8%);
@@ -35,6 +35,7 @@
 	--background-color-d: var(--dark-grey-e);
 
 	--background-color-a-hsl: 212, 29%, 19%;
+	--background-color-c-hsl: 212, 29%, 15%;
 
 	--scrollbar-color: hsla(211, 29%, 40%, 25%);
 

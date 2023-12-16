@@ -112,6 +112,7 @@
 }
 
 .Main {
+	position: relative;
 	flex: 1;
 	display: flex;
 	flex-wrap: wrap;
@@ -119,4 +120,23 @@
 	height: 100%;
 	padding: 0.5rem;
 	overflow: auto;
+}
+
+.Footer {
+	position: absolute;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 1.75rem;
+	padding: 0 0.75rem;
+	border-top: 0.25rem solid var(--background-color-a);
+	background-color: var(--background-color-c);
+}
+
+.Footer p {
+	margin: 0;
+	font-size: 0.875em;
 }

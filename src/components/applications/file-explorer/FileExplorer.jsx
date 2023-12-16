@@ -2,16 +2,22 @@ import { useState } from "react";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faCaretLeft, faCaretRight, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faCaretLeft, faCaretRight, faCircleInfo, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import { useContextMenu } from "../../../hooks/modals/contextMenu.js";
 import { QuickAccessButton } from "./QuickAccessButton.jsx";
-import { useDialogBox } from "../../../hooks/modals/dialogBox.js";
+import { useWindowedModal } from "../../../hooks/modals/windowedModal.js";
 import Vector2 from "../../../features/math/vector2.js";
 import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.js";
 import { DirectoryList } from "./directory-list/DirectoryList.jsx";
 import { Actions } from "../../actions/Actions.jsx";
 import { ClickAction } from "../../actions/actions/ClickAction.jsx";
+import utilStyles from "../../../styles/utils.module.css";
+import { DialogBox } from "../../modals/dialog-box/DialogBox.jsx";
+import AppsManager from "../../../features/applications/applications.js";
+import { APPS } from "../../../constants/applications.js";
+import { TITLE_SEPARATOR } from "../../../constants/windows.js";
+import { FileProperties } from "../../modals/file-properties/FileProperties.jsx";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
@@ -23,6 +29,7 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 	const windowsManager = useWindowsManager();
 	const [showHidden] = useState(true);
 
+	const { openWindowedModal } = useWindowedModal({ modalsManager });
 	const { onContextMenu: onContextMenuFile } = useContextMenu({ modalsManager, Actions: (props) =>
 		<Actions {...props}>
 			<ClickAction label="Open" onTrigger={(event, file) => {
@@ -30,6 +37,24 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 			}}/>
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
 				file.delete();
+			}}/>
+			<ClickAction label="Properties" icon={faCircleInfo} onTrigger={(event, file) => {
+				openWindowedModal({
+					title: `${file.id} ${TITLE_SEPARATOR} Properties`,
+					iconUrl: file.getIconUrl(),
+					size: new Vector2(400, 500),
+					Modal: (props) =>
+						<FileProperties file={file} {...props}/>
+				});
+				// modalsManager.open(new Modal(FileProperties)
+				// 	.setPosition(new Vector2(positionX, positionY))
+				// 	.setProps({
+				// 		triggerParams: params,
+				// 		className: STYLES.CONTEXT_MENU,
+				// 		onAnyTrigger: () => {
+				// 			newModal.close();
+				// 		}
+				// 	}));
 			}}/>
 		</Actions>
 	});
@@ -50,7 +75,6 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 	// 		"Folder": () => { currentDirectory.createFolder("New Folder"); }
 	// 	}
 	// });
-	const { onDialogBox } = useDialogBox({ modalsManager });
 
 	const changeDirectory = (path, absolute = false) => {
 		if (currentDirectory == null)
@@ -84,6 +108,8 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 		}
 	};
 
+	const itemCount = currentDirectory.getItemCount(showHidden);
+
 	return (
 		<div className={styles.Container}>
 			<div className={styles.Header}>
@@ -97,15 +123,16 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 					<FontAwesomeIcon icon={faArrowUp}/>
 				</button>
 				<button title="New" tabIndex={0} className={styles["Icon-button"]}
-					onClick={(event) => {
-						onDialogBox(event, {
-							app,
+					onClick={() => {
+						openWindowedModal({
 							title: "Error",
+							iconUrl: AppsManager.getAppIconUrl(APPS.FILE_EXPLORER),
 							size: new Vector2(300, 150),
-							children: <>
-								<p>This folder is protected.</p>
-								<button data-type={DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
-							</>
+							Modal: (props) =>
+								<DialogBox {...props}>
+									<p>This folder is protected.</p>
+									<button data-type={DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
+								</DialogBox>
 						});
 
 						// if (currentDirectory.canBeEdited) {
@@ -156,6 +183,14 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 					/>
 				</div>
 			</div>
+			<span className={styles.Footer}>
+				<p className={utilStyles["Text-light"]}>
+					{itemCount === 1
+						? itemCount + " item"
+						: itemCount + " items"
+					}
+				</p>
+			</span>
 		</div>
 	);
 }

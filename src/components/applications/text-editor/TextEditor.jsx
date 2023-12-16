@@ -4,6 +4,7 @@ import { HeaderMenu } from "../.common/HeaderMenu.jsx";
 import Markdown from "markdown-to-jsx";
 import { DEFAULT_ZOOM, ZOOM_FACTOR } from "../../../constants/applications/textEditor.js";
 import AppsManager from "../../../features/applications/applications.js";
+import { TITLE_SEPARATOR } from "../../../constants/windows.js";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
@@ -52,7 +53,7 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app }) {
 		if (currentMode === "view")
 			label += " (preview)";
 
-		setTitle(`${label} - ${app.name}`);
+		setTitle(`${label} ${TITLE_SEPARATOR} ${app.name}`);
 	}, [currentFile, setTitle, unsavedChanges, currentMode, app.name]);
 
 	const newText = () => {

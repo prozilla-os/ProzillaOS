@@ -1,4 +1,5 @@
 import { APPS } from "../../constants/applications.js";
+import AppsManager from "../applications/applications.js";
 import { removeFromArray } from "../utils/array.js";
 import WindowsManager from "../windows/windows.js";
 import { VirtualFileLink } from "./VirtualFileLink.js";
@@ -368,7 +369,7 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Returns all files inside this folder
 	 * @param {Boolean=false} showHidden 
-	 * @returns {Array<VirtualFile>}
+	 * @returns {VirtualFile[]}
 	 */
 	getFiles(showHidden = false) {
 		if (showHidden)
@@ -380,9 +381,9 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Returns all subfolders inside this folder
+	 * Returns all sub-folders inside this folder
 	 * @param {Boolean=false} showHidden 
-	 * @returns {Array<VirtualFolder>}
+	 * @returns {VirtualFolder[]}
 	 */
 	getSubFolders(showHidden = false) {
 		if (showHidden)
@@ -394,10 +395,32 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
+	 * Returns the amount of files and  sub-folders inside this folder
+	 * @param {Boolean=false} showHidden 
+	 * @returns {number}
+	 */
+	getItemCount(showHidden = false) {
+		const filesCount = this.getFiles(showHidden)?.length ?? 0;
+		const foldersCount = this.getSubFolders(showHidden)?.length ?? 0;
+
+		return filesCount + foldersCount;
+	}
+
+	/**
 	 * @returns {boolean}
 	 */
 	isFolder() {
 		return true;
+	}
+
+	/**
+	 * @returns {string}
+	 */
+	getIconUrl() {
+		if (this.iconUrl != null)
+			return this.iconUrl;
+
+		return AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder");
 	}
 
 	/**

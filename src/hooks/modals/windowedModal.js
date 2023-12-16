@@ -1,11 +1,31 @@
 import { useCallback } from "react";
 import Modal from "../../features/modals/modal.js";
-import { DialogBox } from "../../components/modals/dialog-box/DialogBox.jsx";
 import Vector2 from "../../features/math/vector2.js";
 import { DEFAULT_DIALOG_SIZE } from "../../constants/modals.js";
+import ModalsManager from "../../features/modals/modals.js";
 
-export function useDialogBox({ modalsManager }) {
-	const onDialogBox = useCallback((event, params = {}) => {
+/**
+ * @callback windowedModalType
+ * @param {object} props
+ */
+
+/**
+ * @callback openWindowedModalType
+ * @param {object} params
+ * @param {string} params.iconUrl
+ * @param {string} params.title
+ * @param {Vector2} params.size
+ * @param {windowedModalType} params.Modal
+ * @returns {Modal}
+ */
+
+/**
+ * @param {object} props 
+ * @param {ModalsManager} props.modalsManager
+ * @returns {{ openWindowedModal: openWindowedModalType }}
+ */
+export function useWindowedModal({ modalsManager }) {
+	const openWindowedModal = useCallback(({ Modal: WindowedModal, ...params }) => {
 		const size = params.size ?? DEFAULT_DIALOG_SIZE;
 		let positionX = (window.innerWidth - size.x) / 4;
 		let positionY = (window.innerHeight - size.y) / 4;
@@ -16,7 +36,9 @@ export function useDialogBox({ modalsManager }) {
 			positionY -= containerRect.y / 2;
 		}
 
-		const newModal = new Modal(DialogBox)
+		console.log(WindowedModal);
+
+		const newModal = new Modal(WindowedModal)
 			.setPosition(new Vector2(positionX, positionY))
 			.setSize(size)
 			.setDismissible(false)
@@ -26,5 +48,5 @@ export function useDialogBox({ modalsManager }) {
 		return newModal;
 	}, [modalsManager]);
 
-	return { onDialogBox };
+	return { openWindowedModal };
 }

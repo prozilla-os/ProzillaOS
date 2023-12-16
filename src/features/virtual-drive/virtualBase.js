@@ -1,3 +1,5 @@
+import { APPS } from "../../constants/applications.js";
+import AppsManager from "../applications/applications.js";
 import { EventEmitter } from "../utils/events.js";
 import { VirtualRoot } from "./virtualRoot.js";
 
@@ -86,9 +88,19 @@ export class VirtualBase extends EventEmitter {
 	/**
 	 * @returns {string}
 	 */
-	getIconUrl = () => {
-		return this.iconUrl ?? this.linkedFile?.iconUrl ?? this.linkedFolder?.iconUrl;
-	};
+	getIconUrl() {
+		return this.iconUrl
+			?? this.linkedFile?.iconUrl
+			?? this.linkedFolder?.iconUrl
+			?? AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file");
+	}
+
+	/**
+	 * @returns {string}
+	 */
+	getType() {
+		return "None";
+	}
 
 	delete() {
 		if (!this.canBeEdited)

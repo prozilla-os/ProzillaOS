@@ -1,6 +1,5 @@
 import { memo } from "react";
 import Application from "../../../features/applications/application.js";
-import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import styles from "./AppIcon.module.css";
 import { ReactSVG } from "react-svg";
 import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext.js";
@@ -19,10 +18,9 @@ import { removeFromArray } from "../../../features/utils/array.js";
  * @param {string[]} props.pins
  * @param {boolean} props.focused
  */
-export const AppButton = memo(({ app, modalsManager, pins, active, visible }) => {
+export const AppButton = memo(({ app, windowsManager, modalsManager, pins, active, visible }) => {
 	const isPinned = pins.includes(app.id);
 
-	const windowsManager = useWindowsManager();
 	const settingsManager = useSettingsManager();
 	const { onContextMenu } = useContextMenu({ modalsManager, Actions: (props) =>
 		<Actions avoidTaskbar={false} {...props}>
@@ -48,6 +46,9 @@ export const AppButton = memo(({ app, modalsManager, pins, active, visible }) =>
 		classNames.push(styles.Active);
 	if (!visible)
 		classNames.push(styles.Hidden);
+
+	if (!windowsManager)
+		return;
 
 	return (
 		<button

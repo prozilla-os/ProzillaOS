@@ -1,8 +1,7 @@
 import { VirtualFile } from "../../../../features/virtual-drive/virtualFile.js";
 import { VirtualFolder } from "../../../../features/virtual-drive/virtualFolder.js";
-import { FileIcon } from "./FileIcon.jsx";
-import { FolderIcon } from "./FolderIcon.jsx";
 import styles from "./DirectoryList.module.css";
+import { ImagePreview } from "./ImagePreview.jsx";
 
 /**
  * @callback fileEvent
@@ -53,7 +52,9 @@ export function DirectoryList({ directory, showHidden = false, folderClassname, 
 					onClickFolder?.(event, folder);
 				}}
 			>
-				<FolderIcon folder={folder} iconUrl={folder.getIconUrl()}/>
+				<div className={styles["Folder-icon"]}>
+					<ImagePreview source={folder.getIconUrl()}/>
+				</div>
 				<p>{folder.name}</p>
 			</button>
 		)}
@@ -69,7 +70,9 @@ export function DirectoryList({ directory, showHidden = false, folderClassname, 
 					onClickFile?.(event, file);
 				}}
 			>
-				<FileIcon file={file} iconUrl={file.getIconUrl()}/>
+				<div className={styles["File-icon"]}>
+					<ImagePreview source={file.getIconUrl()}/>
+				</div>
 				<p>{file.id}</p>
 			</button>
 		)}

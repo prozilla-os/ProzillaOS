@@ -1,0 +1,110 @@
+.Container {
+	--header-height: 2.5rem;
+	--header-button-hover-color: rgba(255, 255, 255, 5%);
+
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	min-width: 300px;
+	min-height: 150px;
+	background-color: var(--background-color-c) !important;
+	resize: both;
+	overflow: hidden;
+}
+
+.Header {
+	--window-icon-size: 1.5rem;
+	--window-icon-margin: 0.75rem;
+
+	display: flex;
+	align-items: center;
+	height: var(--header-height);
+	padding: 0.25rem;
+	padding-left: var(--window-icon-margin);
+	padding-right: 0;
+	background-color: var(--background-color-b);
+	cursor: grab;
+}
+
+.Window-icon,
+.Window-icon > div,
+.Window-icon > div > svg {
+	height: 100%;
+	width: auto;
+}
+
+.Window-icon {
+	height: var(--window-icon-size);
+	margin-right: calc(var(--window-icon-margin) - 0.1rem);
+}
+
+.Window-icon > div {
+	display: flex;
+	align-items: center;
+}
+
+.Header > p {
+	user-select: none;
+	width: auto;
+	margin: 0;
+	margin-right: auto;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.Header-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: var(--header-height);
+	margin: 0;
+	padding: 0.75rem;
+	color: var(--foreground-color-a);
+	background: none;
+	cursor: pointer;
+	border: none;
+	outline: none;
+	aspect-ratio: 1;
+}
+
+.Header-button > svg {
+	height: 100%;
+}
+
+.Exit-button {
+	--header-button-hover-color: var(--red-b);
+}
+
+.Header-button:hover, .Header-button:focus-visible {
+	background-color: var(--header-button-hover-color);
+}
+
+.Window-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.Window-content button {
+	margin-bottom: 0.75rem;
+	padding: 0.5rem 1rem;
+	width: fit-content;
+	color: var(--foreground-color-a);
+	background-color: var(--background-color-a);
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	transition: background-color 100ms ease-in-out;
+	cursor: pointer;
+}
+
+.Window-content button:hover,
+.Window-content button:focus-visible {
+	background-color: var(--background-color-b);
+}

@@ -107,4 +107,9 @@ export class VirtualFileLink extends VirtualFile {
 	read(...args) {
 		if (this.isValid()) return this.linkedFile.read(...args);
 	}
+
+	/** @type {VirtualFile["getIconUrl"]} */
+	getIconUrl(...args) {
+		if (this.isValid()) return this.iconUrl ?? this.linkedFile.getIconUrl(...args);
+	}
 }

@@ -1,3 +1,5 @@
+import { APPS } from "../../constants/applications.js";
+import AppsManager from "../applications/applications.js";
 import WindowsManager from "../windows/windows.js";
 import { VirtualBase } from "./virtualBase.js";
 
@@ -107,6 +109,58 @@ export class VirtualFile extends VirtualBase {
 	 */
 	isFile() {
 		return true;
+	}
+
+	/**
+	 * @returns {string}
+	 */
+	getIconUrl() {
+		if (this.iconUrl != null)
+			return this.iconUrl;
+
+		let iconUrl = null;
+
+		switch (this.extension) {
+			case "png":
+				iconUrl = this.source;
+				break;
+			case "txt":
+			case "md":
+				iconUrl = AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-text");
+				break;
+			case "xml":
+				iconUrl = AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-code");
+				break;
+			default:
+				iconUrl = AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file");
+				break;
+		}
+
+		return iconUrl;
+	}
+
+	/**
+	 * @returns {string}
+	 */
+	getType() {
+		let type = "";
+
+		switch (this.extension) {
+			case "png":
+				type = "PNG Image";
+				break;
+			case "txt":
+				type = "Text";
+				break;
+			case "md":
+				type = "Markdown source";
+				break;
+			case "xml":
+				type = "XML source";
+				break;
+		}
+
+		return `${type} file (.${this.extension.toLowerCase()})`.trim();
 	}
 
 	/**
