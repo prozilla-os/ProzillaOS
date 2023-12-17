@@ -21,10 +21,17 @@ export function useHistory(initialState) {
 		if (state === history[0])
 			return;
 
-		const newHistory = [
+		let newHistory = [
 			state,
 			...history.slice(stateIndex, history.length)
 		];
+
+		// Remove repeated states
+		newHistory = newHistory.filter((state, index) => {
+			return state !== newHistory[index + 1];
+		});
+
+		console.log(newHistory);
 
 		setHistory(newHistory);
 		setStateIndex(0);
