@@ -32,7 +32,7 @@ export class VirtualBase extends EventEmitter {
 
 	/**
 	 * @param {string} alias 
-	 * @returns {ThisType}
+	 * @returns {VirtualBase}
 	 */
 	setAlias(alias) {
 		if (this.alias === alias || !this.canBeEdited)

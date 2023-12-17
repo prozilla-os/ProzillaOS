@@ -112,6 +112,20 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 
 			const directory = virtualRoot.navigate(value);
 
+			if (directory == null) {
+				openWindowedModal({
+					title: "Error",
+					iconUrl: AppsManager.getAppIconUrl(APPS.FILE_EXPLORER),
+					size: new Vector2(300, 150),
+					Modal: (props) =>
+						<DialogBox {...props}>
+							<p>Invalid path: "{value}"</p>
+							<button data-type={DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
+						</DialogBox>
+				});
+				return;
+			}
+
 			setCurrentDirectory(directory);
 			setPath(directory.root ? "/" : directory.path);
 		}
@@ -185,24 +199,24 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 				<div className={styles.Sidebar}>
 					<QuickAccessButton name={"Home"} onClick={() => { changeDirectory("~"); }} icon={faHouse}/>
 					<QuickAccessButton name={"Desktop"} onClick={() => { changeDirectory("~/Desktop"); }} icon={faDesktop}/>
-					<QuickAccessButton name={"Images"} onClick={() => { changeDirectory("~/Images"); }} icon={faImage}/>
+					<QuickAccessButton name={"Images"} onClick={() => { changeDirectory("~/Pictures"); }} icon={faImage}/>
 					<QuickAccessButton name={"Documents"} onClick={() => { changeDirectory("~/Documents"); }} icon={faFileLines}/>
 				</div>
-				<div id="main" className={styles.Main}>
-					<DirectoryList
-						directory={currentDirectory} 
-						showHidden={showHidden}
-						onClickFile={(event, file) => {
-							event.preventDefault();
-							windowsManager.openFile(file);
-						}}
-						onClickFolder={(event, folder) => {
-							changeDirectory(folder.linkedPath ?? folder.name);
-						}}
-						onContextMenuFile={onContextMenuFile}
-						onContextMenuFolder={onContextMenuFolder}
-					/>
-				</div>
+				<DirectoryList
+					directory={currentDirectory} 
+					id="main"
+					className={styles.Main}
+					showHidden={showHidden}
+					onClickFile={(event, file) => {
+						event.preventDefault();
+						windowsManager.openFile(file, { mode: "view" });
+					}}
+					onClickFolder={(event, folder) => {
+						changeDirectory(folder.linkedPath ?? folder.name);
+					}}
+					onContextMenuFile={onContextMenuFile}
+					onContextMenuFolder={onContextMenuFolder}
+				/>
 			</div>
 			<span className={styles.Footer}>
 				<p className={utilStyles["Text-light"]}>

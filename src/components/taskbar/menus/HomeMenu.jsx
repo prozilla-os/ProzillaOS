@@ -83,7 +83,7 @@ export function HomeMenu({ active, setActive, search }) {
 					</button>
 					<button title="Images" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Images" });
+						windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Pictures" });
 					}}>
 						<FontAwesomeIcon icon={faImage}/>
 					</button>

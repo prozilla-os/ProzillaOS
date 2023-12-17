@@ -1,8 +1,6 @@
-import { APPS } from "../../constants/applications.js";
-import { WALLPAPERS } from "../../constants/desktop.js";
-import AppsManager from "../applications/applications.js";
 import { StorageManager } from "../storage/storageManager.js";
 import { VirtualFolderLink } from "./VirtualFolderLink.js";
+import { loadDefaultData } from "./defaultData.js";
 import { VirtualFile } from "./virtualFile.js";
 import { VirtualFolder } from "./virtualFolder.js";
 
@@ -24,98 +22,7 @@ export class VirtualRoot extends VirtualFolder {
 	}
 
 	loadDefaultData() {
-		this.createFolder("bin", (folder) => {
-			folder.createFiles([
-				{ name: "echo" },
-				{ name: "cd" },
-				{ name: "ls" },
-				{ name: "clear" },
-			]);
-		});
-
-		this.createFolder("dev", (folder) => {
-			folder.createFiles([
-				{ name: "null" },
-				{ name: "zero" },
-				{ name: "random" },
-			]);
-		});
-
-		this.createFolder("etc");
-
-		this.createFolder("usr", (folder) => {
-			folder.createFolders(["bin", "sbin", "lib", "share"]);
-		});
-
-		const linkedPaths = {};
-			
-		this.createFolder("home", (folder) => {
-			folder.createFolder("prozilla-os", (folder) => {
-				folder.setAlias("~")
-					.createFolder(".config", (folder) => {
-						folder.createFile("desktop", "xml", (file) => {
-							file.setSource("/config/desktop.xml");
-						}).createFile("taskbar", "xml", (file) => {
-							file.setSource("/config/taskbar.xml");
-						});
-					})
-					.createFolder("Images", (folder) => {
-						folder.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder-images"));
-						folder.createFolder("Wallpapers", (folder) => {
-							folder.setProtected(true);
-							for (let i = 0; i < WALLPAPERS.length; i++) {
-								const source = WALLPAPERS[i];
-								folder.createFile(`Wallpaper${i + 1}`, "png", (file) => {
-									file.setSource(source);
-								});
-							}
-						}).createFile("ProzillaOS", "png", (file) => {
-							file.setSource("/assets/banner-logo-title.png");
-						});
-						linkedPaths.images = folder.path;
-					})
-					.createFolder("Documents", (folder) => {
-						folder.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder-text"));
-						folder.createFile("text", "txt", (file) => {
-							file.setContent("Hello world!");
-						}).createFile("info", "md", (file) => {
-							file.setProtected(true)
-								.setSource("/documents/info.md")
-								.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-info"));
-							linkedPaths.info = file.path;
-						});
-						linkedPaths.documents = folder.path;
-					})
-					.createFolder("Desktop", (folder) => {
-						folder.createFileLink("info.md", (fileLink) => {
-							fileLink.setLinkedPath(linkedPaths.info);
-						}).createFolderLink("Images", (folderLink) => {
-							folderLink.setLinkedPath(linkedPaths.images);
-						}).createFolderLink("Documents", (folderLink) => {
-							folderLink.setLinkedPath(linkedPaths.documents);
-						});
-					});
-			});
-		});
-
-		this.createFolder("lib");
-		this.createFolder("sbin");
-		this.createFolder("tmp");
-		this.createFolder("var");
-		this.createFolder("boot");
-
-		this.createFolder("proc", (folder) => {
-			folder.createFiles([
-				{ name: "cpuinfo" },
-				{ name: "meminfo" },
-			]);
-		});
-
-		this.createFolder("var");
-		this.createFolder("opt");
-		this.createFolder("media");
-		this.createFolder("mnt");
-		this.createFolder("srv");
+		loadDefaultData(this);
 	}
 
 	loadData() {
@@ -132,7 +39,7 @@ export class VirtualRoot extends VirtualFolder {
 		if (object == null)
 			return;
 
-		const shortcuts = {...object.scs};
+		const shortcuts = { ...object.scs };
 
 		const addFile = ({
 			nam: name,

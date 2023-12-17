@@ -17,7 +17,7 @@ export function MediaViewer({ file, close, setTitle }) {
 
 	if (file == null) {
 		setTimeout(() => {
-			windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Images" });
+			windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Pictures" });
 			close();
 		}, 10);
 		return;

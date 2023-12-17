@@ -85,29 +85,27 @@ export const Desktop = memo(() => {
 			onContextMenu={onContextMenu}
 		>
 			<ModalsView modalsManager={modalsManager} modals={modals}/>
-			<div className={styles.Content}>
-				<DirectoryList
-					directory={directory}
-					fileClassname={styles["Item"]}
-					folderClassname={styles["Item"]}
-					onClickFile={(event, file) => {
-						event.preventDefault();
+			<DirectoryList
+				directory={directory}
+				className={styles.Content}
+				fileClassName={styles["Item"]}
+				folderClassName={styles["Item"]}
+				onClickFile={(event, file) => {
+					event.preventDefault();
 
-						const options = {};
-						if (file.name === "info.md") {
-							options.mode = "view";
-							options.size = new Vector2(575, 675);
-						}
+					const options = { mode: "view" };
+					if (file.name === "info.md") {
+						options.size = new Vector2(575, 675);
+					}
 
-						windowsManager.openFile(file, options);
-					}}
-					onClickFolder={(event, { linkedPath, path }) => {
-						windowsManager.open(APPS.FILE_EXPLORER, { startPath: linkedPath ?? path });
-					}}
-					onContextMenuFile={onContextMenuFile}
-					onContextMenuFolder={onContextMenuFolder}
-				/>
-			</div>
+					windowsManager.openFile(file, options);
+				}}
+				onClickFolder={(event, { linkedPath, path }) => {
+					windowsManager.open(APPS.FILE_EXPLORER, { startPath: linkedPath ?? path });
+				}}
+				onContextMenuFile={onContextMenuFile}
+				onContextMenuFolder={onContextMenuFolder}
+			/>
 			{wallpaper
 				? <img src={wallpaper} className={styles.Wallpaper} alt="Desktop wallpaper" onError={onError}/>
 				: null

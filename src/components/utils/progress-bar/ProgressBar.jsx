@@ -1,4 +1,4 @@
-import { clamp } from "../../features/math/clamp.js";
+import { clamp } from "../../../features/math/clamp.js";
 import styles from "./ProgressBar.module.css";
 
 /**

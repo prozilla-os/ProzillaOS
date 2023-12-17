@@ -1,4 +1,4 @@
-import { Button } from "../../utils/Button.jsx";
+import { Button } from "../../utils/button/Button.jsx";
 import styles from "./Settings.module.css";
 import utilStyles from "../../../styles/utils.module.css";
 import Vector2 from "../../../features/math/vector2.js";

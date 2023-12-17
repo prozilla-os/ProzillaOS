@@ -15,7 +15,7 @@ export default class Application {
 	}
 
 	WindowContent = (props) => {
-		props = {...props, ...this.windowOptions};
+		props = { ...props, ...this.windowOptions };
 
 		if (this.windowContent == null) {
 			return null;

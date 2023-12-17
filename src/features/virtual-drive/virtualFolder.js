@@ -29,7 +29,7 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * @param {string} alias
-	 * @returns {ThisType}
+	 * @returns {VirtualFolder}
 	 */
 	setAlias(alias) {
 		return super.setAlias(alias);
@@ -39,7 +39,7 @@ export class VirtualFolder extends VirtualBase {
 	 * Returns true if this folder contains a file matching a name and extension
 	 * @param {string} name 
 	 * @param {string} extension 
-	 * @returns {ThisType}
+	 * @returns {VirtualFolder}
 	 */
 	hasFile(name, extension) {
 		return this.findFile(name, extension) !== null;
@@ -130,7 +130,7 @@ export class VirtualFolder extends VirtualBase {
 		if (!this.canBeEdited)
 			return;
 
-		files.forEach(({name, extension}) => {
+		files.forEach(({ name, extension }) => {
 			this.createFile(name, extension);
 		});
 

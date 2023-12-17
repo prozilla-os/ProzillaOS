@@ -60,6 +60,7 @@
 				"error",
 				"double"
 			],
+			"object-curly-spacing": ["warn", "always"],
 			"default-case": "off",
 			"arrow-parens": "error",
 			"space-infix-ops": "warn",
