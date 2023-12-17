@@ -20,11 +20,12 @@
 }
 
 .Icon-button {
+	--color: var(--foreground-color-a);
+
 	position: relative;
 	height: 1.25rem;
 	width: auto;
 	padding: 0;
-	color: var(--foreground-a);
 	background: none;
 	border: none;
 	outline: none;
@@ -51,8 +52,17 @@
 	transform: scale(150%);
 }
 
+.Icon-button:disabled {
+	--color: var(--foreground-color-c);
+}
+
 .Icon-button svg {
 	height: 100%;
+}
+
+.Icon-button svg path {
+	fill: var(--color);
+	transition: fill 100ms ease-in-out;
 }
 
 .Path-input {

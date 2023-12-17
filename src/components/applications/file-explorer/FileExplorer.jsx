@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,6 +18,7 @@ import AppsManager from "../../../features/applications/applications.js";
 import { APPS } from "../../../constants/applications.js";
 import { TITLE_SEPARATOR } from "../../../constants/windows.js";
 import { FileProperties } from "../../modals/file-properties/FileProperties.jsx";
+import { useHistory } from "../../../hooks/utils/history.js";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
@@ -28,6 +29,7 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 	const [path, setPath] = useState(currentDirectory?.path ?? "");
 	const windowsManager = useWindowsManager();
 	const [showHidden] = useState(true);
+	const { history, stateIndex, pushState, undo, redo, undoAvailable, redoAvailable } = useHistory(currentDirectory.path);
 
 	const { openWindowedModal } = useWindowedModal({ modalsManager });
 	const { onContextMenu: onContextMenuFile } = useContextMenu({ modalsManager, Actions: (props) =>
@@ -46,15 +48,6 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 					Modal: (props) =>
 						<FileProperties file={file} {...props}/>
 				});
-				// modalsManager.open(new Modal(FileProperties)
-				// 	.setPosition(new Vector2(positionX, positionY))
-				// 	.setProps({
-				// 		triggerParams: params,
-				// 		className: STYLES.CONTEXT_MENU,
-				// 		onAnyTrigger: () => {
-				// 			newModal.close();
-				// 		}
-				// 	}));
 			}}/>
 		</Actions>
 	});
@@ -76,7 +69,10 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 	// 	}
 	// });
 
-	const changeDirectory = (path, absolute = false) => {
+	const changeDirectory = useCallback((path, absolute = false) => {
+		if (path == null)
+			return;
+
 		if (currentDirectory == null)
 			absolute = true;
 
@@ -84,14 +80,27 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 
 		console.debug(directory);
 
-		if (directory) {
+		if (directory != null) {
+			setCurrentDirectory(directory);
+			setPath(directory.root ? "/" : directory.path);
+			pushState(directory.path);
+		}
+	}, [currentDirectory, pushState, virtualRoot]);
+
+	useEffect(() => {
+		if (history.length === 0)
+			return;
+
+		const path = history[stateIndex];
+		const directory = virtualRoot.navigate(path);
+		if (directory != null) {
 			setCurrentDirectory(directory);
 			setPath(directory.root ? "/" : directory.path);
 		}
-	};
+	}, [history, stateIndex, virtualRoot]);
 
 	const onPathChange = (event) => {
-		return setPath(event.target.value);
+		setPath(event.target.value);
 	};
 
 	const onKeyDown = (event) => {
@@ -113,10 +122,22 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 	return (
 		<div className={styles.Container}>
 			<div className={styles.Header}>
-				<button title="Back" tabIndex={0} className={styles["Icon-button"]}>
+				<button
+					title="Back"
+					tabIndex={0}
+					className={styles["Icon-button"]}
+					onClick={undo}
+					disabled={!undoAvailable}
+				>
 					<FontAwesomeIcon icon={faCaretLeft}/>
 				</button>
-				<button title="Forward" tabIndex={0} className={styles["Icon-button"]}>
+				<button
+					title="Forward"
+					tabIndex={0}
+					className={styles["Icon-button"]}
+					onClick={redo}
+					disabled={!redoAvailable}
+				>
 					<FontAwesomeIcon icon={faCaretRight}/>
 				</button>
 				<button title="Up" tabIndex={0} className={styles["Icon-button"]} onClick={() => { changeDirectory(".."); }}>
