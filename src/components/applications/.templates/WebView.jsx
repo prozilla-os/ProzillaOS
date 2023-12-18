@@ -1,21 +1,19 @@
-import { useCallback, useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import styles from "./WebView.module.css";
 
 /**
  * @param {Object} props
  * @param {String} props.source
  */
-export function WebView(props) {
+export const WebView = forwardRef(({ source, focus, ...props }, ref) => {
 	const [hovered, setHovered] = useState(false);
-
-	const { source, focus } = props;
 
 	useEffect(() => {
 		window.focus();
 
 		const onBlur = (event) => {
 			if (hovered) {
-				focus(event);
+				focus?.(event);
 			}
 		};
 
@@ -38,10 +36,15 @@ export function WebView(props) {
 	return (
 		<div className={styles.Container} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
 			<iframe
+				ref={ref}
 				src={source}
+				title={props.title ?? "Web view"}
 				className={styles["Web-view"]}
+				referrerPolicy="no-referrer"
+				sandbox="allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts"
+				{...props}
 			/>
 		</div>
 		
 	);
-}
+});

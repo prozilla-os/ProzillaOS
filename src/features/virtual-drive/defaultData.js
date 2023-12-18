@@ -41,6 +41,8 @@ export function loadDefaultData(virtualRoot) {
 						file.setSource("/config/desktop.xml");
 					}).createFile("taskbar", "xml", (file) => {
 						file.setSource("/config/taskbar.xml");
+					}).createFile("applications", "xml", (file) => {
+						file.setSource("/config/applications.xml");
 					});
 				})
 				.createFolder("Pictures", (folder) => {

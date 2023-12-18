@@ -74,14 +74,12 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 			setStartPosition(new Vector2(16, 16));
 			setMaximized(true);
 		} else {
-			if (position.x > screenWidth) {
+			if (position.x > screenWidth)
 				position.x = 0;
-				setStartPosition(position);
-			}
-			if (position.y > screenHeight) {
+			if (position.y > screenHeight)
 				position.y = 0;
-				setStartPosition(position);
-			}
+
+			setStartPosition(position);
 		}
 	}, [position, size, screenHeight, screenWidth]);
 
@@ -114,7 +112,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 			key={id}
 			axis="both"
 			handle={".Window-handle"}
-			defaultPosition={startPosition}
+			defaultPosition={startPosition.round()}
 			position={null}
 			scale={1}
 			bounds={{
@@ -127,6 +125,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 			nodeRef={nodeRef}
 			disabled={maximized}
 			onStart={focus}
+			grid={[1, 1]}
 		>
 			<div
 				className={classNames.join(" ")}

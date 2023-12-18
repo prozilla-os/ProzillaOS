@@ -11,4 +11,5 @@
 	height: 100%;
 	border: none;
 	background: none;
+	pointer-events: initial;
 }

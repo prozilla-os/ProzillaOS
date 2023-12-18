@@ -154,10 +154,18 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 				>
 					<FontAwesomeIcon icon={faCaretRight}/>
 				</button>
-				<button title="Up" tabIndex={0} className={styles["Icon-button"]} onClick={() => { changeDirectory(".."); }}>
+				<button
+					title="Up"
+					tabIndex={0}
+					className={styles["Icon-button"]}
+					onClick={() => { changeDirectory(".."); }}
+				>
 					<FontAwesomeIcon icon={faArrowUp}/>
 				</button>
-				<button title="New" tabIndex={0} className={styles["Icon-button"]}
+				<button
+					title="New"
+					tabIndex={0}
+					className={styles["Icon-button"]}
 					onClick={() => {
 						openWindowedModal({
 							title: "Error",

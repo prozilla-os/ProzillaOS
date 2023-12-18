@@ -8,6 +8,7 @@ import { Settings } from "../../components/applications/settings/Settings.jsx";
 // import { Calculator } from "../../components/applications/calculator/Calculator.jsx";
 import Vector2 from "../math/vector2.js";
 import { APPS } from "../../constants/applications.js";
+import { Browser } from "../../components/applications/browser/Browser.jsx";
 
 export default class AppsManager {
 	static APPLICATIONS = [
@@ -30,6 +31,9 @@ export default class AppsManager {
 		new Application("Minesweeper", "minesweeper", WebView, {
 			source: "https://prozilla.dev/minesweeper",
 			size: new Vector2(500, 580)
+		}),
+		new Application("Browser", "browser", Browser, {
+			size: new Vector2(700, 500)
 		}),
 	];
 

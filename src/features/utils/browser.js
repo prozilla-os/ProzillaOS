@@ -17,3 +17,16 @@ export function reloadViewport(bypassCache = false) {
 	console.info("Reloading viewport");
 	window.location.reload(bypassCache);
 }
+
+/**
+ * @param {string} string 
+ * @returns {boolean}
+ */
+export function isValidUrl(string) {
+	try {
+		new URL(string);
+		return true;
+	} catch (err) {
+		return false;
+	}
+}

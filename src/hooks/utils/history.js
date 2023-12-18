@@ -31,8 +31,6 @@ export function useHistory(initialState) {
 			return state !== newHistory[index + 1];
 		});
 
-		console.log(newHistory);
-
 		setHistory(newHistory);
 		setStateIndex(0);
 	};

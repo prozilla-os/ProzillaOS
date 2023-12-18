@@ -5,4 +5,13 @@ export default class Vector2 {
 		this.x = x;
 		this.y = y ?? x;
 	}
+
+	/**
+	 * @returns {Vector2}
+	 */
+	round() {
+		this.x = Math.round(this.x);
+		this.y = Math.round(this.y);
+		return this;
+	}
 }

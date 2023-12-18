@@ -9,6 +9,7 @@ export default class WindowsManager {
 	constructor() {
 		this.windows = {};
 		this.updateWindows = () => {};
+		this.startupComplete = false;
 	}
 
 	/**
@@ -182,6 +183,17 @@ export default class WindowsManager {
 	 */
 	setUpdateWindows(updateWindows) {
 		this.updateWindows = updateWindows;
+	}
+
+	startup(appIds) {
+		if (appIds == null || this.startupComplete)
+			return;
+
+		appIds.forEach((appId) => {
+			this.open(appId);
+		});
+
+		this.startupComplete = true;
 	}
 
 	/**
