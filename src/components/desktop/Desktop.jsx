@@ -90,7 +90,13 @@ export const Desktop = memo(() => {
 		(async () => {
 			const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
 			settings.get("wallpaper", setWallpaper);
-			settings.get("show-icons", (value) => { setShowIcons(value === "true"); });
+			settings.get("show-icons", (value) => {
+				if (value != null) {
+					setShowIcons(value === "true");
+				} else {
+					setShowIcons(true);
+				}
+			});
 			settings.get("icon-size", (value) => {
 				if (isValidInteger(value))
 					setIconSize(parseInt(value));
