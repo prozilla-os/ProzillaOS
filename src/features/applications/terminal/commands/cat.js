@@ -3,7 +3,7 @@ import Command from "../command.js";
 export const cat = new Command("cat")
 	.setRequireArgs(true)
 	.setManual({
-		purpose: "Concetenate files and print on the standard output",
+		purpose: "Concetenate files and display on the terminal screen",
 		usage: "cat [OPTION]... [FILE]...",
 		description: "Concetenate FILE(s) to standard output."
 	})

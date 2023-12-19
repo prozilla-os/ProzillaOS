@@ -2,10 +2,9 @@ import Command from "../command.js";
 
 export const ls = new Command("ls")
 	.setManual({
-		purpose: "list directory contents",
+		purpose: "List directory contents",
 		usage: "ls [OPTION]... [FILE]...",
-		description: "List information about the FILEs (the current directory by default).\n"
-			+ "Sort entries alphabetically if none of -cftuvSUX nor --sort is specified."
+		description: "List information about the FILEs (the current directory by default)."
 	})
 	.setExecute(function(args, { currentDirectory }) {
 		let directory = currentDirectory;

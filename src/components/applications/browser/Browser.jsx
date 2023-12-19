@@ -6,7 +6,6 @@ import { faCaretLeft, faCaretRight, faHome, faRotateRight } from "@fortawesome/f
 import { HOME_URL, SEARCH_URL } from "../../../constants/applications/browser.js";
 import { isValidUrl } from "../../../features/utils/browser.js";
 import { useHistory } from "../../../hooks/utils/history.js";
-import { TITLE_SEPARATOR } from "../../../constants/windows.js";
 
 /** @type {import("../../windows/WindowView.jsx").windowProps} */
 export function Browser({ startUrl, focus }) {

@@ -94,6 +94,10 @@ const FORTUNES = [
 	"Your true value depends entirely on what you are compared with.",
 ];
 
-export const fortune = new Command("fortune", () => {
-	return randomFromArray(FORTUNES);
-});
+export const fortune = new Command("fortune")
+	.setManual({
+		purpose: "Tell fortune"
+	})
+	.setExecute(() => {
+		return randomFromArray(FORTUNES);
+	});

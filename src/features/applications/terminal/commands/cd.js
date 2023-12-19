@@ -3,7 +3,7 @@ import Command from "../command.js";
 export const cd = new Command("cd")
 	.setRequireArgs(true)
 	.setManual({
-		purpose: "Change directory",
+		purpose: "Change the current directory",
 		usage: "cd path",
 		description: "Change working directory to given path (the home directory by default)."
 	})

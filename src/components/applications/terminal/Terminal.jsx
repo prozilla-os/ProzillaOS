@@ -134,7 +134,7 @@ export function Terminal({ setTitle, close: exit }) {
 		});
 
 		if (output)
-			promptOutput(output);
+			promptOutput(`${output}\n`);
 	};
 
 	const updateHistoryIndex = (delta) => {

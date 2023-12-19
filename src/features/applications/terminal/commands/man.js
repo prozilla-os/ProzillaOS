@@ -18,14 +18,14 @@ export const man = new Command("man")
 	.setExecute(function(args, { options }) {
 		// Search function
 		if (options.includes("k")) {
-			const commands = CommandsManager.search(args[0]);
+			const commands = CommandsManager.search(args[0].toLowerCase());
 			return commands.map((command) => {
 				if (command.manual?.purpose) {
 					return  `${command.name} - ${command.manual.purpose}`;
 				} else {
 					return command.name;
 				}
-			}).join("\n");
+			}).sort().join("\n");
 		}
 
 		const commandName = args[0].toLowerCase();

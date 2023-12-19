@@ -1,12 +1,17 @@
 import Command from "../command.js";
 
-export const rmdir = new Command("rmdir", (args, { currentDirectory }) => {
-	const name = args[0];
-	const folder = currentDirectory.findSubFolder(name);
-
-	if (!folder)
-		return `${this.name}: ${args[0]}: No such directory`;
+export const rmdir = new Command("rmdir")
+	.setRequireArgs(true)
+	.setManual({
+		purpose: "Remove a directory"
+	})
+	.setExecute((args, { currentDirectory }) => {
+		const name = args[0];
+		const folder = currentDirectory.findSubFolder(name);
 	
-	folder.delete();
-	return { blank: true };
-}).setRequireArgs(true);
+		if (!folder)
+			return `${this.name}: ${args[0]}: No such directory`;
+		
+		folder.delete();
+		return { blank: true };
+	});
