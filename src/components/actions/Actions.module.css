@@ -32,8 +32,9 @@
 
 .Context-menu.Container {
 	--border-radius: 0.5rem;
+	--padding: 0.375rem;
 
-	padding: 0.375rem;
+	padding: var(--padding);
 	border-top-left-radius: calc((1 - var(--right) * var(--bottom)) * var(--border-radius)) !important;
 	border-top-right-radius: calc((1 - var(--left) * var(--bottom)) * var(--border-radius)) !important;
 	border-bottom-left-radius: calc((1 - var(--right) * var(--top)) * var(--border-radius)) !important;
@@ -41,7 +42,8 @@
 	background-color: var(--background-color-b) !important;
 }
 
-.Context-menu .Button {
+.Context-menu .Button,
+.Context-menu .Dropdown {
 	display: flex;
 	gap: 0.75rem;
 	justify-content: space-between;
@@ -58,7 +60,9 @@
 }
 
 .Context-menu .Button:hover,
-.Context-menu .Button:focus-visible {
+.Context-menu .Button:focus-visible,
+.Context-menu .Dropdown:hover,
+.Context-menu .Dropdown:focus-visible {
 	background-color: hsla(var(--background-color-a-hsl), 75%);
 }
 
@@ -88,4 +92,34 @@
 
 .Context-menu .Shortcut {
 	color: var(--foreground-color-b);
+}
+
+.Context-menu .Dropdown {
+	position: relative;
+}
+
+.Context-menu .Dropdown .Dropdown-content {
+	opacity: 1;
+	position: absolute;
+	top: calc(var(--padding) * -1);
+	left: 100%;
+	padding: var(--padding);
+	border-radius: 0.5rem;
+	border-top-left-radius: 0;
+	background-color: var(--background-color-b);
+	transition: opacity 100ms ease-out;
+	cursor: auto;
+}
+
+.Context-menu .Dropdown:not(.Active) .Dropdown-content {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.Context-menu .Divider {
+	width: calc(100% - 0.5rem);
+	height: 0.1rem;
+	border-radius: 1rem;
+	background-color: var(--foreground-color-c);
+	margin: 0.5rem auto;
 }

@@ -18,8 +18,6 @@
 }
 
 .Content {
-	--scale: 1rem;
-
 	position: absolute;
 	display: flex;
 	flex-direction: column;

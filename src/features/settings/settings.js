@@ -1,6 +1,8 @@
 import { VirtualFile } from "../virtual-drive/virtualFile.js";
 import { VirtualRoot } from "../virtual-drive/virtualRoot.js";
 
+const PARENT_NODE = "options";
+
 export class Settings {
 	xmlDoc = null;
 
@@ -112,8 +114,13 @@ export class Settings {
 		if (await this.isMissingXmlDoc())
 			return;
 
-		if (this.xmlDoc.getElementsByTagName(key)?.[0])
+		if (this.xmlDoc.getElementsByTagName(key).length > 0) {
 			this.xmlDoc.getElementsByTagName(key)[0].textContent = value;
+		} else if (this.xmlDoc.getElementsByTagName(PARENT_NODE).length > 0) {
+			const newOption = this.xmlDoc.createElement(key);
+			newOption.textContent = value;
+			this.xmlDoc.getElementsByTagName(PARENT_NODE)[0].appendChild(newOption);
+		}
 
 		await this.write();
 	}

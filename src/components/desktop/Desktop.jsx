@@ -7,7 +7,7 @@ import { useModals } from "../../hooks/modals/modals.js";
 import { ModalsView } from "../modals/ModalsView.jsx";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
-import { FALLBACK_WALLPAPER } from "../../constants/desktop.js";
+import { FALLBACK_ICON_SIZE, FALLBACK_WALLPAPER } from "../../constants/desktop.js";
 import { reloadViewport } from "../../features/utils/browser.js";
 import { useVirtualRoot } from "../../hooks/virtual-drive/virtualRootContext.js";
 import { DirectoryList } from "../applications/file-explorer/directory-list/DirectoryList.jsx";
@@ -15,7 +15,12 @@ import { APPS, APP_NAMES } from "../../constants/applications.js";
 import Vector2 from "../../features/math/vector2.js";
 import { Actions } from "../actions/Actions.jsx";
 import { ClickAction } from "../actions/actions/ClickAction.jsx";
-import { faArrowsRotate, faFolder, faPaintBrush, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsRotate, faEye, faFolder, faPaintBrush, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { ToggleAction } from "../actions/actions/ToggleAction.jsx";
+import { DropdownAction } from "../actions/actions/DropdownAction.jsx";
+import { RadioAction } from "../actions/actions/RadioAction.jsx";
+import { Divider } from "../actions/actions/Divider.jsx";
+import { isValidInteger } from "../../features/utils/number.js";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
@@ -23,9 +28,26 @@ export const Desktop = memo(() => {
 	const [modalsManager, modals] = useModals();
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
+	const [showIcons, setShowIcons] = useState(false);
+	const [iconSize, setIconSize] = useState(FALLBACK_ICON_SIZE);
 
 	const { onContextMenu, ShortcutsListener } = useContextMenu({ modalsManager, Actions: (props) =>
 		<Actions {...props}>
+			<DropdownAction label="View" icon={faEye}>
+				<RadioAction initialIndex={iconSize} onTrigger={(event, params, value) => {
+					const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
+					settings.set("icon-size", parseInt(value));
+				}} options={[
+					{ label: "Small icons" },
+					{ label: "Medium icons" },
+					{ label: "Large icons" }
+				]}/>
+				<Divider/>
+				<ToggleAction label="Show dekstop icons" initialValue={showIcons} onTrigger={(event, params, value) => {
+					const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
+					settings.set("show-icons", (!showIcons).toString());
+				}}/>
+			</DropdownAction>
 			<ClickAction label="Reload" shortcut={["Control", "r"]} icon={faArrowsRotate} onTrigger={() => {
 				reloadViewport();
 			}}/>
@@ -68,6 +90,11 @@ export const Desktop = memo(() => {
 		(async () => {
 			const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
 			settings.get("wallpaper", setWallpaper);
+			settings.get("show-icons", (value) => { setShowIcons(value === "true"); });
+			settings.get("icon-size", (value) => {
+				if (isValidInteger(value))
+					setIconSize(parseInt(value));
+			});
 		})();
 	}, [settingsManager]);
 
@@ -78,6 +105,8 @@ export const Desktop = memo(() => {
 		settings.set("wallpaper", FALLBACK_WALLPAPER);
 	};
 
+	const iconScale = 1 + ((isValidInteger(iconSize) ? iconSize : FALLBACK_ICON_SIZE) - 1) / 4;
+
 	return (<>
 		<ShortcutsListener/>
 		<div
@@ -85,18 +114,22 @@ export const Desktop = memo(() => {
 			onContextMenu={onContextMenu}
 		>
 			<ModalsView modalsManager={modalsManager} modals={modals}/>
-			<DirectoryList
+			{showIcons && <DirectoryList
 				directory={directory}
 				className={styles.Content}
+				style={{
+					"--scale": `${iconScale}rem`
+				}}
 				fileClassName={styles["Item"]}
 				folderClassName={styles["Item"]}
 				onClickFile={(event, file) => {
 					event.preventDefault();
 
-					const options = { mode: "view" };
-					if (file.name === "info.md") {
+					const options = {};
+					if (file.name === "info.md")
 						options.size = new Vector2(575, 675);
-					}
+					if (file.extension === "md")
+						options.mode = "view";
 
 					windowsManager.openFile(file, options);
 				}}
@@ -105,7 +138,7 @@ export const Desktop = memo(() => {
 				}}
 				onContextMenuFile={onContextMenuFile}
 				onContextMenuFolder={onContextMenuFolder}
-			/>
+			/>}
 			{wallpaper
 				? <img src={wallpaper} className={styles.Wallpaper} alt="Desktop wallpaper" onError={onError}/>
 				: null

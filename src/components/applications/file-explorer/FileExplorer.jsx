@@ -217,7 +217,10 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 					showHidden={showHidden}
 					onClickFile={(event, file) => {
 						event.preventDefault();
-						windowsManager.openFile(file, { mode: "view" });
+						const options = {};
+						if (file.extension === "md")
+							options.mode = "view";
+						windowsManager.openFile(file, options);
 					}}
 					onClickFolder={(event, folder) => {
 						changeDirectory(folder.linkedPath ?? folder.name);

@@ -122,6 +122,8 @@
 }
 
 .Main {
+	--scale: inherit !important;
+
 	position: relative;
 	flex: 1;
 	display: flex;

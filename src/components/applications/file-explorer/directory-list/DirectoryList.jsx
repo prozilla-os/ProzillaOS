@@ -63,15 +63,11 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		};
 
 		document.addEventListener("mousemove", onMoveRectSelect);
-		document.addEventListener("pointermove", onMoveRectSelect);
 		document.addEventListener("mouseup", onStopRectSelect);
-		document.addEventListener("pointerup", onStopRectSelect);
 
 		return () => {
 			document.removeEventListener("mousemove", onMoveRectSelect);
-			document.removeEventListener("pointermove", onMoveRectSelect);
 			document.removeEventListener("mouseup", onStopRectSelect);
-			document.removeEventListener("pointerup", onStopRectSelect);
 		};
 	});
 
@@ -140,7 +136,6 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		className={classNames.join(" ")}
 		onClick={clearSelection}
 		onMouseDown={onStartRectSelect}
-		onPointerDown={onStartRectSelect}
 		{...props}
 	>
 		{rectSelectStart != null && rectSelectEnd != null

@@ -1,8 +1,7 @@
-import { Children, cloneElement, isValidElement, useEffect, useRef, useState } from "react";
+import { Children, cloneElement, isValidElement } from "react";
 import { useShortcuts } from "../../hooks/utils/keyboard.js";
 import styles from "./Actions.module.css";
-import { useScreenDimensions } from "../../hooks/utils/screen.js";
-import { TASKBAR_HEIGHT } from "../../constants/taskBar.js";
+import { useScreenBounds } from "../../hooks/utils/screen.js";
 
 export const STYLES = {
 	CONTEXT_MENU: styles["Context-menu"],
@@ -34,11 +33,7 @@ export const STYLES = {
 export function Actions({ children, className, onAnyTrigger, triggerParams, avoidTaskbar = true }) {
 	const isListener = (className === STYLES.SHORTCUTS_LISTENER);
 
-	const ref = useRef(null);
-	const [initiated, setInitiated] = useState(false);
-	const [alignLeft, setAlignLeft] = useState(false);
-	const [alignTop, setAlignTop] = useState(false);
-	const [screenWidth, screenHeight] = useScreenDimensions();
+	const { ref, initiated, alignLeft, alignTop } = useScreenBounds({ avoidTaskbar });
 
 	const options = {};
 	const shortcuts = {};
@@ -68,9 +63,9 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 				...child.props,
 				actionId,
 				children: iterateOverChildren(child.props.children),
-				onTrigger: (event) => {
-					onAnyTrigger?.(event, triggerParams);
-					onTrigger?.(event, triggerParams);
+				onTrigger: (event, ...args) => {
+					onAnyTrigger?.(event, triggerParams, ...args);
+					onTrigger?.(event, triggerParams, ...args);
 				}
 			});
 		});
@@ -79,28 +74,6 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 	};
 
 	useShortcuts({ options, shortcuts, useCategories: false });
-
-	useEffect(() => {
-		if (ref.current == null || screenWidth == null || screenHeight == null)
-			return;
-
-		const rect = ref.current.getBoundingClientRect();
-		const maxX = screenWidth;
-		let maxY = screenHeight;
-
-		if (avoidTaskbar)
-			maxY -= TASKBAR_HEIGHT;
-
-		const isOverflowingRight = (rect.x + rect.width > maxX);
-		const isOverflowingBottom = (rect.y + rect.height > maxY);
-
-		if (isOverflowingRight)
-			setAlignLeft(true);
-		if (isOverflowingBottom)
-			setAlignTop(true);
-
-		setInitiated(true);
-	}, [alignLeft, avoidTaskbar, screenHeight, screenWidth]);
 
 	if (isListener)
 		return iterateOverChildren(children);

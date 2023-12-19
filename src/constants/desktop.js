@@ -10,3 +10,4 @@ export const WALLPAPERS = [
 ];
 
 export const FALLBACK_WALLPAPER = WALLPAPERS[6];
+export const FALLBACK_ICON_SIZE = 1;
