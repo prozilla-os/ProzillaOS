@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./Terminal.module.css";
+import Ansi from "./Ansi.jsx";
 
 /**
  * @param {object} props 
@@ -19,7 +20,7 @@ export function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown, inputRe
 
 	return (
 		<span className={styles.Input}>
-			{prefix && <p className={[styles.Prefix]}>{prefix}</p>}
+			{prefix && <Ansi className={[styles.Prefix]} useClasses>{prefix}</Ansi>}
 			<span className={styles["Input-container"]} style={{ "--cursor-offset": cursorPosition }}>
 				<span aria-hidden="true">{value}</span>
 				<input

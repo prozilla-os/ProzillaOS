@@ -1,3 +1,4 @@
+import Ansi from "./Ansi.jsx";
 import styles from "./Terminal.module.css";
 
 /**
@@ -9,7 +10,7 @@ export function OutputLine({ text }) {
 
 	return (<>
 		{lines.map((line, index) =>
-			<pre key={index} className={styles.Output}>{line === "" ? " " : line}</pre>
+			<Ansi key={index} className={styles.Output} useClasses>{line === "" ? " " : line}</Ansi>
 		)}
 	</>);
 }

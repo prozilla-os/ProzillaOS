@@ -1,5 +1,6 @@
 import { APPS } from "../../../../constants/applications.js";
-import { ASCII_LOGO, NAME } from "../../../../constants/branding.js";
+import { ANSI } from "../../../../constants/applications/terminal.js";
+import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR, NAME } from "../../../../constants/branding.js";
 import { START_DATE } from "../../../../index.js";
 import { formatRelativeTime } from "../../../utils/date.js";
 import AppsManager from "../../applications.js";
@@ -10,7 +11,7 @@ export const neofetch = new Command("neofetch")
 		purpose: "Fetch system information"
 	})
 	.setExecute((args, { username, hostname }) => {
-		const leftColumn = ASCII_LOGO.split("\n");
+		const leftColumn = ANSI_ASCII_LOGO.split("\n");
 		const rightColumnWidth = username.length + hostname.length + 1;
 
 		const userAgent = navigator.userAgent;
@@ -29,23 +30,27 @@ export const neofetch = new Command("neofetch")
 			browserName = "Unknown";
 		}
 
+		const formatLine = (label, text) => ANSI.fg.green + label.toUpperCase() + ANSI.reset + ": " + text;
+
 		const rightColumn = [
-			`${username}@${hostname}`,
+			`${ANSI.fg.green + username + ANSI.reset}@${ANSI.fg.green + hostname + ANSI.reset}`,
 			"-".repeat(rightColumnWidth),
-			`OS: ${NAME}`,
-			`UPTIME: ${formatRelativeTime(START_DATE, 2, false)}`,
-			`RESOLUTION: ${window.innerWidth}x${window.innerHeight}`,
-			"THEME: default",
-			"ICONS: Font Awesome",
-			`TERMINAL: ${AppsManager.getApp(APPS.TERMINAL)?.name ?? "Unknown"}`,
-			`BROWSER: ${browserName}`,
-			`PLATFORM: ${navigator.platform}`,
-			`LANGUAGE: ${navigator.language}`,
+			formatLine("os", NAME),
+			formatLine("uptime", formatRelativeTime(START_DATE, 2, false)),
+			formatLine("resolution", window.innerWidth + "x" + window.innerHeight),
+			formatLine("theme", "default"),
+			formatLine("icons", "Font Awesome"),
+			formatLine("terminal", AppsManager.getApp(APPS.TERMINAL)?.name ?? "Unknown"),
+			formatLine("browser", browserName),
+			formatLine("platform", navigator.platform),
+			formatLine("language", navigator.language),
+			"",
+			Object.values(ANSI.fg).map((colorCode) => colorCode + "███").join("") + ANSI.reset,
 		];
 
 		const combined = [];
 		for (let i = 1; i < leftColumn.length; i++) {
-			let line = `${leftColumn[i]}  `;
+			let line = `${ANSI_LOGO_COLOR + leftColumn[i] + ANSI.reset}  `;
 
 			if (i <= rightColumn.length) {
 				line += rightColumn[i - 1];

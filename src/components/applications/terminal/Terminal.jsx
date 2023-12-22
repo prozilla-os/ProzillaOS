@@ -4,19 +4,19 @@ import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.
 import { clamp } from "../../../features/math/clamp.js";
 import { OutputLine } from "./OutputLine.jsx";
 import { InputLine } from "./InputLine.jsx";
-import { HOSTNAME, USERNAME } from "../../../constants/applications/terminal.js";
+import { ANSI, HOSTNAME, USERNAME } from "../../../constants/applications/terminal.js";
 import CommandsManager from "../../../features/applications/terminal/commands.js";
 import { removeFromArray } from "../../../features/utils/array.js";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
  */
-export function Terminal({ setTitle, close: exit }) {
+export function Terminal({ startPath, setTitle, close: exit }) {
 	const [inputKey, setInputKey] = useState(0);
 	const [inputValue, setInputValue] = useState("");
 	const [history, setHistory] = useState([]);
 	const virtualRoot = useVirtualRoot();
-	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate("~"));
+	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate(startPath ?? "~"));
 	const inputRef = useRef(null);
 	const [historyIndex, setHistoryIndex] = useState(0);
 
@@ -24,7 +24,8 @@ export function Terminal({ setTitle, close: exit }) {
 		setTitle(`${USERNAME}@${HOSTNAME}: ${currentDirectory.root ? "/" : currentDirectory.path}`);
 	}, [currentDirectory.path, currentDirectory.root, setTitle]);
 
-	const prefix = `${USERNAME}@${HOSTNAME}:${currentDirectory.root ? "/" : currentDirectory.path}$ `;
+	const prefix = `${ANSI.fg.cyan + USERNAME}@${HOSTNAME + ANSI.reset}:`
+		+ `${ANSI.fg.blue + (currentDirectory.root ? "/" : currentDirectory.path) + ANSI.reset}$ `;
 
 	const updatedHistory = history;
 	const pushHistory = (entry) => {

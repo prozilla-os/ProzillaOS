@@ -1,7 +1,6 @@
 import Command from "../command.js";
 
 export const cd = new Command("cd")
-	.setRequireArgs(true)
 	.setManual({
 		purpose: "Change the current directory",
 		usage: "cd path",

@@ -1,3 +1,4 @@
+import { ANSI } from "../../../../constants/applications/terminal.js";
 import Command from "../command.js";
 
 export const ls = new Command("ls")
@@ -16,7 +17,7 @@ export const ls = new Command("ls")
 		if (!directory)
 			return `${this.name}: Cannot access '${args[0]}': No such file or directory`;
 	
-		const folderNames = directory.subFolders.map((folder) => folder.id);
+		const folderNames = directory.subFolders.map((folder) => `${ANSI.fg.blue}${folder.id}${ANSI.reset}`);
 		const fileNames = directory.files.map((file) => file.id);
 	
 		const contents = folderNames.concat(fileNames);
@@ -24,5 +25,5 @@ export const ls = new Command("ls")
 		if (contents.length === 0)
 			return { blank: true };
 	
-		return contents.sort((nameA, nameB) => nameA.localeCompare(nameB)).join(" ");
+		return contents.sort().join("  ");
 	});
