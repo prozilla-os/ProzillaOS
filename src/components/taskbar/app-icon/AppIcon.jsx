@@ -10,6 +10,7 @@ import { ClickAction } from "../../actions/actions/ClickAction.jsx";
 import { faThumbTack, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { SettingsManager } from "../../../features/settings/settingsManager.js";
 import { removeFromArray } from "../../../features/utils/array.js";
+import AppsManager from "../../../features/applications/applications.js";
 
 /**
  * @param {object} props 
@@ -24,6 +25,9 @@ export const AppButton = memo(({ app, windowsManager, modalsManager, pins, activ
 	const settingsManager = useSettingsManager();
 	const { onContextMenu } = useContextMenu({ modalsManager, Actions: (props) =>
 		<Actions avoidTaskbar={false} {...props}>
+			<ClickAction label={app.name} icon={AppsManager.getAppIconUrl(app.id)} onTrigger={() => {
+				windowsManager.open(app.id);
+			}}/>
 			<ClickAction label={isPinned ? "Unpin from taskbar" : "Pin to taskbar"} icon={faThumbTack} onTrigger={() => {
 				const newPins = [...pins];
 				if (isPinned) {

@@ -139,7 +139,10 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 						height: maximized ? null : startSize.y,
 					}}
 				>
-					<div className={`${styles.Header} Window-handle`} onContextMenu={onContextMenu}>
+					<div className={`${styles.Header} Window-handle`} onContextMenu={onContextMenu} onDoubleClick={(event) => {
+						setMaximized(!maximized);
+						focus(event, true);
+					}}>
 						<ReactSVG
 							className={styles["Window-icon"]}
 							src={iconUrl}

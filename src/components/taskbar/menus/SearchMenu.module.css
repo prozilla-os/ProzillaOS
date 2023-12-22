@@ -52,3 +52,7 @@
 	font-family: inherit;
 	font-size: inherit;
 }
+
+.Container-inner > div > button:first-child {
+	background-color: var(--taskbar-button-hover-color);
+}

@@ -47,9 +47,16 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 		classNames.push(styles.Active);
 
 	const onKeyDown = (event) => {
-		if (event.key === "f" && event.ctrlKey) {
+		if ((event.key === "f" || event.key === "g") && event.ctrlKey && !active) {
 			event.preventDefault();
 			setActive(true);
+		} else if (event.key === "Escape" && active) {
+			event.preventDefault();
+			setActive(false);
+		} else if (event.key === "Enter" && active) {
+			event.preventDefault();
+			windowsManager.open(apps[0].id);
+			setActive(false);
 		}
 	};
 
