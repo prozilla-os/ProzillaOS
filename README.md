@@ -1,14 +1,14 @@
 <img alt="License" src="https://img.shields.io/github/license/prozilla/Prozilla-OS?style=flat-square&color=ee5253&label=License"> <img alt="Stars" src="https://img.shields.io/github/stars/prozilla/prozilla-os?style=flat-square&color=feca57&label=%E2%AD%90">  <img alt="Forks" src="https://img.shields.io/github/forks/prozilla/prozilla-os?style=flat-square&color=54a0ff&label=Forks">
 
-# <img src="public/assets/logo.svg" align="left" width=40 height=40 alt="Logo"/> ProzillaOS
+# <img src="public/assets/logo.svg" align="left" width=40 height=40 alt="Logo"/> Prozilla OS
 
-ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows made with React by Prozilla.
+Prozilla OS is a web-based operating system inspired by Ubuntu Linux and Windows made with React by Prozilla.
 
 **Live demo: [os.prozilla.dev](https://os.prozilla.dev/)**
 
-<img src="public/assets/banner-logo-title.png" alt="Banner with ProzillaOS' name and logo"/>
+<img src="public/assets/banner-logo-title-small.png" alt="Banner with the logo of Prozilla OS"/>
 
-> Please note that ProzillaOS is a WIP and far from complete. Many additional features will be added in the near future.
+> Please note that Prozilla OS is a WIP and far from complete. Many additional features will be added in the near future.
 
 ## Documentation
 
@@ -25,13 +25,13 @@ See [docs](docs/README.md) for more info.
 
 See [docs/design](docs/design/README.md) for more info.
 
-ProzillaOS was designed in Figma by Prozilla. You can view the design file [here](https://www.figma.com/file/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?type=design&node-id=0%3A1&mode=design&t=7KR1tKCp9H5cK3hf-1).
+Prozilla OS was designed in Figma by Prozilla. You can view the design file [here](https://www.figma.com/file/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?type=design&node-id=0%3A1&mode=design&t=7KR1tKCp9H5cK3hf-1).
 
 ### Preview
 
-<img src="public/assets/screenshots/screenshot-files-settings-taskbar-desktop.png" alt="Screenshot of ProzillaOS"/>
+<img src="public/assets/screenshots/screenshot-files-settings-taskbar-desktop.png" alt="Screenshot of Prozilla OS"/>
 
-## Support ProzillaOS
+## Support Prozilla OS
 
 You can support this project by donating to **[ko-fi.com/prozilla](https://ko-fi.com/prozilla)**.
 

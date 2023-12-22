@@ -65,7 +65,7 @@ Folders | kebab-case | `virtual-drive`
 Local `.module.css` files | PascalCase | `Desktop.module.css`
 Global `.module.css` files | kebab-case | `utils.module.css`
 Variables | camelCase | ```const fooBar = true;```
-Global constant variables | MACRO_CASE | ```export const NAME = "ProzillaOS";```
+Global constant variables | MACRO_CASE | ```export const NAME = "Prozilla OS";```
 Classes | PascalCase | ```class WindowsManager { }```
 React components | PascalCase | ```export function WindowsView({ }) { }```
 Functions | camelCase | ```function focusWindow() { }```

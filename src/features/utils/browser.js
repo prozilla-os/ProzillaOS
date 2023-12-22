@@ -1,9 +1,11 @@
+import { NAME } from "../../constants/branding.js";
+
 /**
  * Simulates closing the viewport by opening a blank page
  * @param {boolean} requireConfirmation
  */
 export function closeViewport(requireConfirmation = false) {
-	if (requireConfirmation && window.confirm("Are you sure you want to shut down ProzillaOS?")) {
+	if (requireConfirmation && window.confirm(`Are you sure you want to shut down ${NAME}?`)) {
 		console.info("Closing viewport");
 		window.open("about:blank", "_self");
 	}

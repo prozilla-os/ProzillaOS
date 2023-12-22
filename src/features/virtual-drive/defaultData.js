@@ -55,7 +55,7 @@ export function loadDefaultData(virtualRoot) {
 								file.setSource(source);
 							});
 						}
-					}).createFile("ProzillaOS", "png", (file) => {
+					}).createFile("Prozilla-OS", "png", (file) => {
 						file.setSource("/assets/banner-logo-title.png");
 					}).createFolder("Crumbling City", (folder) => {
 						folder.createFile("Japan", "png", (file) => {

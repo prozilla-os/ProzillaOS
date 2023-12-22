@@ -6,4 +6,4 @@ An application for viewing media like images and videos.
 
 ## Screenshot
 
-![Media Viewer window showing ProzillaOS.png](screenshot.png)
+![Media Viewer window showing Prozilla OS.png](screenshot.png)

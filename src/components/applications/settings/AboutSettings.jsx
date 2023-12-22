@@ -4,6 +4,7 @@ import utilStyles from "../../../styles/utils.module.css";
 import Vector2 from "../../../features/math/vector2.js";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
+import { NAME } from "../../../constants/branding.js";
 
 export function AboutSettings() {
 	const windowsManager = useWindowsManager();
@@ -11,8 +12,8 @@ export function AboutSettings() {
 
 	return (<>
 		<div className={styles["Option"]}>
-			<p className={styles["Label"]}>About ProzillaOS</p>
-			<p className={utilStyles["Text-light"]}>ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows made with React.js by Prozilla.</p>
+			<p className={styles["Label"]}>About {NAME}</p>
+			<p className={utilStyles["Text-light"]}>{NAME} is a web-based operating system inspired by Ubuntu Linux and Windows made with React.js by Prozilla.</p>
 			<div className={styles["Button-group"]}>
 				<Button
 					className={`${styles.Button} ${utilStyles["Text-bold"]}`}

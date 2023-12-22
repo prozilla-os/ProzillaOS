@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import Vector2 from "../../../features/math/vector2.js";
 import utilStyles from "../../../styles/utils.module.css";
 import { APPS } from "../../../constants/applications.js";
+import { NAME } from "../../../constants/branding.js";
 
 /**
  * @param {object} props 
@@ -95,7 +96,7 @@ export function HomeMenu({ active, setActive, search }) {
 					</button>
 				</div>
 				<div className={styles.Apps}>
-					<h1 className={utilStyles["Text-bold"]}>ProzillaOS</h1>
+					<h1 className={utilStyles["Text-bold"]}>{NAME}</h1>
 					<div className={appStyles["App-list"]}>
 						{AppsManager.APPLICATIONS.map(({ name, id }) => 
 							<button

@@ -1,6 +1,6 @@
 import { ANSI } from "./applications/terminal.js";
 
-export const NAME = "ProzillaOS";
+export const NAME = "Prozilla OS";
 
 export const ASCII_LOGO = `
               :.           

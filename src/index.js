@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./styles/global.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ASCII_LOGO } from "./constants/branding.js";
+import { ASCII_LOGO, NAME } from "./constants/branding.js";
 
 export const START_DATE = new Date();
 
@@ -17,7 +17,7 @@ root.render(
 
 // Log welcome message
 const asciiLogoWidth = ASCII_LOGO.split("\n")[1].length;
-const welcomeMessage = "Welcome to ProzillaOS";
+const welcomeMessage = `Welcome to ${NAME}`;
 const space = "\n\n" + " ".repeat(Math.ceil((asciiLogoWidth - welcomeMessage.length) / 2));
 console.info(ASCII_LOGO + space + welcomeMessage);
 

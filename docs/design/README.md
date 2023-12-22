@@ -2,19 +2,19 @@
 
 # Design
 
-ProzillaOS is designed in Figma by Prozilla. You can view the design file [here](https://www.figma.com/file/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?type=design&node-id=0%3A1&mode=design&t=7KR1tKCp9H5cK3hf-1).
+Prozilla OS is designed in Figma by Prozilla. You can view the design file [here](https://www.figma.com/file/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?type=design&node-id=0%3A1&mode=design&t=7KR1tKCp9H5cK3hf-1).
 
 ### Preview
 
-<img src="../../public/assets/screenshots/screenshot-files-settings-taskbar-desktop.png" alt="Screenshot of ProzillaOS"/>
+<img src="../../public/assets/screenshots/screenshot-files-settings-taskbar-desktop.png" alt="Screenshot of Prozilla OS"/>
 
 ### Font
 
-The font used by ProzillaOS is [Poppins](https://fonts.google.com/specimen/Poppins) from Google Fonts by  Indian Type Foundry, Jonny Pinhorn.
+The font used by Prozilla OS is [Poppins](https://fonts.google.com/specimen/Poppins) from Google Fonts by  Indian Type Foundry, Jonny Pinhorn.
 
 ### UI Icons
 
-ProzillaOS uses [Font Awesome](https://fontawesome.com/) icons (some modified) in its UI.
+Prozilla OS uses [Font Awesome](https://fontawesome.com/) icons (some modified) in its UI.
 
 ### App Icons
 
