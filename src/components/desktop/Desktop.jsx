@@ -11,11 +11,11 @@ import { FALLBACK_ICON_SIZE, FALLBACK_WALLPAPER } from "../../constants/desktop.
 import { reloadViewport } from "../../features/utils/browser.js";
 import { useVirtualRoot } from "../../hooks/virtual-drive/virtualRootContext.js";
 import { DirectoryList } from "../applications/file-explorer/directory-list/DirectoryList.jsx";
-import { APPS, APP_NAMES } from "../../constants/applications.js";
+import { APPS, APP_ICONS, APP_NAMES } from "../../constants/applications.js";
 import Vector2 from "../../features/math/vector2.js";
 import { Actions } from "../actions/Actions.jsx";
 import { ClickAction } from "../actions/actions/ClickAction.jsx";
-import { faArrowsRotate, faEye, faFolder, faPaintBrush, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsRotate, faEye, faFolder, faPaintBrush, faTerminal, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToggleAction } from "../actions/actions/ToggleAction.jsx";
 import { DropdownAction } from "../actions/actions/DropdownAction.jsx";
 import { RadioAction } from "../actions/actions/RadioAction.jsx";
@@ -30,6 +30,8 @@ export const Desktop = memo(() => {
 	const virtualRoot = useVirtualRoot();
 	const [showIcons, setShowIcons] = useState(false);
 	const [iconSize, setIconSize] = useState(FALLBACK_ICON_SIZE);
+
+	const directory = virtualRoot.navigate("~/Desktop");
 
 	const { onContextMenu, ShortcutsListener } = useContextMenu({ modalsManager, Actions: (props) =>
 		<Actions {...props}>
@@ -54,8 +56,12 @@ export const Desktop = memo(() => {
 			<ClickAction label="Change appearance" icon={faPaintBrush} onTrigger={() => {
 				windowsManager.open("settings", { initialTabIndex: 0 });
 			}}/>
-			<ClickAction label={`Open in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={() => {
-				windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Desktop" });
+			<Divider/>
+			<ClickAction label={`Open in ${APP_NAMES.FILE_EXPLORER}`} icon={APP_ICONS.FILE_EXPLORER} onTrigger={() => {
+				windowsManager.open(APPS.FILE_EXPLORER, { startPath: directory.path });
+			}}/>
+			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={() => {
+				windowsManager.open(APPS.TERMINAL, { startPath: directory.path });
 			}}/>
 		</Actions>
 	});
@@ -77,9 +83,13 @@ export const Desktop = memo(() => {
 			<ClickAction label="Open" onTrigger={(event, folder) => {
 				folder.open(windowsManager);
 			}}/>
+			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={faTerminal} onTrigger={(event, folder) => {
+				windowsManager.open(APPS.TERMINAL, { startPath: folder.path });
+			}}/>
 			<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={(event, folder) => {
 				folder.parent.open(windowsManager);
 			}}/>
+			<Divider/>
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder) => {
 				folder.delete();
 			}}/>
@@ -103,8 +113,6 @@ export const Desktop = memo(() => {
 			});
 		})();
 	}, [settingsManager]);
-
-	const directory = virtualRoot.navigate("~/Desktop");
 
 	const onError = () => {
 		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);

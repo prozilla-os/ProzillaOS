@@ -23,11 +23,11 @@ export function FileProperties({ modal, params, file, ...props }) {
 		</span>
 		<span className={styles["Section"]}>
 			<p className={styles["Line"]}>Type: {file.getType()}</p>
-			<p className={styles["Line"]}>
+			<span className={styles["Line"]}>
 				Opens with: 
 				<ImagePreview className={styles["App-icon"]} source={AppsManager.getAppIconUrl(associatedApp.id)}/>
 				{associatedApp.name}
-			</p>
+			</span>
 		</span>
 		<span className={styles["Section"]}>
 			<p className={styles["Line"]}>Location: {file.path}</p>

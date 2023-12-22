@@ -15,10 +15,11 @@ import { ClickAction } from "../../actions/actions/ClickAction.jsx";
 import utilStyles from "../../../styles/utils.module.css";
 import { DialogBox } from "../../modals/dialog-box/DialogBox.jsx";
 import AppsManager from "../../../features/applications/applications.js";
-import { APPS } from "../../../constants/applications.js";
+import { APPS, APP_ICONS, APP_NAMES } from "../../../constants/applications.js";
 import { TITLE_SEPARATOR } from "../../../constants/windows.js";
 import { FileProperties } from "../../modals/file-properties/FileProperties.jsx";
 import { useHistory } from "../../../hooks/utils/history.js";
+import { Divider } from "../../actions/actions/Divider.jsx";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
@@ -54,8 +55,12 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 	const { onContextMenu: onContextMenuFolder } = useContextMenu({ modalsManager, Actions: (props) =>
 		<Actions {...props}>
 			<ClickAction label="Open" onTrigger={(event, folder) => {
-				changeDirectory(folder.name);
+				folder.open(windowsManager);
 			}}/>
+			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={(event, folder) => {
+				windowsManager.open(APPS.TERMINAL, { startPath: folder.path });
+			}}/>
+			<Divider/>
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder) => {
 				folder.delete();
 			}}/>

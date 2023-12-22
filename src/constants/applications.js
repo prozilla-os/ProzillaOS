@@ -13,3 +13,11 @@ export const APP_NAMES = {
 	TEXT_EDITOR: "Notes",
 	FILE_EXPLORER: "Files"
 };
+
+export const APP_ICONS = {
+	TERMINAL: `${process.env.PUBLIC_URL}/assets/applications/icons/${APPS.TERMINAL}.svg`,
+	SETTINGS: `${process.env.PUBLIC_URL}/assets/applications/icons/${APPS.SETTINGS}.svg`,
+	MEDIA_VIEWER: `${process.env.PUBLIC_URL}/assets/applications/icons/${APPS.MEDIA_VIEWER}.svg`,
+	TEXT_EDITOR: `${process.env.PUBLIC_URL}/assets/applications/icons/${APPS.TEXT_EDITOR}.svg`,
+	FILE_EXPLORER: `${process.env.PUBLIC_URL}/assets/applications/icons/${APPS.FILE_EXPLORER}.svg`,
+};
