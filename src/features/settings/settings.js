@@ -1,5 +1,5 @@
-import { VirtualFile } from "../virtual-drive/virtualFile.js";
-import { VirtualRoot } from "../virtual-drive/virtualRoot.js";
+import { VirtualFile } from "../virtual-drive/file/virtualFile.js";
+import { VirtualRoot } from "../virtual-drive/root/virtualRoot.js";
 
 const PARENT_NODE = "options";
 

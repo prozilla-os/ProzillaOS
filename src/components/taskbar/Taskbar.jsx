@@ -2,7 +2,7 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./Taskbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
-import AppsManager from "../../features/applications/applications.js";
+import AppsManager from "../../features/apps/appsManager.js";
 import { ReactSVG } from "react-svg";
 import { HomeMenu } from "./menus/HomeMenu.jsx";
 import OutsideClickListener from "../../hooks/utils/outsideClick.js";
@@ -17,10 +17,10 @@ import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import { Actions } from "../actions/Actions.jsx";
 import { useModals } from "../../hooks/modals/modals.js";
 import { ClickAction } from "../actions/actions/ClickAction.jsx";
-import { APPS, APP_NAMES } from "../../constants/applications.js";
+import { APPS, APP_NAMES } from "../../config/apps.config.js";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import { ModalsView } from "../modals/ModalsView.jsx";
-import { TASKBAR_HEIGHT } from "../../constants/taskBar.js";
+import { TASKBAR_HEIGHT } from "../../config/taskbar.config.js";
 import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
 import { SettingsManager } from "../../features/settings/settingsManager.js";
 import { useWindows } from "../../hooks/windows/windowsContext.js";
@@ -50,7 +50,7 @@ export const Taskbar = memo(() => {
 	});
 	const [pins, setPins] = useState([]);
 
-	const apps = useMemo(() => AppsManager.APPLICATIONS.sort((appA, appB) => {
+	const apps = useMemo(() => AppsManager.APPS.sort((appA, appB) => {
 		const indexA = pins.indexOf(appA.id);
 		const indexB = pins.indexOf(appB.id);
 		if (indexA < 0 && indexB > 0) {

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./styles/global.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ASCII_LOGO, NAME } from "./constants/branding.js";
+import { ASCII_LOGO, NAME } from "./config/branding.config.js";
 
 export const START_DATE = new Date();
 

@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { VirtualRoot } from "../../features/virtual-drive/virtualRoot.js";
+import { VirtualRoot } from "../../features/virtual-drive/root/virtualRoot.js";
 
 const VirtualRootContext = createContext();
 

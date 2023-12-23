@@ -5,33 +5,33 @@ import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import Draggable from "react-draggable";
 import { memo, useEffect, useRef, useState } from "react";
-import Application from "../../features/applications/application.js";
+import App from "../../features/apps/app.js";
 import Vector2 from "../../features/math/vector2.js";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import utilStyles from "../../styles/utils.module.css";
 import { useModals } from "../../hooks/modals/modals.js";
 import { ModalsView } from "../modals/ModalsView.jsx";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
-import AppsManager from "../../features/applications/applications.js";
+import AppsManager from "../../features/apps/appsManager.js";
 import { ClickAction } from "../actions/actions/ClickAction.jsx";
 import { Actions } from "../actions/Actions.jsx";
 import { useScreenDimensions } from "../../hooks/utils/screen.js";
 
 /**
  * @typedef {object} windowProps
- * @property {Application} app
+ * @property {App} app
  * @property {Function} setTitle
  * @property {Function} setIconUrl
  * @property {Function} close
  * @property {Function} focus
  * @property {boolean} active
- * @property {import("../../features/modals/modals.js").default} modalsManager
+ * @property {import("../../features/modals/modalsManager.js").default} modalsManager
  */
 
 /**
  * @param {object} props
  * @param {string} props.id 
- * @param {Application} props.app 
+ * @param {App} props.app 
  * @param {Vector2} props.size 
  * @param {Vector2} props.position 
  * @param {boolean} props.focused 

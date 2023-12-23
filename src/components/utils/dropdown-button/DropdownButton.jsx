@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./DropdownButton.module.css";
 import OutsideClickListener from "../../../hooks/utils/outsideClick.js";
-import { formatShortcut } from "../../../features/utils/string.js";
+import { formatShortcut } from "../../../features/utils/string.utils.js";
 
 /**
  * @param {object} props 

@@ -11,7 +11,7 @@ The virtual drive is a virtual file and directory system. The root directory is 
 ### Component interacting with virtual drive
 
 ```js
-// components/applications/example/Example.jsx
+// components/apps/example/Example.jsx
 
 export function Example() {
 	const virtualRoot = useVirtualRoot();

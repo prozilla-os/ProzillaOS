@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { INTERACTIBLE_DOUBLE_CLICK_DELAY } from "../../../constants/utils.js";
+import { INTERACTIBLE_DOUBLE_CLICK_DELAY } from "../../../config/utils.config.js";
 
 let timeoutId = null;
 

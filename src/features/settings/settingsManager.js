@@ -1,4 +1,4 @@
-import { VirtualRoot } from "../virtual-drive/virtualRoot.js";
+import { VirtualRoot } from "../virtual-drive/root/virtualRoot.js";
 import { Settings } from "./settings.js";
 
 export class SettingsManager {
@@ -8,7 +8,7 @@ export class SettingsManager {
 	static VIRTUAL_PATHS = {
 		desktop: "~/.config/desktop.xml",
 		taskbar: "~/.config/taskbar.xml",
-		applications: "~/.config/applications.xml",
+		apps: "~/.config/apps.xml",
 	};
 
 	/**

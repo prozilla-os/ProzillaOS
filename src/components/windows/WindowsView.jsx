@@ -20,7 +20,7 @@ export const WindowsView = memo(() => {
 
 	// Launch startup apps
 	useEffect(() => {
-		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.applications);
+		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.apps);
 		settings.get("startup", (value) => {
 			if (value !== "")
 				windowsManager.startup(value?.split(","));

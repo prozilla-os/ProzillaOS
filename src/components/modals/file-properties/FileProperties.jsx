@@ -1,11 +1,11 @@
-import { ImagePreview } from "../../applications/file-explorer/directory-list/ImagePreview.jsx";
-import { WindowedModal } from "../.templates/WindowedModal.jsx";
+import { ImagePreview } from "../../apps/file-explorer/directory-list/ImagePreview.jsx";
+import { WindowedModal } from "../_templates/WindowedModal.jsx";
 import styles from "./FileProperties.module.css";
 import utilStyles from "../../../styles/utils.module.css";
 import Modal from "../../../features/modals/modal.js";
-import { VirtualFile } from "../../../features/virtual-drive/virtualFile.js";
+import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile.js";
 import { StorageManager } from "../../../features/storage/storageManager.js";
-import AppsManager from "../../../features/applications/applications.js";
+import AppsManager from "../../../features/apps/appsManager.js";
 
 /**
  * @param {object} props 
@@ -14,7 +14,7 @@ import AppsManager from "../../../features/applications/applications.js";
  * @param {VirtualFile} props.file
  */
 export function FileProperties({ modal, params, file, ...props }) {
-	const associatedApp = AppsManager.getFileApp(file.extension);
+	const associatedApp = AppsManager.getAppByFileExtension(file.extension);
 
 	return <WindowedModal className={styles.Container} modal={modal} params={params} {...props}>
 		<span className={styles["Section"]}>

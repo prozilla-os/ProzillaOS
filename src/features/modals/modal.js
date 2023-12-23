@@ -1,5 +1,5 @@
 import Vector2 from "../math/vector2.js";
-import ModalsManager from "./modals.js";
+import ModalsManager from "./modalsManager.js";
 
 export default class Modal {
 	/** @type {Vector2} */

@@ -1,5 +1,5 @@
-import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.js";
-import { WindowedModal } from "../.templates/WindowedModal.jsx";
+import { DIALOG_CONTENT_TYPES } from "../../../config/modals.config.js";
+import { WindowedModal } from "../_templates/WindowedModal.jsx";
 
 export function DialogBox({ modal, params, children, ...props }) {
 	const onClick = (event) => {

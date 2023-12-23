@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef } from "react";
 import { Modal } from "../../features/modals/modal.js";
-import ModalsManager from "../../features/modals/modals.js";
+import ModalsManager from "../../features/modals/modalsManager.js";
 import { ModalView } from "./ModalView.jsx";
 import styles from "./ModalsView.module.css";
 

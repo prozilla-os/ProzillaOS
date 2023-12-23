@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import Modal from "../../features/modals/modal.js";
 import Vector2 from "../../features/math/vector2.js";
-import { DEFAULT_DIALOG_SIZE } from "../../constants/modals.js";
-import ModalsManager from "../../features/modals/modals.js";
+import { DEFAULT_DIALOG_SIZE } from "../../config/modals.config.js";
+import ModalsManager from "../../features/modals/modalsManager.js";
 
 /**
  * @callback windowedModalType

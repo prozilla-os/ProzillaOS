@@ -7,11 +7,11 @@ import { useModals } from "../../hooks/modals/modals.js";
 import { ModalsView } from "../modals/ModalsView.jsx";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
-import { FALLBACK_ICON_SIZE, FALLBACK_WALLPAPER } from "../../constants/desktop.js";
-import { reloadViewport } from "../../features/utils/browser.js";
+import { FALLBACK_ICON_SIZE, FALLBACK_WALLPAPER } from "../../config/desktop.config.js";
+import { reloadViewport } from "../../features/utils/browser.utils.js";
 import { useVirtualRoot } from "../../hooks/virtual-drive/virtualRootContext.js";
-import { DirectoryList } from "../applications/file-explorer/directory-list/DirectoryList.jsx";
-import { APPS, APP_ICONS, APP_NAMES } from "../../constants/applications.js";
+import { DirectoryList } from "../apps/file-explorer/directory-list/DirectoryList.jsx";
+import { APPS, APP_ICONS, APP_NAMES } from "../../config/apps.config.js";
 import Vector2 from "../../features/math/vector2.js";
 import { Actions } from "../actions/Actions.jsx";
 import { ClickAction } from "../actions/actions/ClickAction.jsx";
@@ -20,7 +20,7 @@ import { ToggleAction } from "../actions/actions/ToggleAction.jsx";
 import { DropdownAction } from "../actions/actions/DropdownAction.jsx";
 import { RadioAction } from "../actions/actions/RadioAction.jsx";
 import { Divider } from "../actions/actions/Divider.jsx";
-import { isValidInteger } from "../../features/utils/number.js";
+import { isValidInteger } from "../../features/utils/number.utils.js";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();

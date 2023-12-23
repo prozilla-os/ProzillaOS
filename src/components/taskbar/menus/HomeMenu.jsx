@@ -3,16 +3,16 @@ import styles from "./HomeMenu.module.css";
 import appStyles from "./AppList.module.css";
 import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
-import AppsManager from "../../../features/applications/applications.js";
+import AppsManager from "../../../features/apps/appsManager.js";
 import { ReactSVG } from "react-svg";
-import { closeViewport } from "../../../features/utils/browser.js";
+import { closeViewport } from "../../../features/utils/browser.utils.js";
 import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 import { useEffect, useState } from "react";
 import Vector2 from "../../../features/math/vector2.js";
 import utilStyles from "../../../styles/utils.module.css";
-import { APPS } from "../../../constants/applications.js";
-import { NAME } from "../../../constants/branding.js";
+import { APPS } from "../../../config/apps.config.js";
+import { NAME } from "../../../config/branding.config.js";
 
 /**
  * @param {object} props 
@@ -76,7 +76,7 @@ export function HomeMenu({ active, setActive, search }) {
 						setActive(false);
 						windowsManager.open("text-editor", {
 							mode: "view",
-							file: virtualRoot.navigate("~/Documents").findFile("info", "md"),
+							file: virtualRoot.navigate("~/Documents/info.md"),
 							size: new Vector2(575, 675),
 						});
 					}}>
@@ -98,7 +98,7 @@ export function HomeMenu({ active, setActive, search }) {
 				<div className={styles.Apps}>
 					<h1 className={utilStyles["Text-bold"]}>{NAME}</h1>
 					<div className={appStyles["App-list"]}>
-						{AppsManager.APPLICATIONS.map(({ name, id }) => 
+						{AppsManager.APPS.map(({ name, id }) => 
 							<button
 								key={id}
 								className={appStyles["App-button"]}

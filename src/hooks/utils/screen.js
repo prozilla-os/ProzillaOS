@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { TASKBAR_HEIGHT } from "../../constants/taskBar.js";
+import { TASKBAR_HEIGHT } from "../../config/taskbar.config.js";
 
 /**
  * @returns {[number, number]}

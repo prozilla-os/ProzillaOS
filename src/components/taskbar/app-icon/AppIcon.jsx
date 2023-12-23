@@ -1,20 +1,20 @@
 import { memo } from "react";
-import Application from "../../../features/applications/application.js";
+import App from "../../../features/apps/app.js";
 import styles from "./AppIcon.module.css";
 import { ReactSVG } from "react-svg";
 import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext.js";
 import { useContextMenu } from "../../../hooks/modals/contextMenu.js";
-import ModalsManager from "../../../features/modals/modals.js";
+import ModalsManager from "../../../features/modals/modalsManager.js";
 import { Actions } from "../../actions/Actions.jsx";
 import { ClickAction } from "../../actions/actions/ClickAction.jsx";
 import { faThumbTack, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { SettingsManager } from "../../../features/settings/settingsManager.js";
-import { removeFromArray } from "../../../features/utils/array.js";
-import AppsManager from "../../../features/applications/applications.js";
+import { removeFromArray } from "../../../features/utils/array.utils.js";
+import AppsManager from "../../../features/apps/appsManager.js";
 
 /**
  * @param {object} props 
- * @param {Application} props.app 
+ * @param {App} props.app 
  * @param {ModalsManager} props.modalsManager 
  * @param {string[]} props.pins
  * @param {boolean} props.focused
@@ -76,7 +76,7 @@ export const AppButton = memo(({ app, windowsManager, modalsManager, pins, activ
 			}}
 			title={app.name}
 		>
-			<ReactSVG src={`${process.env.PUBLIC_URL}/assets/applications/icons/${app.id}.svg`}/>
+			<ReactSVG src={`${process.env.PUBLIC_URL}/assets/apps/icons/${app.id}.svg`}/>
 		</button>
 	);
 });

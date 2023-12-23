@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { formatShortcut } from "../../../features/utils/string.js";
+import { formatShortcut } from "../../../features/utils/string.utils.js";
 import styles from "../Actions.module.css";
-import { ImagePreview } from "../../applications/file-explorer/directory-list/ImagePreview.jsx";
+import { ImagePreview } from "../../apps/file-explorer/directory-list/ImagePreview.jsx";
 import { memo } from "react";
 
 export const ClickAction = memo(({ actionId, label, shortcut, onTrigger, icon }) => {

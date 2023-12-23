@@ -1,10 +1,9 @@
 import styles from "./SearchMenu.module.css";
 import appStyles from "./AppList.module.css";
-import AppsManager from "../../../features/applications/applications.js";
+import AppsManager from "../../../features/apps/appsManager.js";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import { ReactSVG } from "react-svg";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
 
 /**
@@ -32,7 +31,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	}, [inputRef]);
 
 	useEffect(() => {
-		setApps(AppsManager.APPLICATIONS.filter(({ name }) =>
+		setApps(AppsManager.APPS.filter(({ name }) =>
 			name.toLowerCase().includes(searchQuery.toLowerCase().trim())
 		));
 	}, [searchQuery]);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { removeFromArray } from "../../features/utils/array.js";
+import { removeFromArray } from "../../features/utils/array.utils.js";
 
 /**
  * @param {object} params

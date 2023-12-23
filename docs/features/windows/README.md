@@ -2,6 +2,6 @@
 
 # Windows
 
-> Related document: [Applications](../applications/README.md)
+> Related document: [Apps](../apps/README.md)
 
-The windows components are used to view and interact with running applications. Each application opens a window when ran.
+The windows components are used to view and interact with running applications. Each app opens a window when ran.
