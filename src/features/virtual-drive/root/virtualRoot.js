@@ -214,7 +214,8 @@ export class VirtualRoot extends VirtualFolder {
 			object.scs = {};
 
 			for (const [key, value] of Object.entries(this.shortcuts)) {
-				object.scs[key] = value.absolutePath;
+				if (!value.root)
+					object.scs[key] = value.absolutePath;
 			}
 		}
 

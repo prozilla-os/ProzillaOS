@@ -8,29 +8,6 @@ import { VirtualRoot } from "./virtualRoot.js";
  * @param {VirtualRoot} virtualRoot 
  */
 export function loadDefaultData(virtualRoot) {
-	virtualRoot.createFolder("bin", (folder) => {
-		folder.createFiles([
-			{ name: "echo" },
-			{ name: "cd" },
-			{ name: "ls" },
-			{ name: "clear" },
-		]);
-	});
-
-	virtualRoot.createFolder("dev", (folder) => {
-		folder.createFiles([
-			{ name: "null" },
-			{ name: "zero" },
-			{ name: "random" },
-		]);
-	});
-
-	virtualRoot.createFolder("etc");
-
-	virtualRoot.createFolder("usr", (folder) => {
-		folder.createFolders(["bin", "sbin", "lib", "share"]);
-	});
-
 	const linkedPaths = {};
 		
 	virtualRoot.createFolder("home", (folder) => {
@@ -98,22 +75,101 @@ export function loadDefaultData(virtualRoot) {
 		});
 	});
 
-	virtualRoot.createFolder("lib");
-	virtualRoot.createFolder("sbin");
-	virtualRoot.createFolder("tmp");
-	virtualRoot.createFolder("var");
-	virtualRoot.createFolder("boot");
-
-	virtualRoot.createFolder("proc", (folder) => {
-		folder.createFiles([
-			{ name: "cpuinfo" },
-			{ name: "meminfo" },
-		]);
+	virtualRoot.createFolder(".github", (folder) => {
+		folder.createFile("FUNDING", "yml", (file) => {
+			file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/.github/FUNDING.yml");
+		});
 	});
 
-	virtualRoot.createFolder("var");
-	virtualRoot.createFolder("opt");
-	virtualRoot.createFolder("media");
-	virtualRoot.createFolder("mnt");
-	virtualRoot.createFolder("srv");
+	virtualRoot.createFolder(".vscode", (folder) => {
+		folder.createFile("settings", "json", (file) => {
+			file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/.vscode/settings.json");
+		});
+	});
+
+	virtualRoot.createFolder("docs", (folder) => {
+		folder.createFile("README", "md", (file) => {
+			file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/docs/README.md");
+		});
+	});
+
+	virtualRoot.createFolder("public", (folder) => {
+		folder.createFolder("assets", (folder) => {
+			folder.createFolder("apps", (folder) => {
+				folder.createFolder("icons", (folder) => {
+					AppsManager.APPS.forEach(({ id }) => {
+						folder.createFile(id, "svg", (file) => {
+							file.setSource(AppsManager.getAppIconUrl(id));
+						});
+					});
+				});
+			}).createFolder("fonts", (folder) => {
+				folder.createFolders(["poppins", "roboto-mono"]);
+			}).createFolder("screenshots", (folder) => {
+				folder.createFile("screenshot", "png", (file) => {
+					file.setSource(`${process.env.PUBLIC_URL}/assets/screenshots/screenshot-files-settings-taskbar-desktop.png`);
+				});
+			}).createFolder("wallpapers", (folder) => {
+				folder.setProtected(true);
+				for (let i = 0; i < WALLPAPERS.length; i++) {
+					const source = WALLPAPERS[i];
+					const name = source.split("/").pop().split(".")[0];
+					folder.createFile(name, "png", (file) => {
+						file.setSource(source);
+					});
+				}
+			}).createFile("banner", "png", (file) => {
+				file.setSource(`${process.env.PUBLIC_URL}/assets/banner-logo-title.png`);
+			}).createFile("logo", "svg", (file) => {
+				file.setSource(`${process.env.PUBLIC_URL}/assets/logo.svg`);
+			});
+		}).createFolder("config", (folder) => {
+			folder.createFile("apps", "xml", (file) => {
+				file.setSource(`${process.env.PUBLIC_URL}/config/apps.xml`);
+			}).createFile("desktop", "xml", (file) => {
+				file.setSource(`${process.env.PUBLIC_URL}/config/desktop.xml`);
+			}).createFile("taskbar", "xml", (file) => {
+				file.setSource(`${process.env.PUBLIC_URL}/config/taskbar.xml`);
+			});
+		}).createFolder("documents", (folder) => {
+			folder.createFile("info", "md", (file) => {
+				file.setSource(`${process.env.PUBLIC_URL}/documents/info.md`);
+			}).createFile("links", "md", (file) => {
+				file.setSource(`${process.env.PUBLIC_URL}/documents/links.md`);
+			});
+		}).createFile("favicon", "ico", (file) => {
+			file.setSource(`${process.env.PUBLIC_URL}/favicon.ico`);
+		}).createFile("index", "html", (file) => {
+			file.setSource(`${process.env.PUBLIC_URL}/index.html`);
+		}).createFile("robots", "txt", (file) => {
+			file.setSource(`${process.env.PUBLIC_URL}/robots.txt`);
+		}).createFile("sitemap", "xml", (file) => {
+			file.setSource(`${process.env.PUBLIC_URL}/sitemap.xml`);
+		});
+	});
+
+	virtualRoot.createFolder("src", (folder) => {
+		folder.createFolder("components")
+			.createFolder("config")
+			.createFolder("features")
+			.createFolder("hooks")
+			.createFolder("styles")
+			.createFile("App", "jsx", (file) => {
+				file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/src/App.jsx");
+			}).createFile("index", "js", (file) => {
+				file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/src/index.js");
+			});
+	});
+
+	virtualRoot.createFile("", "env", (file) => {
+		file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/.env");
+	}).createFile("", "gitignore", (file) => {
+		file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/.gitignore");
+	}).createFile("LICENSE", "md", (file) => {
+		file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/LICENSE.md");
+	}).createFile("README", "md", (file) => {
+		file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/README.md");
+	}).createFile("package", "json", (file) => {
+		file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/package.json");
+	});
 }

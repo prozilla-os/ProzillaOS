@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import styles from "./MediaViewer.module.css";
 import { APPS } from "../../../config/apps.config.js";
+import { IMAGE_FORMATS } from "../../../config/apps/mediaViewer.config.js";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
@@ -23,7 +24,7 @@ export function MediaViewer({ file, close, setTitle }) {
 		return;
 	}
 
-	if (!["png"].includes(file.extension))
+	if (!IMAGE_FORMATS.includes(file.extension))
 		return (<p>Invalid file format.</p>);
 
 	if (file.source == null)

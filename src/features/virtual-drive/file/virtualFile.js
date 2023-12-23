@@ -1,4 +1,5 @@
 import { APPS } from "../../../config/apps.config.js";
+import { IMAGE_FORMATS } from "../../../config/apps/mediaViewer.config.js";
 import AppsManager from "../../apps/appsManager.js";
 import WindowsManager from "../../windows/windowsManager.js";
 import { VirtualBase } from "../virtualBase.js";
@@ -120,15 +121,21 @@ export class VirtualFile extends VirtualBase {
 
 		let iconUrl = null;
 
+		if (IMAGE_FORMATS.includes(this.extension))
+			return this.source;
+
 		switch (this.extension) {
-			case "png":
-				iconUrl = this.source;
-				break;
 			case "txt":
 			case "md":
 				iconUrl = AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-text");
 				break;
 			case "xml":
+			case "js":
+			case "json":
+			case "jsx":
+			case "css":
+			case "html":
+			case "yml":
 				iconUrl = AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-code");
 				break;
 			default:

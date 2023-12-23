@@ -1,6 +1,7 @@
 .Container {
 	--header-height: 3.5rem;
 	--sidebar-width: 10rem;
+	--footer-height: 1.75rem;
 	--scale: 1.15rem;
 
 	display: flex;
@@ -131,6 +132,7 @@
 	align-content: flex-start;
 	height: 100%;
 	padding: 0.5rem;
+	padding-bottom: calc(0.5rem + var(--footer-height));
 	overflow: auto;
 }
 
@@ -142,7 +144,7 @@
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	height: 1.75rem;
+	height: var(--footer-height);
 	padding: 0 0.75rem;
 	border-top: 0.25rem solid var(--background-color-a);
 	background-color: var(--background-color-c);

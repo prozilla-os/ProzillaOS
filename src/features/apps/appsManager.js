@@ -9,6 +9,7 @@ import { Settings } from "../../components/apps/settings/Settings.jsx";
 import Vector2 from "../math/vector2.js";
 import { APPS } from "../../config/apps.config.js";
 import { Browser } from "../../components/apps/browser/Browser.jsx";
+import { IMAGE_FORMATS } from "../../config/apps/mediaViewer.config.js";
 
 export default class AppsManager {
 	static APPS = [
@@ -62,14 +63,11 @@ export default class AppsManager {
 	static getAppByFileExtension(fileExtension) {
 		let app = null;
 
-		// eslint-disable-next-line default-case
+		if (IMAGE_FORMATS.includes(fileExtension))
+			return this.getAppById(APPS.MEDIA_VIEWER);
+
 		switch (fileExtension) {
-			case "png":
-				app = this.getAppById(APPS.MEDIA_VIEWER);
-				break;
-			case "txt":
-			case "md":
-			case "xml":
+			default:
 				app = this.getAppById(APPS.TEXT_EDITOR);
 				break;
 		}
