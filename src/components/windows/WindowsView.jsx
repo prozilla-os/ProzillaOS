@@ -4,6 +4,8 @@ import { memo, useEffect, useState } from "react";
 import { WindowView } from "./WindowView.jsx";
 import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
 import { SettingsManager } from "../../features/settings/settingsManager.js";
+import { NAME, TAG_LINE } from "../../config/branding.config.js";
+import { setViewportIcon, setViewportTitle } from "../../features/utils/browser.utils.js";
 
 export const WindowsView = memo(() => {
 	const settingsManager = useSettingsManager();
@@ -16,6 +18,11 @@ export const WindowsView = memo(() => {
 		setSortedWindows([...windows].sort((windowA, windowB) =>
 			windowA.lastInteraction - windowB.lastInteraction
 		));
+
+		if (windows.length === 0) {
+			setViewportTitle(`${NAME} | ${TAG_LINE}`);
+			setViewportIcon(`${process.env.PUBLIC_URL}/favicon.ico`);
+		}
 	}, [windows]);
 
 	// Launch startup apps
@@ -34,7 +41,7 @@ export const WindowsView = memo(() => {
 			<WindowView
 				key={id}
 				onInteract={() => { windowsManager.focus(id); }}
-				active={index === 0}
+				active={index === sortedWindows.length - 1}
 				id={id}
 				app={app}
 				size={size}

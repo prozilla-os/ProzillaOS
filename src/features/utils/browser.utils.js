@@ -32,3 +32,23 @@ export function isValidUrl(string) {
 		return false;
 	}
 }
+
+/**
+ * @param {string} title 
+ */
+export function setViewportTitle(title) {
+	document.title = title;
+}
+
+/**
+ * @param {string} url 
+ */
+export function setViewportIcon(url) {
+	let link = document.querySelector("link[rel~='icon']");
+	if (!link) {
+		link = document.createElement("link");
+		link.rel = "icon";
+		document.head.appendChild(link);
+	}
+	link.href = url;
+}
