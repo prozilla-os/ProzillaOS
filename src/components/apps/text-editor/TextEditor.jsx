@@ -1,15 +1,26 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./TextEditor.module.css";
 import { HeaderMenu } from "../_utils/header-menu/HeaderMenu.jsx";
 import Markdown from "markdown-to-jsx";
-import { DEFAULT_ZOOM, ZOOM_FACTOR } from "../../../config/apps/textEditor.config.js";
+import { CODE_FORMATS, DEFAULT_ZOOM, EXTENSION_TO_LANGUAGE, ZOOM_FACTOR } from "../../../config/apps/textEditor.config.js";
 import AppsManager from "../../../features/apps/appsManager.js";
 import { TITLE_SEPARATOR } from "../../../config/windows.config.js";
+import { MarkdownLink } from "./overrides/MarkdownLink.jsx";
+import { MarkdownImage } from "./overrides/MarkdownImage.jsx";
+import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
+import SyntaxHighlighter from "react-syntax-highlighter";
+
+const OVERRIDES = {
+	a: MarkdownLink,
+	img: MarkdownImage,
+};
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
  */
-export function TextEditor({ file, setTitle, setIconUrl, close, mode, app }) {
+export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modalsManager }) {
+	const ref = useRef();
+	const windowsManager = useWindowsManager();
 	const [currentFile, setCurrentFile] = useState(file);
 	const [currentMode, setCurrentMode] = useState(mode);
 	const [content, setContent] = useState(file?.content ?? "");
@@ -40,6 +51,10 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app }) {
 			}
 	
 			setContent(newContent);
+
+			if (ref.current) {
+				ref.current.scrollTo(0, 0);
+			}
 		})();
 	}, [app.id, currentFile, setIconUrl]);
 
@@ -86,6 +101,20 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app }) {
 		return setContent(value);
 	};
 
+	const overrides = {};
+	for (const [key, value] of Object.entries(OVERRIDES)) {
+		overrides[key] = {
+			component: value,
+			props: {
+				modalsManager,
+				setCurrentFile,
+				currentFile,
+				app,
+				windowsManager
+			}
+		};
+	}
+
 	return (
 		<div className={styles.Container} style={{ fontSize: zoom }}>
 			<HeaderMenu
@@ -127,21 +156,21 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app }) {
 				}}
 			/>
 			{currentMode === "view"
-				? <div className={styles.View}>
-					{file?.extension === "md"
-						? <Markdown options={{ overrides: {
-							a: {
-								props: {
-									target: "_blank"
-								}
-							}
-						} }}>
-							{content}
-						</Markdown>
-						: <p>{content}</p>
-					}
-				</div>
+				? CODE_FORMATS.includes(file?.extension)
+					? <SyntaxHighlighter
+						language={EXTENSION_TO_LANGUAGE[file?.extension] ?? file?.extension}
+						className={styles.Code}
+						useInlineStyles={false}
+						showLineNumbers={true}
+					>{content}</SyntaxHighlighter>
+					: <div ref={ref} className={styles.View}>
+						{file?.extension === "md"
+							? <Markdown options={{ overrides }}>{content}</Markdown>
+							: <p>{content}</p>
+						}
+					</div>
 				: <textarea
+					ref={ref}
 					className={styles.View}
 					value={content}
 					onChange={onChange}

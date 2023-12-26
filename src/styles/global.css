@@ -9,6 +9,7 @@ html, body, #root {
 }
 
 html {
+	scroll-behavior: smooth;
 	overflow: hidden;
 	background-color: var(--background-color-c);
 	font-size: 16px;

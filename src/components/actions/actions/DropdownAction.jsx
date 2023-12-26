@@ -3,6 +3,12 @@ import styles from "../Actions.module.css";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
+/**
+ * @param {object} props
+ * @param {string} props.label
+ * @param {string|object} props.icon
+ * @param {*} props.children
+ */
 export function DropdownAction({ label, icon, children }) {
 	const [showContent, setShowContent] = useState(false);
 

@@ -1,6 +1,6 @@
 <img alt="License" src="https://img.shields.io/github/license/prozilla/Prozilla-OS?style=flat-square&color=ee5253&label=License"> <img alt="Stars" src="https://img.shields.io/github/stars/prozilla/prozilla-os?style=flat-square&color=feca57&label=%E2%AD%90">  <img alt="Forks" src="https://img.shields.io/github/forks/prozilla/prozilla-os?style=flat-square&color=54a0ff&label=Forks">
 
-# <img src="public/assets/logo.svg" align="left" width=40 height=40 alt="Logo"/> Prozilla OS
+# <img src="public/assets/logo.svg" align="left" width="40" height="40" alt="Logo"/> Prozilla OS
 
 Prozilla OS is a web-based operating system inspired by Ubuntu Linux and Windows made with React by Prozilla.
 

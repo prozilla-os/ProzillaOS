@@ -20,6 +20,7 @@ import { TITLE_SEPARATOR } from "../../../config/windows.config.js";
 import { FileProperties } from "../../modals/file-properties/FileProperties.jsx";
 import { useHistory } from "../../../hooks/_utils/history.js";
 import { Divider } from "../../actions/actions/Divider.jsx";
+import { CODE_FORMATS } from "../../../config/apps/textEditor.config.js";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
@@ -223,7 +224,7 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 					onClickFile={(event, file) => {
 						event.preventDefault();
 						const options = {};
-						if (file.extension === "md")
+						if (file.extension === "md" || CODE_FORMATS.includes(file.extension))
 							options.mode = "view";
 						windowsManager.openFile(file, options);
 					}}

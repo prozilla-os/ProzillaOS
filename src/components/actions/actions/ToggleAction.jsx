@@ -5,6 +5,14 @@ import { useState } from "react";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @param {object} props
+ * @param {string} props.actionId
+ * @param {string} props.label
+ * @param {string[]} props.shortcut
+ * @param {Function} props.onTrigger
+ * @param {boolean} props.initialValue
+ */
 export function ToggleAction({ actionId, label, shortcut, initialValue, onTrigger }) {
 	const [active, setActive] = useState(initialValue ?? false);
 

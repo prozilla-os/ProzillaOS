@@ -4,6 +4,14 @@ import styles from "../Actions.module.css";
 import { ImagePreview } from "../../apps/file-explorer/directory-list/ImagePreview.jsx";
 import { memo } from "react";
 
+/**
+ * @param {object} props
+ * @param {string} props.actionId
+ * @param {string} props.label
+ * @param {string[]} props.shortcut
+ * @param {Function} props.onTrigger
+ * @param {string|object} props.icon
+ */
 export const ClickAction = memo(({ actionId, label, shortcut, onTrigger, icon }) => {
 	return (<button key={actionId} className={styles.Button} tabIndex={0} onClick={onTrigger}>
 		<span className={styles.Label}>

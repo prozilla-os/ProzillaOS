@@ -13,12 +13,12 @@
 	font-size: 1em;
 }
 
-.View {
+.View, .Code {
 	width: 100%;
 	height: 100%;
-	padding: 1rem;
-	color: var(--foreground-color-a);
-	background-color: var(--background-color-c);
+	padding: 1rem !important;
+	color: var(--foreground-color-a) !important;
+	background-color: var(--background-color-c) !important;
 	border: none;
 	outline: none;
 	font-size: 1rem;
@@ -30,5 +30,56 @@
 .View img {
 	max-width: 100%;
 	object-fit: contain;
+	border-radius: 0.25rem;
+	margin-right: 0.5rem;
+}
+
+.View blockquote {
+	margin-left: 0;
+	padding: 0.5rem;
+	padding-left: 1.5rem;
+	border-left: 1rem solid var(--background-color-a);
+	background-color: var(--background-color-b);
 	border-radius: 0.5rem;
 }
+
+.View blockquote > p {
+	width: fit-content;
+	margin: 0;
+}
+
+.View code {
+	font-family: var(--mono-font-family);
+	border-radius: 0.5rem;
+	background-color: var(--background-color-b);
+	padding: 0.25rem;
+}
+
+.View table {
+	border-collapse: collapse;
+}
+
+.View table, .View th, .View td {
+	border: 0.2rem solid var(--background-color-a);
+}
+
+.View th, .View td {
+	padding: 0.5rem;
+}
+
+.Code {
+	margin: 0;
+	cursor: default;
+}
+
+.Code *[class*="hljs-string"] { color: var(--green-a); }
+.Code *[class*="hljs-literal"] { color: var(--yellow-a); }
+.Code *[class*="hljs-number"] { color: var(--yellow-a); }
+.Code *[class*="hljs-keyword"] { color: var(--blue-a); }
+.Code *[class*="hljs-title"] { color: var(--cyan-a); }
+.Code *[class*="hljs-name"] { color: var(--red-a); }
+.Code *[class*="hljs-attr"] { color: var(--blue-a); }
+.Code *[class*="hljs-param"] { color: var(--red-a); }
+.Code *[class*="hljs-comment"] { color: var(--dark-grey-a); }
+.Code *[class*="linenumber"] { color: var(--dark-grey-a); }
+.Code *[class*="hljs-meta"] { color: var(--blue-a); }
