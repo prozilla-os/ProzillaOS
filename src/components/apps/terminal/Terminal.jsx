@@ -6,7 +6,7 @@ import { OutputLine } from "./OutputLine.jsx";
 import { InputLine } from "./InputLine.jsx";
 import { ANSI, HOSTNAME, USERNAME } from "../../../config/apps/terminal.config.js";
 import CommandsManager from "../../../features/apps/terminal/commands.js";
-import { removeFromArray } from "../../../features/utils/array.utils.js";
+import { removeFromArray } from "../../../features/_utils/array.utils.js";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 

@@ -1,7 +1,7 @@
 import App from "./app.js";
 import { FileExplorer } from "../../components/apps/file-explorer/FileExplorer.jsx";
 import { MediaViewer } from "../../components/apps/media-viewer/MediaViewer.jsx";
-import { WebView } from "../../components/apps/_templates/WebView.jsx";
+import { WebView } from "../../components/apps/_utils/web-view/WebView.jsx";
 import { Terminal } from "../../components/apps/terminal/Terminal.jsx";
 import { TextEditor } from "../../components/apps/text-editor/TextEditor.jsx";
 import { Settings } from "../../components/apps/settings/Settings.jsx";

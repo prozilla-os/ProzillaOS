@@ -1,4 +1,4 @@
-import { randomFromArray } from "../../../utils/array.utils.js";
+import { randomFromArray } from "../../../_utils/array.utils.js";
 import Command from "../command.js";
 
 /**

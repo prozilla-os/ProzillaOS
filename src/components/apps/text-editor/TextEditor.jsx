@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./TextEditor.module.css";
-import { HeaderMenu } from "../_common/HeaderMenu.jsx";
+import { HeaderMenu } from "../_utils/header-menu/HeaderMenu.jsx";
 import Markdown from "markdown-to-jsx";
 import { DEFAULT_ZOOM, ZOOM_FACTOR } from "../../../config/apps/textEditor.config.js";
 import AppsManager from "../../../features/apps/appsManager.js";

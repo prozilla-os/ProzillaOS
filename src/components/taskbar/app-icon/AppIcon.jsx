@@ -9,7 +9,7 @@ import { Actions } from "../../actions/Actions.jsx";
 import { ClickAction } from "../../actions/actions/ClickAction.jsx";
 import { faThumbTack, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { SettingsManager } from "../../../features/settings/settingsManager.js";
-import { removeFromArray } from "../../../features/utils/array.utils.js";
+import { removeFromArray } from "../../../features/_utils/array.utils.js";
 import AppsManager from "../../../features/apps/appsManager.js";
 
 /**

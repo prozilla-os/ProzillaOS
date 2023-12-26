@@ -68,6 +68,9 @@ export class VirtualFolderLink extends VirtualFolder {
 		if (this.iconUrl != null)
 			return this.iconUrl;
 
+		if (this.isValid() && this.linkedFolder.iconUrl)
+			return this.linkedFolder.iconUrl;
+
 		return AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder-link");
 	}
 

@@ -1,7 +1,7 @@
 import { Children, cloneElement, isValidElement } from "react";
-import { useShortcuts } from "../../hooks/utils/keyboard.js";
+import { useShortcuts } from "../../hooks/_utils/keyboard.js";
 import styles from "./Actions.module.css";
-import { useScreenBounds } from "../../hooks/utils/screen.js";
+import { useScreenBounds } from "../../hooks/_utils/screen.js";
 
 export const STYLES = {
 	CONTEXT_MENU: styles["Context-menu"],

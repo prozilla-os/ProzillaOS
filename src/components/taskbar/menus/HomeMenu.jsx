@@ -5,8 +5,8 @@ import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawe
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import AppsManager from "../../../features/apps/appsManager.js";
 import { ReactSVG } from "react-svg";
-import { closeViewport } from "../../../features/utils/browser.utils.js";
-import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
+import { closeViewport } from "../../../features/_utils/browser.utils.js";
+import { useKeyboardListener } from "../../../hooks/_utils/keyboard.js";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
 import { useEffect, useState } from "react";
 import Vector2 from "../../../features/math/vector2.js";

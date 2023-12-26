@@ -1,6 +1,6 @@
 import { APPS } from "../../../config/apps.config.js";
 import AppsManager from "../../apps/appsManager.js";
-import { removeFromArray } from "../../utils/array.utils.js";
+import { removeFromArray } from "../../_utils/array.utils.js";
 import WindowsManager from "../../windows/windowsManager.js";
 import { VirtualFileLink } from "../file/virtualFileLink.js";
 import { VirtualFolderLink } from "./virtualFolderLink.js";

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { formatShortcut } from "../../../features/utils/string.utils.js";
+import { formatShortcut } from "../../../features/_utils/string.utils.js";
 import styles from "../Actions.module.css";
 import { faCircleDot } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";

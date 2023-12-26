@@ -4,7 +4,7 @@ import AppsManager from "../../../features/apps/appsManager.js";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import { ReactSVG } from "react-svg";
 import { useEffect, useState } from "react";
-import { useKeyboardListener } from "../../../hooks/utils/keyboard.js";
+import { useKeyboardListener } from "../../../hooks/_utils/keyboard.js";
 
 /**
  * @param {object} props 

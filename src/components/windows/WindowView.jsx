@@ -15,9 +15,9 @@ import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import AppsManager from "../../features/apps/appsManager.js";
 import { ClickAction } from "../actions/actions/ClickAction.jsx";
 import { Actions } from "../actions/Actions.jsx";
-import { useScreenDimensions } from "../../hooks/utils/screen.js";
+import { useScreenDimensions } from "../../hooks/_utils/screen.js";
 import { NAME } from "../../config/branding.config.js";
-import { setViewportIcon, setViewportTitle } from "../../features/utils/browser.utils.js";
+import { setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils.js";
 
 /**
  * @typedef {object} windowProps

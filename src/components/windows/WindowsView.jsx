@@ -5,7 +5,7 @@ import { WindowView } from "./WindowView.jsx";
 import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
 import { SettingsManager } from "../../features/settings/settingsManager.js";
 import { NAME, TAG_LINE } from "../../config/branding.config.js";
-import { setViewportIcon, setViewportTitle } from "../../features/utils/browser.utils.js";
+import { setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils.js";
 
 export const WindowsView = memo(() => {
 	const settingsManager = useSettingsManager();

@@ -1,6 +1,6 @@
 import { APPS } from "../../config/apps.config.js";
 import AppsManager from "../apps/appsManager.js";
-import { EventEmitter } from "../utils/event.utils.js";
+import { EventEmitter } from "../_utils/event.utils.js";
 import { VirtualRoot } from "./root/virtualRoot.js";
 
 export class VirtualBase extends EventEmitter {

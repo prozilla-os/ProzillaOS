@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useScreenDimensions } from "../../../hooks/utils/screen.js";
+import { useScreenDimensions } from "../../../hooks/_utils/screen.js";
 import Vector2 from "../../../features/math/vector2.js";
 import styles from "./WindowedModal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

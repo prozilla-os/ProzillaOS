@@ -18,7 +18,7 @@ import AppsManager from "../../../features/apps/appsManager.js";
 import { APPS, APP_ICONS, APP_NAMES } from "../../../config/apps.config.js";
 import { TITLE_SEPARATOR } from "../../../config/windows.config.js";
 import { FileProperties } from "../../modals/file-properties/FileProperties.jsx";
-import { useHistory } from "../../../hooks/utils/history.js";
+import { useHistory } from "../../../hooks/_utils/history.js";
 import { Divider } from "../../actions/actions/Divider.jsx";
 
 /**

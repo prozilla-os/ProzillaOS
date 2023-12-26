@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Modal as ModalType } from "../../features/modals/modal.js";
-import OutsideClickListener from "../../hooks/utils/outsideClick.js";
+import OutsideClickListener from "../../hooks/_utils/outsideClick.js";
 import styles from "./ModalView.module.css";
 import { useEffect } from "react";
 

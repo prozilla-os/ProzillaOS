@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { formatShortcut } from "../../../features/utils/string.utils.js";
+import { formatShortcut } from "../../../features/_utils/string.utils.js";
 import styles from "../Actions.module.css";
 import { ImagePreview } from "../../apps/file-explorer/directory-list/ImagePreview.jsx";
 import { memo } from "react";

@@ -1,5 +1,5 @@
-import { useShortcuts } from "../../../hooks/utils/keyboard.js";
-import { DropdownButton } from "../../utils/dropdown-button/DropdownButton.jsx";
+import { useShortcuts } from "../../../../hooks/_utils/keyboard.js";
+import { DropdownButton } from "../../../_utils/dropdown-button/DropdownButton.jsx";
 import styles from "./HeaderMenu.module.css";
 
 /**

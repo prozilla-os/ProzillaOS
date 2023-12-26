@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./Browser.module.css";
-import { WebView } from "../_templates/WebView.jsx";
+import { WebView } from "../_utils/web-view/WebView.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight, faHome, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { HOME_URL, SEARCH_URL } from "../../../config/apps/browser.config.js";
-import { isValidUrl } from "../../../features/utils/browser.utils.js";
-import { useHistory } from "../../../hooks/utils/history.js";
+import { isValidUrl } from "../../../features/_utils/browser.utils.js";
+import { useHistory } from "../../../hooks/_utils/history.js";
 
 /** @type {import("../../windows/WindowView.jsx").windowProps} */
 export function Browser({ startUrl, focus }) {

@@ -1,5 +1,5 @@
 import { START_DATE } from "../../../../index.js";
-import { formatRelativeTime } from "../../../utils/date.utils.js";
+import { formatRelativeTime } from "../../../_utils/date.utils.js";
 import Command from "../command.js";
 
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { VirtualFile } from "../../../../features/virtual-drive/file/virtualFile.js";
 import { VirtualFolder } from "../../../../features/virtual-drive/folder/virtualFolder.js";
-import { Interactable } from "../../../utils/interactable/Interactable.jsx";
+import { Interactable } from "../../../_utils/interactable/Interactable.jsx";
 import styles from "./DirectoryList.module.css";
 import { ImagePreview } from "./ImagePreview.jsx";
 
