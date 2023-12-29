@@ -36,8 +36,6 @@ export function useWindowedModal({ modalsManager }) {
 			positionY -= containerRect.y / 2;
 		}
 
-		console.log(WindowedModal);
-
 		const newModal = new Modal(WindowedModal)
 			.setPosition(new Vector2(positionX, positionY))
 			.setSize(size)

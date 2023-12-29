@@ -5,3 +5,4 @@ export const DIALOG_CONTENT_TYPES = {
 };
 
 export const DEFAULT_DIALOG_SIZE = new Vector2(400, 200);
+export const DEFAULT_FILE_SELECTOR_SIZE = new Vector2(700, 400);

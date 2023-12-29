@@ -18,6 +18,13 @@ import { ImagePreview } from "./ImagePreview.jsx";
  */
 
 /**
+ * @callback onSelectionChange
+ * @param {object} selection
+ * @param {string[]} selection.files
+ * @param {string[]} selection.folders
+ */
+
+/**
  * @param {object} props 
  * @param {VirtualFolder} props.directory
  * @param {boolean} props.showHidden
@@ -26,17 +33,23 @@ import { ImagePreview } from "./ImagePreview.jsx";
  * @param {string} props.className
  * @param {fileEvent} props.onContextMenuFile
  * @param {folderEvent} props.onContextMenuFolder
- * @param {fileEvent} props.onClickFile
- * @param {folderEvent} props.onClickFolder
+ * @param {fileEvent} props.onOpenFile
+ * @param {folderEvent} props.onOpenFolder
+ * @param {boolean} props.allowMultiSelect
+ * @param {onSelectionChange} props.onSelectionChange
  */
 export function DirectoryList({ directory, showHidden = false, folderClassName, fileClassName, className,
-	onContextMenuFile, onContextMenuFolder, onClickFile, onClickFolder, ...props }) {
+	onContextMenuFile, onContextMenuFolder, onOpenFile, onOpenFolder, allowMultiSelect = true, onSelectionChange, ...props }) {
 	const [selectedFolders, setSelectedFolders] = useState([]);
 	const [selectedFiles, setSelectedFiles] = useState([]);
 
 	const ref = useRef(null);
 	const [rectSelectStart, setRectSelectStart] = useState(null);
 	const [rectSelectEnd, setRectSelectEnd] = useState(null);
+
+	useEffect(() => {
+		onSelectionChange?.({ files: selectedFiles, folders: selectedFolders, directory });
+	}, [directory, onSelectionChange, selectedFiles, selectedFolders]);
 	
 	useEffect(() => {
 		clearSelection();
@@ -79,11 +92,15 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		setSelectedFiles([]);
 	};
 	const selectFolder = (folder, exclusive = false) => {
+		if (!allowMultiSelect)
+			exclusive = true;
 		setSelectedFolders(exclusive ? [folder.id] : [...selectedFolders, folder.id]);
 		if (exclusive)
 			setSelectedFiles([]);
 	};
 	const selectFile = (file, exclusive = false) => {
+		if (!allowMultiSelect)
+			exclusive = true;
 		setSelectedFiles(exclusive ? [file.id] : [...selectedFiles, file.id]);
 		if (exclusive)
 			setSelectedFolders([]);
@@ -155,7 +172,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 					selectFolder(folder, !event.ctrlKey);
 				}}
 				onDoubleClick={(event) => {
-					onClickFolder?.(event, folder);
+					onOpenFolder?.(event, folder);
 				}}
 			>
 				<div className={styles["Folder-icon"]}>
@@ -177,7 +194,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 					selectFile(file, !event.ctrlKey);
 				}}
 				onDoubleClick={(event) => {
-					onClickFile?.(event, file);
+					onOpenFile?.(event, file);
 				}}
 			>
 				<div className={styles["File-icon"]}>

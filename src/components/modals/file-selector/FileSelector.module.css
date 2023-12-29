@@ -1,0 +1,25 @@
+.Footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  	width: 100%;
+}
+
+.Selection > p {
+	font-size: 1rem;
+}
+
+.Buttons {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.Button {
+	--normal-color: var(--background-color-a);
+	--hover-color: var(--background-color-b);
+
+	padding: 0.35rem 0.7rem;
+	border-radius: 0.5rem;
+}

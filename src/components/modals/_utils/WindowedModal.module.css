@@ -90,21 +90,3 @@
 	height: 100%;
 	overflow: hidden;
 }
-
-.Window-content button {
-	margin-bottom: 0.75rem;
-	padding: 0.5rem 1rem;
-	width: fit-content;
-	color: var(--foreground-color-a);
-	background-color: var(--background-color-a);
-	border: none;
-	border-radius: 0.5rem;
-	outline: none;
-	transition: background-color 100ms ease-in-out;
-	cursor: pointer;
-}
-
-.Window-content button:hover,
-.Window-content button:focus-visible {
-	background-color: var(--background-color-b);
-}

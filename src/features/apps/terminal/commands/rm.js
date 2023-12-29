@@ -1,3 +1,4 @@
+import { VirtualFile } from "../../../virtual-drive/file/virtualFile.js";
 import Command from "../command.js";
 
 export const rm = new Command("rm")
@@ -6,7 +7,7 @@ export const rm = new Command("rm")
 		purpose: "Remove a file"
 	})
 	.setExecute((args, { currentDirectory }) => {
-		const [name, extension] = args[0].split(".");
+		const { name, extension } = VirtualFile.convertId(args[0]);
 		const file = currentDirectory.findFile(name, extension);
 	
 		if (!file)

@@ -136,7 +136,7 @@ export const Desktop = memo(() => {
 				}}
 				fileClassName={styles["Item"]}
 				folderClassName={styles["Item"]}
-				onClickFile={(event, file) => {
+				onOpenFile={(event, file) => {
 					event.preventDefault();
 
 					const options = {};
@@ -147,7 +147,7 @@ export const Desktop = memo(() => {
 
 					windowsManager.openFile(file, options);
 				}}
-				onClickFolder={(event, { linkedPath, path }) => {
+				onOpenFolder={(event, { linkedPath, path }) => {
 					windowsManager.open(APPS.FILE_EXPLORER, { startPath: linkedPath ?? path });
 				}}
 				onContextMenuFile={onContextMenuFile}

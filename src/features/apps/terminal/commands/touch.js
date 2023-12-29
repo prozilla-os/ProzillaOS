@@ -1,3 +1,4 @@
+import { VirtualFile } from "../../../virtual-drive/file/virtualFile.js";
 import Command from "../command.js";
 
 export const touch = new Command("touch")
@@ -12,7 +13,7 @@ export const touch = new Command("touch")
 		if (args[0] === "girls\\" && args[1] === "boo**")
 			return `${this.name}: Cannot touch 'girls boo**': Permission denied`;
 	
-		const [name, extension] = args[0].split(".");
+		const { name, extension } = VirtualFile.convertId(args[0]);
 	
 		if (currentDirectory.findFile(name, extension))
 			return { blank: true };

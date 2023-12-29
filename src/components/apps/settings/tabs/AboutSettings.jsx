@@ -1,10 +1,10 @@
-import { Button } from "../../_utils/button/Button.jsx";
-import styles from "./Settings.module.css";
-import utilStyles from "../../../styles/utils.module.css";
-import Vector2 from "../../../features/math/vector2.js";
-import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
-import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
-import { NAME } from "../../../config/branding.config.js";
+import { Button } from "../../../_utils/button/Button.jsx";
+import styles from "../Settings.module.css";
+import utilStyles from "../../../../styles/utils.module.css";
+import Vector2 from "../../../../features/math/vector2.js";
+import { useWindowsManager } from "../../../../hooks/windows/windowsManagerContext.js";
+import { useVirtualRoot } from "../../../../hooks/virtual-drive/virtualRootContext.js";
+import { NAME } from "../../../../config/branding.config.js";
 
 export function AboutSettings() {
 	const windowsManager = useWindowsManager();

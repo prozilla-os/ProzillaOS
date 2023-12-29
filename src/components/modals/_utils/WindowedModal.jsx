@@ -7,7 +7,14 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Draggable from "react-draggable";
 import { ReactSVG } from "react-svg";
 import utilStyles from "../../../styles/utils.module.css";
+import Modal from "../../../features/modals/modal.js";
 
+/**
+ * @param {object} props 
+ * @param {Modal} props.modal 
+ * @param {*} props.params 
+ * @param {*} props.children 
+ */
 export function WindowedModal({ modal, params, children, ...props }) {
 	const { iconUrl, title } = params;
 
@@ -34,7 +41,7 @@ export function WindowedModal({ modal, params, children, ...props }) {
 		}
 	}, [modal, screenHeight, screenWidth]);
 
-	return (<Draggable
+	return <Draggable
 		axis="both"
 		handle={".Window-handle"}
 		defaultPosition={startPosition}
@@ -72,5 +79,5 @@ export function WindowedModal({ modal, params, children, ...props }) {
 				{children}
 			</div>
 		</div>
-	</Draggable>);
+	</Draggable>;
 }

@@ -77,12 +77,10 @@ export const Taskbar = memo(() => {
 	}), [modalsManager, pins, windows, windowsManager]);
 
 	useEffect(() => {
-		(async () => {
-			const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.taskbar);
-			settings.get("pins", (pins) => {
-				setPins(pins.split(","));
-			});
-		})();
+		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.taskbar);
+		settings.get("pins", (pins) => {
+			setPins(pins.split(","));
+		});
 	}, [settingsManager]);
 
 	const updateShowHome = (value) => {

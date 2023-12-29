@@ -32,7 +32,7 @@ export function MarkdownLink({ href, children, modalsManager, windowsManager, cu
 
 		if (!href.startsWith("http://") && !href.startsWith("https://")) {
 			const target = currentFile.parent.navigate(href);
-			if (target) {
+			if (target != null) {
 				if (target.isFile()) {
 					setCurrentFile(target);
 				} else {

@@ -75,6 +75,15 @@
 	width: 100%;
 }
 
+.Option-list {
+	gap: 0.5rem;
+}
+
+.Option-horizontal {
+	flex-direction: row;
+	justify-content: space-between;
+}
+
 .Option > .Label {
 	color: var(--foreground-color-a);
 }
@@ -145,6 +154,52 @@
 	--hover-color: var(--red-b) !important;
 }
 
+.Icon-button {
+	--color: var(--foreground-color-a);
+
+	position: relative;
+	height: 1.25rem;
+	width: auto;
+	padding: 0;
+	background: none;
+	border: none;
+	outline: none;
+	aspect-ratio: 1;
+	cursor: pointer;
+}
+
+.Icon-button::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0%);
+	border-radius: 9999px;
+	transform: scale(100%);
+	transform-origin: center;
+	transition: all 200ms ease-in-out;
+}
+
+.Icon-button:hover::after, .Icon-button:focus-visible::after {
+	background-color: rgba(255, 255, 255, 10%);
+	transform: scale(150%);
+}
+
+.Icon-button:disabled {
+	--color: var(--foreground-color-c);
+}
+
+.Icon-button svg {
+	height: 100%;
+}
+
+.Icon-button svg path {
+	fill: var(--color);
+	transition: fill 100ms ease-in-out;
+}
+
 .Progress-bar-container {
 	width: 100%;
 	max-width: 35rem;
@@ -158,4 +213,27 @@
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
+}
+
+.Option > span.Label {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.Icon {
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+}
+
+.Icon div {
+	width: inherit;
+	height: inherit;
+}
+
+.Icon div > svg {
+	width: inherit;
+	height: inherit;
+	object-fit: contain;
 }

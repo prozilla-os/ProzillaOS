@@ -154,3 +154,7 @@
 	margin: 0;
 	font-size: 0.875em;
 }
+
+.Selector {
+	--footer-height: 4rem;
+}

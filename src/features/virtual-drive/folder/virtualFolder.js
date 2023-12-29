@@ -334,8 +334,7 @@ export class VirtualFolder extends VirtualBase {
 			if (folder != null)
 				return folder;
 
-			// To do: add support for file names with dots
-			const [name, extension] = lastSegment.split(".");
+			const { name, extension } = VirtualFile.convertId(lastSegment);
 			return currentDirectory.findFile(name, extension);
 		} else {
 			return null;

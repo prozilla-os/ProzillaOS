@@ -9,6 +9,10 @@ import { MarkdownLink } from "./overrides/MarkdownLink.jsx";
 import { MarkdownImage } from "./overrides/MarkdownImage.jsx";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
 import SyntaxHighlighter from "react-syntax-highlighter";
+import { useWindowedModal } from "../../../hooks/modals/windowedModal.js";
+import { DEFAULT_FILE_SELECTOR_SIZE } from "../../../config/modals.config.js";
+import { FileSelector } from "../../modals/file-selector/FileSelector.jsx";
+import { SELECTOR_MODE } from "../../../config/apps/fileExplorer.config.js";
 
 const OVERRIDES = {
 	a: MarkdownLink,
@@ -26,6 +30,7 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 	const [content, setContent] = useState(file?.content ?? "");
 	const [unsavedChanges, setUnsavedChanges] = useState(file == null);
 	const [zoom, setZoom] = useState(DEFAULT_ZOOM);
+	const { openWindowedModal } = useWindowedModal({ modalsManager });
 
 	useEffect(() => {
 		(async () => {
@@ -115,12 +120,27 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 		};
 	}
 
+	console.log(currentFile);
+
 	return (
 		<div className={styles.Container} style={{ fontSize: zoom }}>
 			<HeaderMenu
 				options={{
 					"File": {
 						"New": newText,
+						"Open": () => {
+							openWindowedModal({
+								size: DEFAULT_FILE_SELECTOR_SIZE,
+								Modal: (props) => <FileSelector
+									type={SELECTOR_MODE.SINGLE}
+									onFinish={(file) => {
+										setCurrentFile(file);
+										setUnsavedChanges(false);
+									}}
+									{...props}
+								/>
+							});
+						},
 						"Save": saveText,
 						// "Save As": saveTextAs,
 						"Quit": () => {
@@ -145,6 +165,7 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 				shortcuts={{
 					"File": {
 						"New": ["Control", "e"],
+						"Open": ["Control", "o"],
 						"Save": ["Control", "s"],
 						"Quit": ["Control", "q"],
 					},
@@ -156,17 +177,17 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 				}}
 			/>
 			{currentMode === "view"
-				? CODE_FORMATS.includes(file?.extension)
+				? CODE_FORMATS.includes(currentFile?.extension)
 					? <SyntaxHighlighter
-						language={EXTENSION_TO_LANGUAGE[file?.extension] ?? file?.extension}
+						language={EXTENSION_TO_LANGUAGE[currentFile?.extension] ?? currentFile?.extension}
 						className={styles.Code}
 						useInlineStyles={false}
 						showLineNumbers={true}
 					>{content}</SyntaxHighlighter>
 					: <div ref={ref} className={styles.View}>
-						{file?.extension === "md"
+						{currentFile?.extension === "md"
 							? <Markdown options={{ overrides }}>{content}</Markdown>
-							: <p>{content}</p>
+							: <pre><p>{content}</p></pre>
 						}
 					</div>
 				: <textarea

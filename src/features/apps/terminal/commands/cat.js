@@ -1,3 +1,4 @@
+import { VirtualFile } from "../../../virtual-drive/file/virtualFile.js";
 import Command from "../command.js";
 
 export const cat = new Command("cat")
@@ -8,7 +9,7 @@ export const cat = new Command("cat")
 		description: "Concetenate FILE(s) to standard output."
 	})
 	.setExecute(function(args, { currentDirectory, options }) {
-		const [name, extension] = args[0].split(".");
+		const { name, extension } = VirtualFile.convertId(args[0]);
 		const file = currentDirectory.findFile(name, extension);
 
 		if (!file)

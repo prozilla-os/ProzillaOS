@@ -77,6 +77,20 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	/**
+	 * @param {string} id 
+	 * @returns {{
+	 * 	name: string,
+	 * 	extension: string
+	 * }}
+	 */
+	static convertId(id) {
+		const sections = id.split(".");
+		const extension = sections.pop();
+		const name = sections.join(".");
+		return { name, extension };
+	}
+
+	/**
 	 * Opens this file in an app associated with its extension
 	 * @param {WindowsManager} windowsManager
 	 */

@@ -1,5 +1,5 @@
 import { ImagePreview } from "../../apps/file-explorer/directory-list/ImagePreview.jsx";
-import { WindowedModal } from "../_templates/WindowedModal.jsx";
+import { WindowedModal } from "../_utils/WindowedModal.jsx";
 import styles from "./FileProperties.module.css";
 import utilStyles from "../../../styles/utils.module.css";
 import Modal from "../../../features/modals/modal.js";

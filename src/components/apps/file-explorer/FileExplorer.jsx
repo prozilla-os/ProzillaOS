@@ -21,11 +21,19 @@ import { FileProperties } from "../../modals/file-properties/FileProperties.jsx"
 import { useHistory } from "../../../hooks/_utils/history.js";
 import { Divider } from "../../actions/actions/Divider.jsx";
 import { CODE_FORMATS } from "../../../config/apps/textEditor.config.js";
+import { SELECTOR_MODE } from "../../../config/apps/fileExplorer.config.js";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
+ * @param {string} props.startPath
+ * @param {*} props.Footer
+ * @param {number} props.selectorMode
+ * @param {import("./directory-list/DirectoryList.jsx").onSelectionChange} props.onSelectionChange
+ * @param {Function} props.onSelectionFinish
  */
-export function FileExplorer({ startPath, app, modalsManager }) {
+export function FileExplorer({ startPath, selectorMode, Footer, modalsManager, onSelectionChange, onSelectionFinish }) {
+	const isSelector = (Footer != null && selectorMode != null && selectorMode !== SELECTOR_MODE.NONE);
+
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate(startPath ?? "~"));
 	const [path, setPath] = useState(currentDirectory?.path ?? "");
@@ -36,7 +44,12 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 	const { openWindowedModal } = useWindowedModal({ modalsManager });
 	const { onContextMenu: onContextMenuFile } = useContextMenu({ modalsManager, Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label="Open" onTrigger={(event, file) => {
+			<ClickAction label={!isSelector ? "Open" : "Select"} onTrigger={(event, file) => {
+				if (isSelector) {
+					onSelectionChange?.({ files: [file.id], directory: currentDirectory });
+					onSelectionFinish?.();
+					return;
+				}
 				file.open(windowsManager);
 			}}/>
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
@@ -56,7 +69,7 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 	const { onContextMenu: onContextMenuFolder } = useContextMenu({ modalsManager, Actions: (props) =>
 		<Actions {...props}>
 			<ClickAction label="Open" onTrigger={(event, folder) => {
-				folder.open(windowsManager);
+				changeDirectory(folder.linkedPath ?? folder.name);
 			}}/>
 			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={(event, folder) => {
 				windowsManager.open(APPS.TERMINAL, { startPath: folder.path });
@@ -138,7 +151,7 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 	const itemCount = currentDirectory.getItemCount(showHidden);
 
 	return (
-		<div className={styles.Container}>
+		<div className={!isSelector ? styles.Container : `${styles.Container} ${styles.Selector}`}>
 			<div className={styles.Header}>
 				<button
 					title="Back"
@@ -221,28 +234,37 @@ export function FileExplorer({ startPath, app, modalsManager }) {
 					id="main"
 					className={styles.Main}
 					showHidden={showHidden}
-					onClickFile={(event, file) => {
+					onOpenFile={(event, file) => {
 						event.preventDefault();
+						if (isSelector)
+							return onSelectionFinish?.();
 						const options = {};
 						if (file.extension === "md" || CODE_FORMATS.includes(file.extension))
 							options.mode = "view";
 						windowsManager.openFile(file, options);
 					}}
-					onClickFolder={(event, folder) => {
+					onOpenFolder={(event, folder) => {
 						changeDirectory(folder.linkedPath ?? folder.name);
 					}}
 					onContextMenuFile={onContextMenuFile}
 					onContextMenuFolder={onContextMenuFolder}
+					allowMultiSelect={selectorMode !== SELECTOR_MODE.SINGLE}
+					onSelectionChange={onSelectionChange}
 				/>
 			</div>
-			<span className={styles.Footer}>
-				<p className={utilStyles["Text-light"]}>
-					{itemCount === 1
-						? itemCount + " item"
-						: itemCount + " items"
-					}
-				</p>
-			</span>
+			{!isSelector
+				? <span className={styles.Footer}>
+					<p className={utilStyles["Text-light"]}>
+						{itemCount === 1
+							? itemCount + " item"
+							: itemCount + " items"
+						}
+					</p>
+				</span>
+				: <div className={`${styles.Footer} ${styles["Selector-footer"]}`}>
+					<Footer/>
+				</div>
+			}
 		</div>
 	);
 }
