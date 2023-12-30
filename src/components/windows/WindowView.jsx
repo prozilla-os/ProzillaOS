@@ -86,11 +86,20 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 	}, [position, size, screenHeight, screenWidth]);
 
 	useEffect(() => {
-		if (active) {
+		const setViewportTitleAndIcon = () => {
 			setViewportTitle(`${title} | ${NAME}`);
 			setViewportIcon(iconUrl);
-		}
-	}, [active, iconUrl, title]);
+		};
+
+		if (active && !minimized)
+			setViewportTitleAndIcon();
+
+		window.addEventListener("focus", setViewportTitleAndIcon);
+
+		return () => {
+			window.removeEventListener("focus", setViewportTitleAndIcon);
+		};
+	}, [active, minimized, iconUrl, title]);
 
 	const close = (event) => {
 		event?.preventDefault();

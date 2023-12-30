@@ -18,12 +18,23 @@ export const WindowsView = memo(() => {
 		setSortedWindows([...windows].sort((windowA, windowB) =>
 			windowA.lastInteraction - windowB.lastInteraction
 		));
+	}, [windows]);
 
-		if (windows.length === 0) {
+	useEffect(() => {
+		const resetViewportTitleAndIcon = () => {
 			setViewportTitle(`${NAME} | ${TAG_LINE}`);
 			setViewportIcon(`${process.env.PUBLIC_URL}/favicon.ico`);
-		}
-	}, [windows]);
+		};
+
+		if (sortedWindows.length === 0 || sortedWindows[sortedWindows.length - 1].minimized)
+			resetViewportTitleAndIcon();
+
+		window.addEventListener("blur", resetViewportTitleAndIcon);
+
+		return () => {
+			window.removeEventListener("blur", resetViewportTitleAndIcon);
+		};
+	}, [sortedWindows]);
 
 	// Launch startup apps
 	useEffect(() => {
