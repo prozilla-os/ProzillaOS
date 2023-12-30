@@ -24,6 +24,8 @@ import { TASKBAR_HEIGHT } from "../../config/taskbar.config.js";
 import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
 import { SettingsManager } from "../../features/settings/settingsManager.js";
 import { useWindows } from "../../hooks/windows/windowsContext.js";
+import { ZIndexManager } from "../../features/z-index/zIndexManager.js";
+import { useZIndex } from "../../hooks/z-index/zIndex.js";
 
 export const Taskbar = memo(() => {
 	const ref = useRef(null);
@@ -49,6 +51,8 @@ export const Taskbar = memo(() => {
 		</Actions>
 	});
 	const [pins, setPins] = useState([]);
+	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.TASKBAR, index: 0 });
+	const modalsZIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.TASKBAR, index: 1 });
 
 	const apps = useMemo(() => AppsManager.APPS.sort((appA, appB) => {
 		const indexA = pins.indexOf(appA.id);
@@ -119,9 +123,9 @@ export const Taskbar = memo(() => {
 	};
 
 	return (<>
-		<ModalsView modalsManager={modalsManager} modals={modals}/>
+		<ModalsView modalsManager={modalsManager} modals={modals} style={{ zIndex: modalsZIndex }}/>
 		<div
-			style={{ "--taskbar-height": `${TASKBAR_HEIGHT}px` }}
+			style={{ "--taskbar-height": `${TASKBAR_HEIGHT}px`, zIndex }}
 			className={styles["Taskbar"]}
 			data-allow-context-menu={true}
 			onContextMenu={(event) => {

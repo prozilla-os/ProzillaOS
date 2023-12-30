@@ -14,7 +14,6 @@
 	height: var(--taskbar-height);
 	background-color: var(--taskbar-color);
 	backdrop-filter: var(--taskbar-filter);
-	z-index: 10;
 }
 
 .Taskbar button {

@@ -120,8 +120,6 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 		};
 	}
 
-	console.log(currentFile);
-
 	return (
 		<div className={styles.Container} style={{ fontSize: zoom }}>
 			<HeaderMenu

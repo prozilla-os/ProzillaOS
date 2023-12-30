@@ -18,3 +18,4 @@ To see the status and to-do's of each feature, check the [task board](https://pr
 - [Taskbar](taskbar/README.md)
 - [Virtual Drive](virtual-drive//README.md)
 - [Windows](windows/README.md)
+- [Z-index](z-index/README.md)

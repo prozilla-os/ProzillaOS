@@ -7,6 +7,7 @@ import { Desktop } from "./components/desktop/Desktop.jsx";
 import { SettingsManagerProvider } from "./hooks/settings/settingsManagerContext.js";
 import { ModalsView } from "./components/modals/ModalsView.jsx";
 import { useEffect } from "react";
+import { ZIndexManagerProvider } from "./hooks/z-index/zIndexManagerContext.js";
 
 function App() {
 	useEffect(() => {
@@ -23,16 +24,18 @@ function App() {
 
 	return (
 		<VirtualRootProvider>
-			<WindowsManagerProvider>
-				<SettingsManagerProvider>
-					<div className={styles.App}>
-						<Taskbar/>
-						<WindowsView/>
-						<ModalsView/>
-						<Desktop/>
-					</div>
-				</SettingsManagerProvider>
-			</WindowsManagerProvider>
+			<ZIndexManagerProvider>
+				<WindowsManagerProvider>
+					<SettingsManagerProvider>
+						<div className={styles.App}>
+							<Taskbar/>
+							<WindowsView/>
+							<ModalsView/>
+							<Desktop/>
+						</div>
+					</SettingsManagerProvider>
+				</WindowsManagerProvider>
+			</ZIndexManagerProvider>
 		</VirtualRootProvider>
 	);
 }

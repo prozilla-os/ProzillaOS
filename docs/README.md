@@ -5,7 +5,9 @@
 ## Table of Contents
 
 - [Features](features/README.md)
+- [Configuration](configuration/README.md)
 - [Design](design/README.md)
+- [FAQ](faq/README.md)
 - [Roadmap](roadmap/README.md)
 - [Contributing](contributing/README.md)
 
@@ -28,13 +30,17 @@
 
 #### Deploying to GitHub Pages
 
-1. Open [deploy.sh](../deploy.sh) and change `DOMAIN` to your domain, `COMMIT_MESSAGE` to your commit message and `REPO_URL` to the URL of your repo. Make sure you don't add or remove any quotes when editing these values.
+1. Open [deploy.sh](../deploy.sh) and change `DOMAIN` to your domain, `COMMIT_MESSAGE` to your commit message and `REPO_URL` to the URL of your repo. Make sure you don't accidentally add or remove any quotes when editing these values.
 2. Run `npm run deploy` - This will create a new build by running the redeploy script, add a CNAME pointing to your domain and then push the build folder to a branch called `gh-pages`.
 3. Configure your GitHub Pages to deploy the `gh-pages` branch to your domain.
 
 Once the initial setup is complete, you can simply run `npm run deploy` and your website will be built and deployed to GitHub Pages.
 
 > Note: When the deployment process is complete, you won't see the changes reflected on your website until a few moments later. This is because GitHub Pages needs to run its own build step before the website updates. You can view details about this process in the `Actions` tab on GitHub.
+
+### Configuration
+
+See [docs/configuration](configuration/README.md) for more information.
 
 ### Structure
 

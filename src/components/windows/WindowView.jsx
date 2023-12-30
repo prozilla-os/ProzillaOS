@@ -18,6 +18,8 @@ import { Actions } from "../actions/Actions.jsx";
 import { useScreenDimensions } from "../../hooks/_utils/screen.js";
 import { NAME } from "../../config/branding.config.js";
 import { setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils.js";
+import { ZIndexManager } from "../../features/z-index/zIndexManager.js";
+import { useZIndex } from "../../hooks/z-index/zIndex.js";
 
 /**
  * @typedef {object} windowProps
@@ -43,7 +45,7 @@ import { setViewportIcon, setViewportTitle } from "../../features/_utils/browser
  * @param {boolean} props.minimized
  * @param {Function} props.toggleMinimized
  */
-export const WindowView = memo(({ id, app, size, position, onInteract, options, active, minimized, toggleMinimized }) => {
+export const WindowView = memo(({ id, app, size, position, onInteract, options, active, minimized, toggleMinimized, index }) => {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 	const [modalsManager, modals] = useModals();
@@ -54,6 +56,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 	const [screenWidth, screenHeight] = useScreenDimensions();
 	const [title, setTitle] = useState(app.name);
 	const [iconUrl, setIconUrl] = useState(AppsManager.getAppIconUrl(app.id));
+	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.WINDOWS, index });
 
 	const { onContextMenu, ShortcutsListener } = useContextMenu({ modalsManager, Actions: (props) =>
 		<Actions {...props}>
@@ -123,7 +126,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 	if (minimized)
 		classNames.push(styles.Minimized);
 
-	return (<>
+	return (<div style={{ zIndex, position: "relative" }}>
 		<ShortcutsListener/>
 		<ModalsView modalsManager={modalsManager} modals={modals} style={{ zIndex: 1 }}/>
 		<Draggable
@@ -200,5 +203,5 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 				</div>
 			</div>
 		</Draggable>
-	</>);
+	</div>);
 });

@@ -48,14 +48,17 @@ export const WindowsView = memo(() => {
 	// TO DO: prevent windows from being rerendered when order is changed
 
 	return (<div>
-		{sortedWindows.map(({ id, app, size, position, options, minimized }, index) => 
-			<WindowView
+		{windows.map((window) => {
+			const { id, app, size, position, options, minimized } = window;
+			const index = sortedWindows.indexOf(window);
+			return <WindowView
 				key={id}
 				onInteract={() => { windowsManager.focus(id); }}
 				active={index === sortedWindows.length - 1}
 				id={id}
 				app={app}
 				size={size}
+				index={index}
 				position={position}
 				options={options}
 				minimized={minimized}
@@ -64,7 +67,7 @@ export const WindowsView = memo(() => {
 					event.stopPropagation();
 					windowsManager.setMinimized(id, !minimized);
 				}}
-			/>
-		)}
+			/>;
+		})}
 	</div>);
 });
