@@ -126,7 +126,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 	if (minimized)
 		classNames.push(styles.Minimized);
 
-	return (<div style={{ zIndex, position: "relative" }}>
+	return (<div style={{ zIndex, position: !maximized ? "relative" : null }}>
 		<ShortcutsListener/>
 		<ModalsView modalsManager={modalsManager} modals={modals} style={{ zIndex: 1 }}/>
 		<Draggable
