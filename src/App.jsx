@@ -8,6 +8,9 @@ import { SettingsManagerProvider } from "./hooks/settings/settingsManagerContext
 import { ModalsView } from "./components/modals/ModalsView.jsx";
 import { useEffect } from "react";
 import { ZIndexManagerProvider } from "./hooks/z-index/zIndexManagerContext.js";
+import { TrackingManager } from "./features/tracking/trackingManager.js";
+
+TrackingManager.initialize();
 
 function App() {
 	useEffect(() => {

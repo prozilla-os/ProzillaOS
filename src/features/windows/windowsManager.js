@@ -3,6 +3,7 @@ import { SCREEN_MARGIN } from "../../config/windows.config.js";
 import AppsManager from "../apps/appsManager.js";
 import { randomRange } from "../math/random.js";
 import Vector2 from "../math/vector2.js";
+import { TrackingManager } from "../tracking/trackingManager.js";
 import { VirtualFile } from "../virtual-drive/file/virtualFile.js";
 
 export default class WindowsManager {
@@ -35,6 +36,12 @@ export default class WindowsManager {
 		}
 
 		id = id.toString();
+
+		TrackingManager.event({
+			category: "Actions",
+			action: "Opened window",
+			label: app.id
+		});
 
 		console.info(`Opening window ${id}:${app.id}`);
 
