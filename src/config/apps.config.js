@@ -3,7 +3,9 @@ export const APPS = {
 	SETTINGS: "settings",
 	MEDIA_VIEWER: "media-viewer",
 	TEXT_EDITOR: "text-editor",
-	FILE_EXPLORER: "file-explorer"
+	FILE_EXPLORER: "file-explorer",
+	CALCULATOR: "calculator",
+	BROWSER: "browser",
 };
 
 export const APP_NAMES = {
@@ -11,7 +13,9 @@ export const APP_NAMES = {
 	SETTINGS: "Settings",
 	MEDIA_VIEWER: "Photos",
 	TEXT_EDITOR: "Notes",
-	FILE_EXPLORER: "Files"
+	FILE_EXPLORER: "Files",
+	CALCULATOR: "Maths",
+	BROWSER: "Browser",
 };
 
 export const APP_ICONS = {
@@ -20,4 +24,5 @@ export const APP_ICONS = {
 	MEDIA_VIEWER: `${process.env.PUBLIC_URL}/assets/apps/icons/${APPS.MEDIA_VIEWER}.svg`,
 	TEXT_EDITOR: `${process.env.PUBLIC_URL}/assets/apps/icons/${APPS.TEXT_EDITOR}.svg`,
 	FILE_EXPLORER: `${process.env.PUBLIC_URL}/assets/apps/icons/${APPS.FILE_EXPLORER}.svg`,
+	CALCULATOR: `${process.env.PUBLIC_URL}/assets/apps/icons/${APPS.CALCULATOR}.svg`,
 };

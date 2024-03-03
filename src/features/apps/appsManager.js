@@ -5,22 +5,22 @@ import { WebView } from "../../components/apps/_utils/web-view/WebView.jsx";
 import { Terminal } from "../../components/apps/terminal/Terminal.jsx";
 import { TextEditor } from "../../components/apps/text-editor/TextEditor.jsx";
 import { Settings } from "../../components/apps/settings/Settings.jsx";
-// import { Calculator } from "../../components/apps/calculator/Calculator.jsx";
+import { Calculator } from "../../components/apps/calculator/Calculator.jsx";
 import Vector2 from "../math/vector2.js";
-import { APPS } from "../../config/apps.config.js";
+import { APPS, APP_NAMES } from "../../config/apps.config.js";
 import { Browser } from "../../components/apps/browser/Browser.jsx";
 import { IMAGE_FORMATS } from "../../config/apps/mediaViewer.config.js";
 
 export default class AppsManager {
 	static APPS = [
-		new App("Commands", APPS.TERMINAL, Terminal),
-		new App("Settings", APPS.SETTINGS, Settings),
-		new App("Photos", APPS.MEDIA_VIEWER, MediaViewer),
+		new App(APP_NAMES.TERMINAL, APPS.TERMINAL, Terminal),
+		new App(APP_NAMES.SETTINGS, APPS.SETTINGS, Settings),
+		new App(APP_NAMES.MEDIA_VIEWER, APPS.MEDIA_VIEWER, MediaViewer),
 		// new App("Browser", "browser"),
-		// new App("Calculator", "calculator", Calculator, { size: new Vector2(400, 600) }),
-		new App("Notes", APPS.TEXT_EDITOR, TextEditor),
+		new App(APP_NAMES.CALCULATOR, APPS.CALCULATOR, Calculator, { size: new Vector2(400, 600) }),
+		new App(APP_NAMES.TEXT_EDITOR, APPS.TEXT_EDITOR, TextEditor),
 		// new App("Code Editor", "code-editor"),
-		new App("Files", APPS.FILE_EXPLORER, FileExplorer),
+		new App(APP_NAMES.FILE_EXPLORER, APPS.FILE_EXPLORER, FileExplorer),
 		new App("Wordle", "wordle", WebView, {
 			source: "https://prozilla.dev/wordle",
 			size: new Vector2(400, 650)
@@ -33,7 +33,7 @@ export default class AppsManager {
 			source: "https://prozilla.dev/minesweeper",
 			size: new Vector2(500, 580)
 		}),
-		new App("Browser", "browser", Browser, {
+		new App(APP_NAMES.BROWSER, APPS.BROWSER, Browser, {
 			size: new Vector2(700, 500)
 		}),
 	];

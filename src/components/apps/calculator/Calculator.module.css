@@ -1,0 +1,67 @@
+.Container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	--output-height: 20%;
+	--button-gap: 0.25rem;
+}
+
+.Output {
+	display: flex;
+	gap: 0.25rem;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-end;
+	height: var(--output-height);
+	padding: 0.5rem;
+}
+
+.Calculation, .Preview {
+	margin: 0;
+}
+
+.Calculation {
+	color: var(--foreground-color-c);
+	height: 1.25rem;
+}
+
+.Preview {
+	color: var(--foreground-color-a);
+	font-size: 2.5rem;
+}
+
+.Input {
+	display: flex;
+	gap: var(--button-gap);
+	flex-direction: column;
+	height: calc(100% - var(--output-height));
+	padding: 0.5rem;
+}
+
+.Input-row {
+	flex: 1;
+	display: flex;
+	gap: var(--button-gap);
+}
+
+.Button {
+	flex: 1;
+	border-radius: 0.25rem;
+	font-size: 1.5rem;
+}
+
+.Input-row:first-of-type .Button {
+	--normal-color: var(--background-color-b);
+	--hover-color: var(--background-color-ba);
+}
+
+.Input-row .Button:last-of-type {
+	--text-color: var(--background-color-a);
+	--normal-color: var(--blue-a);
+	--hover-color: var(--blue-b);
+}
+
+.Button-large {
+	min-width: calc(50% - var(--button-gap) / 2);
+}
