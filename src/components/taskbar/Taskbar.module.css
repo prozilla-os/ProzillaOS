@@ -105,14 +105,22 @@
 	z-index: -1;
 }
 
-.Util-icons > * {
+.Util-icons > div {
+	height: 100%;
+	width: min-content;
+	z-index: -1;
+}
+
+.Util-icons > button,
+.Util-icons > div > button {
 	height: 100%;
 	width: min-content;
 	margin: 0;
 	padding: 0.4rem;
 }
 
-.Util-icons > * > svg {
+.Util-icons > button > svg,
+.Util-icons > div > button > svg {
 	height: 1rem;
 	width: 1rem;
 	aspect-ratio: 1;

@@ -32,6 +32,7 @@ export const Taskbar = memo(() => {
 	const settingsManager = useSettingsManager();
 	const [showHome, setShowHome] = useState(false);
 	const [showSearch, setShowSearch] = useState(false);
+	const [hideUtilMenus, setHideUtilMenus] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const { boxShadow, onUpdate } = useScrollWithShadow({ ref, shadow: {
 		offset: 20,
@@ -87,23 +88,25 @@ export const Taskbar = memo(() => {
 		});
 	}, [settingsManager]);
 
-	const updateShowHome = (value) => {
-		setShowHome(value);
+	const updateShowHome = (show) => {
+		setShowHome(show);
 
-		if (value) {
+		if (show) {
 			setShowSearch(false);
+			setHideUtilMenus(true);
 		}
 	};
 
-	const updateShowSearch = (value) => {
-		setShowSearch(value);
+	const updateShowSearch = (show) => {
+		setShowSearch(show);
 
-		if (value) {
+		if (show) {
 			if (searchQuery !== "") {
 				setSearchQuery("");
 			}
 
 			setShowHome(false);
+			setHideUtilMenus(true);
 			
 			if (inputRef.current) {
 				inputRef.current.focus();
@@ -116,6 +119,12 @@ export const Taskbar = memo(() => {
 				}
 			}, 200);
 		}
+	};
+
+	const showUtilMenu = () => {
+		setShowHome(false);
+		setShowSearch(false);
+		setHideUtilMenus(false);
 	};
 
 	const search = (query) => {
@@ -179,10 +188,10 @@ export const Taskbar = memo(() => {
 				</div>
 			</div>
 			<div className={styles["Util-icons"]}>
-				<Battery/>
-				<Network/>
-				<Volume/>
-				<Calendar/>
+				<Battery showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
+				<Network showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
+				<Volume showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
+				<Calendar showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
 				<button title="Show Desktop" id="desktop-button" onClick={() => { windowsManager.minimizeAll(); }}/>
 			</div>
 		</div>

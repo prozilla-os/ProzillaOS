@@ -1,18 +1,43 @@
 import { useEffect, useState } from "react";
 import styles from "./Calendar.module.css";
+import OutsideClickListener from "../../../hooks/_utils/outsideClick.js";
+import { UtilMenu } from "../menus/UtilMenu.jsx";
 
-export function Calendar() {
+/**
+ * @param {object} props 
+ * @param {boolean} props.hideUtilMenus 
+ * @param {Function} props.showUtilMenu 
+ */
+export function Calendar({ hideUtilMenus, showUtilMenu }) {
 	const [date, setDate] = useState(new Date());
+	const [showMenu, setShowMenu] = useState(false);
 
 	useEffect(() => {
-		setInterval(() => {
+		const interval = setInterval(() => {
 			setDate(new Date());
-		}, 30000);
-	}, []);
+		}, showMenu ? 500 : 30000);
 
-	return (
-		<button className={styles.Button} title="Date & Time" style={{ userSelect: "none" }} tabIndex={0}>
-			{date.toLocaleString("en-US", {
+		return () => {
+			clearInterval(interval);
+		};
+	}, [showMenu]);
+
+	useEffect(() => {
+		if (hideUtilMenus && showMenu) {
+			setShowMenu(false);
+		}
+	}, [hideUtilMenus, showMenu]);
+
+	const updateShowMenu = (show) => {
+		if (show)
+			showUtilMenu();
+
+		setShowMenu(show);
+	};
+
+	return (<OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
+		<button className={styles.Button} title="Date & Time" tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
+			{date.toLocaleString("en-GB", {
 				hour: "numeric",
 				minute: "numeric",
 				hour12: false,
@@ -24,5 +49,19 @@ export function Calendar() {
 				year: "numeric",
 			})}
 		</button>
-	);
+		<UtilMenu active={showMenu} setActive={setShowMenu} className={styles.Menu}>
+			<p className={styles.Time}>{date.toLocaleString("en-GB", {
+				hour: "numeric",
+				minute: "numeric",
+				second: "numeric",
+				hour12: false,
+			})}</p>
+			<p className={styles.Date}>{date.toLocaleString("en-GB", {
+				weekday: "long",
+				day: "numeric",
+				month: "long",
+				year: "numeric",
+			})}</p>
+		</UtilMenu>
+	</OutsideClickListener>);
 }

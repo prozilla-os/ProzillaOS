@@ -2,10 +2,18 @@ import { faBatteryEmpty, faBatteryFull, faBatteryHalf, faBatteryQuarter, faBatte
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import styles from "./Battery.module.css";
+import { UtilMenu } from "../menus/UtilMenu.jsx";
+import OutsideClickListener from "../../../hooks/_utils/outsideClick.js";
 
-export function Battery() {
+/**
+ * @param {object} props 
+ * @param {boolean} props.hideUtilMenus 
+ * @param {Function} props.showUtilMenu 
+ */
+export function Battery({ hideUtilMenus, showUtilMenu }) {
 	const [isCharging, setIsCharging] = useState(true);
 	const [percentage, setPercentage] = useState(100);
+	const [showMenu, setShowMenu] = useState(false);
 	// const [chargingTime, setChargingTime] = useState(0);
 	// const [dischargingTime, setDischargingTime] = useState(0);
 
@@ -46,6 +54,19 @@ export function Battery() {
 		});
 	}, []);
 
+	useEffect(() => {
+		if (hideUtilMenus && showMenu) {
+			setShowMenu(false);
+		}
+	}, [hideUtilMenus, showMenu]);
+
+	const updateShowMenu = (show) => {
+		if (show)
+			showUtilMenu();
+
+		setShowMenu(show);
+	};
+
 	let icon = faBatteryFull;
 	if (percentage < 10) {
 		icon = faBatteryEmpty;
@@ -57,13 +78,23 @@ export function Battery() {
 		icon = faBatteryThreeQuarters;
 	}
 
-	return (
-		<button className={styles.Button} title="Battery" tabIndex={0}>
+	return (<OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
+		<button className={styles.Button} title="Battery" tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
 			{!isCharging
 				? <FontAwesomeIcon className={styles["Charging-indicator"]} icon={faMinus}/>
 				: null
 			}
 			<FontAwesomeIcon icon={icon}/>
 		</button>
-	);
+		<UtilMenu active={showMenu} setActive={setShowMenu} className={styles.Menu}>
+			<div>
+				{!isCharging
+					? <FontAwesomeIcon className={styles["Charging-indicator"]} icon={faMinus}/>
+					: null
+				}
+				<FontAwesomeIcon icon={icon}/>
+			</div>
+			<p>{Math.round(percentage)}%</p>
+		</UtilMenu>
+	</OutsideClickListener>);
 }

@@ -1,0 +1,30 @@
+.Container-outer {
+	position: absolute;
+	right: 0;
+	bottom: 100%;
+	height: auto !important;
+	overflow: hidden;
+}
+
+.Container-inner {
+	opacity: 1;
+	display: flex;
+	background-color: rgba(25, 25, 25, 75%);
+	border-top-left-radius: 0.5rem;
+	border-top-right-radius: 0.5rem;
+	border-bottom-left-radius: 0.5rem;
+	backdrop-filter: var(--taskbar-filter);
+	transform: none;
+	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+	overflow: hidden;
+	resize: horizontal;
+}
+
+.Container-outer:not(.Active) {
+	pointer-events: none;
+}
+
+.Container-outer:not(.Active) .Container-inner {
+	opacity: 0;
+	transform: translateY(100px);
+}
