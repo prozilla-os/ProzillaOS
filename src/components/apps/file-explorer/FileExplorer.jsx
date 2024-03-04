@@ -214,6 +214,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, modalsManager, o
 					tabIndex={0}
 					onChange={onPathChange}
 					onKeyDown={onKeyDown}
+					placeholder="Enter a path..."
 				/>
 				<button title="Search" tabIndex={0} className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faSearch}/>

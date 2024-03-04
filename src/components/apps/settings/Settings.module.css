@@ -73,10 +73,15 @@
 	justify-content: flex-start;
 	text-align: start;
 	width: 100%;
+	padding-bottom: 1rem;
 }
 
 .Option-list {
 	gap: 0.5rem;
+}
+
+.Option-list .Option {
+	padding-bottom: 0;
 }
 
 .Option-horizontal {

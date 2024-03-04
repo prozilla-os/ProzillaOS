@@ -23,7 +23,9 @@ export function AppsSettings({ modalsManager }) {
 
 	return <div className={`${styles["Option"]} ${styles["Option-list"]}`}>
 		<p className={styles["Label"]}>Apps</p>
-		{AppsManager.APPS.map((app) => 
+		{AppsManager.APPS.sort((a, b) =>
+			a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+		).map((app) => 
 			<AppOption key={app.id} app={app} modalsManager={modalsManager} pins={pins} setPins={setPins}/>
 		)}
 	</div>;

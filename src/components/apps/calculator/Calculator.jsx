@@ -10,18 +10,12 @@ export function Calculator({ active }) {
 	const [operation, setOperation] = useState(null);
 	const [isIntermediate, setIsIntermediate] = useState(false);
 
-	const log = useCallback(() => {
-		console.info({ input, firstNumber, secondNumber, operation });
-	}, [firstNumber, input, operation, secondNumber]);
-
 	const reset = useCallback(() => {
 		setInput("0");
 		setFirstNumber(null);
 		setSecondNumber(null);
 		setOperation(null);
-
-		log();
-	}, [log]);
+	}, []);
 
 	const addInput = useCallback((string) => {
 		let hasReset = false;
@@ -57,8 +51,7 @@ export function Calculator({ active }) {
 			setInput(input + string);
 		}
 
-		log();
-	}, [input, isIntermediate, log, reset, secondNumber]);
+	}, [input, isIntermediate, reset, secondNumber]);
 
 	const calculate = useCallback((intermediate = false) => {
 		if (firstNumber == null) {
@@ -89,9 +82,7 @@ export function Calculator({ active }) {
 		}
 
 		setIsIntermediate(intermediate);
-
-		log();
-	}, [firstNumber, input, log, operation]);
+	}, [firstNumber, input, operation]);
 
 	const changeOperation = useCallback((operation) => {
 		if (firstNumber != null && secondNumber == null) {
@@ -103,16 +94,12 @@ export function Calculator({ active }) {
 		}
 
 		setOperation(operation);
-
-		log();
-	}, [calculate, firstNumber, input, log, secondNumber]);
+	}, [calculate, firstNumber, input, secondNumber]);
 
 	useEffect(() => {
 		const onKeyDown = (event) => {
 			if (!active)
 				return;
-
-			console.log(event.key);
 
 			event.preventDefault();
 

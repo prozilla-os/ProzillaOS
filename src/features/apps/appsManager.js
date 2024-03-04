@@ -12,6 +12,7 @@ import { Browser } from "../../components/apps/browser/Browser.jsx";
 import { IMAGE_FORMATS } from "../../config/apps/mediaViewer.config.js";
 
 export default class AppsManager {
+	/** @type {App[]} */
 	static APPS = [
 		new App(APP_NAMES.TERMINAL, APPS.TERMINAL, Terminal),
 		new App(APP_NAMES.SETTINGS, APPS.SETTINGS, Settings),

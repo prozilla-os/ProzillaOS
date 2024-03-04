@@ -33,6 +33,8 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	useEffect(() => {
 		setApps(AppsManager.APPS.filter(({ name }) =>
 			name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+		).sort((a, b) =>
+			a.name.toLowerCase().localeCompare(b.name.toLowerCase())
 		));
 	}, [searchQuery]);
 
@@ -72,6 +74,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 					value={searchQuery}
 					onChange={onChange}
 					spellCheck={false}
+					placeholder="Search..."
 				/>
 				<div className={appStyles["App-list"]}>
 					{apps?.map(({ name, id }) => 
