@@ -1,24 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.4bb33394.css",
-    "main.js": "/static/js/main.48230ba2.js",
+    "main.css": "/static/css/main.a31b1e40.css",
+    "main.js": "/static/js/main.e4ae1184.js",
     "static/js/787.df2eea21.chunk.js": "/static/js/787.df2eea21.chunk.js",
     "static/media/RobotoMono-VariableFont_wght.ttf": "/static/media/RobotoMono-VariableFont_wght.e1d699e6544d0dbf6ec7.ttf",
-    "static/media/Poppins-Thin.ttf": "/static/media/Poppins-Thin.59ff6a729e30c99b478e.ttf",
-    "static/media/Poppins-ExtraLight.ttf": "/static/media/Poppins-ExtraLight.333cb30c20e31999802a.ttf",
-    "static/media/Poppins-Light.ttf": "/static/media/Poppins-Light.7641a0f76ca9ef6c252c.ttf",
-    "static/media/Poppins-Regular.ttf": "/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
-    "static/media/Poppins-SemiBold.ttf": "/static/media/Poppins-SemiBold.ac8d04b620e54be9b0f0.ttf",
-    "static/media/Poppins-Bold.ttf": "/static/media/Poppins-Bold.cdb29a5d7ccf57ff05a3.ttf",
-    "static/media/Poppins-ExtraBold.ttf": "/static/media/Poppins-ExtraBold.01849ee091e1762a5dd5.ttf",
-    "static/media/Poppins-Black.ttf": "/static/media/Poppins-Black.d8b850b920a5ef49d752.ttf",
+    "static/media/Outfit-VariableFont_wght.ttf": "/static/media/Outfit-VariableFont_wght.00c2ed1a3bf798b0da27.ttf",
     "index.html": "/index.html",
-    "main.4bb33394.css.map": "/static/css/main.4bb33394.css.map",
-    "main.48230ba2.js.map": "/static/js/main.48230ba2.js.map",
+    "main.a31b1e40.css.map": "/static/css/main.a31b1e40.css.map",
+    "main.e4ae1184.js.map": "/static/js/main.e4ae1184.js.map",
     "787.df2eea21.chunk.js.map": "/static/js/787.df2eea21.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4bb33394.css",
-    "static/js/main.48230ba2.js"
+    "static/css/main.a31b1e40.css",
+    "static/js/main.e4ae1184.js"
   ]
 }
