@@ -19,6 +19,7 @@ import { pwd } from "./commands/pwd.js";
 import { reboot } from "./commands/reboot.js";
 import { rm } from "./commands/rm.js";
 import { rmdir } from "./commands/rmdir.js";
+import { sl } from "./commands/sl.js";
 import { touch } from "./commands/touch.js";
 import { uptime } from "./commands/uptime.js";
 import { whatis } from "./commands/whatis.js";
@@ -76,5 +77,6 @@ export default class CommandsManager {
 		exit,
 		help,
 		uptime,
+		sl,
 	];
 }

@@ -7,11 +7,12 @@ import { InputLine } from "./InputLine.jsx";
 import { ANSI, HOSTNAME, USERNAME } from "../../../config/apps/terminal.config.js";
 import CommandsManager from "../../../features/apps/terminal/commands.js";
 import { removeFromArray } from "../../../features/_utils/array.utils.js";
+import Stream from "../../../features/apps/terminal/stream.js";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
  */
-export function Terminal({ startPath, setTitle, close: exit }) {
+export function Terminal({ startPath, setTitle, close: exit, active }) {
 	const [inputKey, setInputKey] = useState(0);
 	const [inputValue, setInputValue] = useState("");
 	const [history, setHistory] = useState([]);
@@ -19,10 +20,22 @@ export function Terminal({ startPath, setTitle, close: exit }) {
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate(startPath ?? "~"));
 	const inputRef = useRef(null);
 	const [historyIndex, setHistoryIndex] = useState(0);
+	const [stream, setStream] = useState(null);
+	const [streamOutput, setStreamOutput] = useState(null);
+	const streamRef = useRef(null);
+	const [streamFocused, setStreamFocused] = useState(false);
 
 	useEffect(() => {
 		setTitle(`${USERNAME}@${HOSTNAME}: ${currentDirectory.root ? "/" : currentDirectory.path}`);
 	}, [currentDirectory.path, currentDirectory.root, setTitle]);
+
+	useEffect(() => {
+		if (streamFocused || streamRef.current == null || streamOutput == null)
+			return;
+
+		streamRef.current.scrollTop = streamRef.current.scrollHeight;
+		setStreamFocused(true);
+	}, [streamFocused, streamOutput, streamRef]);
 
 	const prefix = `${ANSI.fg.cyan + USERNAME}@${HOSTNAME + ANSI.reset}:`
 		+ `${ANSI.fg.blue + (currentDirectory.root ? "/" : currentDirectory.path) + ANSI.reset}$ `;
@@ -38,6 +51,35 @@ export function Terminal({ startPath, setTitle, close: exit }) {
 			text,
 			isInput: false
 		});
+	};
+
+	const connectStream = (stream) => {
+		setStream(stream);
+		setStreamFocused(false);
+
+		const onKeyDown = (event) => {
+			if (active && (event.ctrlKey || event.metaKey) && event.key === "c") {
+				stream.stop();
+			}
+		};
+
+		let lastOutput = null;
+
+		stream.on(Stream.EVENT_NAMES.NEW, (text) => {
+			lastOutput = text;
+			setStreamOutput(text);
+		});
+
+		stream.on(Stream.EVENT_NAMES.STOP, () => {
+			document.removeEventListener("keydown", onKeyDown);
+
+			promptOutput(lastOutput);
+
+			setStream(null);
+			setStreamOutput(null);
+		});
+		
+		document.addEventListener("keydown", onKeyDown);
 	};
 
 	const handleInput = (value) => {
@@ -134,8 +176,13 @@ export function Terminal({ startPath, setTitle, close: exit }) {
 			output = handleInput(output ? `${segment} ${output}` : segment);
 		});
 
-		if (output)
-			promptOutput(`${output}\n`);
+		if (output) {
+			if (output instanceof Stream) {
+				connectStream(output);
+			} else {
+				promptOutput(`${output}\n`);
+			}
+		}
 	};
 
 	const updateHistoryIndex = (delta) => {
@@ -170,6 +217,8 @@ export function Terminal({ startPath, setTitle, close: exit }) {
 			updateHistoryIndex(1);
 		} else if (key === "ArrowDown") {
 			updateHistoryIndex(-1);
+		} else if (!stream && (event.ctrlKey || event.metaKey) && key === "c") {
+			setInputValue((value) => value + "^C");
 		}
 	};
 
@@ -210,6 +259,7 @@ export function Terminal({ startPath, setTitle, close: exit }) {
 
 	return (
 		<div
+			ref={streamRef} 
 			className={styles.Terminal}
 			onMouseDown={onMouseDown}
 			onContextMenu={onContextMenu}
@@ -221,15 +271,18 @@ export function Terminal({ startPath, setTitle, close: exit }) {
 			}}
 		>
 			{displayHistory()}
-			<InputLine
-				key={inputKey}
-				value={inputValue}
-				prefix={prefix}
-				onKeyDown={onKeyDown}
-				onChange={onChange}
-				inputRef={inputRef}
-				history={history}
-			/>
+			{!stream
+				? <InputLine
+					key={inputKey}
+					value={inputValue}
+					prefix={prefix}
+					onKeyDown={onKeyDown}
+					onChange={onChange}
+					inputRef={inputRef}
+					history={history}
+				/>
+				: <OutputLine text={streamOutput ?? ""}/>
+			}
 		</div>
 	);
 }
