@@ -6,7 +6,7 @@ import { formatRelativeTime } from "../../../_utils/date.utils.js";
 import AppsManager from "../../appsManager.js";
 import Command from "../command.js";
 
-export const neofetch = new Command("neofetch")
+export const neofetch = new Command()
 	.setManual({
 		purpose: "Fetch system information"
 	})

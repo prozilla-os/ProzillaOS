@@ -1,6 +1,6 @@
 import Command from "../command.js";
 
-export const dir = new Command("dir")
+export const dir = new Command()
 	.setManual({
 		purpose: "List all directories in the current directory"
 	})

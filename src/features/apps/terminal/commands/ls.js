@@ -1,7 +1,7 @@
 import { ANSI } from "../../../../config/apps/terminal.config.js";
 import Command from "../command.js";
 
-export const ls = new Command("ls")
+export const ls = new Command()
 	.setManual({
 		purpose: "List directory contents",
 		usage: "ls [OPTION]... [FILE]...",

@@ -106,16 +106,30 @@ export function Terminal({ startPath, setTitle, close: exit, active }) {
 
 		// Get options
 		const options = [];
-		args.filter((arg) => arg.startsWith("-")).forEach((option) => {
+		const inputs = {};
+		args.filter((arg) => arg.startsWith("-")).forEach((option, index) => {
+			const addOption = (key) => {
+				if (options.includes(key))
+					return;
+
+				options.push(key);
+
+				const commandOption = command.getOption(options[options.length - 1]);
+
+				if (commandOption?.isInput) {
+					const optionInput = args[args.indexOf(option) + 1];
+					inputs[commandOption.short] = optionInput;
+					removeFromArray(optionInput, args);
+				}
+			};
+
 			if (option.startsWith("--")) {
 				const longOption = option.substring(2).toLowerCase();
-				if (!options.includes(longOption))
-					options.push(longOption);
+				addOption(longOption);
 			} else {
 				const shortOptions = option.substring(1).split("");
 				shortOptions.forEach((shortOption) => {
-					if (!options.includes(shortOption))
-						options.push(shortOption);
+					addOption(shortOption);
 				});
 			}
 			
@@ -143,7 +157,8 @@ export function Terminal({ startPath, setTitle, close: exit, active }) {
 				hostname: HOSTNAME,
 				rawInputValue,
 				options,
-				exit
+				exit,
+				inputs
 			});
 
 			if (response == null)
@@ -214,8 +229,10 @@ export function Terminal({ startPath, setTitle, close: exit, active }) {
 			submitInput(value);
 			setInputKey((previousKey) =>  previousKey + 1);
 		} else if (key === "ArrowUp") {
+			event.preventDefault();
 			updateHistoryIndex(1);
 		} else if (key === "ArrowDown") {
+			event.preventDefault();
 			updateHistoryIndex(-1);
 		} else if (!stream && (event.ctrlKey || event.metaKey) && key === "c") {
 			setInputValue((value) => value + "^C");

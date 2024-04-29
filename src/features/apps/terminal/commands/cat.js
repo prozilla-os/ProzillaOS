@@ -1,7 +1,7 @@
 import { VirtualFile } from "../../../virtual-drive/file/virtualFile.js";
 import Command from "../command.js";
 
-export const cat = new Command("cat")
+export const cat = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Concetenate files and display on the terminal screen",

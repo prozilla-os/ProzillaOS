@@ -1,6 +1,6 @@
 import Command from "../command.js";
 
-export const make = new Command("make")
+export const make = new Command()
 	.setRequireArgs(true)
 	.setExecute(function(args) {
 		if (args[0] === "love")

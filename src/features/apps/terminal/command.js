@@ -15,24 +15,26 @@ import { VirtualRoot } from "../../virtual-drive/root/virtualRoot.js";
  * @param {string} options.rawInputValue 
  * @param {string[]} options.options 
  * @param {Function} options.exit
+ * @param {[]} options.inputs
  * @returns {string|{ blank: boolean }}
+ */
+
+/**
+ * @typedef {object} optionType
+ * @property {string} long
+ * @property {string} short
+ * @property {boolean} isInput
  */
 
 export default class Command {
 	/** @type {string} */
 	name;
 
+	/** @type {optionType[]} */
+	options = [];
+
 	/** @type {executeType} */
 	execute = () => {};
-
-	/**
-	 * @param {string} name 
-	 * @param {executeType} execute 
-	 */
-	constructor(name, execute) {
-		this.name = name;
-		this.execute = execute;
-	}
 
 	/**
 	 * @param {string} name 
@@ -77,5 +79,29 @@ export default class Command {
 	setManual({ purpose, usage, description, options }) {
 		this.manual = { purpose, usage, description, options };
 		return this;
+	}
+
+	/**
+	 * @param {optionType} option 
+	 * @returns {Command}
+	 */
+	addOption({ short, long, isInput }) {
+		this.options.push({ short, long, isInput });
+		return this;
+	}
+
+	/**
+	 * @param {string} key 
+	 * @returns {optionType}
+	 */
+	getOption(key) {
+		let matchingOption = null;
+
+		this.options.forEach((option) => {
+			if (option.short === key || option.long === key)
+				matchingOption = option;
+		});
+
+		return matchingOption;
 	}
 }

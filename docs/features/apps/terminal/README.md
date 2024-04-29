@@ -19,7 +19,7 @@ See [features/apps/terminal/commands.js](../../../../src/features/apps/terminal/
 ```js
 // features/apps/terminal/commands/touch.js
 
-export const touch = new Command("touch")
+export const touch = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Change file timestamps",

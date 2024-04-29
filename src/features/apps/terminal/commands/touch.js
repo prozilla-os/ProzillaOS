@@ -1,7 +1,7 @@
 import { VirtualFile } from "../../../virtual-drive/file/virtualFile.js";
 import Command from "../command.js";
 
-export const touch = new Command("touch")
+export const touch = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Change file timestamps",

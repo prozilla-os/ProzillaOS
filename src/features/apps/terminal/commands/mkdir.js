@@ -1,6 +1,6 @@
 import Command from "../command.js";
 
-export const mkdir = new Command("mkdir")
+export const mkdir = new Command()
 	.setManual({
 		purpose: "Create directory"
 	})

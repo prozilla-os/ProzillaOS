@@ -3,7 +3,7 @@ import CommandsManager from "../commands.js";
 
 const MARGIN = 5;
 
-export const man = new Command("man")
+export const man = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Show system reference manuals",

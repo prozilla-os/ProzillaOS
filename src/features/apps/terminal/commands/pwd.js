@@ -1,6 +1,6 @@
 import Command from "../command.js";
 
-export const pwd = new Command("pwd")
+export const pwd = new Command()
 	.setManual({
 		purpose: "Display path of the current directory"
 	})

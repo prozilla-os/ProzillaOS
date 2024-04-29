@@ -1,7 +1,7 @@
 import Command from "../command.js";
 import CommandsManager from "../commands.js";
 
-export const help = new Command("help")
+export const help = new Command()
 	.setExecute((args) => {
 		if (args.length === 0) {
 			return CommandsManager.COMMANDS.map((command) => {

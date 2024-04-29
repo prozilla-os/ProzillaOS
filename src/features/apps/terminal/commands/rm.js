@@ -1,7 +1,7 @@
 import { VirtualFile } from "../../../virtual-drive/file/virtualFile.js";
 import Command from "../command.js";
 
-export const rm = new Command("rm")
+export const rm = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Remove a file"

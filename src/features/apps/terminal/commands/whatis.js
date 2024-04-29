@@ -1,7 +1,7 @@
 import Command from "../command.js";
 import CommandsManager from "../commands.js";
 
-export const whatis = new Command("whatis")
+export const whatis = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Show information about a command"

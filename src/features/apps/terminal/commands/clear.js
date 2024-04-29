@@ -1,6 +1,6 @@
 import Command from "../command.js";
 
-export const clear = new Command("clear")
+export const clear = new Command()
 	.setManual({
 		purpose: "Clear terminal screen",
 		usage: "clear",

@@ -8,7 +8,7 @@ const COW = `
                 ||----w |
                 ||     ||`;
 
-export const cowsay = new Command("cowsay")
+export const cowsay = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Show a cow saying something",

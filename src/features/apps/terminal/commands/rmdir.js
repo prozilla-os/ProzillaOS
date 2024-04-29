@@ -1,6 +1,6 @@
 import Command from "../command.js";
 
-export const rmdir = new Command("rmdir")
+export const rmdir = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Remove a directory"
