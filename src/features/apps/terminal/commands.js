@@ -1,17 +1,29 @@
 import Command from "./command.js";
 
-// Dynamically import commands
-const context = require.context("./commands", false, /\.js$/);
-const commands = [];
-context.keys().forEach((key) => {
-	const commandModule = context(key);
-	const commandName = Object.keys(commandModule)[0];
-	const command = commandModule[commandName];
-	command.setName(commandName.toLowerCase());
-	commands.push(command);
-});
+let commands = [];
+
+/**
+ * Dynamically import commands
+ */
+const loadCommands = () => {
+	commands = [];
+	const context = require.context("./commands", false, /\.js$/);
+	context.keys().forEach((key) => {
+		const commandModule = context(key);
+		const commandName = Object.keys(commandModule)[0];
+
+		const command = commandModule[commandName];
+		command.setName(commandName.toLowerCase());
+
+		commands.push(command);
+	});
+};
+
+loadCommands();
 
 export default class CommandsManager {
+	static COMMANDS = commands;
+
 	/**
 	 * @param {string} name 
 	 * @returns {Command}
@@ -38,5 +50,8 @@ export default class CommandsManager {
 		return matches;
 	}
 
-	static COMMANDS = commands;
+	static reload() {
+		loadCommands();
+		CommandsManager.COMMANDS = commands;
+	}
 }

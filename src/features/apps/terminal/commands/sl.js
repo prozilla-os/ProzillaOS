@@ -1,6 +1,8 @@
 import Command from "../command.js";
 import Stream from "../stream.js";
 
+const ANIMATION_SPEED = 1.25;
+
 const LOCOMOTIVE_SMOKE = [
 	[
 		"                        (@@) (  ) (@)  ( )  @@   ()   @   o   @   o",
@@ -63,7 +65,8 @@ const LOCOMOTIVE_BOTTOM = [
 	]
 ].reverse();
 
-const WAGON = [
+const COAL_WAGON = [
+	"                             ",
 	"    _________________        ",
 	"   _|                \\_____A ",
 	" =|                        | ",
@@ -74,21 +77,85 @@ const WAGON = [
 	"    \\_/   \\_/    \\_/   \\_/   ",
 ];
 
+const EXTRA_WAGONS = [
+	[
+		" _______================_______ ",
+		"  |  | ___  ___  ___  ___ |  |  ",
+		"  |  | | |  | |  | |  | | |  |  ",
+		"  |  | |_|  |_|  |_|  |_| |  |  ",
+		"  |  |                    |  |  ",
+		"__|__|____________________|__|__",
+		"_|____________________________|_",
+		"   |_D__D__D_|     |_D__D__D_|  ",
+		"    \\_/   \\_/       \\_/   \\_/   ",
+	],
+	[
+		"                             ",
+		"  ________========__HH____   ",
+		" /                  HH    \\  ",
+		"/                   HH     \\ ",
+		"\\                   HH     / ",
+		"_\\__________________HH____/__",
+		"|__________________________|_",
+		"   |_D__D__D_|  |_D__D__D_|  ",
+		"    \\_/   \\_/    \\_/   \\_/   ",
+	],
+	[
+		"                             ",
+		"                             ",
+		"                             ",
+		"                             ",
+		"                             ",
+		"_____________________________",
+		"|__________________________|_",
+		"   |_D__D__D_|  |_D__D__D_|  ",
+		"    \\_/   \\_/    \\_/   \\_/   ",
+	],
+	[
+		"                             ",
+		"    _|__|___________|__|___  ",
+		"   (_|__|___________|__|___) ",
+		"   _(|__|___________|__|__)_ ",
+		"  (__|__|___________|__|____)",
+		"_(___|__|___________|__|__)__",
+		"|__________________________|_",
+		"   |_D__D__D_|  |_D__D__D_|  ",
+		"    \\_/   \\_/    \\_/   \\_/   ",
+	],
+	[
+		"                             ",
+		" ___________________________ ",
+		" \\      |           |      / ",
+		"  \\     |           |     /  ",
+		"  |\\    |           |    /|  ",
+		"__|_\\___|___________|___/_|__",
+		"|__________________________|_",
+		"   |_D__D__D_|  |_D__D__D_|  ",
+		"    \\_/   \\_/    \\_/   \\_/   ",
+	],
+];
+
 function getLocomotive(frame, wagonCount = 1) {
 	const smokeHeight = LOCOMOTIVE_SMOKE[0].length;
 	const locomotiveHeight = LOCOMOTIVE_TOP.length + LOCOMOTIVE_BOTTOM[0].length;
-	const wagonHeight = WAGON.length;
+	const wagonHeight = COAL_WAGON.length;
 
 	const wagonStart = smokeHeight + locomotiveHeight - wagonHeight;
 
-	const smoke = LOCOMOTIVE_SMOKE[Math.round(frame / 6) % LOCOMOTIVE_SMOKE.length];
+	const smoke = LOCOMOTIVE_SMOKE[Math.round(frame / 4) % LOCOMOTIVE_SMOKE.length];
 	const top = LOCOMOTIVE_TOP;
 	const bottom = LOCOMOTIVE_BOTTOM[frame % LOCOMOTIVE_BOTTOM.length];
 
 	const distance = 50 - frame;
 	const locomotive = smoke.concat(top, bottom).map((line, index) => {
 		if (index >= wagonStart && wagonCount > 0) {
-			line += WAGON[index - wagonStart].repeat(wagonCount);
+			for (let i = 0; i < wagonCount; i++) {
+				if (i === 0) {
+					line += COAL_WAGON[index - wagonStart];
+				} else {
+					line += EXTRA_WAGONS[(i - 1) % EXTRA_WAGONS.length][index - wagonStart];
+				}
+			}
 		}
 
 		if (distance === 0) {
@@ -106,7 +173,12 @@ function getLocomotive(frame, wagonCount = 1) {
 
 export const sl = new Command()
 	.setManual({
-		purpose: "Displays animations aimed to correct users who accidentally enter sl instead of ls. SL stands for Steam Locomotive."
+		purpose: "Displays animations aimed to correct users who accidentally enter sl instead of ls. SL stands for Steam Locomotive.",
+		usage: "sl\n"
+			+ "sl -w [NUMBER]",
+		options: {
+			"-w": "Set the amount of wagons (defaults to 1)"
+		}
 	})
 	.addOption({
 		short: "w",
@@ -134,7 +206,7 @@ export const sl = new Command()
 
 			if (text.trim().length === 0)
 				stream.stop();
-		}, 100);
+		}, 100 / ANIMATION_SPEED);
 
 		stream.on(Stream.EVENT_NAMES.STOP, () => {
 			clearInterval(interval);
