@@ -48,6 +48,7 @@ export function useShortcuts({ options, shortcuts, useCategories = true }) {
 					continue;
 
 				event.preventDefault();
+				event.stopPropagation();
 
 				if (!shortcut.includes(event.key) || !allowExecution)
 					continue;

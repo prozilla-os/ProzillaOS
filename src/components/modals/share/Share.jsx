@@ -7,6 +7,9 @@ import AppsManager from "../../../features/apps/appsManager.js";
 import utilStyles from "../../../styles/utils.module.css";
 import { Button } from "../../_utils/button/Button.jsx";
 import Option from "./Option.jsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSquare } from "@fortawesome/free-regular-svg-icons";
+import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 
 const APP_OPTIONS = {
 	"terminal": [
@@ -94,10 +97,16 @@ export function Share({ modal, params, ...props }) {
 						)}
 					</select>
 				</label>
-				<label className={styles.Label}>
+				{appId !== "" ? <label className={styles.Label}>
 					<p>Fullscreen:</p>
 					<input className={styles.Input} name="fullscreen" type="checkbox" checked={fullscreen} value={fullscreen} onChange={onFullscreenChange}/>
-				</label>
+					<div className={styles.Checkbox}>
+						{fullscreen 
+							? <FontAwesomeIcon icon={faSquareCheck}/>
+							: <FontAwesomeIcon icon={faSquare}/>
+						}
+					</div>
+				</label> : null}
 				{APP_OPTIONS[appId]?.map(({ label, name }) =>
 					<Option key={name} name={name} label={label} setOption={setOption}/>
 				)}

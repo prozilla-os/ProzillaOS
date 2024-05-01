@@ -73,7 +73,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 				close();
 			}}/>
 			<Divider/>
-			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} onTrigger={() => {
+			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} shortcut={["Alt", "s"]} onTrigger={() => {
 				openWindowedModal({
 					appId: app.id,
 					fullscreen: maximized,

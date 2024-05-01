@@ -171,6 +171,8 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 						"Zoom In": ["Control", "+"],
 						"Zoom Out": ["Control", "-"],
 						"Reset Zoom": ["Control", "0"],
+						"Edit mode": ["Control v"],
+						"Preview mode": ["Control v"],
 					}
 				}}
 			/>
