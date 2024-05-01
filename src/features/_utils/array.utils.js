@@ -16,3 +16,11 @@ export function removeFromArray(item, array) {
 export function randomFromArray(array) {
 	return array[Math.floor(Math.random() * array.length)];
 }
+
+/**
+ * @param {*[]} array
+ * @returns {*[]}
+ */
+export function removeDuplicatesFromArray(array) {
+	return array.filter((item, index) => array.indexOf(item) === index);
+}

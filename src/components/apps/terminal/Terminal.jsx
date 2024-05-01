@@ -12,9 +12,9 @@ import Stream from "../../../features/apps/terminal/stream.js";
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
  */
-export function Terminal({ startPath, setTitle, close: exit, active }) {
+export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 	const [inputKey, setInputKey] = useState(0);
-	const [inputValue, setInputValue] = useState("");
+	const [inputValue, setInputValue] = useState(input ?? "");
 	const [history, setHistory] = useState([]);
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate(startPath ?? "~"));

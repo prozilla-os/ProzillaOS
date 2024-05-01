@@ -30,6 +30,17 @@ export default class WindowsManager {
 		const position = new Vector2(randomRange(SCREEN_MARGIN, window.innerWidth - size.x - SCREEN_MARGIN),
 			randomRange(SCREEN_MARGIN, window.innerHeight - size.y - SCREEN_MARGIN - TASKBAR_HEIGHT));
 
+		let fullscreen = false;
+		if (options?.fullscreen) {
+			if (typeof(options.fullscreen) == String) {
+				fullscreen = options.fullscreen.toLowerCase() === "true";
+			} else {
+				fullscreen = options.fullscreen;
+			}
+
+			delete options.fullscreen;
+		}
+
 		let id = 0;
 		while (this.windowIds.includes(id.toString())) {
 			id++;
@@ -50,6 +61,7 @@ export default class WindowsManager {
 			app,
 			size,
 			position,
+			fullscreen,
 			options,
 		};
 
@@ -192,12 +204,16 @@ export default class WindowsManager {
 		this.updateWindows = updateWindows;
 	}
 
-	startup(appIds) {
+	/**
+	 * @param {string[]} appIds 
+	 * @param {{}} options 
+	 */
+	startup(appIds, options) {
 		if (appIds == null || this.startupComplete)
 			return;
 
 		appIds.forEach((appId) => {
-			this.open(appId);
+			this.open(appId, options);
 		});
 
 		this.startupComplete = true;

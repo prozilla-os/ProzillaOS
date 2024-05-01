@@ -20,6 +20,10 @@ import { NAME } from "../../config/branding.config.js";
 import { setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils.js";
 import { ZIndexManager } from "../../features/z-index/zIndexManager.js";
 import { useZIndex } from "../../hooks/z-index/zIndex.js";
+import { useWindowedModal } from "../../hooks/modals/windowedModal.js";
+import { Divider } from "../actions/actions/Divider.jsx";
+import ModalsManager from "../../features/modals/modalsManager.js";
+import { Share } from "../modals/share/Share.jsx";
 
 /**
  * @typedef {object} windowProps
@@ -45,14 +49,15 @@ import { useZIndex } from "../../hooks/z-index/zIndex.js";
  * @param {boolean} props.minimized
  * @param {Function} props.toggleMinimized
  */
-export const WindowView = memo(({ id, app, size, position, onInteract, options, active, minimized, toggleMinimized, index }) => {
+export const WindowView = memo(({ id, app, size, position, onInteract, options, active, fullscreen, minimized, toggleMinimized, index }) => {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 	const [modalsManager, modals] = useModals();
+	const { openWindowedModal } = useWindowedModal({ modalsManager });
 
 	const [startSize, setStartSize] = useState(size);
 	const [startPosition, setStartPosition] = useState(position);
-	const [maximized, setMaximized] = useState(false);
+	const [maximized, setMaximized] = useState(fullscreen ?? false);
 	const [screenWidth, screenHeight] = useScreenDimensions();
 	const [title, setTitle] = useState(app.name);
 	const [iconUrl, setIconUrl] = useState(AppsManager.getAppIconUrl(app.id));
@@ -66,6 +71,15 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 			}}/>
 			<ClickAction label="Close" icon={faTimes} shortcut={["Control", "q"]} onTrigger={() => {
 				close();
+			}}/>
+			<Divider/>
+			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} onTrigger={() => {
+				openWindowedModal({
+					appId: app.id,
+					fullscreen: maximized,
+					size: new Vector2(350, 350),
+					Modal: (props) => <Share {...props}/>
+				});
 			}}/>
 		</Actions>
 	});

@@ -60,8 +60,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, modalsManager, o
 					title: `${file.id} ${TITLE_SEPARATOR} Properties`,
 					iconUrl: file.getIconUrl(),
 					size: new Vector2(400, 500),
-					Modal: (props) =>
-						<FileProperties file={file} {...props}/>
+					Modal: (props) => <FileProperties file={file} {...props}/>
 				});
 			}}/>
 		</Actions>

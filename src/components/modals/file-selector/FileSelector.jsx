@@ -30,9 +30,6 @@ export function FileSelector({ modal, params, type, allowedFormats, onFinish, ..
 	const [selection, setSelection] = useState(multi ? [] : null);
 	const [directory, setDirectory] = useState(null);
 
-	params.title = multi ? "Select files" : "Select a file";
-	params.iconUrl = APP_ICONS.FILE_EXPLORER;
-
 	const finish = (event) => {
 		event?.preventDefault();
 
@@ -56,7 +53,11 @@ export function FileSelector({ modal, params, type, allowedFormats, onFinish, ..
 		onFinish?.(multi ? files : files[0]);
 	};
 
-	return <WindowedModal modal={modal} params={params} {...props}>
+	return <WindowedModal modal={modal} params={{
+		title: multi ? "Select files" : "Select a file",
+		iconUrl: APP_ICONS.FILE_EXPLORER,
+		...params,
+	}} {...props}>
 		<ModalsView modalsManager={modalsManager} modals={modals}/>
 		<FileExplorer
 			modalsManager={modalsManager}

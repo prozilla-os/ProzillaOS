@@ -21,6 +21,9 @@ import { DropdownAction } from "../actions/actions/DropdownAction.jsx";
 import { RadioAction } from "../actions/actions/RadioAction.jsx";
 import { Divider } from "../actions/actions/Divider.jsx";
 import { isValidInteger } from "../../features/_utils/number.utils.js";
+import { useWindowedModal } from "../../hooks/modals/windowedModal.js";
+import { Share } from "../modals/share/Share.jsx";
+import ModalsManager from "../../features/modals/modalsManager.js";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
@@ -30,6 +33,7 @@ export const Desktop = memo(() => {
 	const virtualRoot = useVirtualRoot();
 	const [showIcons, setShowIcons] = useState(false);
 	const [iconSize, setIconSize] = useState(FALLBACK_ICON_SIZE);
+	const { openWindowedModal } = useWindowedModal({ modalsManager });
 
 	const directory = virtualRoot.navigate("~/Desktop");
 
@@ -54,7 +58,7 @@ export const Desktop = memo(() => {
 				reloadViewport();
 			}}/>
 			<ClickAction label="Change appearance" icon={faPaintBrush} onTrigger={() => {
-				windowsManager.open("settings", { initialTabIndex: 0 });
+				windowsManager.open("settings", { tab: 0 });
 			}}/>
 			<Divider/>
 			<ClickAction label={`Open in ${APP_NAMES.FILE_EXPLORER}`} icon={APP_ICONS.FILE_EXPLORER} onTrigger={() => {
@@ -62,6 +66,13 @@ export const Desktop = memo(() => {
 			}}/>
 			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={() => {
 				windowsManager.open(APPS.TERMINAL, { startPath: directory.path });
+			}}/>
+			<Divider/>
+			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} onTrigger={() => {
+				openWindowedModal({
+					size: new Vector2(350, 350),
+					Modal: (props) => <Share {...props}/>
+				});
 			}}/>
 		</Actions>
 	});

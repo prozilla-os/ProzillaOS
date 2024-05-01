@@ -5,7 +5,8 @@ import { WindowView } from "./WindowView.jsx";
 import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
 import { SettingsManager } from "../../features/settings/settingsManager.js";
 import { NAME, TAG_LINE } from "../../config/branding.config.js";
-import { setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils.js";
+import { getViewportParams, setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils.js";
+import { removeDuplicatesFromArray } from "../../features/_utils/array.utils.js";
 
 export const WindowsView = memo(() => {
 	const settingsManager = useSettingsManager();
@@ -38,18 +39,33 @@ export const WindowsView = memo(() => {
 
 	// Launch startup apps
 	useEffect(() => {
+		if (windowsManager.startupComplete)
+			return;
+
+		let startupAppNames = [];
+
+		// Get app name and params from URL query
+		const params = getViewportParams();
+		const appName = params.app;
+		if (appName)
+			startupAppNames.push(appName);
+		delete params.app;
+
+		// Get list of app names from settings file
 		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.apps);
 		settings.get("startup", (value) => {
-			if (value !== "")
-				windowsManager.startup(value?.split(","));
+			if (value !== "") {
+				startupAppNames = value?.split(",").concat(startupAppNames);
+				startupAppNames = removeDuplicatesFromArray(startupAppNames);
+			}
+
+			windowsManager.startup(startupAppNames, params);
 		});
 	}, [settingsManager, windowsManager]);
 
-	// TO DO: prevent windows from being rerendered when order is changed
-
 	return (<div>
 		{windows.map((window) => {
-			const { id, app, size, position, options, minimized } = window;
+			const { id, app, size, position, options, minimized, fullscreen } = window;
 			const index = sortedWindows.indexOf(window);
 			return <WindowView
 				key={id}
@@ -67,6 +83,7 @@ export const WindowsView = memo(() => {
 					event.stopPropagation();
 					windowsManager.setMinimized(id, !minimized);
 				}}
+				fullscreen={fullscreen}
 			/>;
 		})}
 	</div>);

@@ -11,10 +11,10 @@ import { AppsSettings } from "./tabs/AppsSettings.jsx";
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
  */
-export function Settings({ initialTabIndex, modalsManager }) {
+export function Settings({ tab, modalsManager }) {
 	return (
 		<Tabs
-			defaultIndex={initialTabIndex ?? 0}
+			defaultIndex={tab ?? 0}
 			className={styles.Container}
 			selectedTabClassName={styles["Active-tab"]}
 			selectedTabPanelClassName={styles["Active-panel"]}

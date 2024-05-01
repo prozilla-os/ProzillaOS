@@ -83,4 +83,12 @@ export default class ModalsManager {
 	get modalIds() {
 		return Object.keys(this.modals);
 	}
+
+	/**
+	 * @param {string} name 
+	 * @returns {string}
+	 */
+	static getModalIconUrl(name) {
+		return `${process.env.PUBLIC_URL}/assets/modals/icons/${name}.svg`;
+	}
 }

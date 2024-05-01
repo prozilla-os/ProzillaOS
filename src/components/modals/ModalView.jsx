@@ -5,19 +5,25 @@ import styles from "./ModalView.module.css";
 import { useEffect } from "react";
 
 /**
+ * @typedef {object} modalProps
+ * @param {object} props 
+ * @param {ModalType} props.modal 
+ * @param {*} props.params
+ * @param {Function} props.onFinish
+ */
+
+/**
  * @param {object} root 
  * @param {ModalType} root.modal 
  */
 export const ModalView = memo(({ modal }) => {
 	useEffect(() => {
 		const onDismiss = (event) => {
-			if (event.key === "Escape" && modal.dismissible)
+			if (event.key === "Escape")
 				modal.close();
 		};
 
-		if (modal.dismissible) {
-			document.addEventListener("keydown", onDismiss);
-		}
+		document.addEventListener("keydown", onDismiss);
 
 		return () => {
 			document.removeEventListener("keydown", onDismiss);

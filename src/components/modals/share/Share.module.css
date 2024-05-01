@@ -1,0 +1,93 @@
+.Container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+	height: 100%;
+	padding: 1rem;
+	overflow-y: auto;
+}
+
+.Container > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.Container > div:last-child {
+	gap: 0.5rem;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.Title {
+	font-size: 1.5rem;
+}
+
+.Title:first-child {
+	margin-top: 0.5rem;
+}
+
+.Form {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.Label {
+	--gap: 0.5rem;
+
+	display: flex;
+	gap: var(--gap);
+	align-items: center;
+	width: 100%;
+}
+
+.Label > p {
+	width: calc(40% - var(--gap));
+	min-width: 40%;
+	text-align: start;
+}
+
+.Input {
+	width: auto;
+	max-width: calc(60% - var(--gap));
+	padding: 0.5rem 1rem;
+	color: var(--text-color);
+	background-color: var(--background-color-b);
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	font-size: 0.875em;
+}
+
+select.Input > * {
+	color: inherit;
+	background-color: inherit;
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	font-family: inherit;
+	font-size: inherit;
+}
+
+.Input[type=checkbox] {
+	background-color: var(--background-color-b);
+	outline: none;
+}
+
+.Url {
+	text-align: start;
+	word-break: break-all;
+}
+
+.Button {
+	--normal-color: var(--background-color-a) !important;
+	--hover-color: var(--background-color-b) !important;
+
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+	white-space: nowrap;
+}
