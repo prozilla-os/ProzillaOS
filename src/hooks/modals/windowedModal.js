@@ -42,7 +42,7 @@ export function useWindowedModal({ modalsManager }) {
 			.setDismissible(false)
 			.setProps({ params });
 
-		modalsManager.open(newModal);
+		modalsManager.open(newModal, false);
 		return newModal;
 	}, [modalsManager]);
 

@@ -13,7 +13,7 @@ export default class ModalsManager {
 
 	/**
 	 * @param {Modal} modal 
-	 * @param {boolean} closeOthers
+	 * @param {boolean} closeOthers - Set to false to preserve other open modals
 	 */
 	open(modal, closeOthers = true) {
 		if (closeOthers) {
@@ -30,6 +30,7 @@ export default class ModalsManager {
 		modal.id = id;
 		modal.modalsManager = this;
 
+		console.info(`Opening modal ${id}`);
 		this.modals[id] = modal;
 		this.updateModals(this.modals);
 	}

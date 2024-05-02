@@ -10,6 +10,7 @@ import Option from "./Option.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
+import { useAlert } from "../../../hooks/modals/alert.js";
 
 const APP_OPTIONS = {
 	"terminal": [
@@ -38,6 +39,7 @@ export function Share({ modal, params, ...props }) {
 	const [fullscreen, setFullscreen] = useState(params.fullscreen ?? false);
 	const [options, setOptions] = useState({});
 	const [url, setUrl] = useState(null);
+	const { alert } = useAlert({ modalsManager: modal.modalsManager });
 
 	useEffect(() => {
 		setUrl(generateUrl({
@@ -118,9 +120,17 @@ export function Share({ modal, params, ...props }) {
 				className={`${styles.Button} ${utilStyles["Text-bold"]}`}
 				onClick={() => {
 					copyToClipboard(url, () => {
-						alert("Copied to clipboard!");
+						alert({
+							title: "Share",
+							iconUrl: ModalsManager.getModalIconUrl("share"),
+							text: "Copied to clipboard!",
+						});
 					}, () => {
-						alert("Failed to copy");
+						alert({
+							title: "Share",
+							iconUrl: ModalsManager.getModalIconUrl("share"),
+							text: "Failed to copy.",
+						});
 					});
 				}}
 			>
