@@ -2,8 +2,8 @@ import Command from "../command.js";
 
 export const rev = new Command()
 	.setManual({
-		purpose: "Reverses text."
+		purpose: "Display the reverse of a text"
 	})
-	.setExecute((args, { rawInputValue }) => {
+	.setExecute(function(args, { rawInputValue }) {
 		return rawInputValue.split("").reverse().join("");
 	});

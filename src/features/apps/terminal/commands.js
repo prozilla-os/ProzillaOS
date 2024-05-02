@@ -1,3 +1,4 @@
+import { ANSI } from "../../../config/apps/terminal.config.js";
 import Command from "./command.js";
 
 let commands = [];
@@ -53,5 +54,14 @@ export default class CommandsManager {
 	static reload() {
 		loadCommands();
 		CommandsManager.COMMANDS = commands;
+	}
+
+	/**
+	 * @param {string} commandName 
+	 * @param {string} error 
+	 * @returns {string}
+	 */
+	static formatError(commandName, error) {
+		return `${ANSI.fg.red}${commandName}: ${error}${ANSI.reset}`;
 	}
 }

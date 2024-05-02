@@ -1,3 +1,4 @@
+import { ANSI } from "../../../../config/apps/terminal.config.js";
 import Command from "../command.js";
 import CommandsManager from "../commands.js";
 
@@ -11,10 +12,10 @@ export const whatis = new Command()
 		const command = CommandsManager.find(commandName);
 
 		if (!command)
-			return `${this.name}: ${commandName}: Command not found`;
+			return CommandsManager.formatError(this.name, `${commandName}: Command not found`);
 
 		if (!command.manual?.purpose)
-			return `${this.name}: ${commandName}: No information found`;
+			return CommandsManager.formatError(this.name, `${commandName}: No information found`);
 
-		return `${commandName} - ${command.manual.purpose}`;
+		return `${commandName} - ${ANSI.fg.green}${command.manual.purpose}`;
 	});

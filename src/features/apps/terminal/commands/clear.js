@@ -3,7 +3,6 @@ import Command from "../command.js";
 export const clear = new Command()
 	.setManual({
 		purpose: "Clear terminal screen",
-		usage: "clear",
 	})
 	.setExecute(function(args, { pushHistory }) {
 		pushHistory({

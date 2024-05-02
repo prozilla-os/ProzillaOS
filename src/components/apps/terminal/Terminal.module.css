@@ -93,7 +93,7 @@
 	cursor: text;
 }
 
-.ansi-black-fg {	color: var(--dark-grey-e); }
+.ansi-black-fg { color: var(--dark-grey-e); }
 .ansi-red-fg { color: var(--red-b); }
 .ansi-green-fg { color: var(--green-b); }
 .ansi-yellow-fg { color: var(--yellow-b); }
@@ -119,3 +119,5 @@
 .ansi-magenta-bg { background-color: var(--purple-a); }
 .ansi-cyan-bg { background-color: var(--cyan-a); }
 .ansi-white-bg { background-color: var(--white-a); }
+
+.ansi-dim { opacity: 0.65; }

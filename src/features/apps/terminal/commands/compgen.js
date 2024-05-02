@@ -2,6 +2,9 @@ import Command from "../command.js";
 import CommandsManager from "../commands.js";
 
 export const compgen = new Command()
+	.setManual({
+		purpose: "Display a list of all commands"
+	})
 	.setRequireOptions(true)
 	.setExecute(function(args, { options }) {
 		if (options.includes("c")) {

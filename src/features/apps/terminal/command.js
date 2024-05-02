@@ -42,6 +42,14 @@ export default class Command {
 	 */
 	setName(name) {
 		this.name = name;
+
+		if (!this.manual?.usage) {
+			if (!this.manual)
+				this.manual = {};
+
+			this.manual.usage = name;
+		}
+
 		return this;
 	}
 

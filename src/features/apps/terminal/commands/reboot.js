@@ -5,7 +5,7 @@ export const reboot = new Command()
 	.setManual({
 		purpose: "Reboot the system"
 	})
-	.setExecute(() => {
+	.setExecute(function() {
 		reloadViewport();
 		return { blank: true };
 	});

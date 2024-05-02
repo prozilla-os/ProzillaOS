@@ -10,7 +10,7 @@ export const neofetch = new Command()
 	.setManual({
 		purpose: "Fetch system information"
 	})
-	.setExecute((args, { username, hostname }) => {
+	.setExecute(function(args, { username, hostname }) {
 		const leftColumn = ANSI_ASCII_LOGO.split("\n");
 		const rightColumnWidth = username.length + hostname.length + 1;
 

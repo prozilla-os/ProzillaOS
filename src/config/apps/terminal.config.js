@@ -16,5 +16,8 @@ export const ANSI = {
 	bg: {
 
 	},
+	decoration: {
+		dim: "\u001b[2m",
+	},
 	reset: "\u001b[0m",
 };

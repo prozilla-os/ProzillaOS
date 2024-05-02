@@ -2,10 +2,10 @@ import Command from "../command.js";
 
 export const mkdir = new Command()
 	.setManual({
-		purpose: "Create directory"
+		purpose: "Create a directory"
 	})
 	.setRequireArgs(true)
-	.setExecute((args, { currentDirectory }) => {
+	.setExecute(function(args, { currentDirectory }) {
 		const name = args[0];
 	
 		if (currentDirectory.findSubFolder(name))

@@ -4,6 +4,6 @@ export const hostname = new Command()
 	.setManual({
 		purpose: "Display the hostname"
 	})
-	.setExecute((args, { hostname }) => {
+	.setExecute(function(args, { hostname }) {
 		return hostname;
 	});

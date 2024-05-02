@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { removeFromArray } from "../../features/_utils/array.utils.js";
 
 /**
@@ -31,16 +31,22 @@ export function useKeyboardListener({ onKeyDown, onKeyUp }) {
 export function useShortcuts({ options, shortcuts, useCategories = true }) {
 	const [activeKeys, setActiveKeys] = useState([]);
 
-	const checkShortcuts = (event, allowExecution = true) => {
+	const checkShortcuts = useCallback((event, allowExecution = true) => {
 		if (!shortcuts)
 			return;
+
+		const keys = [...activeKeys];
+
+		// Prevent alt-tabbing from messing with alt key registration
+		if (keys.includes("Alt") && !event.altKey)
+			removeFromArray("Alt", keys);
 
 		const checkGroup = (group, category) => {
 			for (const [name, shortcut] of Object.entries(group)) {
 				let active = true;
 
 				shortcut.forEach((key) => {
-					if (!activeKeys.includes(key) && event.key !== key)
+					if (!keys.includes(key) && event.key !== key)
 						return active = false;
 				});
 
@@ -68,7 +74,9 @@ export function useShortcuts({ options, shortcuts, useCategories = true }) {
 		} else {
 			checkGroup(shortcuts);
 		}
-	};
+
+		setActiveKeys(keys);
+	}, [activeKeys, options, shortcuts, useCategories]);
 
 	const onKeyDown = (event) => {
 		const isRepeated = activeKeys.includes(event.key);

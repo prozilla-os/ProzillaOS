@@ -37,6 +37,13 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 		setStreamFocused(true);
 	}, [streamFocused, streamOutput, streamRef]);
 
+	useEffect(() => {
+		if (!inputRef.current || !active)
+			return;
+
+		inputRef.current.focus();
+	}, [inputRef, active]);
+
 	const prefix = `${ANSI.fg.cyan + USERNAME}@${HOSTNAME + ANSI.reset}:`
 		+ `${ANSI.fg.blue + (currentDirectory.root ? "/" : currentDirectory.path) + ANSI.reset}$ `;
 
@@ -102,7 +109,7 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 		const command = CommandsManager.find(commandName);
 
 		if (!command)
-			return `${commandName}: Command not found`;
+			return CommandsManager.formatError(commandName, "Command not found");
 
 		// Get options
 		const options = [];
@@ -138,10 +145,10 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 
 		// Check usage
 		if (command.requireArgs && args.length === 0)
-			return `${commandName}: Incorrect usage: ${commandName} requires at least 1 argument`;
+			return CommandsManager.formatError(commandName, `Incorrect usage: ${commandName} requires at least 1 argument`);
 
 		if (command.requireOptions && options.length === 0)
-			return `${commandName}: Incorrect usage: ${commandName} requires at least 1 option`;
+			return CommandsManager.formatError(commandName, `Incorrect usage: ${commandName} requires at least 1 option`);
 		
 		// Execute command
 		let response = null;
@@ -162,13 +169,13 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 			});
 
 			if (response == null)
-				return `${commandName}: Command failed`;
+				return CommandsManager.formatError(commandName, "Command failed");
 			
 			if (!response.blank)
 				return response;
 		} catch (error) {
 			console.error(error);
-			return `${commandName}: Command failed`;
+			return CommandsManager.formatError(commandName, "Command failed");
 		}
 	};
 

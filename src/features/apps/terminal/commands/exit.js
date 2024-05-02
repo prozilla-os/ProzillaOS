@@ -4,7 +4,7 @@ export const exit = new Command()
 	.setManual({
 		purpose: "Quit terminal interface"
 	})
-	.setExecute((args, { exit }) => {
+	.setExecute(function(args, { exit }) {
 		exit();
 		return { blank: true };
 	});

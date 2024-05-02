@@ -1,11 +1,12 @@
 import { ANSI } from "../../../../config/apps/terminal.config.js";
 import Command from "../command.js";
+import CommandsManager from "../commands.js";
 
 export const ls = new Command()
 	.setManual({
 		purpose: "List directory contents",
-		usage: "ls [OPTION]... [FILE]...",
-		description: "List information about the FILEs (the current directory by default)."
+		usage: "ls [options] [files]",
+		description: "List information about directories or files (the current directory by default)."
 	})
 	.setExecute(function(args, { currentDirectory }) {
 		let directory = currentDirectory;
@@ -15,7 +16,7 @@ export const ls = new Command()
 		}
 	
 		if (!directory)
-			return `${this.name}: Cannot access '${args[0]}': No such file or directory`;
+			return CommandsManager.formatError(this.name, `Cannot access '${args[0]}': No such file or directory`);
 	
 		const folderNames = directory.subFolders.map((folder) => `${ANSI.fg.blue}${folder.id}${ANSI.reset}`);
 		const fileNames = directory.files.map((file) => file.id);

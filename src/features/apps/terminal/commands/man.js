@@ -1,3 +1,4 @@
+import { ANSI } from "../../../../config/apps/terminal.config.js";
 import Command from "../command.js";
 import CommandsManager from "../commands.js";
 
@@ -7,8 +8,8 @@ export const man = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Show system reference manuals",
-		usage: "man [OPTION]... page\n"
-			+ "man -k [OPTION]... regexp",
+		usage: "man [options] page\n"
+			+ "man -k [options] regexp",
 		description: "Each page arguments given to man is normally the name of a command.\n"
 			+ "The manual page associated with this command is then found and displayed.",
 		options: {
@@ -47,7 +48,7 @@ export const man = new Command()
 		const sections = [["NAME"]];
 
 		if (manual.purpose) {
-			sections[0].push(formatText(`${commandName} - ${command.manual.purpose}`));
+			sections[0].push(formatText(`${commandName} - ${ANSI.decoration.dim}${ANSI.fg.yellow}${command.manual.purpose}${ANSI.reset}`));
 		} else {
 			sections[0].push(formatText(commandName));
 		}
@@ -70,10 +71,13 @@ export const man = new Command()
 			sections.push([
 				"OPTIONS",
 				formatText(Object.entries(manual.options).map(([key, value]) => {
-					return `${key} ${value}`;
+					return `${key} ${ANSI.decoration.dim}${ANSI.fg.yellow}${value}${ANSI.reset}`;
 				}).join("\n"))
 			]);
 		}
 
-		return sections.map((section) => section.join("\n")).join("\n\n");
+		return sections.map((section) => {
+			section[0] = ANSI.fg.yellow + section[0] + ANSI.reset;
+			return section.join("\n");
+		}).join("\n\n");
 	});

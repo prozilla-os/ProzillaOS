@@ -3,11 +3,9 @@ import CommandsManager from "../commands.js";
 
 export const reload = new Command()
 	.setManual({
-		purpose: "Reload terminal commands",
-		usage: "reload",
+		purpose: "Reload the terminal",
 	})
-	.setExecute(() => {
+	.setExecute(function() {
 		CommandsManager.reload();
-	
 		return { blank: true };
 	});

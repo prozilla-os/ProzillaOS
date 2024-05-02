@@ -1,19 +1,20 @@
 import { VirtualFile } from "../../../virtual-drive/file/virtualFile.js";
 import Command from "../command.js";
+import CommandsManager from "../commands.js";
 
 export const cat = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Concetenate files and display on the terminal screen",
-		usage: "cat [OPTION]... [FILE]...",
-		description: "Concetenate FILE(s) to standard output."
+		usage: "cat [options] [files]",
+		description: "Concetenate files to standard output."
 	})
 	.setExecute(function(args, { currentDirectory, options }) {
 		const { name, extension } = VirtualFile.convertId(args[0]);
 		const file = currentDirectory.findFile(name, extension);
 
 		if (!file)
-			return `${this.name}: ${args[0]}: No such file`;
+			return CommandsManager.formatError(this.name, `${args[0]}: No such file`);
 
 		if (file.content) {
 			if (!options.includes("e")) {

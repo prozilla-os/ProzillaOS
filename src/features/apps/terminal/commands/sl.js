@@ -1,4 +1,5 @@
 import Command from "../command.js";
+import CommandsManager from "../commands.js";
 import Stream from "../stream.js";
 
 const ANIMATION_SPEED = 1.25;
@@ -173,11 +174,11 @@ function getLocomotive(frame, wagonCount = 1) {
 
 export const sl = new Command()
 	.setManual({
-		purpose: "Displays animations aimed to correct users who accidentally enter sl instead of ls. SL stands for Steam Locomotive.",
+		purpose: "Show animations aimed to correct users who accidentally enter sl instead of ls. SL stands for Steam Locomotive.",
 		usage: "sl\n"
-			+ "sl -w [NUMBER]",
+			+ "sl -w number",
 		options: {
-			"-w": "Set the amount of wagons (defaults to 1)"
+			"-w number": "Set the amount of wagons (defaults to 1)"
 		}
 	})
 	.addOption({
@@ -185,14 +186,14 @@ export const sl = new Command()
 		long: "wagons",
 		isInput: true
 	})
-	.setExecute((args, { inputs }) => {
+	.setExecute(function(args, { inputs }) {
 		let wagonCount = 1;
 
 		if (inputs?.w) {
 			wagonCount = parseInt(inputs.w);
 
 			if (!wagonCount || wagonCount < 0) {
-				return `${this.name}: Please specify a valid amount of wagons`; 
+				return CommandsManager.formatError(this.name, "Please specify a valid amount of wagons"); 
 			}
 		}
 

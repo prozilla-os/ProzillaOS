@@ -4,6 +4,6 @@ export const echo = new Command()
 	.setManual({
 		purpose: "Display text on the terminal screen"
 	})
-	.setExecute((args, { rawInputValue }) => {
+	.setExecute(function(args, { rawInputValue }) {
 		return rawInputValue;
 	});

@@ -5,7 +5,7 @@ import Command from "../command.js";
 
 export const uptime = new Command()
 	.setManual({
-		purpose: "Displays the current uptime of the system"
+		purpose: "Display the current uptime of the system"
 	})
 	.setExecute(() => {
 		return `Uptime: ${formatRelativeTime(START_DATE, 2, false)}`;
