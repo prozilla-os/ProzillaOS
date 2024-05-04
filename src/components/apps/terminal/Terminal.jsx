@@ -211,13 +211,14 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 		const pipes = value.split(" | ");
 
 		let output = null;
-		pipes.forEach((pipe) => {
+		pipes.forEach((pipe, index) => {
+			removeFromArray(pipe[index - 1], pipes);
+
 			if (output instanceof Stream)
 				return;
 
 			// Output from the previous command gets added as an argument for the next command
 			output = handleInput(output ? `${pipe} ${output}` : pipe);
-			removeFromArray(pipe, pipes);
 		});
 
 		if (output) {
