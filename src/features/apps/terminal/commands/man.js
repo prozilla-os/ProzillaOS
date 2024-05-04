@@ -1,4 +1,5 @@
 import { ANSI } from "../../../../config/apps/terminal.config.js";
+import { formatError } from "../_utils/terminal.utils.js";
 import Command from "../command.js";
 import CommandsManager from "../commands.js";
 
@@ -33,12 +34,12 @@ export const man = new Command()
 		const command = CommandsManager.find(commandName);
 
 		if (!command)
-			return `${this.name}: ${commandName}: Command not found`;
+			return formatError(this.name, `${commandName}: Command not found`);
 
 		const manual = command.manual;
 
 		if (!manual)
-			return `${this.name}: ${commandName}: No manual found`;
+			return formatError(this.name, `${commandName}: No manual found`);
 
 		const formatText = (text) => {
 			const lines = text.split("\n").map((line) => " ".repeat(MARGIN) + line);

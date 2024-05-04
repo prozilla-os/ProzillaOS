@@ -1,5 +1,5 @@
+import { formatError } from "../_utils/terminal.utils.js";
 import Command from "../command.js";
-import CommandsManager from "../commands.js";
 import Stream from "../stream.js";
 
 const ANIMATION_SPEED = 1.25;
@@ -193,7 +193,7 @@ export const sl = new Command()
 			wagonCount = parseInt(inputs.w);
 
 			if (!wagonCount || wagonCount < 0) {
-				return CommandsManager.formatError(this.name, "Please specify a valid amount of wagons"); 
+				return formatError(this.name, "Please specify a valid amount of wagons"); 
 			}
 		}
 

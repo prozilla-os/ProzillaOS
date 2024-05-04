@@ -1,5 +1,5 @@
+import { formatError } from "../_utils/terminal.utils.js";
 import Command from "../command.js";
-import CommandsManager from "../commands.js";
 
 export const rmdir = new Command()
 	.setRequireArgs(true)
@@ -11,7 +11,7 @@ export const rmdir = new Command()
 		const folder = currentDirectory.findSubFolder(name);
 	
 		if (!folder)
-			return CommandsManager.formatError(this.name, `${args[0]}: No such directory`);
+			return formatError(this.name, `${args[0]}: No such directory`);
 		
 		folder.delete();
 		return { blank: true };

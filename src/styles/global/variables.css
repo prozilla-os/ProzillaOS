@@ -1,5 +1,5 @@
 :root {
-	--white-a: #fff;
+	--white-a: hsl(210, 54%, 95%);
 	--pink-a: #ff9ff3;
 	--pink-b: #f368e0;
 	--yellow-a: #feca57;
@@ -16,8 +16,8 @@
 	--blue-b: #2e86de;
 	--purple-a: #5f27cd;
 	--purple-b: #341f97;
-	--grey-a: #c8d6e5;
-	--grey-b: #8395a7;
+	--grey-a: hsl(210, 36%, 85%);
+	--grey-b: hsl(210, 18%, 60%);
 	--dark-grey-a: hsl(211, 14%, 40%);
 	--dark-grey-b: hsl(var(--background-color-a-hsl));
 	--dark-grey-c: hsl(var(--background-color-c-hsl));

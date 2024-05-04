@@ -1,6 +1,6 @@
 import { VirtualFile } from "../../../virtual-drive/file/virtualFile.js";
+import { formatError } from "../_utils/terminal.utils.js";
 import Command from "../command.js";
-import CommandsManager from "../commands.js";
 
 export const cat = new Command()
 	.setRequireArgs(true)
@@ -14,7 +14,7 @@ export const cat = new Command()
 		const file = currentDirectory.findFile(name, extension);
 
 		if (!file)
-			return CommandsManager.formatError(this.name, `${args[0]}: No such file`);
+			return formatError(this.name, `${args[0]}: No such file`);
 
 		if (file.content) {
 			if (!options.includes("e")) {

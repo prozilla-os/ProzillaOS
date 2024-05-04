@@ -8,6 +8,7 @@ import { ANSI, HOSTNAME, USERNAME } from "../../../config/apps/terminal.config.j
 import CommandsManager from "../../../features/apps/terminal/commands.js";
 import { removeFromArray } from "../../../features/_utils/array.utils.js";
 import Stream from "../../../features/apps/terminal/stream.js";
+import { formatError } from "../../../features/apps/terminal/_utils/terminal.utils.js";
 
 /**
  * @param {import("../../windows/WindowView.jsx").windowProps} props 
@@ -60,7 +61,7 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 		});
 	};
 
-	const connectStream = (stream) => {
+	const connectStream = (stream, pipes) => {
 		setStream(stream);
 		setStreamFocused(false);
 
@@ -73,8 +74,23 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 		let lastOutput = null;
 
 		stream.on(Stream.EVENT_NAMES.NEW, (text) => {
-			lastOutput = text;
-			setStreamOutput(text);
+			let output = text;
+			pipes.forEach((pipe) => {
+				if (output instanceof Stream)
+					return;
+	
+				// Output from the previous command gets added as an argument for the next command
+				output = handleInput(output ? `${pipe} ${output}` : pipe);
+			});
+
+			if (output instanceof Stream) {
+				stream.stop();
+				promptOutput(ANSI.fg.red + "Stream failed");
+				return;
+			}
+
+			lastOutput = output;
+			setStreamOutput(output);
 		});
 
 		stream.on(Stream.EVENT_NAMES.STOP, () => {
@@ -92,6 +108,7 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 	const handleInput = (value) => {
 		const rawInputValueStart = value.indexOf(" ") + 1;
 		const rawInputValue = rawInputValueStart <= 0 ? "" : value.substr(rawInputValueStart);
+		const timestamp = Date.now();
 		value = value.trim();
 
 		if (value === "")
@@ -109,7 +126,7 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 		const command = CommandsManager.find(commandName);
 
 		if (!command)
-			return CommandsManager.formatError(commandName, "Command not found");
+			return formatError(commandName, "Command not found");
 
 		// Get options
 		const options = [];
@@ -145,10 +162,10 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 
 		// Check usage
 		if (command.requireArgs && args.length === 0)
-			return CommandsManager.formatError(commandName, `Incorrect usage: ${commandName} requires at least 1 argument`);
+			return formatError(commandName, `Incorrect usage: ${commandName} requires at least 1 argument`);
 
 		if (command.requireOptions && options.length === 0)
-			return CommandsManager.formatError(commandName, `Incorrect usage: ${commandName} requires at least 1 option`);
+			return formatError(commandName, `Incorrect usage: ${commandName} requires at least 1 option`);
 		
 		// Execute command
 		let response = null;
@@ -165,17 +182,18 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 				rawInputValue,
 				options,
 				exit,
-				inputs
+				inputs,
+				timestamp
 			});
 
 			if (response == null)
-				return CommandsManager.formatError(commandName, "Command failed");
+				return formatError(commandName, "Command failed");
 			
 			if (!response.blank)
 				return response;
 		} catch (error) {
 			console.error(error);
-			return CommandsManager.formatError(commandName, "Command failed");
+			return formatError(commandName, "Command failed");
 		}
 	};
 
@@ -190,17 +208,21 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 		setHistoryIndex(0);
 
 		// Piping is used to chain commands
-		const segments = value.split(" | ");
+		const pipes = value.split(" | ");
 
 		let output = null;
-		segments.forEach((segment) => {
+		pipes.forEach((pipe) => {
+			if (output instanceof Stream)
+				return;
+
 			// Output from the previous command gets added as an argument for the next command
-			output = handleInput(output ? `${segment} ${output}` : segment);
+			output = handleInput(output ? `${pipe} ${output}` : pipe);
+			removeFromArray(pipe, pipes);
 		});
 
 		if (output) {
 			if (output instanceof Stream) {
-				connectStream(output);
+				connectStream(output, pipes);
 			} else {
 				promptOutput(`${output}\n`);
 			}

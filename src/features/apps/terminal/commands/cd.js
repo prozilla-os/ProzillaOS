@@ -1,5 +1,5 @@
+import { formatError } from "../_utils/terminal.utils.js";
 import Command from "../command.js";
-import CommandsManager from "../commands.js";
 
 export const cd = new Command()
 	.setManual({
@@ -12,7 +12,7 @@ export const cd = new Command()
 		const destination = currentDirectory.navigate(path);
 	
 		if (!destination)
-			return CommandsManager.formatError(this.name, `${args[0]}: No such file or directory`);
+			return formatError(this.name, `${args[0]}: No such file or directory`);
 	
 		setCurrentDirectory(destination);
 		return { blank: true };

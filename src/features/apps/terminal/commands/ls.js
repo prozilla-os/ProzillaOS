@@ -1,6 +1,6 @@
 import { ANSI } from "../../../../config/apps/terminal.config.js";
+import { formatError } from "../_utils/terminal.utils.js";
 import Command from "../command.js";
-import CommandsManager from "../commands.js";
 
 export const ls = new Command()
 	.setManual({
@@ -16,7 +16,7 @@ export const ls = new Command()
 		}
 	
 		if (!directory)
-			return CommandsManager.formatError(this.name, `Cannot access '${args[0]}': No such file or directory`);
+			return formatError(this.name, `Cannot access '${args[0]}': No such file or directory`);
 	
 		const folderNames = directory.subFolders.map((folder) => `${ANSI.fg.blue}${folder.id}${ANSI.reset}`);
 		const fileNames = directory.files.map((file) => file.id);
