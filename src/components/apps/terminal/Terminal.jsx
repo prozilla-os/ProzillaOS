@@ -208,18 +208,20 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }) {
 		setHistoryIndex(0);
 
 		// Piping is used to chain commands
-		const pipes = value.split(" | ");
+		let pipes = value.split(" | ");
+		const completedPipes = [];
 
 		let output = null;
-		pipes.forEach((pipe, index) => {
-			removeFromArray(pipe[index - 1], pipes);
-
+		pipes.forEach((pipe) => {
 			if (output instanceof Stream)
 				return;
 
 			// Output from the previous command gets added as an argument for the next command
 			output = handleInput(output ? `${pipe} ${output}` : pipe);
+			completedPipes.push(pipe);
 		});
+
+		pipes = pipes.filter((pipe) => !completedPipes.includes(pipe));
 
 		if (output) {
 			if (output instanceof Stream) {
