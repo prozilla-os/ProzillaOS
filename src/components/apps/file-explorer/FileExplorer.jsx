@@ -31,7 +31,7 @@ import { SELECTOR_MODE } from "../../../config/apps/fileExplorer.config.js";
  * @param {import("./directory-list/DirectoryList.jsx").onSelectionChange} props.onSelectionChange
  * @param {Function} props.onSelectionFinish
  */
-export function FileExplorer({ startPath, selectorMode, Footer, modalsManager, onSelectionChange, onSelectionFinish }) {
+export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChange, onSelectionFinish }) {
 	const isSelector = (Footer != null && selectorMode != null && selectorMode !== SELECTOR_MODE.NONE);
 
 	const virtualRoot = useVirtualRoot();
@@ -41,8 +41,8 @@ export function FileExplorer({ startPath, selectorMode, Footer, modalsManager, o
 	const [showHidden] = useState(true);
 	const { history, stateIndex, pushState, undo, redo, undoAvailable, redoAvailable } = useHistory(currentDirectory.path);
 
-	const { openWindowedModal } = useWindowedModal({ modalsManager });
-	const { onContextMenu: onContextMenuFile } = useContextMenu({ modalsManager, Actions: (props) =>
+	const { openWindowedModal } = useWindowedModal();
+	const { onContextMenu: onContextMenuFile } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
 			<ClickAction label={!isSelector ? "Open" : "Select"} onTrigger={(event, file) => {
 				if (isSelector) {
@@ -65,7 +65,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, modalsManager, o
 			}}/>
 		</Actions>
 	});
-	const { onContextMenu: onContextMenuFolder } = useContextMenu({ modalsManager, Actions: (props) =>
+	const { onContextMenu: onContextMenuFolder } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
 			<ClickAction label="Open" onTrigger={(event, folder) => {
 				changeDirectory(folder.linkedPath ?? folder.name);

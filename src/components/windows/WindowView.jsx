@@ -9,8 +9,6 @@ import App from "../../features/apps/app.js";
 import Vector2 from "../../features/math/vector2.js";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import utilStyles from "../../styles/utils.module.css";
-import { useModals } from "../../hooks/modals/modals.js";
-import { ModalsView } from "../modals/ModalsView.jsx";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import AppsManager from "../../features/apps/appsManager.js";
 import { ClickAction } from "../actions/actions/ClickAction.jsx";
@@ -24,6 +22,8 @@ import { useWindowedModal } from "../../hooks/modals/windowedModal.js";
 import { Divider } from "../actions/actions/Divider.jsx";
 import ModalsManager from "../../features/modals/modalsManager.js";
 import { Share } from "../modals/share/Share.jsx";
+import { ErrorBoundary } from "react-error-boundary";
+import WindowFallbackView from "./WindowFallbackView.jsx";
 
 /**
  * @typedef {object} windowProps
@@ -52,8 +52,7 @@ import { Share } from "../modals/share/Share.jsx";
 export const WindowView = memo(({ id, app, size, position, onInteract, options, active, fullscreen, minimized, toggleMinimized, index }) => {
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
-	const [modalsManager, modals] = useModals();
-	const { openWindowedModal } = useWindowedModal({ modalsManager });
+	const { openWindowedModal } = useWindowedModal();
 
 	const [startSize, setStartSize] = useState(size);
 	const [startPosition, setStartPosition] = useState(position);
@@ -63,7 +62,7 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 	const [iconUrl, setIconUrl] = useState(AppsManager.getAppIconUrl(app.id));
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.WINDOWS, index });
 
-	const { onContextMenu, ShortcutsListener } = useContextMenu({ modalsManager, Actions: (props) =>
+	const { onContextMenu, ShortcutsListener } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
 			<ClickAction label="Minimize" icon={faMinus} onTrigger={toggleMinimized}/>
 			<ClickAction label="Maximize" icon={faExpand} shortcut={["F11"]} onTrigger={() => {
@@ -142,7 +141,6 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 
 	return (<div style={{ zIndex, position: !maximized ? "relative" : null }}>
 		<ShortcutsListener/>
-		<ModalsView modalsManager={modalsManager} modals={modals} style={{ zIndex: 1 }}/>
 		<Draggable
 			key={id}
 			axis="both"
@@ -203,16 +201,25 @@ export const WindowView = memo(({ id, app, size, position, onInteract, options, 
 						</button>
 					</div>
 					<div className={styles["Window-content"]}>
-						<app.WindowContent
-							{...options}
-							app={app}
-							setTitle={setTitle}
-							setIconUrl={setIconUrl}
-							close={close}
-							focus={focus}
-							active={active}
-							modalsManager={modalsManager}
-						/>
+						<ErrorBoundary
+							FallbackComponent={(props) => <WindowFallbackView app={app} closeWindow={close} {...props}/>}
+							onReset={(details) => {
+								// Reset the state of your app so the error doesn't happen again
+							}}
+							onError={(error) => {
+								console.error(error);
+							}}
+						>
+							<app.WindowContent
+								{...options}
+								app={app}
+								setTitle={setTitle}
+								setIconUrl={setIconUrl}
+								close={close}
+								focus={focus}
+								active={active}
+							/>
+						</ErrorBoundary>
 					</div>
 				</div>
 			</div>

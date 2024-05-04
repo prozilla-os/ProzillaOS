@@ -1,29 +1,30 @@
-import { memo, useEffect, useRef } from "react";
-import { Modal } from "../../features/modals/modal.js";
-import ModalsManager from "../../features/modals/modalsManager.js";
+import { memo, useEffect, useRef, useState } from "react";
 import { ModalView } from "./ModalView.jsx";
 import styles from "./ModalsView.module.css";
+import { useModals } from "../../hooks/modals/modalsContext.js";
+import { useModalsManager } from "../../hooks/modals/modalsManagerContext.js";
 
-/**
- * @param {object} root 
- * @param {ModalsManager} root.modalsManager 
- * @param {Modal[]} root.modals 
- * @param {import("react").CSSProperties} root.style 
- * @param {import("react").className} root.className 
- */
-export const ModalsView = memo(({ modalsManager, modals, style, className, ...props }) => {
+export const ModalsView = memo(() => {
 	const ref = useRef(null);
+	const modals = useModals();
+	const modalsManager = useModalsManager();
+	const [sortedModals, setSortedModals] = useState([]);
+
+	// Sort modals
+	useEffect(() => {
+		setSortedModals([...modals].sort((modalA, modalB) =>
+			modalA.lastInteraction - modalB.lastInteraction
+		));
+	}, [modals]);
 
 	useEffect(() => {
 		if (modalsManager)
 			modalsManager.containerRef = ref;
 	}, [modalsManager, ref]);
 
-	return (
-		<div ref={ref} style={style} className={`${styles.Container} ${className ?? ""}`} {...props}>
-			{modals?.map((modal) =>
-				<ModalView key={modal.id} modal={modal}/>
-			)}
-		</div>
-	);
+	return <div ref={ref} className={styles.Container}>
+		{sortedModals?.map((modal) =>
+			<ModalView key={modal.id} modal={modal}/>
+		)}
+	</div>;
 });

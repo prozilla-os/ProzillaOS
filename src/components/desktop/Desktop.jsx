@@ -3,8 +3,6 @@ import { SettingsManager } from "../../features/settings/settingsManager.js";
 import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
 import styles from "./Desktop.module.css";
 import { useEffect } from "react";
-import { useModals } from "../../hooks/modals/modals.js";
-import { ModalsView } from "../modals/ModalsView.jsx";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import { FALLBACK_ICON_SIZE, FALLBACK_WALLPAPER } from "../../config/desktop.config.js";
@@ -24,11 +22,12 @@ import { isValidInteger } from "../../features/_utils/number.utils.js";
 import { useWindowedModal } from "../../hooks/modals/windowedModal.js";
 import { Share } from "../modals/share/Share.jsx";
 import ModalsManager from "../../features/modals/modalsManager.js";
+import { useModalsManager } from "../../hooks/modals/modalsManagerContext.js";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
 	const [wallpaper, setWallpaper] = useState(null);
-	const [modalsManager, modals] = useModals();
+	const modalsManager = useModalsManager();
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
 	const [showIcons, setShowIcons] = useState(false);
@@ -138,7 +137,6 @@ export const Desktop = memo(() => {
 			className={styles.Container}
 			onContextMenu={onContextMenu}
 		>
-			<ModalsView modalsManager={modalsManager} modals={modals}/>
 			{showIcons && <DirectoryList
 				directory={directory}
 				className={styles.Content}

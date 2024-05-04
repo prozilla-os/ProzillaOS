@@ -11,13 +11,13 @@ import { removeFromArray } from "../../../../features/_utils/array.utils.js";
 import { useSettingsManager } from "../../../../hooks/settings/settingsManagerContext.js";
 import { SettingsManager } from "../../../../features/settings/settingsManager.js";
 
-export function AppOption({ app, pins, setPins, modalsManager }) {
+export function AppOption({ app, pins, setPins }) {
 	const isPinned = pins.includes(app.id);
 
 	const settingsManager = useSettingsManager();
 	const windowsManager = useWindowsManager();
 
-	const { onContextMenu } = useContextMenu({ modalsManager, Actions: (props) =>
+	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
 			<ClickAction label="Launch" icon={AppsManager.getAppIconUrl(app.id)} onTrigger={() => windowsManager.open(app.id)}/>
 			<ClickAction label={isPinned ? "Unpin from taskbar" : "Pin to taskbar"} icon={faThumbTack} onTrigger={() => {

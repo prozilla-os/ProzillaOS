@@ -9,6 +9,7 @@ import { ModalsView } from "./components/modals/ModalsView.jsx";
 import { useEffect } from "react";
 import { ZIndexManagerProvider } from "./hooks/z-index/zIndexManagerContext.js";
 import { TrackingManager } from "./features/tracking/trackingManager.js";
+import { ModalsManagerProvider } from "./hooks/modals/modalsManagerContext.js";
 
 TrackingManager.initialize();
 
@@ -29,14 +30,16 @@ function App() {
 		<VirtualRootProvider>
 			<ZIndexManagerProvider>
 				<WindowsManagerProvider>
-					<SettingsManagerProvider>
-						<div className={styles.App}>
-							<Taskbar/>
-							<WindowsView/>
-							<ModalsView/>
-							<Desktop/>
-						</div>
-					</SettingsManagerProvider>
+					<ModalsManagerProvider>
+						<SettingsManagerProvider>
+							<div className={styles.App}>
+								<Taskbar/>
+								<WindowsView/>
+								<ModalsView/>
+								<Desktop/>
+							</div>
+						</SettingsManagerProvider>
+					</ModalsManagerProvider>
 				</WindowsManagerProvider>
 			</ZIndexManagerProvider>
 		</VirtualRootProvider>

@@ -30,7 +30,7 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 	const [content, setContent] = useState(file?.content ?? "");
 	const [unsavedChanges, setUnsavedChanges] = useState(file == null);
 	const [zoom, setZoom] = useState(DEFAULT_ZOOM);
-	const { openWindowedModal } = useWindowedModal({ modalsManager });
+	const { openWindowedModal } = useWindowedModal();
 
 	useEffect(() => {
 		(async () => {

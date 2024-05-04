@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import Vector2 from "../../features/math/vector2.js";
 import Modal from "../../features/modals/modal.js";
-import ModalsManager from "../../features/modals/modalsManager.js";
 import { STYLES } from "../../components/actions/Actions.jsx";
+import { useModalsManager } from "./modalsManagerContext.js";
 
 /**
  * @callback onContextMenuType
@@ -13,14 +13,15 @@ import { STYLES } from "../../components/actions/Actions.jsx";
 
 /**
  * @param {object} props 
- * @param {ModalsManager} props.modalsManager
  * @param {import("../../components/actions/Actions.jsx").actionsType} props.Actions
  * @returns {{
  * 	onContextMenu: onContextMenuType,
  * 	ShortcutsListener: import("../../components/actions/Actions.jsx").actionsType
  * }}
  */
-export function useContextMenu({ modalsManager, Actions }) {
+export function useContextMenu({ Actions }) {
+	const modalsManager = useModalsManager();
+
 	// Open a new modal when context menu is triggered
 	const onContextMenu = useCallback((event, params = {}) => {
 		event.preventDefault();

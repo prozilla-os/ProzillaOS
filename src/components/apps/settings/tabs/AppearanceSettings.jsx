@@ -22,7 +22,7 @@ export function AppearanceSettings({ modalsManager }) {
 	const settingsManager = useSettingsManager();
 	const [wallpaper, setWallpaper] = useState(null);
 	const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
-	const { openWindowedModal } = useWindowedModal({ modalsManager });
+	const { openWindowedModal } = useWindowedModal();
 
 	useEffect(() => {
 		settings.get("wallpaper", setWallpaper);

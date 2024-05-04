@@ -15,17 +15,16 @@ import { useScrollWithShadow } from "../../hooks/_utils/scrollWithShadows.js";
 import { AppButton } from "./app-icon/AppIcon.jsx";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import { Actions } from "../actions/Actions.jsx";
-import { useModals } from "../../hooks/modals/modals.js";
 import { ClickAction } from "../actions/actions/ClickAction.jsx";
 import { APPS, APP_NAMES } from "../../config/apps.config.js";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
-import { ModalsView } from "../modals/ModalsView.jsx";
 import { TASKBAR_HEIGHT } from "../../config/taskbar.config.js";
 import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
 import { SettingsManager } from "../../features/settings/settingsManager.js";
 import { useWindows } from "../../hooks/windows/windowsContext.js";
 import { ZIndexManager } from "../../features/z-index/zIndexManager.js";
 import { useZIndex } from "../../hooks/z-index/zIndex.js";
+import { useModalsManager } from "../../hooks/modals/modalsManagerContext.js";
 
 export const Taskbar = memo(() => {
 	const ref = useRef(null);
@@ -41,7 +40,7 @@ export const Taskbar = memo(() => {
 		color: { a: 25 }
 	} });
 	const inputRef = useRef(null);
-	const [modalsManager, modals] = useModals();
+	const modalsManager = useModalsManager();
 	const windowsManager = useWindowsManager();
 	const windows = useWindows();
 	const { onContextMenu } = useContextMenu({ modalsManager, Actions: (props) =>
@@ -53,7 +52,6 @@ export const Taskbar = memo(() => {
 	});
 	const [pins, setPins] = useState([]);
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.TASKBAR, index: 0 });
-	const modalsZIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.TASKBAR, index: 1 });
 
 	const apps = useMemo(() => AppsManager.APPS.sort((appA, appB) => {
 		const indexA = pins.indexOf(appA.id);
@@ -132,7 +130,6 @@ export const Taskbar = memo(() => {
 	};
 
 	return (<>
-		<ModalsView modalsManager={modalsManager} modals={modals} style={{ zIndex: modalsZIndex }}/>
 		<div
 			style={{ "--taskbar-height": `${TASKBAR_HEIGHT}px`, zIndex }}
 			className={styles["Taskbar"]}

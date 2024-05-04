@@ -13,10 +13,10 @@ export default class ModalsManager {
 
 	/**
 	 * @param {Modal} modal 
-	 * @param {boolean} closeOthers - Set to false to preserve other open modals
+	 * @param {boolean} single - Set to false to preserve other open modals
 	 */
-	open(modal, closeOthers = true) {
-		if (closeOthers) {
+	open(modal, single = true) {
+		if (single) {
 			this.modalIds.forEach((id) => {
 				this.close(id, false);
 			});

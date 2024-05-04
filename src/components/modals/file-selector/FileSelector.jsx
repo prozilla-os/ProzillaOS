@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { APP_ICONS } from "../../../config/apps.config.js";
 import { SELECTOR_MODE } from "../../../config/apps/fileExplorer.config.js";
-import { useModals } from "../../../hooks/modals/modals.js";
 import { Button } from "../../_utils/button/Button.jsx";
 import { FileExplorer } from "../../apps/file-explorer/FileExplorer.jsx";
-import { ModalsView } from "../ModalsView.jsx";
 import { WindowedModal } from "../_utils/WindowedModal.jsx";
 import styles from "./FileSelector.module.css";
 import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile.js";
 import Modal from "../../../features/modals/modal.js";
+import { useModalsManager } from "../../../hooks/modals/modalsManagerContext.js";
 
 /**
  * @callback onFinish
@@ -26,7 +25,7 @@ import Modal from "../../../features/modals/modal.js";
 export function FileSelector({ modal, params, type, allowedFormats, onFinish, ...props }) {
 	const multi = (type === SELECTOR_MODE.MULTIPLE);
 
-	const [modalsManager, modals] = useModals();
+	const modalsManager = useModalsManager();
 	const [selection, setSelection] = useState(multi ? [] : null);
 	const [directory, setDirectory] = useState(null);
 
@@ -58,7 +57,6 @@ export function FileSelector({ modal, params, type, allowedFormats, onFinish, ..
 		iconUrl: APP_ICONS.FILE_EXPLORER,
 		...params,
 	}} {...props}>
-		<ModalsView modalsManager={modalsManager} modals={modals}/>
 		<FileExplorer
 			modalsManager={modalsManager}
 			selectorMode={type}

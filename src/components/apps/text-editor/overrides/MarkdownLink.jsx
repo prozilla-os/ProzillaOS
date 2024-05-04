@@ -3,7 +3,6 @@ import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { useContextMenu } from "../../../../hooks/modals/contextMenu.js";
 import { Actions } from "../../../actions/Actions.jsx";
 import { ClickAction } from "../../../actions/actions/ClickAction.jsx";
-import ModalsManager from "../../../../features/modals/modalsManager.js";
 import { VirtualFile } from "../../../../features/virtual-drive/file/virtualFile.js";
 import { useWindowedModal } from "../../../../hooks/modals/windowedModal.js";
 import AppsManager from "../../../../features/apps/appsManager.js";
@@ -18,14 +17,13 @@ import { APPS } from "../../../../config/apps.config.js";
  * @param {object} props 
  * @param {string} props.href
  * @param {*} props.children
- * @param {ModalsManager} props.modalsManager
  * @param {WindowsManager} props.windowsManager
  * @param {Function} props.setCurrentFile
  * @param {VirtualFile} props.currentFile
  * @param {App} props.app
  */
-export function MarkdownLink({ href, children, modalsManager, windowsManager, currentFile, setCurrentFile, app, ...props }) {
-	const { openWindowedModal } = useWindowedModal({ modalsManager });
+export function MarkdownLink({ href, children, windowsManager, currentFile, setCurrentFile, app, ...props }) {
+	const { openWindowedModal } = useWindowedModal();
 
 	const onClick = (event) => {
 		event.preventDefault();
@@ -55,7 +53,7 @@ export function MarkdownLink({ href, children, modalsManager, windowsManager, cu
 		}
 	};
 
-	const { onContextMenu } = useContextMenu({ modalsManager, Actions: (props) =>
+	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
 			<ClickAction label="Open link" icon={faExternalLink} onTrigger={onClick}/>
 		</Actions>

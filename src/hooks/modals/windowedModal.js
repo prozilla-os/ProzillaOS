@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import Modal from "../../features/modals/modal.js";
 import Vector2 from "../../features/math/vector2.js";
 import { DEFAULT_DIALOG_SIZE } from "../../config/modals.config.js";
-import ModalsManager from "../../features/modals/modalsManager.js";
+import { useModalsManager } from "./modalsManagerContext.js";
 
 /**
  * @callback windowedModalType
@@ -20,11 +20,11 @@ import ModalsManager from "../../features/modals/modalsManager.js";
  */
 
 /**
- * @param {object} props 
- * @param {ModalsManager} props.modalsManager
  * @returns {{ openWindowedModal: openWindowedModalType }}
  */
-export function useWindowedModal({ modalsManager }) {
+export function useWindowedModal() {
+	const modalsManager = useModalsManager();
+
 	const openWindowedModal = useCallback(({ Modal: WindowedModal, ...params }) => {
 		const size = params.size ?? DEFAULT_DIALOG_SIZE;
 		let positionX = (window.innerWidth - size.x) / 4;
@@ -42,7 +42,9 @@ export function useWindowedModal({ modalsManager }) {
 			.setDismissible(false)
 			.setProps({ params });
 
-		modalsManager.open(newModal, false);
+		const single = params.single ?? false;
+
+		modalsManager.open(newModal, single);
 		return newModal;
 	}, [modalsManager]);
 
