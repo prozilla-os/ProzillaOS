@@ -1,7 +1,7 @@
 import styles from "./SearchMenu.module.css";
 import appStyles from "./AppList.module.css";
 import AppsManager from "../../../features/apps/appsManager.js";
-import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
+import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
 import { ReactSVG } from "react-svg";
 import { useEffect, useState } from "react";
 import { useKeyboardListener } from "../../../hooks/_utils/keyboard.js";

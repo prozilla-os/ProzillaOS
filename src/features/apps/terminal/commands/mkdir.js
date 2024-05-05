@@ -1,4 +1,4 @@
-import Command from "../command.js";
+import Command from "../command";
 
 export const mkdir = new Command()
 	.setManual({

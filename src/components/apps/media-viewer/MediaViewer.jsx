@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
+import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
 import styles from "./MediaViewer.module.css";
 import { APPS } from "../../../config/apps.config.js";
 import { IMAGE_FORMATS } from "../../../config/apps/mediaViewer.config.js";

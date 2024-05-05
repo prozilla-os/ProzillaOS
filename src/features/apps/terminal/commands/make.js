@@ -1,5 +1,5 @@
 import { formatError } from "../_utils/terminal.utils.js";
-import Command from "../command.js";
+import Command from "../command";
 
 export const make = new Command()
 	.setRequireArgs(true)

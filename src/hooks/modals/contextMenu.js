@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import Vector2 from "../../features/math/vector2.js";
 import Modal from "../../features/modals/modal.js";
 import { STYLES } from "../../components/actions/Actions.jsx";
-import { useModalsManager } from "./modalsManagerContext.js";
+import { useModalsManager } from "./modalsManagerContext";
 
 /**
  * @callback onContextMenuType

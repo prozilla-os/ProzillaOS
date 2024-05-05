@@ -8,12 +8,10 @@ import { ASCII_LOGO, NAME } from "./config/branding.config.js";
 export const START_DATE = new Date();
 
 // Render app
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-	<React.StrictMode>
-		<App/>
-	</React.StrictMode>
-);
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+root.render(<React.StrictMode>
+	<App/>
+</React.StrictMode>);
 
 // Log welcome message
 const asciiLogoWidth = ASCII_LOGO.split("\n")[1].length;

@@ -3,7 +3,7 @@ import utilStyles from "../../../../styles/utils.module.css";
 import { round } from "../../../../features/math/round.js";
 import { ProgressBar } from "../../../_utils/progress-bar/ProgressBar.jsx";
 import { Button } from "../../../_utils/button/Button.jsx";
-import { useVirtualRoot } from "../../../../hooks/virtual-drive/virtualRootContext.js";
+import { useVirtualRoot } from "../../../../hooks/virtual-drive/virtualRootContext";
 import { StorageManager } from "../../../../features/storage/storageManager.js";
 
 export function StorageTab() {

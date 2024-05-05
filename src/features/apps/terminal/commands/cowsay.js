@@ -1,5 +1,5 @@
 import { MAX_WIDTH } from "../../../../config/apps/terminal.config.js";
-import Command from "../command.js";
+import Command from "../command";
 
 const COW = `
         \\   ^__^

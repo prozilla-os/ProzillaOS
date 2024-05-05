@@ -1,6 +1,6 @@
 import { ANSI } from "../../../../config/apps/terminal.config.js";
 import { removeAnsi } from "../_utils/terminal.utils.js";
-import Command from "../command.js";
+import Command from "../command";
 
 const COLUMN_WIDTH = 5;
 const ROW_OFFSET = 2;

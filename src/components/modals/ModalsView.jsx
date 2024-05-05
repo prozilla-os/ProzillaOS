@@ -1,8 +1,8 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { ModalView } from "./ModalView.jsx";
 import styles from "./ModalsView.module.css";
-import { useModals } from "../../hooks/modals/modalsContext.js";
-import { useModalsManager } from "../../hooks/modals/modalsManagerContext.js";
+import { useModals } from "../../hooks/modals/modalsContext";
+import { useModalsManager } from "../../hooks/modals/modalsManagerContext";
 
 export const ModalsView = memo(() => {
 	const ref = useRef(null);

@@ -1,6 +1,6 @@
-import { START_DATE } from "../../../../index.js";
+import { START_DATE } from "../../../../index";
 import { formatRelativeTime } from "../../../_utils/date.utils.js";
-import Command from "../command.js";
+import Command from "../command";
 
 
 export const uptime = new Command()

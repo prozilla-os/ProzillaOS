@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useZIndexManager } from "./zIndexManagerContext.js";
+import { useZIndexManager } from "./zIndexManagerContext";
 import { ZIndexManager } from "../../features/z-index/zIndexManager.js";
 
 export function useZIndex({ groupIndex, index }) {

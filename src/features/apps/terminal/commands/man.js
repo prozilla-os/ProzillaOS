@@ -1,6 +1,6 @@
 import { ANSI } from "../../../../config/apps/terminal.config.js";
 import { formatError } from "../_utils/terminal.utils.js";
-import Command from "../command.js";
+import Command from "../command";
 import CommandsManager from "../commands.js";
 
 const MARGIN = 5;

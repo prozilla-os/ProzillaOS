@@ -2,7 +2,7 @@ import { memo } from "react";
 import App from "../../../features/apps/app.js";
 import styles from "./AppIcon.module.css";
 import { ReactSVG } from "react-svg";
-import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext.js";
+import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext";
 import { useContextMenu } from "../../../hooks/modals/contextMenu.js";
 import ModalsManager from "../../../features/modals/modalsManager.js";
 import { Actions } from "../../actions/Actions.jsx";

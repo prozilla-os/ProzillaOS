@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useModalsManager } from "../../hooks/modals/modalsManagerContext.js";
+import { useModalsManager } from "../../hooks/modals/modalsManagerContext";
 import { useAlert } from "../../hooks/modals/alert.js";
 import AppsManager from "../../features/apps/appsManager.js";
 import Vector2 from "../../features/math/vector2.js";

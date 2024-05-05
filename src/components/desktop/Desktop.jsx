@@ -1,13 +1,13 @@
 import { memo, useState } from "react";
 import { SettingsManager } from "../../features/settings/settingsManager.js";
-import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
+import { useSettingsManager } from "../../hooks/settings/settingsManagerContext";
 import styles from "./Desktop.module.css";
 import { useEffect } from "react";
-import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
+import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import { FALLBACK_ICON_SIZE, FALLBACK_WALLPAPER } from "../../config/desktop.config.js";
 import { reloadViewport } from "../../features/_utils/browser.utils.js";
-import { useVirtualRoot } from "../../hooks/virtual-drive/virtualRootContext.js";
+import { useVirtualRoot } from "../../hooks/virtual-drive/virtualRootContext";
 import { DirectoryList } from "../apps/file-explorer/directory-list/DirectoryList.jsx";
 import { APPS, APP_ICONS, APP_NAMES } from "../../config/apps.config.js";
 import Vector2 from "../../features/math/vector2.js";
@@ -21,8 +21,8 @@ import { Divider } from "../actions/actions/Divider.jsx";
 import { isValidInteger } from "../../features/_utils/number.utils.js";
 import { useWindowedModal } from "../../hooks/modals/windowedModal.js";
 import { Share } from "../modals/share/Share.jsx";
-import ModalsManager from "../../features/modals/modalsManager.js";
-import { useModalsManager } from "../../hooks/modals/modalsManagerContext.js";
+import ModalsManager from "../../features/modals/modalsManager";
+import { useModalsManager } from "../../hooks/modals/modalsManagerContext";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();

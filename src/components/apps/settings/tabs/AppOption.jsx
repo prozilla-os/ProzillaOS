@@ -3,12 +3,12 @@ import AppsManager from "../../../../features/apps/appsManager.js";
 import { ImagePreview } from "../../file-explorer/directory-list/ImagePreview.jsx";
 import styles from "../Settings.module.css";
 import { faEllipsisVertical, faThumbTack } from "@fortawesome/free-solid-svg-icons";
-import { useWindowsManager } from "../../../../hooks/windows/windowsManagerContext.js";
+import { useWindowsManager } from "../../../../hooks/windows/windowsManagerContext";
 import { useContextMenu } from "../../../../hooks/modals/contextMenu.js";
 import { Actions } from "../../../actions/Actions.jsx";
 import { ClickAction } from "../../../actions/actions/ClickAction.jsx";
 import { removeFromArray } from "../../../../features/_utils/array.utils.js";
-import { useSettingsManager } from "../../../../hooks/settings/settingsManagerContext.js";
+import { useSettingsManager } from "../../../../hooks/settings/settingsManagerContext";
 import { SettingsManager } from "../../../../features/settings/settingsManager.js";
 
 export function AppOption({ app, pins, setPins }) {

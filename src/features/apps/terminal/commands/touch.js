@@ -1,11 +1,11 @@
 import { VirtualFile } from "../../../virtual-drive/file/virtualFile.js";
 import { formatError } from "../_utils/terminal.utils.js";
-import Command from "../command.js";
+import Command from "../command";
 
 export const touch = new Command()
 	.setRequireArgs(true)
 	.setManual({
-		purpose: "Changes file timestamps",
+		purpose: "Change file timestamps",
 		usage: "touch [options] files",
 		description: "Update the access and modification times of each FILE to the current time.\n\n"
 			+ "A file argument that does not exist is created empty."

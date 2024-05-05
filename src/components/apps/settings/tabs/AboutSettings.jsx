@@ -2,8 +2,8 @@ import { Button } from "../../../_utils/button/Button.jsx";
 import styles from "../Settings.module.css";
 import utilStyles from "../../../../styles/utils.module.css";
 import Vector2 from "../../../../features/math/vector2.js";
-import { useWindowsManager } from "../../../../hooks/windows/windowsManagerContext.js";
-import { useVirtualRoot } from "../../../../hooks/virtual-drive/virtualRootContext.js";
+import { useWindowsManager } from "../../../../hooks/windows/windowsManagerContext";
+import { useVirtualRoot } from "../../../../hooks/virtual-drive/virtualRootContext";
 import { NAME } from "../../../../config/branding.config.js";
 
 export function AboutSettings() {

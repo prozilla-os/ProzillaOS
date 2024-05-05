@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext.js";
+import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faCaretLeft, faCaretRight, faCircleInfo, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
+import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
 import { useContextMenu } from "../../../hooks/modals/contextMenu.js";
 import { QuickAccessButton } from "./QuickAccessButton.jsx";
 import { useWindowedModal } from "../../../hooks/modals/windowedModal.js";

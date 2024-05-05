@@ -7,7 +7,7 @@ import { WindowedModal } from "../_utils/WindowedModal.jsx";
 import styles from "./FileSelector.module.css";
 import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile.js";
 import Modal from "../../../features/modals/modal.js";
-import { useModalsManager } from "../../../hooks/modals/modalsManagerContext.js";
+import { useModalsManager } from "../../../hooks/modals/modalsManagerContext";
 
 /**
  * @callback onFinish

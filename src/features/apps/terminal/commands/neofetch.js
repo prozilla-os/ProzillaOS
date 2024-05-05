@@ -1,10 +1,10 @@
 import { APPS } from "../../../../config/apps.config.js";
 import { ANSI } from "../../../../config/apps/terminal.config.js";
 import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR, NAME } from "../../../../config/branding.config.js";
-import { START_DATE } from "../../../../index.js";
+import { START_DATE } from "../../../../index";
 import { formatRelativeTime } from "../../../_utils/date.utils.js";
 import AppsManager from "../../appsManager.js";
-import Command from "../command.js";
+import Command from "../command";
 
 export const neofetch = new Command()
 	.setManual({

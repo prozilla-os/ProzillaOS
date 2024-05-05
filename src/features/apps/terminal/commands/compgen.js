@@ -1,4 +1,4 @@
-import Command from "../command.js";
+import Command from "../command";
 import CommandsManager from "../commands.js";
 
 export const compgen = new Command()

@@ -1,21 +1,21 @@
 import styles from "./App.module.css";
 import { Taskbar } from "./components/taskbar/Taskbar.jsx";
-import { WindowsManagerProvider } from "./hooks/windows/windowsManagerContext.js";
+import { WindowsManagerProvider } from "./hooks/windows/windowsManagerContext";
 import { WindowsView } from "./components/windows/WindowsView.jsx";
-import { VirtualRootProvider } from "./hooks/virtual-drive/virtualRootContext.js";
+import { VirtualRootProvider } from "./hooks/virtual-drive/virtualRootContext";
 import { Desktop } from "./components/desktop/Desktop.jsx";
-import { SettingsManagerProvider } from "./hooks/settings/settingsManagerContext.js";
+import { SettingsManagerProvider } from "./hooks/settings/settingsManagerContext";
 import { ModalsView } from "./components/modals/ModalsView.jsx";
-import { useEffect } from "react";
-import { ZIndexManagerProvider } from "./hooks/z-index/zIndexManagerContext.js";
+import React, { FC, useEffect } from "react";
+import { ZIndexManagerProvider } from "./hooks/z-index/zIndexManagerContext";
 import { TrackingManager } from "./features/tracking/trackingManager.js";
-import { ModalsManagerProvider } from "./hooks/modals/modalsManagerContext.js";
+import { ModalsManagerProvider } from "./hooks/modals/modalsManagerContext";
 
 TrackingManager.initialize();
 
-function App() {
+const App: FC = () => {
 	useEffect(() => {
-		const onContextMenu = (event) => {
+		const onContextMenu = (event: Event) => {
 			event.preventDefault();
 		};
 
@@ -44,6 +44,6 @@ function App() {
 			</ZIndexManagerProvider>
 		</VirtualRootProvider>
 	);
-}
+};
 
 export default App;

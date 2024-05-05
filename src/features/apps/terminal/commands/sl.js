@@ -1,5 +1,5 @@
 import { formatError } from "../_utils/terminal.utils.js";
-import Command from "../command.js";
+import Command from "../command";
 import Stream from "../stream.js";
 
 const ANIMATION_SPEED = 1.25;

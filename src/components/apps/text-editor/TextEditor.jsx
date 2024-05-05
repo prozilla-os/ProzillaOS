@@ -7,7 +7,7 @@ import AppsManager from "../../../features/apps/appsManager.js";
 import { TITLE_SEPARATOR } from "../../../config/windows.config.js";
 import { MarkdownLink } from "./overrides/MarkdownLink.jsx";
 import { MarkdownImage } from "./overrides/MarkdownImage.jsx";
-import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext.js";
+import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { useWindowedModal } from "../../../hooks/modals/windowedModal.js";
 import { DEFAULT_FILE_SELECTOR_SIZE } from "../../../config/modals.config.js";

@@ -1,5 +1,5 @@
 import { randomFromArray } from "../../../_utils/array.utils.js";
-import Command from "../command.js";
+import Command from "../command";
 
 /**
  * Source: https://github.com/shlomif/fortune-mod/blob/master/fortune-mod/datfiles/fortunes

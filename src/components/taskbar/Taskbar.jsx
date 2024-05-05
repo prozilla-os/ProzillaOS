@@ -17,14 +17,14 @@ import { useContextMenu } from "../../hooks/modals/contextMenu.js";
 import { Actions } from "../actions/Actions.jsx";
 import { ClickAction } from "../actions/actions/ClickAction.jsx";
 import { APPS, APP_NAMES } from "../../config/apps.config.js";
-import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
+import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import { TASKBAR_HEIGHT } from "../../config/taskbar.config.js";
-import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
+import { useSettingsManager } from "../../hooks/settings/settingsManagerContext";
 import { SettingsManager } from "../../features/settings/settingsManager.js";
-import { useWindows } from "../../hooks/windows/windowsContext.js";
+import { useWindows } from "../../hooks/windows/windowsContext";
 import { ZIndexManager } from "../../features/z-index/zIndexManager.js";
 import { useZIndex } from "../../hooks/z-index/zIndex.js";
-import { useModalsManager } from "../../hooks/modals/modalsManagerContext.js";
+import { useModalsManager } from "../../hooks/modals/modalsManagerContext";
 
 export const Taskbar = memo(() => {
 	const ref = useRef(null);

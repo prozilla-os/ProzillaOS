@@ -1,9 +1,9 @@
-import { useWindows } from "../../hooks/windows/windowsContext.js";
-import { useWindowsManager } from "../../hooks/windows/windowsManagerContext.js";
+import { useWindows } from "../../hooks/windows/windowsContext";
+import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import { memo, useEffect, useState } from "react";
 import { WindowView } from "./WindowView.jsx";
-import { useSettingsManager } from "../../hooks/settings/settingsManagerContext.js";
-import { SettingsManager } from "../../features/settings/settingsManager.js";
+import { useSettingsManager } from "../../hooks/settings/settingsManagerContext";
+import { SettingsManager } from "../../features/settings/settingsManager";
 import { NAME, TAG_LINE } from "../../config/branding.config.js";
 import { getViewportParams, setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils.js";
 import { removeDuplicatesFromArray } from "../../features/_utils/array.utils.js";
@@ -17,6 +17,7 @@ export const WindowsView = memo(() => {
 	// Sort windows
 	useEffect(() => {
 		setSortedWindows([...windows].sort((windowA, windowB) =>
+			// @ts-ignore
 			windowA.lastInteraction - windowB.lastInteraction
 		));
 	}, [windows]);

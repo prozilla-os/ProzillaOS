@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "../Settings.module.css";
 import AppsManager from "../../../../features/apps/appsManager.js";
-import { useSettingsManager } from "../../../../hooks/settings/settingsManagerContext.js";
+import { useSettingsManager } from "../../../../hooks/settings/settingsManagerContext";
 import { SettingsManager } from "../../../../features/settings/settingsManager.js";
 import ModalsManager from "../../../../features/modals/modalsManager.js";
 import { AppOption } from "./AppOption.jsx";
