@@ -7,11 +7,13 @@ import { AppearanceSettings } from "./tabs/AppearanceSettings";
 import { AboutSettings } from "./tabs/AboutSettings";
 import { StorageTab } from "./tabs/StorageSettings";
 import { AppsSettings } from "./tabs/AppsSettings";
+import { WindowProps } from "../../windows/WindowView";
 
-/**
- * @param {import("../../windows/WindowView.jsx").windowProps} props 
- */
-export function Settings({ tab, modalsManager }) {
+interface SettingsProps extends WindowProps {
+	tab?: number;
+}
+
+export function Settings({ tab }: SettingsProps) {
 	return (
 		<Tabs
 			defaultIndex={tab ?? 0}

@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../Actions.module.css";
 import { faCaretRight, IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { ReactNode, useState } from "react";
+import { ReactElement, useState } from "react";
 import { ActionProps } from "../Actions";
 
-export function DropdownAction({ label, icon, children }: ActionProps): ReactNode {
+export function DropdownAction({ label, icon, children }: ActionProps): ReactElement {
 	const [showContent, setShowContent] = useState(false);
 
 	const classNames = [styles.Dropdown];

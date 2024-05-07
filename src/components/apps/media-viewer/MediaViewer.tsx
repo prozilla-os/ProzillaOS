@@ -4,11 +4,14 @@ import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext"
 import styles from "./MediaViewer.module.css";
 import { APPS } from "../../../config/apps.config";
 import { IMAGE_FORMATS } from "../../../config/apps/mediaViewer.config";
+import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
+import { WindowProps } from "../../windows/WindowView";
 
-/**
- * @param {import("../../windows/WindowView.jsx").windowProps} props 
- */
-export function MediaViewer({ file, close, setTitle }) {
+interface MediaViewerProps extends WindowProps {
+	file?: VirtualFile;
+}
+
+export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 	const windowsManager = useWindowsManager();
 
 	useEffect(() => {

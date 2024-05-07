@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { useAlert } from "../../../hooks/modals/alert";
+import { ModalProps } from "../ModalView";
 
 const APP_OPTIONS = {
 	"terminal": [
@@ -33,8 +34,7 @@ const APP_OPTIONS = {
 	]
 };
 
-/** @type {import("../ModalView.jsx").modalProps} */
-export function Share({ modal, params, ...props }) {
+export function Share({ modal, params, ...props }: ModalProps) {
 	const [appId, setAppId] = useState(params.appId ?? "");
 	const [fullscreen, setFullscreen] = useState(params.fullscreen ?? false);
 	const [options, setOptions] = useState({});

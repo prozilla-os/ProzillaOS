@@ -5,7 +5,7 @@ import utilStyles from "../../../styles/utils.module.css";
 import { StorageManager } from "../../../features/storage/storageManager";
 import AppsManager from "../../../features/apps/appsManager";
 import { ModalProps } from "../ModalView.js";
-import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile.js";
+import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
 
 interface FilePropetiesProps extends ModalProps {
 	file: VirtualFile;

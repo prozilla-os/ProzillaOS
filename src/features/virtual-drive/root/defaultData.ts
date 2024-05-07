@@ -155,9 +155,9 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 			.createFolder("features")
 			.createFolder("hooks")
 			.createFolder("styles")
-			.createFile("App", "jsx", (file) => {
-				file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/src/App.jsx");
-			}).createFile("index", "js", (file) => {
+			.createFile("App", "tsx", (file) => {
+				file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/src/App.tsx");
+			}).createFile("index", "tsx", (file) => {
 				file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/src/index");
 			});
 	});
@@ -172,5 +172,9 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 		file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/README.md");
 	}).createFile("package", "json", (file) => {
 		file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/package.json");
+	}).createFile("deploy", "sh", (file) => {
+		file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/deploy.sh");
+	}).createFile("tsconfig", "json", (file) => {
+		file.setSource("https://raw.githubusercontent.com/Prozilla/Prozilla-OS/main/tsconfig.json");
 	});
 }

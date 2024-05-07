@@ -46,7 +46,7 @@ See [docs/configuration](configuration/README.md) for more information.
 
 - [src](../src) directory
 	
-	Contains all code for the application, including CSS, JS and HTML files. This directory makes use of a feature-based folder structure.
+	Contains all code for the application, including CSS, JS and HTML files. This directory makes use of a feature-based folder structure. Utility files are often separated into their own subdirectory, called `_utils`, inside of their respective directory.
 
 - [public](../public) directory
 
@@ -65,8 +65,8 @@ See [docs/configuration](configuration/README.md) for more information.
 Type | Case | Example
 --- | --- | ---
 Folders | kebab-case | `virtual-drive`
-`.js` files | camelCase | `virtualRoot.js`
-`.jsx` files | PascalCase | `Desktop.jsx`
+`.ts` files | camelCase | `virtualRoot.ts`
+`.tsx` files | PascalCase | `Desktop.tsx`
 `.css` files & files in `public` dir | kebab-case | `global.css`
 Local `.module.css` files | PascalCase | `Desktop.module.css`
 Global `.module.css` files | kebab-case | `utils.module.css`

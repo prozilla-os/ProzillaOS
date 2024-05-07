@@ -4,18 +4,11 @@ import OutsideClickListener from "../../hooks/_utils/outsideClick";
 import styles from "./ModalView.module.css";
 import { useEffect } from "react";
 
-/**
- * @typedef {object} modalProps
- * @param {object} props 
- * @param {Modal} props.modal 
- * @param {*} props.params
- * @param {Function} props.onFinish
- */
-
 export interface ModalProps {
 	modal: Modal;
 	params?: Record<string, any>;
 	children?: ReactNode;
+	onFinish?: Function;
 	[key: string]: any;
 }
 

@@ -10,22 +10,22 @@ A command line tool.
 
 ## Commands
 
-See [features/apps/terminal/commands.js](../../../../src/features/apps/terminal/commands.js) for a list of commands. You can edit this file to add/remove/edit commands.
+See [features/apps/terminal/commands](../../../../src/features/apps/terminal/commands) for a list of commands. You can add files to this folder to add commands or edit existing files to modify commands.
 
 ## Examples
 
 ### Touch command
 
-```js
-// features/apps/terminal/commands/touch.js
+```ts
+// features/apps/terminal/commands/touch.ts
 
 export const touch = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Change file timestamps",
-		usage: "touch [OPTION]... FILE...",
+		usage: "touch [options] files",
 		description: "Update the access and modification times of each FILE to the current time.\n\n"
-			+ "A FILE argument that does not exist is created empty."
+			+ "A file argument that does not exist is created empty."
 	})
 	.setExecute(function(args, { currentDirectory }) {
 		const { name, extension } = VirtualFile.convertId(args[0]);

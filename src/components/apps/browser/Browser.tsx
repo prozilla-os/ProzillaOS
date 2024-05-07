@@ -6,9 +6,13 @@ import { faCaretLeft, faCaretRight, faHome, faRotateRight } from "@fortawesome/f
 import { HOME_URL, SEARCH_URL } from "../../../config/apps/browser.config";
 import { isValidUrl } from "../../../features/_utils/browser.utils";
 import { useHistory } from "../../../hooks/_utils/history";
+import { WindowProps } from "../../windows/WindowView";
 
-/** @type {import("../../windows/WindowView.jsx").windowProps} */
-export function Browser({ startUrl, focus }) {
+interface BrowserProps extends WindowProps {
+	startUrl?: string;
+}
+
+export function Browser({ startUrl, focus }: BrowserProps) {
 	const initialUrl = startUrl ?? HOME_URL;
 
 	const [url, setUrl] = useState(initialUrl);

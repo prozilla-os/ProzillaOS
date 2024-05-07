@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "../../_utils/button/Button";
 import styles from "./Calculator.module.css";
+import { WindowProps } from "../../windows/WindowView";
 
-/** @type {import("../../windows/WindowView.jsx").windowProps} */
-export function Calculator({ active }) {
+export function Calculator({ active }: WindowProps) {
 	const [input, setInput] = useState("0");
 	const [firstNumber, setFirstNumber] = useState(null);
 	const [secondNumber, setSecondNumber] = useState(null);

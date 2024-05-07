@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatShortcut } from "../../../features/_utils/string.utils";
 import styles from "../Actions.module.css";
 import { faCircleDot } from "@fortawesome/free-solid-svg-icons";
-import { ReactNode, useState } from "react";
+import { ReactElement, useState } from "react";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { ActionProps } from "../Actions";
 
@@ -25,7 +25,7 @@ interface RadioActionProps extends ActionProps {
 	initialIndex: number;
 }
 
-export function RadioAction({ actionId, options, initialIndex, onTrigger }: RadioActionProps): ReactNode {
+export function RadioAction({ actionId, options, initialIndex, onTrigger }: RadioActionProps): ReactElement {
 	const [activeIndex, setActiveIndex] = useState(initialIndex ?? 0);
 
 	return (<div key={actionId}>

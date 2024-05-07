@@ -3,6 +3,8 @@ export const ZOOM_FACTOR = 4;
 export const CODE_FORMATS = [
 	"js",
 	"jsx",
+	"ts",
+	"tsx",
 	"json",
 	"css",
 	"html",
@@ -13,5 +15,7 @@ export const CODE_FORMATS = [
 export const EXTENSION_TO_LANGUAGE = {
 	"js": "javascript",
 	"jsx": "javascript",
+	"ts": "typescript",
+	"tsx": "typescript",
 	"yml": "yaml",
 };

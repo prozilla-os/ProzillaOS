@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useAlert } from "../../hooks/modals/alert";
 import AppsManager from "../../features/apps/appsManager";
 import Vector2 from "../../features/math/vector2";
@@ -12,7 +12,7 @@ export interface WindowFallbackViewProps {
 }
 
 // I don't know why this component's type needs to be ReactNode instead of FC, it has something to do with the way it's implemented
-export default function WindowFallbackView({ error, resetErrorBoundary, app, closeWindow }: WindowFallbackViewProps): ReactNode {
+export default function WindowFallbackView({ error, resetErrorBoundary, app, closeWindow }: WindowFallbackViewProps): ReactElement {
 	const { alert } = useAlert();
 	const [alerted, setAlerted] = useState(false);
 

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { VirtualFile } from "../../../../features/virtual-drive/file/virtualFile";
 import { VirtualFolder } from "../../../../features/virtual-drive/folder/virtualFolder";
 import { Interactable } from "../../../_utils/interactable/Interactable";
@@ -30,7 +30,7 @@ interface DirectoryListProps {
 }
 
 export function DirectoryList({ directory, showHidden = false, folderClassName, fileClassName, className,
-	onContextMenuFile, onContextMenuFolder, onOpenFile, onOpenFolder, allowMultiSelect = true, onSelectionChange, ...props }: DirectoryListProps): ReactNode {
+	onContextMenuFile, onContextMenuFolder, onOpenFile, onOpenFolder, allowMultiSelect = true, onSelectionChange, ...props }: DirectoryListProps): ReactElement {
 	const [selectedFolders, setSelectedFolders] = useState([]);
 	const [selectedFiles, setSelectedFiles] = useState([]);
 

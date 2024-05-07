@@ -5,6 +5,7 @@
 	"author": "Prozilla",
 	"homepage": "https://os.prozilla.dev/",
 	"repository": "https://github.com/Prozilla/Prozilla-OS",
+	"type": "module",
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
@@ -25,7 +26,7 @@
 		"@types/react": "^18.3.1",
 		"@types/react-dom": "^18.3.0",
 		"anser": "^2.1.1",
-		"core-js": "^3.31.1",
+		"core-js": "^3.37.0",
 		"escape-carriage": "^1.3.1",
 		"markdown-to-jsx": "^7.2.1",
 		"react": "^18.2.0",
@@ -37,80 +38,20 @@
 		"react-svg": "^16.1.18",
 		"react-syntax-highlighter": "^15.5.0",
 		"react-tabs": "^6.0.2",
-		"typescript": "^5.4.5",
 		"web-vitals": "^2.1.4"
 	},
 	"devDependencies": {
 		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+		"@eslint/js": "^9.2.0",
 		"@types/webpack-env": "^1.18.4",
 		"@typescript-eslint/eslint-plugin": "^7.8.0",
 		"@typescript-eslint/parser": "^7.8.0",
+		"eslint": "^8.57.0",
 		"eslint-plugin-jsdoc": "^46.4.6",
 		"eslint-plugin-react": "^7.34.1",
-		"gh-pages": "^5.0.0"
-	},
-	"eslintConfig": {
-		"parser": "@typescript-eslint/parser",
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		],
-		"plugins": [
-			"react",
-			"jsdoc"
-		],
-		"rules": {
-			"indent": [
-				"error",
-				"tab",
-				{
-					"SwitchCase": 1
-				}
-			],
-			"semi": "error",
-			"no-var": "error",
-			"prefer-const": "error",
-			"quotes": [
-				"error",
-				"double"
-			],
-			"object-curly-spacing": [
-				"warn",
-				"always"
-			],
-			"default-case": "off",
-			"arrow-parens": "error",
-			"space-infix-ops": "warn",
-			"react/no-multi-comp": [
-				"error",
-				{
-					"ignoreStateless": true
-				}
-			],
-			"jsdoc/no-undefined-types": "warn",
-			"jsdoc/check-tag-names": "warn",
-			"jsdoc/check-types": [
-				"warn",
-				{}
-			],
-			"jsdoc/check-values": "warn",
-			"jsdoc/empty-tags": "warn",
-			"jsdoc/check-access": "warn",
-			"jsdoc/check-alignment": "warn",
-			"jsdoc/multiline-blocks": "warn",
-			"jsdoc/no-blank-block-descriptions": "warn",
-			"jsdoc/require-hyphen-before-param-description": "warn"
-		},
-		"settings": {
-			"jsdoc": {
-				"preferredTypes": {
-					"Object": "object",
-					"object.<>": "Object<>",
-					"Object.<>": "Object<>",
-					"object<>": "Object<>"
-				}
-			}
-		}
+		"gh-pages": "^5.0.0",
+		"typescript": "^4.9.5",
+		"typescript-eslint": "^7.8.0"
 	},
 	"browserslist": {
 		"production": [

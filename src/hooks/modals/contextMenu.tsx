@@ -5,22 +5,6 @@ import { ActionsProps, STYLES } from "../../components/actions/Actions";
 import { useModalsManager } from "./modalsManagerContext";
 import { ModalProps } from "../../components/modals/ModalView";
 
-/**
- * @callback onContextMenuType
- * @param {object} event
- * @param {object} params
- * @returns {Modal}
- */
-
-/**
- * @param {object} props 
- * @param {import("../../components/actions/Actions.jsx").actionsType} props.Actions
- * @returns {{
- * 	onContextMenu: onContextMenuType,
- * 	ShortcutsListener: import("../../components/actions/Actions.jsx").actionsType
- * }}
- */
-
 interface UseContextMenuParams {
 	Actions: FC<ActionsProps>;
 }

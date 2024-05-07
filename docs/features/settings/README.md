@@ -23,8 +23,8 @@ Each group of settings is controlled by a separate xml file. The virtual directo
 
 ### Example of component reading settings
 
-```js
-// components/desktop/Desktop.jsx
+```tsx
+// components/desktop/Desktop.tsx
 
 export function Desktop() {
 	const settingsManager = useSettingsManager();

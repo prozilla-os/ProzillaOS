@@ -13,16 +13,19 @@ import { useWindowedModal } from "../../../hooks/modals/windowedModal";
 import { DEFAULT_FILE_SELECTOR_SIZE } from "../../../config/modals.config";
 import { FileSelector } from "../../modals/file-selector/FileSelector";
 import { SELECTOR_MODE } from "../../../config/apps/fileExplorer.config";
+import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
+import { WindowProps } from "../../windows/WindowView";
 
 const OVERRIDES = {
 	a: MarkdownLink,
 	img: MarkdownImage,
 };
 
-/**
- * @param {import("../../windows/WindowView.jsx").windowProps} props 
- */
-export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modalsManager }) {
+interface TextEditorProps extends WindowProps {
+	file?: VirtualFile;
+}
+
+export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modalsManager }: TextEditorProps) {
 	const ref = useRef();
 	const windowsManager = useWindowsManager();
 	const [currentFile, setCurrentFile] = useState(file);
@@ -131,7 +134,7 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 								size: DEFAULT_FILE_SELECTOR_SIZE,
 								Modal: (props) => <FileSelector
 									type={SELECTOR_MODE.SINGLE}
-									onFinish={(file) => {
+									onFinish={(file: VirtualFile) => {
 										setCurrentFile(file);
 										setUnsavedChanges(false);
 									}}

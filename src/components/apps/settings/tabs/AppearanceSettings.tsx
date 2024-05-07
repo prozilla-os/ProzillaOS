@@ -52,7 +52,7 @@ export function AppearanceSettings() {
 				Browse
 			</Button>
 			<div className={styles["Input"]}>
-				{(virtualRoot.navigate(WALLPAPERS_PATH) as VirtualFolder)?.getFiles()?.toReversed().map(({ id, source }) =>
+				{(virtualRoot.navigate(WALLPAPERS_PATH) as VirtualFolder)?.getFiles()?.reverse().map(({ id, source }) =>
 					<label className={styles["Image-select"]} key={id}>
 						<input
 							type="radio"

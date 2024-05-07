@@ -24,8 +24,8 @@ The header menu is a useful component that can be added to app windows for quick
 
 #### Example
 
-```js
-// components/apps/_common/HeaderMenu.jsx
+```tsx
+// components/apps/_common/HeaderMenu.tsx
 
 <HeaderMenu
 	options={{
@@ -59,8 +59,8 @@ The webview template can be used to turn a webpage into an application by simply
 
 #### Example
 
-```js
-// features/apps/apps.js
+```ts
+// features/apps/apps.ts
 
 import { WebView } from "../../components/apps/templates/WebView";
 
@@ -78,8 +78,8 @@ export default class AppsManager {
 
 ### Adding a new app
 
-```js
-// components/apps/example/Example.jsx
+```tsx
+// components/apps/example/Example.tsx
 
 export function Example() {
 	return (
@@ -88,8 +88,8 @@ export function Example() {
 }
 ```
 
-```js
-// features/apps/apps.js
+```ts
+// features/apps/apps.ts
 
 import { Example } from "../../components/apps/example/Example";
 

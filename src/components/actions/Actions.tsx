@@ -1,4 +1,4 @@
-import { Children, cloneElement, isValidElement, ReactNode } from "react";
+import { Children, cloneElement, isValidElement, ReactElement, ReactNode } from "react";
 import { useShortcuts } from "../../hooks/_utils/keyboard";
 import styles from "./Actions.module.css";
 import { useScreenBounds } from "../../hooks/_utils/screen";
@@ -36,7 +36,7 @@ export interface ActionsProps {
  * 	}}
  * />
  */
-export function Actions({ children, className, onAnyTrigger, triggerParams, avoidTaskbar = true }: ActionsProps): ReactNode {
+export function Actions({ children, className, onAnyTrigger, triggerParams, avoidTaskbar = true }: ActionsProps): ReactElement {
 	const isListener = (className === STYLES.SHORTCUTS_LISTENER);
 
 	const { ref, initiated, alignLeft, alignTop } = useScreenBounds({ avoidTaskbar });

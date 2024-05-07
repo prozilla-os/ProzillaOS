@@ -10,10 +10,6 @@ For more detailed information, check the [task board](https://prozilla.notion.si
 
 A fully functional VSC clone called Code Editor.
 
-### Calculator App
-
-Simple calculator that can do basic equations.
-
 ### App centre
 
 Allows user to download additional apps

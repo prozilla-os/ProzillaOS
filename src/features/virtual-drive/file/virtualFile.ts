@@ -131,6 +131,8 @@ export class VirtualFile extends VirtualBase {
 			case "js":
 			case "json":
 			case "jsx":
+			case "ts":
+			case "tsx":
 			case "css":
 			case "html":
 			case "yml":
