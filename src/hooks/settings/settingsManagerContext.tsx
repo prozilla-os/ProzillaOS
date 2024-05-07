@@ -1,7 +1,7 @@
-import React, { createContext, FC, ReactNode, useContext } from "react";
-import { SettingsManager } from "../../features/settings/settingsManager.js";
+import { createContext, FC, ReactNode, useContext } from "react";
+import { SettingsManager } from "../../features/settings/settingsManager";
 import { useVirtualRoot } from "../virtual-drive/virtualRootContext";
-import { VirtualRoot } from "../../features/virtual-drive/root/virtualRoot.js";
+import { VirtualRoot } from "../../features/virtual-drive/root/virtualRoot";
 
 type SettingsManagerState = SettingsManager | undefined;
 

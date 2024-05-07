@@ -1,5 +1,6 @@
-import { VirtualFolder } from "../../virtual-drive/folder/virtualFolder.js";
-import { VirtualRoot } from "../../virtual-drive/root/virtualRoot.js";
+import { VirtualFolder } from "../../virtual-drive/folder/virtualFolder";
+import { VirtualRoot } from "../../virtual-drive/root/virtualRoot";
+import Stream from "./stream";
 
 type Option = {
 	long: string,
@@ -7,19 +8,20 @@ type Option = {
 	isInput: boolean
 };
 
-type Execute = (args: string[], options: {
-	promptOutput: void,
-	pushHistory: void,
-	virtualRoot: VirtualRoot,
-	currentDirectory: VirtualFolder,
-	setCurrentDirectory: void,
-	username: string,
-	hostname: string,
-	rawInputValue: string,
-	options: string[],
-	exit: void,
-	inputs: string[]
-}) => string | { blank: boolean } | void;
+type Execute = (args?: string[], options?: {
+	promptOutput?: Function,
+	pushHistory?: Function,
+	virtualRoot?: VirtualRoot,
+	currentDirectory?: VirtualFolder,
+	setCurrentDirectory?: Function,
+	username?: string,
+	hostname?: string,
+	rawInputValue?: string,
+	options?: string[],
+	exit?: Function,
+	inputs?: Record<string, string>;
+	timestamp: number,
+}) => string | { blank: boolean } | void | Stream;
 
 type Manual = {
 	purpose?: string,

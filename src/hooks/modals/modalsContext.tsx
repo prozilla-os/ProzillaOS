@@ -1,6 +1,6 @@
-import React, { createContext, FC, ReactNode, useCallback, useContext, useState } from "react";
-import Modal from "../../features/modals/modal.js";
-import ModalsManager from "../../features/modals/modalsManager.js";
+import { createContext, FC, ReactNode, useCallback, useContext, useState } from "react";
+import Modal from "../../features/modals/modal";
+import ModalsManager from "../../features/modals/modalsManager";
 
 type ModalsState = Modal[] | undefined;
 

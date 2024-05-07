@@ -10,7 +10,7 @@ To see the status and to-do's of each feature, check the [task board](https://pr
 
 ## Table of Contents
 
-- [Actions](storage/README.md)
+- [Actions](actions/README.md)
 - [Apps](apps/README.md)
 - [Modals](modals/README.md)
 - [Settings](settings/README.md)

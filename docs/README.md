@@ -60,7 +60,7 @@ See [docs/configuration](configuration/README.md) for more information.
 
 	Contains the static build files after [building](#building--deploying) the application. This directory is not included in the GitHub repository.
 
-### Coding style
+### Code style
 
 Type | Case | Example
 --- | --- | ---
@@ -75,6 +75,7 @@ Global constant variables | MACRO_CASE | ```export const NAME = "Prozilla OS";``
 Classes | PascalCase | ```class WindowsManager { }```
 React components | PascalCase | ```export function WindowsView({ }) { }```
 Functions | camelCase | ```function focusWindow() { }```
+Types | PascalCase | ```type FooBar = boolean;```
 
 ### External files
 

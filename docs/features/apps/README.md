@@ -62,7 +62,7 @@ The webview template can be used to turn a webpage into an application by simply
 ```js
 // features/apps/apps.js
 
-import { WebView } from "../../components/apps/templates/WebView.jsx";
+import { WebView } from "../../components/apps/templates/WebView";
 
 export default class AppsManager {
 	static APPLICATIONS = [
@@ -91,7 +91,7 @@ export function Example() {
 ```js
 // features/apps/apps.js
 
-import { Example } from "../../components/apps/example/Example.jsx";
+import { Example } from "../../components/apps/example/Example";
 
 export default class AppsManager {
 	static APPLICATIONS = [

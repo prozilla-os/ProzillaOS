@@ -1,5 +1,5 @@
-import React, { createContext, FC, ReactNode, useContext } from "react";
-import WindowsManager from "../../features/windows/windowsManager.js";
+import { createContext, FC, ReactNode, useContext } from "react";
+import WindowsManager from "../../features/windows/windowsManager";
 import { WindowsProvider } from "./windowsContext";
 
 type WindowsManagerState = WindowsManager | undefined;

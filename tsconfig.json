@@ -13,7 +13,7 @@
 		/* Language and Environment */
 		"target": "ESNext", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
 		// "lib": [],                                        /* Specify a set of bundled library declaration files that describe the target runtime environment. */
-		"jsx": "react", /* Specify what JSX code is generated. */
+		"jsx": "react-jsx", /* Specify what JSX code is generated. */
 		// "experimentalDecorators": true,                   /* Enable experimental support for legacy experimental decorators. */
 		// "emitDecoratorMetadata": true,                    /* Emit design-type metadata for decorated declarations in source files. */
 		// "jsxFactory": "",                                 /* Specify the JSX factory function used when targeting React JSX emit, e.g. 'React.createElement' or 'h'. */
@@ -33,7 +33,7 @@
 		// "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
 		// "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
 		"types": ["webpack-env"],                                      /* Specify type package names to be included without being referenced in a source file. */
-		// "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
+		"allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
 		// "moduleSuffixes": [],                             /* List of file name suffixes to search when resolving a module. */
 		// "allowImportingTsExtensions": true,               /* Allow imports to include TypeScript file extensions. Requires '--moduleResolution bundler' and either '--noEmit' or '--emitDeclarationOnly' to be set. */
 		// "resolvePackageJsonExports": true,                /* Use the package.json 'exports' field when resolving package imports. */

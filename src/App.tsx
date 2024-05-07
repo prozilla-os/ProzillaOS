@@ -1,14 +1,14 @@
 import styles from "./App.module.css";
-import { Taskbar } from "./components/taskbar/Taskbar.jsx";
+import { Taskbar } from "./components/taskbar/Taskbar";
 import { WindowsManagerProvider } from "./hooks/windows/windowsManagerContext";
-import { WindowsView } from "./components/windows/WindowsView.jsx";
+import { WindowsView } from "./components/windows/WindowsView";
 import { VirtualRootProvider } from "./hooks/virtual-drive/virtualRootContext";
-import { Desktop } from "./components/desktop/Desktop.jsx";
+import { Desktop } from "./components/desktop/Desktop";
 import { SettingsManagerProvider } from "./hooks/settings/settingsManagerContext";
-import { ModalsView } from "./components/modals/ModalsView.jsx";
-import React, { FC, useEffect } from "react";
+import { ModalsView } from "./components/modals/ModalsView";
+import { FC, useEffect } from "react";
 import { ZIndexManagerProvider } from "./hooks/z-index/zIndexManagerContext";
-import { TrackingManager } from "./features/tracking/trackingManager.js";
+import { TrackingManager } from "./features/tracking/trackingManager";
 import { ModalsManagerProvider } from "./hooks/modals/modalsManagerContext";
 
 TrackingManager.initialize();

@@ -95,8 +95,6 @@
 			],
 			"jsdoc/check-values": "warn",
 			"jsdoc/empty-tags": "warn",
-			"jsdoc/check-param-names": "warn",
-			"jsdoc/check-property-names": "warn",
 			"jsdoc/check-access": "warn",
 			"jsdoc/check-alignment": "warn",
 			"jsdoc/multiline-blocks": "warn",

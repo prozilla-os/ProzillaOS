@@ -1,5 +1,5 @@
-import React, { createContext, FC, ReactNode, useContext } from "react";
-import { ZIndexManager } from "../../features/z-index/zIndexManager.js";
+import { createContext, FC, ReactNode, useContext } from "react";
+import { ZIndexManager } from "../../features/z-index/zIndexManager";
 
 type ZIndexManagerState = ZIndexManager | undefined;
 
