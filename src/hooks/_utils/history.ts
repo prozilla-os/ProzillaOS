@@ -1,23 +1,19 @@
 import { useState } from "react";
 import { clamp } from "../../features/math/clamp";
 
-/**
- * @param {*} initialState 
- * @returns {{
- * 	history: *[],
- * 	stateIndex: number,
- * 	pushState: Function,
- * 	undo: Function,
- *  redo: Function,
- * 	undoAvailable: boolean,
- *  redoAvailable: boolean
- * }}
- */
-export function useHistory(initialState) {
-	const [history, setHistory] = useState(initialState ? [initialState] : []);
+export function useHistory<Type>(initialState: Type): {
+	history: Type[];
+	stateIndex: number;
+	pushState: Function;
+	undo: Function;
+	redo: Function;
+	undoAvailable: boolean;
+	redoAvailable: boolean;
+} {
+	const [history, setHistory] = useState<Type[]>(initialState ? [initialState] : []);
 	const [stateIndex, setStateIndex] = useState(0);
 
-	const pushState = (state) => {
+	const pushState = (state: Type) => {
 		if (state === history[0])
 			return;
 
@@ -35,7 +31,7 @@ export function useHistory(initialState) {
 		setStateIndex(0);
 	};
 
-	const updateStateIndex = (delta) => {
+	const updateStateIndex = (delta: number) => {
 		const index = clamp(stateIndex + delta, 0, history.length - 1);
 
 		if (index === stateIndex)

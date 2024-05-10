@@ -8,7 +8,7 @@ export class EventEmitter<EventMap extends EventNamesMap> {
 	/**
 	 * Add event listener for an event
 	 */
-	on<Key extends keyof EventMap>(eventName: Key, callback: (data: any) => void) {
+	on<Key extends keyof EventMap>(eventName: Key, callback: (data: unknown) => void) {
 		if (!this.#events[eventName as string]) {
 			this.#events[eventName as string] = [];
 		}
@@ -18,7 +18,7 @@ export class EventEmitter<EventMap extends EventNamesMap> {
 	/**
 	 * Remove event listener for an event
 	 */
-	off<Key extends keyof EventMap>(eventName: Key, callback: (data: any) => void) {
+	off<Key extends keyof EventMap>(eventName: Key, callback: (data: unknown) => void) {
 		if (this.#events[eventName as string]) {
 			this.#events[eventName as string] = this.#events[eventName as string].filter(
 				(listener) => listener !== callback
@@ -29,7 +29,7 @@ export class EventEmitter<EventMap extends EventNamesMap> {
 	/**
 	 * Dispatch event
 	 */
-	emit<Key extends keyof EventMap>(eventName: Key, data?: any) {
+	emit<Key extends keyof EventMap>(eventName: Key, data?: unknown) {
 		if (this.#events[eventName as string]) {
 			this.#events[eventName as string].forEach((listener) => {
 				listener(data);

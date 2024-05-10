@@ -3,12 +3,13 @@ import { ModalView } from "./ModalView";
 import styles from "./ModalsView.module.css";
 import { useModals } from "../../hooks/modals/modalsContext";
 import { useModalsManager } from "../../hooks/modals/modalsManagerContext";
+import Modal from "../../features/modals/modal";
 
 export const ModalsView = memo(() => {
 	const ref = useRef(null);
 	const modals = useModals();
 	const modalsManager = useModalsManager();
-	const [sortedModals, setSortedModals] = useState([]);
+	const [sortedModals, setSortedModals] = useState<Modal[]>([]);
 
 	// Sort modals
 	useEffect(() => {

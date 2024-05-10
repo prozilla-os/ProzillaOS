@@ -15,9 +15,9 @@ const TIME_INDICATORS = {
  * @param maxLength - The maximum amount of units, e.g.: 3 => years, months, days
  */
 export function formatTime(time: number, maxLength: number = 3, allowAffixes: boolean): string {
-	const result = [];
+	const result: string[] = [];
 
-	const formatResult = (result, inPast) => {
+	const formatResult = (result: string[], inPast: boolean): string => {
 		if (!allowAffixes)
 			return result.join(", ");
 
@@ -44,8 +44,8 @@ export function formatTime(time: number, maxLength: number = 3, allowAffixes: bo
 		return formatResult(["less than a second"], inPast);
 	}
 
-	const units = [];
-	const unitLabels = {
+	const units: { amount: number, label: string }[] = [];
+	const unitLabels: Record<string, string> = {
 		"s": "seconds",
 		"m": "minutes",
 		"h": "hours",

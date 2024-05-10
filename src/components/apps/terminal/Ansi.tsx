@@ -4,20 +4,18 @@ import * as React from "react";
 import styles from "./Terminal.module.css";
 
 /**
- * This was copied from
+ * Source:
  * https://github.com/nteract/ansi-to-react/blob/master/src/index.ts
  */
 
 /**
  * Converts ANSI strings into JSON output.
- * @name ansiToJSON
- * @function
- * @param {string} input - The input string.
- * @param {boolean=} use_classes - If `true`, HTML classes will be appended
+ * @param input - The input string.
+ * @param use_classes - If `true`, HTML classes will be appended
  *                              to the HTML output.
- * @returns {AnserJsonEntry[]} The parsed input.
+ * @returns The parsed input.
  */
-function ansiToJSON(input, use_classes) {
+function ansiToJSON(input: string, use_classes: boolean | undefined): AnserJsonEntry[] {
 	input = escapeCarriageReturn(fixBackspace(input));
 	return Anser.ansiToJson(input, {
 		json: true,
@@ -28,10 +26,9 @@ function ansiToJSON(input, use_classes) {
 
 /**
  * Create a class string.
- * @param {AnserJsonEntry} bundle
- * @returns {string} class name(s)
+ * @returns class name(s)
  */
-function createClass(bundle) {
+function createClass(bundle: AnserJsonEntry): string {
 	const classNames = [];
 
 	if (bundle.bg) {
@@ -53,10 +50,10 @@ function createClass(bundle) {
 
 /**
  * Create the style attribute.
- * @param {AnserJsonEntry} bundle
- * @returns {object} returns the style object
+ * @param bundle
+ * @returns returns the style object
  */
-function createStyle(bundle) {
+function createStyle(bundle: AnserJsonEntry): object {
 	const style: Record<string, string> = {};
 	if (bundle.bg) {
 		style.backgroundColor = `rgb(${bundle.bg})`;
@@ -94,12 +91,11 @@ function createStyle(bundle) {
 
 /**
  * Converts an Anser bundle into a React Node.
- * @param {boolean} linkify - whether links should be converting into clickable anchor tags.
- * @param {boolean} useClasses - should render the span with a class instead of style.
- * @param {AnserJsonEntry} bundle - Anser output.
- * @param {number} key
+ * @param linkify - whether links should be converting into clickable anchor tags.
+ * @param useClasses - should render the span with a class instead of style.
+ * @param bundle - Anser output.
  */
-function convertBundleIntoReact(linkify, useClasses, bundle, key) {
+function convertBundleIntoReact(linkify: boolean, useClasses: boolean, bundle: AnserJsonEntry, key: number) {
 	const style = useClasses ? null : createStyle(bundle);
 	const className = useClasses ? createClass(bundle) : null;
 
@@ -115,7 +111,7 @@ function convertBundleIntoReact(linkify, useClasses, bundle, key) {
 	const linkRegex = /(\s|^)(https?:\/\/(?:www\.|(?!www))[^\s.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
 
 	let index = 0;
-	let match;
+	let match: RegExpExecArray;
 	while ((match = linkRegex.exec(bundle.content)) !== null) {
 		const [, pre, url] = match;
 
@@ -149,14 +145,7 @@ function convertBundleIntoReact(linkify, useClasses, bundle, key) {
 	return React.createElement("span", { style, key, className }, content);
 }
 
-/**
- * @param {object} props 
- * @param {string=} props.children
- * @param {boolean=} props.linkify
- * @param {string=} props.className
- * @param {boolean=} props.useClasses
- */
-export default function Ansi(props) {
+export default function Ansi(props: { children?: string | undefined; linkify?: boolean | undefined; className?: string | undefined; useClasses?: boolean | undefined; }) {
 	const { className, useClasses, children, linkify } = props;
 	return React.createElement(
 		"code",
@@ -172,7 +161,7 @@ export default function Ansi(props) {
 // that is **compatible with Jupyter classic**.   One can
 // argue that this behavior is questionable:
 //   https://stackoverflow.com/questions/55440152/multiple-b-doesnt-work-as-expected-in-jupyter#
-function fixBackspace(txt) {
+function fixBackspace(txt: string) {
 	let tmp = txt;
 	do {
 		txt = tmp;

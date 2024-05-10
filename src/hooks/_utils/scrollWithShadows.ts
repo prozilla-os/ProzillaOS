@@ -6,34 +6,39 @@
 import { useCallback, useEffect } from "react";
 import { useState } from "react";
 
-/**
- * @param {object} options 
- * @param {React.ElementRef} options.ref
- * @param {Boolean=true} options.horizontal
- * @param {Boolean=true} options.dynamicOffset
- * @param {Number=1} options.dynamicOffsetFactor
- * @param {object} options.shadow
- * @param {Number=8} options.shadow.offset
- * @param {Number=5} options.shadow.blurRadius
- * @param {Number=-5} options.shadow.spreadRadius 
- * @param {object} options.shadow.color 
- * @param {Number=0} options.shadow.color.r 
- * @param {Number=0} options.shadow.color.g 
- * @param {Number=0} options.shadow.color.b 
- * @param {Number=50} options.shadow.color.a 
- */
-export function useScrollWithShadow(options) {
+interface UseScrollWithShadowParams {
+	ref?: { current: HTMLElement | null };
+	horizontal?: boolean;
+	dynamicOffset?: boolean;
+	dynamicOffsetFactor?: number;
+	shadow?: {
+		offset?: number;
+		blurRadius?: number;
+		spreadRadius?: number;
+		color?: {
+			r?: number;
+			g?: number;
+			b?: number;
+			a?: number;
+		}
+	}
+}
+
+export function useScrollWithShadow(params: UseScrollWithShadowParams): {
+	boxShadow: string;
+	onUpdate: (event: Event) => void;
+} {
 	const [initiated, setInitiated] = useState(false);
 	const [scrollStart, setScrollStart] = useState(0);
 	const [scrollLength, setScrollLength] = useState(0);
 	const [clientLength, setClientLength] = useState(0);
 
-	if (options == null)
-		options = {};
-	if (options.shadow == null)
-		options.shadow = {};
-	if (options.shadow.color == null)
-		options.shadow.color = {};
+	if (params == null)
+		params = {};
+	if (params.shadow == null)
+		params.shadow = {};
+	if (params.shadow.color == null)
+		params.shadow.color = {};
 
 	const {
 		ref,
@@ -51,9 +56,9 @@ export function useScrollWithShadow(options) {
 				a = 50
 			}
 		}
-	} = options;
+	} = params;
 
-	const updateValues = useCallback((element) => {
+	const updateValues = useCallback((element: HTMLElement) => {
 		if (!element)
 			return;
 
@@ -62,8 +67,8 @@ export function useScrollWithShadow(options) {
 		setClientLength(horizontal ? element.clientWidth : element.clientHeight);
 	}, [horizontal]);
 
-	const onUpdate = (event) => {
-		updateValues(event.target);
+	const onUpdate = (event: Event) => {
+		updateValues(event.target as HTMLElement);
 	};
 
 	useEffect(() => {

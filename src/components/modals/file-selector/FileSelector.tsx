@@ -7,6 +7,7 @@ import { WindowedModal } from "../_utils/WindowedModal";
 import styles from "./FileSelector.module.css";
 import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
 import { ModalProps } from "../ModalView";
+import { VirtualFolder } from "../../../features/virtual-drive/folder";
 
 interface FileSelectorProps extends ModalProps {
 	type: number;
@@ -17,10 +18,10 @@ interface FileSelectorProps extends ModalProps {
 export function FileSelector({ modal, params, type, allowedFormats, onFinish, ...props }: FileSelectorProps) {
 	const multi = (type === SELECTOR_MODE.MULTIPLE);
 
-	const [selection, setSelection] = useState(multi ? [] : null);
-	const [directory, setDirectory] = useState(null);
+	const [selection, setSelection] = useState<string[]>(multi ? [] : null);
+	const [directory, setDirectory] = useState<VirtualFolder>(null);
 
-	const finish = (event) => {
+	const finish = (event: Event) => {
 		event?.preventDefault();
 
 		if (directory == null || selection == null)

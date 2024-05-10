@@ -1,9 +1,10 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { MouseEventHandler, ReactElement, useEffect, useRef, useState } from "react";
 import { VirtualFile } from "../../../../features/virtual-drive/file/virtualFile";
 import { VirtualFolder } from "../../../../features/virtual-drive/folder/virtualFolder";
 import { Interactable } from "../../../_utils/interactable/Interactable";
 import styles from "./DirectoryList.module.css";
 import { ImagePreview } from "./ImagePreview";
+import Vector2 from "../../../../features/math/vector2";
 
 export interface OnSelectionChangeParams {
 	files?: string[];
@@ -26,17 +27,17 @@ interface DirectoryListProps {
 	onOpenFolder?: FolderEventHandler;
 	allowMultiSelect?: boolean;
 	onSelectionChange?: (params: OnSelectionChangeParams) => void;
-	[key: string]: any;
+	[key: string]: unknown;
 }
 
 export function DirectoryList({ directory, showHidden = false, folderClassName, fileClassName, className,
 	onContextMenuFile, onContextMenuFolder, onOpenFile, onOpenFolder, allowMultiSelect = true, onSelectionChange, ...props }: DirectoryListProps): ReactElement {
-	const [selectedFolders, setSelectedFolders] = useState([]);
-	const [selectedFiles, setSelectedFiles] = useState([]);
+	const [selectedFolders, setSelectedFolders] = useState<string[]>([]);
+	const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
 
 	const ref = useRef(null);
-	const [rectSelectStart, setRectSelectStart] = useState(null);
-	const [rectSelectEnd, setRectSelectEnd] = useState(null);
+	const [rectSelectStart, setRectSelectStart] = useState<Vector2>(null);
+	const [rectSelectEnd, setRectSelectEnd] = useState<Vector2>(null);
 
 	useEffect(() => {
 		onSelectionChange?.({ files: selectedFiles, folders: selectedFolders, directory });
@@ -47,14 +48,14 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 	}, [directory]);
 
 	useEffect(() => {
-		const onMoveRectSelect = (event) => {
+		const onMoveRectSelect = (event: MouseEvent) => {
 			if (rectSelectStart == null)
 				return;
 	
 			event.preventDefault();
-			setRectSelectEnd({ x: event.clientX, y: event.clientY });
+			setRectSelectEnd({ x: event.clientX, y: event.clientY } as Vector2);
 		};
-		const onStopRectSelect = (event) => {
+		const onStopRectSelect = (event: MouseEvent) => {
 			if (rectSelectStart == null || rectSelectEnd == null) {
 				setRectSelectStart(null);
 				setRectSelectEnd(null);
@@ -82,14 +83,14 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		setSelectedFolders([]);
 		setSelectedFiles([]);
 	};
-	const selectFolder = (folder, exclusive = false) => {
+	const selectFolder = (folder: VirtualFolder, exclusive = false) => {
 		if (!allowMultiSelect)
 			exclusive = true;
 		setSelectedFolders(exclusive ? [folder.id] : [...selectedFolders, folder.id]);
 		if (exclusive)
 			setSelectedFiles([]);
 	};
-	const selectFile = (file, exclusive = false) => {
+	const selectFile = (file: VirtualFile, exclusive = false) => {
 		if (!allowMultiSelect)
 			exclusive = true;
 		setSelectedFiles(exclusive ? [file.id] : [...selectedFiles, file.id]);
@@ -97,12 +98,12 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 			setSelectedFolders([]);
 	};
 
-	const onStartRectSelect = (event) => {
-		setRectSelectStart({ x: event.clientX, y: event.clientY });
+	const onStartRectSelect = (event: MouseEvent) => {
+		setRectSelectStart({ x: event.clientX, y: event.clientY } as Vector2);
 	};
 	const getRectSelectStyle = () => {
-		let x, y, width, height = null;
-		const containerRect = ref.current?.getBoundingClientRect();
+		let x: number, y: number, width: number, height: number = null;
+		const containerRect = (ref.current as HTMLElement)?.getBoundingClientRect();
 
 		if (rectSelectStart.x < rectSelectEnd.x) {
 			x = rectSelectStart.x;
@@ -143,7 +144,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		ref={ref}
 		className={classNames.join(" ")}
 		onClick={clearSelection}
-		onMouseDown={onStartRectSelect}
+		onMouseDown={onStartRectSelect as unknown as MouseEventHandler}
 		{...props}
 	>
 		{rectSelectStart != null && rectSelectEnd != null
@@ -156,13 +157,13 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 				tabIndex={0}
 				className={folderClassNames.join(" ")}
 				data-selected={selectedFolders.includes(folder.id)}
-				onContextMenu={(event) => {
+				onContextMenu={(event: MouseEvent) => {
 					onContextMenuFolder?.(event, folder);
 				}}
-				onClick={(event) => {
+				onClick={(event: MouseEvent) => {
 					selectFolder(folder, !event.ctrlKey);
 				}}
-				onDoubleClick={(event) => {
+				onDoubleClick={(event: MouseEvent) => {
 					onOpenFolder?.(event, folder);
 				}}
 			>
@@ -178,13 +179,13 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 				tabIndex={0}
 				className={fileClassNames.join(" ")}
 				data-selected={selectedFiles.includes(file.id)}
-				onContextMenu={(event) => {
+				onContextMenu={(event: MouseEvent) => {
 					onContextMenuFile?.(event, file);
 				}}
-				onClick={(event) => {
+				onClick={(event: MouseEvent) => {
 					selectFile(file, !event.ctrlKey);
 				}}
-				onDoubleClick={(event) => {
+				onDoubleClick={(event: MouseEvent) => {
 					onOpenFile?.(event, file);
 				}}
 			>

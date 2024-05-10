@@ -6,7 +6,7 @@ import react from "eslint-plugin-react";
 
 export default tseslint.config(
 	eslint.configs.recommended,
-	// ...tseslint.configs.recommendedTypeChecked,
+	...tseslint.configs.recommendedTypeChecked,
 	{
 		languageOptions: {
 			parserOptions: {
@@ -53,7 +53,13 @@ export default tseslint.config(
 				}
 			],
 			"comma-spacing": "off",
-    		"@typescript-eslint/comma-spacing": "error"
+    		"@typescript-eslint/comma-spacing": "error",
+			"@typescript-eslint/no-unused-vars": [
+				"error",
+				{
+					"argsIgnorePattern": "^_"
+				}
+			]
 		},
 	}
 );

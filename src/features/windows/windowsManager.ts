@@ -17,7 +17,7 @@ export interface WindowOptions {
 	isFocused?: boolean;
 	lastInteraction?: number;
 	minimized?: boolean;
-	[key: string]: any;
+	[key: string]: unknown;
 }
 
 export default class WindowsManager {
@@ -174,8 +174,8 @@ export default class WindowsManager {
 		return active;
 	}
 
-	getAppWindowId(appId: string): string {
-		let windowId = null;
+	getAppWindowId(appId: string): string | null {
+		let windowId: string | null = null;
 
 		Object.values(this.windows).forEach((window) => {
 			if (window.app.id === appId) {

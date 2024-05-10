@@ -44,7 +44,7 @@ export class Settings {
 		this.xmlDoc = xmlDoc;
 	}
 
-	async write() {
+	write() {
 		if (!this.file)
 			return;
 
@@ -76,14 +76,16 @@ export class Settings {
 		if (callback) {
 			callback(value);
 
-			this.file.on(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, async () => {
-				await this.read();
-				const newValue = await this.get(key);
+			this.file.on(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, () => {
+				void (async () => {
+					await this.read();
+					const newValue = await this.get(key);
 
-				if (newValue !== value) {
-					callback(newValue);
-					value = newValue;
-				}
+					if (newValue !== value) {
+						callback(newValue);
+						value = newValue;
+					}
+				})();
 			});
 		}
 
@@ -102,6 +104,6 @@ export class Settings {
 			this.xmlDoc.getElementsByTagName(PARENT_NODE)[0].appendChild(newOption);
 		}
 
-		await this.write();
+		this.write();
 	}
 }

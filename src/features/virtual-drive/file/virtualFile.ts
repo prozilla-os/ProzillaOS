@@ -54,7 +54,7 @@ export class VirtualFile extends VirtualBase {
 	/**
 	 * Sets the content of this file and removes the source
 	 */
-	setContent(content: string | any) {
+	setContent(content: string) {
 		if (this.content === content || !this.canBeEdited)
 			return;
 
@@ -106,7 +106,7 @@ export class VirtualFile extends VirtualBase {
 		).catch((error) => {
 			console.error(`Error while reading file with id "${this.id}":`, error);
 			return null;
-		});
+		}) as string;
 	}
 
 	isFile(): boolean {
@@ -143,7 +143,7 @@ export class VirtualFile extends VirtualBase {
 				break;
 		}
 
-		return iconUrl;
+		return iconUrl as string;
 	}
 
 	getType(): string {

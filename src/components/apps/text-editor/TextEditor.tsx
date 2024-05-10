@@ -36,7 +36,7 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 	const { openWindowedModal } = useWindowedModal();
 
 	useEffect(() => {
-		(async () => {
+		void (async () => {
 			let newContent = "";
 
 			// Load file
@@ -97,8 +97,8 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 		onChange({ target: { value: content } });
 	};
 
-	const onChange = (event) => {
-		const value = event.target.value;
+	const onChange = (event: Event | { target: { value: string } }) => {
+		const value = (event.target as HTMLInputElement).value;
 
 		if (currentFile != null) {
 			setUnsavedChanges(currentFile.content !== value);

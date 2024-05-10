@@ -1,12 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { Ref, useEffect, useRef, useState } from "react";
 import { TASKBAR_HEIGHT } from "../../config/taskbar.config";
 
-/**
- * @returns {[number, number]}
- */
-export function useScreenDimensions() {
-	const [screenWidth, setScreenWidth] = useState(null);
-	const [screenHeight, setScreenHeight] = useState(null);
+export function useScreenDimensions(): [screenWidth: number, screenHeight: number] {
+	const [screenWidth, setScreenWidth] = useState<number>(null);
+	const [screenHeight, setScreenHeight] = useState<number>(null);
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver((event) => {
@@ -20,17 +17,12 @@ export function useScreenDimensions() {
 	return [screenWidth, screenHeight];
 }
 
-/**
- * @param {object} props 
- * @param {boolean} props.avoidTaskbar
- * @returns {{
- * 	ref,
- * 	initiated: boolean,
- * 	alignLeft: boolean,
- * 	alignTop: boolean
- * }}
- */
-export function useScreenBounds({ avoidTaskbar = true }) {
+export function useScreenBounds({ avoidTaskbar = true }: { avoidTaskbar: boolean; }): {
+	ref: Ref<HTMLElement>;
+	initiated: boolean;
+	alignLeft: boolean;
+	alignTop: boolean;
+} {
 	const ref = useRef(null);
 	const [initiated, setInitiated] = useState(false);
 	const [alignLeft, setAlignLeft] = useState(false);
@@ -41,7 +33,7 @@ export function useScreenBounds({ avoidTaskbar = true }) {
 		if (ref.current == null || screenWidth == null || screenHeight == null)
 			return;
 
-		const rect = ref.current.getBoundingClientRect();
+		const rect = (ref.current as HTMLElement).getBoundingClientRect();
 		const maxX = screenWidth;
 		let maxY = screenHeight;
 

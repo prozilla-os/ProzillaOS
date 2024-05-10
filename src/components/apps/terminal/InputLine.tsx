@@ -21,7 +21,7 @@ export function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown, inputRe
 
 	return (
 		<span className={styles.Input}>
-			{prefix && <Ansi className={[styles.Prefix]} useClasses>{prefix}</Ansi>}
+			{prefix && <Ansi className={styles.Prefix} useClasses>{prefix}</Ansi>}
 			<span className={styles["Input-container"]} style={{ "--cursor-offset": cursorPosition } as CSSProperties}>
 				<span aria-hidden="true">{value}</span>
 				<input

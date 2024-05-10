@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { ChangeEventHandler, KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import styles from "./Browser.module.css";
 import { WebView } from "../_utils/web-view/WebView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,10 +15,10 @@ interface BrowserProps extends WindowProps {
 export function Browser({ startUrl, focus }: BrowserProps) {
 	const initialUrl = startUrl ?? HOME_URL;
 
-	const [url, setUrl] = useState(initialUrl);
+	const [url, setUrl] = useState<string>(initialUrl);
 	const [input, setInput] = useState(initialUrl);
 	const { history, pushState, stateIndex, undo, redo, undoAvailable, redoAvailable } = useHistory(initialUrl);
-	const ref = useRef(null);
+	const ref = useRef<HTMLIFrameElement>(null);
 
 	useEffect(() => {
 		if (history.length === 0)
@@ -34,7 +34,7 @@ export function Browser({ startUrl, focus }: BrowserProps) {
 		ref.current.contentWindow.location.href = url;
 	};
 
-	const updateUrl = (newUrl) => {
+	const updateUrl = (newUrl: string) => {
 		if (url === newUrl) {
 			return reload();
 		}
@@ -44,12 +44,12 @@ export function Browser({ startUrl, focus }: BrowserProps) {
 		pushState(newUrl);
 	};
 
-	const onInputChange = (event) => {
-		setInput(event.target.value);
+	const onInputChange = (event: Event) => {
+		setInput((event.target as HTMLInputElement).value);
 	};
 
-	const onKeyDown = (event) => {
-		const value = event.target.value;
+	const onKeyDown = (event: KeyboardEvent) => {
+		const value = (event.target as HTMLInputElement).value;
 
 		if (event.key === "Enter" && value !== "") {
 			if (isValidUrl(value)) {
@@ -67,7 +67,7 @@ export function Browser({ startUrl, focus }: BrowserProps) {
 					title="Back"
 					tabIndex={0}
 					className={styles["Icon-button"]}
-					onClick={undo}
+					onClick={() => { undo(); }}
 					disabled={!undoAvailable}
 				>
 					<FontAwesomeIcon icon={faCaretLeft}/>
@@ -76,7 +76,7 @@ export function Browser({ startUrl, focus }: BrowserProps) {
 					title="Forward"
 					tabIndex={0}
 					className={styles["Icon-button"]}
-					onClick={redo}
+					onClick={() => { redo(); }}
 					disabled={!redoAvailable}
 				>
 					<FontAwesomeIcon icon={faCaretRight}/>
@@ -103,8 +103,8 @@ export function Browser({ startUrl, focus }: BrowserProps) {
 					aria-label="Search bar"
 					className={styles["Search-bar"]}
 					tabIndex={0}
-					onChange={onInputChange}
-					onKeyDown={onKeyDown}
+					onChange={onInputChange as unknown as ChangeEventHandler}
+					onKeyDown={onKeyDown as unknown as KeyboardEventHandler}
 				/>
 			</div>
 			<div className={styles["Bookmarks"]}>

@@ -6,13 +6,13 @@ import App from "../../features/apps/app";
 
 export interface WindowFallbackViewProps {
 	error?: Error;
-	resetErrorBoundary?: any;
+	resetErrorBoundary?: unknown;
 	app?: App;
 	closeWindow?: Function
 }
 
 // I don't know why this component's type needs to be ReactNode instead of FC, it has something to do with the way it's implemented
-export default function WindowFallbackView({ error, resetErrorBoundary, app, closeWindow }: WindowFallbackViewProps): ReactElement {
+export default function WindowFallbackView({ error, resetErrorBoundary: _resetErrorBoundary, app, closeWindow }: WindowFallbackViewProps): ReactElement {
 	const { alert } = useAlert();
 	const [alerted, setAlerted] = useState(false);
 

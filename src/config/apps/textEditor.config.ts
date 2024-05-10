@@ -12,7 +12,7 @@ export const CODE_FORMATS = [
 	"yml"
 ];
 
-export const EXTENSION_TO_LANGUAGE = {
+export const EXTENSION_TO_LANGUAGE: Record<string, string> = {
 	"js": "javascript",
 	"jsx": "javascript",
 	"ts": "typescript",

@@ -14,13 +14,13 @@ import utilStyles from "../../../styles/utils.module.css";
 import { APPS } from "../../../config/apps.config";
 import { NAME } from "../../../config/branding.config";
 
-/**
- * @param {object} props 
- * @param {boolean} props.active
- * @param {Function} props.setActive
- * @param {Function} props.search
- */
-export function HomeMenu({ active, setActive, search }) {
+interface HomeMenuProps {
+	active: boolean;
+	setActive: Function;
+	search: Function;
+}
+
+export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
 	const [tabIndex, setTabIndex] = useState(active ? 0 : -1);
@@ -34,7 +34,7 @@ export function HomeMenu({ active, setActive, search }) {
 		classNames.push(styles.Active);
 
 	let onlyAltKey = false;
-	const onKeyDown = (event) => {
+	const onKeyDown = (event: KeyboardEvent) => {
 		if (event.key === "Alt") {
 			event.preventDefault();
 			onlyAltKey = true;
@@ -47,7 +47,7 @@ export function HomeMenu({ active, setActive, search }) {
 		}
 	};
 
-	const onKeyUp = (event) => {
+	const onKeyUp = (event: KeyboardEvent) => {
 		if (event.key === "Alt" && onlyAltKey) {
 			event.preventDefault();
 			setActive(!active);

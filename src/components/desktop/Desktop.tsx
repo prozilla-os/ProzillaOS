@@ -24,10 +24,11 @@ import { Share } from "../modals/share/Share";
 import ModalsManager from "../../features/modals/modalsManager";
 import { VirtualFolder } from "../../features/virtual-drive/folder/virtualFolder";
 import { VirtualFolderLink } from "../../features/virtual-drive/folder/virtualFolderLink";
+import { VirtualFile } from "../../features/virtual-drive/file/virtualFile";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
-	const [wallpaper, setWallpaper] = useState(null);
+	const [wallpaper, setWallpaper] = useState<string>(null);
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
 	const [showIcons, setShowIcons] = useState(false);
@@ -41,16 +42,16 @@ export const Desktop = memo(() => {
 			<DropdownAction label="View" icon={faEye}>
 				<RadioAction initialIndex={iconSize} onTrigger={(event, params, value: string) => {
 					const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
-					settings.set("icon-size", value);
+					void settings.set("icon-size", value);
 				}} options={[
 					{ label: "Small icons" },
 					{ label: "Medium icons" },
 					{ label: "Large icons" }
 				]}/>
 				<Divider/>
-				<ToggleAction label="Show dekstop icons" initialValue={showIcons} onTrigger={(event, params, value) => {
+				<ToggleAction label="Show dekstop icons" initialValue={showIcons} onTrigger={() => {
 					const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
-					settings.set("show-icons", (!showIcons).toString());
+					void settings.set("show-icons", (!showIcons).toString());
 				}}/>
 			</DropdownAction>
 			<ClickAction label="Reload" shortcut={["Control", "r"]} icon={faArrowsRotate} onTrigger={() => {
@@ -77,56 +78,54 @@ export const Desktop = memo(() => {
 	});
 	const { onContextMenu: onContextMenuFile } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label="Open" onTrigger={(event, file) => {
+			<ClickAction label="Open" onTrigger={(event, file: VirtualFile) => {
 				file.open(windowsManager);
 			}}/>
-			<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={(event, file) => {
+			<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={(event, file: VirtualFile) => {
 				file.parent.open(windowsManager);
 			}}/>
-			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file: VirtualFile) => {
 				file.delete();
 			}}/>
 		</Actions>
 	});
 	const { onContextMenu: onContextMenuFolder } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label="Open" onTrigger={(event, folder) => {
+			<ClickAction label="Open" onTrigger={(event, folder: VirtualFolder) => {
 				folder.open(windowsManager);
 			}}/>
-			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={faTerminal} onTrigger={(event, folder) => {
+			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={faTerminal} onTrigger={(event, folder: VirtualFolder) => {
 				windowsManager.open(APPS.TERMINAL, { startPath: folder.path });
 			}}/>
-			<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={(event, folder) => {
+			<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={(event, folder: VirtualFolder) => {
 				folder.parent.open(windowsManager);
 			}}/>
 			<Divider/>
-			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder) => {
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder: VirtualFolder) => {
 				folder.delete();
 			}}/>
 		</Actions>
 	});
 
 	useEffect(() => {
-		(async () => {
-			const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
-			settings.get("wallpaper", setWallpaper);
-			settings.get("show-icons", (value) => {
-				if (value != null) {
-					setShowIcons(value === "true");
-				} else {
-					setShowIcons(true);
-				}
-			});
-			settings.get("icon-size", (value) => {
-				if (isValidInteger(value))
-					setIconSize(parseInt(value));
-			});
-		})();
+		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
+		void settings.get("wallpaper", setWallpaper);
+		void settings.get("show-icons", (value) => {
+			if (value != null) {
+				setShowIcons(value === "true");
+			} else {
+				setShowIcons(true);
+			}
+		});
+		void settings.get("icon-size", (value) => {
+			if (isValidInteger(value))
+				setIconSize(parseInt(value));
+		});
 	}, [settingsManager]);
 
 	const onError = () => {
 		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
-		settings.set("wallpaper", FALLBACK_WALLPAPER);
+		void settings.set("wallpaper", FALLBACK_WALLPAPER);
 	};
 
 	const iconScale = 1 + ((isValidInteger(iconSize) ? iconSize : FALLBACK_ICON_SIZE) - 1) / 4;
@@ -148,7 +147,7 @@ export const Desktop = memo(() => {
 				onOpenFile={(event, file) => {
 					(event as Event).preventDefault();
 
-					const options: Record<string, any> = {};
+					const options: Record<string, unknown> = {};
 					if (file.name === "info.md")
 						options.size = new Vector2(575, 675);
 					if (file.extension === "md")

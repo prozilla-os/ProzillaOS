@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { SettingsManager } from "../../../../features/settings/settingsManager";
 import styles from "../Settings.module.css";
 import utilStyles from "../../../../styles/utils.module.css";
@@ -17,17 +17,17 @@ import { VirtualFolder } from "../../../../features/virtual-drive/folder/virtual
 export function AppearanceSettings() {
 	const virtualRoot = useVirtualRoot();
 	const settingsManager = useSettingsManager();
-	const [wallpaper, setWallpaper] = useState(null);
+	const [wallpaper, setWallpaper] = useState<string>(null);
 	const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
 	const { openWindowedModal } = useWindowedModal();
 
 	useEffect(() => {
-		settings.get("wallpaper", setWallpaper);
+		void settings.get("wallpaper", setWallpaper);
 	}, [settings]);
 
-	const onChange = (event) => {
-		const value = event.target.value;
-		settings.set("wallpaper", value);
+	const onChange = (event: Event) => {
+		const value = (event.target as HTMLInputElement).value;
+		void settings.set("wallpaper", value);
 	};
 
 	return (<>
@@ -42,7 +42,7 @@ export function AppearanceSettings() {
 							type={SELECTOR_MODE.SINGLE}
 							allowedFormats={IMAGE_FORMATS}
 							onFinish={(file: VirtualFile) => {
-								settings.set("wallpaper", file.source);
+								void settings.set("wallpaper", file.source);
 							}}
 							{...props}
 						/>
@@ -59,7 +59,7 @@ export function AppearanceSettings() {
 							value={source}
 							aria-label="Wallpaper image"
 							checked={source === wallpaper}
-							onChange={onChange}
+							onChange={onChange as unknown as ChangeEventHandler}
 							tabIndex={0}
 						/>
 						<img src={source} alt={id} draggable="false"/>

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 
-/**
- * @param {object} params
- * @param {Function} params.onMouseDown
- * @param {Function} params.onMouseUp
- * @param {Function} params.onClick
- * @param {Function} params.onContextMenu
- */
-export function useMouseListener({ onMouseDown, onMouseUp, onClick, onContextMenu }) {
+interface UseMouseListenerParams {
+	onMouseDown: EventListener;
+	onMouseUp: EventListener;
+	onClick: EventListener;
+	onContextMenu: EventListener;
+}
+
+export function useMouseListener({ onMouseDown, onMouseUp, onClick, onContextMenu }: UseMouseListenerParams) {
 	useEffect(() => {
 		if (onMouseDown)
 			document.addEventListener("mousedown", onMouseDown);

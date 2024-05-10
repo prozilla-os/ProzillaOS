@@ -1,4 +1,4 @@
-import { CSSProperties, memo, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, memo, ReactEventHandler, UIEventHandler, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./Taskbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -78,12 +78,12 @@ export const Taskbar = memo(() => {
 
 	useEffect(() => {
 		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.taskbar);
-		settings.get("pins", (pins) => {
+		void settings.get("pins", (pins) => {
 			setPins(pins.split(","));
 		});
 	}, [settingsManager]);
 
-	const updateShowHome = (show) => {
+	const updateShowHome = (show: boolean) => {
 		setShowHome(show);
 
 		if (show) {
@@ -92,7 +92,7 @@ export const Taskbar = memo(() => {
 		}
 	};
 
-	const updateShowSearch = (show) => {
+	const updateShowSearch = (show: boolean) => {
 		setShowSearch(show);
 
 		if (show) {
@@ -104,7 +104,7 @@ export const Taskbar = memo(() => {
 			setHideUtilMenus(true);
 			
 			if (inputRef.current) {
-				inputRef.current.focus();
+				(inputRef.current as HTMLElement).focus();
 				window.scrollTo(0, document.body.scrollHeight);
 			}
 		} else {
@@ -122,7 +122,7 @@ export const Taskbar = memo(() => {
 		setHideUtilMenus(false);
 	};
 
-	const search = (query) => {
+	const search = (_query: string) => {
 		updateShowSearch(true);
 	};
 
@@ -174,8 +174,8 @@ export const Taskbar = memo(() => {
 				<div
 					className={styles["App-icons-inner"]}
 					data-allow-context-menu={true}
-					onScroll={onUpdate}
-					onResize={onUpdate}
+					onScroll={onUpdate as unknown as UIEventHandler}
+					onResize={onUpdate as unknown as ReactEventHandler}
 					ref={ref}
 				>
 					{apps}

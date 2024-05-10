@@ -5,9 +5,9 @@ import { WindowProps } from "../../windows/WindowView";
 
 export function Calculator({ active }: WindowProps) {
 	const [input, setInput] = useState("0");
-	const [firstNumber, setFirstNumber] = useState(null);
-	const [secondNumber, setSecondNumber] = useState(null);
-	const [operation, setOperation] = useState(null);
+	const [firstNumber, setFirstNumber] = useState<number>(null);
+	const [secondNumber, setSecondNumber] = useState<number>(null);
+	const [operation, setOperation] = useState<string>(null);
 	const [isIntermediate, setIsIntermediate] = useState(false);
 
 	const reset = useCallback(() => {
@@ -17,11 +17,11 @@ export function Calculator({ active }: WindowProps) {
 		setOperation(null);
 	}, []);
 
-	const addInput = useCallback((string) => {
+	const addInput = useCallback((string: string) => {
 		let hasReset = false;
 		if (secondNumber != null) {
 			if (isIntermediate) {
-				setFirstNumber(input);
+				setFirstNumber(parseFloat(input));
 				setSecondNumber(null);
 				setInput(null);
 			} else {
@@ -54,12 +54,10 @@ export function Calculator({ active }: WindowProps) {
 	}, [input, isIntermediate, reset, secondNumber]);
 
 	const calculate = useCallback((intermediate = false) => {
-		if (firstNumber == null) {
+		if (firstNumber != null) {
+			setSecondNumber(parseFloat(input));
 
-		} else {
-			setSecondNumber(input);
-
-			const a = parseFloat(firstNumber);
+			const a = firstNumber;
 			const b = parseFloat(input);
 			
 			let result = 0;
@@ -84,11 +82,11 @@ export function Calculator({ active }: WindowProps) {
 		setIsIntermediate(intermediate);
 	}, [firstNumber, input, operation]);
 
-	const changeOperation = useCallback((operation) => {
+	const changeOperation = useCallback((operation: string) => {
 		if (firstNumber != null && secondNumber == null) {
 			calculate(true);
 		} else {
-			setFirstNumber(input);
+			setFirstNumber(parseFloat(input));
 			setSecondNumber(null);
 			setInput(null);
 		}
@@ -97,7 +95,7 @@ export function Calculator({ active }: WindowProps) {
 	}, [calculate, firstNumber, input, secondNumber]);
 
 	useEffect(() => {
-		const onKeyDown = (event) => {
+		const onKeyDown = (event: KeyboardEvent) => {
 			if (!active)
 				return;
 

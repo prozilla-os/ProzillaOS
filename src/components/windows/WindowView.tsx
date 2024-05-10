@@ -4,7 +4,7 @@ import { faExpand, faMinus, faWindowMaximize as fasWindowMaximize, faTimes, faXm
 import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import Draggable from "react-draggable";
-import { FC, memo, MouseEventHandler, useEffect, useRef, useState } from "react";
+import { CSSProperties, FC, memo, MouseEventHandler, useEffect, useRef, useState } from "react";
 import Vector2 from "../../features/math/vector2";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import utilStyles from "../../styles/utils.module.css";
@@ -111,14 +111,17 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 		windowsManager.close(id);
 	};
 
-	const focus = (event, force = false) => {
-		if (force)
-			return onInteract();
+	const focus = (event: Event, force = false): void => {
+		if (force) {
+			onInteract();
+			return;
+		}
 
 		if (event?.defaultPrevented)
 			return;
 
-		if (event == null || event.target?.closest?.(".Handle") == null || event.target?.closest?.("button") == null)
+		const target = event?.target as HTMLElement;
+		if (event == null || target?.closest?.(".Handle") == null || target?.closest?.("button") == null)
 			onInteract();
 	};
 
@@ -128,7 +131,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 	if (minimized)
 		classNames.push(styles.Minimized);
 
-	return (<div style={{ zIndex, position: !maximized ? "relative" : null }}>
+	return (<div style={{ zIndex, position: !maximized ? "relative" : null } as CSSProperties}>
 		<ShortcutsListener/>
 		<Draggable
 			key={id}
@@ -146,13 +149,13 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 			cancel="button"
 			nodeRef={nodeRef}
 			disabled={maximized}
-			onStart={(event) => { focus(event); }}
+			onStart={(event) => { focus(event as Event); }}
 			grid={[1, 1]}
 		>
 			<div
 				className={classNames.join(" ")}
 				ref={nodeRef}
-				onClick={focus}
+				onClick={focus as unknown as MouseEventHandler}
 			>
 				<div
 					className={styles["Window-inner"]}
@@ -163,7 +166,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 				>
 					<div className={`${styles.Header} Window-handle`} onContextMenu={onContextMenu} onDoubleClick={(event) => {
 						setMaximized(!maximized);
-						focus(event, true);
+						focus(event as unknown as Event, true);
 					}}>
 						<ReactSVG
 							className={styles["Window-icon"]}
@@ -179,20 +182,20 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 							onClick={(event) => {
 								event.preventDefault();
 								setMaximized(!maximized);
-								focus(event, true);
+								focus(event as unknown as Event, true);
 							}}
 						>
 							<FontAwesomeIcon icon={maximized ? fasWindowMaximize : faWindowMaximize}/>
 						</button>
 						<button aria-label="Close" className={`${styles["Header-button"]} ${styles["Exit-button"]}`} tabIndex={0} id="close-window"
-							onClick={(event) => { close(event as unknown as Event); }}>
+							onClick={close as unknown as MouseEventHandler}>
 							<FontAwesomeIcon icon={faXmark}/>
 						</button>
 					</div>
 					<div className={styles["Window-content"]}>
 						<ErrorBoundary
 							FallbackComponent={(props) => <WindowFallbackView app={app} closeWindow={close} {...props}/>}
-							onReset={(details) => {
+							onReset={() => {
 								// Reset the state of your app so the error doesn't happen again
 							}}
 							onError={(error) => {

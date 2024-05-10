@@ -29,9 +29,9 @@ interface UseShortcutsParams {
 }
 
 export function useShortcuts({ options, shortcuts, useCategories = true }: UseShortcutsParams) {
-	const [activeKeys, setActiveKeys] = useState([]);
+	const [activeKeys, setActiveKeys] = useState<string[]>([]);
 
-	const checkShortcuts = useCallback((event, allowExecution = true) => {
+	const checkShortcuts = useCallback((event: KeyboardEvent, allowExecution = true) => {
 		if (!shortcuts)
 			return;
 
@@ -41,7 +41,7 @@ export function useShortcuts({ options, shortcuts, useCategories = true }: UseSh
 		if (keys.includes("Alt") && !event.altKey)
 			removeFromArray("Alt", keys);
 
-		const checkGroup = (group: Record<string, string[]>, category?) => {
+		const checkGroup = (group: Record<string, string[]>, category?: string) => {
 			for (const [name, shortcut] of Object.entries(group)) {
 				let active = true;
 
@@ -60,7 +60,7 @@ export function useShortcuts({ options, shortcuts, useCategories = true }: UseSh
 					continue;
 
 				if (category != null) {
-					options?.[category]?.[name]?.();
+					(options?.[category]?.[name] as Function)?.();
 				} else {
 					(options?.[name] as Function)?.();
 				}
@@ -69,7 +69,7 @@ export function useShortcuts({ options, shortcuts, useCategories = true }: UseSh
 
 		if (useCategories) {
 			for (const [category, group] of Object.entries(shortcuts)) {
-				checkGroup(group, category);
+				checkGroup(group as Record<string, string[]>, category);
 			}
 		} else {
 			checkGroup(shortcuts as Record<string, string[]>);
@@ -78,7 +78,7 @@ export function useShortcuts({ options, shortcuts, useCategories = true }: UseSh
 		setActiveKeys(keys);
 	}, [activeKeys, options, shortcuts, useCategories]);
 
-	const onKeyDown = (event) => {
+	const onKeyDown = (event: KeyboardEvent) => {
 		const isRepeated = activeKeys.includes(event.key);
 		checkShortcuts(event, isRepeated);
 
@@ -86,7 +86,7 @@ export function useShortcuts({ options, shortcuts, useCategories = true }: UseSh
 			setActiveKeys(activeKeys.concat([event.key]));
 	};
 
-	const onKeyUp = (event) => {
+	const onKeyUp = (event: KeyboardEvent) => {
 		checkShortcuts(event);
 
 		if (activeKeys.includes(event.key)) {

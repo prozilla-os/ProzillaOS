@@ -4,6 +4,7 @@ import { WindowProps } from "../../../windows/WindowView";
 
 interface WebViewProps extends WindowProps {
 	source: string;
+	title: string;
 }
 
 export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source, focus, ...props }: WebViewProps, ref) => {

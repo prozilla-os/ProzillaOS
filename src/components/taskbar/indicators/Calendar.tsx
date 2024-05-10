@@ -3,12 +3,12 @@ import styles from "./Calendar.module.css";
 import OutsideClickListener from "../../../hooks/_utils/outsideClick";
 import { UtilMenu } from "../menus/UtilMenu";
 
-/**
- * @param {object} props 
- * @param {boolean} props.hideUtilMenus 
- * @param {Function} props.showUtilMenu 
- */
-export function Calendar({ hideUtilMenus, showUtilMenu }) {
+interface CalendarProps {
+	hideUtilMenus: boolean;
+	showUtilMenu: Function;
+}
+
+export function Calendar({ hideUtilMenus, showUtilMenu }: CalendarProps) {
 	const [date, setDate] = useState(new Date());
 	const [showMenu, setShowMenu] = useState(false);
 
@@ -28,7 +28,7 @@ export function Calendar({ hideUtilMenus, showUtilMenu }) {
 		}
 	}, [hideUtilMenus, showMenu]);
 
-	const updateShowMenu = (show) => {
+	const updateShowMenu = (show: boolean) => {
 		if (show)
 			showUtilMenu();
 

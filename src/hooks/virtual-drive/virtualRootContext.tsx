@@ -11,9 +11,6 @@ export const VirtualRootProvider: FC<{ children: ReactNode }> = ({ children }) =
 	</VirtualRootContext.Provider>;
 };
 
-/**
- * @returns {VirtualRoot}
- */
-export function useVirtualRoot() {
+export function useVirtualRoot(): VirtualRoot {
 	return useContext(VirtualRootContext);
 }

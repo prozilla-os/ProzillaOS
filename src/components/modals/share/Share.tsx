@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import ModalsManager from "../../../features/modals/modalsManager";
 import { WindowedModal } from "../_utils/WindowedModal";
 import styles from "./Share.module.css";
@@ -13,7 +13,7 @@ import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { useAlert } from "../../../hooks/modals/alert";
 import { ModalProps } from "../ModalView";
 
-const APP_OPTIONS = {
+const APP_OPTIONS: Record<string, Record<string, string>[]> = {
 	"terminal": [
 		{
 			label: "Command",
@@ -35,10 +35,10 @@ const APP_OPTIONS = {
 };
 
 export function Share({ modal, params, ...props }: ModalProps) {
-	const [appId, setAppId] = useState(params.appId ?? "");
-	const [fullscreen, setFullscreen] = useState(params.fullscreen ?? false);
+	const [appId, setAppId] = useState<string>(params.appId ?? "");
+	const [fullscreen, setFullscreen] = useState<boolean>(params.fullscreen ?? false);
 	const [options, setOptions] = useState({});
-	const [url, setUrl] = useState(null);
+	const [url, setUrl] = useState<string | null>(null);
 	const { alert } = useAlert();
 
 	useEffect(() => {
@@ -49,8 +49,8 @@ export function Share({ modal, params, ...props }: ModalProps) {
 		}));
 	}, [appId, fullscreen, options]);
 
-	const onAppIdChange = (event) => {
-		const newAppId = event.target.value;
+	const onAppIdChange = (event: Event) => {
+		const newAppId = (event.target as HTMLInputElement).value;
 
 		if (newAppId === appId)
 			return;
@@ -69,12 +69,12 @@ export function Share({ modal, params, ...props }: ModalProps) {
 		}
 	};
 
-	const onFullscreenChange = (event) => {
-		const newFullscreen = event.target.checked;
+	const onFullscreenChange = (event: Event) => {
+		const newFullscreen = (event.target as HTMLInputElement).checked;
 		setFullscreen(newFullscreen);
 	};
 
-	const setOption = (name, value) => {
+	const setOption = (name: string, value: string) => {
 		setOptions((options = {}) => {
 			options = { ...options };
 			options[name] = value;
@@ -92,7 +92,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 			<form className={styles.Form}>
 				<label className={styles.Label}>
 					<p>App:</p>
-					<select className={styles.Input} name="app" value={appId} onChange={onAppIdChange}>
+					<select className={styles.Input} name="app" value={appId} onChange={onAppIdChange as unknown as ChangeEventHandler}>
 						<option value={""}>(None)</option>
 						{AppsManager.APPS.map(({ name, id }) =>
 							<option key={id} value={id}>{name}</option>
@@ -101,7 +101,14 @@ export function Share({ modal, params, ...props }: ModalProps) {
 				</label>
 				{appId !== "" ? <label className={styles.Label}>
 					<p>Fullscreen:</p>
-					<input className={styles.Input} name="fullscreen" type="checkbox" checked={fullscreen} value={fullscreen} onChange={onFullscreenChange}/>
+					<input
+						className={styles.Input}
+						name="fullscreen"
+						type="checkbox"
+						checked={fullscreen}
+						value={fullscreen.toString()}
+						onChange={onFullscreenChange as unknown as ChangeEventHandler}
+					/>
 					<div className={styles.Checkbox}>
 						{fullscreen 
 							? <FontAwesomeIcon icon={faSquareCheck}/>

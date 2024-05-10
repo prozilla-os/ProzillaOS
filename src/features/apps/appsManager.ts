@@ -38,7 +38,7 @@ export default class AppsManager {
 	];
 
 	static getAppById(id: string): App | null {
-		let application = null;
+		let application: App | null = null;
 
 		this.APPS.forEach((app) => {
 			if (app.id === id) {
@@ -54,7 +54,7 @@ export default class AppsManager {
 	 * Get the app associated with a file extension
 	 */
 	static getAppByFileExtension(fileExtension: string): App {
-		let app = null;
+		let app: App = null;
 
 		if (IMAGE_FORMATS.includes(fileExtension))
 			return this.getAppById(APPS.MEDIA_VIEWER);

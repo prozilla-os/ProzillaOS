@@ -54,7 +54,7 @@ export class VirtualFolder extends VirtualBase {
 	 * Finds and returns a file inside this folder matching a name and extension
 	 */
 	findFile(name: string, extension?: string): VirtualFile | VirtualFileLink {
-		let resultFile = null;
+		let resultFile: VirtualFile | VirtualFileLink = null;
 
 		this.files.forEach((file) => {
 			const matchingName = (file.name === name || (file.alias && file.alias === name));
@@ -71,7 +71,7 @@ export class VirtualFolder extends VirtualBase {
 	 * Finds and returns a folder inside this folder matching a name
 	 */
 	findSubFolder(name: string): VirtualFolder | VirtualFolderLink {
-		let resultFolder = null;
+		let resultFolder: VirtualFolder | VirtualFolderLink = null;
 
 		this.subFolders.forEach((folder) => {
 			if (folder.name === name || (folder.alias && folder.alias === name)) {
@@ -221,7 +221,7 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Removes a file or folder from this folder
 	 */
-	remove(child: VirtualFile | VirtualFolder | VirtualFolderLink) {
+	remove(child: VirtualFile | VirtualFileLink | VirtualFolder | VirtualFolderLink) {
 		if (!this.canBeEdited)
 			return;
 
@@ -241,9 +241,9 @@ export class VirtualFolder extends VirtualBase {
 	 */
 	navigate(relativePath: string): VirtualFile | VirtualFolder | null {
 		const segments = relativePath.split("/");
-		let currentDirectory: VirtualFile | VirtualFolder = this;
+		let currentDirectory: VirtualFile | VirtualFolder = this as VirtualFolder;
 
-		const getDirectory = (path, isStart) => {
+		const getDirectory = (path: string, isStart: boolean) => {
 			if (isStart && path === "") {
 				return this.getRoot();
 			} else if (isStart && Object.keys(this.getRoot().shortcuts).includes(path)) {

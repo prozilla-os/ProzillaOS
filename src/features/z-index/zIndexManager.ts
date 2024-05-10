@@ -14,8 +14,7 @@ export class ZIndexManager extends EventEmitter<typeof ZIndexManagerEvents> {
 
 	static EVENT_NAMES = ZIndexManagerEvents;
 
-	/** @type {ZIndexGroup[]} */
-	groups = [];
+	groups: ZIndexGroup[] = [];
 
 	constructor() {
 		super();
@@ -41,7 +40,7 @@ export class ZIndexManager extends EventEmitter<typeof ZIndexManagerEvents> {
 		}
 	}
 
-	getIndex(groupIndex, index) {
+	getIndex(groupIndex: number, index: number) {
 		return this.groups[groupIndex].getIndex(index);
 	}
 }

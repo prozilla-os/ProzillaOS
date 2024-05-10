@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from "react";
+import { ChangeEventHandler, FC, KeyboardEventHandler, useCallback, useEffect, useState } from "react";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -40,10 +40,10 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState<VirtualFolder>(virtualRoot.navigate(startPath ?? "~") as VirtualFolder);
-	const [path, setPath] = useState(currentDirectory?.path ?? "");
+	const [path, setPath] = useState<string>(currentDirectory?.path ?? "");
 	const windowsManager = useWindowsManager();
 	const [showHidden] = useState(true);
-	const { history, stateIndex, pushState, undo, redo, undoAvailable, redoAvailable } = useHistory(currentDirectory.path);
+	const { history, stateIndex, pushState, undo, redo, undoAvailable, redoAvailable } = useHistory<string>(currentDirectory.path);
 
 	const { openWindowedModal } = useWindowedModal();
 	const { onContextMenu: onContextMenuFile } = useContextMenu({ Actions: (props) =>
@@ -56,29 +56,29 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 				}
 				file.open(windowsManager);
 			}}/>
-			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file: VirtualFile) => {
 				file.delete();
 			}}/>
-			<ClickAction label="Properties" icon={faCircleInfo} onTrigger={(event, file) => {
+			<ClickAction label="Properties" icon={faCircleInfo} onTrigger={(event, file: VirtualFile) => {
 				openWindowedModal({
 					title: `${file.id} ${TITLE_SEPARATOR} Properties`,
 					iconUrl: file.getIconUrl(),
 					size: new Vector2(400, 500),
-					Modal: (props) => <FileProperties file={file} {...props}/>
+					Modal: (props: object) => <FileProperties file={file} {...props}/>
 				});
 			}}/>
 		</Actions>
 	});
 	const { onContextMenu: onContextMenuFolder } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label="Open" onTrigger={(event, folder) => {
+			<ClickAction label="Open" onTrigger={(event, folder: VirtualFolder & VirtualFolderLink) => {
 				changeDirectory(folder.linkedPath ?? folder.name);
 			}}/>
-			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={(event, folder) => {
+			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={(event, folder: VirtualFolder) => {
 				windowsManager.open(APPS.TERMINAL, { startPath: folder.path });
 			}}/>
 			<Divider/>
-			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder) => {
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder: VirtualFolder) => {
 				folder.delete();
 			}}/>
 		</Actions>
@@ -91,7 +91,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 	// 	}
 	// });
 
-	const changeDirectory = useCallback((path, absolute = false) => {
+	const changeDirectory = useCallback((path: string, absolute = false) => {
 		if (path == null)
 			return;
 
@@ -119,12 +119,12 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 		}
 	}, [history, stateIndex, virtualRoot]);
 
-	const onPathChange = (event) => {
-		setPath(event.target.value);
+	const onPathChange = (event: Event) => {
+		setPath((event.target as HTMLInputElement).value);
 	};
 
-	const onKeyDown = (event) => {
-		let value = event.target.value;
+	const onKeyDown = (event: KeyboardEvent) => {
+		let value = (event.target as HTMLInputElement).value;
 
 		if (event.key === "Enter") {
 			if (value === "")
@@ -160,7 +160,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 					title="Back"
 					tabIndex={0}
 					className={styles["Icon-button"]}
-					onClick={undo}
+					onClick={() => { undo(); }}
 					disabled={!undoAvailable}
 				>
 					<FontAwesomeIcon icon={faCaretLeft}/>
@@ -169,7 +169,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 					title="Forward"
 					tabIndex={0}
 					className={styles["Icon-button"]}
-					onClick={redo}
+					onClick={() => { redo(); }}
 					disabled={!redoAvailable}
 				>
 					<FontAwesomeIcon icon={faCaretRight}/>
@@ -215,8 +215,8 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 					aria-label="Path"
 					className={styles["Path-input"]}
 					tabIndex={0}
-					onChange={onPathChange}
-					onKeyDown={onKeyDown}
+					onChange={onPathChange as unknown as ChangeEventHandler}
+					onKeyDown={onKeyDown as unknown as KeyboardEventHandler}
 					placeholder="Enter a path..."
 				/>
 				<button title="Search" tabIndex={0} className={styles["Icon-button"]}>
@@ -241,7 +241,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 					onOpenFile={(event, file) => {
 						(event as Event).preventDefault();
 						if (isSelector)
-							return onSelectionFinish?.();
+							return void onSelectionFinish?.();
 						const options: Record<string, string> = {};
 						if (file.extension === "md" || CODE_FORMATS.includes(file.extension))
 							options.mode = "view";

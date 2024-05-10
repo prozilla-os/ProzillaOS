@@ -1,6 +1,6 @@
 import Command from "./command";
 
-let commands = [];
+let commands: Command[] = [];
 
 /**
  * Dynamically import commands
@@ -9,7 +9,7 @@ const loadCommands = () => {
 	commands = [];
 	const context = require.context("./commands", false, /\.ts$/);
 	context.keys().forEach((key) => {
-		const commandModule = context(key);
+		const commandModule = context(key) as Record<string, Command>;
 		const commandName = Object.keys(commandModule)[0];
 
 		const command = commandModule[commandName];
@@ -25,7 +25,7 @@ export default class CommandsManager {
 	static COMMANDS = commands;
 
 	static find(name: string): Command {
-		let matchCommand = null;
+		let matchCommand: Command = null;
 
 		this.COMMANDS.forEach((command) => {
 			if (command.name === name) {

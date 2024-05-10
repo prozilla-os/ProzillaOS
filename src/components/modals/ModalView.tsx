@@ -1,21 +1,27 @@
-import { CSSProperties, FC, memo, ReactNode } from "react";
+import { CSSProperties, FC, KeyboardEvent, memo, ReactNode } from "react";
 import Modal from "../../features/modals/modal";
 import OutsideClickListener from "../../hooks/_utils/outsideClick";
 import styles from "./ModalView.module.css";
 import { useEffect } from "react";
 
 export interface ModalProps {
-	modal: Modal;
-	params?: Record<string, any>;
+	modal?: Modal;
+	params?: {
+		appId?: string;
+		fullscreen?: boolean;
+		iconUrl?: string;
+		title?: string;
+		[key: string]: unknown;
+	};
 	children?: ReactNode;
 	onFinish?: Function;
-	[key: string]: any;
+	[key: string]: unknown;
 }
 
 export const ModalView: FC<ModalProps> = memo(({ modal }) => {
 	useEffect(() => {
-		const onDismiss = (event) => {
-			if (event.key === "Escape")
+		const onDismiss = (event: Event) => {
+			if ((event as unknown as KeyboardEvent).key === "Escape")
 				modal.close();
 		};
 

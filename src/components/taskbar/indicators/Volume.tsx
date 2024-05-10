@@ -5,12 +5,12 @@ import OutsideClickListener from "../../../hooks/_utils/outsideClick";
 import { UtilMenu } from "../menus/UtilMenu";
 import styles from "./Volume.module.css";
 
-/**
- * @param {object} props 
- * @param {boolean} props.hideUtilMenus 
- * @param {Function} props.showUtilMenu 
- */
-export function Volume({ hideUtilMenus, showUtilMenu }) {
+interface VolumeProps {
+	hideUtilMenus: boolean;
+	showUtilMenu: Function;
+}
+
+export function Volume({ hideUtilMenus, showUtilMenu }: VolumeProps) {
 	const [showMenu, setShowMenu] = useState(false);
 
 	useEffect(() => {
@@ -19,7 +19,7 @@ export function Volume({ hideUtilMenus, showUtilMenu }) {
 		}
 	}, [hideUtilMenus, showMenu]);
 
-	const updateShowMenu = (show) => {
+	const updateShowMenu = (show: boolean) => {
 		if (show)
 			showUtilMenu();
 

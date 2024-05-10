@@ -20,12 +20,6 @@ function useOutsideClickListener(ref: { current: HTMLElement | null }, callback:
 	}, [ref, callback]);
 }
 
-/**
- * @param {object} props
- * @param {Function} props.onOutsideClick
- * @param {import("react").ElementType} props.children
- */
-
 interface OutsideClickListenerProps {
 	onOutsideClick: (event: Event) => void;
 	children: ReactNode;

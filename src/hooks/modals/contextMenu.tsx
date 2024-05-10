@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import { FC, MouseEvent, useCallback } from "react";
 import Vector2 from "../../features/math/vector2";
 import Modal from "../../features/modals/modal";
 import { ActionsProps, STYLES } from "../../components/actions/Actions";
@@ -13,12 +13,12 @@ export function useContextMenu({ Actions }: UseContextMenuParams) {
 	const modalsManager = useModalsManager();
 
 	// Open a new modal when context menu is triggered
-	const onContextMenu = useCallback((event, params = {}) => {
+	const onContextMenu = useCallback((event: MouseEvent<HTMLElement>, params: object = {}) => {
 		event.preventDefault();
 		event.stopPropagation();
 
-		let positionX = (event?.clientX ?? 0);
-		let positionY = (event?.clientY ?? 0);
+		let positionX = event?.clientX ?? 0;
+		let positionY = event?.clientY ?? 0;
 
 		if (modalsManager.containerRef?.current) {
 			const containerRect = modalsManager.containerRef.current.getBoundingClientRect();

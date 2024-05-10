@@ -46,7 +46,7 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 			return this;;
 
 		this.alias = alias;
-		this.getRoot().addShortcut(alias, this as any);
+		this.getRoot().addShortcut(alias, this as never);
 
 		this.confirmChanges();
 		return this;
@@ -100,7 +100,7 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 		if (parent == null)
 			return;
 
-		parent.remove?.(this as any);
+		parent.remove?.(this as never);
 		this.confirmChanges(parent.getRoot());
 	}
 
@@ -114,9 +114,11 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 		root?.saveData();
 	}
 
-	open(..._args: any[]): any {}
+	open(..._args: unknown[]): unknown {
+		return null;
+	};
 
-	get path() {
+	get path(): string {
 		return this.alias ?? this.displayPath;
 	}
 
@@ -176,5 +178,14 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 		};
 
 		return object;
+	}
+
+	toString(): string | null {
+		const json = this.toJSON();
+
+		if (json == null)
+			return null;
+
+		return JSON.stringify(json);
 	}
 }

@@ -43,7 +43,7 @@ export const WindowsView: FC = memo(() => {
 		if (windowsManager.startupComplete)
 			return;
 
-		let startupAppNames = [];
+		let startupAppNames: string[] = [];
 
 		// Get app name and params from URL query
 		const params = getViewportParams();
@@ -54,7 +54,7 @@ export const WindowsView: FC = memo(() => {
 
 		// Get list of app names from settings file
 		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.apps);
-		settings.get("startup", (value) => {
+		void settings.get("startup", (value) => {
 			if (value !== "") {
 				startupAppNames = value?.split(",").concat(startupAppNames);
 				startupAppNames = removeDuplicatesFromArray(startupAppNames);
@@ -79,7 +79,7 @@ export const WindowsView: FC = memo(() => {
 				position={position}
 				options={options}
 				minimized={minimized}
-				toggleMinimized={(event) => {
+				toggleMinimized={(event: Event) => {
 					event.preventDefault();
 					event.stopPropagation();
 					windowsManager.setMinimized(id, !minimized);

@@ -7,15 +7,8 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Draggable from "react-draggable";
 import { ReactSVG } from "react-svg";
 import utilStyles from "../../../styles/utils.module.css";
-import Modal from "../../../features/modals/modal";
 import { ModalProps } from "../ModalView";
 
-/**
- * @param {object} props 
- * @param {Modal} props.modal 
- * @param {*} props.params 
- * @param {*} props.children 
- */
 export function WindowedModal({ modal, params, children, ...props }: ModalProps) {
 	const { iconUrl, title } = params;
 

@@ -1,9 +1,9 @@
 import { StorageManager } from "../../storage/storageManager";
-import { VirtualFolderLink } from "../folder/virtualFolderLink";
+import { VirtualFolderLink, VirtualFolderLinkJson } from "../folder/virtualFolderLink";
 import { loadDefaultData } from "./defaultData";
 import { VirtualFile, VirtualFileJson } from "../file/virtualFile";
 import { VirtualFolder } from "../folder";
-import { VirtualFileLink } from "../file/virtualFileLink";
+import { VirtualFileLink, VirtualFileLinkJson } from "../file/virtualFileLink";
 import { VirtualFolderJson } from "../folder/virtualFolder";
 
 export interface VirtualRootJson extends VirtualFolderJson {
@@ -34,16 +34,16 @@ export class VirtualRoot extends VirtualFolder {
 		if (data == null)
 			return;
 
-		let object;
+		let object: VirtualRootJson | null = null;
 		try {
-			object = JSON.parse(data);
+			object = JSON.parse(data) as VirtualRootJson;
 		} catch (error) {
 			console.error(error);
 		}
 		if (object == null)
 			return;
 
-		const shortcuts = { ...object.scs };
+		const shortcuts = { ...object.scs } as Record<string, string>;
 
 		const addFile = ({
 			nam: name,
@@ -52,7 +52,7 @@ export class VirtualRoot extends VirtualFolder {
 			cnt: content,
 			lnk: link,
 			ico: iconUrl,
-		}: any, parent: VirtualFolder = this) => {
+		}: VirtualFileJson & VirtualFileLinkJson, parent: VirtualFolder = this) => {
 			if (link) {
 				parent.createFileLink(name, (fileLink: VirtualFileLink) => {
 					fileLink.setLinkedPath(link);
@@ -81,7 +81,7 @@ export class VirtualRoot extends VirtualFolder {
 			fls: files,
 			lnk: link,
 			ico: iconUrl,
-		}: any, parent: VirtualFolder = this) => {
+		}: VirtualFolderJson & VirtualFolderLinkJson, parent: VirtualFolder = this) => {
 			if (link) {
 				parent.createFolderLink(name, (folderLink: VirtualFolderLink) => {
 					folderLink.setLinkedPath(link);
@@ -94,7 +94,7 @@ export class VirtualRoot extends VirtualFolder {
 
 			parent.createFolder(name, (folder: VirtualFolder) => {
 				if (Object.values(shortcuts).includes(folder.displayPath)) {
-					let alias;
+					let alias: string;
 					for (const [key, value] of Object.entries(shortcuts)) {
 						if (value === folder.displayPath)
 							alias = key;
@@ -102,12 +102,12 @@ export class VirtualRoot extends VirtualFolder {
 					folder.setAlias(alias);
 				}
 				if (folders != null) {
-					folders.forEach((subFolder: VirtualFolderJson) => {
+					folders.forEach((subFolder: VirtualFolderJson & VirtualFolderLinkJson) => {
 						addFolder(subFolder, folder);
 					});
 				}
 				if (files != null) {
-					files.forEach((file: VirtualFileJson) => {
+					files.forEach((file: VirtualFileJson & VirtualFileLinkJson) => {
 						addFile(file, folder);
 					});
 				}
@@ -118,12 +118,12 @@ export class VirtualRoot extends VirtualFolder {
 		};
 
 		if (object.fds != null) {
-			object.fds.forEach((subFolder: VirtualFolderJson) => {
+			object.fds.forEach((subFolder: VirtualFolderJson & VirtualFolderLinkJson) => {
 				addFolder(subFolder);
 			});
 		}
 		if (object.fls != null) {
-			object.fls.forEach((file: VirtualFileJson) => {
+			object.fls.forEach((file: VirtualFileJson & VirtualFileLinkJson) => {
 				addFile(file);
 			});
 		}
@@ -181,15 +181,15 @@ export class VirtualRoot extends VirtualFolder {
 		}
 	}
 
-	static isValidName(name) {
+	static isValidName(_name: string) {
 		// TO DO
 	}
 
-	static isValidFileName(name) {
+	static isValidFileName(_name: string) {
 		// TO DO
 	}
 
-	static isValidFolderName(name) {
+	static isValidFolderName(_name: string) {
 		// TO DO
 	}
 
@@ -219,9 +219,6 @@ export class VirtualRoot extends VirtualFolder {
 		return object;
 	}
 
-	/**
-	 * @returns {string | null}
-	 */
 	toString(): string | null {
 		const json = this.toJSON();
 

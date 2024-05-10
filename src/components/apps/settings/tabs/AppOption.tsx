@@ -10,8 +10,15 @@ import { ClickAction } from "../../../actions/actions/ClickAction";
 import { removeFromArray } from "../../../../features/_utils/array.utils";
 import { useSettingsManager } from "../../../../hooks/settings/settingsManagerContext";
 import { SettingsManager } from "../../../../features/settings/settingsManager";
+import App from "../../../../features/apps/app";
 
-export function AppOption({ app, pins, setPins }) {
+interface AppOptionProps {
+	app: App;
+	pins: string[];
+	setPins: Function;
+}
+
+export function AppOption({ app, pins, setPins: _setPins }: AppOptionProps) {
 	const isPinned = pins.includes(app.id);
 
 	const settingsManager = useSettingsManager();
@@ -29,7 +36,7 @@ export function AppOption({ app, pins, setPins }) {
 				}
 
 				const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.taskbar);
-				settings.set("pins", newPins.join(","));
+				void settings.set("pins", newPins.join(","));
 			}}/>
 		</Actions>
 	});

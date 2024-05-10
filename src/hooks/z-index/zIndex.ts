@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useZIndexManager } from "./zIndexManagerContext";
 import { ZIndexManager } from "../../features/z-index/zIndexManager";
 
-export function useZIndex({ groupIndex, index }) {
+interface UseZIndexParams {
+	groupIndex: number;
+	index: number;
+}
+
+export function useZIndex({ groupIndex, index }: UseZIndexParams) {
 	const initialIndex = (groupIndex * 10) + index;
 	const [zIndex, setZIndex] = useState(initialIndex);
 	const zIndexManager = useZIndexManager();

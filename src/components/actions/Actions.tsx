@@ -1,4 +1,4 @@
-import { Children, cloneElement, isValidElement, ReactElement, ReactNode } from "react";
+import { Children, cloneElement, isValidElement, ReactElement, ReactNode, Ref } from "react";
 import { useShortcuts } from "../../hooks/_utils/keyboard";
 import styles from "./Actions.module.css";
 import { useScreenBounds } from "../../hooks/_utils/screen";
@@ -11,17 +11,17 @@ export const STYLES = {
 export interface ActionProps {
 	actionId?: string;
 	label?: string;
-	icon?: string|object;
+	icon?: string | object;
 	shortcut?: string[];
-	onTrigger?: (event: Event, triggerParams: any, ...args: any[]) => void;
+	onTrigger?: (event: Event, triggerParams: unknown, ...args: unknown[]) => void;
 	children?: ReactNode;
 }
 
 export interface ActionsProps {
 	className?: string;
-	onAnyTrigger?: (event: Event, triggerParams: any, ...args: any[]) => void;
+	onAnyTrigger?: (event: Event, triggerParams: unknown, ...args: unknown[]) => void;
 	children?: ReactNode;
-	triggerParams?: any;
+	triggerParams?: unknown;
 	avoidTaskbar?: boolean;
 }
 
@@ -44,7 +44,7 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 	const options = {};
 	const shortcuts = {};
 
-	const iterateOverChildren = (children: ReactNode) => {
+	const iterateOverChildren = (children: ReactNode): ReactNode => {
 		let actionId = 0;
 		const newChildren = Children.map(children, (child) => {
 			if (!isValidElement(child))
@@ -52,7 +52,7 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 
 			actionId++;
 
-			const { label, shortcut, onTrigger } = child.props;
+			const { label, shortcut, onTrigger } = child.props as ActionProps;
 			if (label != null && onTrigger != null) {
 				options[actionId] = onTrigger;
 
@@ -61,19 +61,18 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 			}
 
 			if (isListener) {
-				iterateOverChildren(child.props.children);
-				return;
+				return iterateOverChildren((child.props as ActionProps).children);
 			}
 		
 			return cloneElement(child, {
 				...child.props,
 				actionId,
-				children: iterateOverChildren(child.props.children),
+				children: iterateOverChildren((child.props as ActionProps).children),
 				onTrigger: (event, ...args) => {
 					onAnyTrigger?.(event, triggerParams, ...args);
 					onTrigger?.(event, triggerParams, ...args);
 				}
-			});
+			} as ActionProps);
 		});
 
 		return newChildren;
@@ -82,7 +81,7 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 	useShortcuts({ options, shortcuts, useCategories: false });
 
 	if (isListener)
-		return iterateOverChildren(children);
+		return iterateOverChildren(children) as ReactElement;
 
 	const classNames = [styles.Container];
 	if (className != null)
@@ -94,7 +93,7 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 	if (!initiated)
 		classNames.push(styles.Uninitiated);
 
-	return <div ref={ref} className={classNames.join(" ")}>
+	return <div ref={ref as Ref<HTMLDivElement>} className={classNames.join(" ")}>
 		{iterateOverChildren(children)}
 	</div>;
 }

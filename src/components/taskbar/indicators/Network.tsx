@@ -5,12 +5,12 @@ import OutsideClickListener from "../../../hooks/_utils/outsideClick";
 import { UtilMenu } from "../menus/UtilMenu";
 import styles from "./Network.module.css";
 
-/**
- * @param {object} props 
- * @param {boolean} props.hideUtilMenus 
- * @param {Function} props.showUtilMenu 
- */
-export function Network({ hideUtilMenus, showUtilMenu }) {
+interface NetworkProps {
+	hideUtilMenus: boolean;
+	showUtilMenu: Function;
+}
+
+export function Network({ hideUtilMenus, showUtilMenu }: NetworkProps) {
 	const [showMenu, setShowMenu] = useState(false);
 
 	useEffect(() => {
@@ -19,7 +19,7 @@ export function Network({ hideUtilMenus, showUtilMenu }) {
 		}
 	}, [hideUtilMenus, showMenu]);
 
-	const updateShowMenu = (show) => {
+	const updateShowMenu = (show: boolean) => {
 		if (show)
 			showUtilMenu();
 

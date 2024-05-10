@@ -60,7 +60,7 @@ export default class Modal {
 		this.lastInteraction = Date.now();
 	}
 
-	finish(...args: any[]) {
+	finish(...args: unknown[]) {
 		if (this.modalsManager == null || this.id == null)
 			return;
 

@@ -38,7 +38,7 @@ export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, pins, 
 				}
 
 				const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.taskbar);
-				settings.set("pins", newPins.join(","));
+				void settings.set("pins", newPins.join(","));
 			}}/>
 			{active && <ClickAction label="Close window" icon={faTimes} onTrigger={() => {
 				windowsManager.close(windowsManager.getAppWindowId(app.id));

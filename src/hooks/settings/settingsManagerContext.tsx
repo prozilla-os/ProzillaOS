@@ -1,7 +1,6 @@
 import { createContext, FC, ReactNode, useContext } from "react";
 import { SettingsManager } from "../../features/settings/settingsManager";
 import { useVirtualRoot } from "../virtual-drive/virtualRootContext";
-import { VirtualRoot } from "../../features/virtual-drive/root/virtualRoot";
 
 type SettingsManagerState = SettingsManager | undefined;
 
@@ -12,7 +11,7 @@ const SettingsManagerContext = createContext<SettingsManagerState>(undefined);
  */
 export const SettingsManagerProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const virtualRoot = useVirtualRoot();
-	const settingsManager = new SettingsManager(virtualRoot as VirtualRoot);
+	const settingsManager = new SettingsManager(virtualRoot);
 
 	return (
 		<SettingsManagerContext.Provider value={settingsManager}>

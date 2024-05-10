@@ -17,7 +17,7 @@ export function AboutSettings() {
 			<div className={styles["Button-group"]}>
 				<Button
 					className={`${styles.Button} ${utilStyles["Text-bold"]}`}
-					onClick={(event) => {
+					onClick={(event: Event) => {
 						event.preventDefault();
 						windowsManager.open("text-editor", {
 							mode: "view",

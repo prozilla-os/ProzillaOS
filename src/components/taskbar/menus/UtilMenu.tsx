@@ -1,13 +1,14 @@
+import { ReactNode } from "react";
 import styles from "./UtilMenu.module.css";
 
-/**
- * @param {object} props 
- * @param {boolean} props.active
- * @param {Function} props.setActive
- * @param {*} props.className
- * @param {*} props.children
- */
-export function UtilMenu({ active, setActive, className, children }) {
+interface UtilMenuProps {
+	active: boolean;
+	setActive: Function;
+	className: string;
+	children: ReactNode;
+}
+
+export function UtilMenu({ active, setActive: _setActive, className, children }: UtilMenuProps) {
 	const classNames = [styles["Container-outer"]];
 	if (active)
 		classNames.push(styles.Active);

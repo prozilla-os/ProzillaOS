@@ -105,7 +105,7 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 					});
 				});
 			}).createFolder("fonts", (folder) => {
-				folder.createFolders(["poppins", "roboto-mono"]);
+				folder.createFolders(["outfit", "roboto-mono"]);
 			}).createFolder("screenshots", (folder) => {
 				folder.createFile("screenshot", "png", (file) => {
 					file.setSource(`${process.env.PUBLIC_URL}/assets/screenshots/screenshot-files-settings-taskbar-desktop.png`);

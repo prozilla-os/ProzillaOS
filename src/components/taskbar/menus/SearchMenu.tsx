@@ -3,20 +3,21 @@ import appStyles from "./AppList.module.css";
 import AppsManager from "../../../features/apps/appsManager";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
 import { ReactSVG } from "react-svg";
-import { useEffect, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { useKeyboardListener } from "../../../hooks/_utils/keyboard";
+import App from "../../../features/apps/app";
 
-/**
- * @param {object} props 
- * @param {boolean} props.active
- * @param {Function} props.setActive
- * @param {string} props.searchQuery
- * @param {Function} props.setSearchQuery
- * @param {import("react").ElementRef} props.inputRef
- */
-export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inputRef }) {
+interface SearchMenuProps {
+	active: boolean;
+	setActive: Function;
+	searchQuery: string;
+	setSearchQuery: Function;
+	inputRef: { current: HTMLInputElement | undefined };
+}
+
+export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inputRef }: SearchMenuProps) {
 	const windowsManager = useWindowsManager();
-	const [apps, setApps] = useState(null);
+	const [apps, setApps] = useState<App[]>(null);
 	const [tabIndex, setTabIndex] = useState(active ? 0 : -1);
 
 	useEffect(() => {
@@ -38,8 +39,8 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 		));
 	}, [searchQuery]);
 
-	const onChange = (event) => {
-		const value = event.target.value;
+	const onChange = (event: Event) => {
+		const value = (event.target as HTMLInputElement).value;
 		setSearchQuery(value);
 	};
 
@@ -47,7 +48,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	if (active && apps)
 		classNames.push(styles.Active);
 
-	const onKeyDown = (event) => {
+	const onKeyDown = (event: KeyboardEvent) => {
 		if ((event.key === "f" || event.key === "g") && event.ctrlKey && !active) {
 			event.preventDefault();
 			setActive(true);
@@ -72,7 +73,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 					aria-label="Search query"
 					tabIndex={tabIndex}
 					value={searchQuery}
-					onChange={onChange}
+					onChange={onChange as unknown as ChangeEventHandler}
 					spellCheck={false}
 					placeholder="Search..."
 				/>
