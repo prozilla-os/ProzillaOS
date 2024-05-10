@@ -62,7 +62,7 @@ export function generateUrl(options: { appId: string; fullscreen: boolean; }) {
 		return baseUrl;
 
 	const { appId, fullscreen, ...extraOptions } = options;
-	const params = new URLSearchParams();
+	const params: URLSearchParams & { size?: number } = new URLSearchParams();
 
 	if (appId)
 		params.set("app", appId);

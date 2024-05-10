@@ -1,5 +1,6 @@
 @import "./global/variables.css";
 @import "./global/fonts.css";
+@import "./global/themes.css";
 @import "./global/scrollbar.css";
 
 html, body, #root {

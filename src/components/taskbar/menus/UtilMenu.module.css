@@ -9,7 +9,7 @@
 .Container-inner {
 	opacity: 1;
 	display: flex;
-	background-color: rgba(25, 25, 25, 75%);
+	background-color: hsla(var(--background-color-c-hsl), 75%);
 	border-top-left-radius: 0.5rem;
 	border-top-right-radius: 0.5rem;
 	border-bottom-left-radius: 0.5rem;

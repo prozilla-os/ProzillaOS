@@ -1,5 +1,6 @@
 :root {
 	--white-a: hsl(210, 54%, 95%);
+	--white-b: hsl(210, 45%, 90%);
 	--pink-a: #ff9ff3;
 	--pink-b: #f368e0;
 	--yellow-a: #feca57;
@@ -17,10 +18,11 @@
 	--purple-a: #5f27cd;
 	--purple-b: #341f97;
 	--grey-a: hsl(210, 36%, 85%);
+	--grey-aa: hsl(210, 27%, 72.5%);
 	--grey-b: hsl(210, 18%, 60%);
-	--dark-grey-a: hsl(211, 14%, 40%);
-	--dark-grey-b: hsl(var(--background-color-a-hsl));
-	--dark-grey-c: hsl(var(--background-color-c-hsl));
+	--dark-grey-a: hsl(212, 14%, 40%);
+	--dark-grey-b: hsl(212, 29%, 19%);
+	--dark-grey-c: hsl(212, 29%, 15%);
 	--dark-grey-ca: hsl(212, 27%, 12%);
 	--dark-grey-d: hsl(212, 14%, 10%);
 	--dark-grey-e: hsl(212, 12%, 8%);
@@ -29,13 +31,13 @@
 	--foreground-color-b: var(--grey-a);
 	--foreground-color-c: var(--grey-b);
 
-	--background-color-a: var(--dark-grey-b);
-	--background-color-b: var(--dark-grey-c);
+	--background-color-a: hsl(var(--background-color-a-hsl));
+	--background-color-b: hsl(var(--background-color-c-hsl));
 	--background-color-ba: var(--dark-grey-ca);
 	--background-color-c: var(--dark-grey-d);
 	--background-color-d: var(--dark-grey-e);
 
-	--background-color-a-hsl: 212, 29%, 19%;
+	--background-color-a-hsl: 212, 29%, 19%; 
 	--background-color-c-hsl: 212, 29%, 15%;
 
 	--scrollbar-color: hsla(211, 29%, 40%, 25%);

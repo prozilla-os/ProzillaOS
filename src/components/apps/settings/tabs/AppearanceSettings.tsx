@@ -13,24 +13,43 @@ import { DEFAULT_FILE_SELECTOR_SIZE } from "../../../../config/modals.config";
 import { IMAGE_FORMATS } from "../../../../config/apps/mediaViewer.config";
 import { VirtualFile } from "../../../../features/virtual-drive/file/virtualFile";
 import { VirtualFolder } from "../../../../features/virtual-drive/folder/virtualFolder";
+import { THEMES } from "../../../../hooks/themes/themes";
 
 export function AppearanceSettings() {
 	const virtualRoot = useVirtualRoot();
 	const settingsManager = useSettingsManager();
+	const [theme, setTheme] = useState(0);
 	const [wallpaper, setWallpaper] = useState<string>(null);
-	const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
+	const desktopSettings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
+	const themeSettings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.theme);
 	const { openWindowedModal } = useWindowedModal();
 
 	useEffect(() => {
-		void settings.get("wallpaper", setWallpaper);
-	}, [settings]);
+		void desktopSettings.get("wallpaper", setWallpaper);
+		void themeSettings.get("theme", (value: string) => { setTheme(parseInt(value)); });
+	}, [desktopSettings, themeSettings]);
 
-	const onChange = (event: Event) => {
+	const onWallpaperChange = (event: Event) => {
 		const value = (event.target as HTMLInputElement).value;
-		void settings.set("wallpaper", value);
+		void desktopSettings.set("wallpaper", value);
+	};
+
+	const onThemeChange = (event: Event) => {
+		const value = (event.target as HTMLInputElement).value;
+		void themeSettings.set("theme", value);
 	};
 
 	return (<>
+		<div className={styles["Option"]}>
+			<p className={styles["Label"]}>Theme</p>
+			<div className={styles["Input"]}>
+				<select className={styles["Dropdown"]} aria-label="theme" value={theme} onChange={onThemeChange as unknown as ChangeEventHandler}>
+					{Object.entries(THEMES).map(([key, value]) =>
+						<option key={key} value={key}>{value}</option>
+					)}
+				</select>
+			</div>
+		</div>
 		<div className={styles["Option"]}>
 			<p className={styles["Label"]}>Wallpaper</p>
 			<Button
@@ -42,7 +61,7 @@ export function AppearanceSettings() {
 							type={SELECTOR_MODE.SINGLE}
 							allowedFormats={IMAGE_FORMATS}
 							onFinish={(file: VirtualFile) => {
-								void settings.set("wallpaper", file.source);
+								void desktopSettings.set("wallpaper", file.source);
 							}}
 							{...props}
 						/>
@@ -59,7 +78,7 @@ export function AppearanceSettings() {
 							value={source}
 							aria-label="Wallpaper image"
 							checked={source === wallpaper}
-							onChange={onChange as unknown as ChangeEventHandler}
+							onChange={onWallpaperChange as unknown as ChangeEventHandler}
 							tabIndex={0}
 						/>
 						<img src={source} alt={id} draggable="false"/>

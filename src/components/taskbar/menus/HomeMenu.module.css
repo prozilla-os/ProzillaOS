@@ -11,7 +11,7 @@
 	display: flex;
 	min-width: 16rem;
 	max-width: 32rem;
-	background-color: rgba(25, 25, 25, 75%);
+	background-color: hsla(var(--background-color-c-hsl), 75%);
 	border-top-left-radius: 0.5rem;
 	border-top-right-radius: 0.5rem;
 	border-bottom-right-radius: 0.5rem;

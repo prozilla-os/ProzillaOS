@@ -21,6 +21,8 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 						file.setSource("/config/taskbar.xml");
 					}).createFile("apps", "xml", (file) => {
 						file.setSource("/config/apps.xml");
+					}).createFile("theme", "xml", (file) => {
+						file.setSource("/config/apps.xml");
 					});
 				})
 				.createFolder("Pictures", (folder) => {
@@ -131,6 +133,8 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 				file.setSource(`${process.env.PUBLIC_URL}/config/desktop.xml`);
 			}).createFile("taskbar", "xml", (file) => {
 				file.setSource(`${process.env.PUBLIC_URL}/config/taskbar.xml`);
+			}).createFile("theme", "xml", (file) => {
+				file.setSource(`${process.env.PUBLIC_URL}/config/theme.xml`);
 			});
 		}).createFolder("documents", (folder) => {
 			folder.createFile("info", "md", (file) => {

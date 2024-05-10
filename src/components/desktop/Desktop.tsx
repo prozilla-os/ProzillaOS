@@ -25,6 +25,7 @@ import ModalsManager from "../../features/modals/modalsManager";
 import { VirtualFolder } from "../../features/virtual-drive/folder/virtualFolder";
 import { VirtualFolderLink } from "../../features/virtual-drive/folder/virtualFolderLink";
 import { VirtualFile } from "../../features/virtual-drive/file/virtualFile";
+import { TABS } from "../apps/settings/Settings";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();
@@ -58,7 +59,7 @@ export const Desktop = memo(() => {
 				reloadViewport();
 			}}/>
 			<ClickAction label="Change appearance" icon={faPaintBrush} onTrigger={() => {
-				windowsManager.open("settings", { tab: 0 });
+				windowsManager.open("settings", { tab: TABS.APPEARANCE });
 			}}/>
 			<Divider/>
 			<ClickAction label={`Open in ${APP_NAMES.FILE_EXPLORER}`} icon={APP_ICONS.FILE_EXPLORER} onTrigger={() => {

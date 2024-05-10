@@ -154,7 +154,7 @@
 }
 
 .Button-red {
-	--text-color: var(--background-color-a) !important;
+	--text-color: var(--dark-grey-b) !important;
 	--normal-color: var(--red-a) !important;
 	--hover-color: var(--red-b) !important;
 }
@@ -241,4 +241,26 @@
 	width: inherit;
 	height: inherit;
 	object-fit: contain;
+}
+
+.Dropdown {
+	width: auto;
+	max-width: calc(60% - var(--gap));
+	padding: 0.5rem 1rem;
+	color: var(--text-color);
+	background-color: var(--background-color-a);
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	font-size: 0.875em;
+}
+
+.Dropdown > * {
+	color: inherit;
+	background-color: inherit;
+	border: none;
+	border-radius: 0.5rem;
+	outline: none;
+	font-family: inherit;
+	font-size: inherit;
 }

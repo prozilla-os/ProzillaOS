@@ -53,7 +53,7 @@ export default tseslint.config(
 				}
 			],
 			"comma-spacing": "off",
-    		"@typescript-eslint/comma-spacing": "error",
+    		"@typescript-eslint/comma-spacing": "warn",
 			"@typescript-eslint/no-unused-vars": [
 				"error",
 				{

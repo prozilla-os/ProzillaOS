@@ -6,11 +6,12 @@ import { VirtualRootProvider } from "./hooks/virtual-drive/virtualRootContext";
 import { Desktop } from "./components/desktop/Desktop";
 import { SettingsManagerProvider } from "./hooks/settings/settingsManagerContext";
 import { ModalsView } from "./components/modals/ModalsView";
-import { FC, useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 import { ZIndexManagerProvider } from "./hooks/z-index/zIndexManagerContext";
 import { ModalsManagerProvider } from "./hooks/modals/modalsManagerContext";
+import { ThemeProvider } from "./hooks/themes/themes";
 
-const App: FC = () => {
+export default function App(): ReactElement {
 	useEffect(() => {
 		const onContextMenu = (event: Event) => {
 			event.preventDefault();
@@ -29,12 +30,14 @@ const App: FC = () => {
 				<WindowsManagerProvider>
 					<ModalsManagerProvider>
 						<SettingsManagerProvider>
-							<div className={styles.App}>
-								<Taskbar/>
-								<WindowsView/>
-								<ModalsView/>
-								<Desktop/>
-							</div>
+							<ThemeProvider>
+								<div className={styles.App}>
+									<Taskbar/>
+									<WindowsView/>
+									<ModalsView/>
+									<Desktop/>
+								</div>
+							</ThemeProvider>
 						</SettingsManagerProvider>
 					</ModalsManagerProvider>
 				</WindowsManagerProvider>
@@ -42,5 +45,3 @@ const App: FC = () => {
 		</VirtualRootProvider>
 	);
 };
-
-export default App;

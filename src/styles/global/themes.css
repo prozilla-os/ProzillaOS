@@ -1,0 +1,70 @@
+.Light-theme {
+	--foreground-color-a: var(--dark-grey-ca);
+	--foreground-color-b: var(--dark-grey-c);	
+	--foreground-color-c: var(--dark-grey-b);
+
+	--background-color-a: var(--grey-aa);
+	--background-color-b: var(--grey-a);
+	--background-color-ba: var(--white-b);
+	--background-color-c: var(--white-a);
+	--background-color-d: var(--white-b);
+
+	--taskbar-color: rgba(255, 255, 255, 25%);
+	--background-color-c-hsl: 210, 45%, 90%;
+}
+
+.Cherry-theme, .Mango-theme, .Muted-theme, .Aqua-theme, .Grape-theme {
+	--hue: 0;
+	--saturation: 1;
+	--lightness: 1;
+
+	--white-a: hsl(var(--hue), calc(54% * var(--saturation)), calc(95% * var(--lightness)));
+	--white-b: hsl(var(--hue), calc(45% * var(--saturation)), calc(90% * var(--lightness)));
+	--grey-a: hsl(var(--hue), calc(36% * var(--saturation)), calc(85% * var(--lightness)));
+	--grey-aa: hsl(var(--hue), calc(27% * var(--saturation)), calc(72.5% * var(--lightness)));
+	--grey-b: hsl(var(--hue), calc(18% * var(--saturation)), calc(60% * var(--lightness)));
+	--dark-grey-a: hsl(var(--hue), calc(14% * var(--saturation)), calc(40% * var(--lightness)));
+	--dark-grey-b: hsl(var(--hue), calc(29% * var(--saturation)), calc(19% * var(--lightness)));
+	--dark-grey-c: hsl(var(--hue), calc(29% * var(--saturation)), calc(15% * var(--lightness)));
+	--dark-grey-ca: hsl(var(--hue), calc(27% * var(--saturation)), calc(12% * var(--lightness)));
+	--dark-grey-d: hsl(var(--hue), calc(14% * var(--saturation)), calc(10% * var(--lightness)));
+	--dark-grey-e: hsl(var(--hue), calc(12% * var(--saturation)), calc(8% * var(--lightness)));
+
+	--foreground-color-a: var(--white-a);
+	--foreground-color-b: var(--grey-a);
+	--foreground-color-c: var(--grey-b);
+
+	--background-color-a: var(--dark-grey-b);
+	--background-color-b: var(--dark-grey-c);
+	--background-color-ba: var(--dark-grey-ca);
+	--background-color-c: var(--dark-grey-d);
+	--background-color-d: var(--dark-grey-e);
+}
+
+.Cherry-theme {
+	--hue: 0;
+	--saturation: 5;
+	--lightness: 1.5;
+}
+
+.Mango-theme {
+	--hue: 40;
+	--saturation: 5;
+	--lightness: 2.5;
+}
+
+.Muted-theme {
+	--saturation: 0;
+}
+
+.Aqua-theme {
+	--hue: 180;
+	--saturation: 4;
+	--lightness: 2;
+}
+
+.Grape-theme {
+	--hue: 310;
+	--saturation: 5;
+	--lightness: 1.5;
+}
