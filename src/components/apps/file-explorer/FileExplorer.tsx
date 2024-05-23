@@ -26,6 +26,9 @@ import { WindowProps } from "../../windows/WindowView";
 import { VirtualFolder } from "../../../features/virtual-drive/folder/virtualFolder";
 import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
 import { VirtualFolderLink } from "../../../features/virtual-drive/folder/virtualFolderLink";
+import ImportButton from "./ImportButton";
+import { useAlert } from "../../../hooks/modals/alert";
+import { VirtualRoot } from "../../../features/virtual-drive/root/virtualRoot";
 
 interface FileExplorerProps extends WindowProps {
 	startPath?: string;
@@ -44,6 +47,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 	const windowsManager = useWindowsManager();
 	const [showHidden] = useState(true);
 	const { history, stateIndex, pushState, undo, redo, undoAvailable, redoAvailable } = useHistory<string>(currentDirectory.path);
+	const { alert } = useAlert();
 
 	const { openWindowedModal } = useWindowedModal();
 	const { onContextMenu: onContextMenuFile } = useContextMenu({ Actions: (props) =>
@@ -119,6 +123,24 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 		}
 	}, [history, stateIndex, virtualRoot]);
 
+	useEffect(() => {
+		const onError = (error: { message: string }) => {
+			alert({
+				title: error.message,
+				text: "You have exceeded the virtual drive capacity. Files and folders will not be saved until more storage is freed.",
+				iconUrl: AppsManager.getAppIconUrl(APPS.FILE_EXPLORER),
+				size: new Vector2(300, 200),
+				single: true,
+			});
+		};
+
+		virtualRoot.on(VirtualRoot.EVENT_NAMES.ERROR, onError);
+
+		return () => {
+			virtualRoot.off(VirtualRoot.EVENT_NAMES.ERROR, onError);
+		};
+	}, []);
+
 	const onPathChange = (event: Event) => {
 		setPath((event.target as HTMLInputElement).value);
 	};
@@ -188,16 +210,16 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 					tabIndex={0}
 					className={styles["Icon-button"]}
 					onClick={() => {
-						openWindowedModal({
-							title: "Error",
-							iconUrl: AppsManager.getAppIconUrl(APPS.FILE_EXPLORER),
-							size: new Vector2(300, 150),
-							Modal: (props) =>
-								<DialogBox {...props}>
-									<p>This folder is protected.</p>
-									<button data-type={DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
-								</DialogBox>
-						});
+						// openWindowedModal({
+						// 	title: "Error",
+						// 	iconUrl: AppsManager.getAppIconUrl(APPS.FILE_EXPLORER),
+						// 	size: new Vector2(300, 150),
+						// 	Modal: (props) =>
+						// 		<DialogBox {...props}>
+						// 			<p>This folder is protected.</p>
+						// 			<button data-type={DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
+						// 		</DialogBox>
+						// });
 
 						// if (currentDirectory.canBeEdited) {
 						// 	onNew(event);
@@ -219,6 +241,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 					onKeyDown={onKeyDown as unknown as KeyboardEventHandler}
 					placeholder="Enter a path..."
 				/>
+				<ImportButton directory={currentDirectory}/>
 				<button title="Search" tabIndex={0} className={styles["Icon-button"]}>
 					<FontAwesomeIcon icon={faSearch}/>
 				</button>

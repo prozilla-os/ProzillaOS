@@ -18,6 +18,10 @@ export class VirtualRoot extends VirtualFolder {
 	initiated: boolean = false;
 	loadedDefaultData: boolean = false;
 
+	static EVENT_NAMES = {
+		ERROR: "error"
+	};
+
 	constructor() {
 		super("root");
 		this.root = this;
@@ -141,7 +145,13 @@ export class VirtualRoot extends VirtualFolder {
 		if (data == null)
 			return;
 
-		StorageManager.store("data", data);
+		try {
+			StorageManager.store("data", data);
+		} catch (error) {
+			this.emit(VirtualRoot.EVENT_NAMES.ERROR, {
+				message: "Failed to save data"
+			});
+		}
 	}
 
 	/**

@@ -1,7 +1,4 @@
 .Image-preview {
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	height: 100%;
 	overflow: hidden;
 	pointer-events: none;
@@ -16,5 +13,7 @@
 .Image-preview > img {
 	height: auto;
 	max-height: 100%;
-	border-radius: 0.5rem;
+	width: auto;
+  	max-width: 100%;
+	border-radius: inherit;
 }

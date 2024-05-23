@@ -7,8 +7,10 @@
 }
 
 .File-button, .Folder-button {
+	--gap: 0.25rem;
+
 	display: flex;
-	gap: 0.25rem;
+	gap: var(--gap);
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
@@ -41,9 +43,16 @@
 	word-wrap: break-word;
 }
 
+.File-icon, .Folder-icon {
+	max-height: calc(100% - 1rem - var(--gap));
+	border-radius: inherit;
+}
+
 .File-icon div, .Folder-icon div {
 	width: 100%;
 	height: 100%;
+	border-radius: inherit;
+	overflow: hidden;
 }
 
 .File-icon svg, .Folder-icon svg {

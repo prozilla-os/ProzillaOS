@@ -5,6 +5,12 @@ export class StorageManager {
 		if (key == null || value == null)
 			return;
 
+		const exceededMaxStorage = this.getByteSize(value) > this.MAX_BYTES;
+
+		if (exceededMaxStorage) {
+			throw new Error("Failed to store value: storage capacity exceeded.");
+		}
+
 		localStorage.setItem(key, value);
 	}
 
