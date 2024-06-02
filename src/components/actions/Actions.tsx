@@ -6,6 +6,7 @@ import { useScreenBounds } from "../../hooks/_utils/screen";
 export const STYLES = {
 	CONTEXT_MENU: styles["Context-menu"],
 	SHORTCUTS_LISTENER: styles["Shortcuts-listener"],
+	HEADER_MENU: styles["Header-menu"]
 };
 
 export interface ActionProps {
@@ -63,12 +64,13 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 			if (isListener) {
 				return iterateOverChildren((child.props as ActionProps).children);
 			}
-		
+
 			return cloneElement(child, {
 				...child.props,
 				actionId,
 				children: iterateOverChildren((child.props as ActionProps).children),
 				onTrigger: (event, ...args) => {
+					console.log(event);
 					onAnyTrigger?.(event, triggerParams, ...args);
 					onTrigger?.(event, triggerParams, ...args);
 				}

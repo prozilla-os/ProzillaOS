@@ -15,6 +15,8 @@ import { FileSelector } from "../../modals/file-selector/FileSelector";
 import { SELECTOR_MODE } from "../../../config/apps/fileExplorer.config";
 import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
 import { WindowProps } from "../../windows/WindowView";
+import { DropdownAction } from "../../actions/actions/DropdownAction";
+import { ClickAction } from "../../actions/actions/ClickAction";
 
 const OVERRIDES = {
 	a: MarkdownLink,
@@ -125,60 +127,36 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 
 	return (
 		<div className={styles.Container} style={{ fontSize: zoom }}>
-			<HeaderMenu
-				options={{
-					"File": {
-						"New": newText,
-						"Open": () => {
-							openWindowedModal({
-								size: DEFAULT_FILE_SELECTOR_SIZE,
-								Modal: (props) => <FileSelector
-									type={SELECTOR_MODE.SINGLE}
-									onFinish={(file: VirtualFile) => {
-										setCurrentFile(file);
-										setUnsavedChanges(false);
-									}}
-									{...props}
-								/>
-							});
-						},
-						"Save": saveText,
-						// "Save As": saveTextAs,
-						"Quit": () => {
-							close();
-						},
-					},
-					"View": {
-						[currentMode === "view" ? "Edit mode" : "Preview mode"]: () => {
-							setCurrentMode(currentMode === "view" ? "edit" : "view");
-						},
-						"Zoom In": () => {
-							setZoom(zoom + ZOOM_FACTOR);
-						},
-						"Zoom Out": () => {
-							setZoom(zoom - ZOOM_FACTOR);
-						},
-						"Reset Zoom": () => {
-							setZoom(DEFAULT_ZOOM);
-						}
-					}
-				}}
-				shortcuts={{
-					"File": {
-						"New": ["Control", "e"],
-						"Open": ["Control", "o"],
-						"Save": ["Control", "s"],
-						"Quit": ["Control", "q"],
-					},
-					"View": {
-						"Zoom In": ["Control", "+"],
-						"Zoom Out": ["Control", "-"],
-						"Reset Zoom": ["Control", "0"],
-						"Edit mode": ["Control v"],
-						"Preview mode": ["Control v"],
-					}
-				}}
-			/>
+			<HeaderMenu onAnyTrigger={(event) => {
+				console.log(event);
+			}}>
+				<DropdownAction label="File" showOnHover={false}>
+					<ClickAction label="New" onTrigger={() => { newText(); }} shortcut={["Control", "e"]}/>
+					<ClickAction label="Open" onTrigger={() => {
+						openWindowedModal({
+							size: DEFAULT_FILE_SELECTOR_SIZE,
+							Modal: (props) => <FileSelector
+								type={SELECTOR_MODE.SINGLE}
+								onFinish={(file: VirtualFile) => {
+									setCurrentFile(file);
+									setUnsavedChanges(false);
+								}}
+								{...props}
+							/>
+						});
+					}} shortcut={["Control", "o"]}/>
+					<ClickAction label="Save" onTrigger={() => { saveText(); }} shortcut={["Control", "s"]}/>
+					<ClickAction label="Quit" onTrigger={() => { close(); }} shortcut={["Control", "q"]}/>
+				</DropdownAction>
+				<DropdownAction label="View" showOnHover={false}>
+					<ClickAction label={currentMode === "view" ? "Edit mode" : "Preview mode"} onTrigger={() => {
+						setCurrentMode(currentMode === "view" ? "edit" : "view");
+					}} shortcut={["Control", "v"]}/>
+					<ClickAction label="Zoom in" onTrigger={() => { setZoom(zoom + ZOOM_FACTOR); }} shortcut={["Control", "+"]}/>
+					<ClickAction label="Zoom out" onTrigger={() => { setZoom(zoom - ZOOM_FACTOR); }} shortcut={["Control", "-"]}/>
+					<ClickAction label="Reset Zoom" onTrigger={() => { setZoom(DEFAULT_ZOOM); }} shortcut={["Control", "0"]}/>
+				</DropdownAction>
+			</HeaderMenu>
 			{currentMode === "view"
 				? CODE_FORMATS.includes(currentFile?.extension)
 					? <SyntaxHighlighter
