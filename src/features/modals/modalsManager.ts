@@ -67,6 +67,6 @@ export default class ModalsManager {
 	}
 
 	static getModalIconUrl(name: string): string {
-		return `${process.env.PUBLIC_URL}/assets/modals/icons/${name}.svg`;
+		return `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/modals/icons/${name}.svg`;
 	}
 }

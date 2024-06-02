@@ -26,6 +26,7 @@
 	--dark-grey-ca: hsl(212, 27%, 12%);
 	--dark-grey-d: hsl(212, 14%, 10%);
 	--dark-grey-e: hsl(212, 12%, 8%);
+	--dark-grey-f: hsl(212, 10%, 6%);
 
 	--foreground-color-a: var(--white-a);
 	--foreground-color-b: var(--grey-a);

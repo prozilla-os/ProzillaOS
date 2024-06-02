@@ -10,6 +10,7 @@ import Vector2 from "../math/vector2";
 import { APPS, APP_NAMES } from "../../config/apps.config";
 import { Browser } from "../../components/apps/browser/Browser";
 import { IMAGE_FORMATS } from "../../config/apps/mediaViewer.config";
+import { LogicSim } from "../../components/apps/logic-sim/LogicSim";
 
 export default class AppsManager {
 	static APPS: App[] = [
@@ -35,6 +36,7 @@ export default class AppsManager {
 		new App(APP_NAMES.BROWSER, APPS.BROWSER, Browser, {
 			size: new Vector2(700, 500)
 		}),
+		new App("Logic Sim", "logic-sim", LogicSim),
 	];
 
 	static getAppById(id: string): App | null {
@@ -73,9 +75,9 @@ export default class AppsManager {
 	 */
 	static getAppIconUrl(appId: string, iconName?: string): string {
 		if (iconName == null) {
-			return `${process.env.PUBLIC_URL}/assets/apps/icons/${appId}.svg`;
+			return `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/icons/${appId}.svg`;
 		} else {
-			return `${process.env.PUBLIC_URL}/assets/apps/${appId}/icons/${iconName}.svg`;
+			return `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/${appId}/icons/${iconName}.svg`;
 		}
 	}
 }

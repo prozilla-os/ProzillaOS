@@ -25,7 +25,7 @@ export const WindowsView: FC = memo(() => {
 	useEffect(() => {
 		const resetViewportTitleAndIcon = () => {
 			setViewportTitle(`${NAME} | ${TAG_LINE}`);
-			setViewportIcon(`${process.env.PUBLIC_URL}/favicon.ico`);
+			setViewportIcon(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/favicon.ico`);
 		};
 
 		if (sortedWindows.length === 0 || sortedWindows[sortedWindows.length - 1].minimized)
