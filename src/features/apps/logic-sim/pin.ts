@@ -7,7 +7,7 @@ import { Wire } from "./wire";
 
 export class Pin {
 	name: string;
-	position: Vector2;
+	position = Vector2.ZERO;
 	attachedChip: Chip;
 	index: number;
 	circuit: Circuit;
@@ -34,9 +34,9 @@ export class Pin {
 	}
 
 	update() {
-		if (this.isInput) {
-			this.outputWire?.setState(this.state);
-		}
+		// TO DO: clean this mess
+		this.outputWire?.setState(this.state);
+		this.attachedChip?.update();
 	}
 
 	draw() {

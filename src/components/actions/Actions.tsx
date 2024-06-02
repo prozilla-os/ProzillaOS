@@ -70,7 +70,6 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 				actionId,
 				children: iterateOverChildren((child.props as ActionProps).children),
 				onTrigger: (event, ...args) => {
-					console.log(event);
 					onAnyTrigger?.(event, triggerParams, ...args);
 					onTrigger?.(event, triggerParams, ...args);
 				}

@@ -1,4 +1,4 @@
-import { BACKGROUND, COLORS, CURSORS, INPUT_OUTPUT, PIN, WIRE } from "../../../config/apps/logicSim.config";
+import { BACKGROUND, COLORS, CURSORS, FONT, INPUT_OUTPUT, PIN } from "../../../config/apps/logicSim.config";
 import Vector2 from "../../math/vector2";
 import { Chip } from "./chip";
 import { Pin } from "./pin";
@@ -11,16 +11,19 @@ export class Circuit extends Chip {
 	context: CanvasRenderingContext2D;
 	colors: { [key: string]: string } = {};
 	mousePosition = Vector2.ZERO;
+	isCircuit = true;
 
 	isPlacing = false;
 	snapping = false;
 	placingWire: Wire;
 	wires: Wire[] = [];
+	placingChip: Chip;
+	chips: Chip[] = [];
 
 	cursor = CURSORS.default;
 
 	constructor(name: string, color: string, inputCount: number, outputCount: number) {
-		super(null, name, color, inputCount, outputCount);
+		super(null, name, color, null, inputCount, outputCount);
 	}
 
 	resize() {
@@ -111,11 +114,18 @@ export class Circuit extends Chip {
 			}
 			
 		}
+
+		if (this.placingChip != null) {
+			this.placingChip.position.x = this.mousePosition.x - this.placingChip.size.x / 2;
+			this.placingChip.position.y = this.mousePosition.y - this.placingChip.size.y / 2;
+		}
 	};
 
-	onClickPin(pin: Pin) {
+	onClickPin(pin: Pin, isInputOutput = false) {
+		const isInputPin = isInputOutput ? !pin.isInput : pin.isInput;
+
 		if (this.placingWire != null) {
-			if (!pin.isInput) {
+			if (isInputPin) {
 				this.placingWire.outputPin = pin;
 				this.placingWire.anchorPoints.pop();
 
@@ -125,14 +135,15 @@ export class Circuit extends Chip {
 				this.placingWire = null;
 				this.isPlacing = false;
 			}
+
 			return;
 		}
 
-		const inputConnection = pin.isInput ? pin : null;
-		const outputConnection = pin.isInput ? null : pin;
+		const inputConnection = isInputPin ? null : pin;
+		const outputConnection = isInputPin ? pin : null;
 		const anchorPoint = this.mousePosition.clone;
 
-		this.placingWire = new Wire("blue", inputConnection, outputConnection, [anchorPoint]);
+		this.placingWire = new Wire(this, "red", inputConnection, outputConnection, [anchorPoint]);
 		this.wires.push(this.placingWire);
 	}
 
@@ -147,6 +158,8 @@ export class Circuit extends Chip {
 				this.wires.pop();
 				return;
 			}
+
+			console.log(this);
 		} else if (event.button === 0) {
 			let eventComplete = false;
 
@@ -155,7 +168,7 @@ export class Circuit extends Chip {
 					pin.setState(State.invert(pin.state));
 					eventComplete = true;
 				} else if (this.mousePosition.getDistance(pin.position.x, pin.position.y) <= PIN.radius) {
-					this.onClickPin(pin);
+					this.onClickPin(pin, true);
 					eventComplete = true;
 				}
 			});
@@ -165,16 +178,37 @@ export class Circuit extends Chip {
 	
 			this.outputPins.forEach((pin: Pin) => {
 				if (this.mousePosition.getDistance(pin.position.x, pin.position.y) <= PIN.radius) {
-					this.onClickPin(pin);
+					this.onClickPin(pin, true);
 					eventComplete = true;
 				}
 			});
 	
 			if (eventComplete)
 				return;
+
+			this.chips.forEach((chip) => {
+				chip.inputPins.concat(chip.outputPins).forEach((pin) => {
+					if (this.mousePosition.getDistance(pin.position.x, pin.position.y) <= PIN.radius) {
+						this.onClickPin(pin);
+						eventComplete = true;
+					}
+				});
+			});
+
+			if (eventComplete)
+				return;
 	
+			// Create wire anchor point
 			if (this.placingWire != null) {
 				this.placingWire.anchorPoints.push(this.mousePosition.clone);
+				return;
+			}
+
+			// Place chip
+			if (this.placingChip != null) {
+				this.placingChip = null;
+				this.isPlacing = false;
+				return;
 			}
 		}
 	};
@@ -196,6 +230,19 @@ export class Circuit extends Chip {
 			return;
 		}
 	};
+
+	addChip(chip: Chip) {
+		const newChip = new Chip(this, chip.name, chip.color, chip.size, chip.inputCount, chip.outputCount);
+		newChip.setLogic(chip.logic);
+		newChip.position = new Vector2(
+			this.mousePosition.x - newChip.size.x / 2,
+			this.mousePosition.y - newChip.size.y / 2
+		);
+
+		this.placingChip = newChip;
+		this.isPlacing = true;
+		this.chips.push(newChip);
+	}
 
 	getColor(key: string) {
 		if (this.colors[key] != null)
@@ -239,6 +286,14 @@ export class Circuit extends Chip {
 		this.context.stroke();
 	}
 
+	drawText(style: string, align: CanvasTextAlign, positionX: number, positionY: number, size: number, content: string) {
+		this.context.fillStyle = style;
+		this.context.textAlign = align;
+		this.context.textBaseline = "middle";
+		this.context.font = `bold ${size}px ${FONT}`;
+		this.context.fillText(content, positionX, positionY);
+	}
+
 	drawBackground() {
 		let offset = 0;
 		this.drawRect(this.getColor(COLORS.background.outer), offset, offset, this.size.x, this.size.y);
@@ -260,26 +315,13 @@ export class Circuit extends Chip {
 
 	drawWires() {
 		this.wires.forEach((wire, index) => {
-			const positions = [...wire.anchorPoints];
-
-			if (wire.inputPin != null)
-				positions.unshift(wire.inputPin.position);
-			if (wire.outputPin != null)
-				positions.push(wire.outputPin.position);
-
-			let color: string;
-
 			const isPlacingWire = this.placingWire != null && index == this.wires.length - 1;
-			if (isPlacingWire) {
-				color = COLORS.wire.placing;
-			} else if (wire.state.value === 1) {
-				color = `${wire.color}-a`;
-			} else {
-				color = `${wire.color}-b`;
-			}
-
-			this.drawLine(this.getColor(color), positions, WIRE.width);
+			wire.draw(isPlacingWire);
 		});
+	}
+
+	drawChips() {
+		this.chips.forEach((chip) => { chip.draw(); });
 	}
 
 	drawInputOutput(state: State, isInteractable: boolean, positionX: number, positionY: number) {
@@ -338,12 +380,13 @@ export class Circuit extends Chip {
 			this.drawInputOutput(pin.state, false, positionX, pin.position.y);
 		});
 
-		super.drawPins();
+		super.drawPins(false);
 	}
 
 	draw() {
 		this.drawBackground();
 		this.drawWires();
+		this.drawChips();
 		this.drawPins();		
 	}
 

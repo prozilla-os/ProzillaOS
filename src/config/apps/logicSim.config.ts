@@ -3,6 +3,8 @@ export const CURSORS = {
 	pointer: "pointer"
 };
 
+export const FONT = "outfit";
+
 export const BACKGROUND = {
 	padding: 40,
 	borderWidth: 8,
@@ -20,7 +22,14 @@ export const WIRE = {
 };
 
 export const PIN = {
-	radius: 10,
+	radius: 8,
+};
+
+export const CHIP = {
+	width: 140,
+	height: 72,
+	padding: 12,
+	fontSize: 36,
 };
 
 export const COLORS = {
@@ -44,4 +53,7 @@ export const COLORS = {
 	wire: {
 		placing: "dark-grey-ca",
 	},
+	chip: {
+		text: "dark-grey-f"
+	}
 };
