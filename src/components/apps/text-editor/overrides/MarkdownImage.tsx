@@ -16,7 +16,7 @@ import WindowsManager from "../../../../features/windows/windowsManager";
 export function MarkdownImage({ currentFile, alt, src, modalsManager, windowsManager, app, ...props }) {
 	const source = useMemo(() => {
 		if (src.startsWith("public")) {
-			return src.replace(/^public\//g, `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/`);
+			return src.replace(/^public\//g, "/");
 		}
 
 		return src;

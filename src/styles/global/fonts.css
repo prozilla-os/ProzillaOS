@@ -7,12 +7,12 @@
 
 @font-face {
 	font-family: "Outfit";
-	src: url("/public/assets/fonts/outfit/Outfit-VariableFont_wght.ttf");
+	src: url("/assets/fonts/outfit/Outfit-VariableFont_wght.ttf");
 	font-display: swap;
 }
 
 @font-face {
 	font-family: "Roboto Mono";
-	src: url("/public/assets/fonts/roboto-mono/RobotoMono-VariableFont_wght.ttf");
+	src: url("/assets/fonts/roboto-mono/RobotoMono-VariableFont_wght.ttf");
 	font-display: swap;
 }

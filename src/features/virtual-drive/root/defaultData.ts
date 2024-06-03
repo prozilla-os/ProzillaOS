@@ -110,7 +110,7 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 				folder.createFolders(["outfit", "roboto-mono"]);
 			}).createFolder("screenshots", (folder) => {
 				folder.createFile("screenshot", "png", (file) => {
-					file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/screenshots/screenshot-files-settings-taskbar-desktop.png`);
+					file.setSource(`/assets/screenshots/screenshot-files-settings-taskbar-desktop.png`);
 				});
 			}).createFolder("wallpapers", (folder) => {
 				folder.setProtected(true);
@@ -122,34 +122,34 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 					});
 				}
 			}).createFile("banner", "png", (file) => {
-				file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/banner-logo-title.png`);
+				file.setSource(`/assets/banner-logo-title.png`);
 			}).createFile("logo", "svg", (file) => {
-				file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/logo.svg`);
+				file.setSource(`/assets/logo.svg`);
 			});
 		}).createFolder("config", (folder) => {
 			folder.createFile("apps", "xml", (file) => {
-				file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/config/apps.xml`);
+				file.setSource(`/config/apps.xml`);
 			}).createFile("desktop", "xml", (file) => {
-				file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/config/desktop.xml`);
+				file.setSource(`/config/desktop.xml`);
 			}).createFile("taskbar", "xml", (file) => {
-				file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/config/taskbar.xml`);
+				file.setSource(`/config/taskbar.xml`);
 			}).createFile("theme", "xml", (file) => {
-				file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/config/theme.xml`);
+				file.setSource(`/config/theme.xml`);
 			});
 		}).createFolder("documents", (folder) => {
 			folder.createFile("info", "md", (file) => {
-				file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/documents/info.md`);
+				file.setSource(`/documents/info.md`);
 			}).createFile("links", "md", (file) => {
-				file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/documents/links.md`);
+				file.setSource(`/documents/links.md`);
 			});
 		}).createFile("favicon", "ico", (file) => {
-			file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/favicon.ico`);
+			file.setSource(`/favicon.ico`);
 		}).createFile("index", "html", (file) => {
-			file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/index.html`);
+			file.setSource(`/index.html`);
 		}).createFile("robots", "txt", (file) => {
-			file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/robots.txt`);
+			file.setSource(`/robots.txt`);
 		}).createFile("sitemap", "xml", (file) => {
-			file.setSource(`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/sitemap.xml`);
+			file.setSource(`/sitemap.xml`);
 		});
 	});
 

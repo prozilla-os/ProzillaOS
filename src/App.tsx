@@ -24,24 +24,22 @@ export default function App(): ReactElement {
 		};
 	}, []);
 
-	return (
-		<VirtualRootProvider>
-			<ZIndexManagerProvider>
-				<WindowsManagerProvider>
-					<ModalsManagerProvider>
-						<SettingsManagerProvider>
-							<ThemeProvider>
-								<div className={styles.App}>
-									<Taskbar/>
-									<WindowsView/>
-									<ModalsView/>
-									<Desktop/>
-								</div>
-							</ThemeProvider>
-						</SettingsManagerProvider>
-					</ModalsManagerProvider>
-				</WindowsManagerProvider>
-			</ZIndexManagerProvider>
-		</VirtualRootProvider>
-	);
+	return <VirtualRootProvider>
+		<ZIndexManagerProvider>
+			<WindowsManagerProvider>
+				<ModalsManagerProvider>
+					<SettingsManagerProvider>
+						<ThemeProvider>
+							<div className={styles.App}>
+								<Taskbar/>
+								<WindowsView/>
+								<ModalsView/>
+								<Desktop/>
+							</div>
+						</ThemeProvider>
+					</SettingsManagerProvider>
+				</ModalsManagerProvider>
+			</WindowsManagerProvider>
+		</ZIndexManagerProvider>
+	</VirtualRootProvider>;
 };

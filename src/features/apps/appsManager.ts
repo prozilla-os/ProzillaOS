@@ -75,9 +75,9 @@ export default class AppsManager {
 	 */
 	static getAppIconUrl(appId: string, iconName?: string): string {
 		if (iconName == null) {
-			return `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/icons/${appId}.svg`;
+			return `/assets/apps/icons/${appId}.svg`;
 		} else {
-			return `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/${appId}/icons/${iconName}.svg`;
+			return `/assets/apps/${appId}/icons/${iconName}.svg`;
 		}
 	}
 }

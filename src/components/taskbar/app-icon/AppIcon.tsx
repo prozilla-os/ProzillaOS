@@ -77,7 +77,7 @@ export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, pins, 
 			}}
 			title={app.name}
 		>
-			<ReactSVG src={`${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/icons/${app.id}.svg`}/>
+			<ReactSVG src={`/assets/apps/icons/${app.id}.svg`}/>
 		</button>
 	);
 });

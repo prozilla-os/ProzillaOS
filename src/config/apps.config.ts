@@ -19,10 +19,10 @@ export const APP_NAMES = {
 };
 
 export const APP_ICONS = {
-	TERMINAL: `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/icons/${APPS.TERMINAL}.svg`,
-	SETTINGS: `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/icons/${APPS.SETTINGS}.svg`,
-	MEDIA_VIEWER: `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/icons/${APPS.MEDIA_VIEWER}.svg`,
-	TEXT_EDITOR: `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/icons/${APPS.TEXT_EDITOR}.svg`,
-	FILE_EXPLORER: `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/icons/${APPS.FILE_EXPLORER}.svg`,
-	CALCULATOR: `${(process.env as NodeJS.ProcessEnv).PUBLIC_URL}/assets/apps/icons/${APPS.CALCULATOR}.svg`,
+	TERMINAL: `/assets/apps/icons/${APPS.TERMINAL}.svg`,
+	SETTINGS: `/assets/apps/icons/${APPS.SETTINGS}.svg`,
+	MEDIA_VIEWER: `/assets/apps/icons/${APPS.MEDIA_VIEWER}.svg`,
+	TEXT_EDITOR: `/assets/apps/icons/${APPS.TEXT_EDITOR}.svg`,
+	FILE_EXPLORER: `/assets/apps/icons/${APPS.FILE_EXPLORER}.svg`,
+	CALCULATOR: `/assets/apps/icons/${APPS.CALCULATOR}.svg`,
 };

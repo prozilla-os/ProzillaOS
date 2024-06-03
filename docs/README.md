@@ -25,8 +25,8 @@
 
 ### Building & deploying
 
-1. Run `npm run build`, which will compile all the necessary files to the `build` directory.
-2. Upload the contents of the `build` directory to your web server's root folder.
+1. Run `npm run build`, which will bundle all your files in the `dist` directory.
+2. Upload the contents of the `dist` directory to your web server's root folder.
 
 #### Deploying to GitHub Pages
 
@@ -56,7 +56,7 @@ See [docs/configuration](configuration/README.md) for more information.
 
 	You are here. This directory contains all documentation for this project.
 
-- [build](../build) directory
+- [dist](../dist) directory
 
 	Contains the static build files after [building](#building--deploying) the application. This directory is not included in the GitHub repository.
 

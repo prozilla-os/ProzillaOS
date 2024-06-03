@@ -7,16 +7,19 @@ let commands: Command[] = [];
  */
 const loadCommands = () => {
 	commands = [];
-	const context = require.context("./commands", false, /\.ts$/);
-	context.keys().forEach((key) => {
-		const commandModule = context(key) as Record<string, Command>;
-		const commandName = Object.keys(commandModule)[0];
 
-		const command = commandModule[commandName];
-		command.setName(commandName.toLowerCase());
+	// https://vitejs.dev/guide/features.html#glob-import
+	const modules = import.meta.glob("./commands/*.ts");
+	for (const path in modules) {
+		void modules[path]().then((commandModule: Record<string, Command>) => {
+			const commandName = Object.keys(commandModule)[0];
 
-		commands.push(command);
-	});
+			const command = commandModule[commandName];
+			command.setName(commandName.toLowerCase());
+
+			commands.push(command);
+		});
+	}
 };
 
 loadCommands();
