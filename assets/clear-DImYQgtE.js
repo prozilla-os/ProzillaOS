@@ -1,0 +1,1 @@
+import{C as r}from"./command-Clc1HLU6.js";const n=new r().setManual({purpose:"Clear terminal screen"}).setExecute(function(t,{pushHistory:e}){return e({clear:!0,isInput:!1}),{blank:!0}});export{n as clear};

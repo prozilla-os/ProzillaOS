@@ -1,0 +1,1 @@
+import{C as e}from"./command-Clc1HLU6.js";const a=new e().setManual({purpose:"Display path of the current directory"}).setExecute(function(o,{currentDirectory:t}){return t.root?"/":t.absolutePath});export{a as pwd};

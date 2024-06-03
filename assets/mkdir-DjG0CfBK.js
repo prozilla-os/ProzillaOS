@@ -1,0 +1,1 @@
+import{C as n}from"./command-Clc1HLU6.js";const o=new n().setManual({purpose:"Create a directory"}).setRequireArgs(!0).setExecute(function(t,{currentDirectory:e}){const r=t[0];return e.findSubFolder(r)?{blank:!0}:(e.createFolder(r),{blank:!0})});export{o as mkdir};
