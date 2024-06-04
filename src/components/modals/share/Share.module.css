@@ -56,9 +56,9 @@
 	max-width: calc(60% - var(--gap));
 	padding: 0.5rem 1rem;
 	color: var(--text-color);
-	background-color: var(--background-color-b);
+	background-color: var(--background-color-1);
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	outline: none;
 	font-size: 0.875em;
 }
@@ -67,7 +67,7 @@ select.Input > * {
 	color: inherit;
 	background-color: inherit;
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	outline: none;
 	font-family: inherit;
 	font-size: inherit;
@@ -90,7 +90,7 @@ select.Input > * {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
-	fill: var(--foreground-color-a);
+	fill: var(--foreground-color-0);
 }
 
 .Checkbox > svg > * {
@@ -103,10 +103,10 @@ select.Input > * {
 }
 
 .Button {
-	--normal-color: var(--background-color-a) !important;
-	--hover-color: var(--background-color-b) !important;
+	--normal-color: var(--background-color-0) !important;
+	--hover-color: var(--background-color-1) !important;
 
 	padding: 0.5rem 1rem;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	white-space: nowrap;
 }

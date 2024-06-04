@@ -19,7 +19,7 @@
 	padding: 0.5rem;
 	background: none;
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	outline: none;
 	cursor: pointer;
 	transition: background-color 100ms ease-in-out;
@@ -27,14 +27,14 @@
 
 .File-button[data-selected=true],
 .Folder-button[data-selected=true] {
-	background-color: hsla(var(--background-color-a-hsl), 40%) !important;
+	background-color: color-mix(in srgb, var(--background-color-0) 40%, transparent) !important;
 }
 
 .File-button:hover,
 .Folder-button:hover,
 .File-button:focus-visible,
 .Folder-button:focus-visible {
-	background-color: hsla(var(--background-color-a-hsl), 20%);
+	background-color: color-mix(in srgb, var(--background-color-0) 20%, transparent);
 }
 
 .File-button p, .Folder-button p {
@@ -64,7 +64,7 @@
 .Selection-rect {
 	opacity: 25%;
 	position: absolute;
-	border-radius: 0.25rem;
+	border-radius: var(--border-radius-0);
 	background-color: var(--blue-b);
-	border: 0.25rem solid var(--blue-a);
+	border: 0.25rem solid var(--blue-0);
 }

@@ -5,7 +5,7 @@
 	display: flex;
 	width: 100%;
 	height: 100%;
-	background-color: var(--background-color-c);
+	background-color: var(--background-color-2);
 }
 
 .Tabs {
@@ -18,7 +18,7 @@
 	max-width: 50%;
 	padding: 0.5rem;
 	margin: 0;
-	background-color: var(--background-color-ba);
+	background-color: var(--background-color-1a);
 	resize: horizontal;
 	overflow: hidden;
 }
@@ -30,17 +30,17 @@
 	width: 100%;
 	min-width: fit-content;
 	padding: 0.75rem;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	font-size: 0.875rem;
 }
 
 .Tab-button.Active-tab {
-	background-color: var(--background-color-a);
+	background-color: var(--background-color-0);
 }
 
 .Tab-button:not(.Active-tab):hover,
 .Tab-button:not(.Active-tab):focus-visible {
-	background-color: hsla(var(--background-color-a-hsl), 50%);
+	background-color: color-mix(in srgb, var(--background-color-0) 50%, transparent);
 }
 
 .Tab-button > svg {
@@ -90,7 +90,7 @@
 }
 
 .Option > .Label {
-	color: var(--foreground-color-a);
+	color: var(--foreground-color-0);
 }
 
 .Input {
@@ -122,13 +122,13 @@
 }
 
 .Image-select > input:checked + img {
-	outline: 0.25em solid var(--foreground-color-a);
+	outline: 0.25em solid var(--foreground-color-0);
 }
 
 .Image-select > img {
 	width: 100%;
 	height: 100%;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	transition: filter 100ms ease-in-out;
 	cursor: pointer;
 }
@@ -145,22 +145,22 @@
 }
 
 .Button {
-	--normal-color: var(--background-color-a) !important;
-	--hover-color: var(--background-color-b) !important;
+	--normal-color: var(--background-color-0) !important;
+	--hover-color: var(--background-color-1) !important;
 
 	margin-bottom: 0.75rem !important;
 	padding: 0.5rem 1rem;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 }
 
 .Button-red {
-	--text-color: var(--dark-grey-b) !important;
-	--normal-color: var(--red-a) !important;
-	--hover-color: var(--red-b) !important;
+	--text-color: var(--black-1) !important;
+	--normal-color: var(--red-0) !important;
+	--hover-color: var(--red-1) !important;
 }
 
 .Icon-button {
-	--color: var(--foreground-color-a);
+	--color: var(--foreground-color-0);
 
 	position: relative;
 	height: 1.25rem;
@@ -181,7 +181,7 @@
 	width: 100%;
 	height: 100%;
 	background-color: rgba(255, 255, 255, 0%);
-	border-radius: 9999px;
+	border-radius: var(--border-radius-99);
 	transform: scale(100%);
 	transform-origin: center;
 	transition: all 200ms ease-in-out;
@@ -193,7 +193,7 @@
 }
 
 .Icon-button:disabled {
-	--color: var(--foreground-color-c);
+	--color: var(--foreground-color-2);
 }
 
 .Icon-button svg {
@@ -248,9 +248,9 @@
 	max-width: calc(60% - var(--gap));
 	padding: 0.5rem 1rem;
 	color: var(--text-color);
-	background-color: var(--background-color-a);
+	background-color: var(--background-color-0);
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	outline: none;
 	font-size: 0.875em;
 }
@@ -259,7 +259,7 @@
 	color: inherit;
 	background-color: inherit;
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	outline: none;
 	font-family: inherit;
 	font-size: inherit;

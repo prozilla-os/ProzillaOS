@@ -1,8 +1,8 @@
 # Links
 
-**Prozilla OS**
+**ProzillaOS**
 
-- [GitHub](https://github.com/Prozilla/Prozilla-OS)
+- [GitHub](https://github.com/Prozilla/ProzillaOS)
 
 **Prozilla**
 
@@ -11,5 +11,5 @@
 
 **Crumbling City**
 
-- [Website (daisygames.org/crumbling-city)](https://daisygames.org/crumbling-city/)
+- [Website (crumblingcity.com)](https://crumblingcity.com/)
 - [Steam page](https://store.steampowered.com/app/1520290/Crumbling_City/)

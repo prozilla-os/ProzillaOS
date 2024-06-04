@@ -11,7 +11,6 @@
 	display: flex;
 	min-width: 16rem;
 	max-width: 32rem;
-	background-color: hsla(var(--background-color-c-hsl), 75%);
 	border-top-left-radius: 0.5rem;
 	border-top-right-radius: 0.5rem;
 	border-bottom-right-radius: 0.5rem;
@@ -20,6 +19,18 @@
 	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
 	overflow: hidden;
 	resize: horizontal;
+}
+
+.Container-inner::after {
+	opacity: var(--taskbar-menu-opacity);
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: var(--taskbar-menu-color);
+	z-index: -2;
 }
 
 .Container-outer:not(.Active) {
@@ -42,7 +53,7 @@
 
 .Buttons > button {
 	padding: 0.5rem;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 }
 
 .Buttons > button > svg {

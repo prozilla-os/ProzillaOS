@@ -17,7 +17,6 @@
 	min-width: 13rem;
 	max-width: 19rem;
 	padding: 0.5rem;
-	background-color: hsla(var(--background-color-c-hsl), 75%);
 	border-top-left-radius: 0.5rem;
 	border-top-right-radius: 0.5rem;
 	border-bottom-right-radius: 0.5rem;
@@ -26,6 +25,18 @@
 	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
 	overflow: hidden;
 	resize: horizontal;
+}
+
+.Container-inner::after {
+	opacity: var(--taskbar-menu-opacity);
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: var(--taskbar-menu-color);
+	z-index: -2;
 }
 
 .Container-outer:not(.Active) {
@@ -44,10 +55,10 @@
 .Input {
 	width: 100%;
 	padding: 0.25rem 0.5rem;
-	color: var(--foreground-color-a);
+	color: var(--foreground-color-0);
 	background-color: rgba(0, 0, 0, 25%);
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	outline: none;
 	font-family: inherit;
 	font-size: inherit;

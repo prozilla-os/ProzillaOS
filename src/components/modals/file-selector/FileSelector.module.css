@@ -17,9 +17,9 @@
 }
 
 .Button {
-	--normal-color: var(--background-color-a);
-	--hover-color: var(--background-color-b);
+	--normal-color: var(--background-color-0);
+	--hover-color: var(--background-color-1);
 
 	padding: 0.35rem 0.7rem;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 }

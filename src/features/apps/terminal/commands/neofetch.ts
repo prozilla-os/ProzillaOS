@@ -30,10 +30,10 @@ export const neofetch = new Command()
 			browserName = "Unknown";
 		}
 
-		const formatLine = (label, text) => ANSI.fg.green + label.toUpperCase() + ANSI.reset + ": " + text;
+		const formatLine = (label, text) => ANSI.fg.cyan + label.toUpperCase() + ANSI.reset + ": " + text;
 
 		const rightColumn = [
-			`${ANSI.fg.green + username + ANSI.reset}@${ANSI.fg.green + hostname + ANSI.reset}`,
+			`${ANSI.fg.cyan + username + ANSI.reset}@${ANSI.fg.cyan + hostname + ANSI.reset}`,
 			"-".repeat(rightColumnWidth),
 			formatLine("os", NAME),
 			formatLine("uptime", formatRelativeTime(START_DATE, 2, false)),

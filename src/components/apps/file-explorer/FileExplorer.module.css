@@ -17,11 +17,11 @@
 	width: 100%;
 	height: var(--header-height);
 	padding: 1rem;
-	background-color: var(--background-color-a);
+	background-color: var(--background-color-0);
 }
 
 .Icon-button {
-	--color: var(--foreground-color-a);
+	--color: var(--foreground-color-0);
 
 	position: relative;
 	height: 1.25rem;
@@ -42,7 +42,7 @@
 	width: 100%;
 	height: 100%;
 	background-color: rgba(255, 255, 255, 0%);
-	border-radius: 9999px;
+	border-radius: var(--border-radius-99);
 	transform: scale(100%);
 	transform-origin: center;
 	transition: all 200ms ease-in-out;
@@ -54,7 +54,7 @@
 }
 
 .Icon-button:disabled {
-	--color: var(--foreground-color-c);
+	--color: var(--foreground-color-2);
 }
 
 .Icon-button svg {
@@ -69,9 +69,9 @@
 .Path-input {
 	flex: 1;
 	padding: 0.25rem 0.5rem;
-	background-color: var(--background-color-c);
+	background-color: var(--background-color-2);
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	outline: none;
 	font-family: inherit;
 	font-size: inherit;
@@ -82,7 +82,7 @@
 	display: flex;
 	width: 100%;
 	height: calc(100% - var(--header-height));
-	background-color: var(--background-color-c);
+	background-color: var(--background-color-2);
 }
 
 .Sidebar {
@@ -94,7 +94,7 @@
 	height: 100%;
 	max-width: 50%;
 	padding: 0.5rem;
-	background-color: var(--background-color-b);
+	background-color: var(--background-color-1);
 	resize: horizontal;
 	overflow: hidden;
 }
@@ -107,14 +107,14 @@
 	padding: 0.5rem;
 	background: none;
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	outline: none;
 	cursor: pointer;
 	transition: background-color 100ms ease-in-out;
 }
 
 .Nav-button:hover, .Nav-button:focus-visible {
-	background-color: hsla(var(--background-color-a-hsl), 75%);
+	background-color: color-mix(in srgb, var(--background-color-0) 75%, transparent);
 }
 
 .Nav-button svg {
@@ -146,8 +146,8 @@
 	width: 100%;
 	height: var(--footer-height);
 	padding: 0 0.75rem;
-	border-top: 0.25rem solid var(--background-color-a);
-	background-color: var(--background-color-c);
+	border-top: 0.25rem solid var(--background-color-0);
+	background-color: var(--background-color-2);
 }
 
 .Footer p {

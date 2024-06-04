@@ -4,7 +4,7 @@
 	"private": false,
 	"author": "Prozilla",
 	"homepage": "https://os.prozilla.dev/",
-	"repository": "https://github.com/Prozilla/Prozilla-OS",
+	"repository": "https://github.com/Prozilla/ProzillaOS",
 	"type": "module",
 	"scripts": {
 		"start": "vite --port 3000",

@@ -12,7 +12,7 @@ html, body, #root {
 html {
 	scroll-behavior: smooth;
 	overflow: hidden;
-	background-color: var(--background-color-c);
+	background-color: var(--background-color-2);
 	font-size: 16px;
 }
 
@@ -24,7 +24,7 @@ body {
 }
 
 *, :after, :before {
-	color: var(--foreground-color-a);
+	color: var(--foreground-color-0);
 	font-size: 1rem;
 	box-sizing: border-box;
 	-webkit-tap-highlight-color: transparent;
@@ -60,6 +60,6 @@ code {
 
 
 *::selection {
-	color: var(--background-color-c);
-	background-color: var(--grey-b);
+	color: var(--background-color-3);
+	background-color: var(--foreground-color-0);
 }

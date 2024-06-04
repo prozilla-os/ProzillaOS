@@ -54,8 +54,8 @@
 	left: 0;
 	width: 100%;
 	height: var(--divider-width);
-	border-radius: 0.25rem;
-	background-color: var(--background-color-a);
+	border-radius: var(--border-radius-0);
+	background-color: var(--background-color-0);
 }
 
 .Line {

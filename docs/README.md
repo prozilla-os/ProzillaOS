@@ -16,12 +16,13 @@
 ### Quickstart
 
 1. Clone this repository.
-2. Run `npm install`.
-3. Run `npm start` and visit [localhost:3000](http://localhost:3000/).
+2. Run `npm install` to install dependencies.
+3. Run `npm start` to start the web server and go to [localhost:3000](http://localhost:3000/).
 
 ### Development
 
 1. Run `npm start` and watch your changes live at [localhost:3000](http://localhost:3000/).
+2. Vite's hot module replacement makes sure your changes applied without needing to refresh the website.
 
 ### Building & deploying
 
@@ -71,7 +72,7 @@ Folders | kebab-case | `virtual-drive`
 Local `.module.css` files | PascalCase | `Desktop.module.css`
 Global `.module.css` files | kebab-case | `utils.module.css`
 Variables | camelCase | ```const fooBar = true;```
-Global constant variables | MACRO_CASE | ```export const NAME = "Prozilla OS";```
+Global constant variables | MACRO_CASE | ```export const NAME = "ProzillaOS";```
 Classes | PascalCase | ```class WindowsManager { }```
 React components | PascalCase | ```export function WindowsView({ }) { }```
 Functions | camelCase | ```function focusWindow() { }```
@@ -79,5 +80,5 @@ Types | PascalCase | ```type FooBar = boolean;```
 
 ### External files
 
-- [Design file - Figma](https://www.figma.com/file/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?type=design&node-id=0%3A1&mode=design&t=7KR1tKCp9H5cK3hf-1)
-- [Task board - Notion](https://prozilla.notion.site/8325fabca1fb4f9885b6d6dfd5aa64c8?v=1a59f7ce50914f5ea711fe6460e52868&pvs=4)
+- [Design file (Figma)](https://www.figma.com/file/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?type=design&node-id=0%3A1&mode=design&t=7KR1tKCp9H5cK3hf-1)
+- [Task board (Notion)](https://prozilla.notion.site/8325fabca1fb4f9885b6d6dfd5aa64c8?v=1a59f7ce50914f5ea711fe6460e52868&pvs=4)

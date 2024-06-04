@@ -1,50 +1,70 @@
 :root {
-	--white-a: hsl(210, 54%, 95%);
-	--white-b: hsl(210, 45%, 90%);
-	--pink-a: hsl(308, 100%, 81%);
-	--pink-b: hsl(308, 85%, 68%);
-	--yellow-a: hsl(41, 99%, 67%);
-	--yellow-b: hsl(29, 100%, 63%);
-	--red-a: hsl(0, 100%, 71%);
-	--red-b: hsl(360, 82%, 63%);
-	--red-c: hsl(360, 64%, 55%);
-	--red-d: hsl(360, 46%, 47%);
-	--light-blue-a: hsl(191, 96%, 63%);
-	--light-blue-b: hsl(191, 92%, 46%);
-	--green-a: hsl(164, 76%, 47%);
-	--green-b: hsl(165, 83%, 37%);
-	--cyan-a: hsl(180, 100%, 41%);
-	--cyan-b: hsl(180, 99%, 32%);
-	--blue-a: hsl(213, 100%, 66%);
-	--blue-b: hsl(210, 73%, 53%);
-	--purple-a: hsl(260, 68%, 48%);
-	--purple-b: hsl(251, 66%, 36%);
-	--grey-a: hsl(210, 36%, 85%);
-	--grey-aa: hsl(210, 27%, 72.5%);
-	--grey-b: hsl(210, 18%, 60%);
-	--dark-grey-a: hsl(212, 14%, 40%);
-	--dark-grey-b: hsl(212, 29%, 19%);
-	--dark-grey-c: hsl(212, 29%, 15%);
-	--dark-grey-ca: hsl(212, 27%, 12%);
-	--dark-grey-d: hsl(212, 14%, 10%);
-	--dark-grey-e: hsl(212, 12%, 8%);
-	--dark-grey-f: hsl(212, 10%, 6%);
+	--red-0: #FF4D5B;
+	--red-1: #B23640;
+	--red-2: #661F25;
 
-	--foreground-color-a: var(--white-a);
-	--foreground-color-b: var(--grey-a);
-	--foreground-color-c: var(--grey-b);
+	--orange-0: #FF974D;
+	--orange-1: #B26A36;
+	--orange-2: #663C1F;
 
-	--background-color-a: hsl(var(--background-color-a-hsl));
-	--background-color-b: hsl(var(--background-color-c-hsl));
-	--background-color-ba: var(--dark-grey-ca);
-	--background-color-c: var(--dark-grey-d);
-	--background-color-d: var(--dark-grey-e);
+	--yellow-0: #FED24C;
+	--yellow-1: #B29336;
+	--yellow-2: #66541F;
 
-	--background-color-a-hsl: 212, 29%, 19%; 
-	--background-color-c-hsl: 212, 29%, 15%;
+	--green-0: #4DFF8B;
+	--green-1: #36B261;
+	--green-2: #1F6638;
 
-	--scrollbar-color: hsla(211, 29%, 40%, 25%);
+	--cyan-0: #4DFFE1;
+	--cyan-1: #36B29E;
+	--cyan-2: #1F665A;
 
+	--light-blue-0: #4CDFFF;
+	--light-blue-1: #369CB2;
+	--light-blue-2: #1F5966;
+
+	--blue-0: #4D9CFF;
+	--blue-1: #366DB2;
+	--blue-2: #1F3E66;
+
+	--purple-0: #974DFF;
+	--purple-1: #6A36B2;
+	--purple-2: #3C1F66;
+
+	--pink-0: #FF4DFF;
+	--pink-1: #B236B2;
+	--pink-2: #661F66;
+
+	--white-0: #E5F2FF;
+	--white-1: #A0A9B2;
+	--white-2: #5C6166;
+
+	--black-0: #29343F;
+	--black-1: #1E262E;
+	--black-2: #14191F;
+	--black-3: #0D1114;
+	--black-4: #080B0D;
+}
+
+:root {
+	--foreground-color-0: var(--white-0);
+	--foreground-color-1: var(--white-1);
+	--foreground-color-2: var(--white-2);
+
+	--background-color-0: var(--black-0);
+	--background-color-1: var(--black-1);
+	--background-color-2: var(--black-2);
+	--background-color-3: var(--black-3);
+	--background-color-4: var(--black-4);
+
+	--scrollbar-color: color-mix(in srgb, var(--background-color-0) 25%, transparent);
+}
+
+:root {
+	--border-radius-0: 0.2rem;
+	--border-radius-1: 0.375rem;
+	--border-radius-99: 9999px;
+	
 	--window-shadow-size: 0.3rem;
 	--window-shadow-opacity: 35%;
 	--window-shadow-spread: 3;

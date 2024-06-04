@@ -3,7 +3,7 @@
 # Edit these variables before deploying
 DOMAIN=os.prozilla.dev
 COMMIT_MESSAGE="Deployed build to GitHub Pages"
-REPO_URL="https://github.com/Prozilla/Prozilla-OS"
+REPO_URL="https://github.com/Prozilla/ProzillaOS"
 
 # ------- You don't need to edit anything below this line -------
 

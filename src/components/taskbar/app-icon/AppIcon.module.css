@@ -7,6 +7,10 @@
 	animation: appear 100ms ease-out forwards;
 }
 
+.App-icon svg {
+	filter: drop-shadow(0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--taskbar-color) 50%, transparent));
+}
+
 .App-icon.Hidden {
 	animation: disappear 400ms ease-in-out forwards;
 	pointer-events: none;
@@ -42,7 +46,7 @@
 	bottom: 0;
 	width: 90%;
 	height: 0.15rem;
-	background-color: var(--grey-a);
+	background-color: var(--foreground-color-0);
 	transition: height 200ms ease-in-out, width 200ms ease-in-out;
 	transform: translateX(-50%);
 	-webkit-transform: translateX(-50%);

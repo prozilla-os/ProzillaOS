@@ -22,12 +22,12 @@
 }
 
 .Calculation {
-	color: var(--foreground-color-c);
+	color: var(--foreground-color-2);
 	height: 1.25rem;
 }
 
 .Preview {
-	color: var(--foreground-color-a);
+	color: var(--foreground-color-0);
 	font-size: 2.5rem;
 }
 
@@ -47,18 +47,18 @@
 
 .Button {
 	flex: 1;
-	border-radius: 0.25rem;
+	border-radius: var(--border-radius-0);
 	font-size: 1.5rem;
 }
 
 .Input-row:first-of-type .Button {
-	--normal-color: var(--background-color-b);
-	--hover-color: var(--background-color-ba);
+	--normal-color: var(--background-color-1);
+	--hover-color: var(--background-color-1a);
 }
 
 .Input-row .Button:last-of-type {
-	--text-color: var(--background-color-a);
-	--normal-color: var(--blue-a);
+	--text-color: var(--background-color-0);
+	--normal-color: var(--blue-0);
 	--hover-color: var(--blue-b);
 }
 

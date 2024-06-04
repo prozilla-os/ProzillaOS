@@ -26,7 +26,7 @@
 	top: 100%;
 	left: 0;
 	padding: 0.35rem;
-	background-color: var(--background-color-b);
+	background-color: var(--background-color-1);
 	border-bottom-left-radius: 0.5rem;
 	border-bottom-right-radius: 0.5rem;
 }
@@ -39,7 +39,7 @@
 	padding: 0.25rem 0.5rem;
 	background: none;
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 	outline: none;
 	font-size: 0.85rem;
 	text-align: start;
@@ -48,7 +48,7 @@
 }
 
 .Dropdown > button:hover, .Dropdown > button:focus-visible {
-	background-color: hsla(var(--background-color-a-hsl), 75%);
+	background-color: color-mix(in srgb, var(--background-color-0) 75%, transparent);
 }
 
 .Dropdown > button > p {
@@ -56,5 +56,5 @@
 }
 
 .Shortcut {
-	color: var(--foreground-color-b);
+	color: var(--foreground-color-1);
 }

@@ -35,13 +35,13 @@
 
 .Item {
 	padding: 0.25rem;
-	text-shadow: 0.1rem 0.1rem 0.2rem hsla(var(--background-color-a-hsl), 75%);
+	text-shadow: 0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--background-color-0) 75%, transparent);
 }
 
 .Item p {
-	color: var(--white-a);
+	color: var(--white-0);
 }
 
 .Item svg {
-	filter: drop-shadow(0.1rem 0.1rem 0.2rem hsla(var(--background-color-a-hsl), 50%));
+	filter: drop-shadow(0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--background-color-0) 50%, transparent));
 }

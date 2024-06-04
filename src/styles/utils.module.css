@@ -5,9 +5,9 @@
 }
 
 .Text-light {
-	color: var(--foreground-color-c);
+	color: var(--foreground-color-1);
 	font-size: 0.875em;
-	font-weight: 300;
+	font-weight: 400;
 	letter-spacing: normal;
 }
 

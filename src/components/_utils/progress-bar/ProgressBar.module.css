@@ -4,7 +4,7 @@
 	max-width: 100%;
 	min-height: 2rem;
 	max-height: 100%;
-	background-color: var(--background-color-d);
+	background-color: var(--background-color-3);
 }
 
 .Fill {
@@ -16,5 +16,5 @@
 	width: var(--fill);
 	min-width: 1px;
 	height: 100%;
-	background-color: var(--blue-a);
+	background-color: var(--blue-0);
 }

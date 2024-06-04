@@ -1,6 +1,9 @@
 :root {
 	--taskbar-height: 3rem;
-	--taskbar-color: rgba(0, 0, 0, 75%);
+	--taskbar-color: var(--background-color-2);
+	--taskbar-opacity: 0.75;
+	--taskbar-menu-color: var(--background-color-1);
+	--taskbar-menu-opacity: 0.5;
 	--taskbar-button-hover-color: rgba(255, 255, 255, 5%);
 	--taskbar-filter: blur(1rem);
 }
@@ -12,14 +15,25 @@
 	left: 0;
 	width: 100%;
 	height: var(--taskbar-height);
-	background-color: var(--taskbar-color);
 	backdrop-filter: var(--taskbar-filter);
+}
+
+.Taskbar::after {
+	opacity: var(--taskbar-opacity);
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: var(--taskbar-color);
+	z-index: -2;
 }
 
 .Taskbar button {
 	display: flex;
 	align-items: center;
-	color: var(--foreground-color-a);
+	color: var(--foreground-color-0);
 	background: none;
 	cursor: pointer;
 	border: none;
@@ -40,7 +54,7 @@
 }
 
 .Home-button * {
-	fill: var(--foreground-color-a);
+	fill: var(--foreground-color-0);
 	filter: none;
 }
 

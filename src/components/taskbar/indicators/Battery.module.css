@@ -3,7 +3,7 @@
 }
 
 .Charging-indicator {
-	--outline-color: var(--background-color-c);
+	--outline-color: var(--background-color-2);
 	--outline-width: 2px;
 
 	position: absolute;

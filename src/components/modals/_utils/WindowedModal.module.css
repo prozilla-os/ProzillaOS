@@ -7,7 +7,7 @@
 	flex-direction: column;
 	min-width: 300px;
 	min-height: 150px;
-	background-color: var(--background-color-c) !important;
+	background-color: var(--background-color-2) !important;
 	resize: both;
 	overflow: hidden;
 }
@@ -22,7 +22,7 @@
 	padding: 0.25rem;
 	padding-left: var(--window-icon-margin);
 	padding-right: 0;
-	background-color: var(--background-color-b);
+	background-color: var(--background-color-1);
 	cursor: grab;
 }
 
@@ -60,7 +60,7 @@
 	height: var(--header-height);
 	margin: 0;
 	padding: 0.75rem;
-	color: var(--foreground-color-a);
+	color: var(--foreground-color-0);
 	background: none;
 	cursor: pointer;
 	border: none;
@@ -73,7 +73,7 @@
 }
 
 .Exit-button {
-	--header-button-hover-color: var(--red-b);
+	--header-button-hover-color: var(--red-0);
 }
 
 .Header-button:hover, .Header-button:focus-visible {

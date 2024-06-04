@@ -4,6 +4,7 @@
 	flex-direction: column;
 	overflow-y: auto;
 	max-height: 100%;
+	padding-bottom: 0.5rem;
 	z-index: 0;
 }
 
@@ -12,7 +13,7 @@
 	gap: 1rem;
 	width: 100%;
 	padding: 0.25rem 0.5rem;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius-1);
 }
 
 .App-button > div,
@@ -20,6 +21,10 @@
 .App-button > div > div > svg {
 	width: 2rem;
 	height: 2rem;
+}
+
+.App-button svg {
+	filter: drop-shadow(0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--taskbar-color) 50%, transparent));
 }
 
 .App-button > p, .App-button > h2 {
