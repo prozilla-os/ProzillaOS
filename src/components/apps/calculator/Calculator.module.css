@@ -53,7 +53,7 @@
 
 .Input-row:first-of-type .Button {
 	--normal-color: var(--background-color-1);
-	--hover-color: var(--background-color-1a);
+	--hover-color: var(--background-color-2);
 }
 
 .Input-row .Button:last-of-type {

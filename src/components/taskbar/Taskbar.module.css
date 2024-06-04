@@ -1,14 +1,6 @@
-:root {
-	--taskbar-height: 3rem;
-	--taskbar-color: var(--background-color-2);
-	--taskbar-opacity: 0.75;
-	--taskbar-menu-color: var(--background-color-1);
-	--taskbar-menu-opacity: 0.5;
-	--taskbar-button-hover-color: rgba(255, 255, 255, 5%);
-	--taskbar-filter: blur(1rem);
-}
-
 .Taskbar {
+	--svg-drop-shadow-color: var(--taskbar-color);
+
 	position: fixed;
 	display: flex;
 	bottom: 0;

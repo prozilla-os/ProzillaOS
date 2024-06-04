@@ -5,7 +5,6 @@ import { SettingsManager } from "../../features/settings/settingsManager";
 export const THEMES = {
 	0: "Dark",
 	1: "Light",
-	4: "Muted",
 	2: "Cherry",
 	3: "Mango",
 	5: "Aqua",

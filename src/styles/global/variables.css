@@ -64,6 +64,10 @@
 	--border-radius-0: 0.2rem;
 	--border-radius-1: 0.375rem;
 	--border-radius-99: 9999px;
+
+	--svg-drop-shadow-color: var(--black-0);
+	--svg-drop-shadow-0: drop-shadow(0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--svg-drop-shadow-color) 50%, transparent));
+	--svg-drop-shadow-1: drop-shadow(0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--svg-drop-shadow-color) 75%, transparent));
 	
 	--window-shadow-size: 0.3rem;
 	--window-shadow-opacity: 35%;
@@ -71,4 +75,12 @@
 	--window-box-shadow: calc(var(--window-shadow-size) * -1) var(--window-shadow-size)
 		calc(var(--window-shadow-size) * var(--window-shadow-spread)) 0px
 		rgba(0, 0, 0, var(--window-shadow-opacity));
+
+	--taskbar-height: 3rem;
+	--taskbar-color: var(--background-color-2);
+	--taskbar-opacity: 0.75;
+	--taskbar-menu-color: var(--background-color-1);
+	--taskbar-menu-opacity: 0.5;
+	--taskbar-button-hover-color: rgba(255, 255, 255, 5%);
+	--taskbar-filter: blur(1rem);
 }
