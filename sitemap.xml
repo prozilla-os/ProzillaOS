@@ -34,5 +34,8 @@
 		<image:image>
 			<image:loc>https://os.prozilla.dev/assets/wallpapers/wave-abstract-wallpaper-teal.png</image:loc>
 		</image:image>
+		<image:image>
+			<image:loc>https://os.prozilla.dev/assets/wallpapers/flame-abstract-wallpaper-orange.png</image:loc>
+		</image:image>
 	</url>
 </urlset>
