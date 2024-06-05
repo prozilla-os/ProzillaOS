@@ -1,2 +1,0 @@
-import{C as u,A as o,f as s}from"./index-BHE-uA0X.js";import{C as f}from"./command-Clc1HLU6.js";const l=new f().setExecute(function(a){var t;if(a.length===0)return u.COMMANDS.map(n=>{var m;return(m=n.manual)!=null&&m.purpose?`${n.name} - ${o.fg.green}${o.decoration.dim}${n.manual.purpose}${o.reset}`:n.name}).sort().join(`
-`);const e=a[0].toLowerCase(),r=u.find(e);return r?(t=r.manual)!=null&&t.purpose?r.manual.purpose:s(this.name,`${e}: No manual found`):s(this.name,`${e}: Command not found`)});export{l as help};
