@@ -1,1 +1,0 @@
-import{V as i,f as s}from"./index-DslhZYC2.js";import{C as a}from"./command-Clc1HLU6.js";const f=new a().setRequireArgs(!0).setManual({purpose:"Remove a file"}).setExecute(function(e,{currentDirectory:r}){const{name:n,extension:o}=i.convertId(e[0]),t=r.findFile(n,o);return t?(t.delete(),{blank:!0}):s(this.name,`${e[0]}: No such file`)});export{f as rm};
