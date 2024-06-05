@@ -5,6 +5,10 @@
 	position: absolute;
 }
 
+.Window-container.Minimized {
+	pointer-events: none;
+}
+
 @keyframes pop-in {
 	0% {
 		scale: 0;

@@ -105,9 +105,15 @@
 	display: flex;
 }
 
+.ImageSelectContainer {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	gap: 0.5rem;
+}
+
 .ImageSelect {
-	min-width: 10rem;
-	max-width: 100%;
+	display: block;
+	width: 100%;
 }
 
 .ImageSelect > input {
