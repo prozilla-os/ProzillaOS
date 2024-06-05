@@ -7,14 +7,14 @@ REPO_URL="https://github.com/Prozilla/ProzillaOS"
 
 # ------- You don't need to edit anything below this line -------
 
-echo Domain: $DOMAIN
-echo Commit message: $COMMIT_MESSAGE
-echo -e "Repository: $REPO_URL\n"
+echo -e "Domain: \e[0;36m$DOMAIN\e[0m"
+echo -e "Commit message: \e[0;36m$COMMIT_MESSAGE\e[0m"
+echo -e "Repository: \e[0;36m$REPO_URL\e[0m\n"
 
 echo $DOMAIN > dist/CNAME
-echo Deploying to GitHub Pages...
+echo -e "\e[0;33mDeploying to GitHub Pages...\e[0m"
 if gh-pages -d dist -m $COMMIT_MESSAGE -r $REPO_URL ; then
-	echo Successfully deployed to https://$DOMAIN/
+	echo -e "\e[0;32m✓ Successfully deployed to \e[0;36mhttps://$DOMAIN/\e[0m"
 else
-	echo Failed to deploy
+	echo -e "\e[0;31mFailed to deploy\e[0m"
 fi

@@ -54,7 +54,7 @@
 }
 
 .IconButton:disabled {
-	opacity: 0.75;
+	--color: var(--background-color-1);
 }
 
 .IconButton svg {

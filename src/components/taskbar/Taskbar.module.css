@@ -7,6 +7,7 @@
 	left: 0;
 	width: 100%;
 	height: var(--taskbar-height);
+	margin-bottom: env(safe-area-inset-bottom);
 }
 
 .Taskbar::after,
@@ -14,7 +15,7 @@
 	content: "";
 	position: absolute;
 	top: 0;
-	bottom: 0;
+	bottom: calc(env(safe-area-inset-bottom, 0) * -1);
 	left: 0;
 	right: 0;
 	pointer-events: none;
