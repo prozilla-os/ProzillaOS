@@ -38,6 +38,8 @@
 	--white-0: #E5F2FF;
 	--white-1: #A0A9B2;
 	--white-2: #5C6166;
+	--white-3: #393C40;
+	--white-4: #222426;
 
 	--black-0: #29343F;
 	--black-1: #1E262E;
@@ -83,4 +85,8 @@
 	--taskbar-menu-opacity: 0.5;
 	--taskbar-button-hover-color: rgba(255, 255, 255, 5%);
 	--taskbar-filter: blur(1rem);
+}
+
+@media screen and (max-width: 450px) {
+	/* Change --taskbar-height to 2.5rem using TS */
 }

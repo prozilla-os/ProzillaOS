@@ -42,11 +42,11 @@ export class Wire {
 		let color: string;
 
 		if (isPlacingWire) {
-			color = `${this.color}-b`;
+			color = `${this.color}-2`;
 		} else if (this.state.value === 1) {
-			color = `${this.color}-a`;
+			color = `${this.color}-0`;
 		} else {
-			color = `${this.color}-d`;
+			color = `${this.color}-2`;
 		}
 
 		this.circuit.drawLine(this.circuit.getColor(color), positions, WIRE.width);

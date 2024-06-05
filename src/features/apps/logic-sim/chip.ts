@@ -87,12 +87,12 @@ export class Chip {
 
 	draw() {
 		this.circuit.drawRect(
-			this.circuit.getColor(this.color + "-b"),
+			this.circuit.getColor(this.color + "-1"),
 			this.position.x, this.position.y,
 			this.size.x, this.size.y
 		);
 		this.circuit.drawRect(
-			this.circuit.getColor(this.color + "-a"),
+			this.circuit.getColor(this.color + "-0"),
 			this.position.x + CHIP.padding, this.position.y + CHIP.padding,
 			this.size.x - CHIP.padding * 2, this.size.y - CHIP.padding * 2
 		);

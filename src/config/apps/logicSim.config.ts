@@ -34,26 +34,26 @@ export const CHIP = {
 
 export const COLORS = {
 	pin: {
-		fill: "dark-grey-b",
-		fillHover: "dark-grey-a"
+		fill: "black-4",
+		fillHover: "black-3"
 	},
 	inputOutput: {
-		connector: "dark-grey-ca",
-		on: "red-b",
-		onHover: "red-a",
-		off: "dark-grey-d",
-		offHover: "dark-grey-ca",
-		stroke: "dark-grey-b"
+		stroke: "black-4",
+		connector: "black-3",
+		on: "red-0",
+		onHover: "red-0",
+		off: "red-2",
+		offHover: "red-1",
 	},
 	background: {
-		outer: "dark-grey-e",
-		inner: "dark-grey-f",
-		border: "dark-grey-d",
+		border: "black-0",
+		inner: "black-1",
+		outer: "black-2",
 	},
 	wire: {
-		placing: "dark-grey-ca",
+		placing: "black-1",
 	},
 	chip: {
-		text: "dark-grey-f"
+		text: "black-4"
 	}
 };
