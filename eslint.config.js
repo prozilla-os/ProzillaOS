@@ -3,6 +3,7 @@
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import react from "eslint-plugin-react";
+import reactRefresh from "eslint-plugin-react-refresh";
 
 export default tseslint.config(
 	eslint.configs.recommended,
@@ -19,7 +20,8 @@ export default tseslint.config(
 			"eslint.config.js",
 		],
 		plugins: {
-			react
+			react,
+			"react-refresh": reactRefresh
 		},
 		rules: {
 			"quotes": "off",
@@ -59,6 +61,10 @@ export default tseslint.config(
 				{
 					"argsIgnorePattern": "^_"
 				}
+			],
+			"react-refresh/only-export-components": [
+				"warn",
+				{ "allowConstantExport": true }
 			]
 		},
 	}

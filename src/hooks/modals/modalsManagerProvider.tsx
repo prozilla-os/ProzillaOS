@@ -1,10 +1,7 @@
-import { createContext, FC, ReactNode, useContext } from "react";
+import { FC, ReactNode } from "react";
 import ModalsManager from "../../features/modals/modalsManager";
-import { ModalsProvider } from "./modalsContext";
-
-type ModalsManagerState = ModalsManager | undefined;
-
-const modalsManagerContext = createContext<ModalsManagerState>(undefined);
+import { ModalsProvider } from "./modalsProvider";
+import { modalsManagerContext } from "./modalsManagerContext";
 
 export const ModalsManagerProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const modalsManager = new ModalsManager();
@@ -17,7 +14,3 @@ export const ModalsManagerProvider: FC<{ children: ReactNode }> = ({ children })
 		</modalsManagerContext.Provider>
 	);
 };
-
-export function useModalsManager(): ModalsManagerState {
-	return useContext(modalsManagerContext);
-}

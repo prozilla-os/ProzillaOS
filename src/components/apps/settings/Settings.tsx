@@ -9,13 +9,6 @@ import { StorageTab } from "./tabs/StorageSettings";
 import { AppsSettings } from "./tabs/AppsSettings";
 import { WindowProps } from "../../windows/WindowView";
 
-export const TABS = {
-	APPS: 0,
-	APPEARANCE: 1,
-	STORAGE: 2,
-	ABOUT: 3,
-};
-
 interface SettingsProps extends WindowProps {
 	tab?: number;
 }

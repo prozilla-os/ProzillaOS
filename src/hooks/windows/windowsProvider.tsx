@@ -1,10 +1,7 @@
-import { createContext, FC, ReactNode, useCallback, useContext, useState } from "react";
+import { FC, ReactNode, useCallback, useState } from "react";
 import WindowsManager from "../../features/windows/windowsManager";
+import { WindowsContext, WindowsState } from "./windowsContext";
 import { WindowProps } from "../../components/windows/WindowView";
-
-type WindowsState = WindowProps[] | undefined;
-
-const WindowsContext = createContext<WindowsState>(undefined);
 
 export const WindowsProvider: FC<{ children: ReactNode, windowsManager: WindowsManager }> = ({ children, windowsManager }) => {
 	const [windows, setWindows] = useState<WindowsState>([]);
@@ -21,7 +18,3 @@ export const WindowsProvider: FC<{ children: ReactNode, windowsManager: WindowsM
 		</WindowsContext.Provider>
 	);
 };
-
-export function useWindows(): WindowsState {
-	return useContext(WindowsContext);
-}

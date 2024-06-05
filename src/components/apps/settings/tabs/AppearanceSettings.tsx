@@ -13,7 +13,7 @@ import { DEFAULT_FILE_SELECTOR_SIZE } from "../../../../config/modals.config";
 import { IMAGE_FORMATS } from "../../../../config/apps/mediaViewer.config";
 import { VirtualFile } from "../../../../features/virtual-drive/file/virtualFile";
 import { VirtualFolder } from "../../../../features/virtual-drive/folder/virtualFolder";
-import { THEMES } from "../../../../hooks/themes/themes";
+import { THEMES } from "../../../../config/themes.config";
 
 export function AppearanceSettings() {
 	const virtualRoot = useVirtualRoot();

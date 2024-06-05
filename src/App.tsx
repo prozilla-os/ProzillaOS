@@ -1,15 +1,15 @@
 import styles from "./App.module.css";
 import { Taskbar } from "./components/taskbar/Taskbar";
-import { WindowsManagerProvider } from "./hooks/windows/windowsManagerContext";
 import { WindowsView } from "./components/windows/WindowsView";
-import { VirtualRootProvider } from "./hooks/virtual-drive/virtualRootContext";
 import { Desktop } from "./components/desktop/Desktop";
-import { SettingsManagerProvider } from "./hooks/settings/settingsManagerContext";
 import { ModalsView } from "./components/modals/ModalsView";
 import { ReactElement, useEffect } from "react";
-import { ZIndexManagerProvider } from "./hooks/z-index/zIndexManagerContext";
-import { ModalsManagerProvider } from "./hooks/modals/modalsManagerContext";
+import { ZIndexManagerProvider } from "./hooks/z-index/zIndexManagerProvider";
 import { ThemeProvider } from "./hooks/themes/themes";
+import { VirtualRootProvider } from "./hooks/virtual-drive/virtualRootProvider";
+import { WindowsManagerProvider } from "./hooks/windows/windowsManagerProvider";
+import { ModalsManagerProvider } from "./hooks/modals/modalsManagerProvider";
+import { SettingsManagerProvider } from "./hooks/settings/settingsManagerProvider";
 
 export default function App(): ReactElement {
 	useEffect(() => {

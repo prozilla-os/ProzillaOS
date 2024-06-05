@@ -1,10 +1,7 @@
-import { createContext, FC, ReactNode, useContext } from "react";
-import { SettingsManager } from "../../features/settings/settingsManager";
+import { FC, ReactNode } from "react";
 import { useVirtualRoot } from "../virtual-drive/virtualRootContext";
-
-type SettingsManagerState = SettingsManager | undefined;
-
-const SettingsManagerContext = createContext<SettingsManagerState>(undefined);
+import { SettingsManager } from "../../features/settings/settingsManager";
+import { SettingsManagerContext } from "./settingsManagerContext";
 
 /**
  * Note: needs to be inside a virtual root provider
@@ -19,7 +16,3 @@ export const SettingsManagerProvider: FC<{ children: ReactNode }> = ({ children 
 		</SettingsManagerContext.Provider>
 	);
 };
-
-export function useSettingsManager(): SettingsManagerState {
-	return useContext(SettingsManagerContext);
-}

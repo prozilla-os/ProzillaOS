@@ -1,15 +1,7 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useSettingsManager } from "../settings/settingsManagerContext";
 import { SettingsManager } from "../../features/settings/settingsManager";
-
-export const THEMES = {
-	0: "Dark",
-	1: "Light",
-	2: "Cherry",
-	3: "Mango",
-	5: "Aqua",
-	6: "Grape"
-};
+import { THEMES } from "../../config/themes.config";
 
 interface ThemeProviderProps {
 	children: ReactElement;

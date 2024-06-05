@@ -1,10 +1,7 @@
-import { createContext, FC, ReactNode, useContext } from "react";
+import { FC, ReactNode } from "react";
 import WindowsManager from "../../features/windows/windowsManager";
-import { WindowsProvider } from "./windowsContext";
-
-type WindowsManagerState = WindowsManager | undefined;
-
-const WindowsManagerContext = createContext<WindowsManagerState>(undefined);
+import { WindowsManagerContext } from "./windowsManagerContext";
+import { WindowsProvider } from "./windowsProvider";
 
 export const WindowsManagerProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const windowsManager = new WindowsManager();
@@ -17,7 +14,3 @@ export const WindowsManagerProvider: FC<{ children: ReactNode }> = ({ children }
 		</WindowsManagerContext.Provider>
 	);
 };
-
-export function useWindowsManager(): WindowsManagerState {
-	return useContext(WindowsManagerContext);
-}

@@ -1,10 +1,7 @@
-import { createContext, FC, ReactNode, useCallback, useContext, useState } from "react";
-import Modal from "../../features/modals/modal";
+import { FC, ReactNode, useCallback, useState } from "react";
 import ModalsManager from "../../features/modals/modalsManager";
-
-type ModalsState = Modal[] | undefined;
-
-const ModalsContext = createContext<ModalsState>(undefined);
+import { ModalsContext, ModalsState } from "./modalsContext";
+import Modal from "../../features/modals/modal";
 
 export const ModalsProvider: FC<{ children: ReactNode, modalsManager: ModalsManager }> = ({ children, modalsManager }) => {
 	const [modals, setModals] = useState<ModalsState>([]);
@@ -21,7 +18,3 @@ export const ModalsProvider: FC<{ children: ReactNode, modalsManager: ModalsMana
 		</ModalsContext.Provider>
 	);
 };
-
-export function useModals(): ModalsState {
-	return useContext(ModalsContext);
-}

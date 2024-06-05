@@ -25,7 +25,7 @@ import ModalsManager from "../../features/modals/modalsManager";
 import { VirtualFolder } from "../../features/virtual-drive/folder/virtualFolder";
 import { VirtualFolderLink } from "../../features/virtual-drive/folder/virtualFolderLink";
 import { VirtualFile } from "../../features/virtual-drive/file/virtualFile";
-import { TABS } from "../apps/settings/Settings";
+import { TABS } from "../../config/apps/settings.config";
 
 export const Desktop = memo(() => {
 	const settingsManager = useSettingsManager();

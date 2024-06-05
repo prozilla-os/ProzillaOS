@@ -1,7 +1,6 @@
-import { createContext, useContext, FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { VirtualRoot } from "../../features/virtual-drive/root/virtualRoot";
-
-const VirtualRootContext = createContext<VirtualRoot | undefined>(undefined);
+import { VirtualRootContext } from "./virtualRootContext";
 
 export const VirtualRootProvider: FC<{ children: ReactNode }> = ({ children }) =>  {
 	const virtualRoot = new VirtualRoot().init();
@@ -10,7 +9,3 @@ export const VirtualRootProvider: FC<{ children: ReactNode }> = ({ children }) =
 		{children}
 	</VirtualRootContext.Provider>;
 };
-
-export function useVirtualRoot(): VirtualRoot {
-	return useContext(VirtualRootContext);
-}
