@@ -3,13 +3,7 @@ import styles from "./DropdownButton.module.css";
 import OutsideClickListener from "../../../hooks/_utils/outsideClick";
 import { formatShortcut } from "../../../features/_utils/string.utils";
 
-/**
- * @param {object} props 
- * @param {string} props.label
- * @param {Object<string, Function>} props.options
- * @param {Object<string, string[]>} props.shortcuts
- */
-export function DropdownButton({ label, options, shortcuts }) {
+export function DropdownButton({ label, options, shortcuts }: { label: string; options: { [s: string]: Function; }; shortcuts: { [s: string]: string[]; }; }) {
 	const [open, setOpen] = useState(false);
 	const [tabIndex, setTabIndex] = useState(-1);
 
@@ -19,7 +13,7 @@ export function DropdownButton({ label, options, shortcuts }) {
 
 	return (
 		<OutsideClickListener onOutsideClick={() => { setOpen(false); }}>
-			<div className={styles.Container}>
+			<div className={styles.DropdownButton}>
 				<button className={styles.Button} tabIndex={0} onClick={() => { setOpen(!open); }}>
 					{label}
 				</button>

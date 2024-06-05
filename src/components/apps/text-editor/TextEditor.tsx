@@ -126,7 +126,7 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 	}
 
 	return (
-		<div className={styles.Container} style={{ fontSize: zoom }}>
+		<div className={styles.TextEditor} style={{ fontSize: zoom }}>
 			<HeaderMenu>
 				<DropdownAction label="File" showOnHover={false}>
 					<ClickAction label="New" onTrigger={() => { newText(); }} shortcut={["Control", "e"]}/>

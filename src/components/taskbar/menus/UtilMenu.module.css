@@ -1,4 +1,4 @@
-.Container-outer {
+.UtilMenuContainer {
 	position: absolute;
 	right: 0;
 	bottom: 100%;
@@ -6,7 +6,7 @@
 	overflow: hidden;
 }
 
-.Container-inner {
+.UtilMenu {
 	opacity: 1;
 	display: flex;
 	border-top-left-radius: var(--border-radius-1);
@@ -19,7 +19,7 @@
 	resize: horizontal;
 }
 
-.Container-inner::after {
+.UtilMenu::after {
 	opacity: var(--taskbar-menu-opacity);
 	content: "";
 	position: absolute;
@@ -31,11 +31,11 @@
 	z-index: -2;
 }
 
-.Container-outer:not(.Active) {
+.UtilMenuContainer:not(.Active) {
 	pointer-events: none;
 }
 
-.Container-outer:not(.Active) .Container-inner {
+.UtilMenuContainer:not(.Active) .UtilMenu {
 	opacity: 0;
 	transform: translateY(100px);
 }

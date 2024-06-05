@@ -33,7 +33,7 @@ export const ModalView: FC<ModalProps> = memo(({ modal }) => {
 	}, [modal]);
 
 	const Container = () => (<div
-		className={styles.Container}
+		className={styles.ModalView}
 		style={{ "--position-x": modal.position.x, "--position-y": modal.position.y } as CSSProperties}
 	>
 		<modal.element modal={modal} {...modal.props}/>

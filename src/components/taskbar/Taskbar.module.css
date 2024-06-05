@@ -48,25 +48,25 @@
 	background-color: var(--taskbar-button-hover-color);
 }
 
-.Home-container,
-.Search-container {
+.HomeContainer,
+.SearchContainer {
 	position: relative;
 	padding: 0 !important;
 }
 
-.Home-button * {
+.HomeButton * {
 	fill: var(--foreground-color-0);
 	filter: none;
 }
 
-.Menu-icons,
-.App-icons-inner {
+.MenuIcons,
+.AppIcons {
 	display: flex;
 	align-items: center;
 	height: 100%;
 }
 
-.App-icons {
+.AppIconsContainer {
 	position: relative;
 	width: 100%;
 	height: auto;
@@ -74,7 +74,7 @@
 	pointer-events: none;
 }
 
-.App-icons-inner {
+.AppIcons {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -86,30 +86,30 @@
 	z-index: -1;
 }
 
-.App-icons-inner::-webkit-scrollbar {
+.AppIcons::-webkit-scrollbar {
 	display: none;
 }
 
-.App-icons-inner > *,
-.Menu-button {
+.AppIcons > *,
+.MenuButton {
 	height: 100%;
 	padding: 0.75rem;
 }
 
-.App-icons-inner > * > svg,
-.Menu-button > svg {
+.AppIcons > * > svg,
+.MenuButton > svg {
 	height: 1.25rem;
 }
 
-.App-icons-inner div,
-.App-icons-inner div > svg,
-.Menu-icons div,
-.Menu-icons div > svg {
+.AppIcons div,
+.AppIcons div > svg,
+.MenuIcons div,
+.MenuIcons div > svg {
 	height: 100%;
 	width: auto;
 }
 
-.Util-icons {
+.UtilIcons {
 	display: flex;
 	gap: 0;
 	justify-content: flex-end;
@@ -120,22 +120,22 @@
 	z-index: -1;
 }
 
-.Util-icons > div {
+.UtilIcons > div {
 	height: 100%;
 	width: min-content;
 	z-index: -1;
 }
 
-.Util-icons > button,
-.Util-icons > div > button {
+.UtilIcons > button,
+.UtilIcons > div > button {
 	height: 100%;
 	width: min-content;
 	margin: 0;
 	padding: 0.4rem;
 }
 
-.Util-icons > button > svg,
-.Util-icons > div > button > svg {
+.UtilIcons > button > svg,
+.UtilIcons > div > button > svg {
 	height: 1rem;
 	width: 1rem;
 	aspect-ratio: 1;
@@ -149,7 +149,7 @@
 	margin-left: 1rem;
 }
 
-.Menu-outer {
+.MenuContainer {
 	position: absolute;
 	right: 0;
 	bottom: 100%;
@@ -157,11 +157,11 @@
 	overflow: hidden;
 }
 
-.Menu-outer:not(.Active) {
+.MenuContainer:not(.Active) {
 	pointer-events: none;
 }
 
-.Menu-inner {
+.Menu {
 	opacity: 1;
 	display: flex;
 	border-top-left-radius: var(--border-radius-1);
@@ -173,13 +173,13 @@
 	resize: horizontal;
 }
 
-.Menu-outer:not(.Active) .Menu-inner {
+.MenuContainer:not(.Active) .Menu {
 	opacity: 0;
 	transform: translateY(100px);
 }
 
-.Menu-inner::after,
-.Menu-outer::after {
+.Menu::after,
+.MenuContainer::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -190,20 +190,20 @@
 	pointer-events: none;
 }
 
-.Menu-inner::after {
+.Menu::after {
 	opacity: var(--taskbar-menu-opacity);
 	background-color: var(--taskbar-menu-color);
 	z-index: -2;
 }
 
-.Menu-outer::after {
+.MenuContainer::after {
 	opacity: 1;
 	transition: opacity 200ms ease-in-out, top 200ms ease-in-out;
 	backdrop-filter: var(--taskbar-filter);
 	z-index: -3;
 }
 
-.Menu-outer:not(.Active)::after {
+.MenuContainer:not(.Active)::after {
 	opacity: 0;
 	top: 100px;
 }

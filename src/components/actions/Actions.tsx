@@ -2,12 +2,7 @@ import { Children, cloneElement, isValidElement, ReactElement, ReactNode, Ref } 
 import { useShortcuts } from "../../hooks/_utils/keyboard";
 import styles from "./Actions.module.css";
 import { useScreenBounds } from "../../hooks/_utils/screen";
-
-export const STYLES = {
-	CONTEXT_MENU: styles["Context-menu"],
-	SHORTCUTS_LISTENER: styles["Shortcuts-listener"],
-	HEADER_MENU: styles["Header-menu"]
-};
+import { STYLES } from "../../config/actions.config";
 
 export interface ActionProps {
 	actionId?: string;
@@ -84,13 +79,13 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 	if (isListener)
 		return iterateOverChildren(children) as ReactElement;
 
-	const classNames = [styles.Container];
+	const classNames = [styles.Actions];
 	if (className != null)
 		classNames.push(className);
 	if (alignLeft)
-		classNames.push(styles["Align-left"]);
+		classNames.push(styles.AlignLeft);
 	if (alignTop)
-		classNames.push(styles["Align-top"]);
+		classNames.push(styles.AlignTop);
 	if (!initiated)
 		classNames.push(styles.Uninitiated);
 

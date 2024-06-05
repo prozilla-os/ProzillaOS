@@ -1,4 +1,4 @@
-.Container-outer {
+.SearchMenuContainer {
 	position: absolute;
 	display: flex;
 	flex-direction: column;
@@ -9,7 +9,7 @@
 	overflow: hidden;
 }
 
-.Container-inner {
+.SearchMenu {
 	opacity: 1;
 	display: flex;
 	gap: 0.5rem;
@@ -27,7 +27,7 @@
 	resize: horizontal;
 }
 
-.Container-inner::after {
+.SearchMenu::after {
 	opacity: var(--taskbar-menu-opacity);
 	content: "";
 	position: absolute;
@@ -39,16 +39,16 @@
 	z-index: -2;
 }
 
-.Container-outer:not(.Active) {
+.SearchMenuContainer:not(.Active) {
 	pointer-events: none;
 }
 
-.Container-outer:not(.Active) .Container-inner {
+.SearchMenuContainer:not(.Active) .SearchMenu {
 	opacity: 0;
 	transform: translateY(100px);
 }
 
-.Container-inner > div {
+.SearchMenu > div {
 	margin-top: auto;
 }
 
@@ -64,6 +64,6 @@
 	font-size: inherit;
 }
 
-.Container-inner > div > button:first-child {
+.SearchMenu > div > button:first-child {
 	background-color: var(--taskbar-button-hover-color);
 }

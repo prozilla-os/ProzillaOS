@@ -1,4 +1,4 @@
-.Container {
+.Actions {
 	/* These variables describe the position of the container relative to top left corner of its parent */
 	--left: 0;
 	--top: 0;
@@ -12,25 +12,25 @@
 	transition: opacity 100ms ease-out;
 }
 
-.Container.Uninitiated {
+.Actions.Uninitiated {
 	opacity: 0;
 }
 
-.Container.Align-left {
+.Actions.AlignLeft {
 	--left: 1;
 
 	left: unset;
 	right: 0;
 }
 
-.Container.Align-top {
+.Actions.AlignTop {
 	--top: 1;
 
 	top: unset;
 	bottom: 0;
 }
 
-.Context-menu.Container {
+.ContextMenu.Actions {
 	--border-radius: var(--border-radius-1);
 	--padding: 0.375rem;
 
@@ -42,8 +42,8 @@
 	background-color: var(--background-color-1) !important;
 }
 
-.Context-menu .Button,
-.Context-menu .Dropdown {
+.ContextMenu .Button,
+.ContextMenu .Dropdown {
 	display: flex;
 	gap: 0.75rem;
 	justify-content: space-between;
@@ -59,26 +59,26 @@
 	cursor: pointer;
 }
 
-.Context-menu .Button:hover,
-.Context-menu .Button:focus-visible,
-.Context-menu .Dropdown:hover,
-.Context-menu .Dropdown:focus-visible {
+.ContextMenu .Button:hover,
+.ContextMenu .Button:focus-visible,
+.ContextMenu .Dropdown:hover,
+.ContextMenu .Dropdown:focus-visible {
 	background-color: color-mix(in srgb, var(--background-color-0) 75%, transparent);
 }
 
-.Context-menu .Label {
+.ContextMenu .Label {
 	display: flex;
 	gap: 0.5rem;
 	justify-content: center;
 	align-items: center;
 }
 
-.Context-menu .Label p,
-.Context-menu .Shortcut {
+.ContextMenu .Label p,
+.ContextMenu .Shortcut {
 	margin: 0;
 }
 
-.Context-menu .Icon {
+.ContextMenu .Icon {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -86,40 +86,40 @@
 	height: 0.875rem;
 }
 
-.Context-menu .Icon > svg {
+.ContextMenu .Icon > svg {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
 }
 
-.Context-menu .Image-icon {
+.ContextMenu .ImageIcon {
 	position: absolute;
 	width: 1rem;
 	height: auto;
 	aspect-ratio: 1;
 }
 
-.Context-menu .Image-icon div {
+.ContextMenu .ImageIcon div {
 	display: flex;
 	width: 100%;
 	height: 100%;
 }
 
-.Context-menu .Image-icon div > svg {
+.ContextMenu .ImageIcon div > svg {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
 }
 
-.Context-menu .Shortcut {
+.ContextMenu .Shortcut {
 	color: var(--foreground-color-1);
 }
 
-.Context-menu .Dropdown {
+.ContextMenu .Dropdown {
 	position: relative;
 }
 
-.Context-menu .Dropdown .Dropdown-content {
+.ContextMenu .Dropdown .DropdownContent {
 	opacity: 1;
 	position: absolute;
 	top: calc(var(--padding) * -1);
@@ -132,12 +132,12 @@
 	cursor: auto;
 }
 
-.Context-menu .Dropdown:not(.Active) .Dropdown-content {
+.ContextMenu .Dropdown:not(.Active) .DropdownContent {
 	opacity: 0;
 	pointer-events: none;
 }
 
-.Context-menu .Divider {
+.ContextMenu .Divider {
 	width: calc(100% - 0.5rem);
 	height: 2px;
 	border-radius: var(--border-radius-99);
@@ -174,11 +174,11 @@
 	height: 100%;
 }
 
-.Header-menu .Dropdown-arrow {
+.Header-menu .DropdownArrow {
 	display: none;
 }
 
-.Header-menu .Dropdown-content {
+.Header-menu .DropdownContent {
 	display: flex;
 	flex-direction: column;
 	position: absolute;
@@ -190,7 +190,7 @@
 	border-bottom-right-radius: 0.5rem;
 }
 
-.Header-menu .Dropdown:not(.Active) .Dropdown-content {
+.Header-menu .Dropdown:not(.Active) .DropdownContent {
 	opacity: 0;
 	pointer-events: none;
 }

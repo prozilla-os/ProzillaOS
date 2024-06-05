@@ -1,4 +1,4 @@
-.Container {
+.FileExplorer {
 	--header-height: 3.5rem;
 	--sidebar-width: 10rem;
 	--footer-height: 1.75rem;
@@ -20,7 +20,7 @@
 	background-color: var(--background-color-0);
 }
 
-.Icon-button {
+.IconButton {
 	--color: var(--foreground-color-0);
 
 	position: relative;
@@ -34,7 +34,7 @@
 	cursor: pointer;
 }
 
-.Icon-button::after {
+.IconButton::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -48,25 +48,25 @@
 	transition: all 200ms ease-in-out;
 }
 
-.Icon-button:hover::after, .Icon-button:focus-visible::after {
+.IconButton:hover::after, .IconButton:focus-visible::after {
 	background-color: rgba(255, 255, 255, 10%);
 	transform: scale(150%);
 }
 
-.Icon-button:disabled {
-	--color: var(--foreground-color-2);
+.IconButton:disabled {
+	opacity: 0.75;
 }
 
-.Icon-button svg {
+.IconButton svg {
 	height: 100%;
 }
 
-.Icon-button svg path {
+.IconButton svg path {
 	fill: var(--color);
 	transition: fill 100ms ease-in-out;
 }
 
-.Path-input {
+.PathInput {
 	flex: 1;
 	padding: 0.25rem 0.5rem;
 	background-color: var(--background-color-2);
@@ -99,7 +99,7 @@
 	overflow: hidden;
 }
 
-.Nav-button {
+.NavButton {
 	display: flex;
 	gap: 0.5rem;
 	align-items: center;
@@ -113,11 +113,11 @@
 	transition: background-color 100ms ease-in-out;
 }
 
-.Nav-button:hover, .Nav-button:focus-visible {
+.NavButton:hover, .NavButton:focus-visible {
 	background-color: color-mix(in srgb, var(--background-color-0) 75%, transparent);
 }
 
-.Nav-button svg {
+.NavButton svg {
 	height: 1.35rem;
 	aspect-ratio: 1;
 }

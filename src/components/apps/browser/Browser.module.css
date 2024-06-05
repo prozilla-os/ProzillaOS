@@ -1,4 +1,4 @@
-.Container {
+.Browser {
 	--header-height: 3.5rem;
 	--nav-bar-height: 2.25rem;
 
@@ -16,7 +16,7 @@
 	background-color: var(--background-color-0);
 }
 
-.Nav-bar {
+.NavBar {
 	display: flex;
 	gap: 1rem;
 	justify-content: flex-start;
@@ -26,7 +26,7 @@
 	padding: 1.25rem;
 }
 
-.Icon-button {
+.IconButton {
 	--color: var(--foreground-color-0);
 
 	position: relative;
@@ -43,7 +43,7 @@
 	cursor: pointer;
 }
 
-.Icon-button::after {
+.IconButton::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -57,26 +57,26 @@
 	transition: all 200ms ease-in-out;
 }
 
-.Icon-button:hover::after,
-.Icon-button:focus-visible::after {
+.IconButton:hover::after,
+.IconButton:focus-visible::after {
 	background-color: rgba(255, 255, 255, 10%);
 	transform: scale(175%);
 }
 
-.Icon-button:disabled {
+.IconButton:disabled {
 	--color: var(--foreground-color-2);
 }
 
-.Icon-button svg {
+.IconButton svg {
 	height: 100%;
 }
 
-.Icon-button svg path {
+.IconButton svg path {
 	fill: var(--color);
 	transition: fill 100ms ease-in-out;
 }
 
-.Search-bar {
+.SearchBar {
 	flex: 1;
 	padding: 0.25rem 0.5rem;
 	background-color: var(--background-color-2);

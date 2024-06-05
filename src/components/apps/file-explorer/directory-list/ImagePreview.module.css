@@ -1,16 +1,16 @@
-.Image-preview {
+.ImagePreview {
 	height: 100%;
 	overflow: hidden;
 	pointer-events: none;
 }
 
-.Image-preview > * {
+.ImagePreview > * {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
 }
 
-.Image-preview > img {
+.ImagePreview > img {
 	height: auto;
 	max-height: 100%;
 	width: auto;

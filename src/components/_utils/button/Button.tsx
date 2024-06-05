@@ -17,7 +17,7 @@ export function Button(props: ButtonProps) {
 	className = `${styles.Button} ${className}`;
 
 	if (href != null) {
-		className = `${styles["Button-link"]} ${className}`;
+		className = `${styles.ButtonLink} ${className}`;
 
 		return (<a
 			href={href}

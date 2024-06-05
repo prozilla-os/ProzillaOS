@@ -1,4 +1,4 @@
-.App-list {
+.AppList {
 	--scrollbar-color: rgba(0, 0, 0, 25%);
 	display: flex;
 	flex-direction: column;
@@ -8,7 +8,7 @@
 	z-index: 0;
 }
 
-.App-button {
+.AppButton {
 	display: flex;
 	gap: 1rem;
 	width: 100%;
@@ -16,18 +16,18 @@
 	border-radius: var(--border-radius-1);
 }
 
-.App-button > div,
-.App-button > div > div,
-.App-button > div > div > svg {
+.AppButton > div,
+.AppButton > div > div,
+.AppButton > div > div > svg {
 	width: 2rem;
 	height: 2rem;
 }
 
-.App-button svg {
+.AppButton svg {
 	filter: var(--svg-drop-shadow-0);
 }
 
-.App-button > p, .App-button > h2 {
+.AppButton > p, .AppButton > h2 {
 	margin: 0;
 	white-space: nowrap;
 }

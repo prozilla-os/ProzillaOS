@@ -1,4 +1,4 @@
-.Container {
+.Calculator {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
@@ -39,7 +39,7 @@
 	padding: 0.5rem;
 }
 
-.Input-row {
+.InputRow {
 	flex: 1;
 	display: flex;
 	gap: var(--button-gap);
@@ -51,17 +51,17 @@
 	font-size: 1.5rem;
 }
 
-.Input-row:first-of-type .Button {
+.InputRow:first-of-type .Button {
 	--normal-color: var(--background-color-1);
 	--hover-color: var(--background-color-2);
 }
 
-.Input-row .Button:last-of-type {
+.InputRow .Button:last-of-type {
 	--text-color: var(--background-color-0);
 	--normal-color: var(--blue-0);
-	--hover-color: var(--blue-b);
+	--hover-color: var(--blue-1);
 }
 
-.Button-large {
+.ButtonLarge {
 	min-width: calc(50% - var(--button-gap) / 2);
 }

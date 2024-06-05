@@ -16,7 +16,7 @@ export function DialogBox({ modal, params, children, ...props }: ModalProps) {
 	};
 
 	return <WindowedModal modal={modal} params={params} onClick={onClick} {...props}>
-		<div className={styles["Dialog-content"]}>
+		<div className={styles.DialogContent}>
 			{children}
 		</div>
 	</WindowedModal>;

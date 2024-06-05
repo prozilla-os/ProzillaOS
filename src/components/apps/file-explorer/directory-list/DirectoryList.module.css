@@ -1,4 +1,4 @@
-.Container {
+.DirectoryList {
 	--scale: 1rem;
 	
 	position: relative;
@@ -6,7 +6,7 @@
 	height: 100%;
 }
 
-.File-button, .Folder-button {
+.FileButton, .FolderButton {
 	--gap: 0.25rem;
 
 	display: flex;
@@ -25,43 +25,43 @@
 	transition: background-color 100ms ease-in-out;
 }
 
-.File-button[data-selected=true],
-.Folder-button[data-selected=true] {
+.FileButton[data-selected=true],
+.FolderButton[data-selected=true] {
 	background-color: color-mix(in srgb, var(--background-color-0) 40%, transparent) !important;
 }
 
-.File-button:hover,
-.Folder-button:hover,
-.File-button:focus-visible,
-.Folder-button:focus-visible {
+.FileButton:hover,
+.FolderButton:hover,
+.FileButton:focus-visible,
+.FolderButton:focus-visible {
 	background-color: color-mix(in srgb, var(--background-color-0) 20%, transparent);
 }
 
-.File-button p, .Folder-button p {
+.FileButton p, .FolderButton p {
 	max-width: 100%;
 	margin: 0;
 	word-wrap: break-word;
 }
 
-.File-icon, .Folder-icon {
+.FileIcon, .FolderIcon {
 	max-height: calc(100% - 1rem - var(--gap));
 	border-radius: inherit;
 }
 
-.File-icon div, .Folder-icon div {
+.FileIcon div, .FolderIcon div {
 	width: 100%;
 	height: 100%;
 	border-radius: inherit;
 	overflow: hidden;
 }
 
-.File-icon svg, .Folder-icon svg {
+.FileIcon svg, .FolderIcon svg {
 	width: 50%;
 	height: auto;
 	aspect-ratio: 1;
 }
 
-.Selection-rect {
+.SelectionRect {
 	opacity: 25%;
 	position: absolute;
 	border-radius: var(--border-radius-0);

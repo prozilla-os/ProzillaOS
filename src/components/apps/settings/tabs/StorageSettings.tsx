@@ -17,18 +17,18 @@ export function StorageTab() {
 	const freeKB = maxKB - usedKB;
 
 	return (<>
-		<div className={`${styles["Option"]} ${styles["Progress-bar-container"]}`}>
-			<p className={styles["Label"]}>Virtual Drive ({round(maxKB, 1)} KB)</p>
-			<ProgressBar fillPercentage={usedKB / maxKB * 100} className={styles["Progress-bar"]}/>
-			<span className={styles["Progress-bar-labels"]}>
-				<p className={utilStyles["Text-light"]}>{round(usedKB, 1)} KB used</p>
-				<p className={utilStyles["Text-light"]}>{round(freeKB, 1)} KB free</p>
+		<div className={`${styles.Option} ${styles.ProgressBarContainer}`}>
+			<p className={styles.Label}>Virtual Drive ({round(maxKB, 1)} KB)</p>
+			<ProgressBar fillPercentage={usedKB / maxKB * 100} className={styles.ProgressBar}/>
+			<span className={styles.ProgressBarLabels}>
+				<p className={utilStyles.TextLight}>{round(usedKB, 1)} KB used</p>
+				<p className={utilStyles.TextLight}>{round(freeKB, 1)} KB free</p>
 			</span>
 		</div>
-		<div className={styles["Option"]}>
-			<p className={styles["Label"]}>Manage data</p>
+		<div className={styles.Option}>
+			<p className={styles.Label}>Manage data</p>
 			<Button
-				className={`${styles.Button} ${styles["Button-red"]} ${utilStyles["Text-bold"]}`}
+				className={`${styles.Button} ${styles.ButtonDanger} ${utilStyles.TextBold}`}
 				onClick={() => { virtualRoot.reset?.(); }}
 			>
 				Reset

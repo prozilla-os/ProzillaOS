@@ -21,7 +21,7 @@ interface ProgressBarProps {
 
 export function ProgressBar({ fillPercentage, fillColor, backgroundColor, align = "left", className = "" }: ProgressBarProps) {
 	return (
-		<div className={`${styles.Container} ${className}`} style={{ backgroundColor: backgroundColor }}>
+		<div className={`${styles.ProgressBar} ${className}`} style={{ backgroundColor: backgroundColor }}>
 			<div
 				className={`${styles.Fill} ${align}`}
 				style={{ backgroundColor: fillColor, "--fill": `${clamp(fillPercentage, 0.1, 100)}%` } as CSSProperties}

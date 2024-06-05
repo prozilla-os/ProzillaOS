@@ -23,7 +23,7 @@ export const ModalsView = memo(() => {
 			modalsManager.containerRef = ref;
 	}, [modalsManager, ref]);
 
-	return <div ref={ref} className={styles.Container}>
+	return <div ref={ref} className={styles.ModalsView}>
 		{sortedModals?.map((modal) =>
 			<ModalView key={modal.id} modal={modal}/>
 		)}

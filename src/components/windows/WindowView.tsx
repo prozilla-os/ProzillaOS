@@ -172,7 +172,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 							className={styles["Window-icon"]}
 							src={iconUrl}
 						/>
-						<p className={utilStyles["Text-semibold"]}>{title}</p>
+						<p className={utilStyles.TextSemibold}>{title}</p>
 						<button aria-label="Minimize" className={styles["Header-button"]} tabIndex={0} id="minimize-window"
 							onClick={toggleMinimized as MouseEventHandler}
 						>

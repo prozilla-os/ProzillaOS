@@ -9,14 +9,14 @@ interface UtilMenuProps {
 }
 
 export function UtilMenu({ active, setActive: _setActive, className, children }: UtilMenuProps) {
-	const classNames = [styles["Container-outer"]];
+	const classNames = [styles.UtilMenuContainer];
 	if (active)
 		classNames.push(styles.Active);
 	if (className != null)
 		classNames.push(className);
 
 	return (<div className={classNames.join(" ")}>
-		<div className={styles["Container-inner"]}>
+		<div className={styles.UtilMenu}>
 			{children}
 		</div>
 	</div>);

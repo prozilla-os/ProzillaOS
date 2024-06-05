@@ -32,8 +32,8 @@ export function DropdownAction({ label, icon, children, showOnHover = true }: Dr
 				{icon && <div className={styles.Icon}><FontAwesomeIcon icon={icon as IconDefinition}/></div>}
 				<p>{label}</p>
 			</span>
-			<div className={styles["Dropdown-arrow"]}><FontAwesomeIcon icon={faCaretRight}/></div>
-			<div className={styles["Dropdown-content"]}>
+			<div className={styles.DropdownArrow}><FontAwesomeIcon icon={faCaretRight}/></div>
+			<div className={styles.DropdownContent}>
 				{children}
 			</div>
 		</div>

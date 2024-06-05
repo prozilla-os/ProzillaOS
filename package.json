@@ -7,7 +7,7 @@
 	"repository": "https://github.com/Prozilla/ProzillaOS",
 	"type": "module",
 	"scripts": {
-		"start": "vite --port 3000",
+		"start": "vite --port 3000 --host",
 		"build": "tsc && vite build",
 		"serve": "vite preview",
 		"predeploy": "npm run build",

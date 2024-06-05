@@ -1,8 +1,7 @@
 import { APPS } from "../../../../config/apps.config";
 import { ANSI } from "../../../../config/apps/terminal.config";
 import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR, NAME } from "../../../../config/branding.config";
-import { START_DATE } from "../../../../index";
-import { formatRelativeTime } from "../../../_utils/date.utils";
+import { TimeManager } from "../../../_utils/time.utils";
 import AppsManager from "../../appsManager";
 import Command from "../command";
 
@@ -36,7 +35,7 @@ export const neofetch = new Command()
 			`${ANSI.fg.cyan + username + ANSI.reset}@${ANSI.fg.cyan + hostname + ANSI.reset}`,
 			"-".repeat(rightColumnWidth),
 			formatLine("os", NAME),
-			formatLine("uptime", formatRelativeTime(START_DATE, 2, false)),
+			formatLine("uptime", TimeManager.getUptime(2)),
 			formatLine("resolution", window.innerWidth + "x" + window.innerHeight),
 			formatLine("theme", "default"),
 			formatLine("icons", "Font Awesome"),

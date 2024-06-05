@@ -16,10 +16,10 @@
 	background-color: var(--hover-color);
 }
 
-.Button-link {
+.ButtonLink {
 	text-decoration: none;
 }
 
-.Button-link > svg {
+.ButtonLink > svg {
 	margin-left: 0.5rem;
 }

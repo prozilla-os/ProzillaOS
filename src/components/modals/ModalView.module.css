@@ -1,4 +1,4 @@
-.Container {
+.ModalView {
 	--position-x: 0;
 	--position-y: 0;
 
@@ -7,7 +7,7 @@
 	left: calc(var(--position-x) * 1px);
 }
 
-.Container > * {
+.ModalView > * {
 	background: var(--background-color-0);
 	border-radius: var(--border-radius-1);
 	box-shadow: var(--window-box-shadow);

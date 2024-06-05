@@ -129,20 +129,20 @@ export const Taskbar = memo(() => {
 	return (<>
 		<div
 			style={{ "--taskbar-height": `${TASKBAR_HEIGHT}px`, zIndex } as CSSProperties}
-			className={styles["Taskbar"]}
+			className={styles.Taskbar}
 			data-allow-context-menu={true}
 			onContextMenu={(event) => {
 				if ((event.target as HTMLElement).getAttribute("data-allow-context-menu"))
 					onContextMenu(event);
 			}}
 		>
-			<div className={styles["Menu-icons"]}>
-				<div className={styles["Home-container"]}>
+			<div className={styles.MenuIcons}>
+				<div className={styles.HomeContainer}>
 					<OutsideClickListener onOutsideClick={() => { updateShowHome(false); }}>
 						<button
 							title="Home"
 							tabIndex={0}
-							className={`${styles["Menu-button"]} ${styles["Home-button"]}`}
+							className={`${styles.MenuButton} ${styles.HomeButton}`}
 							onClick={() => { updateShowHome(!showHome); }}
 						>
 							<ReactSVG src={"/icon.svg"}/>
@@ -150,12 +150,12 @@ export const Taskbar = memo(() => {
 						<HomeMenu active={showHome} setActive={updateShowHome} search={search}/>
 					</OutsideClickListener>
 				</div>
-				<div className={styles["Search-container"]}>
+				<div className={styles.SearchContainer}>
 					<OutsideClickListener onOutsideClick={() => { updateShowSearch(false); }}>
 						<button
 							title="Search"
 							tabIndex={0}
-							className={`${styles["Menu-button"]} ${styles["Search-button"]}`}
+							className={styles.MenuButton}
 							onClick={() => { updateShowSearch(!showSearch); }}
 						>
 							<FontAwesomeIcon icon={faSearch}/>
@@ -170,9 +170,9 @@ export const Taskbar = memo(() => {
 					</OutsideClickListener>
 				</div>
 			</div>
-			<div className={styles["App-icons"]} data-allow-context-menu={true} style={{ boxShadow }}>
+			<div className={styles.AppIconsContainer} data-allow-context-menu={true} style={{ boxShadow }}>
 				<div
-					className={styles["App-icons-inner"]}
+					className={styles.AppIcons}
 					data-allow-context-menu={true}
 					onScroll={onUpdate as unknown as UIEventHandler}
 					onResize={onUpdate as unknown as ReactEventHandler}
@@ -181,7 +181,7 @@ export const Taskbar = memo(() => {
 					{apps}
 				</div>
 			</div>
-			<div className={styles["Util-icons"]}>
+			<div className={styles.UtilIcons}>
 				<Battery showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
 				<Network showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
 				<Volume showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>

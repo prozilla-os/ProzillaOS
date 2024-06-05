@@ -6,7 +6,7 @@ export function QuickAccessButton({ onClick, icon, name }) {
 	return (
 		<button
 			tabIndex={0}
-			className={`${styles["Nav-button"]} ${utilStyles["Text-semibold"]}`}
+			className={`${styles.NavButton} ${utilStyles.TextSemibold}`}
 			onClick={onClick}
 		>
 			<FontAwesomeIcon icon={icon}/>

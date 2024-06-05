@@ -51,7 +51,7 @@ export function WindowedModal({ modal, params, children, ...props }: ModalProps)
 		nodeRef={nodeRef}
 	>
 		<div
-			className={styles.Container}
+			className={styles.WindowedModal}
 			ref={nodeRef}
 			style={{
 				width: modal.size.x,
@@ -63,7 +63,7 @@ export function WindowedModal({ modal, params, children, ...props }: ModalProps)
 					className={styles["Window-icon"]}
 					src={iconUrl}
 				/>
-				<p className={utilStyles["Text-semibold"]}>{title}</p>
+				<p className={utilStyles.TextSemibold}>{title}</p>
 				<button aria-label="Close" className={`${styles["Header-button"]} ${styles["Exit-button"]}`} tabIndex={0}
 					onClick={() => { modal.close(); }}>
 					<FontAwesomeIcon icon={faXmark}/>

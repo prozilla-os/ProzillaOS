@@ -1,4 +1,4 @@
-.Container {
+.TextEditor {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -6,10 +6,10 @@
 	text-align: start;
 }
 
-.Container p,
-.Container div,
-.Container span,
-.Container textarea {
+.TextEditor p,
+.TextEditor div,
+.TextEditor span,
+.TextEditor textarea {
 	font-size: 1em;
 }
 

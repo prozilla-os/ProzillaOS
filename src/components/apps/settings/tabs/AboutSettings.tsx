@@ -11,12 +11,12 @@ export function AboutSettings() {
 	const virtualRoot = useVirtualRoot();
 
 	return (<>
-		<div className={styles["Option"]}>
-			<p className={styles["Label"]}>About {NAME}</p>
-			<p className={utilStyles["Text-light"]}>{NAME} is a web-based operating system inspired by Ubuntu Linux and Windows made with React.js by Prozilla.</p>
-			<div className={styles["Button-group"]}>
+		<div className={styles.Option}>
+			<p className={styles.Label}>About {NAME}</p>
+			<p className={utilStyles.TextLight}>{NAME} is a web-based operating system inspired by Ubuntu Linux and Windows made with React.js by Prozilla.</p>
+			<div className={styles.ButtonGroup}>
 				<Button
-					className={`${styles.Button} ${utilStyles["Text-bold"]}`}
+					className={`${styles.Button} ${utilStyles.TextBold}`}
 					onClick={(event: Event) => {
 						event.preventDefault();
 						windowsManager.open("text-editor", {
@@ -29,7 +29,7 @@ export function AboutSettings() {
 					Open info.md
 				</Button>
 				<Button
-					className={`${styles.Button} ${utilStyles["Text-bold"]}`}
+					className={`${styles.Button} ${utilStyles.TextBold}`}
 					href="https://github.com/Prozilla/ProzillaOS"
 				>
 					View source

@@ -1,86 +1,4 @@
-.Container {
-	--header-height: 2.5rem;
-	--header-button-hover-color: rgba(255, 255, 255, 5%);
-
-	position: absolute;
-	display: flex;
-	flex-direction: column;
-	min-width: 300px;
-	min-height: 150px;
-	background-color: var(--background-color-2) !important;
-	resize: both;
-	overflow: hidden;
-}
-
-.Header {
-	--dialog-icon-size: 1.5rem;
-	--dialog-icon-margin: 0.75rem;
-
-	display: flex;
-	align-items: center;
-	height: var(--header-height);
-	padding: 0.25rem;
-	padding-left: var(--dialog-icon-margin);
-	padding-right: 0;
-	background-color: var(--background-color-1);
-	cursor: grab;
-}
-
-.Dialog-icon,
-.Dialog-icon > div,
-.Dialog-icon > div > svg {
-	height: 100%;
-	width: auto;
-}
-
-.Dialog-icon {
-	height: var(--dialog-icon-size);
-	margin-right: calc(var(--dialog-icon-margin) - 0.1rem);
-}
-
-.Dialog-icon > div {
-	display: flex;
-	align-items: center;
-}
-
-.Header > p {
-	user-select: none;
-	width: auto;
-	margin: 0;
-	margin-right: auto;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-}
-
-.Header-button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: var(--header-height);
-	margin: 0;
-	padding: 0.75rem;
-	color: var(--foreground-color-0);
-	background: none;
-	cursor: pointer;
-	border: none;
-	outline: none;
-	aspect-ratio: 1;
-}
-
-.Header-button > svg {
-	height: 100%;
-}
-
-.Exit-button {
-	--header-button-hover-color: var(--red-0);
-}
-
-.Header-button:hover, .Header-button:focus-visible {
-	background-color: var(--header-button-hover-color);
-}
-
-.Dialog-content {
+.DialogContent {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -91,7 +9,7 @@
 	overflow: hidden;
 }
 
-.Dialog-content button {
+.DialogContent button {
 	margin-bottom: 0.75rem;
 	padding: 0.5rem 1rem;
 	width: fit-content;
@@ -104,6 +22,6 @@
 	cursor: pointer;
 }
 
-.Dialog-content button:hover, .Dialog-content button:focus-visible {
+.DialogContent button:hover, .DialogContent button:focus-visible {
 	background-color: var(--background-color-1);
 }

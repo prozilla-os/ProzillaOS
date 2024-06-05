@@ -18,7 +18,7 @@ export function ImagePreview({ source, className, onError, ...props }: ImagePrev
 		onError?.();
 	};
 
-	const classNames = [styles["Image-preview"]];
+	const classNames = [styles.ImagePreview];
 	if (className != null)
 		classNames.push(className);
 

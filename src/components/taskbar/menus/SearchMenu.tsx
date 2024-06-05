@@ -44,7 +44,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 		setSearchQuery(value);
 	};
 
-	const classNames = [styles["Container-outer"]];
+	const classNames = [styles.SearchMenuContainer];
 	if (active && apps)
 		classNames.push(styles.Active);
 
@@ -66,7 +66,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 
 	return (
 		<div className={classNames.join(" ")}>
-			<div className={styles["Container-inner"]}>
+			<div className={styles.SearchMenu}>
 				<input
 					ref={inputRef}
 					className={styles.Input}
@@ -77,11 +77,11 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 					spellCheck={false}
 					placeholder="Search..."
 				/>
-				<div className={appStyles["App-list"]}>
+				<div className={appStyles.AppList}>
 					{apps?.map(({ name, id }) => 
 						<button
 							key={id}
-							className={appStyles["App-button"]}
+							className={appStyles.AppButton}
 							tabIndex={tabIndex}
 							onClick={() => {
 								setActive(false);

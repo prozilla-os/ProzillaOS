@@ -176,12 +176,12 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 	const itemCount = currentDirectory.getItemCount(showHidden);
 
 	return (
-		<div className={!isSelector ? styles.Container : `${styles.Container} ${styles.Selector}`}>
+		<div className={!isSelector ? styles.FileExplorer : `${styles.FileExplorer} ${styles.Selector}`}>
 			<div className={styles.Header}>
 				<button
 					title="Back"
 					tabIndex={0}
-					className={styles["Icon-button"]}
+					className={styles.IconButton}
 					onClick={() => { undo(); }}
 					disabled={!undoAvailable}
 				>
@@ -190,7 +190,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 				<button
 					title="Forward"
 					tabIndex={0}
-					className={styles["Icon-button"]}
+					className={styles.IconButton}
 					onClick={() => { redo(); }}
 					disabled={!redoAvailable}
 				>
@@ -199,7 +199,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 				<button
 					title="Up"
 					tabIndex={0}
-					className={styles["Icon-button"]}
+					className={styles.IconButton}
 					onClick={() => { changeDirectory(".."); }}
 					disabled={currentDirectory.isRoot}
 				>
@@ -208,7 +208,7 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 				<button
 					title="New"
 					tabIndex={0}
-					className={styles["Icon-button"]}
+					className={styles.IconButton}
 					onClick={() => {
 						// openWindowedModal({
 						// 	title: "Error",
@@ -235,17 +235,17 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 					value={path}
 					type="text"
 					aria-label="Path"
-					className={styles["Path-input"]}
+					className={styles.PathInput}
 					tabIndex={0}
 					onChange={onPathChange as unknown as ChangeEventHandler}
 					onKeyDown={onKeyDown as unknown as KeyboardEventHandler}
 					placeholder="Enter a path..."
 				/>
 				<ImportButton directory={currentDirectory}/>
-				<button title="Search" tabIndex={0} className={styles["Icon-button"]}>
+				<button title="Search" tabIndex={0} className={styles.IconButton}>
 					<FontAwesomeIcon icon={faSearch}/>
 				</button>
-				<button title="Settings" tabIndex={0} className={styles["Icon-button"]}>
+				<button title="Settings" tabIndex={0} className={styles.IconButton}>
 					<FontAwesomeIcon icon={faCog}/>
 				</button>
 			</div>
@@ -281,14 +281,14 @@ export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChang
 			</div>
 			{!isSelector
 				? <span className={styles.Footer}>
-					<p className={utilStyles["Text-light"]}>
+					<p className={utilStyles.TextLight}>
 						{itemCount === 1
 							? itemCount + " item"
 							: itemCount + " items"
 						}
 					</p>
 				</span>
-				: <div className={`${styles.Footer} ${styles["Selector-footer"]}`}>
+				: <div className={styles.Footer}>
 					<Footer/>
 				</div>
 			}

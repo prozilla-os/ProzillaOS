@@ -28,7 +28,7 @@ export function CircuitView() {
 				<ClickAction label="NOT gate" onTrigger={() => { circuit.addChip(ChipsManager.CHIPS.NOT); }}/>
 			</DropdownAction>
 		</HeaderMenu>
-		<div className={styles.Container}>
+		<div className={styles.CircuitView}>
 			<canvas ref={canvasRef} className={styles.Canvas}/>
 		</div>
 	</>;

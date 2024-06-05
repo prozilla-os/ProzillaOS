@@ -1,4 +1,4 @@
-.Container {
+.Share {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -8,14 +8,14 @@
 	overflow-y: auto;
 }
 
-.Container > div {
+.Share > div {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: flex-start;
 }
 
-.Container > div:last-child {
+.Share > div:last-child {
 	gap: 0.5rem;
 	flex-direction: row;
 	justify-content: space-between;

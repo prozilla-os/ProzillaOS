@@ -134,7 +134,7 @@ export const Desktop = memo(() => {
 	return (<>
 		<ShortcutsListener/>
 		<div
-			className={styles.Container}
+			className={styles.Desktop}
 			onContextMenu={onContextMenu}
 		>
 			{showIcons && <DirectoryList

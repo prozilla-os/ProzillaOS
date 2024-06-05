@@ -60,13 +60,13 @@ export function Browser({ startUrl, focus }: BrowserProps) {
 		}
 	};
 
-	return (<div className={styles.Container}>
+	return (<div className={styles.Browser}>
 		<div className={styles.Header}>
-			<div className={styles["Nav-bar"]}>
+			<div className={styles.NavBar}>
 				<button
 					title="Back"
 					tabIndex={0}
-					className={styles["Icon-button"]}
+					className={styles.IconButton}
 					onClick={() => { undo(); }}
 					disabled={!undoAvailable}
 				>
@@ -75,7 +75,7 @@ export function Browser({ startUrl, focus }: BrowserProps) {
 				<button
 					title="Forward"
 					tabIndex={0}
-					className={styles["Icon-button"]}
+					className={styles.IconButton}
 					onClick={() => { redo(); }}
 					disabled={!redoAvailable}
 				>
@@ -84,7 +84,7 @@ export function Browser({ startUrl, focus }: BrowserProps) {
 				<button
 					title="Reload"
 					tabIndex={0}
-					className={styles["Icon-button"]}
+					className={styles.IconButton}
 					onClick={reload}
 				>
 					<FontAwesomeIcon icon={faRotateRight}/>
@@ -92,7 +92,7 @@ export function Browser({ startUrl, focus }: BrowserProps) {
 				<button
 					title="Home"
 					tabIndex={0}
-					className={styles["Icon-button"]}
+					className={styles.IconButton}
 					onClick={() => { updateUrl(HOME_URL); }}
 				>
 					<FontAwesomeIcon icon={faHome}/>
@@ -101,13 +101,13 @@ export function Browser({ startUrl, focus }: BrowserProps) {
 					value={input}
 					type="text"
 					aria-label="Search bar"
-					className={styles["Search-bar"]}
+					className={styles.SearchBar}
 					tabIndex={0}
 					onChange={onInputChange as unknown as ChangeEventHandler}
 					onKeyDown={onKeyDown as unknown as KeyboardEventHandler}
 				/>
 			</div>
-			<div className={styles["Bookmarks"]}>
+			<div className={styles.Bookmarks}>
 
 			</div>
 		</div>

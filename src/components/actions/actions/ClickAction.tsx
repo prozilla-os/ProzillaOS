@@ -15,7 +15,7 @@ export const ClickAction = memo(({ actionId, label, shortcut, onTrigger, icon }:
 		<span className={styles.Label}>
 			{icon && <div className={styles.Icon}>
 				{typeof icon == "string"
-					? <ImagePreview source={icon} className={styles["Image-icon"]}/>
+					? <ImagePreview source={icon} className={styles.ImageIcon}/>
 					: <FontAwesomeIcon icon={icon as unknown as IconProp}/>
 				}
 			</div>}

@@ -1,4 +1,4 @@
-.Container {
+.FileProperties {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -65,7 +65,7 @@
  	text-indent: -2rem;
 }
 
-.App-icon {
+.AppIcon {
 	display: inline-block;
 	width: 2rem;
 	height: 2rem;
@@ -74,14 +74,14 @@
 	margin-right: 0.25rem;
 }
 
-.App-icon div {
+.AppIcon div {
 	position: relative;
 	width: inherit;
 	height: inherit;
 	object-fit: contain;
 }
 
-.App-icon svg {
+.AppIcon svg {
 	position: absolute;
 	top: 0;
 	left: 0;

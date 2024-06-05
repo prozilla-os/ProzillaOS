@@ -14,26 +14,26 @@ interface FilePropetiesProps extends ModalProps {
 export function FileProperties({ modal, params, file, ...props }: FilePropetiesProps) {
 	const associatedApp = AppsManager.getAppByFileExtension(file.extension);
 
-	return <WindowedModal className={styles.Container} modal={modal} params={params} {...props}>
-		<span className={styles["Section"]}>
-			<ImagePreview className={styles["Icon"]} source={file.getIconUrl()}/>
-			<p className={`${styles["Line"]} ${utilStyles["Text-bold"]}`}>{file.id}</p>
+	return <WindowedModal className={styles.FileProperties} modal={modal} params={params} {...props}>
+		<span className={styles.Section}>
+			<ImagePreview className={styles.Icon} source={file.getIconUrl()}/>
+			<p className={`${styles.Line} ${utilStyles.TextBold}`}>{file.id}</p>
 		</span>
-		<span className={styles["Section"]}>
-			<p className={styles["Line"]}>Type: {file.getType()}</p>
-			<span className={styles["Line"]}>
+		<span className={styles.Section}>
+			<p className={styles.Line}>Type: {file.getType()}</p>
+			<span className={styles.Line}>
 				Opens with: 
-				<ImagePreview className={styles["App-icon"]} source={AppsManager.getAppIconUrl(associatedApp.id)}/>
+				<ImagePreview className={styles.AppIcon} source={AppsManager.getAppIconUrl(associatedApp.id)}/>
 				{associatedApp.name}
 			</span>
 		</span>
-		<span className={styles["Section"]}>
-			<p className={styles["Line"]}>Location: {file.path}</p>
-			<p className={styles["Line"]}>Size: {StorageManager.getByteSize(file.source ?? file.content)} bytes</p>
-			<p className={styles["Line"]}>Size on drive: {StorageManager.getByteSize(file.toString())} bytes</p>
+		<span className={styles.Section}>
+			<p className={styles.Line}>Location: {file.path}</p>
+			<p className={styles.Line}>Size: {StorageManager.getByteSize(file.source ?? file.content)} bytes</p>
+			<p className={styles.Line}>Size on drive: {StorageManager.getByteSize(file.toString())} bytes</p>
 		</span>
-		<span className={styles["Section"]}>
-			<p className={styles["Line"]}>Attributes: {file.isProtected ? "Protected" : "N/A"}</p>
+		<span className={styles.Section}>
+			<p className={styles.Line}>Attributes: {file.isProtected ? "Protected" : "N/A"}</p>
 		</span>
 	</WindowedModal>;
 }

@@ -35,12 +35,11 @@ export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source
 		setHovered(false);
 	};
 
-	return <div className={styles.Container} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
+	return <div className={styles.WebView} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
 		<iframe
 			ref={ref}
 			src={source}
 			title={props.title ?? "Web view"}
-			className={styles["Web-view"]}
 			referrerPolicy="no-referrer"
 			sandbox="allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts"
 			{...props}

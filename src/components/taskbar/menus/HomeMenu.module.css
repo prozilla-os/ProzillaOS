@@ -1,9 +1,9 @@
-.Container-outer {
+.HomeMenuContainer {
 	right: unset;
 	left: 0;
 }
 
-.Container-inner {
+.HomeMenu {
 	min-width: 16rem;
 	max-width: 32rem;
 	border-bottom-left-radius: 0;

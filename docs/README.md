@@ -68,9 +68,10 @@ Type | Case | Example
 Folders | kebab-case | `virtual-drive`
 `.ts` files | camelCase | `virtualRoot.ts`
 `.tsx` files | PascalCase | `Desktop.tsx`
-`.css` files & files in `public` dir | kebab-case | `global.css`
+`.css` files & static assets | kebab-case | `global.css`
 Local `.module.css` files | PascalCase | `Desktop.module.css`
 Global `.module.css` files | kebab-case | `utils.module.css`
+CSS class names | PascalCase | ```.WindowsView```
 Variables | camelCase | ```const fooBar = true;```
 Global constant variables | MACRO_CASE | ```export const NAME = "ProzillaOS";```
 Classes | PascalCase | ```class WindowsManager { }```

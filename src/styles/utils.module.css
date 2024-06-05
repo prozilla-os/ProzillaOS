@@ -1,22 +1,22 @@
-.Text-regular {
+.TextRegular {
 	font-size: 1em;
 	font-weight: 400;
 	letter-spacing: normal;
 }
 
-.Text-light {
+.TextLight {
 	color: var(--foreground-color-1);
 	font-size: 0.875em;
 	font-weight: 400;
 	letter-spacing: normal;
 }
 
-.Text-semibold {
+.TextSemibold {
 	font-weight: 500;
 	letter-spacing: normal;
 }
 
-.Text-bold {
+.TextBold {
 	font-weight: 600;
 	letter-spacing: normal;
 }

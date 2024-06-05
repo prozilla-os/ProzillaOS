@@ -82,7 +82,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 		});
 	};
 
-	return <WindowedModal className={styles.Container} modal={modal} params={{
+	return <WindowedModal className={styles.Share} modal={modal} params={{
 		...params,
 		title: "Share",
 		iconUrl: ModalsManager.getModalIconUrl("share"),
@@ -122,9 +122,9 @@ export function Share({ modal, params, ...props }: ModalProps) {
 			</form>
 		</div>
 		<div>
-			<p className={`${styles.Url} ${utilStyles["Text-light"]}`}>{url}</p>
+			<p className={`${styles.Url} ${utilStyles.TextLight}`}>{url}</p>
 			<Button
-				className={`${styles.Button} ${utilStyles["Text-bold"]}`}
+				className={`${styles.Button} ${utilStyles.TextBold}`}
 				onClick={() => {
 					copyToClipboard(url, () => {
 						alert({

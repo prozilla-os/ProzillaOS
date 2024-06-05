@@ -40,20 +40,20 @@ export function AppearanceSettings() {
 	};
 
 	return (<>
-		<div className={styles["Option"]}>
-			<p className={styles["Label"]}>Theme</p>
-			<div className={styles["Input"]}>
-				<select className={styles["Dropdown"]} aria-label="theme" value={theme} onChange={onThemeChange as unknown as ChangeEventHandler}>
+		<div className={styles.Option}>
+			<p className={styles.Label}>Theme</p>
+			<div className={styles.Input}>
+				<select className={styles.Dropdown} aria-label="theme" value={theme} onChange={onThemeChange as unknown as ChangeEventHandler}>
 					{Object.entries(THEMES).map(([key, value]) =>
 						<option key={key} value={key}>{value}</option>
 					)}
 				</select>
 			</div>
 		</div>
-		<div className={styles["Option"]}>
-			<p className={styles["Label"]}>Wallpaper</p>
+		<div className={styles.Option}>
+			<p className={styles.Label}>Wallpaper</p>
 			<Button
-				className={`${styles.Button} ${utilStyles["Text-bold"]}`}
+				className={`${styles.Button} ${utilStyles.TextBold}`}
 				onClick={() => {
 					openWindowedModal({
 						size: DEFAULT_FILE_SELECTOR_SIZE,
@@ -70,9 +70,9 @@ export function AppearanceSettings() {
 			>
 				Browse
 			</Button>
-			<div className={styles["Input"]}>
+			<div className={styles.Input}>
 				{(virtualRoot.navigate(WALLPAPERS_PATH) as VirtualFolder)?.getFiles()?.reverse().map(({ id, source }) =>
-					<label className={styles["Image-select"]} key={id}>
+					<label className={styles.ImageSelect} key={id}>
 						<input
 							type="radio"
 							value={source}

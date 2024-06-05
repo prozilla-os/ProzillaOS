@@ -41,28 +41,28 @@ export function AppOption({ app, pins, setPins: _setPins }: AppOptionProps) {
 		</Actions>
 	});
 
-	return <div className={`${styles["Option"]} ${styles["Option-horizontal"]}`}>
-		<span className={styles["Label"]}>
-			<ImagePreview className={styles["Icon"]} source={AppsManager.getAppIconUrl(app.id)}/>
+	return <div className={`${styles.Option} ${styles.OptionHorizontal}`}>
+		<span className={styles.Label}>
+			<ImagePreview className={styles.Icon} source={AppsManager.getAppIconUrl(app.id)}/>
 			{app.name}
 		</span>
-		<button className={styles["Icon-button"]} onClick={onContextMenu}>
+		<button className={styles.IconButton} onClick={onContextMenu}>
 			<FontAwesomeIcon icon={faEllipsisVertical}/>
 		</button>
 		{/* <div className={styles["Button-group"]}>
 			<Button
-				className={`${styles.Button} ${utilStyles["Text-bold"]}`}
+				className={`${styles.Button} ${utilStyles.TextBold}`}
 				onClick={() => windowsManager.open(id)}
 			>
 				Launch
 			</Button>
 			<Button
-				className={`${styles.Button} ${styles["Button-red"]} ${utilStyles["Text-bold"]}`}
+				className={`${styles.Button} ${styles["Button-red"]} ${utilStyles.TextBold}`}
 			>
 				Uninstall
 			</Button>
 			<Button
-				className={`${styles.Button} ${utilStyles["Text-bold"]}`}
+				className={`${styles.Button} ${utilStyles.TextBold}`}
 				onClick={() => {
 					const newPins = [...pins];
 					if (isPinned) {

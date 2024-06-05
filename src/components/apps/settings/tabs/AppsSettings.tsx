@@ -16,8 +16,8 @@ export function AppsSettings() {
 		});
 	}, [settingsManager]);
 
-	return <div className={`${styles["Option"]} ${styles["Option-list"]}`}>
-		<p className={styles["Label"]}>Apps</p>
+	return <div className={`${styles.Option} ${styles.OptionList}`}>
+		<p className={styles.Label}>Apps</p>
 		{AppsManager.APPS.sort((a, b) =>
 			a.name.toLowerCase().localeCompare(b.name.toLowerCase())
 		).map((app) => 

@@ -29,7 +29,7 @@ export default function ImportButton({ directory }: ImportButtonProps): ReactEle
 		});
 	};
 
-	return <label title="Import" tabIndex={0} className={styles["Icon-button"]}>
+	return <label title="Import" tabIndex={0} className={styles.IconButton}>
 		<input
 			type="file"
 			id="import"

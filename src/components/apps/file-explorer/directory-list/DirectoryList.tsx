@@ -129,9 +129,9 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		return { top: y, left: x, width, height };
 	};
 
-	const classNames = [styles.Container];
-	const folderClassNames = [styles["Folder-button"]];
-	const fileClassNames = [styles["File-button"]];
+	const classNames = [styles.DirectoryList];
+	const folderClassNames = [styles.FolderButton];
+	const fileClassNames = [styles.FileButton];
 
 	if (className)
 		classNames.push(className);
@@ -148,7 +148,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		{...props}
 	>
 		{rectSelectStart != null && rectSelectEnd != null
-			? <div className={styles["Selection-rect"]} style={getRectSelectStyle()}/>
+			? <div className={styles.SelectionRect} style={getRectSelectStyle()}/>
 			: null
 		}
 		{directory?.getSubFolders(showHidden)?.map((folder) => 
@@ -167,7 +167,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 					onOpenFolder?.(event, folder);
 				}}
 			>
-				<div className={styles["Folder-icon"]}>
+				<div className={styles.FolderIcon}>
 					<ImagePreview source={folder.getIconUrl()} onError={() => { folder.setIconUrl(null); }}/>
 				</div>
 				<p>{folder.name}</p>
@@ -189,7 +189,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 					onOpenFile?.(event, file);
 				}}
 			>
-				<div className={styles["File-icon"]}>
+				<div className={styles.FileIcon}>
 					<ImagePreview source={file.getIconUrl()} onError={() => { file.setIconUrl(null); }}/>
 				</div>
 				<p>{file.id}</p>

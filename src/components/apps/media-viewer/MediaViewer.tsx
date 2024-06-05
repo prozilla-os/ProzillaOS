@@ -34,7 +34,7 @@ export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 		return (<p>File failed to load.</p>);
 
 	return (
-		<div className={styles.Container}>
+		<div className={styles.MediaViewer}>
 			<img src={file.source} alt={file.id} draggable="false"/>
 		</div>
 	);

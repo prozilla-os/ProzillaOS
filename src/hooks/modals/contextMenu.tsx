@@ -1,9 +1,10 @@
 import { FC, MouseEvent, useCallback } from "react";
 import Vector2 from "../../features/math/vector2";
 import Modal from "../../features/modals/modal";
-import { ActionsProps, STYLES } from "../../components/actions/Actions";
+import { ActionsProps } from "../../components/actions/Actions";
 import { useModalsManager } from "./modalsManagerContext";
 import { ModalProps } from "../../components/modals/ModalView";
+import { STYLES } from "../../config/actions.config";
 
 interface UseContextMenuParams {
 	Actions: FC<ActionsProps>;

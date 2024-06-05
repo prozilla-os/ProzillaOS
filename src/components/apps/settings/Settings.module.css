@@ -1,4 +1,4 @@
-.Container {
+.Settings {
 	--tabs-width: 10rem;
 
 	flex: 1;
@@ -23,7 +23,7 @@
 	overflow: hidden;
 }
 
-.Tab-button {
+.TabButton {
 	display: flex;
 	gap: 0.5rem;
 	align-items: center;
@@ -34,25 +34,25 @@
 	font-size: 0.875rem;
 }
 
-.Tab-button.Active-tab {
+.TabButton.ActiveTab {
 	background-color: var(--background-color-0);
 }
 
-.Tab-button:not(.Active-tab):hover,
-.Tab-button:not(.Active-tab):focus-visible {
+.TabButton:not(.ActiveTab):hover,
+.TabButton:not(.ActiveTab):focus-visible {
 	background-color: color-mix(in srgb, var(--background-color-0) 50%, transparent);
 }
 
-.Tab-button > svg {
+.TabButton > svg {
 	height: 1.35rem;
 	aspect-ratio: 1;
 }
 
-.Tab-button > p {
+.TabButton > p {
 	margin: 0;
 }
 
-.Tab-panel {
+.TabPanel {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
@@ -63,7 +63,7 @@
 	overflow: auto;
 }
 
-.Tab-panel:not(.Active-panel) {
+.TabPanel:not(.ActivePanel) {
 	display: none;
 }
 
@@ -77,15 +77,15 @@
 	padding-bottom: 1rem;
 }
 
-.Option-list {
+.OptionList {
 	gap: 0.5rem;
 }
 
-.Option-list .Option {
+.OptionList .Option {
 	padding-bottom: 0;
 }
 
-.Option-horizontal {
+.OptionHorizontal {
 	flex-direction: row;
 	justify-content: space-between;
 }
@@ -105,28 +105,28 @@
 	display: flex;
 }
 
-.Image-select {
+.ImageSelect {
 	min-width: 10rem;
 	max-width: 100%;
 }
 
-.Image-select > input {
+.ImageSelect > input {
 	position: absolute;
 	opacity: 0;
 	width: 0;
 	height: 0;
 }
 
-.Image-select > input:hover + img,
-.Image-select > input:focus-visible + img {
+.ImageSelect > input:hover + img,
+.ImageSelect > input:focus-visible + img {
 	filter: brightness(110%);
 }
 
-.Image-select > input:checked + img {
+.ImageSelect > input:checked + img {
 	outline: 0.25em solid var(--foreground-color-0);
 }
 
-.Image-select > img {
+.ImageSelect > img {
 	width: 100%;
 	height: 100%;
 	border-radius: var(--border-radius-1);
@@ -134,14 +134,14 @@
 	cursor: pointer;
 }
 
-.Button-group {
+.ButtonGroup {
 	display: flex;
 	gap: 1rem;
 	flex-wrap: wrap;
 	margin: 0.75rem 0;
 }
 
-.Button-group .Button {
+.ButtonGroup .Button {
 	margin-bottom: 0;
 }
 
@@ -154,13 +154,13 @@
 	border-radius: var(--border-radius-1);
 }
 
-.Button-red {
+.ButtonDanger {
 	--text-color: var(--black-1) !important;
 	--normal-color: var(--red-0) !important;
 	--hover-color: var(--red-1) !important;
 }
 
-.Icon-button {
+.IconButton {
 	--color: var(--foreground-color-0);
 
 	position: relative;
@@ -174,7 +174,7 @@
 	cursor: pointer;
 }
 
-.Icon-button::after {
+.IconButton::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -188,34 +188,34 @@
 	transition: all 200ms ease-in-out;
 }
 
-.Icon-button:hover::after, .Icon-button:focus-visible::after {
+.IconButton:hover::after, .IconButton:focus-visible::after {
 	background-color: rgba(255, 255, 255, 10%);
 	transform: scale(150%);
 }
 
-.Icon-button:disabled {
+.IconButton:disabled {
 	--color: var(--foreground-color-2);
 }
 
-.Icon-button svg {
+.IconButton svg {
 	height: 100%;
 }
 
-.Icon-button svg path {
+.IconButton svg path {
 	fill: var(--color);
 	transition: fill 100ms ease-in-out;
 }
 
-.Progress-bar-container {
+.ProgressBarContainer {
 	width: 100%;
 	max-width: 35rem;
 }
 
-.Progress-bar {
+.ProgressBar {
 	width: 100% !important;
 }
 
-.Progress-bar-labels {
+.ProgressBarLabels {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;

@@ -30,7 +30,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 		setTabIndex(active ? 0 : -1);
 	}, [active]);
 
-	const classNames = [styles["Container-outer"], taskbarStyles["Menu-outer"]];
+	const classNames = [styles.HomeMenuContainer, taskbarStyles.MenuContainer];
 	if (active)
 		classNames.push(taskbarStyles.Active);
 
@@ -62,7 +62,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 
 	return (
 		<div className={classNames.join(" ")}>
-			<div className={`${styles["Container-inner"]} ${taskbarStyles["Menu-inner"]}`}>
+			<div className={`${styles.HomeMenu} ${taskbarStyles.Menu}`}>
 				<div className={styles.Buttons}>
 					<button title="Shut Down" tabIndex={tabIndex} onClick={() => { closeViewport(true); }}>
 						<FontAwesomeIcon icon={faPowerOff}/>
@@ -97,12 +97,12 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 					</button>
 				</div>
 				<div className={styles.Apps}>
-					<h1 className={utilStyles["Text-bold"]}>{NAME}</h1>
-					<div className={appStyles["App-list"]}>
+					<h1 className={utilStyles.TextBold}>{NAME}</h1>
+					<div className={appStyles.AppList}>
 						{AppsManager.APPS.map(({ name, id }) => 
 							<button
 								key={id}
-								className={appStyles["App-button"]}
+								className={appStyles.AppButton}
 								tabIndex={tabIndex}
 								onClick={() => {
 									setActive(false);
@@ -111,7 +111,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 								title={name}
 							>
 								<ReactSVG src={AppsManager.getAppIconUrl(id)}/>
-								<h2 className={utilStyles["Text-regular"]}>{name}</h2>
+								<h2 className={utilStyles.TextRegular}>{name}</h2>
 							</button>
 						)}
 					</div>
