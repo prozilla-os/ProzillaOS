@@ -9,9 +9,9 @@
 .Container-inner {
 	opacity: 1;
 	display: flex;
-	border-top-left-radius: 0.5rem;
-	border-top-right-radius: 0.5rem;
-	border-bottom-left-radius: 0.5rem;
+	border-top-left-radius: var(--border-radius-1);
+	border-top-right-radius: var(--border-radius-1);
+	border-bottom-left-radius: var(--border-radius-1);
 	backdrop-filter: var(--taskbar-filter);
 	transform: none;
 	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;

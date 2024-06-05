@@ -13,10 +13,10 @@ export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
 	const themeSettings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.theme);
 
 	useEffect(() => {
-		void themeSettings.get("theme", (value: string) => { setTheme(parseInt(value)); });
+		void themeSettings.get("theme", (value: string) => { setTheme(parseInt(value) || 0); });
 	}, [themeSettings]);
 
-	return <div className={`${THEMES[theme]}-theme`}>
+	return <div className={`${THEMES[theme ?? 0]}-theme`}>
 		{children}
 	</div>;
 } 

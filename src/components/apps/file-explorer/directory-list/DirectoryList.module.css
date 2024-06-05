@@ -65,6 +65,6 @@
 	opacity: 25%;
 	position: absolute;
 	border-radius: var(--border-radius-0);
-	background-color: var(--blue-b);
+	background-color: var(--blue-1);
 	border: 0.25rem solid var(--blue-0);
 }

@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./HomeMenu.module.css";
 import appStyles from "./AppList.module.css";
+import taskbarStyles from "../Taskbar.module.css";
 import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
 import AppsManager from "../../../features/apps/appsManager";
@@ -29,9 +30,9 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 		setTabIndex(active ? 0 : -1);
 	}, [active]);
 
-	const classNames = [styles["Container-outer"]];
+	const classNames = [styles["Container-outer"], taskbarStyles["Menu-outer"]];
 	if (active)
-		classNames.push(styles.Active);
+		classNames.push(taskbarStyles.Active);
 
 	let onlyAltKey = false;
 	const onKeyDown = (event: KeyboardEvent) => {
@@ -61,7 +62,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 
 	return (
 		<div className={classNames.join(" ")}>
-			<div className={styles["Container-inner"]}>
+			<div className={`${styles["Container-inner"]} ${taskbarStyles["Menu-inner"]}`}>
 				<div className={styles.Buttons}>
 					<button title="Shut Down" tabIndex={tabIndex} onClick={() => { closeViewport(true); }}>
 						<FontAwesomeIcon icon={faPowerOff}/>

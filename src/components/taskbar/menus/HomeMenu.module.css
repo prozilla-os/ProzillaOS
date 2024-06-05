@@ -1,45 +1,13 @@
 .Container-outer {
-	position: absolute;
+	right: unset;
 	left: 0;
-	bottom: 100%;
-	height: auto !important;
-	overflow: hidden;
 }
 
 .Container-inner {
-	opacity: 1;
-	display: flex;
 	min-width: 16rem;
 	max-width: 32rem;
-	border-top-left-radius: 0.5rem;
-	border-top-right-radius: 0.5rem;
-	border-bottom-right-radius: 0.5rem;
-	backdrop-filter: var(--taskbar-filter);
-	transform: none;
-	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
-	overflow: hidden;
-	resize: horizontal;
-}
-
-.Container-inner::after {
-	opacity: var(--taskbar-menu-opacity);
-	content: "";
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: var(--taskbar-menu-color);
-	z-index: -2;
-}
-
-.Container-outer:not(.Active) {
-	pointer-events: none;
-}
-
-.Container-outer:not(.Active) .Container-inner {
-	opacity: 0;
-	transform: translateY(100px);
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: var(--border-radius-1);
 }
 
 .Buttons {

@@ -7,19 +7,28 @@
 	left: 0;
 	width: 100%;
 	height: var(--taskbar-height);
-	backdrop-filter: var(--taskbar-filter);
 }
 
-.Taskbar::after {
-	opacity: var(--taskbar-opacity);
+.Taskbar::after,
+.Taskbar::before {
 	content: "";
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
+	pointer-events: none;
+}
+
+.Taskbar::after {
+	opacity: var(--taskbar-opacity);
 	background-color: var(--taskbar-color);
 	z-index: -2;
+}
+
+.Taskbar::before {
+	backdrop-filter: var(--taskbar-filter);
+	z-index: -3;
 }
 
 .Taskbar button {
@@ -138,4 +147,63 @@
 	width: 0.5rem;
 	padding: 0;
 	margin-left: 1rem;
+}
+
+.Menu-outer {
+	position: absolute;
+	right: 0;
+	bottom: 100%;
+	height: auto !important;
+	overflow: hidden;
+}
+
+.Menu-outer:not(.Active) {
+	pointer-events: none;
+}
+
+.Menu-inner {
+	opacity: 1;
+	display: flex;
+	border-top-left-radius: var(--border-radius-1);
+	border-top-right-radius: var(--border-radius-1);
+	border-bottom-left-radius: var(--border-radius-1);
+	transform: none;
+	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+	overflow: hidden;
+	resize: horizontal;
+}
+
+.Menu-outer:not(.Active) .Menu-inner {
+	opacity: 0;
+	transform: translateY(100px);
+}
+
+.Menu-inner::after,
+.Menu-outer::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	border-radius: inherit;
+	pointer-events: none;
+}
+
+.Menu-inner::after {
+	opacity: var(--taskbar-menu-opacity);
+	background-color: var(--taskbar-menu-color);
+	z-index: -2;
+}
+
+.Menu-outer::after {
+	opacity: 1;
+	transition: opacity 200ms ease-in-out, top 200ms ease-in-out;
+	backdrop-filter: var(--taskbar-filter);
+	z-index: -3;
+}
+
+.Menu-outer:not(.Active)::after {
+	opacity: 0;
+	top: 100px;
 }
