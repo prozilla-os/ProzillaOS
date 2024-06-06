@@ -5,7 +5,7 @@ export const WALLPAPERS = [
 	"/assets/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png",
 	"/assets/wallpapers/colorful-abstract-wallpaper-blue-red-green.png",
 	"/assets/wallpapers/mesh-gradient-wallpaper-red-purple.png",
-	"/assets/wallpapers/colorful-mesh-gradient-yellow-blue-green.png",
+	"/assets/wallpapers/colorful-mesh-gradient-red-green.png",
 	"/assets/wallpapers/flame-abstract-wallpaper-orange.png",
 	"/assets/wallpapers/wave-abstract-wallpaper-teal.png",
 ];

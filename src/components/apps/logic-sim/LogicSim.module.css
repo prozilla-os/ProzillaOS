@@ -4,3 +4,11 @@
 	width: 100%;
 	height: 100%;
 }
+
+.LogicSim {
+	--black-0: hsl(210, 15%, 55%);
+	--black-1: hsl(210, 15%, 40%);
+	--black-2: hsl(210, 15%, 30%);
+	--black-3: hsl(210, 15%, 20%);
+	--black-4: hsl(210, 15%, 12.5%);
+}

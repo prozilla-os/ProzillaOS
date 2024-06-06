@@ -36,7 +36,7 @@ export default class AppsManager {
 		new App(APP_NAMES.BROWSER, APPS.BROWSER, Browser, {
 			size: new Vector2(700, 500)
 		}),
-		new App("Logic Sim", "logic-sim", LogicSim),
+		new App("Logic Sim (WIP)", "logic-sim", LogicSim),
 	];
 
 	static getAppById(id: string): App | null {

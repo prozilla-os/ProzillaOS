@@ -6,6 +6,7 @@ export const APPS = {
 	FILE_EXPLORER: "file-explorer",
 	CALCULATOR: "calculator",
 	BROWSER: "browser",
+	LOGIC_SIM: "logic-sim",
 };
 
 export const APP_NAMES = {

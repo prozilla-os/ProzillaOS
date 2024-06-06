@@ -16,7 +16,7 @@
 	align-items: center;
 	padding: 0.25rem;
 	margin-top: auto;
-	z-index: -1;
+	z-index: 1;
 }
 
 .Buttons > button {

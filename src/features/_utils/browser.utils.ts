@@ -47,7 +47,7 @@ export function getViewportParams(): Record<string, string> {
 	const params = {};
 	query.split("&").forEach((param) => {
 		// For some reason, URI components only decode when decoded twice
-		// Please find a fix, or create a custom function
+		// TO DO: Please find a fix, or create a custom function
 		const [key, value] = param.split("=").map((item) => decodeURIComponent(decodeURIComponent(item)));
 		params[key] = value;
 	});
@@ -81,6 +81,10 @@ export function generateUrl(options: { appId: string; fullscreen: boolean; }) {
 
 	const url = `${baseUrl}?${params.toString()}`;
 	return url;
+}
+
+export function openUrl(url: string) {
+	window.open(url, "_blank");
 }
 
 export function copyToClipboard(string: string, onSuccess: (value: void) => void, onFail: (value: void) => void) {

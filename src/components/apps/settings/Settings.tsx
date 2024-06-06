@@ -14,7 +14,7 @@ interface SettingsProps extends WindowProps {
 }
 
 export function Settings({ tab }: SettingsProps) {
-	return (
+	return <div className={styles.SettingsContainer}>
 		<Tabs
 			defaultIndex={tab ?? 0}
 			className={styles.Settings}
@@ -52,5 +52,5 @@ export function Settings({ tab }: SettingsProps) {
 				<AboutSettings/>
 			</TabPanel>
 		</Tabs>
-	);
+	</div>;
 }

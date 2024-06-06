@@ -1,59 +1,79 @@
+import { APPS } from "../apps.config";
+
 export const CURSORS = {
 	default: "default",
 	pointer: "pointer"
 };
 
 export const FONT = "outfit";
+export const ENABLE_COLOR_CACHING = true;
+export const VIRTUAL_PATH = `~/Apps/${APPS.LOGIC_SIM}/`;
 
 export const BACKGROUND = {
-	padding: 40,
-	borderWidth: 8,
+	padding: 30,
+	borderWidth: 7.5,
 };
 
-export const INPUT_OUTPUT = {
-	radius: 24,
-	borderWidth: 4,
-	pinOffset: 40,
-	connectorWidth: 10,
+export const CONTROLLER = {
+	radius: 25,
+	borderWidth: 5,
+	pinOffset: 42.5,
+	connectorWidth: 7.5,
+	handleWidth: 15,
+	handleTrackWidth: 22.5,
+	placingOpacity: 0.5,
 };
 
 export const WIRE = {
-	width: 4,
+	width: 5,
+	snappingSensitivity: 10,
+	cornerRadius: 25,
+	resolution: 8,
 };
 
 export const PIN = {
-	radius: 8,
+	radius: 10,
+	label: {
+		offset: 10,
+		fontSize: 15,
+		padding: 5,
+	}
 };
 
 export const CHIP = {
-	width: 140,
-	height: 72,
-	padding: 12,
-	fontSize: 36,
+	BorderWidth: 5,
+	padding: 10,
+	fontSize: 35,
+	placingOutline: 10,
 };
 
 export const COLORS = {
 	pin: {
 		fill: "black-4",
-		fillHover: "black-3"
+		fillHover: "black-3",
+		labelText: "white-0",
+		labelBackground: "black-4"
 	},
-	inputOutput: {
+	controller: {
 		stroke: "black-4",
-		connector: "black-3",
+		connector: "black-4",
 		on: "red-0",
-		onHover: "red-0",
 		off: "red-2",
-		offHover: "red-1",
+		hover: "white-0",
+		handle: "black-3",
+		handleHover: "black-4",
 	},
 	background: {
 		border: "black-0",
-		inner: "black-1",
-		outer: "black-2",
+		outer: "black-1",
+		inner: "black-2",
+		margin: "black-2",
 	},
 	wire: {
 		placing: "black-1",
 	},
 	chip: {
-		text: "black-4"
+		text: "black-4",
+		outline: "white-0",
 	}
 };

@@ -74,7 +74,8 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 					}).createFolderLink("Documents", (folderLink: VirtualFolderLink) => {
 						folderLink.setLinkedPath(linkedPaths.documents);
 					});
-				});
+				})
+				.createFolder("Apps");
 		});
 	});
 

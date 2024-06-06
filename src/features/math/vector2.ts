@@ -38,4 +38,38 @@ export default class Vector2 {
 		
 		return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 	}
+
+	static add(vector2A: Vector2, vector2B: Vector2) {
+		return new Vector2(vector2A.x + vector2B.x, vector2A.y + vector2B.y);
+	}
+
+	static subtract(vector2A: Vector2, vector2B: Vector2) {
+		return new Vector2(vector2A.x - vector2B.x, vector2A.y - vector2B.y);
+	}
+
+	static scale(vector2: Vector2, scalar: number) {
+		return new Vector2(vector2.x * scalar, vector2.y * scalar);
+	}
+
+	static magnitude(vector2: Vector2) {
+		return Math.sqrt(vector2.x * vector2.x + vector2.y * vector2.y);
+	}
+
+	static normalize(vector2: Vector2) {
+		const magnitude = Vector2.magnitude(vector2);
+		return magnitude === 0 ? Vector2.ZERO : Vector2.scale(vector2, 1 / magnitude);
+	}
+
+	static sqrDistance(vector2A: Vector2, vector2B: Vector2) {
+		const dx = vector2A.x - vector2B.x;
+		const dy = vector2A.y - vector2B.y;
+		return dx * dx + dy * dy;
+	}
+
+	static lerp(vector2A: Vector2, vector2B: Vector2, t: number) {
+		return new Vector2(
+			vector2A.x + (vector2B.x - vector2A.x) * t,
+			vector2A.y + (vector2B.y - vector2A.y) * t
+		);
+	}
 }
