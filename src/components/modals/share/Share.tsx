@@ -37,6 +37,7 @@ const APP_OPTIONS: Record<string, Record<string, string>[]> = {
 export function Share({ modal, params, ...props }: ModalProps) {
 	const [appId, setAppId] = useState<string>(params.appId ?? "");
 	const [fullscreen, setFullscreen] = useState<boolean>(params.fullscreen ?? false);
+	const [standalone, setStandalone] = useState<boolean>(params.standalone ?? false);
 	const [options, setOptions] = useState({});
 	const [url, setUrl] = useState<string | null>(null);
 	const { alert } = useAlert();
@@ -45,9 +46,10 @@ export function Share({ modal, params, ...props }: ModalProps) {
 		setUrl(generateUrl({
 			appId: appId !== "" ? appId : null,
 			fullscreen,
+			standalone,
 			...options
 		}));
-	}, [appId, fullscreen, options]);
+	}, [appId, fullscreen, standalone, options]);
 
 	const onAppIdChange = (event: Event) => {
 		const newAppId = (event.target as HTMLInputElement).value;
@@ -72,6 +74,11 @@ export function Share({ modal, params, ...props }: ModalProps) {
 	const onFullscreenChange = (event: Event) => {
 		const newFullscreen = (event.target as HTMLInputElement).checked;
 		setFullscreen(newFullscreen);
+	};
+
+	const onStandaloneChange = (event: Event) => {
+		const newStandalone = (event.target as HTMLInputElement).checked;
+		setStandalone(newStandalone);
 	};
 
 	const setOption = (name: string, value: string) => {
@@ -100,12 +107,30 @@ export function Share({ modal, params, ...props }: ModalProps) {
 					</select>
 				</label>
 				{appId !== "" ? <label className={styles.Label}>
+					<p>Standalone:</p>
+					<input
+						className={styles.Input}
+						name="standalone"
+						type="checkbox"
+						checked={standalone}
+						value={standalone.toString()}
+						onChange={onStandaloneChange as unknown as ChangeEventHandler}
+					/>
+					<div className={styles.Checkbox}>
+						{standalone 
+							? <FontAwesomeIcon icon={faSquareCheck}/>
+							: <FontAwesomeIcon icon={faSquare}/>
+						}
+					</div>
+				</label> : null}
+				{appId !== "" ? <label className={styles.Label}>
 					<p>Fullscreen:</p>
 					<input
 						className={styles.Input}
 						name="fullscreen"
 						type="checkbox"
 						checked={fullscreen}
+						disabled={standalone}
 						value={fullscreen.toString()}
 						onChange={onFullscreenChange as unknown as ChangeEventHandler}
 					/>

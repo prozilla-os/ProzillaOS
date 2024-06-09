@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./WindowView.module.css";
-import { faExpand, faMinus, faWindowMaximize as fasWindowMaximize, faTimes, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCircleRight, faExpand, faMinus, faWindowMaximize as fasWindowMaximize, faTimes, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import Draggable from "react-draggable";
@@ -14,7 +14,7 @@ import { ClickAction } from "../actions/actions/ClickAction";
 import { Actions } from "../actions/Actions";
 import { useScreenDimensions } from "../../hooks/_utils/screen";
 import { NAME } from "../../config/branding.config";
-import { setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils";
+import { generateUrl, openUrl, setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils";
 import { ZIndexManager } from "../../features/z-index/zIndexManager";
 import { useZIndex } from "../../hooks/z-index/zIndex";
 import { useWindowedModal } from "../../hooks/modals/windowedModal";
@@ -36,6 +36,7 @@ export interface WindowProps extends WindowOptions {
 	minimized?: boolean;
 	toggleMinimized?: Function;
 	index?: number;
+	standalone?: boolean;
 }
 
 export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onInteract, options, active, fullscreen, minimized, toggleMinimized, index }) => {
@@ -61,11 +62,14 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 				close();
 			}}/>
 			<Divider/>
+			<ClickAction label="Standalone mode" icon={faCircleRight} onTrigger={() => {
+				openUrl(generateUrl({ appId: app.id, standalone: true }), "_self");
+			}}/>
 			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} shortcut={["Alt", "s"]} onTrigger={() => {
 				openWindowedModal({
 					appId: app.id,
 					fullscreen: maximized,
-					size: new Vector2(350, 350),
+					size: new Vector2(350, 400),
 					Modal: (props) => <Share {...props}/>
 				});
 			}}/>
@@ -210,6 +214,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 								close={close}
 								focus={focus}
 								active={active}
+								standalone={false}
 							/>
 						</ErrorBoundary>
 					</div>

@@ -40,6 +40,10 @@ export function Button(props: ButtonProps) {
 			className={className}
 		>
 			{children}
+			{icon != null
+				? <FontAwesomeIcon icon={icon}/>
+				: null
+			}
 		</button>);
 	}
 }

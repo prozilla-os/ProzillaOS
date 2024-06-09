@@ -10,9 +10,9 @@
 		"start": "vite --port 3000 --host",
 		"build": "tsc && vite build",
 		"serve": "vite preview",
-		"predeploy": "npm run sitemap && npm run build",
+		"predeploy": "npm run build && npm run prep",
 		"deploy": "sh deploy.sh",
-		"sitemap": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/tools/sitemapGenerator.js"
+		"prep": "node --no-warnings --loader ts-node/esm ./src/tools/prep"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.4.0",

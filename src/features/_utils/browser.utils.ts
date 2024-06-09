@@ -1,3 +1,4 @@
+import { HTMLAttributeAnchorTarget } from "react";
 import { NAME } from "../../config/branding.config";
 
 /**
@@ -59,19 +60,29 @@ export function getViewportParams(): Record<string, string> {
 	return params;
 }
 
-export function generateUrl(options: { appId: string; fullscreen: boolean; }) {
-	const baseUrl = window.location.origin + "/";
+interface generateUrlOptions {
+	appId: string;
+	fullscreen?: boolean;
+	standalone?: boolean;
+}
+
+export function generateUrl(options: generateUrlOptions) {
+	let baseUrl = window.location.origin + "/";
 
 	if (!options || Object.keys(options).length === 0)
 		return baseUrl;
 
-	const { appId, fullscreen, ...extraOptions } = options;
+	const { appId, fullscreen, standalone, ...extraOptions } = options;
 	const params: URLSearchParams & { size?: number } = new URLSearchParams();
 
-	if (appId)
-		params.set("app", appId);
-	if (fullscreen)
-		params.set("fullscreen", fullscreen.toString());
+	if (standalone && appId) {
+		baseUrl += appId;
+	} else {
+		if (appId)
+			params.set("app", appId);
+		if (fullscreen)
+			params.set("fullscreen", fullscreen.toString());
+	}
 
 	if (extraOptions && Object.keys(extraOptions).length > 0) {
 		Object.entries(extraOptions).forEach(([key, value]) => {
@@ -87,8 +98,8 @@ export function generateUrl(options: { appId: string; fullscreen: boolean; }) {
 	return url;
 }
 
-export function openUrl(url: string) {
-	window.open(url, "_blank");
+export function openUrl(url: string, target?: HTMLAttributeAnchorTarget) {
+	window.open(url, target ?? "_blank");
 }
 
 export function copyToClipboard(string: string, onSuccess: (value: void) => void, onFail: (value: void) => void) {

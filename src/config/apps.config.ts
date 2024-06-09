@@ -1,3 +1,5 @@
+import { NAME } from "./branding.config";
+
 export const APPS = {
 	TERMINAL: "terminal",
 	SETTINGS: "settings",
@@ -17,6 +19,17 @@ export const APP_NAMES = {
 	FILE_EXPLORER: "Files",
 	CALCULATOR: "Maths",
 	BROWSER: "Browser",
+	LOGIC_SIM: "Logic Sim (WIP)"
+};
+
+export const APP_DESCRIPTIONS = {
+	TERMINAL: "A command line tool inspired by the Unix shell that runs entirely in your browser and uses a virtual file system.",
+	SETTINGS: `Configure ${NAME}'s settings and customize your experience.`,
+	TEXT_EDITOR: "Simple text editor for reading and writing text documents.",
+	FILE_EXPLORER: "Browse and manage your virtual files.",
+	CALCULATOR: "Simple calculator app.",
+	BROWSER: "Browse the internet.",
+	LOGIC_SIM: "Create digital logic circuits using the online simulator."
 };
 
 export const APP_ICONS = {

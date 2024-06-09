@@ -71,7 +71,7 @@ export const Desktop = memo(() => {
 			<Divider/>
 			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} onTrigger={() => {
 				openWindowedModal({
-					size: new Vector2(350, 350),
+					size: new Vector2(350, 400),
 					Modal: (props) => <Share {...props}/>
 				});
 			}}/>

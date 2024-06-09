@@ -11,6 +11,7 @@ export interface ModalProps {
 		fullscreen?: boolean;
 		iconUrl?: string;
 		title?: string;
+		standalone?: boolean;
 		[key: string]: unknown;
 	};
 	children?: ReactNode;

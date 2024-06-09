@@ -73,6 +73,10 @@ select.Input > * {
 	font-size: inherit;
 }
 
+.Input:disabled + div {
+	opacity: 0.5;
+}
+
 .Input[type=checkbox] {
 	display: none;
 }
