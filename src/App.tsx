@@ -1,8 +1,4 @@
 import styles from "./App.module.css";
-import { Taskbar } from "./components/taskbar/Taskbar";
-import { WindowsView } from "./components/windows/WindowsView";
-import { Desktop } from "./components/desktop/Desktop";
-import { ModalsView } from "./components/modals/ModalsView";
 import { ReactElement, useEffect } from "react";
 import { ZIndexManagerProvider } from "./hooks/z-index/zIndexManagerProvider";
 import { ThemeProvider } from "./hooks/themes/themes";
@@ -10,6 +6,7 @@ import { VirtualRootProvider } from "./hooks/virtual-drive/virtualRootProvider";
 import { WindowsManagerProvider } from "./hooks/windows/windowsManagerProvider";
 import { ModalsManagerProvider } from "./hooks/modals/modalsManagerProvider";
 import { SettingsManagerProvider } from "./hooks/settings/settingsManagerProvider";
+import { Router } from "./components/router/Router";
 
 export default function App(): ReactElement {
 	useEffect(() => {
@@ -31,10 +28,7 @@ export default function App(): ReactElement {
 					<SettingsManagerProvider>
 						<ThemeProvider>
 							<div className={styles.App}>
-								<Taskbar/>
-								<WindowsView/>
-								<ModalsView/>
-								<Desktop/>
+								<Router/>
 							</div>
 						</ThemeProvider>
 					</SettingsManagerProvider>

@@ -13,7 +13,7 @@ import { useWindowedModal } from "../../../hooks/modals/windowedModal";
 import { DEFAULT_FILE_SELECTOR_SIZE } from "../../../config/modals.config";
 import { FileSelector } from "../../modals/file-selector/FileSelector";
 import { SELECTOR_MODE } from "../../../config/apps/fileExplorer.config";
-import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../features/virtual-drive/file";
 import { WindowProps } from "../../windows/WindowView";
 import { DropdownAction } from "../../actions/actions/DropdownAction";
 import { ClickAction } from "../../actions/actions/ClickAction";

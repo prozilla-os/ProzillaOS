@@ -1,9 +1,9 @@
-import { useMemo } from "react";
+import { MouseEventHandler, ReactNode, useMemo } from "react";
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { useContextMenu } from "../../../../hooks/modals/contextMenu";
 import { Actions } from "../../../actions/Actions";
 import { ClickAction } from "../../../actions/actions/ClickAction";
-import { VirtualFile } from "../../../../features/virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../../features/virtual-drive/file";
 import { useWindowedModal } from "../../../../hooks/modals/windowedModal";
 import AppsManager from "../../../../features/apps/appsManager";
 import App from "../../../../features/apps/app";
@@ -13,19 +13,19 @@ import Vector2 from "../../../../features/math/vector2";
 import WindowsManager from "../../../../features/windows/windowsManager";
 import { APPS } from "../../../../config/apps.config";
 
-/**
- * @param {object} props 
- * @param {string} props.href
- * @param {*} props.children
- * @param {WindowsManager} props.windowsManager
- * @param {Function} props.setCurrentFile
- * @param {VirtualFile} props.currentFile
- * @param {App} props.app
- */
-export function MarkdownLink({ href, children, windowsManager, currentFile, setCurrentFile, app, ...props }) {
+interface MarkdownLinkProps {
+	href: string;
+	children: ReactNode;
+	windowsManager: WindowsManager;
+	setCurrentFile: Function;
+	currentFile: VirtualFile;
+	app: App;
+}
+
+export function MarkdownLink({ href, children, windowsManager, currentFile, setCurrentFile, app, ...props }: MarkdownLinkProps) {
 	const { openWindowedModal } = useWindowedModal();
 
-	const onClick = (event) => {
+	const onClick = (event: MouseEvent) => {
 		event.preventDefault();
 
 		if (!href.startsWith("http://") && !href.startsWith("https://")) {
@@ -59,8 +59,8 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 		</Actions>
 	});
 
-	const title = useMemo(() => {
-		let title = null;
+	const title = useMemo<string>(() => {
+		let title: string = null;
 		try {
 			title = new URL(href).hostname;
 		} catch (error) {
@@ -74,7 +74,7 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 		rel="noreferrer"
 		href={href}
 		onContextMenu={onContextMenu}
-		onClick={onClick}
+		onClick={onClick as unknown as MouseEventHandler}
 		{...props}
 		title={title}
 	>

@@ -35,5 +35,10 @@
 		"./build",
 		"./dist",
 		"./.vscode"
-	]
+	],
+	"ts-node": {
+		"experimentalSpecifierResolution": "node",
+		"transpileOnly": true,
+		"esm": true,
+    }
 }

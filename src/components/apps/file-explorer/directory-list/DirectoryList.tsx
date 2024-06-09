@@ -1,5 +1,5 @@
 import { MouseEventHandler, ReactElement, useEffect, useRef, useState } from "react";
-import { VirtualFile } from "../../../../features/virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../../features/virtual-drive/file";
 import { VirtualFolder } from "../../../../features/virtual-drive/folder/virtualFolder";
 import { Interactable } from "../../../_utils/interactable/Interactable";
 import styles from "./DirectoryList.module.css";

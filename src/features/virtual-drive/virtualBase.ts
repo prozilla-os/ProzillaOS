@@ -2,7 +2,7 @@ import { APPS } from "../../config/apps.config";
 import AppsManager from "../apps/appsManager";
 import { EventEmitter, EventNamesMap } from "../_utils/event.utils";
 import { VirtualRoot } from "./root/virtualRoot";
-import { VirtualFile } from "./file/virtualFile";
+import { VirtualFile } from "./file";
 import { VirtualFolder } from "./folder";
 
 export interface VirtualBaseJson {

@@ -5,7 +5,7 @@ import AppsManager from "../apps/appsManager";
 import { randomRange } from "../math/random";
 import Vector2 from "../math/vector2";
 import { TrackingManager } from "../tracking/trackingManager";
-import { VirtualFile } from "../virtual-drive/file/virtualFile";
+import { VirtualFile } from "../virtual-drive/file";
 
 export interface WindowOptions {
 	id?: string;

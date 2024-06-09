@@ -2,6 +2,7 @@ import { ANSI } from "./apps/terminal.config";
 
 export const NAME = "ProzillaOS";
 export const TAG_LINE = "Web-based Operating System";
+export const BASE_URL = "https://os.prozilla.dev/";
 
 export const ASCII_LOGO = `
               :.           

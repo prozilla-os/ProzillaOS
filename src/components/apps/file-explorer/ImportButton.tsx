@@ -2,7 +2,7 @@ import { FormEventHandler, ReactElement } from "react";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
-import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../features/virtual-drive/file";
 import { VirtualFolder } from "../../../features/virtual-drive/folder";
 
 interface ImportButtonProps {

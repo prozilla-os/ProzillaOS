@@ -1,18 +1,21 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./Button.module.css";
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
-import { ReactNode } from "react";
+import { HTMLAttributeAnchorTarget, ReactNode } from "react";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 interface ButtonProps {
 	className?: string;
 	href?: string;
+	icon?: IconProp;
+	target?: HTMLAttributeAnchorTarget;
 	children?: ReactNode;
-	[key: string]: any;
+	[key: string]: unknown;
 }
 
 export function Button(props: ButtonProps) {
 	let { className = "" } = props;
-	const { href, children } = props;
+	const { href, children, icon, target } = props;
 
 	className = `${styles.Button} ${className}`;
 
@@ -21,14 +24,14 @@ export function Button(props: ButtonProps) {
 
 		return (<a
 			href={href}
-			target="_blank"
+			target={target ?? "_blank"}
 			rel="noreferrer"
 			tabIndex={0}
 			{...props}
 			className={className}
 		>
 			{children}
-			<FontAwesomeIcon icon={faExternalLink}/>
+			<FontAwesomeIcon icon={icon ?? faExternalLink}/>
 		</a>);
 	} else {
 		return (<button

@@ -1,4 +1,4 @@
-import { VirtualFile } from "../../../virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../virtual-drive/file";
 import { formatError } from "../_utils/terminal.utils";
 import Command from "../command";
 
@@ -12,7 +12,7 @@ export const rm = new Command()
 		const file = currentDirectory.findFile(name, extension);
 	
 		if (!file)
-			return formatError(this.name, `${args[0]}: No such file`);
+			return formatError((this as Command).name, `${args[0]}: No such file`);
 		
 		file.delete();
 		return { blank: true };

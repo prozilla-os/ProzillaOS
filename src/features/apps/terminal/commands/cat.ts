@@ -1,4 +1,4 @@
-import { VirtualFile } from "../../../virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../virtual-drive/file";
 import { formatError } from "../_utils/terminal.utils";
 import Command from "../command";
 
@@ -14,7 +14,7 @@ export const cat = new Command()
 		const file = currentDirectory.findFile(name, extension);
 
 		if (!file)
-			return formatError(this.name, `${args[0]}: No such file`);
+			return formatError((this as Command).name, `${args[0]}: No such file`);
 
 		if (file.content) {
 			if (!options.includes("e")) {

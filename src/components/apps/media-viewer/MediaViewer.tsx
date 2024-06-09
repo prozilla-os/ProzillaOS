@@ -4,7 +4,7 @@ import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext"
 import styles from "./MediaViewer.module.css";
 import { APPS } from "../../../config/apps.config";
 import { IMAGE_FORMATS } from "../../../config/apps/mediaViewer.config";
-import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../features/virtual-drive/file";
 import { WindowProps } from "../../windows/WindowView";
 
 interface MediaViewerProps extends WindowProps {

@@ -1,10 +1,11 @@
 import { StorageManager } from "../../storage/storageManager";
 import { VirtualFolderLink, VirtualFolderLinkJson } from "../folder/virtualFolderLink";
 import { loadDefaultData } from "./defaultData";
-import { VirtualFile, VirtualFileJson } from "../file/virtualFile";
+import { VirtualFileJson } from "../file/virtualFile";
 import { VirtualFolder } from "../folder";
-import { VirtualFileLink, VirtualFileLinkJson } from "../file/virtualFileLink";
+import { VirtualFileLinkJson } from "../file/virtualFileLink";
 import { VirtualFolderJson } from "../folder/virtualFolder";
+import { VirtualFile, VirtualFileLink } from "../file";
 
 export interface VirtualRootJson extends VirtualFolderJson {
 	scs: Record<string, string>;

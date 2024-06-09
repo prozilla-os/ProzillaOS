@@ -78,7 +78,7 @@ export default class Command {
 	}
 
 	getOption(key: string): Option {
-		let matchingOption = null;
+		let matchingOption: Option = null;
 
 		this.options.forEach((option) => {
 			if (option.short === key || option.long === key)

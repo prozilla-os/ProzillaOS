@@ -1,4 +1,4 @@
-import { VirtualFile } from "../../../virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../virtual-drive/file";
 import { formatError } from "../_utils/terminal.utils";
 import Command from "../command";
 
@@ -12,7 +12,7 @@ export const touch = new Command()
 	})
 	.setExecute(function(args, { currentDirectory }) {
 		if (args[0] === "girls\\" && args[1] === "boo**")
-			return formatError(this.name, "Cannot touch 'girls boo**': Permission denied");
+			return formatError((this as Command).name, "Cannot touch 'girls boo**': Permission denied");
 	
 		const { name, extension } = VirtualFile.convertId(args[0]);
 	

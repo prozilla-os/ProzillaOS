@@ -1,4 +1,4 @@
-import { VirtualFile } from "../virtual-drive/file/virtualFile";
+import { VirtualFile } from "../virtual-drive/file";
 import { VirtualRoot } from "../virtual-drive/root/virtualRoot";
 
 const PARENT_NODE = "options";

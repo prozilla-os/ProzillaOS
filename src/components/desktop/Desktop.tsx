@@ -24,7 +24,7 @@ import { Share } from "../modals/share/Share";
 import ModalsManager from "../../features/modals/modalsManager";
 import { VirtualFolder } from "../../features/virtual-drive/folder/virtualFolder";
 import { VirtualFolderLink } from "../../features/virtual-drive/folder/virtualFolderLink";
-import { VirtualFile } from "../../features/virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../features/virtual-drive/file";
 import { TABS } from "../../config/apps/settings.config";
 
 export const Desktop = memo(() => {

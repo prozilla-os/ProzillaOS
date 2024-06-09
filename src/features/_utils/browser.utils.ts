@@ -29,6 +29,10 @@ export function isValidUrl(string: string): boolean {
 
 export function setViewportTitle(title: string) {
 	document.title = title;
+
+	document.querySelectorAll("meta[property='og:title'], meta[name='twitter:title']")?.forEach((element) => {
+		element.setAttribute("content", title);
+	});
 }
 
 export function setViewportIcon(url: string) {

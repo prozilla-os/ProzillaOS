@@ -24,7 +24,7 @@ import { CODE_FORMATS } from "../../../config/apps/textEditor.config";
 import { SELECTOR_MODE } from "../../../config/apps/fileExplorer.config";
 import { WindowProps } from "../../windows/WindowView";
 import { VirtualFolder } from "../../../features/virtual-drive/folder/virtualFolder";
-import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../features/virtual-drive/file";
 import { VirtualFolderLink } from "../../../features/virtual-drive/folder/virtualFolderLink";
 import ImportButton from "./ImportButton";
 import { useAlert } from "../../../hooks/modals/alert";

@@ -10,8 +10,9 @@
 		"start": "vite --port 3000 --host",
 		"build": "tsc && vite build",
 		"serve": "vite preview",
-		"predeploy": "npm run build",
-		"deploy": "sh deploy.sh"
+		"predeploy": "npm run sitemap && npm run build",
+		"deploy": "sh deploy.sh",
+		"sitemap": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/tools/sitemapGenerator.js"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -50,6 +51,7 @@
 		"eslint-plugin-react": "^7.34.1",
 		"eslint-plugin-react-refresh": "^0.4.7",
 		"gh-pages": "^5.0.0",
+		"ts-node": "^10.9.2",
 		"typescript": "^5.4.5",
 		"typescript-eslint": "^7.8.0",
 		"web-vitals": "^4.0.1"

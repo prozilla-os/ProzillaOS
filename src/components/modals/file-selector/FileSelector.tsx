@@ -5,7 +5,7 @@ import { Button } from "../../_utils/button/Button";
 import { FileExplorer } from "../../apps/file-explorer/FileExplorer";
 import { WindowedModal } from "../_utils/WindowedModal";
 import styles from "./FileSelector.module.css";
-import { VirtualFile } from "../../../features/virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../features/virtual-drive/file";
 import { ModalProps } from "../ModalView";
 import { VirtualFolder } from "../../../features/virtual-drive/folder";
 

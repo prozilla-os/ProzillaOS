@@ -1,4 +1,5 @@
-import { VirtualFile, VirtualFileJson } from "./virtualFile";
+import { VirtualFile } from ".";
+import { VirtualFileJson } from "./virtualFile";
 
 export interface VirtualFileLinkJson extends VirtualFileJson {
 	lnk: string;

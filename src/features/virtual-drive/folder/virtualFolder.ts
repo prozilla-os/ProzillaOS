@@ -2,10 +2,10 @@ import { APPS } from "../../../config/apps.config";
 import AppsManager from "../../apps/appsManager";
 import { removeFromArray } from "../../_utils/array.utils";
 import WindowsManager from "../../windows/windowsManager";
-import { VirtualFileLink } from "../file/virtualFileLink";
+import { VirtualFileJson } from "../file/virtualFile";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
-import { VirtualFile, VirtualFileJson } from "../file/virtualFile";
 import { VirtualFolderLink } from ".";
+import { VirtualFile, VirtualFileLink } from "../file";
 
 export interface VirtualFolderJson extends VirtualBaseJson {
 	fls?: VirtualFileJson[];

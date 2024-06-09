@@ -11,7 +11,7 @@ import { FileSelector } from "../../../modals/file-selector/FileSelector";
 import { SELECTOR_MODE } from "../../../../config/apps/fileExplorer.config";
 import { DEFAULT_FILE_SELECTOR_SIZE } from "../../../../config/modals.config";
 import { IMAGE_FORMATS } from "../../../../config/apps/mediaViewer.config";
-import { VirtualFile } from "../../../../features/virtual-drive/file/virtualFile";
+import { VirtualFile } from "../../../../features/virtual-drive/file";
 import { VirtualFolder } from "../../../../features/virtual-drive/folder/virtualFolder";
 import { THEMES } from "../../../../config/themes.config";
 

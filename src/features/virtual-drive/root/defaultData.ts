@@ -1,7 +1,7 @@
 import { APPS } from "../../../config/apps.config";
 import { WALLPAPERS } from "../../../config/desktop.config";
 import AppsManager from "../../apps/appsManager";
-import { VirtualFileLink } from "../file/virtualFileLink";
+import { VirtualFileLink } from "../file";
 import { VirtualFolderLink } from "../folder";
 import { VirtualRoot } from "./virtualRoot";
 
