@@ -1,1 +1,0 @@
-import{C as e}from"./command-Clc1HLU6.js";import{C as a}from"./index-T5ey7z2t.js";const t=new e().setManual({purpose:"Reload the terminal"}).setExecute(function(){return a.reload(),{blank:!0}});export{t as reload};
