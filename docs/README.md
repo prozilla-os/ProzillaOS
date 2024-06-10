@@ -49,6 +49,12 @@ These are the scripts in logical order, that will be available when you have ins
 > [!NOTE]  
 > After this deployment process, GitHub Pages will run its own build step to finalize the deployment, as seen in the `Actions` tab on GitHub. This usually takes less than a minute and once it's done, your deployment will be live.
 
+### Other scripts
+
+- `npm run fetch`
+
+	Fetch the repository tree using GitHub's API and store it as a JSON file that will be used to populate the virtual drive. More information can be found on the [virtual drive](./features/virtual-drive/README.md) page.
+
 ### Configuration
 
 See [docs/configuration](configuration/README.md) for more information.

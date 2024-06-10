@@ -25,3 +25,4 @@ yarn-error.log*
 *.ini
 
 /tmp
+/public/config/tree.json

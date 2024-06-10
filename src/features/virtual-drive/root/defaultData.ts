@@ -1,8 +1,8 @@
 import { APPS } from "../../../config/apps.config";
 import { WALLPAPERS } from "../../../config/desktop.config";
 import AppsManager from "../../apps/appsManager";
-import { VirtualFileLink } from "../file";
-import { VirtualFolderLink } from "../folder";
+import { VirtualFile, VirtualFileLink } from "../file";
+import { VirtualFolder, VirtualFolderLink } from "../folder";
 import { VirtualRoot } from "./virtualRoot";
 
 /**
@@ -22,7 +22,7 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 					}).createFile("apps", "xml", (file) => {
 						file.setSource("/config/apps.xml");
 					}).createFile("theme", "xml", (file) => {
-						file.setSource("/config/apps.xml");
+						file.setSource("/config/theme.xml");
 					});
 				})
 				.createFolder("Pictures", (folder) => {
@@ -79,107 +79,53 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 		});
 	});
 
-	virtualRoot.createFolder(".github", (folder) => {
-		folder.createFile("FUNDING", "yml", (file) => {
-			file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/.github/FUNDING.yml");
-		});
-	});
+	// Create files and folders based on repository tree
+	void fetch("/config/tree.json").then((response) => 
+		response.json()
+	).then(({ files, folders }: { files: string[], folders: string[] }) => {
 
-	virtualRoot.createFolder(".vscode", (folder) => {
-		folder.createFile("settings", "json", (file) => {
-			file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/.vscode/settings.json");
-		});
-	});
+		folders.forEach((folderPath) => {
+			const lastSlashIndex = folderPath.lastIndexOf("/");
 
-	virtualRoot.createFolder("docs", (folder) => {
-		folder.createFile("README", "md", (file) => {
-			file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/docs/README.md");
-		});
-	});
+			if (lastSlashIndex === -1) {
+				virtualRoot.createFolder(folderPath);
+				return;
+			}
 
-	virtualRoot.createFolder("public", (folder) => {
-		folder.createFolder("assets", (folder) => {
-			folder.createFolder("apps", (folder) => {
-				folder.createFolder("icons", (folder) => {
-					AppsManager.APPS.forEach(({ id }) => {
-						folder.createFile(id, "svg", (file) => {
-							file.setSource(AppsManager.getAppIconUrl(id));
-						});
-					});
-				});
-			}).createFolder("fonts", (folder) => {
-				folder.createFolders(["outfit", "roboto-mono"]);
-			}).createFolder("screenshots", (folder) => {
-				folder.createFile("screenshot", "png", (file) => {
-					file.setSource("/assets/screenshots/screenshot-files-info-taskbar-desktop.png");
-				});
-			}).createFolder("wallpapers", (folder) => {
-				folder.setProtected(true);
-				for (let i = 0; i < WALLPAPERS.length; i++) {
-					const source = WALLPAPERS[i];
-					const name = source.split("/").pop().split(".")[0];
-					folder.createFile(name, "png", (file) => {
-						file.setSource(source);
-					});
+			const parentPath = folderPath.substring(0, lastSlashIndex);
+    		const folderName = folderPath.substring(lastSlashIndex + 1);
+
+			const parentFolder = virtualRoot.navigate(parentPath) as VirtualFolder;
+			parentFolder.createFolder(folderName);
+		});
+
+		files.forEach((filePath) => {
+			const lastSlashIndex = filePath.lastIndexOf("/");
+
+			const callback = (virtualFile: VirtualFile) => {
+				console.log(virtualFile.absolutePath);
+
+				const virtualPath = virtualFile.absolutePath;
+				if (virtualPath.startsWith("/public/")) {
+					virtualFile.setSource(virtualPath.replace(/^\/public\//, "/"));
+				} else {
+					virtualFile.setSource(`https://raw.githubusercontent.com/Prozilla/ProzillaOS/main${virtualPath}`);
 				}
-			}).createFile("banner", "png", (file) => {
-				file.setSource("/assets/banner-logo-title.png");
-			}).createFile("logo", "svg", (file) => {
-				file.setSource("/icon.svg");
-			});
-		}).createFolder("config", (folder) => {
-			folder.createFile("apps", "xml", (file) => {
-				file.setSource("/config/apps.xml");
-			}).createFile("desktop", "xml", (file) => {
-				file.setSource("/config/desktop.xml");
-			}).createFile("taskbar", "xml", (file) => {
-				file.setSource("/config/taskbar.xml");
-			}).createFile("theme", "xml", (file) => {
-				file.setSource("/config/theme.xml");
-			});
-		}).createFolder("documents", (folder) => {
-			folder.createFile("info", "md", (file) => {
-				file.setSource("/documents/info.md");
-			}).createFile("links", "md", (file) => {
-				file.setSource("/documents/links.md");
-			});
-		}).createFile("favicon", "ico", (file) => {
-			file.setSource("/favicon.ico");
-		}).createFile("index", "html", (file) => {
-			file.setSource("/index.html");
-		}).createFile("robots", "txt", (file) => {
-			file.setSource("/robots.txt");
-		}).createFile("sitemap", "xml", (file) => {
-			file.setSource("/sitemap.xml");
+			};
+
+			if (lastSlashIndex === -1) {
+				const { name, extension } = VirtualFile.convertId(filePath);
+				virtualRoot.createFile(name, extension, callback);
+				return;
+			}
+
+			const parentPath = filePath.substring(0, lastSlashIndex);
+    		const { name, extension } = VirtualFile.convertId(filePath.substring(lastSlashIndex + 1));
+
+			const parentFolder = virtualRoot.navigate(parentPath) as VirtualFolder;
+			parentFolder.createFile(name, extension, callback);
 		});
-	});
-
-	virtualRoot.createFolder("src", (folder) => {
-		folder.createFolder("components")
-			.createFolder("config")
-			.createFolder("features")
-			.createFolder("hooks")
-			.createFolder("styles")
-			.createFile("App", "tsx", (file) => {
-				file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/src/App.tsx");
-			}).createFile("index", "tsx", (file) => {
-				file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/src/index");
-			});
-	});
-
-	virtualRoot.createFile("", "env", (file) => {
-		file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/.env");
-	}).createFile("", "gitignore", (file) => {
-		file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/.gitignore");
-	}).createFile("LICENSE", "md", (file) => {
-		file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/LICENSE.md");
-	}).createFile("README", "md", (file) => {
-		file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/README.md");
-	}).createFile("package", "json", (file) => {
-		file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/package.json");
-	}).createFile("deploy", "sh", (file) => {
-		file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/deploy.sh");
-	}).createFile("tsconfig", "json", (file) => {
-		file.setSource("https://raw.githubusercontent.com/Prozilla/ProzillaOS/main/tsconfig.json");
+	}).catch(() => {
+		console.warn("Failed to fetch repository tree. Make sure the tree data is valid and up-to-date using 'npm run fetch'.");
 	});
 }

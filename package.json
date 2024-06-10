@@ -12,7 +12,8 @@
 		"serve": "vite preview --port 8080 --host",
 		"predeploy": "npm run build && npm run stage",
 		"stage": "node --no-warnings --loader ts-node/esm ./src/tools/stage",
-		"deploy": "sh deploy.sh"
+		"deploy": "sh deploy.sh",
+		"fetch": "node --no-warnings --loader ts-node/esm ./src/tools/fetchRepository"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.4.0",
