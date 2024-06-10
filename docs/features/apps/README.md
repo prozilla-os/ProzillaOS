@@ -4,17 +4,33 @@
 
 > Related document: [Windows](../windows/README.md)
 
-Applications (often shortened to apps) are processes that open a window when ran. The window allows the user to view and interact with the app. Apps have a `title`, `id` and a `windowContent` property that refers to the React component of the application interface.
+Applications (often shortened to apps) are processes that open a window when ran. The window allows the user to view and interact with the app. Apps have a `name` and `id` property as well as a `windowContent` property that refers to the React component of the application interface.
 
-> Some apps have a different name in the UI, these names are written between brackets and quotation marks. The other name is the one used in code and file/folder names.
+## Pages
 
-## Table of Contents
+- [<img src="../../../public/assets/apps/icons/terminal.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Commands (terminal)](terminal/README.md)
+- [<img src="../../../public/assets/apps/icons/file-explorer.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Files (file-explorer)](file-explorer/README.md)
+- [<img src="../../../public/assets/apps/icons/media-viewer.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Photos (media-viewer)](media-viewer/README.md)
+- [<img src="../../../public/assets/apps/icons/text-editor.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Notes (text-editor)](text-editor/README.md)
+- [<img src="../../../public/assets/apps/icons/settings.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Settings (settings)](settings/README.md)
 
-- [<img src="../../../public/assets/apps/icons/terminal.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Terminal ("Commands")](terminal/README.md)
-- [<img src="../../../public/assets/apps/icons/file-explorer.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> File Explorer ("Files")](file-explorer/README.md)
-- [<img src="../../../public/assets/apps/icons/media-viewer.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Media Viewer ("Photos")](media-viewer/README.md)
-- [<img src="../../../public/assets/apps/icons/text-editor.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Text Editor ("Notes")](text-editor/README.md)
-- [<img src="../../../public/assets/apps/icons/settings.svg" width=20 height=20 style="vertical-align: text-bottom; background: none;"/> Settings](settings/README.md)
+## Name VS ID
+
+In the list above, you can see some app names, as well as the corresponding IDs, which are written between brackers and in kebab-case. App names are mainly used in user interfaces, may change at any point and can contain spaces. App IDs are mostly constrained within the development-side of ProzillaOS, generally will remain unchanged and can not contain spaces. See the table below for a list of use cases.
+
+| Location | Uses ID | Uses name |
+| --- | --- | --- |
+| File & folder names | :heavy_check_mark: | :x: | 
+| React components | :heavy_check_mark: | :x: | 
+| Standalone URL | :heavy_check_mark: | :x: | 
+| URL params | :heavy_check_mark: | :x: | 
+| Static assets | :heavy_check_mark: | :x: | 
+| Window title | :x: | :heavy_check_mark: | 
+| Apps list | :x: | :heavy_check_mark: | 
+| Standalone title | :x: | :heavy_check_mark: | 
+
+> [!CAUTION]
+> Changing the ID of an application that has already been deployed once may cause unexpected issues, like creating invalid links.
 
 ## Common components
 
@@ -25,30 +41,24 @@ The header menu is a useful component that can be added to app windows for quick
 #### Example
 
 ```tsx
-// components/apps/_common/HeaderMenu.tsx
-
-<HeaderMenu
-	options={{
-		"File": {
-			"New": () => {
-				// ...
-			},
-			"Save": () => {
-				// ...
-			},
-			"Exit": () => {
-				// ...
-			},
-		},
-	}}
-	shortcuts={{
-		"File": {
-			"New": ["Control", "e"],
-			"Save": ["Control", "s"],
-			"Exit": ["Control", "x"],
-		},
-	}}
-/>
+<HeaderMenu>
+	<DropdownAction label="File" showOnHover={false}>
+		<ClickAction label="New" onTrigger={/* ... */}/>
+		<ClickAction label="Open" onTrigger={/* ... */} shortcut={["Control", "o"]}/>
+		<ClickAction label="Save" onTrigger={/* ... */} shortcut={["Control", "s"]}/>
+		<ClickAction label="Quit" onTrigger={/* ... */} shortcut={["Control", "q"]}/>
+	</DropdownAction>
+	<DropdownAction label="View" showOnHover={false}>
+		<ClickAction
+			label={currentMode === "view" ? "Edit mode" : "Preview mode"}
+			onTrigger={/* ... */}
+			shortcut={["Control", "v"]}
+		/>
+		<ClickAction label="Zoom in" onTrigger={/* ... */} shortcut={["Control", "+"]}/>
+		<ClickAction label="Zoom out" onTrigger={/* ... */} shortcut={["Control", "-"]}/>
+		<ClickAction label="Reset Zoom" onTrigger={/* ... */} shortcut={["Control", "0"]}/>
+	</DropdownAction>
+</HeaderMenu>
 ```
 
 ## App templates
