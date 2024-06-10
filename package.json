@@ -9,10 +9,10 @@
 	"scripts": {
 		"start": "vite --port 3000 --host",
 		"build": "tsc && vite build",
-		"serve": "vite preview",
-		"predeploy": "npm run build && npm run prep",
-		"deploy": "sh deploy.sh",
-		"prep": "node --no-warnings --loader ts-node/esm ./src/tools/prep"
+		"serve": "vite preview --port 8080 --host",
+		"predeploy": "npm run build && npm run stage",
+		"stage": "node --no-warnings --loader ts-node/esm ./src/tools/stage",
+		"deploy": "sh deploy.sh"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.4.0",

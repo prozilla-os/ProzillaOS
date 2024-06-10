@@ -4,9 +4,9 @@
 
 This is ProzillaOS, a web-based operating system made with React.js by [Prozilla](https://prozilla.dev/).
 
-## Open Source
+## Open-source
 
-ProzillaOS is [open source](https://github.com/Prozilla/ProzillaOS)! Feel free to fork this project and create your own OS or share feedback by creating an issue on the GitHub page.
+ProzillaOS is [open-source](https://github.com/Prozilla/ProzillaOS)! Feel free to fork this project and create your own OS or share feedback by creating an issue on the GitHub page.
 
 ## Support ProzillaOS
 
