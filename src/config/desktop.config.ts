@@ -12,3 +12,4 @@ export const WALLPAPERS = [
 
 export const FALLBACK_WALLPAPER = WALLPAPERS[6];
 export const FALLBACK_ICON_SIZE = 1;
+export const FALLBACK_ICON_DIRECTION = 0; // 0: vertical, 1: horizontal

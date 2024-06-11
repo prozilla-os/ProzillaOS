@@ -18,9 +18,11 @@
 }
 
 .Content {
+	--direction: column;
+
 	position: absolute;
 	display: flex;
-	flex-direction: column;
+	flex-direction: var(--direction);
 	flex-wrap: wrap;
 	align-content: flex-start;
 	justify-content: flex-start;

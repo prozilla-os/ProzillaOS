@@ -136,6 +136,17 @@ export default class WindowsManager {
 		return this.windows[windowId].isFocused;
 	}
 
+	isAnyFocused() {
+		let anyFocused = false;
+
+		Object.values(this.windows).forEach((window) => {
+			if (window.isFocused)
+				return anyFocused = true;
+		});
+
+		return anyFocused;
+	}
+
 	/**
 	 * @param minimized - Leave as undefined to toggle the window's minimization state
 	 */

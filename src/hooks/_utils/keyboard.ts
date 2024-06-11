@@ -28,6 +28,9 @@ interface UseShortcutsParams {
 	useCategories?: boolean,
 }
 
+/**
+ * TO DO: rewrite to use a global shortcuts manager instead, to allow certain shortcuts to be prioritized and prevent conflicts
+ */
 export function useShortcuts({ options, shortcuts, useCategories = true }: UseShortcutsParams) {
 	const [activeKeys, setActiveKeys] = useState<string[]>([]);
 
@@ -36,10 +39,6 @@ export function useShortcuts({ options, shortcuts, useCategories = true }: UseSh
 			return;
 
 		const keys = [...activeKeys];
-
-		// Prevent alt-tabbing from messing with alt key registration
-		if (keys.includes("Alt") && !event.altKey)
-			removeFromArray("Alt", keys);
 
 		const checkGroup = (group: Record<string, string[]>, category?: string) => {
 			for (const [name, shortcut] of Object.entries(group)) {
@@ -60,9 +59,9 @@ export function useShortcuts({ options, shortcuts, useCategories = true }: UseSh
 					continue;
 
 				if (category != null) {
-					(options?.[category]?.[name] as Function)?.();
+					(options?.[category]?.[name] as Function)?.(event);
 				} else {
-					(options?.[name] as Function)?.();
+					(options?.[name] as Function)?.(event);
 				}
 			}
 		};
@@ -77,6 +76,18 @@ export function useShortcuts({ options, shortcuts, useCategories = true }: UseSh
 
 		setActiveKeys(keys);
 	}, [activeKeys, options, shortcuts, useCategories]);
+
+	useEffect(() => {
+		const onBlur = () => {
+			setActiveKeys([]);
+		};
+
+		document.addEventListener("blur", onBlur);
+
+		return () => {
+			document.removeEventListener("blur", onBlur);
+		};
+	}, []);
 
 	const onKeyDown = (event: KeyboardEvent) => {
 		const isRepeated = activeKeys.includes(event.key);

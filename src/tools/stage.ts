@@ -59,6 +59,23 @@ function generateCname() {
 	return DOMAIN;
 }
 
+function generateTemplate(html: string) {
+	const baseUrlRegex = /(?<=")https?:\/\/[a-z0-9-]+(\.)([a-zA-Z0-9-]+(\.))*[a-z]{2,3}\/(?=.*")/gi;
+	html = html.replaceAll(baseUrlRegex, BASE_URL);
+
+	const commentsRegex = /<!--.*?-->/g;
+	html = html.replaceAll(commentsRegex, "");
+
+	const emptyLinesRegex = /^\s*$\n/gm;
+	html = html.replaceAll(emptyLinesRegex, "");
+
+	const path = `${BUILD_DIR}/index.html`;
+	fs.writeFileSync(path, html, { flag: "w+" });
+	console.log(`- ${ANSI.fg.cyan}${path}${ANSI.reset}`);
+
+	return html;
+}
+
 /**
  * To avoid GitHub pages rendering certain pages that are only defined by React router as a 404 page,
  * we copy the content of our index file to the 404 page, letting React router properly handle routing on every page 
@@ -69,6 +86,9 @@ function generate404Page(template: string) {
 	console.log(`- ${ANSI.fg.cyan}${path}${ANSI.reset}`);
 }
 
+/**
+ * Add an HTML file for every app page so they can be properly crawled and indexed
+ */
 function generateAppPages(template: string) {
 	for (const [key, value] of Object.entries(APPS)) {
 		const appId = value;
@@ -120,9 +140,13 @@ try {
 	});
 
 	console.log(`\n${ANSI.fg.yellow}Generating pages...${ANSI.reset}`);
-	const template = fs.readFileSync(PATHS.indexHtml, "utf-8");
+
+	const html = fs.readFileSync(PATHS.indexHtml, "utf-8");
+	const template = generateTemplate(html);
+
 	generate404Page(template);
 	generateAppPages(template);
+
 	console.log(`\n${ANSI.fg.green}✓ Staging complete${ANSI.reset}`);
 } catch (error) {
 	console.error(error);

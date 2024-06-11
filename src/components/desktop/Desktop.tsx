@@ -5,7 +5,7 @@ import styles from "./Desktop.module.css";
 import { useEffect } from "react";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import { useContextMenu } from "../../hooks/modals/contextMenu";
-import { FALLBACK_ICON_SIZE, FALLBACK_WALLPAPER } from "../../config/desktop.config";
+import { FALLBACK_ICON_DIRECTION, FALLBACK_ICON_SIZE, FALLBACK_WALLPAPER } from "../../config/desktop.config";
 import { reloadViewport } from "../../features/_utils/browser.utils";
 import { useVirtualRoot } from "../../hooks/virtual-drive/virtualRootContext";
 import { DirectoryList } from "../apps/file-explorer/directory-list/DirectoryList";
@@ -13,7 +13,7 @@ import { APPS, APP_ICONS, APP_NAMES } from "../../config/apps.config";
 import Vector2 from "../../features/math/vector2";
 import { Actions } from "../actions/Actions";
 import { ClickAction } from "../actions/actions/ClickAction";
-import { faArrowsRotate, faEye, faFolder, faPaintBrush, faTerminal, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsRotate, faCompress, faExpand, faEye, faFolder, faPaintBrush, faTerminal, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToggleAction } from "../actions/actions/ToggleAction";
 import { DropdownAction } from "../actions/actions/DropdownAction";
 import { RadioAction } from "../actions/actions/RadioAction";
@@ -34,6 +34,7 @@ export const Desktop = memo(() => {
 	const virtualRoot = useVirtualRoot();
 	const [showIcons, setShowIcons] = useState(false);
 	const [iconSize, setIconSize] = useState(FALLBACK_ICON_SIZE);
+	const [iconDirection, setIconDirection] = useState(FALLBACK_ICON_DIRECTION);
 	const { openWindowedModal } = useWindowedModal();
 
 	const directory = virtualRoot.navigate("~/Desktop");
@@ -47,7 +48,15 @@ export const Desktop = memo(() => {
 				}} options={[
 					{ label: "Small icons" },
 					{ label: "Medium icons" },
-					{ label: "Large icons" }
+					{ label: "Large icons" },
+				]}/>
+				<Divider/>
+				<RadioAction initialIndex={iconDirection} onTrigger={(event, params, value: string) => {
+					const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
+					void settings.set("icon-direction", value);
+				}} options={[
+					{ label: "Align vertically" },
+					{ label: "Align horizontally" },
 				]}/>
 				<Divider/>
 				<ToggleAction label="Show dekstop icons" initialValue={showIcons} onTrigger={() => {
@@ -58,6 +67,25 @@ export const Desktop = memo(() => {
 			<ClickAction label="Reload" shortcut={["Control", "r"]} icon={faArrowsRotate} onTrigger={() => {
 				reloadViewport();
 			}}/>
+			<ClickAction
+				label={!document.fullscreenElement ? "Enter fullscreen" : "Exit fullscreen"}
+				shortcut={["F11"]}
+				icon={!document.fullscreenElement ? faExpand : faCompress}
+				onTrigger={() => {
+					if (windowsManager.isAnyFocused())
+						return;
+
+					if (!document.fullscreenElement) {
+						void document.body.requestFullscreen().catch((error) => {
+							console.error(error);
+						});
+					} else {
+						void document.exitFullscreen().catch((error) => {
+							console.error(error);
+						});
+					}
+				}}
+			/>
 			<ClickAction label="Change appearance" icon={faPaintBrush} onTrigger={() => {
 				windowsManager.open("settings", { tab: TABS.APPEARANCE });
 			}}/>
@@ -122,6 +150,10 @@ export const Desktop = memo(() => {
 			if (isValidInteger(value))
 				setIconSize(parseInt(value));
 		});
+		void settings.get("icon-direction", (value) => {
+			if (isValidInteger(value))
+				setIconDirection(parseInt(value));
+		});
 	}, [settingsManager]);
 
 	const onError = () => {
@@ -129,7 +161,7 @@ export const Desktop = memo(() => {
 		void settings.set("wallpaper", FALLBACK_WALLPAPER);
 	};
 
-	const iconScale = 1 + ((isValidInteger(iconSize) ? iconSize : FALLBACK_ICON_SIZE) - 1) / 4;
+	const iconScale = 1 + ((isValidInteger(iconSize) ? iconSize : FALLBACK_ICON_SIZE) - 1) / 5;
 
 	return (<>
 		<ShortcutsListener/>
@@ -141,7 +173,8 @@ export const Desktop = memo(() => {
 				directory={directory as VirtualFolder}
 				className={styles.Content}
 				style={{
-					"--scale": `${iconScale}rem`
+					"--scale": `${iconScale}rem`,
+					"--direction": iconDirection == 1 ? "row" : "column"
 				}}
 				fileClassName={styles["Item"]}
 				folderClassName={styles["Item"]}

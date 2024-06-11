@@ -79,11 +79,18 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 		});
 	});
 
-	// Create files and folders based on repository tree
+	loadTree(virtualRoot);	
+}
+
+// Create files and folders based on repository tree
+function loadTree(virtualRoot: VirtualRoot) {
+	const excludedFiles = [
+		"/public/config/tree.json"
+	];
+
 	void fetch("/config/tree.json").then((response) => 
 		response.json()
 	).then(({ files, folders }: { files: string[], folders: string[] }) => {
-
 		folders.forEach((folderPath) => {
 			const lastSlashIndex = folderPath.lastIndexOf("/");
 
@@ -100,11 +107,12 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 		});
 
 		files.forEach((filePath) => {
+			if (excludedFiles.includes(filePath))
+				return;
+
 			const lastSlashIndex = filePath.lastIndexOf("/");
 
 			const callback = (virtualFile: VirtualFile) => {
-				console.log(virtualFile.absolutePath);
-
 				const virtualPath = virtualFile.absolutePath;
 				if (virtualPath.startsWith("/public/")) {
 					virtualFile.setSource(virtualPath.replace(/^\/public\//, "/"));
@@ -126,6 +134,6 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 			parentFolder.createFile(name, extension, callback);
 		});
 	}).catch(() => {
-		console.warn("Failed to fetch repository tree. Make sure the tree data is valid and up-to-date using 'npm run fetch'.");
+		console.warn("Failed to load repository tree. Make sure the tree data is valid and up-to-date using 'npm run fetch'.");
 	});
 }

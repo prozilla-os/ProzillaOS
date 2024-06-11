@@ -9,7 +9,7 @@ export interface ActionProps {
 	label?: string;
 	icon?: string | object;
 	shortcut?: string[];
-	onTrigger?: (event: Event, triggerParams: unknown, ...args: unknown[]) => void;
+	onTrigger?: (event?: Event, triggerParams?: unknown, ...args: unknown[]) => void;
 	children?: ReactNode;
 }
 
@@ -40,8 +40,8 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 	const options = {};
 	const shortcuts = {};
 
+	let actionId = 0;
 	const iterateOverChildren = (children: ReactNode): ReactNode => {
-		let actionId = 0;
 		const newChildren = Children.map(children, (child) => {
 			if (!isValidElement(child))
 				return child;
@@ -49,25 +49,30 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 			actionId++;
 
 			const { label, shortcut, onTrigger } = child.props as ActionProps;
+
+			const onTriggerOverride = (event: Event, ...args: unknown[]) => {
+				onAnyTrigger?.(event, triggerParams, ...args);
+				onTrigger?.(event, triggerParams, ...args);
+			};
+
+			// Register shortcut
 			if (label != null && onTrigger != null) {
-				options[actionId] = onTrigger;
+				options[actionId] = onTriggerOverride;
 
 				if (shortcut != null)
 					shortcuts[actionId] = shortcut;
 			}
 
-			if (isListener) {
+			// Prevent listener from rendering
+			if (isListener)
 				return iterateOverChildren((child.props as ActionProps).children);
-			}
 
 			return cloneElement(child, {
 				...child.props,
 				actionId,
 				children: iterateOverChildren((child.props as ActionProps).children),
-				onTrigger: (event, ...args) => {
-					onAnyTrigger?.(event, triggerParams, ...args);
-					onTrigger?.(event, triggerParams, ...args);
-				}
+				onTrigger: onTriggerOverride
+				
 			} as ActionProps);
 		});
 
