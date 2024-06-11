@@ -21,3 +21,6 @@ export const ANSI = {
 	},
 	reset: "\u001b[0m",
 };
+
+export const WELCOME_MESSAGE = `${ANSI.fg.cyan + ANSI.decoration.dim}$APP_NAME - Made by Prozilla${ANSI.reset}`
+	+ `\n${ANSI.decoration.dim}Type 'help' for a list of commands.${ANSI.reset}\n`;

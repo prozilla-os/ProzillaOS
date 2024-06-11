@@ -8,6 +8,8 @@ type Option = {
 	isInput: boolean
 };
 
+export type CommandResponse = string | { blank: boolean } | void | Stream;
+
 type Execute = (args?: string[], options?: {
 	promptOutput?: Function,
 	pushHistory?: Function,
@@ -21,7 +23,7 @@ type Execute = (args?: string[], options?: {
 	exit?: Function,
 	inputs?: Record<string, string>;
 	timestamp: number,
-}) => string | { blank: boolean } | void | Stream;
+}) => CommandResponse;
 
 type Manual = {
 	purpose?: string,

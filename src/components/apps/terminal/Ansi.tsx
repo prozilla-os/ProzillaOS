@@ -151,6 +151,7 @@ export default function Ansi(props: { children?: string | undefined; linkify?: b
 		"code",
 		{ className },
 		ansiToJSON(children ?? "", useClasses ?? false).map(
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			convertBundleIntoReact.bind(null, linkify ?? false, useClasses ?? false)
 		)
 	);

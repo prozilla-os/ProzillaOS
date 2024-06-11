@@ -136,7 +136,7 @@ const EXTRA_WAGONS = [
 	],
 ];
 
-function getLocomotive(frame, wagonCount = 1) {
+function generateLocomotive(frame: number, wagonCount = 1) {
 	const smokeHeight = LOCOMOTIVE_SMOKE[0].length;
 	const locomotiveHeight = LOCOMOTIVE_TOP.length + LOCOMOTIVE_BOTTOM[0].length;
 	const wagonHeight = COAL_WAGON.length;
@@ -193,7 +193,7 @@ export const sl = new Command()
 			wagonCount = parseInt(inputs.w);
 
 			if (!wagonCount || wagonCount < 0) {
-				return formatError(this.name, "Please specify a valid amount of wagons"); 
+				return formatError((this as Command).name, "Please specify a valid amount of wagons"); 
 			}
 		}
 
@@ -201,7 +201,7 @@ export const sl = new Command()
 
 		let frame = 0;
 		const interval = setInterval(() => {
-			const text = getLocomotive(frame, wagonCount);
+			const text = generateLocomotive(frame, wagonCount);
 			stream.send(text);
 			frame++;
 
