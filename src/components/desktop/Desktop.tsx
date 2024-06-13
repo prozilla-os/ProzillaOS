@@ -91,15 +91,15 @@ export const Desktop = memo(() => {
 			}}/>
 			<Divider/>
 			<ClickAction label={`Open in ${APP_NAMES.FILE_EXPLORER}`} icon={APP_ICONS.FILE_EXPLORER} onTrigger={() => {
-				windowsManager.open(APPS.FILE_EXPLORER, { startPath: directory.path });
+				windowsManager.open(APPS.FILE_EXPLORER, { path: directory.path });
 			}}/>
 			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={() => {
-				windowsManager.open(APPS.TERMINAL, { startPath: directory.path });
+				windowsManager.open(APPS.TERMINAL, { path: directory.path });
 			}}/>
 			<Divider/>
 			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} onTrigger={() => {
 				openWindowedModal({
-					size: new Vector2(350, 400),
+					size: new Vector2(350, 350),
 					Modal: (props) => <Share {...props}/>
 				});
 			}}/>
@@ -124,7 +124,7 @@ export const Desktop = memo(() => {
 				folder.open(windowsManager);
 			}}/>
 			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={faTerminal} onTrigger={(event, folder: VirtualFolder) => {
-				windowsManager.open(APPS.TERMINAL, { startPath: folder.path });
+				windowsManager.open(APPS.TERMINAL, { path: folder.path });
 			}}/>
 			<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={(event, folder: VirtualFolder) => {
 				folder.parent.open(windowsManager);
@@ -182,7 +182,7 @@ export const Desktop = memo(() => {
 					(event as Event).preventDefault();
 
 					const options: Record<string, unknown> = {};
-					if (file.name === "info.md")
+					if (file.name === "Info.md")
 						options.size = new Vector2(575, 675);
 					if (file.extension === "md")
 						options.mode = "view";
@@ -190,7 +190,7 @@ export const Desktop = memo(() => {
 					windowsManager.openFile(file, options);
 				}}
 				onOpenFolder={(event, { linkedPath, path }: VirtualFolderLink & VirtualFolder) => {
-					windowsManager.open(APPS.FILE_EXPLORER, { startPath: linkedPath ?? path });
+					windowsManager.open(APPS.FILE_EXPLORER, { path: linkedPath ?? path });
 				}}
 				onContextMenuFile={onContextMenuFile}
 				onContextMenuFolder={onContextMenuFolder}

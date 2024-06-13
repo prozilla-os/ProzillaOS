@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import styles from "./TextEditor.module.css";
 import { HeaderMenu } from "../_utils/header-menu/HeaderMenu";
 import Markdown from "markdown-to-jsx";
@@ -20,10 +20,13 @@ import { ClickAction } from "../../actions/actions/ClickAction";
 import ModalsManager from "../../../features/modals/modalsManager";
 import App from "../../../features/apps/app";
 import WindowsManager from "../../../features/windows/windowsManager";
+import { MarkdownBlockquote } from "./overrides/MarkdownBlockquote";
+import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext";
 
 const OVERRIDES = {
 	a: MarkdownLink,
 	img: MarkdownImage,
+	blockquote: MarkdownBlockquote,
 };
 
 export interface MarkdownProps {
@@ -32,17 +35,21 @@ export interface MarkdownProps {
 	currentFile: VirtualFile;
 	app: App;
 	windowsManager: WindowsManager;
+	children?: ReactNode;
 }
 
 interface TextEditorProps extends WindowProps {
 	file?: VirtualFile;
+	mode?: "view" | "edit";
+	path?: string;
 }
 
-export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modalsManager }: TextEditorProps) {
+export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app, modalsManager }: TextEditorProps) {
 	const ref = useRef();
 	const windowsManager = useWindowsManager();
+	const virtualRoot = useVirtualRoot();
 	const [currentFile, setCurrentFile] = useState(file);
-	const [currentMode, setCurrentMode] = useState(mode);
+	const [currentMode, setCurrentMode] = useState<TextEditorProps["mode"]>(mode);
 	const [content, setContent] = useState(file?.content ?? "");
 	const [unsavedChanges, setUnsavedChanges] = useState(file == null);
 	const [zoom, setZoom] = useState(DEFAULT_ZOOM);
@@ -67,6 +74,9 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 				const iconUrl = currentFile.getIconUrl();
 				if (iconUrl)
 					setIconUrl(iconUrl);
+
+				if (newContent?.trim() === "")
+					setCurrentMode("edit");
 			} else {
 				setIconUrl(AppsManager.getAppIconUrl(app.id));
 			}
@@ -91,6 +101,18 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 
 		setTitle(`${label} ${TITLE_SEPARATOR} ${app.name}`);
 	}, [currentFile, setTitle, unsavedChanges, currentMode, app.name]);
+
+	useEffect(() => {
+		if (currentFile == null && path != null) {
+			const newFile = virtualRoot.navigate(path);
+
+			if (newFile == null || !newFile.isFile())
+				return;
+
+			setCurrentFile(newFile as VirtualFile);
+			path = null;
+		}
+	}, [path, currentFile]);
 
 	const newText = () => {
 		setCurrentFile(null);

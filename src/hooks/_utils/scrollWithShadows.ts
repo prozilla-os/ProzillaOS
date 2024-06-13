@@ -26,7 +26,7 @@ interface UseScrollWithShadowParams {
 
 export function useScrollWithShadow(params: UseScrollWithShadowParams): {
 	boxShadow: string;
-	onUpdate: (event: Event) => void;
+	onUpdate: (event: Event | { target: HTMLElement }) => void;
 } {
 	const [initiated, setInitiated] = useState(false);
 	const [scrollStart, setScrollStart] = useState(0);
@@ -67,7 +67,7 @@ export function useScrollWithShadow(params: UseScrollWithShadowParams): {
 		setClientLength(horizontal ? element.clientWidth : element.clientHeight);
 	}, [horizontal]);
 
-	const onUpdate = (event: Event) => {
+	const onUpdate = (event: Event | { target: HTMLElement }) => {
 		updateValues(event.target as HTMLElement);
 	};
 

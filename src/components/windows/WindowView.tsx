@@ -69,7 +69,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 				openWindowedModal({
 					appId: app.id,
 					fullscreen: maximized,
-					size: new Vector2(350, 400),
+					size: new Vector2(350, 350),
 					Modal: (props) => <Share {...props}/>
 				});
 			}}/>

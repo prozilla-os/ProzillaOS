@@ -25,11 +25,11 @@ These are the scripts in logical order, that will be available when you have ins
 
 1. `npm run start`
 
-	Start Vite dev server at [localhost:3000](http://localhost:3000/). Changes to module will dynamically be hot-reloaded, so normally there is no need for hard-refreshes. 
+	Start Vite dev server at [localhost:3000](http://localhost:3000/). Changes to module will dynamically be hot-reloaded, so normally there is no need for hard-refreshes. VSCode is configured to run this script whenever the project is opened.
 
 2. `npm run build`
 
-	Compile project using TypeScript and bundle all files into the `dist` directory. This directory can be uploaded to a web server.
+	Compile project using TypeScript and bundle all files into the `dist` directory, or the directory specified in config file. This directory can be uploaded to a web server.
 
 3. `npm run serve`
 
@@ -37,17 +37,14 @@ These are the scripts in logical order, that will be available when you have ins
 
 4. `npm run stage`
 
-	Run [node program](../src/tools/stage.ts) that stages the build and prepares it for deployment. Script will generate a sitemap, CNAME file, etc.
+	Execute [stage.ts](../scripts/stage.ts), which stages the build and prepares it for deployment. Script will generate a sitemap, robots.txt and all other necessary files.
 
 5. `npm run deploy`
 
-	Run scripts #2 and #4, then execute [deploy.sh](../deploy.sh), which deploys the staged build to GitHub Pages on branch called `gh-pages`.
+	Run scripts #2 and #4, then execute [deploy.ts](../scripts/deploy.ts), which uploads the staged build to GitHub Pages on branch called `gh-pages`. This should then trigger a GitHub Action that deploys the build to production.
 
 > [!IMPORTANT]  
-> Check the "Deployment" section on the [Configuration](./configuration/README.md) page, to see what configurations must be made before starting the staging or deployment process.
-
-> [!NOTE]  
-> After this deployment process, GitHub Pages will run its own build step to finalize the deployment, as seen in the `Actions` tab on GitHub. This usually takes less than a minute and once it's done, your deployment will be live.
+> Make sure you update your [configuration](./configuration/README.md) before running the `stage` or `deploy` script, otherwise your deployment will probably fail or be partially broken.
 
 ### Other scripts
 

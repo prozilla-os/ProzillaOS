@@ -13,6 +13,7 @@ import { MarkdownProps } from "../TextEditor";
 import { sanitizeProps } from "../../../../features/apps/text-editor/_utils/sanitizeProps";
 import { copyToClipboard, removeUrlProtocol } from "../../../../features/_utils/browser.utils";
 import { TextDisplay } from "../../../actions/actions/TextDisplay";
+import styles from "../TextEditor.module.css";
 
 interface MarkdownLinkProps extends MarkdownProps {
 	href: string;
@@ -31,7 +32,7 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 				if (target.isFile()) {
 					setCurrentFile(target);
 				} else {
-					windowsManager.open(APPS.FILE_EXPLORER, { startPath: target.path });
+					windowsManager.open(APPS.FILE_EXPLORER, { path: target.path });
 				}
 			} else {
 				openWindowedModal({
@@ -73,12 +74,13 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 	sanitizeProps(props as MarkdownProps);
 
 	return <a
+		{...props}
+		className={styles.MarkdownLink}
 		target="_blank"
 		rel="noreferrer"
 		href={href}
 		onContextMenu={onContextMenu}
 		onClick={onClick as unknown as MouseEventHandler}
-		{...props}
 		title={title}
 	>
 		{children}

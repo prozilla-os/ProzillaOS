@@ -77,7 +77,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 						setActive(false);
 						windowsManager.open("text-editor", {
 							mode: "view",
-							file: virtualRoot.navigate("~/Documents/info.md"),
+							file: virtualRoot.navigate("~/Documents/Info.md"),
 							size: new Vector2(575, 675),
 						});
 					}}>
@@ -85,13 +85,13 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 					</button>
 					<button title="Images" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Pictures" });
+						windowsManager.open(APPS.FILE_EXPLORER, { path: "~/Pictures" });
 					}}>
 						<FontAwesomeIcon icon={faImage}/>
 					</button>
 					<button title="Documents" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager.open(APPS.FILE_EXPLORER, { startPath: "~/Documents" }); }
+						windowsManager.open(APPS.FILE_EXPLORER, { path: "~/Documents" }); }
 					}>
 						<FontAwesomeIcon icon={faFileLines}/>
 					</button>

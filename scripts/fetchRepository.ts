@@ -1,14 +1,9 @@
 import fs from "node:fs";
-import { ANSI } from "../config/apps/terminal.config";
+import { ANSI } from "../src/config/apps/terminal.config";
+import { REPO } from "../src/config/deploy.config";
 
 const API_URL = "https://api.github.com/";
 const TREE_PATH = "public/config/tree.json";
-
-// TO DO: split these two variables into their own file
-const OWNER = "Prozilla";
-const REPO = "ProzillaOS";
-
-const BRANCH = "main";
 
 interface ReponseType {
 	sha: string;
@@ -24,7 +19,7 @@ interface ReponseType {
 }
 
 function fetchRepositoryTree(callback: (tree: string) => void) {
-	const treeUrl = `${API_URL}repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=true`;
+	const treeUrl = `${API_URL}repos/${REPO.owner}/${REPO.name}/git/trees/${REPO.branch}?recursive=true`;
 
 	console.log(`${ANSI.fg.yellow}Fetching: ${ANSI.fg.cyan + treeUrl + ANSI.reset}`);
 
@@ -62,4 +57,6 @@ try {
 	});
 } catch (error) {
 	console.error(error);
+	console.log(`${ANSI.fg.red}⚠ Failed to fetch repository${ANSI.reset}`);
+	process.exit(1);
 }

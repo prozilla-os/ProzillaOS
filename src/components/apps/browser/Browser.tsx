@@ -9,15 +9,13 @@ import { useHistory } from "../../../hooks/_utils/history";
 import { WindowProps } from "../../windows/WindowView";
 
 interface BrowserProps extends WindowProps {
-	startUrl?: string;
+	url?: string;
 }
 
-export function Browser({ startUrl, focus }: BrowserProps) {
-	const initialUrl = startUrl ?? HOME_URL;
-
-	const [url, setUrl] = useState<string>(initialUrl);
-	const [input, setInput] = useState(initialUrl);
-	const { history, pushState, stateIndex, undo, redo, undoAvailable, redoAvailable } = useHistory(initialUrl);
+export function Browser({ url: startUrl = HOME_URL, focus }: BrowserProps) {
+	const [url, setUrl] = useState<string>(startUrl);
+	const [input, setInput] = useState(startUrl);
+	const { history, pushState, stateIndex, undo, redo, undoAvailable, redoAvailable } = useHistory(startUrl);
 	const ref = useRef<HTMLIFrameElement>(null);
 
 	useEffect(() => {

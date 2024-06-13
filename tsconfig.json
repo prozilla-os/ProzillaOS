@@ -28,13 +28,14 @@
 	},
 	"include": [
 		"src/**/*",
-		"vite.config.ts"
+		"vite.config.ts",
+		"scripts/**/*",
 	],
 	"exclude": [
 		"./node_modules",
-		"./build",
 		"./dist",
-		"./.vscode"
+		"./.vscode",
+		"./.github"
 	],
 	"ts-node": {
 		"experimentalSpecifierResolution": "node",

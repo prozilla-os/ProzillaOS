@@ -37,6 +37,8 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 						}
 					}).createFile("ProzillaOS", "png", (file) => {
 						file.setSource("/assets/banner-logo-title.png");
+					}).createFile("Icon", "svg", (file) => {
+						file.setSource("/icon.svg");
 					}).createFolder("Crumbling City", (folder) => {
 						folder.createFile("Japan", "png", (file) => {
 							file.setSource("https://daisygames.org/media/Games/Crumbling%20City/CrumblingCityRelease.png");
@@ -52,22 +54,22 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 					folder.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder-text"));
 					folder.createFile("text", "txt", (file) => {
 						file.setContent("Hello world!");
-					}).createFile("info", "md", (file) => {
+					}).createFile("Info", "md", (file) => {
 						file.setProtected(true)
-							.setSource("/documents/info.md")
+							.setSource("/documents/Info.md")
 							.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-info"));
 						linkedPaths.info = file.path;
-					}).createFile("links", "md", (file) => {
+					}).createFile("Prozilla", "md", (file) => {
 						file.setProtected(true)
-							.setSource("/documents/links.md");
+							.setSource("/documents/Prozilla.md");
 						linkedPaths.links = file.path;
 					});
 					linkedPaths.documents = folder.path;
 				})
 				.createFolder("Desktop", (folder) => {
-					folder.createFileLink("info.md", (fileLink: VirtualFileLink) => {
+					folder.createFileLink("Info.md", (fileLink: VirtualFileLink) => {
 						fileLink.setLinkedPath(linkedPaths.info);
-					}).createFileLink("links.md", (fileLink: VirtualFileLink) => {
+					}).createFileLink("Prozilla.md", (fileLink: VirtualFileLink) => {
 						fileLink.setLinkedPath(linkedPaths.links);
 					}).createFolderLink("Pictures", (folderLink: VirtualFolderLink) => {
 						folderLink.setLinkedPath(linkedPaths.images);

@@ -1,16 +1,14 @@
 import fs from "node:fs";
-import { APP_DESCRIPTIONS, APP_NAMES, APPS } from "../config/apps.config";
-import { ANSI } from "../config/apps/terminal.config";
-import { BASE_URL, DOMAIN, NAME, TAG_LINE } from "../config/branding.config";
-import { WALLPAPERS } from "../config/desktop.config";
-
-const BUILD_DIR = "dist";
+import { APP_DESCRIPTIONS, APP_NAMES, APPS } from "../src/config/apps.config";
+import { ANSI } from "../src/config/apps/terminal.config";
+import { NAME, TAG_LINE } from "../src/config/branding.config";
+import { WALLPAPERS } from "../src/config/desktop.config";
+import { BASE_URL, BUILD_DIR } from "../src/config/deploy.config";
 
 const PATHS = {
 	sitemapXml: BUILD_DIR + "/sitemap.xml",
 	robotsTxt: BUILD_DIR + "/robots.txt",
 	indexHtml: BUILD_DIR + "/index.html",
-	cname: BUILD_DIR + "/CNAME",
 };
 
 function generateSitemapXml() {
@@ -53,10 +51,6 @@ function generateRobotsTxt() {
 User-agent: *
 Disallow:
 Sitemap: ${sitemapUrl}`;
-}
-
-function generateCname() {
-	return DOMAIN;
 }
 
 function generateTemplate(html: string) {
@@ -120,34 +114,39 @@ function generateAppPages(template: string) {
 	}
 }
 
-try {
-	console.log(`${ANSI.fg.yellow}Staging build...${ANSI.reset}`);
-
-	const files: [string, () => string][] = [
-		[PATHS.sitemapXml, generateSitemapXml],
-		[PATHS.robotsTxt, generateRobotsTxt],
-		[PATHS.cname, generateCname],
-	];
-
-	files.forEach(([path, generateContent]) => {
-		const directory = path.substring(0, path.lastIndexOf("/"));
-		if (directory != "" && !fs.existsSync(directory)){
-			fs.mkdirSync(directory, { recursive: true });
-		}
-
-		fs.writeFileSync(path, generateContent(), { flag: "w+" });
-		console.log(`- ${ANSI.fg.cyan}${path}${ANSI.reset}`);
-	});
-
-	console.log(`\n${ANSI.fg.yellow}Generating pages...${ANSI.reset}`);
-
-	const html = fs.readFileSync(PATHS.indexHtml, "utf-8");
-	const template = generateTemplate(html);
-
-	generate404Page(template);
-	generateAppPages(template);
-
-	console.log(`\n${ANSI.fg.green}✓ Staging complete${ANSI.reset}`);
-} catch (error) {
-	console.error(error);
+function stage() {
+	try {
+		console.log(`${ANSI.fg.yellow}Staging build...${ANSI.reset}`);
+	
+		const files: [string, () => string][] = [
+			[PATHS.sitemapXml, generateSitemapXml],
+			[PATHS.robotsTxt, generateRobotsTxt],
+		];
+	
+		files.forEach(([path, generateContent]) => {
+			const directory = path.substring(0, path.lastIndexOf("/"));
+			if (directory != "" && !fs.existsSync(directory)){
+				fs.mkdirSync(directory, { recursive: true });
+			}
+	
+			fs.writeFileSync(path, generateContent(), { flag: "w+" });
+			console.log(`- ${ANSI.fg.cyan}${path}${ANSI.reset}`);
+		});
+	
+		console.log(`\n${ANSI.fg.yellow}Generating pages...${ANSI.reset}`);
+	
+		const html = fs.readFileSync(PATHS.indexHtml, "utf-8");
+		const template = generateTemplate(html);
+	
+		generate404Page(template);
+		generateAppPages(template);
+	
+		console.log(`\n${ANSI.fg.green}✓ Staging complete${ANSI.reset}`);
+	} catch (error) {
+		console.error(error);
+		console.log(`${ANSI.fg.red}⚠ Staging failed${ANSI.reset}`);
+		process.exit(1);
+	}
 }
+
+stage();

@@ -27,35 +27,145 @@
 	overflow: auto;
 }
 
-.View img {
+.View {
+	z-index: 2;
+}
+
+.MarkdownImage {
 	max-width: 100%;
 	object-fit: contain;
 	border-radius: var(--border-radius-0);
-	margin-right: 0.5rem;
+	margin: 1rem 0.5rem 1rem 0;
 }
 
-.View blockquote {
-	margin-left: 0;
-	padding: 0.5rem;
-	padding-left: 1.5rem;
-	border-left: 1rem solid var(--background-color-0);
-	background-color: var(--background-color-1);
-	border-radius: var(--border-radius-1);
-}
-
-.View blockquote > p {
-	width: fit-content;
+.MarkdownBlockquote {
+	display: flex;
+	gap: 1rem;
+	flex-direction: column;
 	margin: 0;
 }
 
+.AlertContainer {
+	--color-0: var(--color-1);
+	--color-1: var(--background-color-0);
+	--color-2: var(--background-color-1);
+
+	margin: 0;
+	padding: 1rem 1.5rem;
+	border-left: 1rem solid var(--color-1);
+	background-color: var(--color-2);
+	border-radius: var(--border-radius-1);
+}
+
+.Alert {
+	display: inline-flex;
+	gap: 0.5rem;
+	justify-content: flex-start;
+	align-items: center;
+	margin-bottom: 0.5rem;
+	color: var(--color-0);
+	font-weight: 600;
+}
+
+.Alert > svg * {
+	fill: var(--color-0);
+}
+
+.ImportantAlert {
+	--color-0: var(--purple-0);
+	--color-1: var(--purple-1);
+	--color-2: var(--purple-2);
+}
+
+.NoteAlert {
+	--color-0: var(--blue-0);
+	--color-1: var(--blue-1);
+	--color-2: var(--blue-2);
+}
+
+.TipAlert {
+	--color-0: var(--green-0);
+	--color-1: var(--green-1);
+	--color-2: var(--green-2);
+}
+
+.WarningAlert {
+	--color-0: var(--yellow-0);
+	--color-1: var(--yellow-1);
+	--color-2: var(--yellow-2);
+}
+
+.CautionAlert {
+	--color-0: var(--red-0);
+	--color-1: var(--red-1);
+	--color-2: var(--red-2);
+}
+
+
 .View code {
+	position: relative;
 	font-family: var(--mono-font-family);
 	border-radius: var(--border-radius-1);
+	padding: 0.125rem 0.25rem;
+	font-size: 0.875rem;
+	letter-spacing: -0.01rem;
+}
+
+.View code::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 	background-color: var(--background-color-1);
-	padding: 0.25rem;
+	border-radius: inherit;
+	z-index: -1;
+}
+
+.MarkdownLink {
+	position: relative;
+	display: inline-block;
+	color: var(--light-blue-0);
+	transition: color 200ms ease-in-out;
+}
+
+.MarkdownLink:hover, .MarkdownLink:focus-visible {
+	color: var(--light-blue-1);
+}
+
+.MarkdownLink > * {
+	color: inherit;
+}
+
+div > .MarkdownLink {
+	margin: 1rem 0;
+}
+
+.MarkdownLink > .MarkdownImage {
+	margin: 0;
+}
+
+.View h1,
+.View h2,
+.View h3,
+.View h4,
+.View h5,
+.View h6 {
+	margin-top: 1.75rem;
+	margin-bottom: -0.25rem;
+}
+
+.View p {
+	line-height: 1.375rem;
+}
+
+.View li > ul {
+	margin: 1rem 0;
 }
 
 .View table {
+	margin: 1rem 0;
 	border-collapse: collapse;
 }
 

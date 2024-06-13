@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useEffect, useState } from "react";
+import { ChangeEventHandler, ReactEventHandler, UIEventHandler, useEffect, useRef, useState } from "react";
 import ModalsManager from "../../../features/modals/modalsManager";
 import { WindowedModal } from "../_utils/WindowedModal";
 import styles from "./Share.module.css";
@@ -12,26 +12,37 @@ import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { useAlert } from "../../../hooks/modals/alert";
 import { ModalProps } from "../ModalView";
+import { useScrollWithShadow } from "../../../hooks/_utils/scrollWithShadows";
 
-const APP_OPTIONS: Record<string, Record<string, string>[]> = {
+const APP_OPTIONS: Record<string, { label: string, name: string }[]> = {
 	"terminal": [
 		{
 			label: "Command",
 			name: "input"
 		},
+		{
+			label: "Path",
+			name: "path"
+		}
 	],
 	"browser": [
 		{
 			label: "Website",
-			name: "startUrl"
+			name: "url"
 		},
 	],
 	"file-explorer": [
 		{
 			label: "Path",
-			name: "startPath"
+			name: "path"
 		}
-	]
+	],
+	"text-editor": [
+		{
+			label: "Path",
+			name: "path"
+		}
+	],
 };
 
 export function Share({ modal, params, ...props }: ModalProps) {
@@ -41,6 +52,18 @@ export function Share({ modal, params, ...props }: ModalProps) {
 	const [options, setOptions] = useState({});
 	const [url, setUrl] = useState<string | null>(null);
 	const { alert } = useAlert();
+	const formRef = useRef(null);
+	const { boxShadow, onUpdate } = useScrollWithShadow({
+		ref: formRef,
+		horizontal: false,
+		dynamicOffsetFactor: 1,
+		shadow: {
+			offset: 20,
+			blurRadius: 10,
+			spreadRadius: -10,
+			color: { a: 25 },
+		}
+	});
 
 	useEffect(() => {
 		setUrl(generateUrl({
@@ -51,6 +74,10 @@ export function Share({ modal, params, ...props }: ModalProps) {
 		}));
 	}, [appId, fullscreen, standalone, options]);
 
+	useEffect(() => {
+		onUpdate({ target: formRef.current as HTMLElement });
+	}, [appId]);
+
 	const onAppIdChange = (event: Event) => {
 		const newAppId = (event.target as HTMLInputElement).value;
 
@@ -58,17 +85,6 @@ export function Share({ modal, params, ...props }: ModalProps) {
 			return;
 
 		setAppId(newAppId);
-
-		const appOptions = APP_OPTIONS[appId];
-		if (!appOptions) {
-			setOptions({});
-		} else {
-			const newOptions = {};
-			appOptions.forEach(({ key }) => {
-				newOptions[key] = "";
-			});
-			setOptions(newOptions);
-		}
 	};
 
 	const onFullscreenChange = (event: Event) => {
@@ -94,59 +110,66 @@ export function Share({ modal, params, ...props }: ModalProps) {
 		title: "Share",
 		iconUrl: ModalsManager.getModalIconUrl("share"),
 	}} {...props}>
-		<div>
+		<div className={styles.Top}>
 			<h1 className={styles.Title}>Share options</h1>
-			<form className={styles.Form}>
-				<label className={styles.Label}>
-					<p>App:</p>
-					<select className={styles.Input} name="app" value={appId} onChange={onAppIdChange as unknown as ChangeEventHandler}>
-						<option value={""}>(None)</option>
-						{AppsManager.APPS.map(({ name, id }) =>
-							<option key={id} value={id}>{name}</option>
-						)}
-					</select>
-				</label>
-				{appId !== "" ? <label className={styles.Label}>
-					<p>Standalone:</p>
-					<input
-						className={styles.Input}
-						name="standalone"
-						type="checkbox"
-						checked={standalone}
-						value={standalone.toString()}
-						onChange={onStandaloneChange as unknown as ChangeEventHandler}
-					/>
-					<div className={styles.Checkbox}>
-						{standalone 
-							? <FontAwesomeIcon icon={faSquareCheck}/>
-							: <FontAwesomeIcon icon={faSquare}/>
-						}
-					</div>
-				</label> : null}
-				{appId !== "" ? <label className={styles.Label}>
-					<p>Fullscreen:</p>
-					<input
-						className={styles.Input}
-						name="fullscreen"
-						type="checkbox"
-						checked={fullscreen}
-						disabled={standalone}
-						value={fullscreen.toString()}
-						onChange={onFullscreenChange as unknown as ChangeEventHandler}
-					/>
-					<div className={styles.Checkbox}>
-						{fullscreen 
-							? <FontAwesomeIcon icon={faSquareCheck}/>
-							: <FontAwesomeIcon icon={faSquare}/>
-						}
-					</div>
-				</label> : null}
-				{APP_OPTIONS[appId]?.map(({ label, name }) =>
-					<Option key={name} name={name} label={label} setOption={setOption}/>
-				)}
-			</form>
+			<div className={styles.FormContainer} style={{ boxShadow }}>
+				<form
+					className={styles.Form}
+					onScroll={onUpdate as unknown as UIEventHandler}
+					onResize={onUpdate as unknown as ReactEventHandler}
+					ref={formRef}
+				>
+					<label className={styles.Label}>
+						<p>App:</p>
+						<select className={styles.Input} name="app" value={appId} onChange={onAppIdChange as unknown as ChangeEventHandler}>
+							<option value={""}>(None)</option>
+							{AppsManager.APPS.map(({ name, id }) =>
+								<option key={id} value={id}>{name}</option>
+							)}
+						</select>
+					</label>
+					{appId !== "" ? <label className={styles.Label}>
+						<p>Standalone:</p>
+						<input
+							className={styles.Input}
+							name="standalone"
+							type="checkbox"
+							checked={standalone}
+							value={standalone.toString()}
+							onChange={onStandaloneChange as unknown as ChangeEventHandler}
+						/>
+						<div className={styles.Checkbox}>
+							{standalone 
+								? <FontAwesomeIcon icon={faSquareCheck}/>
+								: <FontAwesomeIcon icon={faSquare}/>
+							}
+						</div>
+					</label> : null}
+					{appId !== "" ? <label className={styles.Label}>
+						<input
+							className={styles.Input}
+							name="fullscreen"
+							type="checkbox"
+							checked={fullscreen}
+							disabled={standalone}
+							value={fullscreen.toString()}
+							onChange={onFullscreenChange as unknown as ChangeEventHandler}
+						/>
+						<p>Fullscreen:</p>
+						<div className={styles.Checkbox}>
+							{fullscreen 
+								? <FontAwesomeIcon icon={faSquareCheck}/>
+								: <FontAwesomeIcon icon={faSquare}/>
+							}
+						</div>
+					</label> : null}
+					{APP_OPTIONS[appId]?.map(({ label, name }) =>
+						<Option key={name} name={name} label={label} setOption={setOption}/>
+					)}
+				</form>
+			</div>
 		</div>
-		<div>
+		<div className={styles.Bottom}>
 			<p className={`${styles.Url} ${utilStyles.TextLight}`}>{url}</p>
 			<Button
 				className={`${styles.Button} ${utilStyles.TextBold}`}
@@ -166,7 +189,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 					});
 				}}
 			>
-				Copy URL
+				Copy
 			</Button>
 		</div>
 	</WindowedModal>;

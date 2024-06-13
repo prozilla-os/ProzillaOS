@@ -289,7 +289,7 @@ export class VirtualFolder extends VirtualBase {
 	 * Opens this folder in file explorer
 	 */
 	open(windowsManager: WindowsManager) {
-		return windowsManager.open(APPS.FILE_EXPLORER, { startPath: this.path });
+		return windowsManager.open(APPS.FILE_EXPLORER, { path: this.path });
 	}
 
 	/**

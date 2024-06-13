@@ -21,12 +21,12 @@ export function AboutSettings() {
 						event.preventDefault();
 						windowsManager.open("text-editor", {
 							mode: "view",
-							file: virtualRoot.navigate("~/Documents/info.md"),
+							file: virtualRoot.navigate("~/Documents/Info.md"),
 							size: new Vector2(575, 675),
 						});
 					}}
 				>
-					Open info.md
+					Open Info.md
 				</Button>
 				<Button
 					className={`${styles.Button} ${utilStyles.TextBold}`}

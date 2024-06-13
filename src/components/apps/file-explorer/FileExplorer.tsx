@@ -31,14 +31,14 @@ import { useAlert } from "../../../hooks/modals/alert";
 import { VirtualRoot } from "../../../features/virtual-drive/root/virtualRoot";
 
 interface FileExplorerProps extends WindowProps {
-	startPath?: string;
+	path?: string;
 	selectorMode?: number;
 	Footer: FC;
 	onSelectionChange: (params: OnSelectionChangeParams) => void;
 	onSelectionFinish: Function;
 }
 
-export function FileExplorer({ startPath, selectorMode, Footer, onSelectionChange, onSelectionFinish }: FileExplorerProps) {
+export function FileExplorer({ path: startPath, selectorMode, Footer, onSelectionChange, onSelectionFinish }: FileExplorerProps) {
 	const isSelector = (Footer != null && selectorMode != null && selectorMode !== SELECTOR_MODE.NONE);
 
 	const virtualRoot = useVirtualRoot();

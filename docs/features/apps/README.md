@@ -29,7 +29,7 @@ In the list above, you can see some app names, as well as the corresponding IDs,
 | Apps list | :x: | :heavy_check_mark: | 
 | Standalone title | :x: | :heavy_check_mark: | 
 
-> [!CAUTION]
+> [!CAUTION]  
 > Changing the ID of an application that has already been deployed once may cause unexpected issues, like creating invalid links.
 
 ## Common components

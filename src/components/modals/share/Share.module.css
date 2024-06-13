@@ -4,36 +4,55 @@
 	justify-content: space-between;
 	width: 100%;
 	height: 100%;
-	padding: 1rem;
-	overflow-y: auto;
+	padding: 1rem 0;
+	overflow: hidden;
+	pointer-events: none;
 }
 
-.Share > div {
+.Top, .Bottom {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: flex-start;
+	overflow: hidden;
 }
 
-.Share > div:last-child {
-	gap: 0.5rem;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
+.Share > .Top {
+	flex-grow: 1;
+	pointer-events: none;
 }
 
 .Title {
+	margin-top: 0;
+	margin-left: 1rem;
 	font-size: 1.5rem;
+	pointer-events: auto;
 }
 
-.Title:first-child {
-	margin-top: 0.5rem;
+.FormContainer {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	pointer-events: none;
 }
 
 .Form {
+	--margin: 1rem;
+
+	position: absolute;
 	display: flex;
+	gap: 0.5rem;
 	flex-direction: column;
-	width: 100%;
+	top: 0;
+	left: 0;
+	width: calc(100% - var(--margin) * 2);
+	height: 100%;
+	margin: 0 var(--margin);
+	overflow-x: hidden;
+	overflow-y: auto;
+	pointer-events: auto;
+	z-index: -1;
 }
 
 .Label {
@@ -43,18 +62,23 @@
 	gap: var(--gap);
 	align-items: center;
 	width: 100%;
+	height: 1.75rem;
+  	min-height: 1.75rem;
+	z-index: 1;
 }
 
 .Label > p {
 	width: calc(40% - var(--gap));
 	min-width: 40%;
+	margin: 0;
 	text-align: start;
 }
 
 .Input {
 	width: auto;
 	max-width: calc(60% - var(--gap));
-	padding: 0.5rem 1rem;
+	padding: 0.25rem 0.5rem;
+	height: 100%;
 	color: var(--text-color);
 	background-color: var(--background-color-1);
 	border: none;
@@ -73,8 +97,8 @@ select.Input > * {
 	font-size: inherit;
 }
 
-.Input:disabled + div {
-	opacity: 0.5;
+.Input:disabled ~ div, .Input:disabled ~ p {
+	opacity: 0.25;
 }
 
 .Input[type=checkbox] {
@@ -85,8 +109,9 @@ select.Input > * {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 1.25rem;
-	height: 1.25rem;
+	width: auto;
+	height: 87.5%;
+	aspect-ratio: 1;
 	cursor: pointer;
 }
 
@@ -94,16 +119,28 @@ select.Input > * {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
-	fill: var(--foreground-color-0);
+	fill: var(--background-color-0);
 }
 
 .Checkbox > svg > * {
 	fill: inherit;
 }
 
+.Share > .Bottom {
+	gap: 0.5rem;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0.75rem 1rem 0;
+	pointer-events: auto;
+}
+
 .Url {
+	margin: 0;
 	text-align: start;
-	word-break: break-all;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .Button {

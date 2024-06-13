@@ -16,7 +16,7 @@ import { APP_NAMES } from "../../../config/apps.config";
 import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext";
 
 interface TerminalProps extends WindowProps {
-	startPath: string;
+	path: string;
 	input: string;
 }
 
@@ -27,7 +27,7 @@ interface HistoryEntry {
 	clear?: boolean;
 }
 
-export function Terminal({ startPath, input, setTitle, close: exit, active, focus }: TerminalProps) {
+export function Terminal({ path: startPath, input, setTitle, close: exit, active, focus }: TerminalProps) {
 	const [inputKey, setInputKey] = useState(0);
 	const [inputValue, setInputValue] = useState(input ?? "");
 	const [history, setHistory] = useState<HistoryEntry[]>([{
@@ -328,7 +328,7 @@ export function Terminal({ startPath, input, setTitle, close: exit, active, focu
 	};
 
 	const onMouseDown = (event: MouseEvent) => {
-		focus(event);
+		focus?.(event);
 
 		if (event.button === 2) {
 			event.preventDefault();

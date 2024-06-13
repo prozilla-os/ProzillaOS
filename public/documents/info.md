@@ -1,13 +1,15 @@
-<img src="/assets/banner-logo-title-small.png" width="1440" height="700" style="aspect-ratio: 3 / 1; width: 100%; height: auto; object-fit: cover;" alt="Banner with the logo of ProzillaOS"/>
+<img alt="License" src="https://img.shields.io/github/license/Prozilla/ProzillaOS?style=flat-square&color=ee5253&label=License"> <img alt="Stars" src="https://img.shields.io/github/stars/Prozilla/ProzillaOS?style=flat-square&color=feca57&label=%E2%AD%90">  <img alt="Forks" src="https://img.shields.io/github/forks/Prozilla/ProzillaOS?style=flat-square&color=54a0ff&label=Forks">
 
-# Info
+# ProzillaOS
 
-This is ProzillaOS, a web-based operating system made with React.js by [Prozilla](https://prozilla.dev/).
+<img src="/assets/banner-logo-title-small.png" alt="Banner with the logo of ProzillaOS"/>
+
+ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows made with React by [Prozilla](https://prozilla.dev/). It's a virtual desktop environment that mimics a real operating system and runs entirely in the browser.
 
 ## Open-source
 
-ProzillaOS is [open-source](https://github.com/Prozilla/ProzillaOS)! Feel free to fork this project and create your own OS or share feedback by creating an issue on the GitHub page.
+This website was made using React, Vite and TypeScript. The source code is available both on [GitHub](https://github.com/Prozilla/ProzillaOS) and [on the website itself](/). You can find the documentation for this project inside the [docs](/docs) folder.
 
 ## Support ProzillaOS
 
-You can support this project by donating to [ko-fi.com/prozilla](https://ko-fi.com/prozilla).
+If you like what you see, consider supporting this project by donating to [ko-fi.com/prozilla](https://ko-fi.com/prozilla).

@@ -21,3 +21,9 @@ const asciiLogoWidth = ASCII_LOGO.split("\n")[1].length;
 const welcomeMessage = `Welcome to ${NAME}`;
 const space = "\n\n" + " ".repeat(Math.ceil((asciiLogoWidth - welcomeMessage.length) / 2));
 console.info(ASCII_LOGO + space + welcomeMessage);
+
+// Remove trailing slash
+window.onload = () => {
+	if (window.location.pathname.endsWith("/"))
+		window.history.pushState({}, null, window.location.pathname.replace(/\/+$/, ""));
+};

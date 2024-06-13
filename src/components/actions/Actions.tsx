@@ -72,7 +72,6 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 				actionId,
 				children: iterateOverChildren((child.props as ActionProps).children),
 				onTrigger: onTriggerOverride
-				
 			} as ActionProps);
 		});
 
