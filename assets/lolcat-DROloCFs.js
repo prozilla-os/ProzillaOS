@@ -1,3 +1,0 @@
-import{d as I,A as t}from"./index-Bx8jo-xd.js";import{C as O}from"./command-Clc1HLU6.js";const o=5,a=2,i=[t.fg.red,t.fg.yellow,t.fg.green,t.fg.cyan,t.fg.blue,t.fg.magenta],y=new O().setManual({purpose:"Display text with a rainbow effect"}).setExecute(function(b,{rawInputValue:g,timestamp:u}){let e=I(g).split(`
-`);const m=u/100;return e=e.map((s,p)=>{const c=[],f=p+m,r=o-a*f%o;let d=Math.floor(f/(o/a));const l=(n,h)=>{const w=s.substring(n,h),x=i[d++%i.length];c.push(x+w)};r>0&&l(0,r);for(let n=r;n<s.length;n+=o+1)l(n,n+o+1);return s.length===0?"":c.join("")}),e.join(`
-`)});export{y as lolcat};
