@@ -3,12 +3,13 @@ import { APP_DESCRIPTIONS, APP_NAMES, APPS } from "../src/config/apps.config";
 import { ANSI } from "../src/config/apps/terminal.config";
 import { NAME, TAG_LINE } from "../src/config/branding.config";
 import { WALLPAPERS } from "../src/config/desktop.config";
-import { BASE_URL, BUILD_DIR } from "../src/config/deploy.config";
+import { BASE_URL, BUILD_DIR, DOMAIN } from "../src/config/deploy.config";
 
 const PATHS = {
 	sitemapXml: BUILD_DIR + "/sitemap.xml",
 	robotsTxt: BUILD_DIR + "/robots.txt",
 	indexHtml: BUILD_DIR + "/index.html",
+	cname: BUILD_DIR + "/CNAME",
 };
 
 function generateSitemapXml() {
@@ -51,6 +52,10 @@ function generateRobotsTxt() {
 User-agent: *
 Disallow:
 Sitemap: ${sitemapUrl}`;
+}
+
+function generateCname() {
+	return DOMAIN;
 }
 
 function generateTemplate(html: string) {
@@ -121,6 +126,7 @@ function stage() {
 		const files: [string, () => string][] = [
 			[PATHS.sitemapXml, generateSitemapXml],
 			[PATHS.robotsTxt, generateRobotsTxt],
+			[PATHS.cname, generateCname],
 		];
 	
 		files.forEach(([path, generateContent]) => {

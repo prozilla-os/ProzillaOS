@@ -11,9 +11,9 @@
 	"repository": "https://github.com/Prozilla/ProzillaOS",
 	"type": "module",
 	"scripts": {
-		"start": "vite --port 3000 --host",
+		"start": "vite",
 		"build": "tsc && vite build",
-		"serve": "vite preview --port 8080 --host",
+		"serve": "vite preview --port 8080",
 		"stage": "tsx scripts/stage",
 		"predeploy": "npm run build && npm run stage",
 		"deploy": "tsx scripts/deploy",

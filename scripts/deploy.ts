@@ -10,7 +10,6 @@ function deploy() {
 
 	void ghpages.publish(BUILD_DIR, {
 		repo: REPO_URL,
-		cname: DOMAIN,
 		message: COMMIT_MESSAGE
 	}, (error) => {
 		if (error == null)
