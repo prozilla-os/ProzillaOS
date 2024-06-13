@@ -145,6 +145,15 @@
 	margin: 0.5rem auto;
 }
 
+.ContextMenu .TextDisplay {
+	margin: 0;
+	padding: 0.25rem 0.5rem;
+	color: var(--foreground-color-1);
+	font-size: 0.875rem;
+	text-align: start;
+	white-space: nowrap;
+}
+
 .Header-menu {
 	display: flex;
 	width: inherit;

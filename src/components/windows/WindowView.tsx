@@ -24,14 +24,15 @@ import { Share } from "../modals/share/Share";
 import { ErrorBoundary } from "react-error-boundary";
 import WindowFallbackView from "./WindowFallbackView";
 import { WindowOptions } from "../../features/windows/windowsManager";
+import { MIN_SCREEN_HEIGHT, MIN_SCREEN_WIDTH } from "../../config/windows.config";
 
 export interface WindowProps extends WindowOptions {
 	fullscreen?: boolean;
 	onInteract?: Function
-	setTitle?: Function;
-	setIconUrl?: Function;
-	close?: Function;
-	focus?: Function;
+	setTitle?: React.Dispatch<React.SetStateAction<string>>;
+	setIconUrl?: React.Dispatch<React.SetStateAction<string>>;
+	close?: (event?: Event) => void;
+	focus?: (event: Event, force?: boolean) => void;
 	active?: boolean;
 	minimized?: boolean;
 	toggleMinimized?: Function;
@@ -44,7 +45,6 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 	const nodeRef = useRef(null);
 	const { openWindowedModal } = useWindowedModal();
 
-	const [startSize, setStartSize] = useState(size);
 	const [startPosition, setStartPosition] = useState(position);
 	const [maximized, setMaximized] = useState(fullscreen ?? false);
 	const [screenWidth, screenHeight] = useScreenDimensions();
@@ -80,9 +80,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 		if (screenWidth == null || screenHeight == null)
 			return;
 
-		if (size.x > screenWidth || size.y > screenHeight) {
-			setStartSize(new Vector2(screenWidth - 32, screenHeight - 32));
-			setStartPosition(new Vector2(16, 16));
+		if (screenWidth < MIN_SCREEN_WIDTH || screenHeight < MIN_SCREEN_HEIGHT) {
 			setMaximized(true);
 		} else {
 			if (position.x > screenWidth)
@@ -110,12 +108,12 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 		};
 	}, [active, minimized, iconUrl, title]);
 
-	const close = (event?: Event) => {
+	const close: WindowProps["close"] = (event) => {
 		event?.preventDefault();
 		windowsManager.close(id);
 	};
 
-	const focus = (event: Event, force = false): void => {
+	const focus: WindowProps["focus"] = (event, force = false) => {
 		if (force) {
 			onInteract();
 			return;
@@ -147,7 +145,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 			bounds={{
 				top: 0,
 				bottom: screenHeight - 55,
-				left: -startSize.x + 85,
+				left: -size.x + 85,
 				right: screenWidth - 5
 			}}
 			cancel="button"
@@ -164,8 +162,8 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 				<div
 					className={styles["Window-inner"]}
 					style={{
-						width: maximized ? null : startSize.x,
-						height: maximized ? null : startSize.y,
+						width: maximized ? null : size.x,
+						height: maximized ? null : size.y,
 					}}
 				>
 					<div className={`${styles.Header} Window-handle`} onContextMenu={onContextMenu} onDoubleClick={(event) => {
@@ -182,15 +180,18 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 						>
 							<FontAwesomeIcon icon={faMinus}/>
 						</button>
-						<button aria-label="Maximize" className={styles["Header-button"]} tabIndex={0} id="maximize-window"
-							onClick={(event) => {
-								event.preventDefault();
-								setMaximized(!maximized);
-								focus(event as unknown as Event, true);
-							}}
-						>
-							<FontAwesomeIcon icon={maximized ? fasWindowMaximize : faWindowMaximize}/>
-						</button>
+						{screenWidth > MIN_SCREEN_WIDTH && screenHeight > MIN_SCREEN_HEIGHT
+							? <button aria-label="Maximize" className={styles["Header-button"]} tabIndex={0} id="maximize-window"
+								onClick={(event) => {
+									event.preventDefault();
+									setMaximized(!maximized);
+									focus(event as unknown as Event, true);
+								}}
+							>
+								<FontAwesomeIcon icon={maximized ? fasWindowMaximize : faWindowMaximize}/>
+							</button>
+							: null
+						}
 						<button aria-label="Close" className={`${styles["Header-button"]} ${styles["Exit-button"]}`} tabIndex={0} id="close-window"
 							onClick={close as unknown as MouseEventHandler}>
 							<FontAwesomeIcon icon={faXmark}/>

@@ -13,6 +13,7 @@ import { WindowProps } from "../../windows/WindowView";
 import { VirtualFolder } from "../../../features/virtual-drive/folder/virtualFolder";
 import { CommandResponse } from "../../../features/apps/terminal/command";
 import { APP_NAMES } from "../../../config/apps.config";
+import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext";
 
 interface TerminalProps extends WindowProps {
 	startPath: string;
@@ -26,7 +27,7 @@ interface HistoryEntry {
 	clear?: boolean;
 }
 
-export function Terminal({ startPath, input, setTitle, close: exit, active }: TerminalProps) {
+export function Terminal({ startPath, input, setTitle, close: exit, active, focus }: TerminalProps) {
 	const [inputKey, setInputKey] = useState(0);
 	const [inputValue, setInputValue] = useState(input ?? "");
 	const [history, setHistory] = useState<HistoryEntry[]>([{
@@ -39,20 +40,13 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }: Te
 	const [historyIndex, setHistoryIndex] = useState(0);
 	const [stream, setStream] = useState<Stream>(null);
 	const [streamOutput, setStreamOutput] = useState<string>(null);
-	const streamRef = useRef(null);
+	const ref = useRef(null);
 	const [streamFocused, setStreamFocused] = useState(false);
+	const settingsManager = useSettingsManager();
 
 	useEffect(() => {
 		setTitle(`${USERNAME}@${HOSTNAME}: ${currentDirectory.root ? "/" : currentDirectory.path}`);
 	}, [currentDirectory.path, currentDirectory.root, setTitle]);
-
-	useEffect(() => {
-		if (streamFocused || streamRef.current == null || streamOutput == null)
-			return;
-
-		(streamRef.current as unknown as HTMLDivElement).scrollTop = (streamRef.current as unknown as HTMLDivElement).scrollHeight;
-		setStreamFocused(true);
-	}, [streamFocused, streamOutput, streamRef]);
 
 	useEffect(() => {
 		if (!inputRef.current || !active)
@@ -60,6 +54,25 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }: Te
 
 		(inputRef.current as unknown as HTMLInputElement).focus();
 	}, [inputRef, active]);
+
+	const scrollDown = () => {
+		(ref.current as unknown as HTMLDivElement).scrollTop = (ref.current as unknown as HTMLDivElement).scrollHeight;
+	};
+
+	useEffect(() => {
+		if (streamFocused || ref.current == null || streamOutput == null)
+			return;
+
+		scrollDown();
+		setStreamFocused(true);
+	}, [streamFocused, streamOutput, ref]);
+
+	useEffect(() => {
+		if (ref.current == null || stream != null)
+			return;
+
+		scrollDown();
+	}, [inputValue]);
 
 	const prefix = `${ANSI.fg.cyan + USERNAME}@${HOSTNAME + ANSI.reset}:`
 		+ `${ANSI.fg.blue + (currentDirectory.root ? "/" : currentDirectory.path) + ANSI.reset}$ `;
@@ -90,23 +103,26 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }: Te
 		let lastOutput: CommandResponse = null;
 
 		stream.on(Stream.EVENT_NAMES.new, (text: string) => {
-			let output: CommandResponse = text;
-			pipes.forEach((pipe) => {
-				if (output instanceof Stream)
+			void (async () => {
+				let output: CommandResponse = text;
+
+				for (const pipe of pipes) {
+					if (output instanceof Stream)
+						continue;
+		
+					// Output from the previous command gets added as an argument for the next command
+					output = await handleInput(output ? `${pipe} ${output as string}` : pipe);
+				}
+
+				if ((output as unknown) instanceof Stream) {
+					stream.stop();
+					promptOutput(ANSI.fg.red + "Stream failed");
 					return;
-	
-				// Output from the previous command gets added as an argument for the next command
-				output = handleInput(output ? `${pipe} ${output as string}` : pipe);
-			});
+				}
 
-			if ((output as unknown) instanceof Stream) {
-				stream.stop();
-				promptOutput(ANSI.fg.red + "Stream failed");
-				return;
-			}
-
-			lastOutput = output;
-			setStreamOutput(output);
+				lastOutput = output;
+				setStreamOutput(output as string);
+			})();
 		});
 
 		stream.on(Stream.EVENT_NAMES.stop, () => {
@@ -121,7 +137,7 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }: Te
 		document.addEventListener("keydown", onKeyDown);
 	};
 
-	const handleInput = (value: string): CommandResponse => {
+	const handleInput = async (value: string): Promise<CommandResponse> => {
 		const rawInputValueStart = value.indexOf(" ") + 1;
 		const rawInputValue = rawInputValueStart <= 0 ? "" : value.substr(rawInputValueStart);
 		const timestamp = Date.now();
@@ -187,7 +203,7 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }: Te
 		let response: CommandResponse = null;
 
 		try {
-			response = command.execute(args, {
+			response = await command.execute(args, {
 				promptOutput,
 				pushHistory,
 				virtualRoot,
@@ -199,7 +215,8 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }: Te
 				options,
 				exit,
 				inputs,
-				timestamp
+				timestamp,
+				settingsManager,
 			});
 
 			if (response == null)
@@ -213,29 +230,33 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }: Te
 		}
 	};
 
-	const submitInput = (value: string) => {
+	const resetInput = () => {
+		setInputValue("");
+		setHistoryIndex(0);
+	};
+
+	const submitInput = async (value: string) => {
 		pushHistory({
 			text: prefix + value,
 			isInput: true,
 			value
 		});
 
-		setInputValue("");
-		setHistoryIndex(0);
-
 		// Piping is used to chain commands
 		let pipes = value.split(" | ");
 		const completedPipes = [];
 
 		let output = null;
-		pipes.forEach((pipe) => {
+		for (const pipe of pipes) {
 			if (output instanceof Stream)
-				return;
+				continue;
 
 			// Output from the previous command gets added as an argument for the next command
-			output = handleInput(output ? `${pipe} ${output}` : pipe);
+			output = await handleInput(output ? `${pipe} ${output}` : pipe);
 			completedPipes.push(pipe);
-		});
+		}
+
+		resetInput();
 
 		pipes = pipes.filter((pipe) => !completedPipes.includes(pipe));
 
@@ -274,7 +295,7 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }: Te
 		const { key } = event;
 
 		if (key === "Enter") {
-			submitInput(value);
+			void submitInput(value);
 			setInputKey((previousKey) =>  previousKey + 1);
 		} else if (key === "ArrowUp") {
 			event.preventDefault();
@@ -306,7 +327,9 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }: Te
 		});
 	};
 
-	const onMouseDown = (event: { button: number; preventDefault: () => void; }) => {
+	const onMouseDown = (event: MouseEvent) => {
+		focus(event);
+
 		if (event.button === 2) {
 			event.preventDefault();
 
@@ -324,9 +347,9 @@ export function Terminal({ startPath, input, setTitle, close: exit, active }: Te
 
 	return (
 		<div
-			ref={streamRef} 
+			ref={ref} 
 			className={styles.Terminal}
-			onMouseDown={onMouseDown}
+			onMouseDown={onMouseDown as unknown as MouseEventHandler}
 			onContextMenu={onContextMenu as unknown as MouseEventHandler}
 			onClick={(event) => {
 				if (window.getSelection().toString() === "") {

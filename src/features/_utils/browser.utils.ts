@@ -102,6 +102,10 @@ export function openUrl(url: string, target?: HTMLAttributeAnchorTarget) {
 	window.open(url, target ?? "_blank");
 }
 
-export function copyToClipboard(string: string, onSuccess: (value: void) => void, onFail: (value: void) => void) {
+export function removeUrlProtocol(url: string) {
+	return url.replace(/^https?:\/\/|\/$/g, "");
+}
+
+export function copyToClipboard(string: string, onSuccess?: (value: void) => void, onFail?: (value: void) => void) {
 	navigator.clipboard.writeText(string).then(onSuccess, onFail);
 }

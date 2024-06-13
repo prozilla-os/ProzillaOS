@@ -1,6 +1,8 @@
 import { useMemo } from "react";
+import { MarkdownProps } from "../TextEditor";
+import { sanitizeProps } from "../../../../features/apps/text-editor/_utils/sanitizeProps";
 
-interface MarkdownImageProps {
+interface MarkdownImageProps extends MarkdownProps {
 	src: string;
 	alt: string
 }
@@ -13,6 +15,8 @@ export function MarkdownImage({ alt, src, ...props }: MarkdownImageProps) {
 
 		return src;
 	}, [src]);
+
+	sanitizeProps(props as MarkdownProps);
 
 	return <img
 		alt={alt}

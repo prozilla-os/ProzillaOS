@@ -1,7 +1,9 @@
 import { APPS } from "../../../../config/apps.config";
 import { ANSI } from "../../../../config/apps/terminal.config";
 import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR, NAME } from "../../../../config/branding.config";
+import { THEMES } from "../../../../config/themes.config";
 import { TimeManager } from "../../../_utils/time.utils";
+import { SettingsManager } from "../../../settings/settingsManager";
 import AppsManager from "../../appsManager";
 import Command from "../command";
 
@@ -9,14 +11,17 @@ export const neofetch = new Command()
 	.setManual({
 		purpose: "Fetch system information"
 	})
-	.setExecute(function(args, { username, hostname }) {
+	.setExecute(async function(args, { username, hostname, settingsManager }) {
 		const leftColumn = ANSI_ASCII_LOGO.split("\n");
 		const rightColumnWidth = username.length + hostname.length + 1;
+
+		const themeIndex = await settingsManager.get(SettingsManager.VIRTUAL_PATHS.theme).get("theme");
+		const theme = THEMES[themeIndex ?? 0] as string;
 
 		const userAgent = navigator.userAgent;
 
 		// Check for the browser name using regular expressions
-		let browserName;
+		let browserName: string;
 		if (userAgent.match(/Firefox\//)) {
 			browserName = "Mozilla Firefox";
 		} else if (userAgent.match(/Edg\//)) {
@@ -29,7 +34,7 @@ export const neofetch = new Command()
 			browserName = "Unknown";
 		}
 
-		const formatLine = (label, text) => ANSI.fg.cyan + label.toUpperCase() + ANSI.reset + ": " + text;
+		const formatLine = (label: string, text: string) => ANSI.fg.cyan + label.toUpperCase() + ANSI.reset + ": " + text;
 
 		const rightColumn = [
 			`${ANSI.fg.cyan + username + ANSI.reset}@${ANSI.fg.cyan + hostname + ANSI.reset}`,
@@ -37,7 +42,7 @@ export const neofetch = new Command()
 			formatLine("os", NAME),
 			formatLine("uptime", TimeManager.getUptime(2)),
 			formatLine("resolution", window.innerWidth + "x" + window.innerHeight),
-			formatLine("theme", "default"),
+			formatLine("theme", theme),
 			formatLine("icons", "Font Awesome"),
 			formatLine("terminal", AppsManager.getAppById(APPS.TERMINAL)?.name ?? "Unknown"),
 			formatLine("browser", browserName),

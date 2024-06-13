@@ -17,11 +17,22 @@ import { VirtualFile } from "../../../features/virtual-drive/file";
 import { WindowProps } from "../../windows/WindowView";
 import { DropdownAction } from "../../actions/actions/DropdownAction";
 import { ClickAction } from "../../actions/actions/ClickAction";
+import ModalsManager from "../../../features/modals/modalsManager";
+import App from "../../../features/apps/app";
+import WindowsManager from "../../../features/windows/windowsManager";
 
 const OVERRIDES = {
 	a: MarkdownLink,
 	img: MarkdownImage,
 };
+
+export interface MarkdownProps {
+	modalsManager: ModalsManager;
+	setCurrentFile: Function;
+	currentFile: VirtualFile;
+	app: App;
+	windowsManager: WindowsManager;
+}
 
 interface TextEditorProps extends WindowProps {
 	file?: VirtualFile;
@@ -121,7 +132,7 @@ export function TextEditor({ file, setTitle, setIconUrl, close, mode, app, modal
 				currentFile,
 				app,
 				windowsManager
-			}
+			} as MarkdownProps
 		};
 	}
 

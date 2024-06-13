@@ -40,10 +40,27 @@ export default class WindowsManager {
 		}
 
 		const size = options?.size ?? app.windowOptions?.size ?? new Vector2(700, 400);
-		const position = new Vector2(randomRange(SCREEN_MARGIN, window.innerWidth - size.x - SCREEN_MARGIN),
-			randomRange(SCREEN_MARGIN, window.innerHeight - size.y - SCREEN_MARGIN - TASKBAR_HEIGHT));
+
+		const availableScreenSpace = new Vector2(
+			window.innerWidth - SCREEN_MARGIN * 2,
+			window.innerHeight - SCREEN_MARGIN * 2 - TASKBAR_HEIGHT
+		);
 
 		let fullscreen = false;
+
+		if (size.x > availableScreenSpace.x) {
+			size.x = availableScreenSpace.x;
+			fullscreen = true;
+		} else if (size.y > availableScreenSpace.y) {
+			size.y = availableScreenSpace.y;
+			fullscreen = true;
+		}
+
+		const position = new Vector2(
+			SCREEN_MARGIN + randomRange(0, availableScreenSpace.x - size.x),
+			SCREEN_MARGIN + randomRange(0, availableScreenSpace.y - size.y)
+		);
+
 		if (options?.fullscreen) {
 			if (typeof(options.fullscreen) == "string") {
 				fullscreen = options.fullscreen.toLowerCase() === "true";

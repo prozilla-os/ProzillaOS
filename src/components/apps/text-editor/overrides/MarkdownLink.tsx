@@ -1,25 +1,22 @@
 import { MouseEventHandler, ReactNode, useMemo } from "react";
-import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
+import { faClipboard, faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { useContextMenu } from "../../../../hooks/modals/contextMenu";
 import { Actions } from "../../../actions/Actions";
 import { ClickAction } from "../../../actions/actions/ClickAction";
-import { VirtualFile } from "../../../../features/virtual-drive/file";
 import { useWindowedModal } from "../../../../hooks/modals/windowedModal";
 import AppsManager from "../../../../features/apps/appsManager";
-import App from "../../../../features/apps/app";
 import { DialogBox } from "../../../modals/dialog-box/DialogBox";
 import { DIALOG_CONTENT_TYPES } from "../../../../config/modals.config";
 import Vector2 from "../../../../features/math/vector2";
-import WindowsManager from "../../../../features/windows/windowsManager";
 import { APPS } from "../../../../config/apps.config";
+import { MarkdownProps } from "../TextEditor";
+import { sanitizeProps } from "../../../../features/apps/text-editor/_utils/sanitizeProps";
+import { copyToClipboard, removeUrlProtocol } from "../../../../features/_utils/browser.utils";
+import { TextDisplay } from "../../../actions/actions/TextDisplay";
 
-interface MarkdownLinkProps {
+interface MarkdownLinkProps extends MarkdownProps {
 	href: string;
 	children: ReactNode;
-	windowsManager: WindowsManager;
-	setCurrentFile: Function;
-	currentFile: VirtualFile;
-	app: App;
 }
 
 export function MarkdownLink({ href, children, windowsManager, currentFile, setCurrentFile, app, ...props }: MarkdownLinkProps) {
@@ -55,7 +52,11 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 
 	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
+			<TextDisplay>{removeUrlProtocol(href)}</TextDisplay>
 			<ClickAction label="Open link" icon={faExternalLink} onTrigger={onClick}/>
+			<ClickAction label="Copy link" icon={faClipboard} onTrigger={() => {
+				copyToClipboard(href);
+			}}/>
 		</Actions>
 	});
 
@@ -68,6 +69,8 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 		}
 		return title;
 	}, [href]);
+
+	sanitizeProps(props as MarkdownProps);
 
 	return <a
 		target="_blank"

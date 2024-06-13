@@ -22,9 +22,7 @@ type Particle = {
 	size: number;
 };
 
-let particles: Particle[] = [];
-
-function generateScreen(frame: number): string {
+function generateScreen(frame: number, screen: string[][], particles: Particle[]): string {
 	// Spawn new particles
 	if (frame % PARTICLES.framesBetweenSpawn) {
 		const newParticle: Particle = {
@@ -34,19 +32,18 @@ function generateScreen(frame: number): string {
 		particles.push(newParticle);
 	}
 
-	// Create screen
-	const screen: string[][] = [];
-	for (let y = 0; y < SCREEN_HEIGHT; y++) {
-		const row: string[] = [];
-		for (let x = 0; x < SCREEN_WIDTH; x++) {
-			row.push(" ");
-		}
-		screen.push(row);
-	}
-
 	// Move and render particles
 	particles.forEach((particle) => {
 		particle.position.y -= PARTICLES.fallSpeed;
+
+		// Clean previous render
+		for (let i = 0; i < PARTICLES.fallSpeed; i++) {
+			const positionX = particle.position.x;
+			const positionY = particle.position.y + i + particle.size;
+
+			if (positionY < SCREEN_HEIGHT && positionY >= 0)
+				screen[positionY][positionX] = " ";
+		}
 
 		// Remove offscreen particles
 		if (particle.position.y + particle.size <= 0 || particle.position.x >= SCREEN_WIDTH)
@@ -62,13 +59,13 @@ function generateScreen(frame: number): string {
 			const positionX = particle.position.x;
 			const positionY = particle.position.y + i;
 
-			if (positionX < SCREEN_WIDTH && positionY < SCREEN_HEIGHT && positionY > 0) {
+			if (positionX < SCREEN_WIDTH && positionY < SCREEN_HEIGHT && positionY >= 0) {
 				screen[positionY][positionX] = color + character + ANSI.reset;
 			}
 		}
 	});
 
-	return screen.map((row) => row.join("")).reverse().join("\n");
+	return [...screen.map((row) => row.join(""))].reverse().join("\n");
 }
 
 export const cmatrix = new Command()
@@ -78,11 +75,21 @@ export const cmatrix = new Command()
 	})
 	.setExecute(function() {
 		const stream = new Stream();
-		particles = [];
+		const particles: Particle[] = [];
+
+		// Create screen
+		const screen: string[][] = [];
+		for (let y = 0; y < SCREEN_HEIGHT; y++) {
+			const row: string[] = [];
+			for (let x = 0; x < SCREEN_WIDTH; x++) {
+				row.push(" ");
+			}
+			screen.push(row);
+		}
 
 		let frame = 0;
 		const interval = setInterval(() => {
-			const text = generateScreen(frame);
+			const text = generateScreen(frame, screen, particles);
 			stream.send(text);
 			frame++;
 		}, 100 / ANIMATION_SPEED);

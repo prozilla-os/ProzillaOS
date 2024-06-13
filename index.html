@@ -12,9 +12,11 @@
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=4">
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=4">
+		<link rel="icon" href="/favicon.ico?v=5" sizes="any">
+		<link rel="icon" href="/icon.svg?v=4" type="image/svg+xml">
+		<link rel="icon" href="/icon.png" type="image/png">
 		<link rel="manifest" href="/site.webmanifest?v=4">
 		<link rel="mask-icon" href="/safari-pinned-tab.svg?v=4" color="#4cdfff">
-		<link rel="shortcut icon" type="image/x-icon" href="https://os.prozilla.dev/favicon.ico?">
 		<meta name="apple-mobile-web-app-title" content="ProzillaOS">
 		<meta name="application-name" content="ProzillaOS">
 		<meta name="msapplication-TileColor" content="#0d1114">
@@ -44,6 +46,14 @@
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="translucent-black">
+		<script>
+			// Change theme color to black if app is running as PWA
+			const isPWA = (window.navigator.standalone === true) || (window.matchMedia("(display-mode: standalone)").matches)
+			if (isPWA) {
+				const themeColor = document.querySelector("meta[name='theme-color']");
+				themeColor?.setAttribute("content", "#0D1114");
+			}
+		</script>
 
 		<!-- FAQ -->
 		<script type="application/ld+json">

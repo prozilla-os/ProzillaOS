@@ -1,3 +1,4 @@
+import { SettingsManager } from "../../settings/settingsManager";
 import { VirtualFolder } from "../../virtual-drive/folder/virtualFolder";
 import { VirtualRoot } from "../../virtual-drive/root/virtualRoot";
 import Stream from "./stream";
@@ -21,9 +22,10 @@ type Execute = (args?: string[], options?: {
 	rawInputValue?: string,
 	options?: string[],
 	exit?: Function,
-	inputs?: Record<string, string>;
+	inputs?: Record<string, string>,
 	timestamp: number,
-}) => CommandResponse;
+	settingsManager: SettingsManager,
+}) => CommandResponse | Promise<CommandResponse>;
 
 type Manual = {
 	purpose?: string,
