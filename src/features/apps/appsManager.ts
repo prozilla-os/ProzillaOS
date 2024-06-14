@@ -25,7 +25,7 @@ export default class AppsManager {
 			source: "https://prozilla.dev/wordle",
 			size: new Vector2(400, 650)
 		}),
-		new App("Balls", "balls", WebView, {
+		new App("Ball Maze", "ball-maze", WebView, {
 			source: "https://prozilla.dev/ball-maze",
 			size: new Vector2(600, 600)
 		}),

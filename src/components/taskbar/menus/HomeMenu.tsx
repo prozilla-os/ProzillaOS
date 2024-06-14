@@ -99,7 +99,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 				<div className={styles.Apps}>
 					<h1 className={utilStyles.TextBold}>{NAME}</h1>
 					<div className={appStyles.AppList}>
-						{AppsManager.APPS.map(({ name, id }) => 
+						{AppsManager.APPS.sort((a, b) => a.name.localeCompare(b.name)).map(({ name, id }) => 
 							<button
 								key={id}
 								className={appStyles.AppButton}

@@ -15,21 +15,18 @@ import WindowsManager from "../../../features/windows/windowsManager";
 interface AppButtonProps {
 	app: App;
 	windowsManager: WindowsManager;
-	pins: string[];
 	active: boolean;
 	visible: boolean;
 }
 
-export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, pins, active, visible }: AppButtonProps) => {
-	const isPinned = pins.includes(app.id);
-
+export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, active, visible }: AppButtonProps) => {
 	const settingsManager = useSettingsManager();
 	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions avoidTaskbar={false} {...props}>
 			<ClickAction label={app.name} icon={AppsManager.getAppIconUrl(app.id)} onTrigger={() => {
 				windowsManager.open(app.id);
 			}}/>
-			<ClickAction label={isPinned ? "Unpin from taskbar" : "Pin to taskbar"} icon={faThumbTack} onTrigger={() => {
+			{/* <ClickAction label={isPinned ? "Unpin from taskbar" : "Pin to taskbar"} icon={faThumbTack} onTrigger={() => {
 				const newPins = [...pins];
 				if (isPinned) {
 					removeFromArray(app.id, pins);
@@ -42,7 +39,7 @@ export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, pins, 
 			}}/>
 			{active && <ClickAction label="Close window" icon={faTimes} onTrigger={() => {
 				windowsManager.close(windowsManager.getAppWindowId(app.id));
-			}}/>}
+			}}/>} */}
 		</Actions>
 	});
 

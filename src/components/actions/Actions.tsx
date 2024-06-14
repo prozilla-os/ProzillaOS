@@ -11,6 +11,7 @@ export interface ActionProps {
 	shortcut?: string[];
 	onTrigger?: (event?: Event, triggerParams?: unknown, ...args: unknown[]) => void;
 	children?: ReactNode;
+	disabled?: boolean;
 }
 
 export interface ActionsProps {
@@ -48,15 +49,18 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 
 			actionId++;
 
-			const { label, shortcut, onTrigger } = child.props as ActionProps;
+			const { label, shortcut, disabled, onTrigger } = child.props as ActionProps;
 
 			const onTriggerOverride = (event: Event, ...args: unknown[]) => {
+				if (disabled)
+					return;
+				
 				onAnyTrigger?.(event, triggerParams, ...args);
 				onTrigger?.(event, triggerParams, ...args);
 			};
 
 			// Register shortcut
-			if (label != null && onTrigger != null) {
+			if (!disabled && label != null && onTrigger != null) {
 				options[actionId] = onTriggerOverride;
 
 				if (shortcut != null)
@@ -71,7 +75,8 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 				...child.props,
 				actionId,
 				children: iterateOverChildren((child.props as ActionProps).children),
-				onTrigger: onTriggerOverride
+				onTrigger: onTriggerOverride,
+				disabled
 			} as ActionProps);
 		});
 

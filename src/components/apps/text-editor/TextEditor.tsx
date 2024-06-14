@@ -22,6 +22,8 @@ import App from "../../../features/apps/app";
 import WindowsManager from "../../../features/windows/windowsManager";
 import { MarkdownBlockquote } from "./overrides/MarkdownBlockquote";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext";
+import { APP_NAMES } from "../../../config/apps.config";
+import { Divider } from "../../actions/actions/Divider";
 
 const OVERRIDES = {
 	a: MarkdownLink,
@@ -53,6 +55,7 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 	const [content, setContent] = useState(file?.content ?? "");
 	const [unsavedChanges, setUnsavedChanges] = useState(file == null);
 	const [zoom, setZoom] = useState(DEFAULT_ZOOM);
+	const [initialised, setInitialised] = useState(false);
 	const { openWindowedModal } = useWindowedModal();
 
 	useEffect(() => {
@@ -103,14 +106,14 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 	}, [currentFile, setTitle, unsavedChanges, currentMode, app.name]);
 
 	useEffect(() => {
-		if (currentFile == null && path != null) {
+		if (!initialised && currentFile == null && path != null) {
 			const newFile = virtualRoot.navigate(path);
 
 			if (newFile == null || !newFile.isFile())
 				return;
 
 			setCurrentFile(newFile as VirtualFile);
-			path = null;
+			setInitialised(true);
 		}
 	}, [path, currentFile]);
 
@@ -176,16 +179,22 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 							/>
 						});
 					}} shortcut={["Control", "o"]}/>
+					<Divider/>
 					<ClickAction label="Save" onTrigger={() => { saveText(); }} shortcut={["Control", "s"]}/>
+					<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} disabled={currentFile == null} onTrigger={() => {
+						currentFile.parent.open(windowsManager);
+					}}/>
+					<Divider/>
 					<ClickAction label="Quit" onTrigger={() => { close(); }} shortcut={["Control", "q"]}/>
 				</DropdownAction>
 				<DropdownAction label="View" showOnHover={false}>
 					<ClickAction label={currentMode === "view" ? "Edit mode" : "Preview mode"} onTrigger={() => {
 						setCurrentMode(currentMode === "view" ? "edit" : "view");
 					}} shortcut={["Control", "v"]}/>
+					<Divider/>
 					<ClickAction label="Zoom in" onTrigger={() => { setZoom(zoom + ZOOM_FACTOR); }} shortcut={["Control", "+"]}/>
 					<ClickAction label="Zoom out" onTrigger={() => { setZoom(zoom - ZOOM_FACTOR); }} shortcut={["Control", "-"]}/>
-					<ClickAction label="Reset Zoom" onTrigger={() => { setZoom(DEFAULT_ZOOM); }} shortcut={["Control", "0"]}/>
+					<ClickAction label="Reset Zoom" disabled={zoom == DEFAULT_ZOOM} onTrigger={() => { setZoom(DEFAULT_ZOOM); }} shortcut={["Control", "0"]}/>
 				</DropdownAction>
 			</HeaderMenu>
 			{currentMode === "view"

@@ -10,8 +10,12 @@ interface ClickActionProps extends ActionProps {
 	icon?: string | object;
 }
 
-export const ClickAction = memo(({ actionId, label, shortcut, onTrigger, icon }: ClickActionProps) => {
-	return (<button key={actionId} className={styles.Button} tabIndex={0} onClick={onTrigger as unknown as MouseEventHandler}>
+export const ClickAction = memo(({ actionId, label, shortcut, disabled, onTrigger, icon }: ClickActionProps) => {
+	const classNames = [styles.Button];
+	if (disabled)
+		classNames.push(styles.Disabled);
+
+	return (<button key={actionId} className={classNames.join(" ")} tabIndex={0} disabled={disabled} onClick={onTrigger as unknown as MouseEventHandler}>
 		<span className={styles.Label}>
 			{icon && <div className={styles.Icon}>
 				{typeof icon == "string"

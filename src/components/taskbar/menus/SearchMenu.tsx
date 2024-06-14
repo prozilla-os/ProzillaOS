@@ -2,10 +2,10 @@ import styles from "./SearchMenu.module.css";
 import appStyles from "./AppList.module.css";
 import AppsManager from "../../../features/apps/appsManager";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
-import { ReactSVG } from "react-svg";
 import { ChangeEventHandler, useEffect, useState } from "react";
 import { useKeyboardListener } from "../../../hooks/_utils/keyboard";
 import App from "../../../features/apps/app";
+import { ReactSVG } from "react-svg";
 
 interface SearchMenuProps {
 	active: boolean;
@@ -32,8 +32,9 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	}, [inputRef]);
 
 	useEffect(() => {
-		setApps(AppsManager.APPS.filter(({ name }) =>
+		setApps(AppsManager.APPS.filter(({ name, id }) =>
 			name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+			|| id.toLowerCase().includes(searchQuery.toLowerCase().trim())
 		).sort((a, b) =>
 			a.name.toLowerCase().localeCompare(b.name.toLowerCase())
 		));
@@ -45,7 +46,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	};
 
 	const classNames = [styles.SearchMenuContainer];
-	if (active && apps)
+	if (active && apps != null)
 		classNames.push(styles.Active);
 
 	const onKeyDown = (event: KeyboardEvent) => {
@@ -64,36 +65,34 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 
 	useKeyboardListener({ onKeyDown });
 
-	return (
-		<div className={classNames.join(" ")}>
-			<div className={styles.SearchMenu}>
-				<input
-					ref={inputRef}
-					className={styles.Input}
-					aria-label="Search query"
-					tabIndex={tabIndex}
-					value={searchQuery}
-					onChange={onChange as unknown as ChangeEventHandler}
-					spellCheck={false}
-					placeholder="Search..."
-				/>
-				<div className={appStyles.AppList}>
-					{apps?.map(({ name, id }) => 
-						<button
-							key={id}
-							className={appStyles.AppButton}
-							tabIndex={tabIndex}
-							onClick={() => {
-								setActive(false);
-								windowsManager.open(id);
-							}}
-						>
-							<ReactSVG src={AppsManager.getAppIconUrl(id)}/>
-							<p>{name}</p>
-						</button>
-					)}
-				</div>
+	return <div className={classNames.join(" ")}>
+		<div className={styles.SearchMenu}>
+			<div className={appStyles.AppList}>
+				{apps?.map(({ name, id }) => 
+					<button
+						key={id}
+						className={appStyles.AppButton}
+						tabIndex={tabIndex}
+						onClick={() => {
+							setActive(false);
+							windowsManager.open(id);
+						}}
+					>
+						<ReactSVG src={AppsManager.getAppIconUrl(id)}/>
+						<p>{name}</p>
+					</button>
+				)}
 			</div>
+			<input
+				ref={inputRef}
+				className={styles.Input}
+				aria-label="Search query"
+				tabIndex={tabIndex}
+				value={searchQuery}
+				onChange={onChange as unknown as ChangeEventHandler}
+				spellCheck={false}
+				placeholder="Search..."
+			/>
 		</div>
-	);
+	</div>;
 }

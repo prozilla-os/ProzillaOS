@@ -4,25 +4,24 @@
 	flex-direction: column;
 	left: 0;
 	bottom: 100%;
-	height: auto !important;
 	max-height: 20rem;
 	overflow: hidden;
 }
 
 .SearchMenu {
-	opacity: 1;
+	opacity: 0;
 	display: flex;
 	gap: 0.5rem;
-	flex-direction: column-reverse;
+	flex-direction: column;
 	min-width: 13rem;
 	max-width: 19rem;
 	padding: 0.5rem;
+	margin-top: 100px;
 	border-top-left-radius: var(--border-radius-1);
 	border-top-right-radius: var(--border-radius-1);
 	border-bottom-right-radius: var(--border-radius-1);
 	backdrop-filter: var(--taskbar-filter);
-	transform: none;
-	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+	transition: opacity 200ms ease-in-out, margin-top 200ms ease-in-out;
 	overflow: hidden;
 	resize: horizontal;
 }
@@ -39,13 +38,13 @@
 	z-index: -2;
 }
 
-.SearchMenuContainer:not(.Active) {
-	pointer-events: none;
+.SearchMenuContainer.Active .SearchMenu {
+	opacity: 1;
+	margin-top: 0px;
 }
 
-.SearchMenuContainer:not(.Active) .SearchMenu {
-	opacity: 0;
-	transform: translateY(100px);
+.SearchMenuContainer:not(.Active) {
+	pointer-events: none;
 }
 
 .SearchMenu > div {

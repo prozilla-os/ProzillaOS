@@ -30,6 +30,8 @@
 	bottom: 0;
 }
 
+/* Context menu */
+
 .ContextMenu.Actions {
 	--border-radius: var(--border-radius-1);
 	--padding: 0.375rem;
@@ -147,20 +149,22 @@
 
 .ContextMenu .TextDisplay {
 	margin: 0;
-	padding: 0.25rem 0.5rem;
+	padding: 0.25rem 0.75rem;
 	color: var(--foreground-color-1);
 	font-size: 0.875rem;
 	text-align: start;
 	white-space: nowrap;
 }
 
-.Header-menu {
+/* Header menu */
+
+.HeaderMenu {
 	display: flex;
 	width: inherit;
 	height: inherit;
 }
 
-.Header-menu .Dropdown {
+.HeaderMenu .Dropdown {
 	position: relative;
 	display: block;
 	width: auto;
@@ -173,63 +177,105 @@
 	cursor: pointer;
 }
 
-.Header-menu .Dropdown:hover, .Header-menu .Dropdown:focus-visible {
+.HeaderMenu .Dropdown:hover,
+.HeaderMenu .Dropdown:focus-visible,
+.HeaderMenu .Dropdown.Active {
 	background-color: rgba(255, 255, 255, 5%);
 }
 
-.Header-menu .Dropdown > .Label {
+.HeaderMenu .Dropdown > .Label {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 100%;
 }
 
-.Header-menu .DropdownArrow {
+.HeaderMenu .DropdownArrow {
 	display: none;
 }
 
-.Header-menu .DropdownContent {
+.HeaderMenu .DropdownContent {
+	opacity: 1;
 	display: flex;
 	flex-direction: column;
 	position: absolute;
 	top: 100%;
 	left: 0;
-	padding: 0.35rem;
+	padding: 0.25rem;
 	background-color: var(--background-color-1);
-	border-bottom-left-radius: 0.5rem;
-	border-bottom-right-radius: 0.5rem;
+	border-bottom-left-radius: var(--border-radius-1);
+	border-bottom-right-radius: var(--border-radius-1);
+	transition: opacity 100ms ease-out;
+	cursor: default;
 }
 
-.Header-menu .Dropdown:not(.Active) .DropdownContent {
+.HeaderMenu .Dropdown:not(.Active) .DropdownContent {
 	opacity: 0;
 	pointer-events: none;
 }
 
-.Header-menu .Button {
+.HeaderMenu .Button {
+	--icon-size: 1.25rem;
+	--icon-gap: 0.5rem;
+
 	display: flex;
-	gap: 0.75rem;
+	gap: 1.5rem;
 	justify-content: space-between;
+	align-items: center;
 	width: 100%;
 	padding: 0.25rem 0.5rem;
 	background: none;
 	border: none;
 	border-radius: var(--border-radius-1);
 	outline: none;
-	font-size: 0.85rem;
+	font-size: 0.875rem;
 	text-align: start;
 	white-space: nowrap;
 	cursor: pointer;
 }
 
-.Header-menu .Button:hover, .Header-menu .Button:focus-visible {
+.HeaderMenu .Button:not(:disabled):hover,
+.HeaderMenu .Button:not(:disabled):focus-visible {
 	background-color: color-mix(in srgb, var(--background-color-0) 75%, transparent);
 }
 
-.Header-menu .Dropdown > .Label > p, .Header-menu .Button > .Label > p {
+.HeaderMenu .Button:disabled {
+	cursor: default;
+}
+
+.HeaderMenu .Button > .Label {
+	display: flex;
+	gap: var(--icon-gap);
+	flex-direction: row-reverse;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.HeaderMenu .Button > .Label .Icon div,
+.HeaderMenu .Button > .Label .Icon svg {
+	height: var(--icon-size);
+	width: var(--icon-size);
+}
+
+.HeaderMenu .Dropdown > .Label > p,
+.HeaderMenu .Button > .Label > p {
 	margin: 0;
 }
 
-.Header-menu .Shortcut {
+.HeaderMenu .Button:disabled > .Label > p {
+	color: var(--foreground-color-1);
+}
+
+.HeaderMenu .Shortcut {
 	color: var(--foreground-color-1);
 	margin: 0;
+	font-size: 0.875rem;
+}
+
+.HeaderMenu .Divider {
+	width: calc(100% - 0.5rem);
+	height: 2px;
+	border-radius: var(--border-radius-99);
+	background-color: var(--foreground-color-2);
+	margin: 0.25rem auto;
 }

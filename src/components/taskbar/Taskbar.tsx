@@ -1,4 +1,4 @@
-import { CSSProperties, memo, ReactEventHandler, UIEventHandler, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, memo, ReactEventHandler, UIEventHandler, useEffect, useRef, useState } from "react";
 import styles from "./Taskbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -24,6 +24,7 @@ import { SettingsManager } from "../../features/settings/settingsManager";
 import { useWindows } from "../../hooks/windows/windowsContext";
 import { ZIndexManager } from "../../features/z-index/zIndexManager";
 import { useZIndex } from "../../hooks/z-index/zIndex";
+import App from "../../features/apps/app";
 
 export const Taskbar = memo(() => {
 	const ref = useRef(null);
@@ -48,38 +49,31 @@ export const Taskbar = memo(() => {
 			}}/>
 		</Actions>
 	});
-	const [pins, setPins] = useState([]);
+	const [apps, setApps] = useState<App[]>([]);
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.TASKBAR, index: 0 });
-
-	const apps = useMemo(() => AppsManager.APPS.sort((appA, appB) => {
-		const indexA = pins.indexOf(appA.id);
-		const indexB = pins.indexOf(appB.id);
-		if (indexA < 0 && indexB > 0) {
-			return 1;
-		} else if (indexA > 0 && indexB < 0) {
-			return -1;
-		} else if (indexA < 0 && indexB < 0) {
-			return 0;
-		} else {
-			return indexA - indexB;
-		}
-	}).map((app) => {
-		const isActive = windows.map((window) => window.app.id).includes(app.id);
-		const shouldBeShown = (pins.includes(app.id) || isActive);
-		return (<AppButton
-			windowsManager={windowsManager}
-			pins={pins}
-			app={app} 
-			key={app.id}
-			active={isActive}
-			visible={shouldBeShown}
-		/>);
-	}), [pins, windows, windowsManager]);
 
 	useEffect(() => {
 		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.taskbar);
-		void settings.get("pins", (pins) => {
-			setPins(pins.split(","));
+		void settings.get("pins", (pinList: string) => {
+			const pins = pinList.split(",");
+
+			const newApps = AppsManager.APPS.sort((appA, appB) => {
+				const indexA = pins.indexOf(appA.id);
+				const indexB = pins.indexOf(appB.id);
+				if (indexA < 0 && indexB > 0) {
+					return 1;
+				} else if (indexA > 0 && indexB < 0) {
+					return -1;
+				} else if (indexA < 0 && indexB < 0) {
+					return 0;
+				} else {
+					return indexA - indexB;
+				}
+			}).map((app) => {
+				app.isPinned = pins.includes(app.id);
+				return app;
+			});
+			setApps(newApps);
 		});
 	}, [settingsManager]);
 
@@ -94,6 +88,7 @@ export const Taskbar = memo(() => {
 
 	const updateShowSearch = (show: boolean) => {
 		setShowSearch(show);
+
 
 		if (show) {
 			if (searchQuery !== "") {
@@ -126,68 +121,76 @@ export const Taskbar = memo(() => {
 		updateShowSearch(true);
 	};
 
-	return (<>
-		<div
-			style={{ "--taskbar-height": `${TASKBAR_HEIGHT}px`, zIndex } as CSSProperties}
-			className={styles.Taskbar}
-			data-allow-context-menu={true}
-			onContextMenu={(event) => {
-				if ((event.target as HTMLElement).getAttribute("data-allow-context-menu"))
-					onContextMenu(event);
-			}}
-		>
-			<div className={styles.MenuIcons}>
-				<div className={styles.HomeContainer}>
-					<OutsideClickListener onOutsideClick={() => { updateShowHome(false); }}>
-						<button
-							title="Home"
-							tabIndex={0}
-							className={`${styles.MenuButton} ${styles.HomeButton}`}
-							onClick={() => { updateShowHome(!showHome); }}
-						>
-							<ReactSVG src={"/icon.svg"}/>
-						</button>
-						<HomeMenu active={showHome} setActive={updateShowHome} search={search}/>
-					</OutsideClickListener>
-				</div>
-				<div className={styles.SearchContainer}>
-					<OutsideClickListener onOutsideClick={() => { updateShowSearch(false); }}>
-						<button
-							title="Search"
-							tabIndex={0}
-							className={styles.MenuButton}
-							onClick={() => { updateShowSearch(!showSearch); }}
-						>
-							<FontAwesomeIcon icon={faSearch}/>
-						</button>
-						<SearchMenu
-							active={showSearch}
-							setActive={updateShowSearch}
-							searchQuery={searchQuery}
-							setSearchQuery={setSearchQuery}
-							inputRef={inputRef}
-						/>
-					</OutsideClickListener>
-				</div>
+	return <div
+		style={{ "--taskbar-height": `${TASKBAR_HEIGHT}px`, zIndex } as CSSProperties}
+		className={styles.Taskbar}
+		data-allow-context-menu={true}
+		onContextMenu={(event) => {
+			if ((event.target as HTMLElement).getAttribute("data-allow-context-menu"))
+				onContextMenu(event);
+		}}
+	>
+		<div className={styles.MenuIcons}>
+			<div className={styles.HomeContainer}>
+				<OutsideClickListener onOutsideClick={() => { updateShowHome(false); }}>
+					<button
+						title="Home"
+						tabIndex={0}
+						className={`${styles.MenuButton} ${styles.HomeButton}`}
+						onClick={() => { updateShowHome(!showHome); }}
+					>
+						<ReactSVG src={"/icon.svg"}/>
+					</button>
+					<HomeMenu active={showHome} setActive={updateShowHome} search={search}/>
+				</OutsideClickListener>
 			</div>
-			<div className={styles.AppIconsContainer} data-allow-context-menu={true} style={{ boxShadow }}>
-				<div
-					className={styles.AppIcons}
-					data-allow-context-menu={true}
-					onScroll={onUpdate as unknown as UIEventHandler}
-					onResize={onUpdate as unknown as ReactEventHandler}
-					ref={ref}
-				>
-					{apps}
-				</div>
-			</div>
-			<div className={styles.UtilIcons}>
-				<Battery showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
-				<Network showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
-				<Volume showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
-				<Calendar showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
-				<button title="Show Desktop" id="desktop-button" onClick={() => { windowsManager.minimizeAll(); }}/>
+			<div className={styles.SearchContainer}>
+				<OutsideClickListener onOutsideClick={() => { updateShowSearch(false); }}>
+					<button
+						title="Search"
+						tabIndex={0}
+						className={styles.MenuButton}
+						onClick={() => { updateShowSearch(!showSearch); }}
+					>
+						<FontAwesomeIcon icon={faSearch}/>
+					</button>
+					<SearchMenu
+						active={showSearch}
+						setActive={updateShowSearch}
+						searchQuery={searchQuery}
+						setSearchQuery={setSearchQuery}
+						inputRef={inputRef}
+					/>
+				</OutsideClickListener>
 			</div>
 		</div>
-	</>);
+		<div className={styles.AppIconsContainer} data-allow-context-menu={true} style={{ boxShadow }}>
+			<div
+				className={styles.AppIcons}
+				data-allow-context-menu={true}
+				onScroll={onUpdate as unknown as UIEventHandler}
+				onResize={onUpdate as unknown as ReactEventHandler}
+				ref={ref}
+			>
+				{apps.map((app) => {
+					const isActive = windows.map((window) => window.app.id).includes(app.id);
+					const shouldBeShown = (app.isPinned || isActive);
+					return (<AppButton
+						windowsManager={windowsManager}
+						app={app} 
+						key={app.id}
+						active={isActive}
+						visible={shouldBeShown}
+					/>);
+				})}
+			</div>
+		</div>
+		<div className={styles.UtilIcons}>
+			<Battery showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
+			<Network showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
+			<Volume showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
+			<Calendar showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
+			<button title="Show Desktop" id="desktop-button" onClick={() => { windowsManager.minimizeAll(); }}/>
+		</div>
+	</div>;
 });

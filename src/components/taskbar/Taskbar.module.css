@@ -55,6 +55,14 @@
 	padding: 0 !important;
 }
 
+.HomeContainer,
+.HomeContainer > div,
+.SearchContainer,
+.SearchContainer > div {
+	height: 100%;
+	width: auto;
+}
+
 .HomeButton * {
 	fill: var(--foreground-color-0);
 	filter: none;
@@ -102,10 +110,10 @@
 	height: 1.25rem;
 }
 
-.AppIcons div,
-.AppIcons div > svg,
-.MenuIcons div,
-.MenuIcons div > svg {
+.AppIcons > button div,
+.AppIcons > button div > svg,
+.MenuButton div,
+.MenuButton div > svg {
 	height: 100%;
 	width: auto;
 }

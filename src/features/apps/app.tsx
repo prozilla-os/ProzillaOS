@@ -10,6 +10,7 @@ export default class App {
 		size: Vector2
 	};
 	isActive: boolean = false;
+	isPinned?: boolean;
 
 	/**
 	 * @param windowOptions - Default window options
