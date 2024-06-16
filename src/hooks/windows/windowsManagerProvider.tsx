@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import WindowsManager from "../../features/windows/windowsManager";
+import { WindowsManager } from "../../features/windows/windowsManager";
 import { WindowsManagerContext } from "./windowsManagerContext";
 import { WindowsProvider } from "./windowsProvider";
 

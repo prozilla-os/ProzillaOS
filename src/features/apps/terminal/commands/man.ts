@@ -1,7 +1,7 @@
 import { ANSI } from "../../../../config/apps/terminal.config";
 import { formatError } from "../_utils/terminal.utils";
-import Command from "../command";
-import CommandsManager from "../commands";
+import { Command, ExecuteParams } from "../command";
+import { CommandsManager } from "../commands";
 
 const MARGIN = 5;
 
@@ -17,10 +17,12 @@ export const man = new Command()
 			"-k": "Search for manual page using regexp"
 		}
 	})
-	.setExecute(function(args, { options }) {
+	.setExecute(function(this: Command, args, params) {
+		const { options } = params as ExecuteParams;
+
 		// Search function
-		if (options.includes("k")) {
-			const commands = CommandsManager.search(args[0].toLowerCase());
+		if (options?.includes("k")) {
+			const commands = CommandsManager.search((args as string[])[0].toLowerCase());
 			return commands.map((command) => {
 				if (command.manual?.purpose) {
 					return  `${command.name} - ${command.manual.purpose}`;
@@ -30,7 +32,7 @@ export const man = new Command()
 			}).sort().join("\n");
 		}
 
-		const commandName = args[0].toLowerCase();
+		const commandName = (args as string[])[0].toLowerCase();
 		const command = CommandsManager.find(commandName);
 
 		if (!command)
@@ -41,7 +43,7 @@ export const man = new Command()
 		if (!manual)
 			return formatError(this.name, `${commandName}: No manual found`);
 
-		const formatText = (text) => {
+		const formatText = (text: string) => {
 			const lines = text.split("\n").map((line) => " ".repeat(MARGIN) + line);
 			return lines.join("\n");
 		};
@@ -49,7 +51,7 @@ export const man = new Command()
 		const sections = [["NAME"]];
 
 		if (manual.purpose) {
-			sections[0].push(formatText(`${commandName} - ${ANSI.decoration.dim}${ANSI.fg.yellow}${command.manual.purpose}${ANSI.reset}`));
+			sections[0].push(formatText(`${commandName} - ${ANSI.decoration.dim}${ANSI.fg.yellow}${manual.purpose}${ANSI.reset}`));
 		} else {
 			sections[0].push(formatText(commandName));
 		}

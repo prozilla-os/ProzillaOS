@@ -1,12 +1,12 @@
-import { ChangeEventHandler, ReactEventHandler, UIEventHandler, useEffect, useRef, useState } from "react";
-import ModalsManager from "../../../features/modals/modalsManager";
+import { ChangeEventHandler, MutableRefObject, ReactEventHandler, UIEventHandler, useEffect, useRef, useState } from "react";
+import { ModalsManager } from "../../../features/modals/modalsManager";
 import { WindowedModal } from "../_utils/WindowedModal";
 import styles from "./Share.module.css";
 import { copyToClipboard, generateUrl } from "../../../features/_utils/browser.utils";
-import AppsManager from "../../../features/apps/appsManager";
+import { AppsManager } from "../../../features/apps/appsManager";
 import utilStyles from "../../../styles/utils.module.css";
 import { Button } from "../../_utils/button/Button";
-import Option from "./Option";
+import { Option } from "./Option";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
@@ -46,15 +46,15 @@ const APP_OPTIONS: Record<string, { label: string, name: string }[]> = {
 };
 
 export function Share({ modal, params, ...props }: ModalProps) {
-	const [appId, setAppId] = useState<string>(params.appId ?? "");
-	const [fullscreen, setFullscreen] = useState<boolean>(params.fullscreen ?? false);
-	const [standalone, setStandalone] = useState<boolean>(params.standalone ?? false);
+	const [appId, setAppId] = useState<string>(params?.appId ?? "");
+	const [fullscreen, setFullscreen] = useState<boolean>(params?.fullscreen ?? false);
+	const [standalone, setStandalone] = useState<boolean>(params?.standalone ?? false);
 	const [options, setOptions] = useState({});
 	const [url, setUrl] = useState<string | null>(null);
 	const { alert } = useAlert();
-	const formRef = useRef(null);
+	const formRef = useRef<HTMLFormElement>(null);
 	const { boxShadow, onUpdate } = useScrollWithShadow({
-		ref: formRef,
+		ref: formRef as MutableRefObject<HTMLFormElement>,
 		horizontal: false,
 		dynamicOffsetFactor: 1,
 		shadow: {
@@ -67,7 +67,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 
 	useEffect(() => {
 		setUrl(generateUrl({
-			appId: appId !== "" ? appId : null,
+			appId: appId !== "" ? appId : undefined,
 			fullscreen,
 			standalone,
 			...options
@@ -75,7 +75,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 	}, [appId, fullscreen, standalone, options]);
 
 	useEffect(() => {
-		onUpdate({ target: formRef.current as HTMLElement });
+		onUpdate({ target: formRef.current as unknown as HTMLElement });
 	}, [appId]);
 
 	const onAppIdChange = (event: Event) => {
@@ -98,7 +98,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 	};
 
 	const setOption = (name: string, value: string) => {
-		setOptions((options = {}) => {
+		setOptions((options: Record<string, string> = {}) => {
 			options = { ...options };
 			options[name] = value;
 			return options;
@@ -174,7 +174,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 			<Button
 				className={`${styles.Button} ${utilStyles.TextBold}`}
 				onClick={() => {
-					copyToClipboard(url, () => {
+					copyToClipboard(url as string, () => {
 						alert({
 							title: "Share",
 							iconUrl: ModalsManager.getModalIconUrl("share"),

@@ -26,7 +26,7 @@ export function Browser({ url: startUrl = HOME_URL, focus }: BrowserProps) {
 	}, [history, stateIndex]);
 
 	const reload = () => {
-		if (ref.current == null)
+		if (ref.current == null || ref.current.contentWindow == null)
 			return;
 
 		ref.current.contentWindow.location.href = url;

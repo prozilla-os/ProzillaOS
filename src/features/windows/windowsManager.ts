@@ -1,9 +1,9 @@
 import { TASKBAR_HEIGHT } from "../../config/taskbar.config";
 import { SCREEN_MARGIN } from "../../config/windows.config";
-import App from "../apps/app";
-import AppsManager from "../apps/appsManager";
-import { randomRange } from "../math/random";
-import Vector2 from "../math/vector2";
+import { randomRange } from "../_utils/math.utils";
+import { App } from "../apps/app";
+import { AppsManager } from "../apps/appsManager";
+import { Vector2 } from "../math/vector2";
 import { TrackingManager } from "../tracking/trackingManager";
 import { VirtualFile } from "../virtual-drive/file";
 
@@ -20,7 +20,7 @@ export interface WindowOptions {
 	[key: string]: unknown;
 }
 
-export default class WindowsManager {
+export class WindowsManager {
 	windows: { [id: string]: WindowOptions };
 	updateWindows: Function;
 	startupComplete: boolean;
@@ -36,7 +36,7 @@ export default class WindowsManager {
 
 		if (app == null) {
 			console.warn(`Failed to open app ${appId}: app not found`);
-			return;
+			return null;
 		}
 
 		const size = options?.size ?? app.windowOptions?.size ?? new Vector2(700, 400);
@@ -92,7 +92,7 @@ export default class WindowsManager {
 			size,
 			position,
 			fullscreen,
-			options,
+			options: options as object | undefined,
 		};
 
 		this.focus(id);
@@ -104,10 +104,15 @@ export default class WindowsManager {
 		// console.log(this);
 	}
 
-	openFile(file: VirtualFile, options: object = {}): object {
+	openFile(file: VirtualFile, options: object = {}): object | null {
+		if (file.extension == null) return null;
+
 		const app = AppsManager.getAppByFileExtension(file?.extension);
-		if (app != null)
+		if (app != null) {
 			return this.open(app.id, { file, ...options });
+		} else {
+			return null;
+		}
 	}
 
 	close(windowId: string) {
@@ -119,7 +124,7 @@ export default class WindowsManager {
 		}
 
 		const { app } = this.windows[windowId];
-		app.isActive = this.isAppActive(app.id);
+		if (app != null) app.isActive = this.isAppActive(app.id);
 		
 		console.info(`Closing window ${windowId}`);
 		delete this.windows[windowId];
@@ -193,7 +198,7 @@ export default class WindowsManager {
 		let active = false;
 
 		Object.values(this.windows).forEach((window) => {
-			if (window.app.id === appId) {
+			if (window.app?.id === appId) {
 				active = true;
 				return;
 			}
@@ -206,10 +211,8 @@ export default class WindowsManager {
 		let windowId: string | null = null;
 
 		Object.values(this.windows).forEach((window) => {
-			if (window.app.id === appId) {
-				windowId = window.id;
-				return;
-			}
+			if (window.app?.id == appId)
+				windowId = window.id as string;
 		});
 
 		return windowId;

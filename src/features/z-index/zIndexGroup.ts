@@ -4,7 +4,7 @@ export class ZIndexGroup {
 	length: number = 0;
 	offset: number = 0;
 	groupIndex: number = 0;
-	zIndexManager: ZIndexManager = null;
+	zIndexManager: ZIndexManager | null = null;
 
 	constructor(zIndexManager: ZIndexManager, initialLength?: number) {
 		this.setManager(zIndexManager);
@@ -23,10 +23,10 @@ export class ZIndexGroup {
 
 	setLength(length: number): ZIndexGroup {
 		if (this.length === length)
-			return;
+			return this;
 
 		this.length = length;
-		this.zIndexManager.update();
+		this.zIndexManager?.update();
 		return this;
 	}
 

@@ -3,8 +3,8 @@ import styles from "./WebView.module.css";
 import { WindowProps } from "../../../windows/WindowView";
 
 interface WebViewProps extends WindowProps {
-	source: string;
-	title: string;
+	source?: string;
+	title?: string;
 }
 
 export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source, focus, ...props }: WebViewProps, ref) => {
@@ -13,7 +13,7 @@ export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source
 	useEffect(() => {
 		window.focus();
 
-		const onBlur = (event) => {
+		const onBlur = (event: Event) => {
 			if (hovered) {
 				focus?.(event);
 			}
@@ -39,7 +39,6 @@ export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source
 		<iframe
 			ref={ref}
 			src={source}
-			title={props.title ?? "Web view"}
 			referrerPolicy="no-referrer"
 			sandbox="allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts"
 			{...props}

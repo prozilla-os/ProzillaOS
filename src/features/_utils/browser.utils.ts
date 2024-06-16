@@ -37,8 +37,8 @@ export function setViewportTitle(title: string) {
 }
 
 export function setViewportIcon(url: string) {
-	let link: HTMLLinkElement = document.querySelector("link[rel~='icon']");
-	if (!link) {
+	let link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
+	if (link == null) {
 		link = document.createElement("link");
 		link.rel = "icon";
 		document.head.appendChild(link);
@@ -49,7 +49,7 @@ export function setViewportIcon(url: string) {
 export function getViewportParams(): Record<string, string> {
 	const query = window.location.search.slice(1);
 
-	const params = {};
+	const params: Record<string, string> = {};
 	query.split("&").forEach((param) => {
 		// For some reason, URI components only decode when decoded twice
 		// TO DO: Please find a fix, or create a custom function
@@ -61,7 +61,7 @@ export function getViewportParams(): Record<string, string> {
 }
 
 interface generateUrlOptions {
-	appId: string;
+	appId?: string;
 	fullscreen?: boolean;
 	standalone?: boolean;
 }
@@ -107,5 +107,5 @@ export function removeUrlProtocol(url: string) {
 }
 
 export function copyToClipboard(string: string, onSuccess?: (value: void) => void, onFail?: (value: void) => void) {
-	navigator.clipboard.writeText(string).then(onSuccess, onFail);
+	void navigator.clipboard.writeText(string).then(onSuccess, onFail);
 }

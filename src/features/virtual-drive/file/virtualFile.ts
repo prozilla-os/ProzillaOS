@@ -1,7 +1,7 @@
 import { APPS } from "../../../config/apps.config";
 import { IMAGE_FORMATS } from "../../../config/apps/mediaViewer.config";
-import AppsManager from "../../apps/appsManager";
-import WindowsManager from "../../windows/windowsManager";
+import { AppsManager } from "../../apps/appsManager";
+import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 
 export interface VirtualFileJson extends VirtualBaseJson {
@@ -10,13 +10,15 @@ export interface VirtualFileJson extends VirtualBaseJson {
 	src?: string;
 }
 
+type OptionalStringProperty = string | null | undefined;
+
 /**
  * A virtual file that can be stored inside a folder
  */
 export class VirtualFile extends VirtualBase {
-	extension: string;
-	source: string;
-	content: string;
+	extension: OptionalStringProperty;
+	source: OptionalStringProperty;
+	content: OptionalStringProperty;
 
 	static NON_TEXT_EXTENSIONS = [
 		"png"
@@ -31,16 +33,16 @@ export class VirtualFile extends VirtualBase {
 		this.extension = extension;
 	}
 
-	setAlias(alias: string) {
+	setAlias(alias: string): this {
 		return super.setAlias(alias);
 	}
 
 	/**
 	 * Sets the source of this file and removes the content
 	 */
-	setSource(source: string) {
+	setSource(source: string): this {
 		if (this.source === source || !this.canBeEdited)
-			return;
+			return this;
 
 		this.source = source;
 		this.content = null;
@@ -54,9 +56,9 @@ export class VirtualFile extends VirtualBase {
 	/**
 	 * Sets the content of this file and removes the source
 	 */
-	setContent(content: string) {
+	setContent(content: string): this {
 		if (this.content === content || !this.canBeEdited)
-			return;
+			return this;
 
 		this.content = content;
 		this.source = null;
@@ -74,10 +76,13 @@ export class VirtualFile extends VirtualBase {
 		return `${this.name}.${this.extension}`;
 	}
 
-	static convertId(id: string): {
+	static splitId(id: string): {
 		name: string;
-		extension: string;
+		extension: OptionalStringProperty;
 	} {
+		if (!id.includes("."))
+			return { name: id, extension: "" };
+
 		const sections = id.split(".");
 		const extension = sections.pop();
 		const name = sections.join(".");
@@ -87,19 +92,17 @@ export class VirtualFile extends VirtualBase {
 	/**
 	 * Opens this file in an app associated with its extension
 	 */
-	open(windowsManager: WindowsManager) {
+	open(windowsManager: WindowsManager): object | null {
 		return windowsManager.openFile(this);
 	}
 
-	async read(): Promise<string | null> {
-		if (this.content != null)
-			return this.content;
+	async read(): Promise<OptionalStringProperty | undefined> {
+		if (this.content != null) return this.content;
+		if (this.source == null) return null;
 
-		const isText = !VirtualFile.NON_TEXT_EXTENSIONS.includes(this.extension);
+		const isText = this.extension == null || !VirtualFile.NON_TEXT_EXTENSIONS.includes(this.extension);
 
-		if (!isText) {
-			return this.source;
-		}
+		if (!isText) return this.source;
 
 		return await fetch(this.source).then((response) =>
 			response.text()
@@ -119,7 +122,7 @@ export class VirtualFile extends VirtualBase {
 
 		let iconUrl = null;
 
-		if (IMAGE_FORMATS.includes(this.extension))
+		if (this.source != null && this.extension != null && IMAGE_FORMATS.includes(this.extension))
 			return this.source;
 
 		switch (this.extension) {
@@ -143,11 +146,13 @@ export class VirtualFile extends VirtualBase {
 				break;
 		}
 
-		return iconUrl as string;
+		return iconUrl;
 	}
 
 	getType(): string {
 		let type = "";
+
+		if (this.extension == null) return "Unknown file";
 
 		switch (this.extension) {
 			case "png":

@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import ModalsManager from "../../features/modals/modalsManager";
+import { ModalsManager } from "../../features/modals/modalsManager";
 import { ModalsProvider } from "./modalsProvider";
 import { modalsManagerContext } from "./modalsManagerContext";
 

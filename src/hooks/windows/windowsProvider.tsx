@@ -1,5 +1,5 @@
 import { FC, ReactNode, useCallback, useState } from "react";
-import WindowsManager from "../../features/windows/windowsManager";
+import { WindowsManager } from "../../features/windows/windowsManager";
 import { WindowsContext, WindowsState } from "./windowsContext";
 import { WindowProps } from "../../components/windows/WindowView";
 

@@ -1,5 +1,5 @@
 import { WIRE } from "../../../../config/apps/logicSim.config";
-import Vector2 from "../../../math/vector2";
+import { Vector2 } from "../../../math/vector2";
 import { Circuit } from "../core/circuit";
 import { Pin } from "../pins/pin";
 import { State } from "../_utils/state";
@@ -15,12 +15,12 @@ export interface WireJson {
 }
 
 export class Wire {
-	color: string;
+	color!: string;
 	state = State.LOW;
-	inputPin: Pin;
-	outputPin: Pin;
-	anchorPoints: Vector2[];
-	circuit: Circuit;
+	inputPin!: Pin;
+	outputPin!: Pin;
+	anchorPoints!: Vector2[];
+	circuit!: Circuit;
 	placedBackwards = false;
 
 	constructor(circuit: Circuit, color: string, inputPin?: Pin, outputPin?: Pin, anchorPoints?: Vector2[]) {

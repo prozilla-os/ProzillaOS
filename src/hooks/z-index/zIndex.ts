@@ -14,17 +14,17 @@ export function useZIndex({ groupIndex, index }: UseZIndexParams) {
 
 	useEffect(() => {
 		const updateIndex = () => {
-			const newZIndex = zIndexManager.getIndex(groupIndex, index);
+			const newZIndex = zIndexManager?.getIndex(groupIndex, index);
 
-			if (zIndex !== newZIndex)
+			if (newZIndex != null && zIndex !== newZIndex)
 				setZIndex(newZIndex);
 		};
 
 		updateIndex();
-		zIndexManager.on(ZIndexManager.EVENT_NAMES.indexChange, updateIndex);
+		zIndexManager?.on(ZIndexManager.EVENT_NAMES.indexChange, updateIndex);
 
 		return () => {
-			zIndexManager.off(ZIndexManager.EVENT_NAMES.indexChange, updateIndex);
+			zIndexManager?.off(ZIndexManager.EVENT_NAMES.indexChange, updateIndex);
 		};
 	}, [groupIndex, index, zIndex, zIndexManager]);
 

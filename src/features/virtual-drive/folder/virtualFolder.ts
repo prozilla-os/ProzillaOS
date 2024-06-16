@@ -1,7 +1,7 @@
 import { APPS } from "../../../config/apps.config";
-import AppsManager from "../../apps/appsManager";
+import { AppsManager } from "../../apps/appsManager";
 import { removeFromArray } from "../../_utils/array.utils";
-import WindowsManager from "../../windows/windowsManager";
+import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualFileJson } from "../file/virtualFile";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 import { VirtualFolderLink } from ".";
@@ -32,7 +32,7 @@ export class VirtualFolder extends VirtualBase {
 		this.type = type ?? VirtualFolder.TYPE.GENERAL;
 	}
 
-	setAlias(alias: string) {
+	setAlias(alias: string): this {
 		return super.setAlias(alias);
 	}
 
@@ -53,8 +53,8 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Finds and returns a file inside this folder matching a name and extension
 	 */
-	findFile(name: string, extension?: string): VirtualFile | VirtualFileLink {
-		let resultFile: VirtualFile | VirtualFileLink = null;
+	findFile(name: string, extension?: string | null): VirtualFile | VirtualFileLink | null {
+		let resultFile: VirtualFile | VirtualFileLink | null = null;
 
 		this.files.forEach((file) => {
 			const matchingName = (file.name === name || (file.alias && file.alias === name));
@@ -70,8 +70,8 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Finds and returns a folder inside this folder matching a name
 	 */
-	findSubFolder(name: string): VirtualFolder | VirtualFolderLink {
-		let resultFolder: VirtualFolder | VirtualFolderLink = null;
+	findSubFolder(name: string): VirtualFolder | VirtualFolderLink | null {
+		let resultFolder: VirtualFolder | VirtualFolderLink | null = null;
 
 		this.subFolders.forEach((folder) => {
 			if (folder.name === name || (folder.alias && folder.alias === name)) {
@@ -85,7 +85,7 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Creates a file with a name and extension
 	 */
-	createFile(name: string, extension: string, callback?: (newFile: VirtualFile | VirtualFileLink) => void) {
+	createFile(name: string, extension?: string, callback?: (newFile: VirtualFile | VirtualFileLink) => void): this {
 		if (!this.canBeEdited)
 			return this;
 
@@ -104,7 +104,7 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Creates files based on an array of objects with file names and extensions
 	 */
-	createFiles(files: { name: string; extension: string; }[]) {
+	createFiles(files: { name: string; extension: string; }[]): this {
 		if (!this.canBeEdited)
 			return this;
 
@@ -119,7 +119,7 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Creates a file link with a name
 	 */
-	createFileLink(name: string, callback?: (newFileLink: VirtualFileLink | VirtualFile) => void) {
+	createFileLink(name: string, callback?: (newFileLink: VirtualFileLink | VirtualFile) => void): this {
 		if (!this.canBeEdited)
 			return this;
 
@@ -138,9 +138,9 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Creates files based on an array of objects with file names and extensions
 	 */
-	createFileLinks(files: { name: string; }[]): VirtualFolder {
+	createFileLinks(files: { name: string; }[]): this {
 		if (!this.canBeEdited)
-			return;
+			return this;
 
 		files.forEach(({ name }) => {
 			this.createFileLink(name);
@@ -153,9 +153,9 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Creates a folder with a name
 	 */
-	createFolder(name: string, callback?: (newFolder: VirtualFolder) => void): VirtualFolder {
+	createFolder(name: string, callback?: (newFolder: VirtualFolder) => void): this {
 		if (!this.canBeEdited)
-			return;
+			return this;
 
 		let newFolder = this.findSubFolder(name);
 		if (newFolder == null) {
@@ -163,7 +163,7 @@ export class VirtualFolder extends VirtualBase {
 			this.subFolders.push(newFolder);
 			newFolder.parent = this;
 		}
-		callback?.(newFolder);
+		callback?.(newFolder as VirtualFolder);
 		
 		newFolder.confirmChanges();
 		return this;
@@ -172,9 +172,9 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Creates folders based on an array of folder names
 	 */
-	createFolders(names: string[]): VirtualFolder {
+	createFolders(names: string[]): this {
 		if (!this.canBeEdited)
-			return;
+			return this;
 
 		names.forEach((name) => {
 			this.createFolder(name);
@@ -187,7 +187,7 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Creates a folder link with a name
 	 */
-	createFolderLink(name: string, callback?: (newFolderLink: VirtualFolderLink | VirtualFolder) => void) {
+	createFolderLink(name: string, callback?: (newFolderLink: VirtualFolderLink | VirtualFolder) => void): this {
 		if (!this.canBeEdited)
 			return this;
 
@@ -206,9 +206,9 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Creates folder links based on an array of folder names
 	 */
-	createFolderLinks(names: string[]): VirtualFolder {
+	createFolderLinks(names: string[]): this {
 		if (!this.canBeEdited)
-			return;
+			return this;
 
 		names.forEach((name) => {
 			this.createFolder(name);
@@ -221,11 +221,11 @@ export class VirtualFolder extends VirtualBase {
 	/**
 	 * Removes a file or folder from this folder
 	 */
-	remove(child: VirtualFile | VirtualFileLink | VirtualFolder | VirtualFolderLink) {
+	remove(child: VirtualFile | VirtualFileLink | VirtualFolder | VirtualFolderLink): this {
 		if (!this.canBeEdited)
-			return;
+			return this;
 
-		child.parent = null;
+		child.parent = undefined;
 
 		if (child.isFile()) {
 			removeFromArray(child, this.files);
@@ -234,6 +234,7 @@ export class VirtualFolder extends VirtualBase {
 		}
 
 		child.confirmChanges();
+		return this;
 	}
 
 	/**
@@ -258,14 +259,14 @@ export class VirtualFolder extends VirtualBase {
 		};
 
 		if (segments.length === 1) {
-			const directory = getDirectory(segments[0], true);
-			if (directory !== null)
+			const directory = getDirectory(segments[0], true) as VirtualFile | VirtualFolder;
+			if (directory != null)
 				return directory;
 		}
 
 		for (let i = 0; i < segments.length - 1; i++) {
 			const segment = segments[i];
-			currentDirectory = getDirectory(segment, i === 0);
+			currentDirectory = getDirectory(segment, i === 0) as VirtualFile | VirtualFolder;
 		}
 
 		const lastSegment = segments[segments.length - 1];
@@ -273,13 +274,12 @@ export class VirtualFolder extends VirtualBase {
 		if (lastSegment === "") {
 			return currentDirectory;
 		} else if (currentDirectory != null) {
-			const folder = (currentDirectory as VirtualFolder).findSubFolder(lastSegment);
+			const folder = (currentDirectory as VirtualFolder).findSubFolder(lastSegment) as VirtualFolder;
 
-			if (folder != null)
-				return folder;
+			if (folder != null) return folder;
 
-			const { name, extension } = VirtualFile.convertId(lastSegment);
-			return (currentDirectory as VirtualFolder).findFile(name, extension);
+			const { name, extension } = VirtualFile.splitId(lastSegment);
+			return (currentDirectory as VirtualFolder).findFile(name, extension) as VirtualFile | VirtualFolder;
 		} else {
 			return null;
 		}
@@ -317,24 +317,22 @@ export class VirtualFolder extends VirtualBase {
 	 * Returns all files inside this folder
 	 */
 	getFiles(showHidden = false): VirtualFile[] {
-		if (showHidden)
-			return this.files;
+		if (showHidden) return this.files as VirtualFile[];
 
 		return this.files.filter(({ name }) => 
 			!name.startsWith(".")
-		);
+		) as VirtualFile[];
 	}
 
 	/**
 	 * Returns all sub-folders inside this folder
 	 */
 	getSubFolders(showHidden = false): VirtualFolder[] {
-		if (showHidden)
-			return this.subFolders;
+		if (showHidden) return this.subFolders as VirtualFolder[];
 
 		return this.subFolders.filter(({ name }) => 
 			!name.startsWith(".")
-		);
+		) as VirtualFolder[];
 	}
 
 	/**
@@ -367,7 +365,7 @@ export class VirtualFolder extends VirtualBase {
 		if (this.files.length > 0) {
 			const files = this.files
 				.map((file) => file.toJSON())
-				.filter((file) => file != null);
+				.filter((file) => file != null) as VirtualFileJson[];
 
 			if (files.length > 0)
 				object.fls = files;
@@ -375,7 +373,7 @@ export class VirtualFolder extends VirtualBase {
 		if (this.subFolders.length > 0) {
 			const folders = this.subFolders
 				.map((folder) => folder.toJSON())
-				.filter((folder) => folder != null);
+				.filter((folder) => folder != null) as VirtualFolderJson[];
 
 			if (folders.length > 0)
 				object.fds = folders;

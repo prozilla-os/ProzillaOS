@@ -1,18 +1,20 @@
 import { VirtualFile } from "../../../virtual-drive/file";
 import { formatError } from "../_utils/terminal.utils";
-import Command from "../command";
+import { Command, ExecuteParams } from "../command";
 
 export const rm = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Remove a file"
 	})
-	.setExecute(function(args, { currentDirectory }) {
-		const { name, extension } = VirtualFile.convertId(args[0]);
+	.setExecute(function(this: Command, args, params) {
+		const { currentDirectory } = params as ExecuteParams;
+		const fileId = (args as string[])[0];
+		const { name, extension } = VirtualFile.splitId(fileId);
 		const file = currentDirectory.findFile(name, extension);
 	
 		if (!file)
-			return formatError((this as Command).name, `${args[0]}: No such file`);
+			return formatError(this.name, `${fileId}: No such file`);
 		
 		file.delete();
 		return { blank: true };

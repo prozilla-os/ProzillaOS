@@ -19,24 +19,24 @@ export function AppearanceSettings() {
 	const virtualRoot = useVirtualRoot();
 	const settingsManager = useSettingsManager();
 	const [theme, setTheme] = useState(0);
-	const [wallpaper, setWallpaper] = useState<string>(null);
-	const desktopSettings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.desktop);
-	const themeSettings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.theme);
+	const [wallpaper, setWallpaper] = useState<string | null>(null);
+	const desktopSettings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.desktop);
+	const themeSettings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.theme);
 	const { openWindowedModal } = useWindowedModal();
 
 	useEffect(() => {
-		void desktopSettings.get("wallpaper", setWallpaper);
-		void themeSettings.get("theme", (value: string) => { setTheme(parseInt(value)); });
+		void desktopSettings?.get("wallpaper", setWallpaper);
+		void themeSettings?.get("theme", (value: string) => { setTheme(parseInt(value)); });
 	}, [desktopSettings, themeSettings]);
 
 	const onWallpaperChange = (event: Event) => {
 		const value = (event.target as HTMLInputElement).value;
-		void desktopSettings.set("wallpaper", value);
+		void desktopSettings?.set("wallpaper", value);
 	};
 
 	const onThemeChange = (event: Event) => {
 		const value = (event.target as HTMLInputElement).value;
-		void themeSettings.set("theme", value);
+		void themeSettings?.set("theme", value);
 	};
 
 	return (<>
@@ -57,11 +57,12 @@ export function AppearanceSettings() {
 				onClick={() => {
 					openWindowedModal({
 						size: DEFAULT_FILE_SELECTOR_SIZE,
-						Modal: (props) => <FileSelector
+						Modal: (props: object) => <FileSelector
 							type={SELECTOR_MODE.SINGLE}
 							allowedFormats={IMAGE_FORMATS}
-							onFinish={(file: VirtualFile) => {
-								void desktopSettings.set("wallpaper", file.source);
+							onFinish={(file) => {
+								if ((file as VirtualFile).source != null)
+									void desktopSettings?.set("wallpaper", (file as VirtualFile).source as string);
 							}}
 							{...props}
 						/>
@@ -71,17 +72,17 @@ export function AppearanceSettings() {
 				Browse
 			</Button>
 			<div className={`${styles.Input} ${styles.ImageSelectContainer}`}>
-				{(virtualRoot.navigate(WALLPAPERS_PATH) as VirtualFolder)?.getFiles()?.map(({ id, source }) =>
+				{(virtualRoot?.navigate(WALLPAPERS_PATH) as VirtualFolder)?.getFiles()?.map(({ id, source }) =>
 					<label className={styles.ImageSelect} key={id}>
 						<input
 							type="radio"
-							value={source}
+							value={source ?? ""}
 							aria-label="Wallpaper image"
 							checked={source === wallpaper}
 							onChange={onWallpaperChange as unknown as ChangeEventHandler}
 							tabIndex={0}
 						/>
-						<img src={source} alt={id} draggable="false"/>
+						<img src={source ?? ""} alt={id} draggable="false"/>
 					</label>
 				)}
 			</div>

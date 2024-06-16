@@ -1,17 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./styles/global.css";
-import App from "./App";
 import { ASCII_LOGO, NAME } from "./config/branding.config";
 import { TrackingManager } from "./features/tracking/trackingManager";
 import { TimeManager } from "./features/_utils/time.utils";
+import { App } from "./App";
 
 TimeManager.reset();
 
 TrackingManager.initialize();
 
 // Render app
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(<React.StrictMode>
 	<App/>
 </React.StrictMode>);
@@ -25,5 +25,5 @@ console.info(ASCII_LOGO + space + welcomeMessage);
 // Remove trailing slash
 window.onload = () => {
 	if (window.location.pathname.endsWith("/"))
-		window.history.pushState({}, null, window.location.pathname.replace(/\/+$/, ""));
+		window.history.pushState({}, "", window.location.pathname.replace(/\/+$/, ""));
 };

@@ -1,9 +1,9 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, Ref, useEffect, useRef, useState } from "react";
 import styles from "./TextEditor.module.css";
 import { HeaderMenu } from "../_utils/header-menu/HeaderMenu";
 import Markdown from "markdown-to-jsx";
 import { CODE_FORMATS, DEFAULT_ZOOM, EXTENSION_TO_LANGUAGE, ZOOM_FACTOR } from "../../../config/apps/textEditor.config";
-import AppsManager from "../../../features/apps/appsManager";
+import { AppsManager } from "../../../features/apps/appsManager";
 import { TITLE_SEPARATOR } from "../../../config/windows.config";
 import { MarkdownLink } from "./overrides/MarkdownLink";
 import { MarkdownImage } from "./overrides/MarkdownImage";
@@ -17,9 +17,9 @@ import { VirtualFile } from "../../../features/virtual-drive/file";
 import { WindowProps } from "../../windows/WindowView";
 import { DropdownAction } from "../../actions/actions/DropdownAction";
 import { ClickAction } from "../../actions/actions/ClickAction";
-import ModalsManager from "../../../features/modals/modalsManager";
-import App from "../../../features/apps/app";
-import WindowsManager from "../../../features/windows/windowsManager";
+import { ModalsManager } from "../../../features/modals/modalsManager";
+import { App } from "../../../features/apps/app";
+import { WindowsManager } from "../../../features/windows/windowsManager";
 import { MarkdownBlockquote } from "./overrides/MarkdownBlockquote";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext";
 import { APP_NAMES } from "../../../config/apps.config";
@@ -47,10 +47,10 @@ interface TextEditorProps extends WindowProps {
 }
 
 export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app, modalsManager }: TextEditorProps) {
-	const ref = useRef();
+	const ref = useRef<HTMLDivElement | HTMLTextAreaElement>();
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
-	const [currentFile, setCurrentFile] = useState(file);
+	const [currentFile, setCurrentFile] = useState<VirtualFile | null>(file as VirtualFile);
 	const [currentMode, setCurrentMode] = useState<TextEditorProps["mode"]>(mode);
 	const [content, setContent] = useState(file?.content ?? "");
 	const [unsavedChanges, setUnsavedChanges] = useState(file == null);
@@ -76,12 +76,12 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 
 				const iconUrl = currentFile.getIconUrl();
 				if (iconUrl)
-					setIconUrl(iconUrl);
+					setIconUrl?.(iconUrl);
 
 				if (newContent?.trim() === "")
 					setCurrentMode("edit");
-			} else {
-				setIconUrl(AppsManager.getAppIconUrl(app.id));
+			} else if (app != null) {
+				setIconUrl?.(AppsManager.getAppIconUrl(app.id));
 			}
 	
 			setContent(newContent);
@@ -90,7 +90,7 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 				(ref.current as HTMLElement).scrollTo(0, 0);
 			}
 		})();
-	}, [app.id, currentFile, setIconUrl]);
+	}, [app?.id, currentFile, setIconUrl]);
 
 	useEffect(() => {
 		// Update title
@@ -102,12 +102,12 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 		if (currentMode === "view")
 			label += " (preview)";
 
-		setTitle(`${label} ${TITLE_SEPARATOR} ${app.name}`);
-	}, [currentFile, setTitle, unsavedChanges, currentMode, app.name]);
+		setTitle?.(app != null ? `${label} ${TITLE_SEPARATOR} ${app.name}` : label);
+	}, [currentFile, setTitle, unsavedChanges, currentMode, app?.name]);
 
 	useEffect(() => {
 		if (!initialised && currentFile == null && path != null) {
-			const newFile = virtualRoot.navigate(path);
+			const newFile = virtualRoot?.navigate(path);
 
 			if (newFile == null || !newFile.isFile())
 				return;
@@ -147,7 +147,7 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 		return setContent(value);
 	};
 
-	const overrides = {};
+	const overrides: Record<string, object> = {};
 	for (const [key, value] of Object.entries(OVERRIDES)) {
 		overrides[key] = {
 			component: value,
@@ -169,10 +169,10 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 					<ClickAction label="Open" onTrigger={() => {
 						openWindowedModal({
 							size: DEFAULT_FILE_SELECTOR_SIZE,
-							Modal: (props) => <FileSelector
+							Modal: (props: object) => <FileSelector
 								type={SELECTOR_MODE.SINGLE}
-								onFinish={(file: VirtualFile) => {
-									setCurrentFile(file);
+								onFinish={(file) => {
+									setCurrentFile(file as VirtualFile);
 									setUnsavedChanges(false);
 								}}
 								{...props}
@@ -182,15 +182,15 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 					<Divider/>
 					<ClickAction label="Save" onTrigger={() => { saveText(); }} shortcut={["Control", "s"]}/>
 					<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} disabled={currentFile == null} onTrigger={() => {
-						currentFile.parent.open(windowsManager);
+						if (windowsManager != null)	currentFile?.parent?.open(windowsManager);
 					}}/>
 					<Divider/>
-					<ClickAction label="Quit" onTrigger={() => { close(); }} shortcut={["Control", "q"]}/>
+					<ClickAction label="Quit" onTrigger={() => { close?.(); }} shortcut={["Control", "q"]}/>
 				</DropdownAction>
 				<DropdownAction label="View" showOnHover={false}>
 					<ClickAction label={currentMode === "view" ? "Edit mode" : "Preview mode"} onTrigger={() => {
 						setCurrentMode(currentMode === "view" ? "edit" : "view");
-					}} shortcut={["Control", "v"]}/>
+					}} shortcut={["Control", "u"]}/>
 					<Divider/>
 					<ClickAction label="Zoom in" onTrigger={() => { setZoom(zoom + ZOOM_FACTOR); }} shortcut={["Control", "+"]}/>
 					<ClickAction label="Zoom out" onTrigger={() => { setZoom(zoom - ZOOM_FACTOR); }} shortcut={["Control", "-"]}/>
@@ -198,21 +198,21 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 				</DropdownAction>
 			</HeaderMenu>
 			{currentMode === "view"
-				? CODE_FORMATS.includes(currentFile?.extension)
+				? currentFile?.extension != null && CODE_FORMATS.includes(currentFile?.extension)
 					? <SyntaxHighlighter
 						language={EXTENSION_TO_LANGUAGE[currentFile?.extension] ?? currentFile?.extension}
 						className={styles.Code}
 						useInlineStyles={false}
 						showLineNumbers={true}
 					>{content}</SyntaxHighlighter>
-					: <div ref={ref} className={styles.View}>
+					: <div ref={ref as Ref<HTMLDivElement>} className={styles.View}>
 						{currentFile?.extension === "md"
-							? <Markdown options={{ overrides }}>{content}</Markdown>
+							? <Markdown options={{ overrides } as object}>{content}</Markdown>
 							: <pre><p>{content}</p></pre>
 						}
 					</div>
 				: <textarea
-					ref={ref}
+					ref={ref as Ref<HTMLTextAreaElement>}
 					className={styles.View}
 					value={content}
 					onChange={onChange}

@@ -8,7 +8,7 @@ import { ModalsManagerProvider } from "./hooks/modals/modalsManagerProvider";
 import { SettingsManagerProvider } from "./hooks/settings/settingsManagerProvider";
 import { Router } from "./components/router/Router";
 
-export default function App(): ReactElement {
+export function App(): ReactElement {
 	useEffect(() => {
 		const onContextMenu = (event: Event) => {
 			event.preventDefault();

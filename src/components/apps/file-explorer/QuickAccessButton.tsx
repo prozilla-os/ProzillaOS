@@ -1,8 +1,15 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
 import styles from "./FileExplorer.module.css";
 import utilStyles from "../../../styles/utils.module.css";
+import { MouseEventHandler } from "react";
 
-export function QuickAccessButton({ onClick, icon, name }) {
+interface QuickAcessButton {
+	onClick: MouseEventHandler;
+	icon: FontAwesomeIconProps["icon"];
+	name: string;
+}
+
+export function QuickAccessButton({ onClick, icon, name }: QuickAcessButton) {
 	return (
 		<button
 			tabIndex={0}

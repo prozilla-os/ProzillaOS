@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DefaultRoute } from "./routes/DefaultRoute";
-import AppsManager from "../../features/apps/appsManager";
-import App from "../../features/apps/app";
+import { AppsManager } from "../../features/apps/appsManager";
+import { App } from "../../features/apps/app";
 import { StandaloneRoute } from "./routes/StandaloneRoute";
 import { NoRoute } from "./routes/NoRoute";
 

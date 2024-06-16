@@ -1,6 +1,6 @@
 import { CSSProperties, MutableRefObject, useState } from "react";
 import styles from "./Terminal.module.css";
-import Ansi from "./Ansi";
+import { Ansi } from "./Ansi";
 
 
 interface InputLineProps {
@@ -16,7 +16,8 @@ export function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown, inputRe
 	const [cursorPosition, setCursorPosition] = useState(0);
 
 	const checkCursorPosition = () => {
-		setCursorPosition(inputRef.current?.selectionStart);
+		const selectionStart = inputRef.current?.selectionStart;
+		if (selectionStart != null)	setCursorPosition(selectionStart);
 	};
 
 	return (

@@ -5,11 +5,11 @@ import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import Draggable from "react-draggable";
 import { CSSProperties, FC, memo, MouseEventHandler, useEffect, useRef, useState } from "react";
-import Vector2 from "../../features/math/vector2";
+import { Vector2 } from "../../features/math/vector2";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import utilStyles from "../../styles/utils.module.css";
 import { useContextMenu } from "../../hooks/modals/contextMenu";
-import AppsManager from "../../features/apps/appsManager";
+import { AppsManager } from "../../features/apps/appsManager";
 import { ClickAction } from "../actions/actions/ClickAction";
 import { Actions } from "../actions/Actions";
 import { useScreenDimensions } from "../../hooks/_utils/screen";
@@ -19,12 +19,13 @@ import { ZIndexManager } from "../../features/z-index/zIndexManager";
 import { useZIndex } from "../../hooks/z-index/zIndex";
 import { useWindowedModal } from "../../hooks/modals/windowedModal";
 import { Divider } from "../actions/actions/Divider";
-import ModalsManager from "../../features/modals/modalsManager";
+import { ModalsManager } from "../../features/modals/modalsManager";
 import { Share } from "../modals/share/Share";
 import { ErrorBoundary } from "react-error-boundary";
-import WindowFallbackView from "./WindowFallbackView";
+import { WindowFallbackView } from "./WindowFallbackView";
 import { WindowOptions } from "../../features/windows/windowsManager";
 import { MIN_SCREEN_HEIGHT, MIN_SCREEN_WIDTH } from "../../config/windows.config";
+import { ModalProps } from "../modals/ModalView";
 
 export interface WindowProps extends WindowOptions {
 	fullscreen?: boolean;
@@ -48,58 +49,57 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 	const [startPosition, setStartPosition] = useState(position);
 	const [maximized, setMaximized] = useState(fullscreen ?? false);
 	const [screenWidth, screenHeight] = useScreenDimensions();
-	const [title, setTitle] = useState(app.name);
-	const [iconUrl, setIconUrl] = useState(AppsManager.getAppIconUrl(app.id));
-	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.WINDOWS, index });
+	const [title, setTitle] = useState(app?.name ?? "");
+	const [iconUrl, setIconUrl] = useState(app ? AppsManager.getAppIconUrl(app?.id) : "");
+	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.WINDOWS, index: index ?? 0 });
 
 	const { onContextMenu, ShortcutsListener } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label="Minimize" icon={faMinus} onTrigger={() => { toggleMinimized(); }}/>
+			<ClickAction label="Minimize" icon={faMinus} onTrigger={() => { toggleMinimized?.(); }}/>
 			<ClickAction label="Maximize" icon={faExpand} shortcut={["F11"]} onTrigger={() => {
 				setMaximized(!maximized);
 			}}/>
 			<ClickAction label="Close" icon={faTimes} shortcut={["Control", "q"]} onTrigger={() => {
-				close();
+				close?.();
 			}}/>
 			<Divider/>
 			<ClickAction label="Standalone mode" icon={faCircleRight} onTrigger={() => {
-				openUrl(generateUrl({ appId: app.id, standalone: true }), "_self");
+				if (app != null) openUrl(generateUrl({ appId: app.id, standalone: true }), "_self");
 			}}/>
 			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} shortcut={["Alt", "s"]} onTrigger={() => {
-				openWindowedModal({
-					appId: app.id,
-					fullscreen: maximized,
-					size: new Vector2(350, 350),
-					Modal: (props) => <Share {...props}/>
-				});
+				if (app != null)
+					openWindowedModal({
+						appId: app.id,
+						fullscreen: maximized,
+						size: new Vector2(350, 350),
+						Modal: (props: ModalProps) => <Share {...props}/>
+					});
 			}}/>
 		</Actions>
 	});
 
 	useEffect(() => {
-		if (screenWidth == null || screenHeight == null)
-			return;
+		if (screenWidth == null || screenHeight == null) return;
 
 		if (screenWidth < MIN_SCREEN_WIDTH || screenHeight < MIN_SCREEN_HEIGHT) {
 			setMaximized(true);
-		} else {
-			if (position.x > screenWidth)
-				position.x = 0;
-			if (position.y > screenHeight)
-				position.y = 0;
+		} else if (position != null) {
+			if (position.x > screenWidth) position.x = 0;
+			if (position.y > screenHeight) position.y = 0;
 
 			setStartPosition(position);
+		} else {
+			setStartPosition(new Vector2(0, 0));
 		}
 	}, [position, size, screenHeight, screenWidth]);
 
 	useEffect(() => {
 		const setViewportTitleAndIcon = () => {
-			setViewportTitle(`${title} | ${NAME}`);
-			setViewportIcon(iconUrl);
+			if (title != null) setViewportTitle(`${title} | ${NAME}`);
+			if (iconUrl != null) setViewportIcon(iconUrl);
 		};
 
-		if (active && !minimized)
-			setViewportTitleAndIcon();
+		if (active && !minimized) setViewportTitleAndIcon();
 
 		window.addEventListener("focus", setViewportTitleAndIcon);
 
@@ -108,14 +108,17 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 		};
 	}, [active, minimized, iconUrl, title]);
 
+	if (app == null)
+		return;
+
 	const close: WindowProps["close"] = (event) => {
 		event?.preventDefault();
-		windowsManager.close(id);
+		if (id != null) windowsManager?.close(id);
 	};
 
 	const focus: WindowProps["focus"] = (event, force = false) => {
 		if (force) {
-			onInteract();
+			onInteract?.();
 			return;
 		}
 
@@ -124,7 +127,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 
 		const target = event?.target as HTMLElement;
 		if (event == null || target?.closest?.(".Handle") == null || target?.closest?.("button") == null)
-			onInteract();
+			onInteract?.();
 	};
 
 	const classNames = [styles["Window-container"]];
@@ -139,14 +142,14 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 			key={id}
 			axis="both"
 			handle={".Window-handle"}
-			defaultPosition={startPosition.round()}
-			position={null}
+			defaultPosition={startPosition?.round()}
+			position={undefined}
 			scale={1}
 			bounds={{
 				top: 0,
-				bottom: screenHeight - 55,
-				left: -size.x + 85,
-				right: screenWidth - 5
+				bottom: (screenHeight ?? 0) - 55,
+				left: size ? -size.x + 85 : 85,
+				right: (screenWidth ?? 0) - 5
 			}}
 			cancel="button"
 			nodeRef={nodeRef}
@@ -162,14 +165,18 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 				<div
 					className={styles["Window-inner"]}
 					style={{
-						width: maximized ? null : size.x,
-						height: maximized ? null : size.y,
+						width: (maximized || size == null) ? undefined : size.x,
+						height: (maximized || size == null) ? undefined : size.y,
 					}}
 				>
-					<div className={`${styles.Header} Window-handle`} onContextMenu={onContextMenu} onDoubleClick={(event) => {
-						setMaximized(!maximized);
-						focus(event as unknown as Event, true);
-					}}>
+					<div
+						className={`${styles.Header} Window-handle`}
+						onContextMenu={onContextMenu as unknown as MouseEventHandler}
+						onDoubleClick={(event) => {
+							setMaximized(!maximized);
+							focus(event as unknown as Event, true);
+						}}
+					>
 						<ReactSVG
 							className={styles["Window-icon"]}
 							src={iconUrl}
@@ -180,7 +187,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 						>
 							<FontAwesomeIcon icon={faMinus}/>
 						</button>
-						{screenWidth > MIN_SCREEN_WIDTH && screenHeight > MIN_SCREEN_HEIGHT
+						{screenWidth != null && screenHeight != null && screenWidth > MIN_SCREEN_WIDTH && screenHeight > MIN_SCREEN_HEIGHT
 							? <button aria-label="Maximize" className={styles["Header-button"]} tabIndex={0} id="maximize-window"
 								onClick={(event) => {
 									event.preventDefault();

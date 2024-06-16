@@ -14,7 +14,7 @@ export function ToggleAction({ actionId, label, shortcut, initialValue, onTrigge
 	const [active, setActive] = useState(initialValue ?? false);
 
 	return (<button key={actionId} className={styles.Button} tabIndex={0} onClick={(event) => {
-		onTrigger(event as unknown as Event, !active);
+		onTrigger?.(event as unknown as Event, !active);
 		setActive(!active);
 	}}>
 		<span className={styles.Label}>

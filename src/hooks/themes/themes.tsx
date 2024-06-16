@@ -10,10 +10,10 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
 	const [theme, setTheme] = useState(0);
 	const settingsManager = useSettingsManager();
-	const themeSettings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.theme);
+	const themeSettings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.theme);
 
 	useEffect(() => {
-		void themeSettings.get("theme", (value: string) => { setTheme(parseInt(value) || 0); });
+		void themeSettings?.get("theme", (value: string) => { setTheme(parseInt(value) || 0); });
 	}, [themeSettings]);
 
 	return <div className={`${THEMES[theme ?? 0]}-theme`}>

@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import Modal from "../../features/modals/modal";
+import { Modal } from "../../features/modals/modal";
 
 export type ModalsState = Modal[] | undefined;
 

@@ -17,7 +17,7 @@ export function MarkdownImage({ alt, src, ...props }: MarkdownImageProps) {
 		return src;
 	}, [src]);
 
-	sanitizeProps(props as MarkdownProps);
+	sanitizeProps(props);
 
 	return <img
 		{...props}

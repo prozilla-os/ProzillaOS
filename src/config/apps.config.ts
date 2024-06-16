@@ -11,7 +11,9 @@ export const APPS = {
 	LOGIC_SIM: "logic-sim",
 };
 
-export const APP_NAMES = {
+export type AppKey = keyof typeof APPS;
+
+export const APP_NAMES: Record<AppKey, string> = {
 	TERMINAL: "Commands",
 	SETTINGS: "Settings",
 	MEDIA_VIEWER: "Photos",
@@ -22,14 +24,15 @@ export const APP_NAMES = {
 	LOGIC_SIM: "Logic Sim (WIP)"
 };
 
-export const APP_DESCRIPTIONS = {
+export const APP_DESCRIPTIONS: Record<AppKey, string | null> = {
 	TERMINAL: "A command line tool inspired by the Unix shell that runs entirely in your browser and uses a virtual file system.",
 	SETTINGS: `Configure ${NAME}'s settings and customize your experience.`,
 	TEXT_EDITOR: "Simple text editor for reading and writing text documents.",
 	FILE_EXPLORER: "Browse and manage your virtual files.",
 	CALCULATOR: "Simple calculator app.",
 	BROWSER: "Browse the internet.",
-	LOGIC_SIM: "Create digital logic circuits using the online simulator."
+	LOGIC_SIM: "Create digital logic circuits using the online simulator.",
+	MEDIA_VIEWER: null,
 };
 
 export const APP_ICONS = {

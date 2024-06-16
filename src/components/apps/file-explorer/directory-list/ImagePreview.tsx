@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./ImagePreview.module.css";
 import { ReactSVG } from "react-svg";
-import AppsManager from "../../../../features/apps/appsManager";
+import { AppsManager } from "../../../../features/apps/appsManager";
 import { APPS } from "../../../../config/apps.config";
 
 interface ImagePreviewProps {

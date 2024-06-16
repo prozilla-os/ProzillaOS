@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { APP_DESCRIPTIONS, APP_NAMES, APPS } from "../src/config/apps.config";
+import { APP_DESCRIPTIONS, APP_NAMES, AppKey, APPS } from "../src/config/apps.config";
 import { ANSI } from "../src/config/apps/terminal.config";
 import { NAME, TAG_LINE } from "../src/config/branding.config";
 import { WALLPAPERS } from "../src/config/desktop.config";
@@ -91,8 +91,8 @@ function generate404Page(template: string) {
 function generateAppPages(template: string) {
 	for (const [key, value] of Object.entries(APPS)) {
 		const appId = value;
-		const appName = Object.keys(APP_NAMES).includes(key) ? APP_NAMES[key] as string : appId;
-		const appDescription = Object.keys(APP_DESCRIPTIONS).includes(key) ? APP_DESCRIPTIONS[key] as string : TAG_LINE;
+		const appName = key in APP_NAMES ? APP_NAMES[key as AppKey] as string : appId;
+		const appDescription = Object.keys(APP_DESCRIPTIONS).includes(key) ? APP_DESCRIPTIONS[key as AppKey] as string : TAG_LINE;
 
 		if (appId === "index") {
 			console.log("Invalid app ID found: " + appId);

@@ -3,7 +3,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import styles from "./Battery.module.css";
 import { UtilMenu } from "../menus/UtilMenu";
-import OutsideClickListener from "../../../hooks/_utils/outsideClick";
+import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
+
+type Battery = {
+	charging: boolean | ((prevState: boolean) => boolean);
+	level: number;
+	addEventListener: (arg0: string, arg1: {
+		(): void;
+		(): void;
+	}) => void;
+	removeEventListener: (arg0: string, arg1: {
+		(): void;
+		(): void;
+	}) => void;
+};
 
 interface BatteryProps {
 	hideUtilMenus: boolean;
@@ -18,7 +31,8 @@ export function Battery({ hideUtilMenus, showUtilMenu }: BatteryProps) {
 	// const [dischargingTime, setDischargingTime] = useState(0);
 
 	useEffect(() => {
-		(navigator as any).getBattery?.()?.then((battery) => {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+		(navigator as any).getBattery?.()?.then((battery: Battery) => {
 			const updateIsCharging = () => {
 				setIsCharging(battery.charging);
 			};
@@ -60,7 +74,7 @@ export function Battery({ hideUtilMenus, showUtilMenu }: BatteryProps) {
 		}
 	}, [hideUtilMenus, showMenu]);
 
-	const updateShowMenu = (show) => {
+	const updateShowMenu = (show: boolean) => {
 		if (show)
 			showUtilMenu();
 

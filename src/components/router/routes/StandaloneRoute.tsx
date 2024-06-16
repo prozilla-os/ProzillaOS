@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import App from "../../../features/apps/app";
-import AppsManager from "../../../features/apps/appsManager";
+import { App } from "../../../features/apps/app";
+import { AppsManager } from "../../../features/apps/appsManager";
 import { generateUrl, getViewportParams, openUrl, setViewportIcon, setViewportTitle } from "../../../features/_utils/browser.utils";
 import { NAME } from "../../../config/branding.config";
 import { StandaloneHeader } from "../../windows/StandaloneHeader";

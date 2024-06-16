@@ -1,5 +1,5 @@
 import { randomFromArray } from "../../../_utils/array.utils";
-import Command from "../command";
+import { Command } from "../command";
 
 /**
  * Source: https://github.com/shlomif/fortune-mod/blob/master/fortune-mod/datfiles/fortunes
@@ -8,7 +8,7 @@ const FORTUNES = [
 	"Do not be afraid of competition.",
 	"An exciting opportunity lies ahead of you.",
 	"You love peace.",
-	"Get your mind set…confidence will lead you on.",
+	"Get your mind set... confidence will lead you on.",
 	"You will always be surrounded by true friends.",
 	"Sell your ideas-they have exceptional merit.",
 	"You should be able to undertake and complete anything.",

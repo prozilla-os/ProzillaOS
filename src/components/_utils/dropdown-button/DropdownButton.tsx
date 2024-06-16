@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./DropdownButton.module.css";
-import OutsideClickListener from "../../../hooks/_utils/outsideClick";
+import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 import { formatShortcut } from "../../../features/_utils/string.utils";
 
 export function DropdownButton({ label, options, shortcuts }: { label: string; options: { [s: string]: Function; }; shortcuts: { [s: string]: string[]; }; }) {

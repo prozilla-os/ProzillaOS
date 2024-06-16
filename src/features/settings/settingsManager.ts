@@ -11,17 +11,21 @@ export class SettingsManager {
 
 	#pathToSettings: { [s: string]: Settings; } = {};
 
-	#virtualRoot: VirtualRoot = null;
+	#virtualRoot: VirtualRoot | null = null;
 
 	constructor(virtualRoot: VirtualRoot) {
 		this.#virtualRoot = virtualRoot;
 
-		Object.values(SettingsManager.VIRTUAL_PATHS).forEach((path) => {
-			this.#pathToSettings[path] = new Settings(this.#virtualRoot, path);
-		});
+		if (this.#virtualRoot == null) {
+			throw new Error("SettingsManager is missing VirtualRoot"); // Why does this sound so sad :'(
+		} else {
+			Object.values(SettingsManager.VIRTUAL_PATHS).forEach((path) => {
+				this.#pathToSettings[path] = new Settings(this.#virtualRoot as VirtualRoot, path);
+			});
+		}
 	}
 
-	get(path: string): Settings {
+	getSettings(path: string): Settings {
 		return this.#pathToSettings[path];
 	}
 }

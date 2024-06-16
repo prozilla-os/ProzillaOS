@@ -17,9 +17,10 @@ export const WindowsView: FC = memo(() => {
 
 	// Sort windows
 	useEffect(() => {
-		setSortedWindows([...windows].sort((windowA: WindowOptions, windowB: WindowOptions) =>
-			windowA.lastInteraction - windowB.lastInteraction
-		));
+		if (windows != null)
+			setSortedWindows([...windows].sort((windowA: WindowOptions, windowB: WindowOptions) =>
+				(windowA.lastInteraction ?? 0) - (windowB.lastInteraction ?? 0)
+			));
 	}, [windows]);
 
 	useEffect(() => {
@@ -40,7 +41,7 @@ export const WindowsView: FC = memo(() => {
 
 	// Launch startup apps
 	useEffect(() => {
-		if (windowsManager.startupComplete)
+		if (windowsManager?.startupComplete)
 			return;
 
 		let startupAppNames: string[] = [];
@@ -53,24 +54,24 @@ export const WindowsView: FC = memo(() => {
 		delete params.app;
 
 		// Get list of app names from settings file
-		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.apps);
-		void settings.get("startup", (value) => {
+		const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.apps);
+		void settings?.get("startup", (value) => {
 			if (value !== "") {
 				startupAppNames = value?.split(",").concat(startupAppNames);
 				startupAppNames = removeDuplicatesFromArray(startupAppNames);
 			}
 
-			windowsManager.startup(startupAppNames, params);
+			windowsManager?.startup(startupAppNames, params);
 		});
 	}, [settingsManager, windowsManager]);
 
 	return (<div>
-		{windows.map((window: WindowProps) => {
+		{windows?.map((window: WindowProps) => {
 			const { id, app, size, position, options, minimized, fullscreen } = window;
 			const index = sortedWindows.indexOf(window);
 			return <WindowView
 				key={id}
-				onInteract={() => { windowsManager.focus(id); }}
+				onInteract={() => { windowsManager?.focus(id as string); }}
 				active={index === sortedWindows.length - 1}
 				id={id}
 				app={app}
@@ -82,7 +83,7 @@ export const WindowsView: FC = memo(() => {
 				toggleMinimized={(event: Event) => {
 					event.preventDefault();
 					event.stopPropagation();
-					windowsManager.setMinimized(id, !minimized);
+					windowsManager?.setMinimized(id as string, !minimized);
 				}}
 				fullscreen={fullscreen}
 			/>;

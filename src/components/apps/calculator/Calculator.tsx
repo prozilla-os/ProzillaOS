@@ -4,10 +4,10 @@ import styles from "./Calculator.module.css";
 import { WindowProps } from "../../windows/WindowView";
 
 export function Calculator({ active }: WindowProps) {
-	const [input, setInput] = useState("0");
-	const [firstNumber, setFirstNumber] = useState<number>(null);
-	const [secondNumber, setSecondNumber] = useState<number>(null);
-	const [operation, setOperation] = useState<string>(null);
+	const [input, setInput] = useState<string | null>("0");
+	const [firstNumber, setFirstNumber] = useState<number | null>(null);
+	const [secondNumber, setSecondNumber] = useState<number | null>(null);
+	const [operation, setOperation] = useState<string | null>(null);
 	const [isIntermediate, setIsIntermediate] = useState(false);
 
 	const reset = useCallback(() => {
@@ -20,7 +20,7 @@ export function Calculator({ active }: WindowProps) {
 	const addInput = useCallback((string: string) => {
 		let hasReset = false;
 		if (secondNumber != null) {
-			if (isIntermediate) {
+			if (isIntermediate && input != null) {
 				setFirstNumber(parseFloat(input));
 				setSecondNumber(null);
 				setInput(null);
@@ -36,10 +36,10 @@ export function Calculator({ active }: WindowProps) {
 		if (string === "-") {
 			if (input === "0") {
 				setInput("-0");
-			} else {
+			} else if (input != null) {
 				setInput((parseFloat(input) * -1).toString());
 			}
-		} else if (string === "%") {
+		} else if (string === "%" && input != null) {
 			setInput((parseFloat(input) / 100).toString());
 		} else if (input === "0" || input === "-0" || input == null || hasReset) {
 			if (string === ".") {
@@ -54,7 +54,7 @@ export function Calculator({ active }: WindowProps) {
 	}, [input, isIntermediate, reset, secondNumber]);
 
 	const calculate = useCallback((intermediate = false) => {
-		if (firstNumber != null) {
+		if (firstNumber != null && input != null) {
 			setSecondNumber(parseFloat(input));
 
 			const a = firstNumber;
@@ -85,7 +85,7 @@ export function Calculator({ active }: WindowProps) {
 	const changeOperation = useCallback((operation: string) => {
 		if (firstNumber != null && secondNumber == null) {
 			calculate(true);
-		} else {
+		} else if (input != null) {
 			setFirstNumber(parseFloat(input));
 			setSecondNumber(null);
 			setInput(null);

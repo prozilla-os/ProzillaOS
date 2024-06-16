@@ -1,9 +1,9 @@
 import { ANSI } from "../../../../config/apps/terminal.config";
 import { randomFromArray, removeFromArray } from "../../../_utils/array.utils";
-import { randomRange } from "../../../math/random";
-import Vector2 from "../../../math/vector2";
-import Command from "../command";
-import Stream from "../stream";
+import { randomRange } from "../../../_utils/math.utils";
+import { Vector2 } from "../../../math/vector2";
+import { Command } from "../command";
+import { Stream } from "../stream";
 
 const ANIMATION_SPEED = 1.25;
 const SCREEN_WIDTH = 75;

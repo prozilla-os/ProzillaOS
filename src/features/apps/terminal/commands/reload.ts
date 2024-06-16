@@ -1,5 +1,5 @@
-import Command from "../command";
-import CommandsManager from "../commands";
+import { Command } from "../command";
+import { CommandsManager } from "../commands";
 
 export const reload = new Command()
 	.setManual({

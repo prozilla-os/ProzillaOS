@@ -32,7 +32,7 @@ export function RadioAction({ actionId, options, initialIndex, onTrigger }: Radi
 		{options.map(({ label, shortcut }, index) =>
 			<button key={label} className={styles.Button} tabIndex={0} onClick={(event) => {
 				setActiveIndex(index);
-				onTrigger(event as unknown as Event, index);
+				onTrigger?.(event as unknown as Event, index);
 			}}>
 				<span className={styles.Label}>
 					<div className={styles.Icon}>

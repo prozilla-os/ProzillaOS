@@ -1,6 +1,6 @@
 export function formatShortcut(shortcut: string[]): string {
-	const specialKeys = [];
-	const singleKeys = [];
+	const specialKeys: string[] = [];
+	const singleKeys: string[] = [];
 
 	shortcut.forEach((key) => {
 		if (key.length > 1) {

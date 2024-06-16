@@ -3,11 +3,11 @@
  */
 
 
-import { useCallback, useEffect } from "react";
+import { MutableRefObject, useCallback, useEffect } from "react";
 import { useState } from "react";
 
 interface UseScrollWithShadowParams {
-	ref?: { current: HTMLElement | null };
+	ref?: MutableRefObject<HTMLElement>;
 	horizontal?: boolean;
 	dynamicOffset?: boolean;
 	dynamicOffsetFactor?: number;
@@ -73,10 +73,10 @@ export function useScrollWithShadow(params: UseScrollWithShadowParams): {
 
 	useEffect(() => {
 		const onResize = () => {
-			updateValues(ref.current);
+			if (ref?.current != null) updateValues(ref.current);
 		};
 
-		if (ref.current && !initiated) {
+		if (ref?.current && !initiated) {
 			setInitiated(true);
 			updateValues(ref.current);
 		}

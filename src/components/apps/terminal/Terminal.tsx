@@ -1,19 +1,20 @@
-import { MouseEventHandler, useEffect, useRef, useState } from "react";
+import { MouseEventHandler, MutableRefObject, useEffect, useRef, useState } from "react";
 import styles from "./Terminal.module.css";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext";
-import { clamp } from "../../../features/math/clamp";
 import { OutputLine } from "./OutputLine";
 import { InputLine } from "./InputLine";
 import { ANSI, HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../../../config/apps/terminal.config";
-import CommandsManager from "../../../features/apps/terminal/commands";
+import { CommandsManager } from "../../../features/apps/terminal/commands";
 import { removeFromArray } from "../../../features/_utils/array.utils";
-import Stream from "../../../features/apps/terminal/stream";
+import { Stream } from "../../../features/apps/terminal/stream";
 import { formatError } from "../../../features/apps/terminal/_utils/terminal.utils";
 import { WindowProps } from "../../windows/WindowView";
 import { VirtualFolder } from "../../../features/virtual-drive/folder/virtualFolder";
 import { CommandResponse } from "../../../features/apps/terminal/command";
 import { APP_NAMES } from "../../../config/apps.config";
 import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext";
+import { SettingsManager } from "../../../features/settings/settingsManager";
+import { clamp } from "../../../features/_utils/math.utils";
 
 interface TerminalProps extends WindowProps {
 	path: string;
@@ -35,18 +36,19 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 		isInput: false,
 	}]);
 	const virtualRoot = useVirtualRoot();
-	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot.navigate(startPath ?? "~"));
+	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot?.navigate(startPath ?? "~"));
 	const inputRef = useRef(null);
 	const [historyIndex, setHistoryIndex] = useState(0);
-	const [stream, setStream] = useState<Stream>(null);
-	const [streamOutput, setStreamOutput] = useState<string>(null);
+	const [stream, setStream] = useState<Stream | null>(null);
+	const [streamOutput, setStreamOutput] = useState<string | null>(null);
 	const ref = useRef(null);
 	const [streamFocused, setStreamFocused] = useState(false);
 	const settingsManager = useSettingsManager();
 
 	useEffect(() => {
-		setTitle(`${USERNAME}@${HOSTNAME}: ${currentDirectory.root ? "/" : currentDirectory.path}`);
-	}, [currentDirectory.path, currentDirectory.root, setTitle]);
+		if (currentDirectory != null)
+			setTitle?.(`${USERNAME}@${HOSTNAME}: ${currentDirectory.root ? "/" : currentDirectory.path}`);
+	}, [currentDirectory?.path, currentDirectory?.root, setTitle]);
 
 	useEffect(() => {
 		if (!inputRef.current || !active)
@@ -75,7 +77,7 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 	}, [inputValue]);
 
 	const prefix = `${ANSI.fg.cyan + USERNAME}@${HOSTNAME + ANSI.reset}:`
-		+ `${ANSI.fg.blue + (currentDirectory.root ? "/" : currentDirectory.path) + ANSI.reset}$ `;
+		+ `${ANSI.fg.blue + ((currentDirectory?.root || currentDirectory == null) ? "/" : currentDirectory?.path) + ANSI.reset}$ `;
 
 	const updatedHistory = history;
 	const pushHistory = (entry: HistoryEntry) => {
@@ -100,11 +102,11 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 			}
 		};
 
-		let lastOutput: CommandResponse = null;
+		let lastOutput: CommandResponse | null = null;
 
-		stream.on(Stream.EVENT_NAMES.new, (text: string) => {
+		stream.on(Stream.EVENT_NAMES.new, (text) => {
 			void (async () => {
-				let output: CommandResponse = text;
+				let output: CommandResponse = text as CommandResponse;
 
 				for (const pipe of pipes) {
 					if (output instanceof Stream)
@@ -141,35 +143,31 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 		const rawInputValueStart = value.indexOf(" ") + 1;
 		const rawInputValue = rawInputValueStart <= 0 ? "" : value.substr(rawInputValueStart);
 		const timestamp = Date.now();
+
 		value = value.trim();
+		if (value === "") return;
 
-		if (value === "")
-			return;
-
-		// Get arguments
+		// Parse arguments
 		const args = value.match(/(?:[^\s"]+|"[^"]*")+/g);
-
-		if (args[0].toLowerCase() === "sudo" && args.length > 1) {
-			args.shift();
-		}
+		if (args == null) return;
+		if (args[0].toLowerCase() === "sudo" && args.length >= 2) args.shift();
 
 		// Get command
-		const commandName = args.shift().toLowerCase();
+		const commandName = args.shift()?.toLowerCase();
+		if (commandName == null) return;
 		const command = CommandsManager.find(commandName);
 
-		if (!command)
-			return formatError(commandName, "Command not found");
+		if (!command) return formatError(commandName, "Command not found");
 
 		// Get options
 		const options: string[] = [];
-		const inputs = {};
+		const inputs: Record<string, string> = {};
 		args.filter((arg: string) => arg.startsWith("-")).forEach((option: string) => {
 			const addOption = (key: string) => {
 				if (options.includes(key))
 					return;
 
 				options.push(key);
-
 				const commandOption = command.getOption(options[options.length - 1]);
 
 				if (commandOption?.isInput) {
@@ -200,7 +198,7 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 			return formatError(commandName, `Incorrect usage: ${commandName} requires at least 1 option`);
 		
 		// Execute command
-		let response: CommandResponse = null;
+		let response: CommandResponse | null = null;
 
 		try {
 			response = await command.execute(args, {
@@ -216,7 +214,7 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 				exit,
 				inputs,
 				timestamp,
-				settingsManager,
+				settingsManager: settingsManager as SettingsManager,
 			});
 
 			if (response == null)
@@ -244,15 +242,15 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 
 		// Piping is used to chain commands
 		let pipes = value.split(" | ");
-		const completedPipes = [];
+		const completedPipes: string[] = [];
 
-		let output = null;
+		let output: CommandResponse | null = null;
 		for (const pipe of pipes) {
 			if (output instanceof Stream)
 				continue;
 
 			// Output from the previous command gets added as an argument for the next command
-			output = await handleInput(output ? `${pipe} ${output}` : pipe);
+			output = await handleInput(output ? `${pipe} ${output as string}` : pipe);
 			completedPipes.push(pipe);
 		}
 
@@ -264,7 +262,7 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 			if (output instanceof Stream) {
 				connectStream(output, pipes);
 			} else {
-				promptOutput(`${output}\n`);
+				promptOutput(`${output as string}\n`);
 			}
 		}
 	};
@@ -284,7 +282,7 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 		if (index === 0) {
 			setInputValue("");
 		} else {
-			setInputValue(inputHistory[inputHistory.length - index].value);
+			setInputValue(inputHistory[inputHistory.length - index].value ?? "");
 		}
 
 		setHistoryIndex(index);
@@ -352,9 +350,9 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 			onMouseDown={onMouseDown as unknown as MouseEventHandler}
 			onContextMenu={onContextMenu as unknown as MouseEventHandler}
 			onClick={(event) => {
-				if (window.getSelection().toString() === "") {
+				if (window.getSelection()?.toString() === "") {
 					event.preventDefault();
-					(inputRef.current as HTMLInputElement)?.focus();
+					(inputRef.current as HTMLInputElement | null)?.focus();
 				}
 			}}
 		>
@@ -366,7 +364,7 @@ export function Terminal({ path: startPath, input, setTitle, close: exit, active
 					prefix={prefix}
 					onKeyDown={onKeyDown}
 					onChange={onChange}
-					inputRef={inputRef}
+					inputRef={inputRef as unknown as MutableRefObject<HTMLInputElement>}
 				/>
 				: <OutputLine text={streamOutput ?? ""}/>
 			}

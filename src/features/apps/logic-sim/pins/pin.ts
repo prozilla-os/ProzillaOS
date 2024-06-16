@@ -1,5 +1,5 @@
 import { COLORS, CONTROLLER, CURSORS, PIN } from "../../../../config/apps/logicSim.config";
-import Vector2 from "../../../math/vector2";
+import { Vector2 } from "../../../math/vector2";
 import { Chip } from "../chips/chip";
 import { Circuit } from "../core/circuit";
 import { State } from "../_utils/state";
@@ -16,13 +16,13 @@ export interface PinJson {
 
 export class Pin {
 	id: number;
-	name: string;
+	name!: string;
 	position = Vector2.ZERO;
-	attachedChip: Chip;
-	circuit: Circuit;
+	attachedChip!: Chip;
+	circuit!: Circuit;
 
 	state = State.LOW;
-	isInput: boolean;
+	isInput!: boolean;
 	isControlled: boolean = false;
 	outputWires: Wire[] = [];
 

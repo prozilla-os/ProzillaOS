@@ -1,6 +1,6 @@
 import { VirtualFile } from "../../../virtual-drive/file";
 import { formatError } from "../_utils/terminal.utils";
-import Command from "../command";
+import { Command, ExecuteParams } from "../command";
 
 export const cat = new Command()
 	.setRequireArgs(true)
@@ -9,15 +9,17 @@ export const cat = new Command()
 		usage: "cat [options] [files]",
 		description: "Concetenate files to standard output."
 	})
-	.setExecute(function(args, { currentDirectory, options }) {
-		const { name, extension } = VirtualFile.convertId(args[0]);
+	.setExecute(function(this: Command, args, params) {
+		const { currentDirectory, options } = params as ExecuteParams;
+		const fileId = (args as string[])[0];
+		const { name, extension } = VirtualFile.splitId(fileId);
 		const file = currentDirectory.findFile(name, extension);
 
 		if (!file)
-			return formatError((this as Command).name, `${args[0]}: No such file`);
+			return formatError(this.name, `${fileId}: No such file`);
 
 		if (file.content) {
-			if (!options.includes("e")) {
+			if (!options?.includes("e")) {
 				return file.content;
 			} else {
 				// Append "$" at the end of every line

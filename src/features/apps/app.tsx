@@ -1,13 +1,14 @@
-import Vector2 from "../math/vector2";
+import { Vector2 } from "../math/vector2";
 import { WindowProps } from "../../components/windows/WindowView";
 import { FC } from "react";
 
-export default class App {
-	name: string;
-	id: string;
-	windowContent: React.FC;
+export class App {
+	name: string = "App";
+	id: string = "app";
+	windowContent?: FC<JSX.IntrinsicAttributes & WindowProps>;
 	windowOptions?: {
-		size: Vector2
+		size: Vector2;
+		[key: string]: unknown;
 	};
 	isActive: boolean = false;
 	isPinned?: boolean;
@@ -15,11 +16,11 @@ export default class App {
 	/**
 	 * @param windowOptions - Default window options
 	 */
-	constructor(name: string, id: string, windowContent: FC, windowOptions?: object | null) {
+	constructor(name: App["name"], id: App["id"], windowContent: App["windowContent"], windowOptions?: App["windowOptions"]) {
 		Object.assign(this, { name, id, windowContent, windowOptions });
 
 		if (this.windowContent == null)
-			console.warn(`App (${this.id}) is missing the windowContent property.`);
+			console.warn(`${this.name} (${this.id}) is missing the windowContent property.`);
 	}
 
 	WindowContent = (props: JSX.IntrinsicAttributes & WindowProps) => {

@@ -15,27 +15,22 @@ export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 	const windowsManager = useWindowsManager();
 
 	useEffect(() => {
-		if (file != null)
-			setTitle(file.id);
+		if (file != null) setTitle?.(file.id);
 	}, [file, setTitle]);
 
 	if (file == null) {
 		setTimeout(() => {
-			windowsManager.open(APPS.FILE_EXPLORER, { path: "~/Pictures" });
-			close();
+			windowsManager?.open(APPS.FILE_EXPLORER, { path: "~/Pictures" });
+			close?.();
 		}, 10);
 		return;
 	}
 
-	if (!IMAGE_FORMATS.includes(file.extension))
-		return (<p>Invalid file format.</p>);
+	if (file.extension == null || !IMAGE_FORMATS.includes(file.extension)) return <p>Invalid file format.</p>;
 
-	if (file.source == null)
-		return (<p>File failed to load.</p>);
+	if (file.source == null) return <p>File failed to load.</p>;
 
-	return (
-		<div className={styles.MediaViewer}>
-			<img src={file.source} alt={file.id} draggable="false"/>
-		</div>
-	);
+	return <div className={styles.MediaViewer}>
+		<img src={file.source} alt={file.id} draggable="false"/>
+	</div>;
 }

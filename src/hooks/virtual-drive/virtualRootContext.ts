@@ -1,8 +1,10 @@
 import { createContext, useContext } from "react";
 import { VirtualRoot } from "../../features/virtual-drive/root/virtualRoot";
 
-export const VirtualRootContext = createContext<VirtualRoot | undefined>(undefined);
+type VirtualRootState = VirtualRoot | undefined;
 
-export function useVirtualRoot(): VirtualRoot {
+export const VirtualRootContext = createContext<VirtualRootState>(undefined);
+
+export function useVirtualRoot(): VirtualRootState {
 	return useContext(VirtualRootContext);
 }

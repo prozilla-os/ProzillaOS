@@ -7,14 +7,14 @@ import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext"
 import { useContextMenu } from "../../../hooks/modals/contextMenu";
 import { QuickAccessButton } from "./QuickAccessButton";
 import { useWindowedModal } from "../../../hooks/modals/windowedModal";
-import Vector2 from "../../../features/math/vector2";
+import { Vector2 } from "../../../features/math/vector2";
 import { DIALOG_CONTENT_TYPES } from "../../../config/modals.config";
-import { DirectoryList, OnSelectionChangeParams } from "./directory-list/DirectoryList";
+import { DirectoryList, FileEventHandler, FolderEventHandler, OnSelectionChangeParams } from "./directory-list/DirectoryList";
 import { Actions } from "../../actions/Actions";
 import { ClickAction } from "../../actions/actions/ClickAction";
 import utilStyles from "../../../styles/utils.module.css";
 import { DialogBox } from "../../modals/dialog-box/DialogBox";
-import AppsManager from "../../../features/apps/appsManager";
+import { AppsManager } from "../../../features/apps/appsManager";
 import { APPS, APP_ICONS, APP_NAMES } from "../../../config/apps.config";
 import { TITLE_SEPARATOR } from "../../../config/windows.config";
 import { FileProperties } from "../../modals/file-properties/FileProperties";
@@ -26,7 +26,7 @@ import { WindowProps } from "../../windows/WindowView";
 import { VirtualFolder } from "../../../features/virtual-drive/folder/virtualFolder";
 import { VirtualFile } from "../../../features/virtual-drive/file";
 import { VirtualFolderLink } from "../../../features/virtual-drive/folder/virtualFolderLink";
-import ImportButton from "./ImportButton";
+import { ImportButton } from "./ImportButton";
 import { useAlert } from "../../../hooks/modals/alert";
 import { VirtualRoot } from "../../../features/virtual-drive/root/virtualRoot";
 
@@ -42,7 +42,7 @@ export function FileExplorer({ path: startPath, selectorMode, Footer, onSelectio
 	const isSelector = (Footer != null && selectorMode != null && selectorMode !== SELECTOR_MODE.NONE);
 
 	const virtualRoot = useVirtualRoot();
-	const [currentDirectory, setCurrentDirectory] = useState<VirtualFolder>(virtualRoot.navigate(startPath ?? "~") as VirtualFolder);
+	const [currentDirectory, setCurrentDirectory] = useState<VirtualFolder>(virtualRoot?.navigate(startPath ?? "~") as VirtualFolder);
 	const [path, setPath] = useState<string>(currentDirectory?.path ?? "");
 	const windowsManager = useWindowsManager();
 	const [showHidden] = useState(true);
@@ -52,38 +52,38 @@ export function FileExplorer({ path: startPath, selectorMode, Footer, onSelectio
 	const { openWindowedModal } = useWindowedModal();
 	const { onContextMenu: onContextMenuFile } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label={!isSelector ? "Open" : "Select"} onTrigger={(event, file: VirtualFile) => {
+			<ClickAction label={!isSelector ? "Open" : "Select"} onTrigger={(event, file) => {
 				if (isSelector) {
-					onSelectionChange?.({ files: [file.id], directory: currentDirectory });
+					onSelectionChange?.({ files: [(file as VirtualFile).id], directory: currentDirectory });
 					onSelectionFinish?.();
 					return;
 				}
-				file.open(windowsManager);
+				if (windowsManager != null)	(file as VirtualFile).open(windowsManager);
 			}}/>
-			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file: VirtualFile) => {
-				file.delete();
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
+				(file as VirtualFile).delete();
 			}}/>
-			<ClickAction label="Properties" icon={faCircleInfo} onTrigger={(event, file: VirtualFile) => {
+			<ClickAction label="Properties" icon={faCircleInfo} onTrigger={(event, file) => {
 				openWindowedModal({
-					title: `${file.id} ${TITLE_SEPARATOR} Properties`,
-					iconUrl: file.getIconUrl(),
+					title: `${(file as VirtualFile).id} ${TITLE_SEPARATOR} Properties`,
+					iconUrl: (file as VirtualFile).getIconUrl(),
 					size: new Vector2(400, 500),
-					Modal: (props: object) => <FileProperties file={file} {...props}/>
+					Modal: (props: object) => <FileProperties file={file as VirtualFile} {...props}/>
 				});
 			}}/>
 		</Actions>
 	});
 	const { onContextMenu: onContextMenuFolder } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label="Open" onTrigger={(event, folder: VirtualFolder & VirtualFolderLink) => {
-				changeDirectory(folder.linkedPath ?? folder.name);
+			<ClickAction label="Open" onTrigger={(event, folder) => {
+				changeDirectory((folder as VirtualFolderLink).linkedPath ?? (folder as VirtualFolder).name);
 			}}/>
-			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={(event, folder: VirtualFolder) => {
-				windowsManager.open(APPS.TERMINAL, { startPath: folder.path });
+			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={(event, folder) => {
+				windowsManager?.open(APPS.TERMINAL, { startPath: (folder as VirtualFolder).path });
 			}}/>
 			<Divider/>
-			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder: VirtualFolder) => {
-				folder.delete();
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder) => {
+				(folder as VirtualFolder).delete();
 			}}/>
 		</Actions>
 	});
@@ -102,7 +102,7 @@ export function FileExplorer({ path: startPath, selectorMode, Footer, onSelectio
 		if (currentDirectory == null)
 			absolute = true;
 
-		const directory = absolute ? virtualRoot.navigate(path) : currentDirectory.navigate(path);
+		const directory = absolute ? virtualRoot?.navigate(path) : currentDirectory.navigate(path);
 
 		if (directory != null) {
 			setCurrentDirectory(directory as VirtualFolder);
@@ -116,7 +116,7 @@ export function FileExplorer({ path: startPath, selectorMode, Footer, onSelectio
 			return;
 
 		const path = history[stateIndex];
-		const directory = virtualRoot.navigate(path);
+		const directory = virtualRoot?.navigate(path);
 		if (directory != null) {
 			setCurrentDirectory(directory as VirtualFolder);
 			setPath(directory.root ? "/" : directory.path);
@@ -124,9 +124,10 @@ export function FileExplorer({ path: startPath, selectorMode, Footer, onSelectio
 	}, [history, stateIndex, virtualRoot]);
 
 	useEffect(() => {
-		const onError = (error: { message: string }) => {
+		type Error = { message: string };
+		const onError = (error: unknown) => {
 			alert({
-				title: error.message,
+				title: (error as Error).message,
 				text: "You have exceeded the virtual drive capacity. Files and folders will not be saved until more storage is freed.",
 				iconUrl: AppsManager.getAppIconUrl(APPS.FILE_EXPLORER),
 				size: new Vector2(300, 200),
@@ -134,10 +135,10 @@ export function FileExplorer({ path: startPath, selectorMode, Footer, onSelectio
 			});
 		};
 
-		virtualRoot.on(VirtualRoot.EVENT_NAMES.ERROR, onError);
+		virtualRoot?.on(VirtualRoot.EVENT_NAMES.ERROR, onError);
 
 		return () => {
-			virtualRoot.off(VirtualRoot.EVENT_NAMES.ERROR, onError);
+			virtualRoot?.off(VirtualRoot.EVENT_NAMES.ERROR, onError);
 		};
 	}, []);
 
@@ -152,17 +153,17 @@ export function FileExplorer({ path: startPath, selectorMode, Footer, onSelectio
 			if (value === "")
 				value = "~";
 
-			const directory = virtualRoot.navigate(value);
+			const directory = virtualRoot?.navigate(value);
 
 			if (directory == null) {
 				openWindowedModal({
 					title: "Error",
 					iconUrl: AppsManager.getAppIconUrl(APPS.FILE_EXPLORER),
 					size: new Vector2(300, 150),
-					Modal: (props) =>
+					Modal: (props: {}) =>
 						<DialogBox {...props}>
 							<p>Invalid path: "{value}"</p>
-							<button data-type={DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
+							<button data-type={DIALOG_CONTENT_TYPES.closeButton}>Ok</button>
 						</DialogBox>
 				});
 				return;
@@ -201,7 +202,7 @@ export function FileExplorer({ path: startPath, selectorMode, Footer, onSelectio
 					tabIndex={0}
 					className={styles.IconButton}
 					onClick={() => { changeDirectory(".."); }}
-					disabled={currentDirectory.isRoot}
+					disabled={currentDirectory.isRoot != null && currentDirectory.isRoot}
 				>
 					<FontAwesomeIcon icon={faArrowUp}/>
 				</button>
@@ -262,19 +263,19 @@ export function FileExplorer({ path: startPath, selectorMode, Footer, onSelectio
 					className={styles.Main}
 					showHidden={showHidden}
 					onOpenFile={(event, file) => {
-						(event as Event).preventDefault();
+						event.preventDefault();
 						if (isSelector)
 							return void onSelectionFinish?.();
 						const options: Record<string, string> = {};
-						if (file.extension === "md" || CODE_FORMATS.includes(file.extension))
+						if (file.extension === "md" || (file.extension != null && CODE_FORMATS.includes(file.extension)))
 							options.mode = "view";
-						windowsManager.openFile(file, options);
+						windowsManager?.openFile(file, options);
 					}}
 					onOpenFolder={(event, folder) => {
 						changeDirectory((folder as VirtualFolderLink).linkedPath ?? folder.name);
 					}}
-					onContextMenuFile={onContextMenuFile}
-					onContextMenuFolder={onContextMenuFolder}
+					onContextMenuFile={onContextMenuFile as unknown as FileEventHandler}
+					onContextMenuFolder={onContextMenuFolder as unknown as FolderEventHandler}
 					allowMultiSelect={selectorMode !== SELECTOR_MODE.SINGLE}
 					onSelectionChange={onSelectionChange}
 				/>

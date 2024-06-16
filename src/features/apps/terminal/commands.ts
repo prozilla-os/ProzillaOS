@@ -1,4 +1,4 @@
-import Command from "./command";
+import { Command } from "./command";
 
 let commands: Command[] = [];
 
@@ -11,10 +11,10 @@ const loadCommands = () => {
 	// https://vitejs.dev/guide/features.html#glob-import
 	const modules = import.meta.glob("./commands/*.ts");
 	for (const path in modules) {
-		void modules[path]().then((commandModule: Record<string, Command>) => {
-			const commandName = Object.keys(commandModule)[0];
+		void modules[path]().then((commandModule) => {
+			const commandName = Object.keys(commandModule as Record<string, Command>)[0];
 
-			const command = commandModule[commandName];
+			const command = (commandModule as Record<string, Command>)[commandName];
 			command.setName(commandName.toLowerCase());
 
 			commands.push(command);
@@ -24,11 +24,11 @@ const loadCommands = () => {
 
 loadCommands();
 
-export default class CommandsManager {
+export class CommandsManager {
 	static COMMANDS = commands;
 
-	static find(name: string): Command {
-		let matchCommand: Command = null;
+	static find(name: string): Command | null {
+		let matchCommand: Command | null = null;
 
 		this.COMMANDS.forEach((command) => {
 			if (command.name === name) {
@@ -41,7 +41,7 @@ export default class CommandsManager {
 	}
 
 	static search(pattern: string): Command[] {
-		const matches = this.COMMANDS.filter((command) => command.name.match(pattern));
+		const matches = this.COMMANDS.filter((command) => command.name?.match(pattern));
 		return matches;
 	}
 

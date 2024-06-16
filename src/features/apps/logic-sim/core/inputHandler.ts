@@ -1,5 +1,5 @@
 import { CONTROLLER, PIN, WIRE } from "../../../../config/apps/logicSim.config";
-import Vector2 from "../../../math/vector2";
+import { Vector2 } from "../../../math/vector2";
 import { Chip } from "../chips/chip";
 import { Circuit } from "./circuit";
 import { ControlledPin } from "../pins/controlledPin";
@@ -8,18 +8,18 @@ import { State } from "../_utils/state";
 import { Wire } from "../wires/wire";
 
 export class InputHandler {
-	circuit: Circuit;
-	canvas: HTMLCanvasElement;
+	circuit!: Circuit;
+	canvas!: HTMLCanvasElement;
 
 	mousePosition = Vector2.ZERO;
 
 	isPlacing = false;
 	snapping = false;
 	placingOffset = Vector2.ZERO;
-	previousPlacement: Vector2 | undefined = null;
-	placingWire: Wire;
-	placingChip: Chip;
-	placingPin: ControlledPin;
+	previousPlacement!: Vector2 | null;
+	placingWire!: Wire | null;
+	placingChip!: Chip | null;
+	placingPin!: ControlledPin | null;
 
 	constructor(circuit: Circuit) {
 		Object.assign(this, { circuit });
@@ -269,8 +269,8 @@ export class InputHandler {
 		const isInputPin = pin.isPointingRight;
 
 		// Start wire placement
-		const inputPin = isInputPin ? pin : null;
-		const outputPin = !isInputPin ? pin : null;
+		const inputPin = isInputPin ? pin : undefined;
+		const outputPin = !isInputPin ? pin : undefined;
 		const anchorPoint = this.mousePosition.clone;
 
 		this.placingWire = new Wire(this.circuit, "red", inputPin, outputPin, [anchorPoint]);
@@ -305,7 +305,7 @@ export class InputHandler {
 			}
 		});
 
-		if (closestPositionX != null && closestDistance < WIRE.snappingSensitivity)
+		if (closestDistance != null && closestPositionX != null && closestDistance < WIRE.snappingSensitivity)
 			lastAnchorPoint.x = closestPositionX;
 	}
 
@@ -316,7 +316,7 @@ export class InputHandler {
 		// Snapping vertical wire to pins
 		let pins: Pin[];
 
-		if (!this.placingWire.placedBackwards) {
+		if (!this.placingWire?.placedBackwards) {
 			pins = this.circuit.outputPins;
 
 			this.circuit.chips.forEach((chip) => {
@@ -342,28 +342,32 @@ export class InputHandler {
 			}
 		});
 
-		if (closestPositionY != null && closestDistance < WIRE.snappingSensitivity)
+		if (closestDistance != null && closestPositionY != null && closestDistance < WIRE.snappingSensitivity)
 			lastAnchorPoint.y = closestPositionY;
 	}
 
 	updateWirePlacement() {
-		const anchorCount = this.placingWire.anchorPoints.length;
-		const lastAnchorPoint = this.placingWire.anchorPoints[anchorCount - 1];
+		const anchorCount = this.placingWire?.anchorPoints.length;
+		if (anchorCount == null) return;
+		const lastAnchorPoint = this.placingWire?.anchorPoints[anchorCount - 1];
+		if (lastAnchorPoint == null) return;
 
 		if (!this.snapping) {
 			lastAnchorPoint.x = this.mousePosition.x;
 			lastAnchorPoint.y = this.mousePosition.y;
 		} else {
 			// Wire snapping
-			let previousAnchorPoint: Vector2;
+			let previousAnchorPoint: Vector2 | undefined;
 
 			if (anchorCount >= 2) {
-				previousAnchorPoint = this.placingWire.anchorPoints[anchorCount - 2];
-			} else if (!this.placingWire.placedBackwards) {
-				previousAnchorPoint = this.placingWire.inputPin.position;
+				previousAnchorPoint = this.placingWire?.anchorPoints[anchorCount - 2];
+			} else if (!this.placingWire?.placedBackwards) {
+				previousAnchorPoint = this.placingWire?.inputPin.position;
 			} else {
-				previousAnchorPoint = this.placingWire.outputPin.position;
+				previousAnchorPoint = this.placingWire?.outputPin.position;
 			}
+
+			if (previousAnchorPoint == null) return;
 	
 			const deltaX = Math.abs(this.mousePosition.x - previousAnchorPoint.x);
 			const deltaY = Math.abs(this.mousePosition.y - previousAnchorPoint.y);
@@ -377,7 +381,7 @@ export class InputHandler {
 	}
 
 	anchorWirePlacement() {
-		this.placingWire.anchorPoints.push(this.mousePosition.clone);
+		this.placingWire?.anchorPoints.push(this.mousePosition.clone);
 	}
 
 	cancelWirePlacement() {
@@ -388,6 +392,8 @@ export class InputHandler {
 
 	endWirePlacement(pin: Pin) {
 		const isInputPin = pin.isPointingRight;
+
+		if (this.placingWire == null) return;
 
 		let correctPlacement = false;
 		if (!isInputPin && !this.placingWire.placedBackwards) {
@@ -434,11 +440,14 @@ export class InputHandler {
 	}
 
 	updateChipPlacement() {
+		if (this.placingChip == null) return;
 		this.placingChip.position.x = this.mousePosition.x - this.placingChip.size.x / 2 + this.placingOffset.x;
 		this.placingChip.position.y = this.mousePosition.y - this.placingChip.size.y / 2 + this.placingOffset.y;
 	}
 
 	cancelChipPlacement() {
+		if (this.placingChip == null) return;
+
 		if (this.previousPlacement != null) {
 			this.placingChip.position = this.previousPlacement;
 			this.previousPlacement = null;
@@ -473,11 +482,12 @@ export class InputHandler {
 	}
 
 	updatePinPlacement() {
-		this.placingPin.position.y = this.mousePosition.y;
+		if (this.placingPin != null)
+			this.placingPin.position.y = this.mousePosition.y;
 	}
 
 	cancelPinPlacement() {
-		if (this.placingPin.isInput) {
+		if (this.placingPin?.isInput) {
 		 	this.circuit.inputPins.pop();
 		} else {
 			this.circuit.outputPins.pop();

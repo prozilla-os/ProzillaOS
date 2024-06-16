@@ -59,8 +59,8 @@ export class VirtualRoot extends VirtualFolder {
 			ico: iconUrl,
 		}: VirtualFileJson & VirtualFileLinkJson, parent: VirtualFolder = this) => {
 			if (link) {
-				parent.createFileLink(name, (fileLink: VirtualFileLink) => {
-					fileLink.setLinkedPath(link);
+				parent.createFileLink(name, (fileLink) => {
+					(fileLink as VirtualFileLink).setLinkedPath(link);
 					if (iconUrl != null) {
 						fileLink.setIconUrl(iconUrl);
 					}
@@ -88,8 +88,8 @@ export class VirtualRoot extends VirtualFolder {
 			ico: iconUrl,
 		}: VirtualFolderJson & VirtualFolderLinkJson, parent: VirtualFolder = this) => {
 			if (link) {
-				parent.createFolderLink(name, (folderLink: VirtualFolderLink) => {
-					folderLink.setLinkedPath(link);
+				parent.createFolderLink(name, (folderLink) => {
+					(folderLink as VirtualFolderLink).setLinkedPath(link);
 					if (iconUrl != null) {
 						folderLink.setIconUrl(iconUrl);
 					}
@@ -99,21 +99,21 @@ export class VirtualRoot extends VirtualFolder {
 
 			parent.createFolder(name, (folder: VirtualFolder) => {
 				if (Object.values(shortcuts).includes(folder.displayPath)) {
-					let alias: string;
+					let alias: string | null = null;
 					for (const [key, value] of Object.entries(shortcuts)) {
 						if (value === folder.displayPath)
 							alias = key;
 					}
-					folder.setAlias(alias);
+					if (alias != null) folder.setAlias(alias);
 				}
 				if (folders != null) {
-					folders.forEach((subFolder: VirtualFolderJson & VirtualFolderLinkJson) => {
-						addFolder(subFolder, folder);
+					folders.forEach((subFolder) => {
+						addFolder(subFolder as VirtualFolderJson & VirtualFolderLinkJson, folder);
 					});
 				}
 				if (files != null) {
-					files.forEach((file: VirtualFileJson & VirtualFileLinkJson) => {
-						addFile(file, folder);
+					files.forEach((file) => {
+						addFile(file as VirtualFileJson & VirtualFileLinkJson, folder);
 					});
 				}
 				if (iconUrl != null) {
@@ -123,13 +123,13 @@ export class VirtualRoot extends VirtualFolder {
 		};
 
 		if (object.fds != null) {
-			object.fds.forEach((subFolder: VirtualFolderJson & VirtualFolderLinkJson) => {
-				addFolder(subFolder);
+			object.fds.forEach((subFolder) => {
+				addFolder(subFolder as VirtualFolderJson & VirtualFolderLinkJson);
 			});
 		}
 		if (object.fls != null) {
-			object.fls.forEach((file: VirtualFileJson & VirtualFileLinkJson) => {
-				addFile(file);
+			object.fls.forEach((file) => {
+				addFile(file as VirtualFileJson & VirtualFileLinkJson);
 			});
 		}
 	}

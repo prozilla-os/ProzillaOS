@@ -13,31 +13,30 @@ interface ButtonProps {
 	[key: string]: unknown;
 }
 
-export function Button(props: ButtonProps) {
-	let { className = "" } = props;
-	const { href, children, icon, target } = props;
-
-	className = `${styles.Button} ${className}`;
+export function Button({ className, href, children, icon, target, ...props }: ButtonProps) {
+	const classNames = [styles.Button];
+	if (className != null)
+		classNames.push(className);
 
 	if (href != null) {
-		className = `${styles.ButtonLink} ${className}`;
+		classNames.push(styles.ButtonLink);
 
 		return (<a
+			{...props}
 			href={href}
 			target={target ?? "_blank"}
 			rel="noreferrer"
 			tabIndex={0}
-			{...props}
-			className={className}
+			className={classNames.join(" ")}
 		>
 			{children}
 			<FontAwesomeIcon icon={icon ?? faExternalLink}/>
 		</a>);
 	} else {
 		return (<button
-			tabIndex={0}
 			{...props}
-			className={className}
+			tabIndex={0}
+			className={classNames.join(" ")}
 		>
 			{children}
 			{icon != null

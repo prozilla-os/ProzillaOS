@@ -1,5 +1,5 @@
 import { MAX_WIDTH } from "../../../../config/apps/terminal.config";
-import Command from "../command";
+import { Command, ExecuteParams } from "../command";
 
 const COW = `
         \\   ^__^
@@ -15,14 +15,16 @@ export const cowsay = new Command()
 		usage: "cowsay text",
 		description: "Show ASCII art of a cow saying something."
 	})
-	.setExecute(function(args, { rawInputValue }) {
+	.setExecute(function(args, params) {
+		const { rawInputValue } = params as ExecuteParams;
+
 		// Separate input value into lines
-		const segments = rawInputValue.split(" ");
-		const lines = [];
+		const segments = rawInputValue?.split(" ");
+		const lines: string[] = [];
 		let currentLine = "";
 		let maxLineWidth = 0;
 
-		const addLine = (line) => {
+		const addLine = (line: string) => {
 			line = line.trimEnd();
 			lines.push(line);
 			if (line.length > maxLineWidth)
@@ -39,7 +41,7 @@ export const cowsay = new Command()
 			}
 		};
 
-		segments.forEach((segment) => {
+		segments?.forEach((segment) => {
 			// Add empty spaces preceding lines
 			if (segment === "") {
 				currentLine += " ";

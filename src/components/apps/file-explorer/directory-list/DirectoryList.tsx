@@ -4,7 +4,7 @@ import { VirtualFolder } from "../../../../features/virtual-drive/folder/virtual
 import { Interactable } from "../../../_utils/interactable/Interactable";
 import styles from "./DirectoryList.module.css";
 import { ImagePreview } from "./ImagePreview";
-import Vector2 from "../../../../features/math/vector2";
+import { Vector2 } from "../../../../features/math/vector2";
 
 export interface OnSelectionChangeParams {
 	files?: string[];
@@ -12,8 +12,8 @@ export interface OnSelectionChangeParams {
 	directory?: VirtualFolder;
 };
 
-type FileEventHandler = (event: object, file: VirtualFile) => void;
-type FolderEventHandler = (event: object, folder: VirtualFolder) => void;
+export type FileEventHandler = (event: Event, file: VirtualFile) => void;
+export type FolderEventHandler = (event: Event, folder: VirtualFolder) => void;
 
 interface DirectoryListProps {
 	directory: VirtualFolder;
@@ -31,13 +31,13 @@ interface DirectoryListProps {
 }
 
 export function DirectoryList({ directory, showHidden = false, folderClassName, fileClassName, className,
-	onContextMenuFile, onContextMenuFolder, onOpenFile, onOpenFolder, allowMultiSelect = true, onSelectionChange, ...props }: DirectoryListProps): ReactElement {
+	onContextMenuFile, onContextMenuFolder, onOpenFile, onOpenFolder, allowMultiSelect = true, onSelectionChange, ...props }: DirectoryListProps): ReactElement | null {
 	const [selectedFolders, setSelectedFolders] = useState<string[]>([]);
 	const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
 
 	const ref = useRef(null);
-	const [rectSelectStart, setRectSelectStart] = useState<Vector2>(null);
-	const [rectSelectEnd, setRectSelectEnd] = useState<Vector2>(null);
+	const [rectSelectStart, setRectSelectStart] = useState<Vector2 | null>(null);
+	const [rectSelectEnd, setRectSelectEnd] = useState<Vector2 | null>(null);
 
 	useEffect(() => {
 		onSelectionChange?.({ files: selectedFiles, folders: selectedFolders, directory });
@@ -77,7 +77,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 	});
 
 	if (!directory)
-		return;
+		return null;
 
 	const clearSelection = () => {
 		setSelectedFolders([]);
@@ -102,8 +102,12 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		setRectSelectStart({ x: event.clientX, y: event.clientY } as Vector2);
 	};
 	const getRectSelectStyle = () => {
-		let x: number, y: number, width: number, height: number = null;
-		const containerRect = (ref.current as HTMLElement)?.getBoundingClientRect();
+		let x: number, y: number, width: number, height: number = 0;
+
+		if (ref.current == null || rectSelectStart == null || rectSelectEnd == null)
+			return { top: 0, left: 0, width: 0, height: 0 };
+
+		const containerRect = (ref.current as HTMLElement).getBoundingClientRect();
 
 		if (rectSelectStart.x < rectSelectEnd.x) {
 			x = rectSelectStart.x;

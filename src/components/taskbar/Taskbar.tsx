@@ -1,16 +1,12 @@
-import { CSSProperties, memo, ReactEventHandler, UIEventHandler, useEffect, useRef, useState } from "react";
+import { CSSProperties, memo, MouseEvent, MutableRefObject, ReactEventHandler, UIEventHandler, useEffect, useRef, useState } from "react";
 import styles from "./Taskbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
-import AppsManager from "../../features/apps/appsManager";
+import { AppsManager } from "../../features/apps/appsManager";
 import { ReactSVG } from "react-svg";
 import { HomeMenu } from "./menus/HomeMenu";
-import OutsideClickListener from "../../hooks/_utils/outsideClick";
-import { Battery } from "./indicators/Battery";
-import { Network } from "./indicators/Network";
-import { Volume } from "./indicators/Volume";
+import { OutsideClickListener } from "../../hooks/_utils/outsideClick";
 import { SearchMenu } from "./menus/SearchMenu";
-import { Calendar } from "./indicators/Calendar";
 import { useScrollWithShadow } from "../../hooks/_utils/scrollWithShadows";
 import { AppButton } from "./app-icon/AppIcon";
 import { useContextMenu } from "../../hooks/modals/contextMenu";
@@ -24,16 +20,17 @@ import { SettingsManager } from "../../features/settings/settingsManager";
 import { useWindows } from "../../hooks/windows/windowsContext";
 import { ZIndexManager } from "../../features/z-index/zIndexManager";
 import { useZIndex } from "../../hooks/z-index/zIndex";
-import App from "../../features/apps/app";
+import { App } from "../../features/apps/app";
+import { Battery, Calendar, Network, Volume } from "./indicators";
 
 export const Taskbar = memo(() => {
-	const ref = useRef(null);
+	const ref = useRef<HTMLDivElement>(null);
 	const settingsManager = useSettingsManager();
 	const [showHome, setShowHome] = useState(false);
 	const [showSearch, setShowSearch] = useState(false);
 	const [hideUtilMenus, setHideUtilMenus] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
-	const { boxShadow, onUpdate } = useScrollWithShadow({ ref, shadow: {
+	const { boxShadow, onUpdate } = useScrollWithShadow({ ref: ref as MutableRefObject<HTMLElement>, shadow: {
 		offset: 20,
 		blurRadius: 10,
 		spreadRadius: -10,
@@ -45,7 +42,7 @@ export const Taskbar = memo(() => {
 	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions avoidTaskbar={false} {...props}>
 			<ClickAction label={`Open ${APP_NAMES.SETTINGS}`} icon={faCog} onTrigger={() => {
-				windowsManager.open(APPS.SETTINGS);
+				windowsManager?.open(APPS.SETTINGS);
 			}}/>
 		</Actions>
 	});
@@ -53,8 +50,8 @@ export const Taskbar = memo(() => {
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.TASKBAR, index: 0 });
 
 	useEffect(() => {
-		const settings = settingsManager.get(SettingsManager.VIRTUAL_PATHS.taskbar);
-		void settings.get("pins", (pinList: string) => {
+		const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.taskbar);
+		void settings?.get("pins", (pinList: string) => {
 			const pins = pinList.split(",");
 
 			const newApps = AppsManager.APPS.sort((appA, appB) => {
@@ -88,7 +85,6 @@ export const Taskbar = memo(() => {
 
 	const updateShowSearch = (show: boolean) => {
 		setShowSearch(show);
-
 
 		if (show) {
 			if (searchQuery !== "") {
@@ -127,7 +123,7 @@ export const Taskbar = memo(() => {
 		data-allow-context-menu={true}
 		onContextMenu={(event) => {
 			if ((event.target as HTMLElement).getAttribute("data-allow-context-menu"))
-				onContextMenu(event);
+				onContextMenu(event as unknown as MouseEvent<HTMLElement, MouseEvent>);
 		}}
 	>
 		<div className={styles.MenuIcons}>
@@ -159,7 +155,7 @@ export const Taskbar = memo(() => {
 						setActive={updateShowSearch}
 						searchQuery={searchQuery}
 						setSearchQuery={setSearchQuery}
-						inputRef={inputRef}
+						inputRef={inputRef as unknown as MutableRefObject<HTMLInputElement>}
 					/>
 				</OutsideClickListener>
 			</div>
@@ -173,7 +169,9 @@ export const Taskbar = memo(() => {
 				ref={ref}
 			>
 				{apps.map((app) => {
-					const isActive = windows.map((window) => window.app.id).includes(app.id);
+					if (windows == null) return;
+
+					const isActive = windows.map((window) => window.app?.id).includes(app.id);
 					const shouldBeShown = (app.isPinned || isActive);
 					return (<AppButton
 						windowsManager={windowsManager}
@@ -190,7 +188,7 @@ export const Taskbar = memo(() => {
 			<Network showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
 			<Volume showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
 			<Calendar showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
-			<button title="Show Desktop" id="desktop-button" onClick={() => { windowsManager.minimizeAll(); }}/>
+			<button title="Show Desktop" id="desktop-button" onClick={() => { windowsManager?.minimizeAll(); }}/>
 		</div>
 	</div>;
 });

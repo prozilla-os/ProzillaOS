@@ -4,19 +4,23 @@ import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR, NAME } from "../../../../config/brand
 import { THEMES } from "../../../../config/themes.config";
 import { TimeManager } from "../../../_utils/time.utils";
 import { SettingsManager } from "../../../settings/settingsManager";
-import AppsManager from "../../appsManager";
-import Command from "../command";
+import { AppsManager } from "../../appsManager";
+import { Command, ExecuteParams } from "../command";
 
 export const neofetch = new Command()
 	.setManual({
 		purpose: "Fetch system information"
 	})
-	.setExecute(async function(args, { username, hostname, settingsManager }) {
+	.setExecute(async function(args, params) {
+		const { username, hostname, settingsManager } = params as ExecuteParams;
 		const leftColumn = ANSI_ASCII_LOGO.split("\n");
-		const rightColumnWidth = username.length + hostname.length + 1;
+		const rightColumnWidth = (username?.length ?? 0) + (hostname?.length ?? 0) + 1;
 
-		const themeIndex = await settingsManager.get(SettingsManager.VIRTUAL_PATHS.theme).get("theme");
-		const theme = THEMES[themeIndex ?? 0] as string;
+		const themeIndex = await settingsManager.getSettings(SettingsManager.VIRTUAL_PATHS.theme).get("theme");
+		let theme = THEMES[0] as string;
+		if (themeIndex != null && parseInt(themeIndex)) {
+			theme = THEMES[(themeIndex as unknown as number) ?? 0] as string ?? THEMES[0];
+		}
 
 		const userAgent = navigator.userAgent;
 

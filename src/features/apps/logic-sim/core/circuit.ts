@@ -1,10 +1,10 @@
 import { BACKGROUND, COLORS, CURSORS, FONT, CONTROLLER, ENABLE_COLOR_CACHING } from "../../../../config/apps/logicSim.config";
-import { clamp } from "../../../math/clamp";
-import Vector2 from "../../../math/vector2";
+import { Vector2 } from "../../../math/vector2";
 import { Chip, ChipJson } from "../chips/chip";
 import { ControlledPin } from "../pins/controlledPin";
 import { InputHandler } from "./inputHandler";
 import { Wire, WireJson } from "../wires/wire";
+import { clamp } from "../../../_utils/math.utils";
 
 export interface CircuitJson extends ChipJson {
 	wires: WireJson[];
@@ -12,9 +12,9 @@ export interface CircuitJson extends ChipJson {
 }
 
 export class Circuit extends Chip {
-	canvas: HTMLCanvasElement;
+	canvas!: HTMLCanvasElement;
 	size = Vector2.ZERO;
-	context: CanvasRenderingContext2D;
+	context!: CanvasRenderingContext2D;
 	colors: { [key: string]: string } = {};
 	inputHandler: InputHandler;
 
@@ -40,7 +40,7 @@ export class Circuit extends Chip {
 
 	init(canvas: HTMLCanvasElement) {
 		this.canvas = canvas;
-		this.context = this.canvas.getContext("2d");
+		this.context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
 		this.resize();
 
 		// Detect size changes of canvas

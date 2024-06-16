@@ -25,11 +25,9 @@ interface OutsideClickListenerProps {
 	children: ReactNode;
 }
 
-const OutsideClickListener = memo(({ onOutsideClick, children }: OutsideClickListenerProps) => {
+export const OutsideClickListener = memo(({ onOutsideClick, children }: OutsideClickListenerProps) => {
 	const wrapperRef = useRef(null);
 	useOutsideClickListener(wrapperRef, onOutsideClick);
 
 	return <div ref={wrapperRef}>{children}</div>;
 });
-
-export default OutsideClickListener;

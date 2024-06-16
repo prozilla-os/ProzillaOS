@@ -1,24 +1,24 @@
 import { FC } from "react";
-import Vector2 from "../math/vector2";
-import ModalsManager from "./modalsManager";
+import { Vector2 } from "../math/vector2";
+import { ModalsManager } from "./modalsManager";
 import { ModalProps } from "../../components/modals/ModalView";
 
-export default class Modal {
+export class Modal {
 	size: Vector2 = new Vector2(400, 200);
 	position: Vector2 = new Vector2(300, 300);
 	icon: string | null = null;
 	title: string | null = null;
-	modalsManager: ModalsManager = null;
+	modalsManager: ModalsManager | null = null;
 	element: FC<ModalProps> | null = null;
 	props: object = {};
 	callback: Function | null = null;
 	id: number | null = null;
 	dismissible: boolean = true;
-	lastInteraction: number;
+	lastInteraction?: number;
 
-	constructor(element: FC<ModalProps>, callback?: Function) {
+	constructor(element: Modal["element"], callback?: Modal["callback"]) {
 		this.element = element;
-		this.callback = callback;
+		this.callback = callback as Modal["element"];
 		this.focus();
 	}
 

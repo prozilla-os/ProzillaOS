@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import ModalsManager from "../../features/modals/modalsManager";
+import { ModalsManager } from "../../features/modals/modalsManager";
 
 type ModalsManagerState = ModalsManager | undefined;
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Calendar.module.css";
-import OutsideClickListener from "../../../hooks/_utils/outsideClick";
+import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 import { UtilMenu } from "../menus/UtilMenu";
 
 interface CalendarProps {

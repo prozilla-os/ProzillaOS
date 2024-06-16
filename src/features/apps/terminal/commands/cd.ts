@@ -1,5 +1,5 @@
 import { formatError } from "../_utils/terminal.utils";
-import Command from "../command";
+import { Command, ExecuteParams } from "../command";
 
 export const cd = new Command()
 	.setManual({
@@ -7,13 +7,14 @@ export const cd = new Command()
 		usage: "cd [PATH]",
 		description: "Change working directory to given path (the home directory by default)."
 	})
-	.setExecute(function(args, { currentDirectory, setCurrentDirectory }) {
-		const path = args[0] ?? "~";
+	.setExecute(function(this: Command, args, params) {
+		const { currentDirectory, setCurrentDirectory } = params as ExecuteParams;
+		const path = (args as string[])[0] ?? "~";
 		const destination = currentDirectory.navigate(path);
 	
 		if (!destination)
-			return formatError(this.name, `${args[0]}: No such file or directory`);
+			return formatError(this.name, `${(args as string[])[0]}: No such file or directory`);
 	
-		setCurrentDirectory(destination);
+		setCurrentDirectory?.(destination);
 		return { blank: true };
 	});

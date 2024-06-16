@@ -28,7 +28,7 @@ function ansiToJSON(input: string, use_classes: boolean | undefined): AnserJsonE
  * Create a class string.
  * @returns class name(s)
  */
-function createClass(bundle: AnserJsonEntry): string {
+function createClass(bundle: AnserJsonEntry): string | null {
 	const classNames = [];
 
 	if (bundle.bg) {
@@ -111,7 +111,7 @@ function convertBundleIntoReact(linkify: boolean, useClasses: boolean, bundle: A
 	const linkRegex = /(\s|^)(https?:\/\/(?:www\.|(?!www))[^\s.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
 
 	let index = 0;
-	let match: RegExpExecArray;
+	let match: RegExpExecArray | null;
 	while ((match = linkRegex.exec(bundle.content)) !== null) {
 		const [, pre, url] = match;
 
@@ -145,7 +145,7 @@ function convertBundleIntoReact(linkify: boolean, useClasses: boolean, bundle: A
 	return React.createElement("span", { style, key, className }, content);
 }
 
-export default function Ansi(props: { children?: string | undefined; linkify?: boolean | undefined; className?: string | undefined; useClasses?: boolean | undefined; }) {
+export function Ansi(props: { children?: string | undefined; linkify?: boolean | undefined; className?: string | undefined; useClasses?: boolean | undefined; }) {
 	const { className, useClasses, children, linkify } = props;
 	return React.createElement(
 		"code",

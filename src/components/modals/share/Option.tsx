@@ -7,7 +7,7 @@ interface OptionProps {
 	setOption: Function;
 }
 
-export default function Option({ name, label, setOption }: OptionProps) {
+export function Option({ name, label, setOption }: OptionProps) {
 	const [value, setValue] = useState("");
 
 	const onChange = (event: Event) => {

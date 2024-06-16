@@ -1,5 +1,5 @@
 import { reloadViewport } from "../../../_utils/browser.utils";
-import Command from "../command";
+import { Command } from "../command";
 
 export const reboot = new Command()
 	.setManual({

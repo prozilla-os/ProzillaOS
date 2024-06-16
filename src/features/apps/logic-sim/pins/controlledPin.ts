@@ -1,5 +1,5 @@
 import { COLORS, CONTROLLER, CURSORS } from "../../../../config/apps/logicSim.config";
-import Vector2 from "../../../math/vector2";
+import { Vector2 } from "../../../math/vector2";
 import { Circuit } from "../core/circuit";
 import { Pin } from "./pin";
 

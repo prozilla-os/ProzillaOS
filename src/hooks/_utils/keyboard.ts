@@ -59,9 +59,9 @@ export function useShortcuts({ options, shortcuts, useCategories = true }: UseSh
 					continue;
 
 				if (category != null) {
-					(options?.[category]?.[name] as Function)?.(event);
+					(options as Record<string, Record<string, Function>>)?.[category]?.[name]?.(event);
 				} else {
-					(options?.[name] as Function)?.(event);
+					(options as Record<string, Function>)?.[name]?.(event);
 				}
 			}
 		};

@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { MouseEventHandler, ReactNode, useState } from "react";
 import { INTERACTIBLE_DOUBLE_CLICK_DELAY } from "../../../config/utils.config";
 
-let timeoutId = null;
+let timeoutId: NodeJS.Timeout | null = null;
 
-export function Interactable({ onClick, onDoubleClick, children, ...props }) {
+interface InteractableProps {
+	onClick: Function;
+	onDoubleClick: Function;
+	children: ReactNode;
+	[key: string]: unknown;
+}
+
+export function Interactable({ onClick, onDoubleClick, children, ...props }: InteractableProps) {
 	const [clicked, setClicked] = useState(false);
 
-	const onButtonClick = (event) => {
+	const onButtonClick = (event: MouseEvent) => {
 		event.preventDefault();
 		event.stopPropagation();
 
@@ -28,7 +35,7 @@ export function Interactable({ onClick, onDoubleClick, children, ...props }) {
 		}, INTERACTIBLE_DOUBLE_CLICK_DELAY);
 	};
 
-	return <button {...props} onClick={onButtonClick}>
+	return <button {...props} onClick={onButtonClick as unknown as MouseEventHandler}>
 		{children}
 	</button>;
 }

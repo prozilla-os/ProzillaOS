@@ -1,6 +1,4 @@
-import { MarkdownProps } from "../../../../components/apps/text-editor/TextEditor";
-
-export function sanitizeProps(props: MarkdownProps) {
+export function sanitizeProps(props: Record<string, unknown>) {
 	delete props.modalsManager;
 	delete props.setCurrentFile;
 	delete props.currentFile;

@@ -28,8 +28,8 @@ function fetchRepositoryTree(callback: (tree: string) => void) {
 	).then((response: ReponseType) => {
 		const items = response.tree;
 
-		const files = [];
-		const folders = [];
+		const files: string[] = [];
+		const folders: string[] = [];
 
 		items.forEach(({ path, type }) => {
 			if (type === "tree") {

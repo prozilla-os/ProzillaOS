@@ -10,11 +10,10 @@ type Props = Partial<unknown> & Attributes & { children: ReactNode, className?: 
 export function MarkdownBlockquote({ children, ...props }: MarkdownProps) {
 	sanitizeProps(props);
 
-	const formatContent = (children: ReactNode): [ReactNode, string] => {
-		if (!children)
-			return [null, null];
+	const formatContent = (children: ReactNode): [ReactNode, string | null] => {
+		if (!children) return [null, null];
 
-		let alertType: string = null;
+		let alertType: string | null = null;
 
 		children = Children.map(children, (child) => {
 			if (isValidElement(child)) {

@@ -1,5 +1,5 @@
 import { CHIP, COLORS, PIN } from "../../../../config/apps/logicSim.config";
-import Vector2 from "../../../math/vector2";
+import { Vector2 } from "../../../math/vector2";
 import { Circuit } from "../core/circuit";
 import { Pin, PinJson } from "../pins/pin";
 import { State } from "../_utils/state";
@@ -16,19 +16,19 @@ export interface ChipJson {
 }
 
 export class Chip {
-	color: string;
-	name: string;
+	color!: string;
+	name!: string;
 	position = Vector2.ZERO;
-	size: Vector2;
-	circuit: Circuit;
+	size!: Vector2;
+	circuit!: Circuit;
 	isCircuit = false;
 	isBlueprint = false;
 
 	inputCount = 0;
 	outputCount = 0;
-	inputPins: Pin[];
-	outputPins: Pin[];
-	logic: (inputStates: State[]) => State[];
+	inputPins!: Pin[];
+	outputPins!: Pin[];
+	logic!: (inputStates: State[]) => State[];
 
 	constructor(circuit: Circuit | null, name: string, color: string, isBlueprint: boolean, inputCount: number, outputCount: number) {
 		Object.assign(this, { circuit, name, color, isBlueprint, inputCount, outputCount });

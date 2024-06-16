@@ -4,13 +4,13 @@ import appStyles from "./AppList.module.css";
 import taskbarStyles from "../Taskbar.module.css";
 import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
-import AppsManager from "../../../features/apps/appsManager";
+import { AppsManager } from "../../../features/apps/appsManager";
 import { ReactSVG } from "react-svg";
 import { closeViewport } from "../../../features/_utils/browser.utils";
 import { useKeyboardListener } from "../../../hooks/_utils/keyboard";
 import { useVirtualRoot } from "../../../hooks/virtual-drive/virtualRootContext";
 import { useEffect, useState } from "react";
-import Vector2 from "../../../features/math/vector2";
+import { Vector2 } from "../../../features/math/vector2";
 import utilStyles from "../../../styles/utils.module.css";
 import { APPS } from "../../../config/apps.config";
 import { NAME } from "../../../config/branding.config";
@@ -69,15 +69,15 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 					</button>
 					<button title="Settings" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager.open("settings");
+						windowsManager?.open("settings");
 					}}>
 						<FontAwesomeIcon icon={faGear}/>
 					</button>
 					<button title="Info" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager.open("text-editor", {
+						windowsManager?.open("text-editor", {
 							mode: "view",
-							file: virtualRoot.navigate("~/Documents/Info.md"),
+							file: virtualRoot?.navigate("~/Documents/Info.md"),
 							size: new Vector2(575, 675),
 						});
 					}}>
@@ -85,13 +85,13 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 					</button>
 					<button title="Images" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager.open(APPS.FILE_EXPLORER, { path: "~/Pictures" });
+						windowsManager?.open(APPS.FILE_EXPLORER, { path: "~/Pictures" });
 					}}>
 						<FontAwesomeIcon icon={faImage}/>
 					</button>
 					<button title="Documents" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager.open(APPS.FILE_EXPLORER, { path: "~/Documents" }); }
+						windowsManager?.open(APPS.FILE_EXPLORER, { path: "~/Documents" }); }
 					}>
 						<FontAwesomeIcon icon={faFileLines}/>
 					</button>
@@ -106,7 +106,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 								tabIndex={tabIndex}
 								onClick={() => {
 									setActive(false);
-									windowsManager.open(id);
+									windowsManager?.open(id);
 								}}
 								title={name}
 							>

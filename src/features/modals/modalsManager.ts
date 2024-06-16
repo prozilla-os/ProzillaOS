@@ -1,9 +1,9 @@
-import Modal from "./modal";
+import { MutableRefObject } from "react";
+import { Modal } from "./modal";
 
-export default class ModalsManager {
+export class ModalsManager {
 	modals: Record<string, Modal> = {};
-	containerRef: { current: HTMLElement | null };
-
+	containerRef?: MutableRefObject<HTMLElement>;
 	updateModals: Function = () => {};
 
 	/**

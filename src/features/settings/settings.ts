@@ -6,8 +6,8 @@ const PARENT_NODE = "options";
 export class Settings {
 	path: string;
 	file: VirtualFile;
-	xmlDoc: Document = null;
-	#virtualRoot: VirtualRoot = null;
+	xmlDoc?: Document;
+	#virtualRoot?: VirtualRoot;
 
 	constructor(virtualRoot: VirtualRoot, path: string) {
 		this.#virtualRoot = virtualRoot;
@@ -16,20 +16,20 @@ export class Settings {
 
 		if (this.file == null) {
 			console.warn(`Unable to read settings from path: ${this.path}\nNo such file or directory.`);
-			return null;
+			return;
 		} else if (!(this.file instanceof VirtualFile)) {
 			console.warn(`Unable to read settings from path: ${this.path}\nPath does not point to VirtualFile.`);
-			return null;
+			return;
 		} else if (this.file.extension !== "xml") {
 			console.warn(`Unable to read settings from path: ${this.path}\nFile does not have extension "xml".`);
-			return null;
+			return;
 		}
 	}
 
 	/**
 	 * Reads the xml doc from the given path and assigns it to itself
 	 */
-	async read(): Promise<Settings> {
+	async read(): Promise<void> {
 		if (!this.file)
 			return;
 
@@ -45,7 +45,7 @@ export class Settings {
 	}
 
 	write() {
-		if (!this.file)
+		if (this.file == null || this.xmlDoc == null)
 			return;
 
 		const serializer = new XMLSerializer();
@@ -71,17 +71,17 @@ export class Settings {
 		if (await this.isMissingXmlDoc())
 			return null;
 
-		let value = this.xmlDoc.getElementsByTagName(key)?.[0]?.textContent;
+		let value = this.xmlDoc?.getElementsByTagName(key)?.[0]?.textContent as string | null;
 
 		if (callback) {
-			callback(value);
+			if (value != null) callback(value);
 
 			this.file.on(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, () => {
 				void (async () => {
 					await this.read();
 					const newValue = await this.get(key);
 
-					if (newValue !== value) {
+					if (newValue != null && newValue !== value) {
 						callback(newValue);
 						value = newValue;
 					}
@@ -93,7 +93,7 @@ export class Settings {
 	}
 
 	async set(key: string, value: string) {
-		if (await this.isMissingXmlDoc())
+		if (await this.isMissingXmlDoc() || this.xmlDoc == null)
 			return;
 
 		if (this.xmlDoc.getElementsByTagName(key).length > 0) {

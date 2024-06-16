@@ -6,14 +6,14 @@ const StreamEvents = {
 	stop: "stop",
 } as const;
 
-export default class Stream extends EventEmitter<typeof StreamEvents> {
+export class Stream extends EventEmitter<typeof StreamEvents> {
 	static EVENT_NAMES = StreamEvents;
 
 	enabled: boolean = false;
 
 	start(callback?: Function): Stream {
 		if (this.enabled)
-			return;
+			return this;
 
 		callback?.(this);
 		this.enabled = true;
@@ -23,7 +23,7 @@ export default class Stream extends EventEmitter<typeof StreamEvents> {
 
 	stop(): Stream {
 		if (!this.enabled)
-			return;
+			return this;
 
 		this.enabled = false;
 		this.emit("stop");

@@ -1,4 +1,4 @@
-export const THEMES = {
+export const THEMES: Record<number, string | null> = {
 	0: "Dark",
 	1: "Light",
 	2: "Cherry",

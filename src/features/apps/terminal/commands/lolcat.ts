@@ -1,6 +1,6 @@
 import { ANSI } from "../../../../config/apps/terminal.config";
 import { removeAnsi } from "../_utils/terminal.utils";
-import Command from "../command";
+import { Command, ExecuteParams } from "../command";
 
 const COLUMN_WIDTH = 5;
 const ROW_OFFSET = 2;
@@ -18,18 +18,20 @@ export const lolcat = new Command()
 	.setManual({
 		purpose: "Display text with a rainbow effect"
 	})
-	.setExecute(function(args, { rawInputValue, timestamp }) {
+	.setExecute(function(args, params) {
+		const { rawInputValue, timestamp } = params as ExecuteParams;
+		if (rawInputValue == null) return;
 		let rows = removeAnsi(rawInputValue).split("\n");
 		const offset = timestamp / 100;
 
 		rows = rows.map((row, index) => {
-			const columns = [];
+			const columns: string[] = [];
 
 			const rowIndex = index + offset;
 			const rowOffset = COLUMN_WIDTH - ((ROW_OFFSET * rowIndex) % COLUMN_WIDTH);
 			let rainbowIndex = Math.floor(rowIndex / (COLUMN_WIDTH / ROW_OFFSET));
 
-			const addColumn = (start, end) => {
+			const addColumn = (start: number, end: number) => {
 				const column = row.substring(start, end);
 				const color = RAINBOW[rainbowIndex++ % RAINBOW.length];
 				columns.push(color + column);

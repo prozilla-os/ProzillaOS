@@ -7,9 +7,8 @@ export class StorageManager {
 
 		const exceededMaxStorage = this.getByteSize(value) > this.MAX_BYTES;
 
-		if (exceededMaxStorage) {
+		if (exceededMaxStorage)
 			throw new Error("Failed to store value: storage capacity exceeded.");
-		}
 
 		localStorage.setItem(key, value);
 	}
@@ -25,7 +24,8 @@ export class StorageManager {
 		localStorage.clear();
 	}
 
-	static getByteSize(string: string): number {
+	static getByteSize(string: string | null): number {
+		if (string == null) return 0;
 		return new Blob([string]).size;
 	}
 

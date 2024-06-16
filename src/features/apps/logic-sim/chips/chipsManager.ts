@@ -3,12 +3,12 @@ import { State } from "../_utils/state";
 import { Circuit, CircuitJson } from "../core/circuit";
 import { VirtualFolder } from "../../../virtual-drive/folder";
 import { ControlledPin } from "../pins/controlledPin";
-import Vector2 from "../../../math/vector2";
+import { Vector2 } from "../../../math/vector2";
 import { Pin } from "../pins/pin";
 import { Wire } from "../wires/wire";
 
 export class ChipsManager {
-	static CHIPS = {
+	static CHIPS: Record<string, Chip> = {
 		AND: new Chip(null, "AND", "blue", true, 2, 1).setLogic((inputStates: State[]) => {
 			if (inputStates[0].value === 1 && inputStates[1].value === 1) {
 				return [State.HIGH];
@@ -34,8 +34,8 @@ export class ChipsManager {
 		if (virtualFile == null)
 			return;
 
-		virtualFile.read().then((content) => {
-			const data = JSON.parse(content) as CircuitJson;
+		virtualFile.read()?.then((content) => {
+			const data = JSON.parse(content as string) as CircuitJson;
 
 			circuit.color = data.color;
 			circuit.name = data.name;
@@ -84,7 +84,7 @@ export class ChipsManager {
 				});
 
 				// Load logic
-				newChip.setLogic((ChipsManager.CHIPS[chipData.name] as Chip).logic);
+				newChip.setLogic((ChipsManager.CHIPS[chipData.name]).logic);
 				newChip.update();
 
 				circuit.chips.push(newChip);

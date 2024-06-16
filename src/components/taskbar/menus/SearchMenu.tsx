@@ -1,10 +1,10 @@
 import styles from "./SearchMenu.module.css";
 import appStyles from "./AppList.module.css";
-import AppsManager from "../../../features/apps/appsManager";
+import { AppsManager } from "../../../features/apps/appsManager";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
-import { ChangeEventHandler, useEffect, useState } from "react";
+import { ChangeEventHandler, MutableRefObject, useEffect, useState } from "react";
 import { useKeyboardListener } from "../../../hooks/_utils/keyboard";
-import App from "../../../features/apps/app";
+import { App } from "../../../features/apps/app";
 import { ReactSVG } from "react-svg";
 
 interface SearchMenuProps {
@@ -12,12 +12,12 @@ interface SearchMenuProps {
 	setActive: Function;
 	searchQuery: string;
 	setSearchQuery: Function;
-	inputRef: { current: HTMLInputElement | undefined };
+	inputRef: MutableRefObject<HTMLInputElement>;
 }
 
 export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inputRef }: SearchMenuProps) {
 	const windowsManager = useWindowsManager();
-	const [apps, setApps] = useState<App[]>(null);
+	const [apps, setApps] = useState<App[] | null>(null);
 	const [tabIndex, setTabIndex] = useState(active ? 0 : -1);
 
 	useEffect(() => {
@@ -25,7 +25,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	}, [active]);
 
 	useEffect(() => {
-		if (inputRef.current) {
+		if (inputRef.current != null) {
 			inputRef.current.focus();
 			window.scrollTo(0, document.body.scrollHeight);
 		}
@@ -58,7 +58,8 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 			setActive(false);
 		} else if (event.key === "Enter" && active) {
 			event.preventDefault();
-			windowsManager.open(apps[0].id);
+			if (apps == null) return;
+			windowsManager?.open(apps[0].id);
 			setActive(false);
 		}
 	};
@@ -75,7 +76,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 						tabIndex={tabIndex}
 						onClick={() => {
 							setActive(false);
-							windowsManager.open(id);
+							windowsManager?.open(id);
 						}}
 					>
 						<ReactSVG src={AppsManager.getAppIconUrl(id)}/>

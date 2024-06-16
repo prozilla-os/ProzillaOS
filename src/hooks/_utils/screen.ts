@@ -1,9 +1,9 @@
 import { Ref, useEffect, useRef, useState } from "react";
 import { TASKBAR_HEIGHT } from "../../config/taskbar.config";
 
-export function useScreenDimensions(): [screenWidth: number, screenHeight: number] {
-	const [screenWidth, setScreenWidth] = useState<number>(null);
-	const [screenHeight, setScreenHeight] = useState<number>(null);
+export function useScreenDimensions(): [screenWidth: number | null, screenHeight: number | null] {
+	const [screenWidth, setScreenWidth] = useState<number | null>(null);
+	const [screenHeight, setScreenHeight] = useState<number | null>(null);
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver((event) => {
@@ -11,7 +11,12 @@ export function useScreenDimensions(): [screenWidth: number, screenHeight: numbe
 			setScreenHeight(event[0].contentBoxSize[0].blockSize);
 		});
 
-		resizeObserver.observe(document.getElementById("root"));
+		const root = document.getElementById("root");
+
+		if (root == null)
+			throw new Error("Root is null: No element with ID 'root' found");
+
+		resizeObserver.observe(root);
 	}, []);
 
 	return [screenWidth, screenHeight];

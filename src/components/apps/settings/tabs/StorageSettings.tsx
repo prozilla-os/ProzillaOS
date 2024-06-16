@@ -1,16 +1,16 @@
 import styles from "../Settings.module.css";
 import utilStyles from "../../../../styles/utils.module.css";
-import { round } from "../../../../features/math/round";
 import { ProgressBar } from "../../../_utils/progress-bar/ProgressBar";
 import { Button } from "../../../_utils/button/Button";
 import { useVirtualRoot } from "../../../../hooks/virtual-drive/virtualRootContext";
 import { StorageManager } from "../../../../features/storage/storageManager";
+import { round } from "../../../../features/_utils/math.utils";
 
 export function StorageTab() {
 	const virtualRoot = useVirtualRoot();
 
 	const maxBytes = StorageManager.MAX_BYTES;
-	const usedBytes = StorageManager.getByteSize(virtualRoot.toString());
+	const usedBytes = StorageManager.getByteSize(virtualRoot?.toString() ?? "");
 
 	const maxKB = StorageManager.byteToKilobyte(maxBytes);
 	const usedKB = StorageManager.byteToKilobyte(usedBytes);
@@ -29,7 +29,7 @@ export function StorageTab() {
 			<p className={styles.Label}>Manage data</p>
 			<Button
 				className={`${styles.Button} ${styles.ButtonDanger} ${utilStyles.TextBold}`}
-				onClick={() => { virtualRoot.reset?.(); }}
+				onClick={() => { virtualRoot?.reset(); }}
 			>
 				Reset
 			</Button>

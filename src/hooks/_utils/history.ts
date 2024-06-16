@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { clamp } from "../../features/math/clamp";
+import { clamp } from "../../features/_utils/math.utils";
 
 export function useHistory<Type>(initialState: Type): {
 	history: Type[];

@@ -2,7 +2,7 @@ import { Children, cloneElement, isValidElement, ReactElement, ReactNode, Ref } 
 import { useShortcuts } from "../../hooks/_utils/keyboard";
 import styles from "./Actions.module.css";
 import { useScreenBounds } from "../../hooks/_utils/screen";
-import { STYLES } from "../../config/actions.config";
+import { ActionsManager } from "../../features/actions/actionsManager";
 
 export interface ActionProps {
 	actionId?: string;
@@ -15,11 +15,13 @@ export interface ActionProps {
 }
 
 export interface ActionsProps {
+	mode?: string;
 	className?: string;
 	onAnyTrigger?: (event: Event, triggerParams: unknown, ...args: unknown[]) => void;
 	children?: ReactNode;
 	triggerParams?: unknown;
 	avoidTaskbar?: boolean;
+	[key: string]: unknown;
 }
 
 /** 
@@ -33,13 +35,13 @@ export interface ActionsProps {
  * 	}}
  * />
  */
-export function Actions({ children, className, onAnyTrigger, triggerParams, avoidTaskbar = true }: ActionsProps): ReactElement {
-	const isListener = (className === STYLES.SHORTCUTS_LISTENER);
+export function Actions({ children, mode, className, onAnyTrigger, triggerParams, avoidTaskbar = true }: ActionsProps): ReactElement {
+	const isListener = (mode === ActionsManager.MODES.shortcutsListener);
 
 	const { ref, initiated, alignLeft, alignTop } = useScreenBounds({ avoidTaskbar });
 
-	const options = {};
-	const shortcuts = {};
+	const options: Record<number, Function> = {};
+	const shortcuts: Record<number, string[]> = {};
 
 	let actionId = 0;
 	const iterateOverChildren = (children: ReactNode): ReactNode => {
@@ -89,6 +91,8 @@ export function Actions({ children, className, onAnyTrigger, triggerParams, avoi
 		return iterateOverChildren(children) as ReactElement;
 
 	const classNames = [styles.Actions];
+	if (mode != null)
+		classNames.push(styles[mode]);
 	if (className != null)
 		classNames.push(className);
 	if (alignLeft)

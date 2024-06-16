@@ -1,7 +1,7 @@
 import { SettingsManager } from "../../settings/settingsManager";
 import { VirtualFolder } from "../../virtual-drive/folder/virtualFolder";
 import { VirtualRoot } from "../../virtual-drive/root/virtualRoot";
-import Stream from "./stream";
+import { Stream } from "./stream";
 
 type Option = {
 	long: string,
@@ -10,12 +10,11 @@ type Option = {
 };
 
 export type CommandResponse = string | { blank: boolean } | void | Stream;
-
-type Execute = (args?: string[], options?: {
+export type ExecuteParams = {
 	promptOutput?: Function,
 	pushHistory?: Function,
 	virtualRoot?: VirtualRoot,
-	currentDirectory?: VirtualFolder,
+	currentDirectory: VirtualFolder,
 	setCurrentDirectory?: Function,
 	username?: string,
 	hostname?: string,
@@ -25,7 +24,9 @@ type Execute = (args?: string[], options?: {
 	inputs?: Record<string, string>,
 	timestamp: number,
 	settingsManager: SettingsManager,
-}) => CommandResponse | Promise<CommandResponse>;
+};
+
+type Execute = (args?: string[], params?: ExecuteParams) => CommandResponse | Promise<CommandResponse>;
 
 type Manual = {
 	purpose?: string,
@@ -34,12 +35,12 @@ type Manual = {
 	options?: object
 };
 
-export default class Command {
-	name: string | undefined;
+export class Command {
+	name: string = "command";
 	options: Option[] = [];
-	manual: Manual;
-	requireArgs: boolean;
-	requireOptions: boolean;
+	manual: Manual | undefined;
+	requireArgs: boolean | undefined;
+	requireOptions: boolean | undefined;
 
 	execute: Execute = () => {};
 
@@ -81,8 +82,8 @@ export default class Command {
 		return this;
 	}
 
-	getOption(key: string): Option {
-		let matchingOption: Option = null;
+	getOption(key: string): Option | null {
+		let matchingOption: Option | null = null;
 
 		this.options.forEach((option) => {
 			if (option.short === key || option.long === key)

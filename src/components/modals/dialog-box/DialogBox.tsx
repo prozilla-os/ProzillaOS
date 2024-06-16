@@ -6,11 +6,14 @@ import styles from "./DialogBox.module.css";
 export function DialogBox({ modal, params, children, ...props }: ModalProps) {
 	const onClick = (event: MouseEvent) => {
 		event.preventDefault();
-		const type = parseInt((event.target as HTMLElement).getAttribute("data-type"));
+		const attribute = (event.target as HTMLElement).getAttribute("data-type");
+		if (attribute == null) return;
+
+		const type = parseInt(attribute);
 
 		switch (type) {
-			case DIALOG_CONTENT_TYPES.CloseButton:
-				modal.close();
+			case DIALOG_CONTENT_TYPES.closeButton:
+				modal?.close();
 				break;
 		}
 	};

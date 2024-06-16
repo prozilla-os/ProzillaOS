@@ -2,6 +2,7 @@
 	"recommendations": [
 		"bierner.github-markdown-preview",
 		"yahyabatulu.vscode-markdown-alert",
-		"clinyong.vscode-css-modules"
+		"clinyong.vscode-css-modules",
+		"yoavbls.pretty-ts-errors"
 	]
 }

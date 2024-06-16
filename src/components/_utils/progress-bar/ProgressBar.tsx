@@ -1,15 +1,6 @@
 import { CSSProperties } from "react";
-import { clamp } from "../../../features/math/clamp";
 import styles from "./ProgressBar.module.css";
-
-/**
- * @param {object} props 
- * @param {number} props.fillPercentage 
- * @param {string} props.fillColor 
- * @param {string} props.backgroundColor 
- * @param {string} props.align
- * @param {string} props.className
- */
+import { clamp } from "../../../features/_utils/math.utils";
 
 interface ProgressBarProps {
 	fillPercentage: number;

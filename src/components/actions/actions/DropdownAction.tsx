@@ -3,7 +3,7 @@ import styles from "../Actions.module.css";
 import { faCaretRight, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { ReactElement, useState } from "react";
 import { ActionProps } from "../Actions";
-import OutsideClickListener from "../../../hooks/_utils/outsideClick";
+import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 
 interface DropdownActionProps extends ActionProps {
 	showOnHover?: boolean;
@@ -24,9 +24,18 @@ export function DropdownAction({ label, icon, children, showOnHover = true }: Dr
 			key={label}
 			className={classNames.join(" ")}
 			tabIndex={0}
-			onMouseEnter={showOnHover ? () => { setShowContent(true); } : null}
-			onMouseLeave={showOnHover ? () => { setShowContent(false); } : null}
-			onClick={!showOnHover ? () => { setShowContent(!showContent); } : null}
+			onMouseEnter={() => {
+				if (showOnHover)
+					setShowContent(true);
+			}}
+			onMouseLeave={() => {
+				if (showOnHover)
+					setShowContent(false);
+			}}
+			onClick={() => {
+				if (!showOnHover)
+					setShowContent(!showContent);
+			}}
 		>
 			<span className={styles.Label}>
 				{icon && <div className={styles.Icon}><FontAwesomeIcon icon={icon as IconDefinition}/></div>}

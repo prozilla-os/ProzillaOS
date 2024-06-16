@@ -3,11 +3,9 @@ import { useVirtualRoot } from "../virtual-drive/virtualRootContext";
 import { SettingsManager } from "../../features/settings/settingsManager";
 import { SettingsManagerContext } from "./settingsManagerContext";
 
-/**
- * Note: needs to be inside a virtual root provider
- */
 export const SettingsManagerProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const virtualRoot = useVirtualRoot();
+	if (virtualRoot == null) throw new Error("SettingsManager is missing VirtualRoot");
 	const settingsManager = new SettingsManager(virtualRoot);
 
 	return (

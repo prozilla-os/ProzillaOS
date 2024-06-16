@@ -24,7 +24,7 @@
 		"forceConsistentCasingInFileNames": true,
 		
 		/* Type Checking */
-		"strict": false,
+		"strict": true,
 	},
 	"include": [
 		"src/**/*",
