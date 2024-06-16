@@ -1,0 +1,35 @@
+{
+	"name": "@prozilla-os/core",
+	"version": "1.0.0",
+	"author": {
+		"name": "Prozilla",
+		"email": "business@prozilla.dev",
+		"url": "https://prozilla.dev/"
+	},
+	"main": "src/index.ts",
+	"type": "module",
+	"scripts": {
+		"test": "tsc --watch"
+	},
+	"repository": "https://github.com/Prozilla/ProzillaOS",
+	"license": "MIT",
+	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^6.5.2",
+		"@fortawesome/free-regular-svg-icons": "^6.5.2",
+		"@fortawesome/free-solid-svg-icons": "^6.5.2",
+		"@fortawesome/react-fontawesome": "^0.2.2",
+		"react": "^18.3.1",
+		"react-draggable": "^4.4.6",
+		"react-error-boundary": "^4.0.13",
+		"react-ga4": "^2.1.0",
+		"react-svg": "^16.1.34",
+		"@prozilla-os/file-explorer": "^1.0.0"
+	},
+	"devDependencies": {
+		"@types/node": "^20.14.2",
+		"typescript": "^5.4.5"
+	},
+	"files": [
+		"src/index.ts"
+	]
+}

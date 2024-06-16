@@ -1,1 +1,0 @@
-export const TASKBAR_HEIGHT = 3 * 16;

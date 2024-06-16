@@ -35,7 +35,7 @@
 		"./node_modules",
 		"./dist",
 		"./.vscode",
-		"./.github"
+		"./.github",
 	],
 	"ts-node": {
 		"experimentalSpecifierResolution": "node",

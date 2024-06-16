@@ -1,20 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./styles/global.css";
+import { Main } from "./Main";
 import { ASCII_LOGO, NAME } from "./config/branding.config";
-import { TrackingManager } from "./features/tracking/trackingManager";
-import { TimeManager } from "./features/_utils/time.utils";
-import { App } from "./App";
-
-TimeManager.reset();
-
-TrackingManager.initialize();
 
 // Render app
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
-root.render(<React.StrictMode>
-	<App/>
-</React.StrictMode>);
+root.render(<React.StrictMode><Main/></React.StrictMode>);
 
 // Log welcome message
 const asciiLogoWidth = ASCII_LOGO.split("\n")[1].length;

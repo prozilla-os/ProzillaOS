@@ -11,7 +11,7 @@ export default tseslint.config(
 	{
 		languageOptions: {
 			parserOptions: {
-				project: "./tsconfig.json",
+				project: ["./tsconfig.json", "./packages/*/tsconfig.json", "./packages/apps/*/tsconfig.json"],
 				tsconfigRootDir: import.meta.dirname,
 				allowAutomaticSingleRunInference: true,
 			},
@@ -21,7 +21,7 @@ export default tseslint.config(
 		],
 		plugins: {
 			react,
-			"react-refresh": reactRefresh
+			"react-refresh": reactRefresh,
 		},
 		rules: {
 			"quotes": "off",
@@ -65,7 +65,7 @@ export default tseslint.config(
 			"react-refresh/only-export-components": [
 				"warn",
 				{ "allowConstantExport": true }
-			]
+			],
 		},
 	}
 );
