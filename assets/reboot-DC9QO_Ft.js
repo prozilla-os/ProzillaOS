@@ -1,0 +1,1 @@
+import{l as e}from"./index-tJv-8Jve.js";import{C as o}from"./command-DZiH-9YI.js";const n=new o().setManual({purpose:"Reboot the system"}).setExecute(function(){return e(),{blank:!0}});export{n as reboot};

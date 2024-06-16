@@ -4,7 +4,7 @@
 	xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 	<url>
 		<loc>https://os.prozilla.dev/</loc>
-		<lastmod>2024-6-14</lastmod>
+		<lastmod>2024-6-16</lastmod>
 		
 		<image:image>
 			<image:loc>https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png</image:loc>
@@ -37,34 +37,34 @@
 	
 	<url>
 		<loc>https://os.prozilla.dev/terminal</loc>
-		<lastmod>2024-6-14</lastmod>
+		<lastmod>2024-6-16</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/settings</loc>
-		<lastmod>2024-6-14</lastmod>
+		<lastmod>2024-6-16</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/media-viewer</loc>
-		<lastmod>2024-6-14</lastmod>
+		<lastmod>2024-6-16</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/text-editor</loc>
-		<lastmod>2024-6-14</lastmod>
+		<lastmod>2024-6-16</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/file-explorer</loc>
-		<lastmod>2024-6-14</lastmod>
+		<lastmod>2024-6-16</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/calculator</loc>
-		<lastmod>2024-6-14</lastmod>
+		<lastmod>2024-6-16</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/browser</loc>
-		<lastmod>2024-6-14</lastmod>
+		<lastmod>2024-6-16</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/logic-sim</loc>
-		<lastmod>2024-6-14</lastmod>
+		<lastmod>2024-6-16</lastmod>
 	</url>
 </urlset>

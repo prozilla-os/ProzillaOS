@@ -1,1 +1,0 @@
-import{C as r}from"./command-Clc1HLU6.js";const o=new r().setManual({purpose:"Display the reverse of a text"}).setExecute(function(t,{rawInputValue:e}){return e.split("").reverse().join("")});export{o as rev};
