@@ -11,7 +11,11 @@
 	"scripts": {
 		"test": "tsc --watch"
 	},
-	"repository": "https://github.com/Prozilla/ProzillaOS",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Prozilla/ProzillaOS.git",
+		"directory": "packages/apps/file-explorer"
+	},
 	"license": "MIT",
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.5.2",

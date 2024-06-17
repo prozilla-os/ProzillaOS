@@ -1,6 +1,5 @@
 import { randomRange } from "../_utils/math.utils";
-import { App } from "../apps/app";
-import { AppsManager } from "../apps/appsManager";
+import { App } from "../system/configs/app";
 import { Vector2 } from "../math/vector2";
 import { SystemManager } from "../system/systemManager";
 import { TrackingManager } from "../tracking/trackingManager";
@@ -36,7 +35,8 @@ export class WindowsManager {
 	}
 
 	open(appId: string, options?: WindowOptions | null): object | null {
-		const app = AppsManager.getAppById(appId);
+		const { appsConfig, windowsConfig, taskbarConfig } = this.#systemManager;
+		const app = appsConfig.getAppById(appId);
 
 		if (app == null) {
 			console.warn(`Failed to open app ${appId}: app not found`);
@@ -44,8 +44,7 @@ export class WindowsManager {
 		}
 
 		const size = options?.size ?? app.windowOptions?.size ?? new Vector2(700, 400);
-
-		const { windowsConfig, taskbarConfig } = this.#systemManager;
+		
 		const availableScreenSpace = new Vector2(
 			window.innerWidth - windowsConfig.screenMargin * 2,
 			window.innerHeight - windowsConfig.screenMargin * 2 - taskbarConfig.height
@@ -112,7 +111,8 @@ export class WindowsManager {
 	openFile(file: VirtualFile, options: object = {}): object | null {
 		if (file.extension == null) return null;
 
-		const app = AppsManager.getAppByFileExtension(file?.extension);
+		const { appsConfig } = this.#systemManager;
+		const app = appsConfig.getAppByFileExtension(file?.extension);
 		if (app != null) {
 			return this.open(app.id, { file, ...options });
 		} else {

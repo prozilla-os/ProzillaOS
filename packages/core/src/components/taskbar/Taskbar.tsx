@@ -2,7 +2,6 @@ import { CSSProperties, memo, MouseEvent, MutableRefObject, ReactEventHandler, U
 import styles from "./Taskbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { AppsManager } from "../../features/apps/appsManager";
 import { ReactSVG } from "react-svg";
 import { HomeMenu } from "./menus/HomeMenu";
 import { OutsideClickListener } from "../../hooks/_utils/outsideClick";
@@ -12,19 +11,18 @@ import { AppButton } from "./app-icon/AppIcon";
 import { useContextMenu } from "../../hooks/modals/contextMenu";
 import { Actions } from "../actions/Actions";
 import { ClickAction } from "../actions/actions/ClickAction";
-import { APPS, APP_NAMES } from "../../constants/apps.const";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import { useSettingsManager } from "../../hooks/settings/settingsManagerContext";
 import { SettingsManager } from "../../features/settings/settingsManager";
 import { useWindows } from "../../hooks/windows/windowsContext";
 import { ZIndexManager } from "../../features/z-index/zIndexManager";
 import { useZIndex } from "../../hooks/z-index/zIndex";
-import { App } from "../../features/apps/app";
 import { Battery, Calendar, Network, Volume } from "./indicators";
 import { useSystemManager } from "../../hooks";
+import { App } from "../../features";
 
 export const Taskbar = memo(() => {
-	const { taskbarConfig } = useSystemManager();
+	const { taskbarConfig, appsConfig } = useSystemManager();
 	const ref = useRef<HTMLDivElement>(null);
 	const settingsManager = useSettingsManager();
 	const [showHome, setShowHome] = useState(false);
@@ -42,8 +40,8 @@ export const Taskbar = memo(() => {
 	const windows = useWindows();
 	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions avoidTaskbar={false} {...props}>
-			<ClickAction label={`Open ${APP_NAMES.SETTINGS}`} icon={faCog} onTrigger={() => {
-				windowsManager?.open(APPS.SETTINGS);
+			<ClickAction label={`Open ${"Settings"}`} icon={faCog} onTrigger={() => {
+				windowsManager?.open("settings");
 			}}/>
 		</Actions>
 	});
@@ -55,7 +53,7 @@ export const Taskbar = memo(() => {
 		void settings?.get("pins", (pinList: string) => {
 			const pins = pinList.split(",");
 
-			const newApps = AppsManager.APPS.sort((appA, appB) => {
+			const newApps = appsConfig.apps.sort((appA, appB) => {
 				const indexA = pins.indexOf(appA.id);
 				const indexB = pins.indexOf(appB.id);
 				if (indexA < 0 && indexB > 0) {

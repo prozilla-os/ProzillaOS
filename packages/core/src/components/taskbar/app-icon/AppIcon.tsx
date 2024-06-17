@@ -1,12 +1,11 @@
 import { FC, memo, MouseEvent } from "react";
-import { App } from "../../../features/apps/app";
+import { App } from "../../../features/system/configs/app";
 import styles from "./AppIcon.module.css";
 import { ReactSVG } from "react-svg";
 import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext";
 import { useContextMenu } from "../../../hooks/modals/contextMenu";
 import { Actions } from "../../actions/Actions";
 import { ClickAction } from "../../actions/actions/ClickAction";
-import { AppsManager } from "../../../features/apps/appsManager";
 import { WindowsManager } from "../../../features/windows/windowsManager";
 
 interface AppButtonProps {
@@ -20,7 +19,7 @@ export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, active
 	const settingsManager = useSettingsManager();
 	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions avoidTaskbar={false} {...props}>
-			<ClickAction label={app.name} icon={AppsManager.getAppIconUrl(app.id)} onTrigger={() => {
+			<ClickAction label={app.name} icon={app.iconUrl as string | undefined} onTrigger={() => {
 				windowsManager?.open(app.id);
 			}}/>
 			{/* <ClickAction label={isPinned ? "Unpin from taskbar" : "Pin to taskbar"} icon={faThumbTack} onTrigger={() => {

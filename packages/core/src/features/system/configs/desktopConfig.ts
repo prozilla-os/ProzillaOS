@@ -1,4 +1,4 @@
-import { OptionalInterface } from "../../../types/global";
+import { OptionalInterface } from "../../../types/util";
 
 export interface DesktopConfigOptions {
 	/** Array of URLs of wallpaper images */
@@ -25,7 +25,7 @@ export class DesktopConfig {
 	defaultIconSize: DesktopConfigOptions["defaultIconSize"];
 	defaultIconDirection: DesktopConfigOptions["defaultIconDirection"];
 
-	constructor(options?: OptionalInterface<DesktopConfigOptions>) {
+	constructor(options: OptionalInterface<DesktopConfigOptions> = {}) {
 		const { wallpapers, defaultWallpaper, defaultIconSize, defaultIconDirection } = options as DesktopConfigOptions;
 
 		this.wallpapers = wallpapers ?? [

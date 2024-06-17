@@ -1,5 +1,3 @@
-import { APPS } from "../../../constants/apps.const";
-import { AppsManager } from "../../apps/appsManager";
 import { SystemManager } from "../../system/systemManager";
 import { VirtualFile, VirtualFileLink } from "../file";
 import { VirtualFolder, VirtualFolderLink } from "../folder";
@@ -9,7 +7,7 @@ import { VirtualRoot } from "./virtualRoot";
  * Loads default data on the virtual root
  */
 export function loadDefaultData(systemManager: SystemManager, virtualRoot: VirtualRoot) {
-	const { desktopConfig } = systemManager;
+	const { desktopConfig, virtualDriveConfig } = systemManager;
 	const linkedPaths: Record<string, string> = {};
 		
 	virtualRoot.createFolder("home", (folder) => {
@@ -27,7 +25,7 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 					});
 				})
 				.createFolder("Pictures", (folder) => {
-					folder.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder-images"));
+					folder.setIconUrl(virtualDriveConfig.imagesFolderIcon);
 					folder.createFolder("Wallpapers", (folder) => {
 						folder.setProtected(true);
 						for (let i = 0; i < desktopConfig.wallpapers.length; i++) {
@@ -52,13 +50,13 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 					linkedPaths.images = folder.path;
 				})
 				.createFolder("Documents", (folder) => {
-					folder.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder-text"));
+					folder.setIconUrl(virtualDriveConfig.textFolderIcon);
 					folder.createFile("text", "txt", (file) => {
 						file.setContent("Hello world!");
 					}).createFile("Info", "md", (file) => {
 						file.setProtected(true)
 							.setSource("/documents/Info.md")
-							.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-info"));
+							.setIconUrl(virtualDriveConfig.infoFileIcon);
 						linkedPaths.info = file.path;
 					}).createFile("Prozilla", "md", (file) => {
 						file.setProtected(true)

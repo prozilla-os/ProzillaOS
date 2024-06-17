@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import styles from "./StandaloneRoute.module.css";
 import { NAME } from "../../config/branding.config";
-import { App, AppsManager, generateUrl, getViewportParams, ModalsView, openUrl, setViewportIcon, setViewportTitle } from "@prozilla-os/core";
-import { StandaloneHeader } from "../../components/standalone-header/StandaloneHeader";
+import { App, generateUrl, getViewportParams, ModalsView, openUrl, setViewportIcon, setViewportTitle } from "@prozilla-os/core";
+import { StandaloneHeader } from "../../components/standalone/StandaloneHeader";
 
 interface StandaloneRouteProps {
 	app: App;
@@ -10,7 +10,7 @@ interface StandaloneRouteProps {
 
 export function StandaloneRoute({ app }: StandaloneRouteProps) {
 	const [title, setTitle] = useState(app.name);
-	const [iconUrl, setIconUrl] = useState(AppsManager.getAppIconUrl(app.id));
+	const [iconUrl, setIconUrl] = useState(app.iconUrl ?? "");
 
 	useEffect(() => {
 		// TO DO: don't overwrite metadata in production

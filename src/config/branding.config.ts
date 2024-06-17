@@ -1,4 +1,4 @@
-import { ANSI } from "./apps/terminal.config";
+import { ANSI } from "@prozilla-os/core";
 
 export const NAME = "ProzillaOS";
 export const TAG_LINE = "Web-based Operating System";

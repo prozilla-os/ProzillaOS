@@ -1,13 +1,13 @@
 import styles from "./FileProperties.module.css";
-import utilStyles from "../../../styles/utils.module.css";
-import { AppsManager, ImagePreview, ModalProps, StorageManager, VirtualFile, WindowedModal } from "@prozilla-os/core";
+import { ImagePreview, ModalProps, StorageManager, useSystemManager, utilStyles, VirtualFile, WindowedModal } from "@prozilla-os/core";
 
 interface FilePropetiesProps extends ModalProps {
 	file: VirtualFile;
 }
 
 export function FileProperties({ modal, params, file, ...props }: FilePropetiesProps) {
-	const associatedApp = file.extension != null ? AppsManager.getAppByFileExtension(file.extension) : null;
+	const { appsConfig } = useSystemManager();
+	const associatedApp = file.extension != null ? appsConfig.getAppByFileExtension(file.extension) : null;
 
 	return <WindowedModal className={styles.FileProperties} modal={modal} params={params} {...props}>
 		<span className={styles.Section}>
@@ -19,7 +19,7 @@ export function FileProperties({ modal, params, file, ...props }: FilePropetiesP
 			{associatedApp != null &&
 				<span className={styles.Line}>
 					Opens with: 
-					<ImagePreview className={styles.AppIcon} source={AppsManager.getAppIconUrl(associatedApp.id)}/>
+					<ImagePreview className={styles.AppIcon} source={associatedApp.iconUrl ?? ""}/>
 					{associatedApp.name}
 				</span>
 			}

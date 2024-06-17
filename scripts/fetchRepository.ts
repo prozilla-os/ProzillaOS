@@ -1,6 +1,6 @@
 import fs from "node:fs";
-import { ANSI } from "../src/config/apps/terminal.config";
 import { REPO } from "../src/config/deploy.config";
+import { ANSI } from "@prozilla-os/core";
 
 const API_URL = "https://api.github.com/";
 const TREE_PATH = "public/config/tree.json";

@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faCaretLeft, faCaretRight, faCircleInfo, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { QuickAccessButton } from "./QuickAccessButton";
 import { ImportButton } from "./ImportButton";
-import { Actions, AppsManager, ClickAction, CODE_EXTENSIONS, DIALOG_CONTENT_TYPES, DialogBox, DirectoryList, Divider, FileEventHandler, FolderEventHandler, OnSelectionChangeParams, useAlert, useContextMenu, useHistory, useSystemManager, useVirtualRoot, useWindowedModal, useWindowsManager, utilStyles, Vector2, VirtualFile, VirtualFolder, VirtualFolderLink, VirtualRoot, WindowProps } from "@prozilla-os/core";
+import { Actions, ClickAction, CODE_EXTENSIONS, DIALOG_CONTENT_TYPES, DialogBox, DirectoryList, Divider, FileEventHandler, FolderEventHandler, OnSelectionChangeParams, useAlert, useContextMenu, useHistory, useSystemManager, useVirtualRoot, useWindowedModal, useWindowsManager, utilStyles, Vector2, VirtualFile, VirtualFolder, VirtualFolderLink, VirtualRoot, WindowProps } from "@prozilla-os/core";
 import { SELECTOR_MODE } from "../constants/fileExplorer.const";
 import { FileProperties } from "./modals/file-properties/FileProperties";
 
-interface FileExplorerProps extends WindowProps {
+export interface FileExplorerProps extends WindowProps {
 	path?: string;
 	selectorMode?: number;
 	Footer: FC;
@@ -109,7 +109,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 			alert({
 				title: (error as Error).message,
 				text: "You have exceeded the virtual drive capacity. Files and folders will not be saved until more storage is freed.",
-				iconUrl: app?.id != null ? AppsManager.getAppIconUrl(app.id) : undefined,
+				iconUrl: app?.iconUrl as string | undefined,
 				size: new Vector2(300, 200),
 				single: true,
 			});
@@ -138,7 +138,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 			if (directory == null) {
 				openWindowedModal({
 					title: "Error",
-					iconUrl: app?.id != null ? AppsManager.getAppIconUrl(app.id) : undefined,
+					iconUrl: app?.iconUrl as string | undefined,
 					size: new Vector2(300, 150),
 					Modal: (props: {}) =>
 						<DialogBox {...props}>

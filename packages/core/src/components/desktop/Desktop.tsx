@@ -10,13 +10,13 @@ import { RadioAction } from "../actions/actions/RadioAction";
 import { Divider } from "../actions/actions/Divider";
 import { Share } from "../modals/share/Share";
 import { ModalProps } from "../modals/ModalView";
-import { APP_NAMES, APP_ICONS, APPS } from "../../constants/apps.const";
 import { SettingsManager, reloadViewport, ModalsManager, Vector2, isValidInteger } from "../../features";
 import { VirtualFile } from "../../features/virtual-drive/file";
 import { VirtualFolder, VirtualFolderLink } from "../../features/virtual-drive/folder";
 import { useSettingsManager, useWindowsManager, useVirtualRoot, useWindowedModal, useContextMenu, useSystemManager } from "../../hooks";
 import { DirectoryList } from "../_utils";
 import { FileEventHandler, FolderEventHandler } from "../_utils/directory-list/DirectoryList";
+import { fileExplorer } from "@prozilla-os/file-explorer";
 
 export const Desktop = memo(() => {
 	const { desktopConfig } = useSystemManager();
@@ -83,12 +83,12 @@ export const Desktop = memo(() => {
 				windowsManager?.open("settings", { tab: 2 });
 			}}/>
 			<Divider/>
-			<ClickAction label={`Open in ${APP_NAMES.FILE_EXPLORER}`} icon={APP_ICONS.FILE_EXPLORER} onTrigger={() => {
-				windowsManager?.open(APPS.FILE_EXPLORER, { path: directory?.path });
+			<ClickAction label={`Open in ${fileExplorer.name}`} icon={fileExplorer.iconUrl as string | undefined} onTrigger={() => {
+				windowsManager?.open(fileExplorer.id, { path: directory?.path });
 			}}/>
-			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={() => {
+			{/* <ClickAction label={`Open in ${"APP_NAMES.TERMINAL"}`} icon={APP_ICONS.TERMINAL} onTrigger={() => {
 				windowsManager?.open(APPS.TERMINAL, { path: directory?.path });
-			}}/>
+			}}/> */}
 			<Divider/>
 			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} onTrigger={() => {
 				openWindowedModal({
@@ -103,7 +103,7 @@ export const Desktop = memo(() => {
 			<ClickAction label="Open" onTrigger={(event, file) => {
 				if (windowsManager != null) (file as VirtualFile).open(windowsManager);
 			}}/>
-			<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={(event, file) => {
+			<ClickAction label={`Reveal in ${fileExplorer.name}`} icon={faFolder} onTrigger={(event, file) => {
 				if (windowsManager != null)	(file as VirtualFile).parent?.open(windowsManager);
 			}}/>
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
@@ -116,10 +116,10 @@ export const Desktop = memo(() => {
 			<ClickAction label="Open" onTrigger={(event, folder) => {
 				if (windowsManager != null)	(folder as VirtualFolder).open(windowsManager);
 			}}/>
-			<ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={faTerminal} onTrigger={(event, folder) => {
+			{/* <ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={faTerminal} onTrigger={(event, folder) => {
 				windowsManager?.open(APPS.TERMINAL, { path: (folder as VirtualFolder).path });
-			}}/>
-			<ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} icon={faFolder} onTrigger={(event, folder) => {
+			}}/> */}
+			<ClickAction label={`Reveal in ${fileExplorer.name}`} icon={faFolder} onTrigger={(event, folder) => {
 				if (windowsManager != null)	(folder as VirtualFolder).parent?.open(windowsManager);
 			}}/>
 			<Divider/>
@@ -183,7 +183,7 @@ export const Desktop = memo(() => {
 					windowsManager?.openFile(file, options);
 				}}
 				onOpenFolder={(event, folder) => {
-					windowsManager?.open(APPS.FILE_EXPLORER, {
+					windowsManager?.open(fileExplorer.id, {
 						path: (folder as VirtualFolderLink).linkedPath ?? folder.path
 					});
 				}}

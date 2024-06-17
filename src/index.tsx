@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./styles/global.css";
 import { Main } from "./Main";
 import { ASCII_LOGO, NAME } from "./config/branding.config";
 

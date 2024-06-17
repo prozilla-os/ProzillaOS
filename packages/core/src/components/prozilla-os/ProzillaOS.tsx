@@ -15,8 +15,9 @@ import { ModalsConfig, ModalsConfigOptions } from "../../features/system/configs
 import { TaskbarConfig, TaskbarConfigOptions } from "../../features/system/configs/taskbarConfig";
 import { TrackingConfig, TrackingConfigOptions } from "../../features/system/configs/trackingConfig";
 import { WindowsConfig, WindowsConfigOptions } from "../../features/system/configs/windowsConfig";
-import { OptionalInterface } from "../../types/global";
+import { OptionalInterface } from "../../types/util";
 import { TrackingManagerProvider } from "../../hooks/tracking/trackingManagerProvider";
+import { VirtualDriveConfig, VirtualDriveConfigOptions } from "../../features/system/configs/virtualDriveConfig";
 
 interface ProzillaOSProps {
 	systemName?: string;
@@ -29,6 +30,7 @@ interface ProzillaOSProps {
 		taskbar?: OptionalInterface<TaskbarConfigOptions>;
 		tracking?: OptionalInterface<TrackingConfigOptions>;
 		windows?: OptionalInterface<WindowsConfigOptions>;
+		virtualDrive?: OptionalInterface<VirtualDriveConfigOptions>;
 	}
 	children?: ReactNode;
 }
@@ -45,7 +47,8 @@ export const ProzillaOS = memo(function(props: ProzillaOSProps): ReactElement {
 		modalsConfig: new ModalsConfig(config?.modals),
 		taskbarConfig: new TaskbarConfig(config?.taskbar),
 		trackingConfig: new TrackingConfig(config?.tracking),
-		windowsConfig: new WindowsConfig(config?.windows)
+		windowsConfig: new WindowsConfig(config?.windows),
+		virtualDriveConfig: new VirtualDriveConfig(config?.virtualDrive),
 	} as SystemManagerParams;
 
 	return <SystemManagerProvider {...systemParams}>

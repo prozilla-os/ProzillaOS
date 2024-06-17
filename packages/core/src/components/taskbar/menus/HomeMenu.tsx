@@ -6,9 +6,9 @@ import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawe
 import { ReactSVG } from "react-svg";
 import { useEffect, useState } from "react";
 import { utilStyles } from "../../..";
-import { APPS } from "../../../constants/apps.const";
-import { closeViewport, Vector2, AppsManager } from "../../../features";
+import { closeViewport, Vector2 } from "../../../features";
 import { useWindowsManager, useVirtualRoot, useKeyboardListener, useSystemManager } from "../../../hooks";
+import { fileExplorer } from "@prozilla-os/file-explorer";
 
 interface HomeMenuProps {
 	active: boolean;
@@ -17,7 +17,7 @@ interface HomeMenuProps {
 }
 
 export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
-	const { systemName } = useSystemManager();
+	const { systemName, appsConfig } = useSystemManager();
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
 	const [tabIndex, setTabIndex] = useState(active ? 0 : -1);
@@ -81,13 +81,13 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 					</button>
 					<button title="Images" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager?.open(APPS.FILE_EXPLORER, { path: "~/Pictures" });
+						windowsManager?.open(fileExplorer.id, { path: "~/Pictures" });
 					}}>
 						<FontAwesomeIcon icon={faImage}/>
 					</button>
 					<button title="Documents" tabIndex={tabIndex} onClick={() => {
 						setActive(false);
-						windowsManager?.open(APPS.FILE_EXPLORER, { path: "~/Documents" }); }
+						windowsManager?.open(fileExplorer.id, { path: "~/Documents" }); }
 					}>
 						<FontAwesomeIcon icon={faFileLines}/>
 					</button>
@@ -95,7 +95,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 				<div className={styles.Apps}>
 					<h1 className={utilStyles.TextBold}>{systemName}</h1>
 					<div className={appStyles.AppList}>
-						{AppsManager.APPS.sort((a, b) => a.name.localeCompare(b.name)).map(({ name, id }) => 
+						{appsConfig.apps.sort((a, b) => a.name.localeCompare(b.name)).map(({ name, id, iconUrl }) => 
 							<button
 								key={id}
 								className={appStyles.AppButton}
@@ -106,7 +106,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 								}}
 								title={name}
 							>
-								<ReactSVG src={AppsManager.getAppIconUrl(id)}/>
+								<ReactSVG src={iconUrl ?? ""}/>
 								<h2 className={utilStyles.TextRegular}>{name}</h2>
 							</button>
 						)}

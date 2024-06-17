@@ -1,4 +1,5 @@
 import { formatRelativeTime } from "../_utils";
+import { VirtualDriveConfig } from "./configs";
 import { AppsConfig } from "./configs/appsConfig";
 import { DesktopConfig } from "./configs/desktopConfig";
 import { MiscConfig } from "./configs/miscConfig";
@@ -17,6 +18,7 @@ export interface SystemManagerParams {
 	taskbarConfig: TaskbarConfig;
 	trackingConfig: TrackingConfig;
 	windowsConfig: WindowsConfig;
+	virtualDriveConfig: VirtualDriveConfig;
 }; 
 
 export class SystemManager {
@@ -31,6 +33,7 @@ export class SystemManager {
 	taskbarConfig: TaskbarConfig;
 	trackingConfig: TrackingConfig;
 	windowsConfig: WindowsConfig;
+	virtualDriveConfig: VirtualDriveConfig;
 
 	constructor({
 		systemName,
@@ -41,7 +44,8 @@ export class SystemManager {
 		modalsConfig,
 		taskbarConfig,
 		trackingConfig,
-		windowsConfig
+		windowsConfig,
+		virtualDriveConfig
 	}: SystemManagerParams) {
 		this.systemName = systemName ?? "ProzillaOS";
 		this.tagLine = tagLine ?? "Web-based Operating System";
@@ -53,6 +57,7 @@ export class SystemManager {
 		this.taskbarConfig = taskbarConfig;
 		this.trackingConfig = trackingConfig;
 		this.windowsConfig = windowsConfig;
+		this.virtualDriveConfig = virtualDriveConfig;
 
 		this.#startDate = new Date();
 	}

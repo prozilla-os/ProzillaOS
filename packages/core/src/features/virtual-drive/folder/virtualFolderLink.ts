@@ -1,5 +1,3 @@
-import { APPS } from "../../../constants/apps.const";
-import { AppsManager } from "../../apps/appsManager";
 import { VirtualFolder } from ".";
 import { VirtualFolderJson } from "./virtualFolder";
 
@@ -60,7 +58,8 @@ export class VirtualFolderLink extends VirtualFolder {
 		if (this.isValid() && this.linkedFolder?.iconUrl)
 			return this.linkedFolder.iconUrl;
 
-		return AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder-link");
+		const { virtualDriveConfig } = this.getRoot().systemManager;
+		return virtualDriveConfig.folderLinkIcon;
 	}
 
 	toJSON(): VirtualFolderLinkJson | null {

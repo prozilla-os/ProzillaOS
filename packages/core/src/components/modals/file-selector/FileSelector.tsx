@@ -3,19 +3,18 @@ import { Button } from "../../_utils/button/Button";
 import { WindowedModal } from "../_utils/WindowedModal";
 import styles from "./FileSelector.module.css";
 import { ModalProps } from "../ModalView";
-import { APP_ICONS } from "../../../constants/apps.const";
 import { VirtualFile } from "../../../features/virtual-drive/file";
 import { VirtualFolder } from "../../../features/virtual-drive/folder";
-import { FileExplorer, SELECTOR_MODE } from "@prozilla-os/file-explorer";
+import { FileSelectorMode, fileExplorer } from "@prozilla-os/file-explorer";
 
 interface FileSelectorProps extends ModalProps {
-	type: number;
+	type: FileSelectorMode;
 	allowedFormats?: string[];
 	onFinish: (result: VirtualFile | VirtualFile[]) => void;
 }
 
 export function FileSelector({ modal, params, type, allowedFormats, onFinish, ...props }: FileSelectorProps) {
-	const multi = (type === SELECTOR_MODE.MULTIPLE);
+	const multi = (type == FileSelectorMode.Multi);
 
 	const [selection, setSelection] = useState<string[] | null>(multi ? [] : null);
 	const [directory, setDirectory] = useState<VirtualFolder | null>(null);
@@ -45,10 +44,10 @@ export function FileSelector({ modal, params, type, allowedFormats, onFinish, ..
 
 	return <WindowedModal modal={modal} params={{
 		title: multi ? "Select files" : "Select a file",
-		iconUrl: APP_ICONS.FILE_EXPLORER,
+		iconUrl: fileExplorer.iconUrl as string | undefined,
 		...params,
 	}} {...props}>
-		<FileExplorer
+		<fileExplorer.WindowContent
 			selectorMode={type}
 			Footer={() =>
 				<div className={styles.Footer}>

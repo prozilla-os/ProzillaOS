@@ -19,7 +19,7 @@ export class VirtualRoot extends VirtualFolder {
 	shortcuts: Record<string, VirtualFile | VirtualFileLink | VirtualFolder | VirtualFolderLink>;
 	initiated: boolean = false;
 	loadedDefaultData: boolean = false;
-	#systemManager: SystemManager;
+	systemManager: SystemManager;
 
 	static EVENT_NAMES = {
 		ERROR: "error"
@@ -28,13 +28,13 @@ export class VirtualRoot extends VirtualFolder {
 	constructor(systemManager: SystemManager) {
 		super("root");
 		this.root = this;
-		this.#systemManager = systemManager;
+		this.systemManager = systemManager;
 		this.isRoot = true;
 		this.shortcuts = {};
 	}
 
 	loadDefaultData() {
-		loadDefaultData(this.#systemManager, this);
+		loadDefaultData(this.systemManager, this);
 	}
 
 	loadData() {

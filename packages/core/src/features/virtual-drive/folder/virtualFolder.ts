@@ -1,11 +1,10 @@
-import { APPS } from "../../../constants/apps.const";
-import { AppsManager } from "../../apps/appsManager";
 import { removeFromArray } from "../../_utils/array.utils";
 import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualFileJson } from "../file/virtualFile";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 import { VirtualFolderLink } from ".";
 import { VirtualFile, VirtualFileLink } from "../file";
+import { fileExplorer } from "@prozilla-os/file-explorer";
 
 export interface VirtualFolderJson extends VirtualBaseJson {
 	fls?: VirtualFileJson[];
@@ -289,7 +288,7 @@ export class VirtualFolder extends VirtualBase {
 	 * Opens this folder in file explorer
 	 */
 	open(windowsManager: WindowsManager) {
-		return windowsManager.open(APPS.FILE_EXPLORER, { path: this.path });
+		return windowsManager.open(fileExplorer.id, { path: this.path });
 	}
 
 	/**
@@ -353,7 +352,8 @@ export class VirtualFolder extends VirtualBase {
 		if (this.iconUrl != null)
 			return this.iconUrl;
 
-		return AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "folder");
+		const { virtualDriveConfig } = this.getRoot().systemManager;
+		return virtualDriveConfig.folderIcon;
 	}
 
 	toJSON(): VirtualFolderJson | null {

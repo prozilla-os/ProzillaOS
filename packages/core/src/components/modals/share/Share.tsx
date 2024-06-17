@@ -3,7 +3,6 @@ import { ModalsManager } from "../../../features/modals/modalsManager";
 import { WindowedModal } from "../_utils/WindowedModal";
 import styles from "./Share.module.css";
 import { copyToClipboard, generateUrl } from "../../../features/_utils/browser.utils";
-import { AppsManager } from "../../../features/apps/appsManager";
 import utilStyles from "../../../styles/utils.module.css";
 import { Button } from "../../_utils/button/Button";
 import { Option } from "./Option";
@@ -13,6 +12,7 @@ import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { useAlert } from "../../../hooks/modals/alert";
 import { ModalProps } from "../ModalView";
 import { useScrollWithShadow } from "../../../hooks/_utils/scrollWithShadows";
+import { useSystemManager } from "../../../hooks";
 
 const APP_OPTIONS: Record<string, { label: string, name: string }[]> = {
 	"terminal": [
@@ -46,6 +46,7 @@ const APP_OPTIONS: Record<string, { label: string, name: string }[]> = {
 };
 
 export function Share({ modal, params, ...props }: ModalProps) {
+	const { appsConfig } = useSystemManager();
 	const [appId, setAppId] = useState<string>(params?.appId ?? "");
 	const [fullscreen, setFullscreen] = useState<boolean>(params?.fullscreen ?? false);
 	const [standalone, setStandalone] = useState<boolean>(params?.standalone ?? false);
@@ -123,7 +124,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 						<p>App:</p>
 						<select className={styles.Input} name="app" value={appId} onChange={onAppIdChange as unknown as ChangeEventHandler}>
 							<option value={""}>(None)</option>
-							{AppsManager.APPS.map(({ name, id }) =>
+							{appsConfig.apps.map(({ name, id }) =>
 								<option key={id} value={id}>{name}</option>
 							)}
 						</select>

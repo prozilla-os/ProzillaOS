@@ -31,7 +31,7 @@ export function Interactable({ onClick, onDoubleClick, children, ...props }: Int
 		setClicked(true);
 		onClick?.(event);
 
-		timeoutId = setTimeout(() => {
+		timeoutId = window.setTimeout(() => {
 			setClicked(false);
 		}, miscConfig.doubleClickDelay);
 	};

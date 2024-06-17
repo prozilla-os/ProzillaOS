@@ -29,7 +29,7 @@
 	"include": [
 		"src/**/*",
 		"vite.config.ts",
-		"scripts/**/*",
+		// "scripts/**/*", // TO DO: uncomment this line
 	],
 	"exclude": [
 		"./node_modules",

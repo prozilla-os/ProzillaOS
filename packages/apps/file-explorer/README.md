@@ -1,1 +1,1 @@
-# @ProzillaOS/file-explorer
+# @prozilla-os/file-explorer

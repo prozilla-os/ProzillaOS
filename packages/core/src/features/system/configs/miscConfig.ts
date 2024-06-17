@@ -1,4 +1,4 @@
-import { OptionalInterface } from "../../../types/global";
+import { OptionalInterface } from "../../../types/util";
 
 export interface MiscConfigOptions {
 	/**
@@ -11,8 +11,9 @@ export interface MiscConfigOptions {
 export class MiscConfig {
 	doubleClickDelay: MiscConfigOptions["doubleClickDelay"];
 
-	constructor(options?: OptionalInterface<MiscConfigOptions>) {
+	constructor(options: OptionalInterface<MiscConfigOptions> = {}) {
 		const { doubleClickDelay } = options as MiscConfigOptions;
+		
 		this.doubleClickDelay = doubleClickDelay ?? 250;
 	}
 }

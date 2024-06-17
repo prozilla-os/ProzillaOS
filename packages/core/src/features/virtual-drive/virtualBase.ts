@@ -1,5 +1,3 @@
-import { APPS } from "../../constants/apps.const";
-import { AppsManager } from "../apps/appsManager";
 import { EventEmitter, EventNamesMap } from "../_utils/event.utils";
 import { VirtualRoot } from "./root/virtualRoot";
 import { VirtualFile } from "./file";
@@ -81,10 +79,12 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	}
 
 	getIconUrl(): string {
-		return this.iconUrl
-			?? this.linkedFile?.iconUrl
-			?? this.linkedFolder?.iconUrl
-			?? AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file");
+		if (this.iconUrl != null) return this.iconUrl;
+		if (this.linkedFile?.iconUrl != null) return this.linkedFile.iconUrl;
+		if (this.linkedFolder?.iconUrl != null) return this.linkedFolder.iconUrl;
+
+		const { virtualDriveConfig } = this.getRoot().systemManager;
+		return virtualDriveConfig.fileIcon;
 	}
 
 	getType(): string {

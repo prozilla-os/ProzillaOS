@@ -1,6 +1,4 @@
 import { VirtualFile } from ".";
-import { APPS } from "../../../constants/apps.const";
-import { AppsManager } from "../../apps/appsManager";
 import { VirtualFileJson } from "./virtualFile";
 
 export interface VirtualFileLinkJson extends VirtualFileJson {
@@ -101,7 +99,9 @@ export class VirtualFileLink extends VirtualFile {
 	}
 
 	getIconUrl(...args: Parameters<VirtualFile["getIconUrl"]>): ReturnType<VirtualFile["getIconUrl"]>  {
-		const defaultIconUrl = AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file");
+		const { virtualDriveConfig } = this.getRoot().systemManager;
+		const defaultIconUrl = virtualDriveConfig.fileIcon;
+
 		if (this.isValid()) {
 			return this.iconUrl ?? this.linkedFile?.getIconUrl(...args) ?? defaultIconUrl;
 		} else {

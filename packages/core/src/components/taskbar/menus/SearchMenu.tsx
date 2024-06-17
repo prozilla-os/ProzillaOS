@@ -1,11 +1,11 @@
 import styles from "./SearchMenu.module.css";
 import appStyles from "./AppList.module.css";
-import { AppsManager } from "../../../features/apps/appsManager";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
 import { ChangeEventHandler, MutableRefObject, useEffect, useState } from "react";
 import { useKeyboardListener } from "../../../hooks/_utils/keyboard";
-import { App } from "../../../features/apps/app";
+import { App } from "../../../features/system/configs/app";
 import { ReactSVG } from "react-svg";
+import { useSystemManager } from "../../../hooks";
 
 interface SearchMenuProps {
 	active: boolean;
@@ -16,6 +16,7 @@ interface SearchMenuProps {
 }
 
 export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inputRef }: SearchMenuProps) {
+	const { appsConfig } = useSystemManager();
 	const windowsManager = useWindowsManager();
 	const [apps, setApps] = useState<App[] | null>(null);
 	const [tabIndex, setTabIndex] = useState(active ? 0 : -1);
@@ -32,7 +33,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	}, [inputRef]);
 
 	useEffect(() => {
-		setApps(AppsManager.APPS.filter(({ name, id }) =>
+		setApps(appsConfig.apps.filter(({ name, id }) =>
 			name.toLowerCase().includes(searchQuery.toLowerCase().trim())
 			|| id.toLowerCase().includes(searchQuery.toLowerCase().trim())
 		).sort((a, b) =>
@@ -79,7 +80,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 							windowsManager?.open(id);
 						}}
 					>
-						<ReactSVG src={AppsManager.getAppIconUrl(id)}/>
+						<ReactSVG src={appsConfig.getAppById(id)?.iconUrl ?? ""}/>
 						<p>{name}</p>
 					</button>
 				)}

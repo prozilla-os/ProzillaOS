@@ -1,4 +1,4 @@
-import { OptionalInterface } from "../../../types/global";
+import { OptionalInterface } from "../../../types/util";
 
 export interface TaskbarConfigOptions {
 	/**
@@ -11,8 +11,9 @@ export interface TaskbarConfigOptions {
 export class TaskbarConfig {
 	height: TaskbarConfigOptions["height"];
 
-	constructor(options?: OptionalInterface<TaskbarConfigOptions>) {
+	constructor(options: OptionalInterface<TaskbarConfigOptions> = {}) {
 		const { height } = options as TaskbarConfigOptions;
+		
 		this.height = height ?? 3 * 16;
 	}
 }

@@ -12,6 +12,7 @@ interface SystemManagerProviderProps {
 	taskbarConfig: SystemManagerParams["taskbarConfig"];
 	trackingConfig: SystemManagerParams["trackingConfig"];
 	windowsConfig: SystemManagerParams["windowsConfig"];
+	virtualDriveConfig: SystemManagerParams["virtualDriveConfig"];
 	children: ReactNode;
 }
 

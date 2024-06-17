@@ -1,6 +1,4 @@
-import { APPS } from "../../../constants/apps.const";
 import { IMAGE_FORMATS } from "../../../../../apps/media-viewer/config/mediaViewer.config";
-import { AppsManager } from "../../apps/appsManager";
 import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 
@@ -107,7 +105,7 @@ export class VirtualFile extends VirtualBase {
 		return await fetch(this.source).then((response) =>
 			response.text()
 		).catch((error) => {
-			console.error(`Error while reading file with id "${this.id}":`, error);
+			console.error(`Error while reading file with ID: ${this.id}\n`, error);
 			return null;
 		}) as string;
 	}
@@ -125,10 +123,12 @@ export class VirtualFile extends VirtualBase {
 		if (this.source != null && this.extension != null && IMAGE_FORMATS.includes(this.extension))
 			return this.source;
 
+		const { virtualDriveConfig } = this.getRoot().systemManager;
+
 		switch (this.extension) {
 			case "txt":
 			case "md":
-				iconUrl = AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-text");
+				iconUrl = virtualDriveConfig.textFileIcon;
 				break;
 			case "xml":
 			case "js":
@@ -139,10 +139,10 @@ export class VirtualFile extends VirtualBase {
 			case "css":
 			case "html":
 			case "yml":
-				iconUrl = AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-code");
+				iconUrl = virtualDriveConfig.codeFileIcon;
 				break;
 			default:
-				iconUrl = AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file");
+				iconUrl = virtualDriveConfig.fileIcon;
 				break;
 		}
 

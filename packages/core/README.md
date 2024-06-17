@@ -1,1 +1,1 @@
-# @ProzillaOS/core
+# @prozilla-os/core

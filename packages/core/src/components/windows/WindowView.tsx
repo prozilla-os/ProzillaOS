@@ -9,7 +9,6 @@ import { Vector2 } from "../../features/math/vector2";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import utilStyles from "../../styles/utils.module.css";
 import { useContextMenu } from "../../hooks/modals/contextMenu";
-import { AppsManager } from "../../features/apps/appsManager";
 import { ClickAction } from "../actions/actions/ClickAction";
 import { Actions } from "../actions/Actions";
 import { useScreenDimensions } from "../../hooks/_utils/screen";
@@ -41,7 +40,7 @@ export interface WindowProps extends WindowOptions {
 }
 
 export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onInteract, options, active, fullscreen, minimized, toggleMinimized, index }) => {
-	const { systemName, windowsConfig } = useSystemManager();
+	const { systemName, windowsConfig, appsConfig } = useSystemManager();
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
 	const { openWindowedModal } = useWindowedModal();
@@ -50,7 +49,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 	const [maximized, setMaximized] = useState(fullscreen ?? false);
 	const [screenWidth, screenHeight] = useScreenDimensions();
 	const [title, setTitle] = useState(app?.name ?? "");
-	const [iconUrl, setIconUrl] = useState(app ? AppsManager.getAppIconUrl(app?.id) : "");
+	const [iconUrl, setIconUrl] = useState<string>(app ? appsConfig.getAppById(app?.id)?.iconUrl ?? "" : "");
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.WINDOWS, index: index ?? 0 });
 
 	const { onContextMenu, ShortcutsListener } = useContextMenu({ Actions: (props) =>

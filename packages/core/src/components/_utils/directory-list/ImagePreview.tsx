@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styles from "./ImagePreview.module.css";
 import { ReactSVG } from "react-svg";
-import { AppsManager } from "../../../features";
-import { APPS } from "../../../constants/apps.const";
+import { useSystemManager } from "../../../hooks";
 
 interface ImagePreviewProps {
 	source: string;
@@ -11,6 +10,7 @@ interface ImagePreviewProps {
 }
 
 export function ImagePreview({ source, className, onError, ...props }: ImagePreviewProps) {
+	const { virtualDriveConfig } = useSystemManager();
 	const [loadingFailed, setLoadingFailed] = useState(false);
 
 	const onLoadingError = () => {
@@ -24,7 +24,7 @@ export function ImagePreview({ source, className, onError, ...props }: ImagePrev
 
 	return (<div className={classNames.join(" ")} {...props}>
 		{loadingFailed
-			? <ReactSVG src={AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file")}/>
+			? <ReactSVG src={virtualDriveConfig.fileIcon}/>
 			: source.endsWith(".svg")
 				? <ReactSVG src={source} onError={onLoadingError}/>
 				: <img src={source} onError={onLoadingError} alt="Preview" draggable="false"/>

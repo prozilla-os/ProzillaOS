@@ -1,4 +1,4 @@
-import { ANSI } from "../../src/config/apps/terminal.config";
+import { ANSI } from "@prozilla-os/core";
 
 export type status = "error" | "info" | "file" | "success" | "start";
 
