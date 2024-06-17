@@ -1,6 +1,6 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import styles from "./NoRoute.module.css";
-import { Button, utilStyles } from "@prozilla-os/core";
+import { Button, utilStyles } from "prozilla-os";
 
 export function NoRoute() {
 	return <span className={styles.NoRoute}>

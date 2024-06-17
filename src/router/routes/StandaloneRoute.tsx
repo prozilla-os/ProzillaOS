@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import styles from "./StandaloneRoute.module.css";
 import { NAME } from "../../config/branding.config";
-import { App, generateUrl, getViewportParams, ModalsView, openUrl, setViewportIcon, setViewportTitle } from "@prozilla-os/core";
+import { App, generateUrl, getViewportParams, ModalsView, openUrl, setViewportIcon, setViewportTitle } from "prozilla-os";
 import { StandaloneHeader } from "../../components/standalone/StandaloneHeader";
 
 interface StandaloneRouteProps {

@@ -1,4 +1,4 @@
-import { IMAGE_FORMATS } from "../../../../../apps/media-viewer/config/mediaViewer.config";
+import { IMAGE_EXTENSIONS } from "../../../constants/virtualDrive.const";
 import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 
@@ -120,7 +120,7 @@ export class VirtualFile extends VirtualBase {
 
 		let iconUrl = null;
 
-		if (this.source != null && this.extension != null && IMAGE_FORMATS.includes(this.extension))
+		if (this.source != null && this.extension != null && IMAGE_EXTENSIONS.includes(this.extension))
 			return this.source;
 
 		const { virtualDriveConfig } = this.getRoot().systemManager;

@@ -1,5 +1,4 @@
-import { AppsConfig } from "@prozilla-os/core";
-import { fileExplorer } from "@prozilla-os/file-explorer";
+import { AppsConfig, fileExplorer } from "prozilla-os";
 
 export const appsConfig = new AppsConfig({
 	apps: [

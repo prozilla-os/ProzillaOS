@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DefaultRoute } from "./routes/DefaultRoute";
 import { StandaloneRoute } from "./routes/StandaloneRoute";
 import { NoRoute } from "./routes/NoRoute";
-import { useSystemManager } from "@prozilla-os/core";
+import { useSystemManager } from "prozilla-os";
 
 export function Router() {
 	const { appsConfig } = useSystemManager();

@@ -1,6 +1,6 @@
 {
 	"name": "@prozilla-os/core",
-	"version": "1.0.0",
+	"version": "1.0.6",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",
@@ -18,11 +18,11 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@prozilla-os/file-explorer": "^1.0.0",
 		"@fortawesome/fontawesome-svg-core": "^6.5.2",
 		"@fortawesome/free-regular-svg-icons": "^6.5.2",
 		"@fortawesome/free-solid-svg-icons": "^6.5.2",
 		"@fortawesome/react-fontawesome": "^0.2.2",
+		"@prozilla-os/file-explorer": "workspace:*",
 		"react": "^18.3.1",
 		"react-draggable": "^4.4.6",
 		"react-error-boundary": "^4.0.13",
@@ -34,7 +34,7 @@
 		"typescript": "^5.4.5"
 	},
 	"files": [
-		"src/index.ts"
+		"src/**/*"
 	],
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com",

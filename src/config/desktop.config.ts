@@ -1,4 +1,4 @@
-import { DesktopConfig } from "@prozilla-os/core";
+import { DesktopConfig } from "prozilla-os";
 
 export const desktopConfig = new DesktopConfig({
 	wallpapers: [

@@ -1,4 +1,4 @@
-import { VirtualDriveConfig } from "@prozilla-os/core";
+import { VirtualDriveConfig } from "prozilla-os";
 
 export const virtualDriveConfig = new VirtualDriveConfig({
 	fileIcon: "/assets/apps/file-explorer/icons/file.svg",

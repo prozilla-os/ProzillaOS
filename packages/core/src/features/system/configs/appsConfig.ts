@@ -12,15 +12,17 @@ export class AppsConfig {
 	constructor(options: OptionalInterface<AppsConfigOptions> = {}) {
 		const { apps } = options as AppsConfigOptions;
 
-		const appIds: string[] = [];
-		apps.forEach((app) => {
-			if (appIds.includes(app.id))
-				throw new Error(`Duplicate app ID found: ${app.id}`
-					+ "\nApp IDs must be unique.");
+		if (apps != null) {
+			const appIds: string[] = [];
+			apps.forEach((app) => {
+				if (appIds.includes(app.id))
+					throw new Error(`Duplicate app ID found: ${app.id}`
+						+ "\nApp IDs must be unique.");
 
-			this.apps.push(app);
-			appIds.push(app.id);
-		});
+				this.apps.push(app);
+				appIds.push(app.id);
+			});
+		}
 	}
 
 	getAppById(id: string): App | null {

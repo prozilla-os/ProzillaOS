@@ -1,8 +1,9 @@
 {
+	"npm.packageManager": "pnpm",
 	"editor.rulers": [
 		120
 	],
 	"workbench.colorCustomizations": {
 		"editorRuler.foreground": "#1F1F1F"
-	}
+	},
 }

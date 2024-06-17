@@ -1,6 +1,8 @@
 {
-	"name": "@prozilla-os/file-explorer",
-	"version": "1.0.3",
+	"name": "prozilla-os",
+	"description": "A React component library for building web-based operating systems made in TypeScript by Prozilla.",
+	"version": "1.0.6",
+	"homepage": "https://os.prozilla.dev/",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",
@@ -14,20 +16,28 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Prozilla/ProzillaOS.git",
-		"directory": "packages/apps/file-explorer"
+		"directory": "packages/prozilla-os"
 	},
 	"license": "MIT",
+	"keywords": [
+		"react",
+		"typescript",
+		"web-os",
+		"components",
+		"internet-os",
+		"virtual-desktop"
+	],
 	"dependencies": {
-		"@fortawesome/fontawesome-svg-core": "^6.5.2",
-		"@fortawesome/free-solid-svg-icons": "^6.5.2",
-		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@prozilla-os/core": "workspace:*",
-		"react": "^18.3.1"
+		"@prozilla-os/file-explorer": "workspace:*"
 	},
 	"devDependencies": {
 		"typescript": "^5.4.5"
 	},
 	"files": [
 		"src/**/*"
-	]
+	],
+	"publishConfig": {
+		"access": "public"
+	}
 }

@@ -15,8 +15,12 @@ export class TrackingManager {
 		const { trackingConfig } = this.#systemManager;
 		this.measurementId = trackingConfig.enabled ? trackingConfig.GAMeasurementId : null;
 
-		if (this.measurementId != null)
-			ReactGA.initialize(this.measurementId);
+		try {
+			if (this.measurementId != null)
+				ReactGA.initialize(this.measurementId);
+		} catch (error) {
+			console.error(error);
+		}
 
 		return this;
 	}
@@ -27,6 +31,10 @@ export class TrackingManager {
 		if (this.measurementId == null)
 			return;
 
-		ReactGA.event(options);
+		try {
+			ReactGA.event(options);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 }

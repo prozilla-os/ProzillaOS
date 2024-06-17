@@ -1,7 +1,7 @@
 import { ReactSVG } from "react-svg";
 import { NAME } from "../../config/branding.config";
 import styles from "./StandaloneHeader.module.css";
-import { Button } from "@prozilla-os/core";
+import { Button } from "prozilla-os";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 interface StandaloneHeaderProps {

@@ -1,4 +1,4 @@
-import { Desktop, ModalsView, Taskbar, WindowsView } from "@prozilla-os/core";
+import { Desktop, ModalsView, Taskbar, WindowsView } from "prozilla-os";
 
 export function DefaultRoute() {
 	return <>
