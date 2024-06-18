@@ -8,5 +8,6 @@ export { StorageManager } from "./storage/storageManager";
 export { TrackingManager } from "./tracking/trackingManager";
 export { WindowsManager } from "./windows/windowsManager";
 export { ZIndexManager } from "./z-index/zIndexManager";
+export { SystemManager } from "./system/systemManager";
 
 export { Vector2 } from "./math/vector2";

@@ -1,8 +1,8 @@
 {
-	"name": "@prozilla-os/file-explorer",
-	"description": "A standard ProzillaOS application for browsing files.",
-	"version": "1.0.8",
-	"homepage": "https://os.prozilla.dev/file-explorer",
+	"name": "@prozilla-os/text-editor",
+	"description": "A text editor application for ProzillaOS.",
+	"version": "1.0.1",
+	"homepage": "https://os.prozilla.dev/text-editor",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",
@@ -16,13 +16,10 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
-		"directory": "packages/apps/file-explorer"
+		"directory": "packages/apps/text-editor"
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@fortawesome/fontawesome-svg-core": "^6.5.2",
-		"@fortawesome/free-solid-svg-icons": "^6.5.2",
-		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@prozilla-os/core": "workspace:*",
 		"react": "^18.3.1"
 	},

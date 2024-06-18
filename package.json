@@ -22,9 +22,8 @@
 		"packages:release": "pnpm changeset publish"
 	},
 	"workspaces": [
-		"packages/prozilla-os",
-		"packages/core",
-		"packages/apps/file-explorer"
+		"packages/*",
+		"packages/apps/*"
 	],
 	"repository": {
 		"type": "git",

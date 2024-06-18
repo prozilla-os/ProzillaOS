@@ -1,5 +1,13 @@
 # @prozilla-os/core
 
+## 1.0.11
+
+### Patch Changes
+
+- Added terminal and text editor app + adjusted links in app packages
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.0.8
+
 ## 1.0.10
 
 ### Patch Changes

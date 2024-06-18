@@ -1,7 +1,7 @@
 {
 	"name": "prozilla-os",
 	"description": "a React component library written in TypeScript for building web-based operating systems, made by Prozilla.",
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"homepage": "https://os.prozilla.dev/",
 	"author": {
 		"name": "Prozilla",
@@ -15,7 +15,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Prozilla/ProzillaOS.git",
+		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
 		"directory": "packages/prozilla-os"
 	},
 	"license": "MIT",
@@ -29,7 +29,9 @@
 	],
 	"dependencies": {
 		"@prozilla-os/core": "workspace:*",
-		"@prozilla-os/file-explorer": "workspace:*"
+		"@prozilla-os/file-explorer": "workspace:*",
+		"@prozilla-os/terminal": "workspace:*",
+		"@prozilla-os/text-editor": "workspace:*"
 	},
 	"devDependencies": {
 		"typescript": "^5.4.5"

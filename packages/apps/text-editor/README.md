@@ -13,23 +13,23 @@
 
 ## About 
 
-`@prozilla-os/file-explorer` is a standard ProzillaOS application for browsing files.
+`@prozilla-os/text-editor` is a text editor application for ProzillaOS.
 
 ## Installation
 
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/file-explorer
-$ yarn add @prozilla-os/core @prozilla-os/file-explorer
-$ pnpm add @prozilla-os/core @prozilla-os/file-explorer
+$ npm install @prozilla-os/core @prozilla-os/text-editor
+$ yarn add @prozilla-os/core @prozilla-os/text-editor
+$ pnpm add @prozilla-os/core @prozilla-os/text-editor
 ```
 
 ## Usage
 
 ```tsx
 import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView, AppsConfig } from "@prozilla-os/core";
-import { fileExplorer } from "@prozilla-os/file-explorer";
+import { textEditor } from "@prozilla-os/text-editor";
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
       tagLine="Powered by ProzillaOS"
       config={{
         apps: new AppsConfig({
-          apps: [ fileExplorer ]
+          apps: [ textEditor ]
         })
       }}
     >
@@ -58,7 +58,7 @@ function App() {
 - [npm][npm]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/file-explorer
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/file-explorer
-[npm]: https://www.npmjs.com/package/@prozilla-os/file-explorer
+[website]: https://os.prozilla.dev/text-editor
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/text-editor
+[npm]: https://www.npmjs.com/package/@prozilla-os/text-editor
 [ko-fi]: https://ko-fi.com/prozilla

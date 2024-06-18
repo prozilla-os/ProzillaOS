@@ -13,23 +13,23 @@
 
 ## About 
 
-`@prozilla-os/file-explorer` is a standard ProzillaOS application for browsing files.
+`@prozilla-os/terminal` is a terminal/shell application for ProzillaOS.
 
 ## Installation
 
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/file-explorer
-$ yarn add @prozilla-os/core @prozilla-os/file-explorer
-$ pnpm add @prozilla-os/core @prozilla-os/file-explorer
+$ npm install @prozilla-os/core @prozilla-os/terminal
+$ yarn add @prozilla-os/core @prozilla-os/terminal
+$ pnpm add @prozilla-os/core @prozilla-os/terminal
 ```
 
 ## Usage
 
 ```tsx
 import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView, AppsConfig } from "@prozilla-os/core";
-import { fileExplorer } from "@prozilla-os/file-explorer";
+import { terminal } from "@prozilla-os/terminal";
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
       tagLine="Powered by ProzillaOS"
       config={{
         apps: new AppsConfig({
-          apps: [ fileExplorer ]
+          apps: [ terminal ]
         })
       }}
     >
@@ -58,7 +58,7 @@ function App() {
 - [npm][npm]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/file-explorer
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/file-explorer
-[npm]: https://www.npmjs.com/package/@prozilla-os/file-explorer
+[website]: https://os.prozilla.dev/terminal
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/terminal
+[npm]: https://www.npmjs.com/package/@prozilla-os/terminal
 [ko-fi]: https://ko-fi.com/prozilla

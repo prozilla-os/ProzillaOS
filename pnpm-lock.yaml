@@ -131,6 +131,38 @@ importers:
         specifier: ^5.4.5
         version: 5.4.5
 
+  packages/apps/terminal:
+    dependencies:
+      '@prozilla-os/core':
+        specifier: workspace:*
+        version: link:../../core
+      anser:
+        specifier: ^2.1.1
+        version: 2.1.1
+      escape-carriage:
+        specifier: ^1.3.1
+        version: 1.3.1
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+    devDependencies:
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
+
+  packages/apps/text-editor:
+    dependencies:
+      '@prozilla-os/core':
+        specifier: workspace:*
+        version: link:../../core
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+    devDependencies:
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
+
   packages/core:
     dependencies:
       '@fortawesome/fontawesome-svg-core':
@@ -179,6 +211,12 @@ importers:
       '@prozilla-os/file-explorer':
         specifier: workspace:*
         version: link:../apps/file-explorer
+      '@prozilla-os/terminal':
+        specifier: workspace:*
+        version: link:../apps/terminal
+      '@prozilla-os/text-editor':
+        specifier: workspace:*
+        version: link:../apps/text-editor
     devDependencies:
       typescript:
         specifier: ^5.4.5
