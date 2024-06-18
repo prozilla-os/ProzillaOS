@@ -8,6 +8,9 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows 
 
 **Live demo: [os.prozilla.dev](https://os.prozilla.dev/)**
 
+> [!NOTE]  
+> **ProzillaOS is currently being expanded and enhanced. Check out the [convert-to-monorepo](https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo) branch for more information.**
+
 ## Documentation
 
 See [docs](docs/README.md) for more info.
