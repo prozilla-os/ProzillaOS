@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/core",
 	"description": "A React component library written in TypeScript for building web-based operating systems, made by Prozilla.",
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",

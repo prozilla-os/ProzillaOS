@@ -1,7 +1,7 @@
 <div align="center">
   <br />
   <p>
-    <a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/logo.png" height="200" alt="ProzillaOS" /></a>
+    <a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/logo.svg" height="200" alt="ProzillaOS" /></a>
   </p>
   <p>
     <a href="https://github.com/prozilla-os/ProzillaOS/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/github/license/Prozilla/ProzillaOS?style=flat-square&color=FF4D5B&label=License"></a>
@@ -30,7 +30,7 @@ import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView } from "prozilla-
 
 function App() {
   return (
-    <ProzillaOS systemName="Example" tagLine="Power by ProzillaOS">
+    <ProzillaOS systemName="Example" tagLine="Powered by ProzillaOS">
       <Taskbar/>
       <WindowsView/>
       <ModalsView/>

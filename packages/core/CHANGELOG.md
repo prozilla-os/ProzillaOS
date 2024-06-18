@@ -1,5 +1,13 @@
 # @prozilla-os/core
 
+## 1.0.10
+
+### Patch Changes
+
+- Fixed typo in README files
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.0.7
+
 ## 1.0.9
 
 ### Patch Changes

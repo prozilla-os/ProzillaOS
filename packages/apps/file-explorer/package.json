@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/file-explorer",
 	"description": "A standard ProzillaOS application for browsing files.",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",
