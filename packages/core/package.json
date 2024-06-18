@@ -30,7 +30,7 @@
 		"react-svg": "^16.1.34"
 	},
 	"devDependencies": {
-		"@types/node": "^20.14.2",
+		"@types/node": "^20.14.5",
 		"typescript": "^5.4.5"
 	},
 	"files": [
