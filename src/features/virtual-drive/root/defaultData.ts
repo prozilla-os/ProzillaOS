@@ -56,12 +56,12 @@ export function loadDefaultData(virtualRoot: VirtualRoot) {
 						file.setContent("Hello world!");
 					}).createFile("Info", "md", (file) => {
 						file.setProtected(true)
-							.setSource("/documents/Info.md")
+							.setSource("/documents/info.md")
 							.setIconUrl(AppsManager.getAppIconUrl(APPS.FILE_EXPLORER, "file-info"));
 						linkedPaths.info = file.path;
 					}).createFile("Prozilla", "md", (file) => {
 						file.setProtected(true)
-							.setSource("/documents/Prozilla.md");
+							.setSource("/documents/prozilla.md");
 						linkedPaths.links = file.path;
 					});
 					linkedPaths.documents = folder.path;
