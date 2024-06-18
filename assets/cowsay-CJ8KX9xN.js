@@ -1,4 +1,4 @@
-import{M as p}from"./index-2Gh5Oyah.js";import{C as _}from"./command-DZiH-9YI.js";const m=`
+import{M as p}from"./index-sFxBBtIv.js";import{C as _}from"./command-b8KknBM2.js";const m=`
         \\   ^__^
          \\  (oo)\\_______
             (__)\\       )\\/\\
