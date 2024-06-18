@@ -1,1 +1,0 @@
-import{T as e}from"./index-Dg_xNh9f.js";import{C as t}from"./command-DZiH-9YI.js";const o=new t().setManual({purpose:"Display the current uptime of the system"}).setExecute(function(){return`Uptime: ${e.getUptime(2)}`});export{o as uptime};
