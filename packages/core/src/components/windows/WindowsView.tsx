@@ -23,7 +23,7 @@ export const WindowsView: FC = memo(() => {
 	useEffect(() => {
 		const resetViewportTitleAndIcon = () => {
 			setViewportTitle(`${systemName} | ${tagLine}`);
-			setViewportIcon("/favicon.ico");
+			setViewportIcon("/favicon.ico?v=6");
 		};
 
 		if (sortedWindows.length === 0 || sortedWindows[sortedWindows.length - 1].minimized)
