@@ -1,5 +1,32 @@
 # prozilla-os
 
+## 1.0.9
+
+### Patch Changes
+
+- Fixed README files syntax
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.0.6
+  - @prozilla-os/core@1.0.9
+
+## 1.0.8
+
+### Patch Changes
+
+- Wrote README files for each package
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.0.5
+  - @prozilla-os/core@1.0.8
+
+## 1.0.7
+
+### Patch Changes
+
+- Changed registry to https://registry.npmjs.org/
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.0.4
+  - @prozilla-os/core@1.0.7
+
 ## 1.0.6
 
 ### Patch Changes

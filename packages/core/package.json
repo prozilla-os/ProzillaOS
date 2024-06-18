@@ -1,6 +1,7 @@
 {
 	"name": "@prozilla-os/core",
-	"version": "1.0.6",
+	"description": "A React component library written in TypeScript for building web-based operating systems, made by Prozilla.",
+	"version": "1.0.9",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",
@@ -37,7 +38,7 @@
 		"src/**/*"
 	],
 	"publishConfig": {
-		"registry": "https://npm.pkg.github.com",
+		"registry": "https://registry.npmjs.org/",
 		"access": "public"
 	}
 }

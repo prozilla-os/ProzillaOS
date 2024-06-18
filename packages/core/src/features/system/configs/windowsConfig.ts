@@ -13,7 +13,7 @@ export interface WindowsConfigOptions {
 	titleSeparator: string;
 
 	/**
-	 * @description If the user's screen is smaller than these values, windows will always be maximized
+	 * If the user's screen is smaller than these values, windows will always be maximized
 	 * @default new Vector2(350, 350)
 	 */
 	minScreenSize: Vector2;

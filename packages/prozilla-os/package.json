@@ -1,7 +1,7 @@
 {
 	"name": "prozilla-os",
-	"description": "A React component library for building web-based operating systems made in TypeScript by Prozilla.",
-	"version": "1.0.6",
+	"description": "a React component library written in TypeScript for building web-based operating systems, made by Prozilla.",
+	"version": "1.0.9",
 	"homepage": "https://os.prozilla.dev/",
 	"author": {
 		"name": "Prozilla",

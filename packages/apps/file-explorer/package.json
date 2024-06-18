@@ -1,6 +1,7 @@
 {
 	"name": "@prozilla-os/file-explorer",
-	"version": "1.0.3",
+	"description": "A standard ProzillaOS application for browsing files.",
+	"version": "1.0.6",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",
@@ -29,5 +30,9 @@
 	},
 	"files": [
 		"src/**/*"
-	]
+	],
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org/",
+		"access": "public"
+	}
 }

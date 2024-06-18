@@ -7,7 +7,6 @@
 		"url": "https://prozilla.dev/"
 	},
 	"homepage": "https://os.prozilla.dev/",
-	"repository": "https://github.com/Prozilla/ProzillaOS",
 	"type": "module",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
@@ -20,13 +19,17 @@
 		"fetch": "tsx scripts/fetchRepository",
 		"packages:test": "pnpm -r --parallel run test",
 		"packages:update": "npx changeset && pnpm changeset version",
-		"packages:release": "pnpm changeset publish && pnpm publish packages/prozilla-os --registry=https://npm.pkg.github.com"
+		"packages:release": "pnpm changeset publish"
 	},
 	"workspaces": [
 		"packages/prozilla-os",
 		"packages/core",
 		"packages/apps/file-explorer"
 	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Prozilla/ProzillaOS.git"
+	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.5.2",
 		"@fortawesome/free-solid-svg-icons": "^6.5.2",

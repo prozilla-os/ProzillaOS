@@ -2,7 +2,7 @@ import { OptionalInterface } from "../../../types/util";
 
 export interface TaskbarConfigOptions {
 	/**
-	 * @description Height of the taskbar in CSS pixels
+	 * Height of the taskbar in CSS pixels
 	 * @default 3 * 16
 	 */
 	height: number;

@@ -13,7 +13,7 @@ export interface DesktopConfigOptions {
 	defaultIconSize: 0 | 1 | 2;
 
 	/**
-	 * @description 0: vertical, 1: horizontal
+	 * 0: vertical, 1: horizontal
 	 * @default 0
 	 * */
 	defaultIconDirection: 0 | 1; 
