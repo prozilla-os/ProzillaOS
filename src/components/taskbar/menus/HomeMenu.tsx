@@ -64,16 +64,18 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 		<div className={classNames.join(" ")}>
 			<div className={`${styles.HomeMenu} ${taskbarStyles.Menu}`}>
 				<div className={styles.Buttons}>
-					<button title="Shut Down" tabIndex={tabIndex} onClick={() => { closeViewport(true); }}>
+					<button tabIndex={tabIndex} onClick={() => { closeViewport(true); }}>
 						<FontAwesomeIcon icon={faPowerOff}/>
+						<p className={utilStyles.TextRegular}>Shut down</p>
 					</button>
-					<button title="Settings" tabIndex={tabIndex} onClick={() => {
+					<button tabIndex={tabIndex} onClick={() => {
 						setActive(false);
 						windowsManager?.open("settings");
 					}}>
 						<FontAwesomeIcon icon={faGear}/>
+						<p className={utilStyles.TextRegular}>Settings</p>
 					</button>
-					<button title="Info" tabIndex={tabIndex} onClick={() => {
+					<button tabIndex={tabIndex} onClick={() => {
 						setActive(false);
 						windowsManager?.open("text-editor", {
 							mode: "view",
@@ -82,22 +84,28 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 						});
 					}}>
 						<FontAwesomeIcon icon={faCircleInfo}/>
+						<p className={utilStyles.TextRegular}>Info</p>
 					</button>
-					<button title="Images" tabIndex={tabIndex} onClick={() => {
+					<button tabIndex={tabIndex} onClick={() => {
 						setActive(false);
 						windowsManager?.open(APPS.FILE_EXPLORER, { path: "~/Pictures" });
 					}}>
 						<FontAwesomeIcon icon={faImage}/>
+						<p className={utilStyles.TextRegular}>Images</p>
 					</button>
-					<button title="Documents" tabIndex={tabIndex} onClick={() => {
+					<button tabIndex={tabIndex} onClick={() => {
 						setActive(false);
 						windowsManager?.open(APPS.FILE_EXPLORER, { path: "~/Documents" }); }
 					}>
 						<FontAwesomeIcon icon={faFileLines}/>
+						<p className={utilStyles.TextRegular}>Documents</p>
 					</button>
 				</div>
 				<div className={styles.Apps}>
-					<h1 className={utilStyles.TextBold}>{NAME}</h1>
+					<span className={styles.Logo}>
+						<ReactSVG src={"/assets/logo.svg"}/>
+						<h1 className={utilStyles.TextBold}>{NAME}</h1>
+					</span>
 					<div className={appStyles.AppList}>
 						{AppsManager.APPS.sort((a, b) => a.name.localeCompare(b.name)).map(({ name, id }) => 
 							<button

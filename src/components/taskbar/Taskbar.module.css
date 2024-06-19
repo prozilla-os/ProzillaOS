@@ -63,6 +63,10 @@
 	width: auto;
 }
 
+button.HomeButton {
+	padding: 0.625rem;
+}
+
 .HomeButton * {
 	fill: var(--foreground-color-0);
 	filter: none;

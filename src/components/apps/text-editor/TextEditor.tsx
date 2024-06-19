@@ -60,19 +60,11 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 
 	useEffect(() => {
 		void (async () => {
-			let newContent = "";
+			let newContent: string | null = "";
 
 			// Load file
 			if (currentFile) {
-				if (currentFile.content) {
-					newContent = currentFile.content;
-				} else if (currentFile.source) {
-					await fetch(currentFile.source).then((response) =>
-						response.text()
-					).then((response) => {
-						newContent = response;
-					});
-				}
+				newContent = await currentFile.read() as string | null;
 
 				const iconUrl = currentFile.getIconUrl();
 				if (iconUrl)
@@ -84,11 +76,11 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 				setIconUrl?.(AppsManager.getAppIconUrl(app.id));
 			}
 	
-			setContent(newContent);
+			if (newContent != null)
+				setContent(newContent);
 
-			if (ref.current) {
+			if (ref.current)
 				(ref.current as HTMLElement).scrollTo(0, 0);
-			}
 		})();
 	}, [app?.id, currentFile, setIconUrl]);
 

@@ -9,6 +9,14 @@
 
 .App-icon svg {
 	filter: var(--svg-drop-shadow-0);
+	transform: scale(100%);
+	transform-origin: center;
+	transition: transform 300ms ease-out 150ms;
+}
+
+.App-icon:not(.Active):hover svg,
+.App-icon:not(.Active):focus-visible svg {
+	transform: scale(115%);
 }
 
 .App-icon.Hidden {
