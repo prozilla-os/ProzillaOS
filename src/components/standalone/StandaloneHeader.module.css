@@ -16,6 +16,7 @@
 	color: var(--foreground-color-1);
 	text-decoration: none;
 	transition: color 300ms ease-in-out;
+	user-select: none;
 }
 
 .Logo:hover {
@@ -25,7 +26,7 @@
 .Logo div,
 .Logo svg {
 	width: auto;
-	height: 1.5rem;
+	height: 2.5rem;
 	color: inherit;
 	aspect-ratio: 1;
 }
@@ -43,6 +44,8 @@
 	margin: 0;
 	color: inherit;
 	font-size: 1.25rem;
+	font-weight: 600;
+	letter-spacing: normal;
 }
 
 .ExitButton {

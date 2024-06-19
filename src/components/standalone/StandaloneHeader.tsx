@@ -11,7 +11,7 @@ interface StandaloneHeaderProps {
 export function StandaloneHeader({ exit }: StandaloneHeaderProps) {
 	return <header className={styles.Header}>
 		<a className={styles.Logo} href="/" tabIndex={0}>
-			<ReactSVG src={"/assets/icon-mask.svg"}/>
+			<ReactSVG src={"/assets/logo.svg"}/>
 			<h1>{NAME}</h1>
 		</a>
 		<Button className={styles.ExitButton} onClick={exit} icon={faTimes}>

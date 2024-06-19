@@ -1,5 +1,5 @@
 .StandaloneView {
-	--header-height: 2.5rem;
+	--header-height: 2.75rem;
 
 	display: flex;
 	flex-direction: column;

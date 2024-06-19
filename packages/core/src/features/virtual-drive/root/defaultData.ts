@@ -55,12 +55,12 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 						file.setContent("Hello world!");
 					}).createFile("Info", "md", (file) => {
 						file.setProtected(true)
-							.setSource("/documents/Info.md")
+							.setSource("/documents/info.md")
 							.setIconUrl(virtualDriveConfig.infoFileIcon);
 						linkedPaths.info = file.path;
 					}).createFile("Prozilla", "md", (file) => {
 						file.setProtected(true)
-							.setSource("/documents/Prozilla.md");
+							.setSource("/documents/prozilla.md");
 						linkedPaths.links = file.path;
 					});
 					linkedPaths.documents = folder.path;
