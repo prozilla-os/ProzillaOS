@@ -1,0 +1,2 @@
+import{C as u,A as t,f as s}from"./index-iuMu1bU5.js";import{C as f}from"./command-b8KknBM2.js";const l=new f().setExecute(function(n){var a;if((n==null?void 0:n.length)===0)return u.COMMANDS.map(e=>{var m;return(m=e.manual)!=null&&m.purpose?`${e.name} - ${t.fg.green}${t.decoration.dim}${e.manual.purpose}${t.reset}`:e.name}).sort().join(`
+`);const o=n[0].toLowerCase(),r=u.find(o);return r?(a=r.manual)!=null&&a.purpose?r.manual.purpose:s(this.name,`${o}: No manual found`):s(this.name,`${o}: Command not found`)});export{l as help};
