@@ -24,7 +24,7 @@ export default defineConfig({
 			formats: ["es"],
 		},
 		rollupOptions: {
-			external: ["react", "react/jsx-runtime", /^@prozilla-os\//g],
+			external: ["react", "react/jsx-runtime", /@prozilla-os\//g],
 			output: {
 				assetFileNames: "assets/[name][extname]",
 				entryFileNames: "[name].js",

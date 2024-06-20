@@ -6,6 +6,7 @@ import { resolve } from "path";
 
 /**
  * Loads packages from their local path instead of node_modules 
+ * You must run `pnpm link <pkg>` to make this work correctly
  */
 const ENABLE_ALIASES = true;
 
@@ -65,7 +66,7 @@ export default defineConfig(({ command }) => {
 			port: 3000,
 		},
 		optimizeDeps: {
-			force: (devMode && !ENABLE_ALIASES)
+			exclude: devMode ? ["prozilla-os"] : []
 		}
 	};
 });

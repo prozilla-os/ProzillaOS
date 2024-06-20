@@ -351,7 +351,7 @@ export class VirtualFolder extends VirtualBase {
 	getIconUrl(): string {
 		if (this.iconUrl != null)
 			return this.iconUrl;
-
+		
 		const { virtualDriveConfig } = this.getRoot().systemManager;
 		return virtualDriveConfig.folderIcon;
 	}

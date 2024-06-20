@@ -9,7 +9,7 @@ import { VirtualRoot } from "./virtualRoot";
 export function loadDefaultData(systemManager: SystemManager, virtualRoot: VirtualRoot) {
 	const { desktopConfig, virtualDriveConfig } = systemManager;
 	const linkedPaths: Record<string, string> = {};
-		
+	
 	virtualRoot.createFolder("home", (folder) => {
 		folder.createFolder("prozilla-os", (folder) => {
 			folder.setAlias("~")

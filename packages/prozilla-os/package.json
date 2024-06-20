@@ -21,10 +21,12 @@
 	},
 	"license": "MIT",
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^6.5.2",
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/file-explorer": "workspace:*",
 		"@prozilla-os/terminal": "workspace:*",
-		"@prozilla-os/text-editor": "workspace:*"
+		"@prozilla-os/text-editor": "workspace:*",
+		"react-ga4": "^2.1.0"
 	},
 	"devDependencies": {
 		"@types/node": "^20.14.5",
