@@ -4,7 +4,7 @@ import { VirtualFileJson } from "../file/virtualFile";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 import { VirtualFolderLink } from ".";
 import { VirtualFile, VirtualFileLink } from "../file";
-import { fileExplorer } from "@prozilla-os/file-explorer";
+// import { fileExplorer } from "@prozilla-os/file-explorer";
 
 export interface VirtualFolderJson extends VirtualBaseJson {
 	fls?: VirtualFileJson[];
@@ -288,7 +288,7 @@ export class VirtualFolder extends VirtualBase {
 	 * Opens this folder in file explorer
 	 */
 	open(windowsManager: WindowsManager) {
-		return windowsManager.open(fileExplorer.id, { path: this.path });
+		return windowsManager.open("file-explorer", { path: this.path });
 	}
 
 	/**

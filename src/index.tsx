@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Main } from "./Main";
 import { ASCII_LOGO, NAME } from "./config/branding.config";
+import { Main } from "./Main";
 
 // Render app
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);

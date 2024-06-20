@@ -1,5 +1,5 @@
 import { App } from ".";
-import { OptionalInterface } from "../../../types/util";
+import { OptionalInterface } from "../../../types/utils";
 
 export interface AppsConfigOptions {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any

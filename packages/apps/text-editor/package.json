@@ -1,17 +1,18 @@
 {
 	"name": "@prozilla-os/text-editor",
 	"description": "A text editor application for ProzillaOS.",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"homepage": "https://os.prozilla.dev/text-editor",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",
 		"url": "https://prozilla.dev/"
 	},
-	"main": "src/index.ts",
 	"type": "module",
+	"main": "dist/main.js",
+	"types": "dist/main.d.ts",
 	"scripts": {
-		"test": "tsc --watch"
+		"build": "tsc && vite build"
 	},
 	"repository": {
 		"type": "git",
@@ -24,10 +25,19 @@
 		"react": "^18.3.1"
 	},
 	"devDependencies": {
-		"typescript": "^5.4.5"
+		"@types/node": "^20.14.5",
+		"@types/react": "^18.3.3",
+		"@vitejs/plugin-react-swc": "^3.7.0",
+		"typescript": "^5.4.5",
+		"vite": "^5.3.1",
+		"vite-plugin-dts": "^3.9.1",
+		"vite-plugin-lib-inject-css": "^2.1.1"
 	},
 	"files": [
-		"src/**/*"
+		"dist"
+	],
+	"sideEffects": [
+		"**/*.css"
 	],
 	"publishConfig": {
 		"registry": "https://registry.npmjs.org/",

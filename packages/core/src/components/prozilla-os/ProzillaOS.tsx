@@ -15,7 +15,7 @@ import { ModalsConfig, ModalsConfigOptions } from "../../features/system/configs
 import { TaskbarConfig, TaskbarConfigOptions } from "../../features/system/configs/taskbarConfig";
 import { TrackingConfig, TrackingConfigOptions } from "../../features/system/configs/trackingConfig";
 import { WindowsConfig, WindowsConfigOptions } from "../../features/system/configs/windowsConfig";
-import { OptionalInterface } from "../../types/util";
+import { OptionalInterface } from "../../types/utils";
 import { TrackingManagerProvider } from "../../hooks/tracking/trackingManagerProvider";
 import { VirtualDriveConfig, VirtualDriveConfigOptions } from "../../features/system/configs/virtualDriveConfig";
 

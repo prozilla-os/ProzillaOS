@@ -1,4 +1,4 @@
-import { OptionalInterface } from "../../../types/util";
+import { OptionalInterface } from "../../../types/utils";
 
 export interface VirtualDriveConfigOptions {
 	fileIcon: string;

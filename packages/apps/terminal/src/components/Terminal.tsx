@@ -9,7 +9,7 @@ import { CommandResponse } from "../core/command";
 import { formatError } from "../core/_utils/terminal.utils";
 import { CommandsManager } from "../core/commands";
 
-interface TerminalProps extends WindowProps {
+export interface TerminalProps extends WindowProps {
 	path: string;
 	input: string;
 }

@@ -1,5 +1,13 @@
 # @prozilla-os/file-explorer
 
+## 1.0.9
+
+### Patch Changes
+
+- Optimized building process for each package using Vite
+- Updated dependencies
+  - @prozilla-os/core@1.0.12
+
 ## 1.0.8
 
 ### Patch Changes

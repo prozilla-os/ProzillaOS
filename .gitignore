@@ -4,23 +4,15 @@
 /node_modules
 /packages/*/node_modules
 /packages/apps/*/node_modules
-/.pnp
-.pnp.js
 
 # testing
-/coverage
 
 # production
-/build
 /dist
+/packages/*/dist
+/packages/apps/*/dist
 
 # misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

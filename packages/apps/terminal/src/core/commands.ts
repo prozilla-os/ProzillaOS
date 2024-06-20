@@ -2,14 +2,15 @@ import { Command } from "./command";
 
 let commands: Command[] = [];
 
+// https://vitejs.dev/guide/features.html#glob-import
+const modules = import.meta.glob("./commands/*.ts");
+
 /**
  * Dynamically import commands
  */
 const loadCommands = () => {
 	commands = [];
-
-	// https://vitejs.dev/guide/features.html#glob-import
-	const modules = import.meta.glob("./commands/*.ts");
+	
 	for (const path in modules) {
 		void modules[path]().then((commandModule) => {
 			const commandName = Object.keys(commandModule as Record<string, Command>)[0];

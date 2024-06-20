@@ -18,6 +18,7 @@ export default tseslint.config(
 		},
 		ignores: [
 			"eslint.config.js",
+			"**/dist/**/*"
 		],
 		plugins: {
 			react,

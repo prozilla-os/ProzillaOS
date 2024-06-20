@@ -1,5 +1,11 @@
 # @prozilla-os/core
 
+## 1.0.12
+
+### Patch Changes
+
+- Optimized building process for each package using Vite
+
 ## 1.0.11
 
 ### Patch Changes

@@ -25,6 +25,13 @@
 		
 		/* Type Checking */
 		"strict": true,
+
+		/* Module resolution */
+		"baseUrl": "./",
+		"paths": {
+			"prozilla-os": ["packages/prozilla-os/dist/main"],
+			"@prozilla-os/*": ["packages/*/dist/main", "packages/apps/*/dist/main"],
+		}
 	},
 	"include": [
 		"src/**/*",
@@ -32,8 +39,8 @@
 		// "scripts/**/*", // TO DO: uncomment this line
 	],
 	"exclude": [
-		"./node_modules",
-		"./dist",
+		"**/node_modules",
+		"**/dist",
 		"./.vscode",
 		"./.github",
 	],

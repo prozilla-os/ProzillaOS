@@ -1,4 +1,4 @@
-import { OptionalInterface } from "../../../types/util";
+import { OptionalInterface } from "../../../types/utils";
 import { Vector2 } from "../../math/vector2";
 
 export interface WindowsConfigOptions {

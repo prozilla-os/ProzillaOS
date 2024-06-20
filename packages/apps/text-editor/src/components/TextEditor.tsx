@@ -5,7 +5,7 @@ import { MarkdownLink } from "./overrides/MarkdownLink";
 import { MarkdownImage } from "./overrides/MarkdownImage";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { MarkdownBlockquote } from "./overrides/MarkdownBlockquote";
-import { App, ClickAction, CODE_EXTENSIONS, Divider, DropdownAction, FileSelector, FileSelectorMode, HeaderMenu, ModalsManager, useSystemManager, useVirtualRoot, useWindowedModal, useWindowsManager, VirtualFile, WindowProps, WindowsManager } from "@prozilla-os/core";
+import { App, ClickAction, CODE_EXTENSIONS, Divider, DropdownAction, HeaderMenu, ModalsManager, useSystemManager, useVirtualRoot, useWindowedModal, useWindowsManager, VirtualFile, WindowProps, WindowsManager } from "@prozilla-os/core";
 import { DEFAULT_ZOOM, EXTENSION_TO_LANGUAGE, ZOOM_FACTOR } from "../constants/textEditor.const";
 
 const OVERRIDES = {
@@ -23,7 +23,7 @@ export interface MarkdownProps {
 	children?: ReactNode;
 }
 
-interface TextEditorProps extends WindowProps {
+export interface TextEditorProps extends WindowProps {
 	file?: VirtualFile;
 	mode?: "view" | "edit";
 	path?: string;
@@ -141,7 +141,7 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 		<HeaderMenu>
 			<DropdownAction label="File" showOnHover={false}>
 				<ClickAction label="New" onTrigger={() => { newText(); }} shortcut={["Control", "e"]}/>
-				<ClickAction label="Open" onTrigger={() => {
+				{/* <ClickAction label="Open" onTrigger={() => {
 					openWindowedModal({
 						size: modalsConfig.defaultFileSelectorSize,
 						Modal: (props: object) => <FileSelector
@@ -153,7 +153,7 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 							{...props}
 						/>
 					});
-				}} shortcut={["Control", "o"]}/>
+				}} shortcut={["Control", "o"]}/> */}
 				<Divider/>
 				<ClickAction label="Save" onTrigger={() => { saveText(); }} shortcut={["Control", "s"]}/>
 				{/* <ClickAction label={`Reveal in ${APP_NAMES.FILE_EXPLORER}`} disabled={currentFile == null} onTrigger={() => {

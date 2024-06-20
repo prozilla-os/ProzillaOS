@@ -1,4 +1,4 @@
-import { OptionalInterface } from "../../../types/util";
+import { OptionalInterface } from "../../../types/utils";
 
 export interface DesktopConfigOptions {
 	/** Array of URLs of wallpaper images */
