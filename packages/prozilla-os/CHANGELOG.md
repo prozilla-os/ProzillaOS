@@ -1,5 +1,16 @@
 # prozilla-os
 
+## 1.0.13
+
+### Patch Changes
+
+- Added application roles
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.0.10
+  - @prozilla-os/text-editor@1.0.3
+  - @prozilla-os/terminal@1.0.3
+  - @prozilla-os/core@1.0.13
+
 ## 1.0.12
 
 ### Patch Changes

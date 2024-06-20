@@ -12,5 +12,5 @@ export const desktopConfig = new DesktopConfig({
 		"/assets/wallpapers/flame-abstract-wallpaper-orange.png",
 		"/assets/wallpapers/wave-abstract-wallpaper-teal.png",
 	],
-	defaultWallpaper: "/assets/wallpapers/colorful-mesh-gradient-red-green.png"
+	defaultWallpaper: "/assets/wallpapers/abstract-mesh-gradient-orange-red-purple.png"
 });

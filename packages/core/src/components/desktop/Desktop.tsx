@@ -3,23 +3,22 @@ import styles from "./Desktop.module.css";
 import { useEffect } from "react";
 import { Actions } from "../actions/Actions";
 import { ClickAction } from "../actions/actions/ClickAction";
-import { faArrowsRotate, faCompress, faExpand, faEye, faFolder, faPaintBrush, faTerminal, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsRotate, faCompress, faExpand, faEye, faPaintBrush, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToggleAction } from "../actions/actions/ToggleAction";
 import { DropdownAction } from "../actions/actions/DropdownAction";
 import { RadioAction } from "../actions/actions/RadioAction";
 import { Divider } from "../actions/actions/Divider";
 import { Share } from "../modals/share/Share";
 import { ModalProps } from "../modals/ModalView";
-import { SettingsManager, reloadViewport, ModalsManager, Vector2, isValidInteger } from "../../features";
+import { SettingsManager, reloadViewport, ModalsManager, Vector2, isValidInteger, AppsConfig } from "../../features";
 import { VirtualFile } from "../../features/virtual-drive/file";
 import { VirtualFolder, VirtualFolderLink } from "../../features/virtual-drive/folder";
 import { useSettingsManager, useWindowsManager, useVirtualRoot, useWindowedModal, useContextMenu, useSystemManager } from "../../hooks";
 import { DirectoryList } from "../_utils";
 import { FileEventHandler, FolderEventHandler } from "../_utils/directory-list/DirectoryList";
-// import { fileExplorer } from "@prozilla-os/file-explorer";
 
 export const Desktop = memo(() => {
-	const { desktopConfig } = useSystemManager();
+	const { desktopConfig, appsConfig } = useSystemManager();
 	const settingsManager = useSettingsManager();
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
@@ -31,6 +30,9 @@ export const Desktop = memo(() => {
 	const { openWindowedModal } = useWindowedModal();
 
 	const directory = virtualRoot?.navigate("~/Desktop");
+
+	const fileExplorer = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
+	const terminal = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Terminal);
 
 	const { onContextMenu, ShortcutsListener } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
@@ -83,12 +85,16 @@ export const Desktop = memo(() => {
 				windowsManager?.open("settings", { tab: 2 });
 			}}/>
 			<Divider/>
-			{/* <ClickAction label={`Open in ${fileExplorer.name}`} icon={fileExplorer.iconUrl as string | undefined} onTrigger={() => {
-				windowsManager?.open(fileExplorer.id, { path: directory?.path });
-			}}/> */}
-			{/* <ClickAction label={`Open in ${"APP_NAMES.TERMINAL"}`} icon={APP_ICONS.TERMINAL} onTrigger={() => {
-				windowsManager?.open(APPS.TERMINAL, { path: directory?.path });
-			}}/> */}
+			{fileExplorer != null &&
+				<ClickAction label={`Open in ${fileExplorer.name}`} icon={fileExplorer.iconUrl as string | undefined} onTrigger={() => {
+					windowsManager?.open(fileExplorer.id, { path: directory?.path });
+				}}/>
+			}
+			{terminal != null &&
+				<ClickAction label={`Open in ${terminal.name}`} icon={terminal.iconUrl as string | undefined} onTrigger={() => {
+					windowsManager?.open(terminal.id, { path: directory?.path });
+				}}/>
+			}
 			<Divider/>
 			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} onTrigger={() => {
 				openWindowedModal({
@@ -103,9 +109,11 @@ export const Desktop = memo(() => {
 			<ClickAction label="Open" onTrigger={(event, file) => {
 				if (windowsManager != null) (file as VirtualFile).open(windowsManager);
 			}}/>
-			{/* <ClickAction label={`Reveal in ${fileExplorer.name}`} icon={faFolder} onTrigger={(event, file) => {
-				if (windowsManager != null)	(file as VirtualFile).parent?.open(windowsManager);
-			}}/> */}
+			{fileExplorer != null &&
+				<ClickAction label={`Reveal in ${fileExplorer.name}`} icon={fileExplorer.iconUrl as string | undefined} onTrigger={(event, file) => {
+					if (windowsManager != null)	(file as VirtualFile).parent?.open(windowsManager);
+				}}/>
+			}
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
 				(file as VirtualFile).delete();
 			}}/>
@@ -116,12 +124,16 @@ export const Desktop = memo(() => {
 			<ClickAction label="Open" onTrigger={(event, folder) => {
 				if (windowsManager != null)	(folder as VirtualFolder).open(windowsManager);
 			}}/>
-			{/* <ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={faTerminal} onTrigger={(event, folder) => {
-				windowsManager?.open(APPS.TERMINAL, { path: (folder as VirtualFolder).path });
-			}}/> */}
-			{/* <ClickAction label={`Reveal in ${fileExplorer.name}`} icon={faFolder} onTrigger={(event, folder) => {
-				if (windowsManager != null)	(folder as VirtualFolder).parent?.open(windowsManager);
-			}}/> */}
+			{fileExplorer != null &&
+				<ClickAction label={`Open in ${fileExplorer.name}`} icon={fileExplorer.iconUrl as string | undefined} onTrigger={(event, folder) => {
+					windowsManager?.open(fileExplorer.id, { path: (folder as VirtualFolder).path });
+				}}/>
+			}
+			{terminal != null &&
+				<ClickAction label={`Open in ${terminal.name}`} icon={terminal.iconUrl as string | undefined} onTrigger={(event, folder) => {
+					if (windowsManager != null)	(folder as VirtualFolder).parent?.open(windowsManager);
+				}}/>
+			}
 			<Divider/>
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder) => {
 				(folder as VirtualFolder).delete();
@@ -183,9 +195,11 @@ export const Desktop = memo(() => {
 					windowsManager?.openFile(file, options);
 				}}
 				onOpenFolder={(event, folder) => {
-					// windowsManager?.open(fileExplorer.id, {
-					// 	path: (folder as VirtualFolderLink).linkedPath ?? folder.path
-					// });
+					if (fileExplorer != null) {
+						windowsManager?.open(fileExplorer.id, {
+							path: (folder as VirtualFolderLink).linkedPath ?? folder.path
+						});
+					}
 				}}
 				onContextMenuFile={onContextMenuFile as unknown as FileEventHandler}
 				onContextMenuFolder={onContextMenuFolder as unknown as FolderEventHandler}

@@ -1,9 +1,8 @@
 import { useCallback } from "react";
 import { DialogBox } from "../../components/modals/dialog-box/DialogBox";
-import { DIALOG_CONTENT_TYPES } from "../../constants/modals.const";
 import { useWindowedModal } from "./windowedModal";
 import { ModalProps } from "../../components/modals/ModalView";
-import { Vector2 } from "../../features";
+import { ModalsConfig, Vector2 } from "../../features";
 
 interface AlertParams {
 	title: string;
@@ -25,7 +24,7 @@ export function useAlert() {
 			Modal: (props: ModalProps) =>
 				<DialogBox {...props}>
 					<p>{text}</p>
-					<button data-type={DIALOG_CONTENT_TYPES.closeButton}>Ok</button>
+					<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
 				</DialogBox>
 		});
 	}, [openWindowedModal]);

@@ -2,12 +2,21 @@ import { App } from ".";
 import { OptionalInterface } from "../../../types/utils";
 
 export interface AppsConfigOptions {
+	/**
+	 * An array of applications
+	 */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	apps: App<any>[];
 }
 
 export class AppsConfig {
 	apps: AppsConfigOptions["apps"] = [];
+
+	static APP_ROLES = {
+		FileExplorer: "file-explorer",
+		Terminal: "terminal",
+		TextEditor: "text-editor",
+	};
 
 	constructor(options: OptionalInterface<AppsConfigOptions> = {}) {
 		const { apps } = options as AppsConfigOptions;
@@ -29,7 +38,7 @@ export class AppsConfig {
 		let resultApp: App | null = null;
 
 		this.apps.forEach((app) => {
-			if (app.id === id) {
+			if (resultApp == null && app.id === id) {
 				resultApp = app;
 				return;
 			}
@@ -42,19 +51,31 @@ export class AppsConfig {
 	 * Get the app associated with a file extension
 	 */
 	getAppByFileExtension(fileExtension: string): App | null {
-		return null;
+		let resultApp: App | null = null;
 
-		// let app: App | null = null;
+		this.apps.forEach((app) => {
+			if (resultApp == null && app.associatedExtensions?.includes(fileExtension)) {
+				resultApp = app;
+				return;
+			}
+		});
 
-		// if (IMAGE_FORMATS.includes(fileExtension))
-		// 	return this.getAppById(APPS.MEDIA_VIEWER);
+		return resultApp ?? this.getAppByRole(AppsConfig.APP_ROLES.TextEditor);
+	}
 
-		// switch (fileExtension) {
-		// 	default:
-		// 		app = this.getAppById(APPS.TEXT_EDITOR);
-		// 		break;
-		// }
+	/**
+	 * Get the app with a specific role
+	 */
+	getAppByRole(role: string): App | null {
+		let resultApp: App | null = null;
 
-		// return app;
+		this.apps.forEach((app) => {
+			if (resultApp == null && app.role == role) {
+				resultApp = app;
+				return;
+			}
+		});
+
+		return resultApp;
 	}
 }

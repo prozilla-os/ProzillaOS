@@ -14,6 +14,7 @@ export default tseslint.config(
 				project: ["./tsconfig.json", "./packages/*/tsconfig.json", "./packages/apps/*/tsconfig.json"],
 				tsconfigRootDir: import.meta.dirname,
 				allowAutomaticSingleRunInference: true,
+				EXPERIMENTAL_useProjectService: true
 			},
 		},
 		ignores: [

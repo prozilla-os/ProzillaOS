@@ -1,5 +1,11 @@
 # @prozilla-os/core
 
+## 1.0.13
+
+### Patch Changes
+
+- Added application roles
+
 ## 1.0.12
 
 ### Patch Changes

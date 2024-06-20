@@ -4,9 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faCaretLeft, faCaretRight, faCircleInfo, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { QuickAccessButton } from "./QuickAccessButton";
 import { ImportButton } from "./ImportButton";
-import { Actions, ClickAction, CODE_EXTENSIONS, DIALOG_CONTENT_TYPES, DialogBox, DirectoryList, Divider, FileEventHandler, FolderEventHandler, OnSelectionChangeParams, useAlert, useContextMenu, useHistory, useSystemManager, useVirtualRoot, useWindowedModal, useWindowsManager, utilStyles, Vector2, VirtualFile, VirtualFolder, VirtualFolderLink, VirtualRoot, WindowProps } from "@prozilla-os/core";
+import { Actions, ClickAction, CODE_EXTENSIONS, DialogBox, DirectoryList, Divider, FileEventHandler, FolderEventHandler, ModalProps, ModalsConfig, OnSelectionChangeParams, useAlert, useContextMenu, useHistory, useSystemManager, useVirtualRoot, useWindowedModal, useWindowsManager, utilStyles, Vector2, VirtualFile, VirtualFolder, VirtualFolderLink, VirtualRoot, WindowProps } from "@prozilla-os/core";
 import { SELECTOR_MODE } from "../constants/fileExplorer.const";
 import { FileProperties } from "./modals/file-properties/FileProperties";
+import { JSX } from "react/jsx-runtime";
 
 export interface FileExplorerProps extends WindowProps {
 	path?: string;
@@ -140,10 +141,10 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 					title: "Error",
 					iconUrl: app?.iconUrl as string | undefined,
 					size: new Vector2(300, 150),
-					Modal: (props: {}) =>
+					Modal: (props: JSX.IntrinsicAttributes & ModalProps) =>
 						<DialogBox {...props}>
 							<p>Invalid path: "{value}"</p>
-							<button data-type={DIALOG_CONTENT_TYPES.closeButton}>Ok</button>
+							<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
 						</DialogBox>
 				});
 				return;
@@ -191,16 +192,16 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 					tabIndex={0}
 					className={styles.IconButton}
 					onClick={() => {
-						// openWindowedModal({
-						// 	title: "Error",
-						// 	iconUrl: AppsManager.getAppIconUrl(APPS.FILE_EXPLORER),
-						// 	size: new Vector2(300, 150),
-						// 	Modal: (props) =>
-						// 		<DialogBox {...props}>
-						// 			<p>This folder is protected.</p>
-						// 			<button data-type={DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
-						// 		</DialogBox>
-						// });
+						openWindowedModal({
+							title: "Error",
+							iconUrl: app?.iconUrl as string | undefined,
+							size: new Vector2(300, 150),
+							Modal: (props: JSX.IntrinsicAttributes & ModalProps) =>
+								<DialogBox {...props}>
+									<p>This folder is protected.</p>
+									<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
+								</DialogBox>
+						});
 
 						// if (currentDirectory.canBeEdited) {
 						// 	onNew(event);

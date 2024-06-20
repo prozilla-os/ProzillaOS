@@ -7,7 +7,7 @@ import { VirtualRoot } from "./virtualRoot";
  * Loads default data on the virtual root
  */
 export function loadDefaultData(systemManager: SystemManager, virtualRoot: VirtualRoot) {
-	const { desktopConfig, virtualDriveConfig } = systemManager;
+	const { desktopConfig, virtualDriveConfig, appsConfig } = systemManager;
 	const linkedPaths: Record<string, string> = {};
 	
 	virtualRoot.createFolder("home", (folder) => {
@@ -15,13 +15,18 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 			folder.setAlias("~")
 				.createFolder(".config", (folder) => {
 					folder.createFile("desktop", "xml", (file) => {
-						file.setSource("/config/desktop.xml");
+						file.setContent(`<options>
+							<wallpaper>${desktopConfig.defaultWallpaper}</wallpaper>
+							<show-icons>true</show-icons>
+						</options>`);
 					}).createFile("taskbar", "xml", (file) => {
-						file.setSource("/config/taskbar.xml");
+						file.setContent(`<options>
+							<pins>${appsConfig.apps.map(({ id }) => id).join(",")}</pins>
+						</options>`);
 					}).createFile("apps", "xml", (file) => {
-						file.setSource("/config/apps.xml");
+						file.setContent("<options></options>");
 					}).createFile("theme", "xml", (file) => {
-						file.setSource("/config/theme.xml");
+						file.setContent("<options><theme>0</theme></options>");
 					});
 				})
 				.createFolder("Pictures", (folder) => {

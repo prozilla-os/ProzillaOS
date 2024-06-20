@@ -8,7 +8,7 @@
 		"emitDeclarationOnly": true,
 		"noEmit": false,
 		"paths": {
-			"@prozilla-os/core": ["packages/core/dist/main"]
+			"@prozilla-os/core": ["./node_modules/@prozilla-os/core/src/main"]
 		}
 	},
 	"include": ["src", "vite.config.ts"],

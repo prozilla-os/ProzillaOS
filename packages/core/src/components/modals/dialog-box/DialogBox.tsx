@@ -1,4 +1,4 @@
-import { DIALOG_CONTENT_TYPES } from "../../../constants/modals.const";
+import { ModalsConfig } from "../../../features/system/configs";
 import { WindowedModal } from "../_utils/WindowedModal";
 import { ModalProps } from "../ModalView";
 import styles from "./DialogBox.module.css";
@@ -12,7 +12,7 @@ export function DialogBox({ modal, params, children, ...props }: ModalProps) {
 		const type = parseInt(attribute);
 
 		switch (type) {
-			case DIALOG_CONTENT_TYPES.closeButton:
+			case ModalsConfig.DIALOG_CONTENT_TYPES.CloseButton:
 				modal?.close();
 				break;
 		}

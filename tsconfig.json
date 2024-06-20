@@ -30,7 +30,7 @@
 		"baseUrl": "./",
 		"paths": {
 			"prozilla-os": ["packages/prozilla-os/dist/main"],
-			"@prozilla-os/*": ["packages/*/dist/main", "packages/apps/*/dist/main"],
+			"@prozilla-os/*": ["packages/*/dist/main", "packages/*/src/main", "packages/apps/*/dist/main"],
 		}
 	},
 	"include": [

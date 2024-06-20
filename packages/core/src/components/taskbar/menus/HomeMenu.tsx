@@ -5,10 +5,9 @@ import taskbarStyles from "../Taskbar.module.css";
 import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { ReactSVG } from "react-svg";
 import { useEffect, useState } from "react";
-import { closeViewport, Vector2 } from "../../../features";
+import { AppsConfig, closeViewport, Vector2 } from "../../../features";
 import { useWindowsManager, useVirtualRoot, useKeyboardListener, useSystemManager } from "../../../hooks";
 import { utilStyles } from "../../../styles";
-// import { fileExplorer } from "@prozilla-os/file-explorer";
 
 interface HomeMenuProps {
 	active: boolean;
@@ -56,6 +55,8 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 
 	useKeyboardListener({ onKeyDown, onKeyUp });
 
+	const fileExplorer = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
+
 	return (
 		<div className={classNames.join(" ")}>
 			<div className={`${styles.HomeMenu} ${taskbarStyles.Menu}`}>
@@ -82,20 +83,22 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 						<FontAwesomeIcon icon={faCircleInfo}/>
 						<p className={utilStyles.TextRegular}>Info</p>
 					</button>
-					{/* <button tabIndex={tabIndex} onClick={() => {
-						setActive(false);
-						windowsManager?.open(fileExplorer.id, { path: "~/Pictures" });
-					}}>
-						<FontAwesomeIcon icon={faImage}/>
-						<p className={utilStyles.TextRegular}>Images</p>
-					</button>
-					<button tabIndex={tabIndex} onClick={() => {
-						setActive(false);
-						windowsManager?.open(fileExplorer.id, { path: "~/Documents" }); }
-					}>
-						<FontAwesomeIcon icon={faFileLines}/>
-						<p className={utilStyles.TextRegular}>Documents</p>
-					</button> */}
+					{fileExplorer != null && <>
+						<button tabIndex={tabIndex} onClick={() => {
+							setActive(false);
+							windowsManager?.open(fileExplorer.id, { path: "~/Pictures" });
+						}}>
+							<FontAwesomeIcon icon={faImage}/>
+							<p className={utilStyles.TextRegular}>Images</p>
+						</button>
+						<button tabIndex={tabIndex} onClick={() => {
+							setActive(false);
+							windowsManager?.open(fileExplorer.id, { path: "~/Documents" }); }
+						}>
+							<FontAwesomeIcon icon={faFileLines}/>
+							<p className={utilStyles.TextRegular}>Documents</p>
+						</button>
+					</>}
 				</div>
 				<div className={styles.Apps}>
 					<span className={styles.Logo}>

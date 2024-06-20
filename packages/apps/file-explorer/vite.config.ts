@@ -15,6 +15,7 @@ export default defineConfig({
 			rollupTypes: true,
 			strictOutput: true,
 			pathsToAliases: false,
+			tsconfigPath: "tsconfig.build.json"
 		})
 	],
 	build: {
