@@ -13,7 +13,7 @@
 
 ## About 
 
-`@prozilla-os/core` is a React component library written in TypeScript for building web-based operating systems, made by Prozilla.
+`@prozilla-os/core` is a React Vite component library written in TypeScript for building web-based operating systems, made by Prozilla.
 
 ## Installation
 
@@ -24,6 +24,8 @@ $ pnpm add @prozilla-os/core
 ```
 
 ## Usage
+
+### Basic setup
 
 ```tsx
 import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView } from "@prozilla-os/core";

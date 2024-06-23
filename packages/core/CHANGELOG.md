@@ -1,5 +1,13 @@
 # @prozilla-os/core
 
+## 1.0.14
+
+### Patch Changes
+
+- Added @prozilla-os/shared package
+  Updated app build process
+  Updated documentation
+
 ## 1.0.13
 
 ### Patch Changes

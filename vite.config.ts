@@ -23,7 +23,8 @@ function generateAliases() {
 
 	const localPackages = [
 		{ name: "prozilla-os", path: resolve(__dirname, "packages/prozilla-os/" + entryFile) },
-		{ name: "@prozilla-os/core", path: resolve(__dirname, "packages/core/" + entryFile) }
+		{ name: "@prozilla-os/core", path: resolve(__dirname, "packages/core/" + entryFile) },
+		{ name: "@prozilla-os/shared", path: resolve(__dirname, "packages/shared/" + entryFile) }
 	];
 
 	const localApps = [

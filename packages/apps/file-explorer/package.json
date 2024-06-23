@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/file-explorer",
 	"description": "A standard ProzillaOS application for browsing files.",
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"homepage": "https://os.prozilla.dev/file-explorer",
 	"author": {
 		"name": "Prozilla",
@@ -34,7 +34,8 @@
 		"typescript": "^5.4.5",
 		"vite": "^5.3.1",
 		"vite-plugin-dts": "^3.9.1",
-		"vite-plugin-lib-inject-css": "^2.1.1"
+		"vite-plugin-lib-inject-css": "^2.1.1",
+		"@prozilla-os/shared": "workspace:*"
 	},
 	"files": [
 		"dist"

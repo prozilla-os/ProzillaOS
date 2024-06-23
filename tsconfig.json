@@ -36,6 +36,7 @@
 	"include": [
 		"src/**/*",
 		"vite.config.ts",
+		"*.vite.config.ts",
 		// "scripts/**/*", // TO DO: uncomment this line
 	],
 	"exclude": [

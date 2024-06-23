@@ -27,6 +27,8 @@ $ pnpm add @prozilla-os/core @prozilla-os/text-editor
 
 ## Usage
 
+### Basic setup
+
 ```tsx
 import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView, AppsConfig } from "@prozilla-os/core";
 import { textEditor } from "@prozilla-os/text-editor";
@@ -49,6 +51,28 @@ function App() {
     </ProzillaOS>
   );
 }
+```
+
+### Window options
+
+```tsx
+/**
+ * Initial path that the app will open
+ * @default "~" - Home directory
+ */
+path: string;
+
+/**
+ * Virtual file to open the app with
+ */
+file: VirtualFile;
+
+/**
+ * Mode in which to run the app
+ * "view" - Renders markdown files and renders syntax highlighting of other file formats, disables text editing
+ * "edit" - Raw text editor
+ */
+mode: "view" | "edit";
 ```
 
 ## Links

@@ -1,5 +1,15 @@
 # @prozilla-os/file-explorer
 
+## 1.0.11
+
+### Patch Changes
+
+- Added @prozilla-os/shared package
+  Updated app build process
+  Updated documentation
+- Updated dependencies
+  - @prozilla-os/core@1.0.14
+
 ## 1.0.10
 
 ### Patch Changes

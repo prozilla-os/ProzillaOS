@@ -13,59 +13,37 @@
 
 ## About 
 
-`@prozilla-os/terminal` is a terminal/shell application for ProzillaOS.
+`@prozilla-os/shared` is a library of shared utility functions for ProzillaOS packages.
 
 ## Installation
 
-`@prozilla-os/core` is required to run this application.
-
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/terminal
-$ yarn add @prozilla-os/core @prozilla-os/terminal
-$ pnpm add @prozilla-os/core @prozilla-os/terminal
+$ npm install @prozilla-os/shared
+$ yarn add @prozilla-os/shared
+$ pnpm add @prozilla-os/shared
 ```
 
 ## Usage
 
-### Basic setup
+### `appViteConfig(basePath, entryPath)`
 
+Helper function for creating Vite configurations for ProzillaOS apps.
+
+#### Params
+
+- `basePath` (string) - Path of base directory
+- `entryPath` (string) - Path of library entry
+
+#### Example
 ```tsx
-import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView, AppsConfig } from "@prozilla-os/core";
-import { terminal } from "@prozilla-os/terminal";
+// vite.config.ts
 
-function App() {
-  return (
-    <ProzillaOS
-      systemName="Example"
-      tagLine="Powered by ProzillaOS"
-      config={{
-        apps: new AppsConfig({
-          apps: [ terminal ]
-        })
-      }}
-    >
-      <Taskbar/>
-      <WindowsView/>
-      <ModalsView/>
-      <Desktop/>
-    </ProzillaOS>
-  );
-}
-```
+import { defineConfig } from "vite";
+import { appViteConfig } from "@prozilla-os/shared";
 
-### Window options
-
-```tsx
-/**
- * Initial path that the app will open
- * @default "~" - Home directory
- */
-path: string;
-
-/**
- * Initial input
- */
-input: string;
+export default defineConfig({
+	...appViteConfig(__dirname, "src/main.ts")
+});
 ```
 
 ## Links
@@ -75,7 +53,7 @@ input: string;
 - [npm][npm]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/terminal
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/terminal
-[npm]: https://www.npmjs.com/package/@prozilla-os/terminal
+[website]: https://os.prozilla.dev/
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/shared
+[npm]: https://www.npmjs.com/package/@prozilla-os/shared
 [ko-fi]: https://ko-fi.com/prozilla

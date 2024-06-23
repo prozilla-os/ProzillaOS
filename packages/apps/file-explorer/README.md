@@ -27,6 +27,8 @@ $ pnpm add @prozilla-os/core @prozilla-os/file-explorer
 
 ## Usage
 
+### Basic setup
+
 ```tsx
 import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView, AppsConfig } from "@prozilla-os/core";
 import { fileExplorer } from "@prozilla-os/file-explorer";
@@ -49,6 +51,41 @@ function App() {
     </ProzillaOS>
   );
 }
+```
+
+### Window options
+
+```tsx
+/**
+ * Initial path that the app will open
+ * @default "~" - Home directory
+ */
+path: string;
+
+/**
+ * Defines in which mode the application is running
+ * 0: None
+ * 1: Single
+ * 2: Multiple
+ * @default 0
+ */
+selectorMode: number;
+
+/**
+ * Footer component that will be displayed when `selectorMode` != 0
+ * Can be used to display a list of selected files for example
+ */
+Footer: React.FC;
+
+/**
+ * Gets called each time the selection changes if `selectorMode` != 0
+ */
+onSelectionChange: (params: OnSelectionChangeParams) => void;
+
+/**
+ * Gets called when the selection is finished if `selectorMode` != 0
+ */
+onSelectionFinish: Function;
 ```
 
 ## Links

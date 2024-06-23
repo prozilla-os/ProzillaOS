@@ -2,7 +2,8 @@
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"paths": {
-			"@prozilla-os/core": ["packages/core/dist/main"]
+			"@prozilla-os/core": ["packages/core/dist/main"],
+			"@prozilla-os/shared": ["packages/shared/dist/main"]
 		}
 	}
 }

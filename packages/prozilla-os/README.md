@@ -13,7 +13,9 @@
 
 ## About 
 
-`prozilla-os` is a React component library written in TypeScript for building web-based operating systems, made by Prozilla.
+`prozilla-os` is a React Vite component library written in TypeScript for building web-based operating systems, made by Prozilla. This package combines multiple other packages for easy access to different ProzillaOS features. You can also download these packages separately instead.
+
+**Live demo: [os.prozilla.dev][website]** - [(source)][website-source]
 
 ## Installation
 
@@ -23,7 +25,20 @@ $ yarn add prozilla-os
 $ pnpm add prozilla-os
 ```
 
+## Packages
+
+`prozilla-os` combines the following packages into one:
+
+- [`@prozilla-os/core`][core] - Core functionality, React components and hooks
+- [`@prozilla-os/file-explorer`][file-explorer] - File explorer app
+- [`@prozilla-os/terminal`][terminal] - Terminal/shell app
+- [`@prozilla-os/text-editor`][text-editor] - Text editor app
+
 ## Usage
+
+For more information about the in-depth usage of each package, check out the links in the section above.
+
+### Basic setup
 
 ```tsx
 import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView } from "prozilla-os";
@@ -158,6 +173,11 @@ function App() {
 - [Ko-fi][ko-fi]
 
 [website]: https://os.prozilla.dev/
+[website-source]: https://github.com/prozilla-os/ProzillaOS
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/prozilla-os
 [npm]: https://www.npmjs.com/package/prozilla-os
 [ko-fi]: https://ko-fi.com/prozilla
+[core]: https://www.npmjs.com/package/@prozilla-os/core
+[file-explorer]: https://www.npmjs.com/package/@prozilla-os/file-explorer
+[terminal]: https://www.npmjs.com/package/@prozilla-os/terminal
+[text-editor]: https://www.npmjs.com/package/@prozilla-os/text-editor
