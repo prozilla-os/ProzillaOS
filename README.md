@@ -22,16 +22,16 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 
 ## Packages
 
-- `prozilla-os` ([source][prozilla-os]) - A bundle containing all other packages
-- `@prozilla-os/core` ([source][core]) - Core functionality, React components and hooks
-- `@prozilla-os/shared` ([source][shared]) - Shared functions and utilities
-- `@prozilla-os/file-explorer` ([source][file-explorer]) - File explorer app
-- `@prozilla-os/terminal` ([source][terminal]) - Terminal/shell app
-- `@prozilla-os/text-editor` ([source][text-editor]) - Text editor app
-- `@prozilla-os/settings` ([source][settings]) - Settings app
-- `@prozilla-os/media-viewer` ([source][media-viewer]) - Media viewer app
-- `@prozilla-os/browser` ([source][browser]) - Browser app
-- `@prozilla-os/calculator` ([source][calculator]) - Calculator app
+- [`prozilla-os`][prozilla-os] - A bundle containing all other packages
+- [`@prozilla-os/core`][core] - Core functionality, React components and hooks
+- [`@prozilla-os/shared`][shared] - Shared functions and utilities
+- [`@prozilla-os/file-explorer`][file-explorer] - File explorer app
+- [`@prozilla-os/terminal`][terminal] - Terminal/shell app
+- [`@prozilla-os/text-editor`][text-editor] - Text editor app
+- [`@prozilla-os/settings`][settings] - Settings app
+- [`@prozilla-os/media-viewer`][media-viewer] - Media viewer app
+- [`@prozilla-os/browser`][browser] - Browser app
+- [`@prozilla-os/calculator`][calculator] - Calculator app
 
 ## Links
 

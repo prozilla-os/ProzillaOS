@@ -1,5 +1,16 @@
 # @prozilla-os/file-explorer
 
+## 1.0.12
+
+### Patch Changes
+
+- Added settings, media viewer and browser apps
+
+  - Added Discord link to README files
+
+- Updated dependencies
+  - @prozilla-os/core@1.0.15
+
 ## 1.0.11
 
 ### Patch Changes

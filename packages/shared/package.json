@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/shared",
 	"description": "A library of shared utility functions for ProzillaOS packages.",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"homepage": "https://os.prozilla.dev",
 	"author": {
 		"name": "Prozilla",

@@ -1,5 +1,13 @@
 # @prozilla-os/core
 
+## 1.0.15
+
+### Patch Changes
+
+- Added settings, media viewer and browser apps
+
+  - Added Discord link to README files
+
 ## 1.0.14
 
 ### Patch Changes
