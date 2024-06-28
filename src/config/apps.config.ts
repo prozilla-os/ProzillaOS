@@ -1,5 +1,8 @@
-import { AppsConfig, browser, fileExplorer, mediaViewer, settings, terminal, textEditor } from "prozilla-os";
+import { AppsConfig, browser, calculator, fileExplorer, mediaViewer, settings, terminal, textEditor } from "prozilla-os";
 import { NAME } from "./branding.config";
+import { wordle } from "../apps/wordle";
+import { ballMaze } from "../apps/ball-maze";
+import { minesweeper } from "../apps/minesweeper";
 
 export const appsConfig = new AppsConfig({
 	apps: [
@@ -20,5 +23,11 @@ export const appsConfig = new AppsConfig({
 		browser.setName("Browser")
 			.setDescription("Browse the internet.")
 			.setIconUrl("/assets/apps/icons/browser.svg"),
+		calculator.setName("Maths")
+			.setDescription("Simple calculator app.")
+			.setIconUrl("/assets/apps/icons/calculator.svg"),
+		wordle.setIconUrl("/assets/apps/icons/wordle.svg"),
+		ballMaze.setIconUrl("/assets/apps/icons/ball-maze.svg"),
+		minesweeper.setIconUrl("/assets/apps/icons/minesweeper.svg"),
 	],
 });

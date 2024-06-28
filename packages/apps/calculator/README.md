@@ -13,16 +13,16 @@
 
 ## About 
 
-`@prozilla-os/browser` is a ProzillaOS application for browsing the internet.
+`@prozilla-os/calculator` is a ProzillaOS application for making basic calculations.
 
 ## Installation
 
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/browser
-$ yarn add @prozilla-os/core @prozilla-os/browser
-$ pnpm add @prozilla-os/core @prozilla-os/browser
+$ npm install @prozilla-os/core @prozilla-os/calculator
+$ yarn add @prozilla-os/core @prozilla-os/calculator
+$ pnpm add @prozilla-os/core @prozilla-os/calculator
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ $ pnpm add @prozilla-os/core @prozilla-os/browser
 
 ```tsx
 import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView, AppsConfig } from "@prozilla-os/core";
-import { browser } from "@prozilla-os/browser";
+import { calculator } from "@prozilla-os/calculator";
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
       tagLine="Powered by ProzillaOS"
       config={{
         apps: new AppsConfig({
-          apps: [ browser ]
+          apps: [ calculator ]
         })
       }}
     >
@@ -53,15 +53,6 @@ function App() {
 }
 ```
 
-### Window options
-
-```tsx
-/**
- * URL to open
- */
-url: string;
-```
-
 ## Links
 
 - [Website/demo][website]
@@ -70,8 +61,8 @@ url: string;
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/browser
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/browser
-[npm]: https://www.npmjs.com/package/@prozilla-os/browser
+[website]: https://os.prozilla.dev/calculator
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/calculator
+[npm]: https://www.npmjs.com/package/@prozilla-os/calculator
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

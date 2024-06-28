@@ -5,3 +5,4 @@ export * from "@prozilla-os/text-editor";
 export * from "@prozilla-os/settings";
 export * from "@prozilla-os/media-viewer";
 export * from "@prozilla-os/browser";
+export * from "@prozilla-os/calculator";

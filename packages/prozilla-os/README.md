@@ -36,6 +36,7 @@ $ pnpm add prozilla-os
 - [`@prozilla-os/settings`][settings] - Settings app
 - [`@prozilla-os/media-viewer`][media-viewer] - Media viewer app
 - [`@prozilla-os/browser`][browser] - Browser app
+- [`@prozilla-os/calculator`][calculator] - Calculator app
 
 ## Usage
 
@@ -189,3 +190,4 @@ function App() {
 [settings]: https://www.npmjs.com/package/@prozilla-os/settings
 [media-viewer]: https://www.npmjs.com/package/@prozilla-os/media-viewer
 [browser]: https://www.npmjs.com/package/@prozilla-os/browser
+[calculator]: https://www.npmjs.com/package/@prozilla-os/calculator

@@ -1,8 +1,8 @@
 {
-	"name": "@prozilla-os/media-viewer",
-	"description": "A ProzillaOS application for viewing different kinds of media.",
+	"name": "@prozilla-os/calculator",
+	"description": "A ProzillaOS application for making basic calculations.",
 	"version": "1.0.0",
-	"homepage": "https://os.prozilla.dev/media-viewer",
+	"homepage": "https://os.prozilla.dev/calculator",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",
@@ -17,7 +17,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
-		"directory": "packages/apps/media-viewer"
+		"directory": "packages/apps/calculator"
 	},
 	"license": "MIT",
 	"dependencies": {

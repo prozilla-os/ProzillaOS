@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { Button } from "../../_utils/button/Button";
 import styles from "./Calculator.module.css";
-import { WindowProps } from "../../windows/WindowView";
+import { Button, WindowProps } from "@prozilla-os/core";
 
 export function Calculator({ active }: WindowProps) {
 	const [input, setInput] = useState<string | null>("0");
