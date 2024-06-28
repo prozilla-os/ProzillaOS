@@ -1,15 +1,14 @@
 import styles from "./Settings.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faHardDrive, faPalette, faShapes } from "@fortawesome/free-solid-svg-icons";
-import utilStyles from "../../../styles/utils.module.css";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { AppearanceSettings } from "./tabs/AppearanceSettings";
 import { AboutSettings } from "./tabs/AboutSettings";
 import { StorageTab } from "./tabs/StorageSettings";
 import { AppsSettings } from "./tabs/AppsSettings";
-import { WindowProps } from "../../windows/WindowView";
+import { utilStyles, WindowProps } from "@prozilla-os/core";
 
-interface SettingsProps extends WindowProps {
+export interface SettingsProps extends WindowProps {
 	tab?: number;
 }
 

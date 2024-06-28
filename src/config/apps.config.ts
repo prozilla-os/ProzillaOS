@@ -1,4 +1,5 @@
-import { AppsConfig, fileExplorer, terminal, textEditor } from "prozilla-os";
+import { AppsConfig, fileExplorer, settings, terminal, textEditor } from "prozilla-os";
+import { NAME } from "./branding.config";
 
 export const appsConfig = new AppsConfig({
 	apps: [
@@ -11,5 +12,8 @@ export const appsConfig = new AppsConfig({
 		textEditor.setName("Notes")
 			.setDescription("Text editor for reading and writing text documents in a virtual file system using ProzillaOS.")
 			.setIconUrl("/assets/apps/icons/text-editor.svg"),
+		settings.setName("Settings")
+			.setDescription(`Configure ${NAME}'s settings and customize your experience.`)
+			.setIconUrl("/assets/apps/icons/settings.svg"),
 	],
 });

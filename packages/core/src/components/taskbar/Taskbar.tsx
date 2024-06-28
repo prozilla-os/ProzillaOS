@@ -1,7 +1,7 @@
 import { CSSProperties, memo, MouseEvent, MutableRefObject, ReactEventHandler, UIEventHandler, useEffect, useRef, useState } from "react";
 import styles from "./Taskbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCog, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { ReactSVG } from "react-svg";
 import { HomeMenu } from "./menus/HomeMenu";
 import { OutsideClickListener } from "../../hooks/_utils/outsideClick";
@@ -19,7 +19,7 @@ import { ZIndexManager } from "../../features/z-index/zIndexManager";
 import { useZIndex } from "../../hooks/z-index/zIndex";
 import { Battery, Calendar, Network, Volume } from "./indicators";
 import { useSystemManager } from "../../hooks";
-import { App } from "../../features";
+import { App, AppsConfig } from "../../features";
 
 export const Taskbar = memo(() => {
 	const { taskbarConfig, appsConfig } = useSystemManager();
@@ -38,15 +38,20 @@ export const Taskbar = memo(() => {
 	const inputRef = useRef(null);
 	const windowsManager = useWindowsManager();
 	const windows = useWindows();
-	const { onContextMenu } = useContextMenu({ Actions: (props) =>
-		<Actions avoidTaskbar={false} {...props}>
-			<ClickAction label={`Open ${"Settings"}`} icon={faCog} onTrigger={() => {
-				windowsManager?.open("settings");
-			}}/>
-		</Actions>
-	});
 	const [apps, setApps] = useState<App[]>([]);
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.TASKBAR, index: 0 });
+
+	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Settings);
+
+	const { onContextMenu } = useContextMenu({ Actions: (props) =>
+		<Actions avoidTaskbar={false} {...props}>
+			{settingsApp != null && 
+				<ClickAction label={`Open ${settingsApp.name}`} icon={settingsApp.iconUrl as string | undefined} onTrigger={() => {
+					windowsManager?.open(settingsApp.id);
+				}}/>
+			}
+		</Actions>
+	});
 
 	useEffect(() => {
 		const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.taskbar);

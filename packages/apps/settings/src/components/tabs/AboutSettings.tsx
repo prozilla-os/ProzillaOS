@@ -1,18 +1,14 @@
-import { Button } from "../../../_utils/button/Button";
 import styles from "../Settings.module.css";
-import utilStyles from "../../../../styles/utils.module.css";
-import { Vector2 } from "../../../../features/math/vector2";
-import { useWindowsManager } from "../../../../hooks/windows/windowsManagerContext";
-import { useVirtualRoot } from "../../../../hooks/virtual-drive/virtualRootContext";
-import { NAME } from "../../../../config/branding.config";
+import { Button, useSystemManager, useVirtualRoot, useWindowsManager, utilStyles, Vector2 } from "@prozilla-os/core";
 
 export function AboutSettings() {
+	const { systemName } = useSystemManager();
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
 
 	return <div className={styles.Option}>
-		<p className={styles.Label}>About {NAME}</p>
-		<p className={utilStyles.TextLight}>{NAME} is a web-based operating system inspired by Ubuntu Linux and Windows made with React.js by Prozilla.</p>
+		<p className={styles.Label}>About {systemName}</p>
+		<p className={utilStyles.TextLight}>{systemName} is a web-based operating system inspired by Ubuntu Linux and Windows made with React.js by Prozilla.</p>
 		<div className={styles.ButtonGroup}>
 			<Button
 				className={`${styles.Button} ${utilStyles.TextBold}`}

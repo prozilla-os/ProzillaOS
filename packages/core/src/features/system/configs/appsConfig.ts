@@ -16,6 +16,7 @@ export class AppsConfig {
 		FileExplorer: "file-explorer",
 		Terminal: "terminal",
 		TextEditor: "text-editor",
+		Settings: "settings"
 	};
 
 	constructor(options: OptionalInterface<AppsConfigOptions> = {}) {

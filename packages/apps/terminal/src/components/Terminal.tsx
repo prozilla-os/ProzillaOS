@@ -10,8 +10,8 @@ import { formatError } from "../core/_utils/terminal.utils";
 import { CommandsManager } from "../core/commands";
 
 export interface TerminalProps extends WindowProps {
-	path: string;
-	input: string;
+	path?: string;
+	input?: string;
 }
 
 interface HistoryEntry {

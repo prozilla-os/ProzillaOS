@@ -1,10 +1,5 @@
 import styles from "../Settings.module.css";
-import utilStyles from "../../../../styles/utils.module.css";
-import { ProgressBar } from "../../../_utils/progress-bar/ProgressBar";
-import { Button } from "../../../_utils/button/Button";
-import { useVirtualRoot } from "../../../../hooks/virtual-drive/virtualRootContext";
-import { StorageManager } from "../../../../features/storage/storageManager";
-import { round } from "../../../../features/_utils/math.utils";
+import { Button, ProgressBar, round, StorageManager, useVirtualRoot, utilStyles } from "@prozilla-os/core";
 
 export function StorageTab() {
 	const virtualRoot = useVirtualRoot();

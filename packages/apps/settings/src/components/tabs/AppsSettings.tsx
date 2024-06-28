@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import styles from "../Settings.module.css";
-import { AppsManager } from "../../../../features/apps/appsManager";
-import { useSettingsManager } from "../../../../hooks/settings/settingsManagerContext";
-import { SettingsManager } from "../../../../features/settings/settingsManager";
 import { AppOption } from "./AppOption";
+import { SettingsManager, useSettingsManager, useSystemManager } from "@prozilla-os/core";
 
 export function AppsSettings() {
+	const { appsConfig } = useSystemManager();
 	const settingsManager = useSettingsManager();
 	const [pins, setPins] = useState<string[]>([]);
 
@@ -18,7 +17,7 @@ export function AppsSettings() {
 
 	return <div className={`${styles.Option} ${styles.OptionList}`}>
 		<p className={styles.Label}>Apps</p>
-		{AppsManager.APPS.sort((a, b) =>
+		{appsConfig.apps.sort((a, b) =>
 			a.name.toLowerCase().localeCompare(b.name.toLowerCase())
 		).map((app) => 
 			<AppOption key={app.id} app={app} pins={pins} setPins={setPins}/>

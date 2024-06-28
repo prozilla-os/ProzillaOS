@@ -1,8 +1,8 @@
 {
-	"name": "prozilla-os",
-	"description": "a React component library written in TypeScript for building web-based operating systems, made by Prozilla.",
-	"version": "1.0.14",
-	"homepage": "https://os.prozilla.dev",
+	"name": "@prozilla-os/settings",
+	"description": "A settings app for ProzillaOS.",
+	"version": "1.0.11",
+	"homepage": "https://os.prozilla.dev/settings",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",
@@ -12,24 +12,24 @@
 	"main": "dist/main.js",
 	"types": "dist/main.d.ts",
 	"scripts": {
-		"build": "tsc && vite build"
+		"build": "tsc --project tsconfig.build.json && vite build"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
-		"directory": "packages/prozilla-os"
+		"directory": "packages/apps/settings"
 	},
 	"license": "MIT",
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.5.2",
+		"@fortawesome/free-solid-svg-icons": "^6.5.2",
+		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/file-explorer": "workspace:*",
-		"@prozilla-os/settings": "workspace:^",
-		"@prozilla-os/terminal": "workspace:*",
-		"@prozilla-os/text-editor": "workspace:*",
-		"react-ga4": "^2.1.0"
+		"react": "^18.3.1"
 	},
 	"devDependencies": {
+		"@prozilla-os/shared": "workspace:*",
 		"@types/node": "^20.14.5",
 		"@types/react": "^18.3.3",
 		"@vitejs/plugin-react-swc": "^3.7.0",
@@ -37,9 +37,6 @@
 		"vite": "^5.3.1",
 		"vite-plugin-dts": "^3.9.1",
 		"vite-plugin-lib-inject-css": "^2.1.1"
-	},
-	"peerDependencies": {
-		"react": "^18.3.1"
 	},
 	"files": [
 		"dist"
@@ -50,13 +47,5 @@
 	"publishConfig": {
 		"registry": "https://registry.npmjs.org/",
 		"access": "public"
-	},
-	"keywords": [
-		"react",
-		"typescript",
-		"web-os",
-		"components",
-		"internet-os",
-		"virtual-desktop"
-	]
+	}
 }

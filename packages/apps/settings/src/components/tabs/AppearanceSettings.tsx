@@ -1,21 +1,11 @@
 import { ChangeEventHandler, useEffect, useState } from "react";
-import { SettingsManager } from "../../../../features/settings/settingsManager";
 import styles from "../Settings.module.css";
-import utilStyles from "../../../../styles/utils.module.css";
-import { useVirtualRoot } from "../../../../hooks/virtual-drive/virtualRootContext";
-import { useSettingsManager } from "../../../../hooks/settings/settingsManagerContext";
-import { WALLPAPERS_PATH } from "../../../../config/apps/settings.config";
-import { useWindowedModal } from "../../../../hooks/modals/windowedModal";
-import { Button } from "../../../_utils/button/Button";
-import { FileSelector } from "../../../modals/file-selector/FileSelector";
-import { SELECTOR_MODE } from "../../../../config/apps/fileExplorer.config";
-import { DEFAULT_FILE_SELECTOR_SIZE } from "../../../../config/modals.config";
-import { IMAGE_FORMATS } from "../../../../config/apps/mediaViewer.config";
-import { VirtualFile } from "../../../../features/virtual-drive/file";
-import { VirtualFolder } from "../../../../features/virtual-drive/folder/virtualFolder";
-import { THEMES } from "../../../../config/themes.config";
+import { Button, SettingsManager, THEMES, useSettingsManager, useSystemManager, useVirtualRoot, useWindowedModal, utilStyles, IMAGE_EXTENSIONS, VirtualFile, VirtualFolder } from "@prozilla-os/core";
+import { FileSelectorMode, fileExplorer } from "@prozilla-os/file-explorer";
+import { WALLPAPERS_PATH } from "../../constants/settings.const";
 
 export function AppearanceSettings() {
+	const { modalsConfig } = useSystemManager();
 	const virtualRoot = useVirtualRoot();
 	const settingsManager = useSettingsManager();
 	const [theme, setTheme] = useState(0);
@@ -56,13 +46,13 @@ export function AppearanceSettings() {
 				className={`${styles.Button} ${utilStyles.TextBold}`}
 				onClick={() => {
 					openWindowedModal({
-						size: DEFAULT_FILE_SELECTOR_SIZE,
-						Modal: (props: object) => <FileSelector
-							type={SELECTOR_MODE.SINGLE}
-							allowedFormats={IMAGE_FORMATS}
-							onFinish={(file) => {
-								if ((file as VirtualFile).source != null)
-									void desktopSettings?.set("wallpaper", (file as VirtualFile).source as string);
+						size: modalsConfig.defaultFileSelectorSize,
+						Modal: (props: object) => <fileExplorer.WindowContent
+							type={FileSelectorMode.Single}
+							allowedFormats={IMAGE_EXTENSIONS}
+							onFinish={(file: VirtualFile) => {
+								if ((file).source != null)
+									void desktopSettings?.set("wallpaper", file.source);
 							}}
 							{...props}
 						/>

@@ -12,9 +12,9 @@ import { JSX } from "react/jsx-runtime";
 export interface FileExplorerProps extends WindowProps {
 	path?: string;
 	selectorMode?: number;
-	Footer: FC;
-	onSelectionChange: (params: OnSelectionChangeParams) => void;
-	onSelectionFinish: Function;
+	Footer?: FC;
+	onSelectionChange?: (params: OnSelectionChangeParams) => void;
+	onSelectionFinish?: Function;
 }
 
 export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSelectionChange, onSelectionFinish }: FileExplorerProps) {

@@ -55,7 +55,9 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 
 	useKeyboardListener({ onKeyDown, onKeyUp });
 
-	const fileExplorer = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
+	const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
+	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Settings);
+	const textEditorApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.TextEditor);
 
 	return (
 		<div className={classNames.join(" ")}>
@@ -65,35 +67,39 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 						<FontAwesomeIcon icon={faPowerOff}/>
 						<p className={utilStyles.TextRegular}>Shut down</p>
 					</button>
-					<button tabIndex={tabIndex} onClick={() => {
-						setActive(false);
-						windowsManager?.open("settings");
-					}}>
-						<FontAwesomeIcon icon={faGear}/>
-						<p className={utilStyles.TextRegular}>Settings</p>
-					</button>
-					<button tabIndex={tabIndex} onClick={() => {
-						setActive(false);
-						windowsManager?.open("text-editor", {
-							mode: "view",
-							file: virtualRoot?.navigate("~/Documents/Info.md"),
-							size: new Vector2(575, 675),
-						});
-					}}>
-						<FontAwesomeIcon icon={faCircleInfo}/>
-						<p className={utilStyles.TextRegular}>Info</p>
-					</button>
-					{fileExplorer != null && <>
+					{settingsApp != null &&
 						<button tabIndex={tabIndex} onClick={() => {
 							setActive(false);
-							windowsManager?.open(fileExplorer.id, { path: "~/Pictures" });
+							windowsManager?.open("settings");
+						}}>
+							<FontAwesomeIcon icon={faGear}/>
+							<p className={utilStyles.TextRegular}>Settings</p>
+						</button>
+					}
+					{textEditorApp != null &&
+						<button tabIndex={tabIndex} onClick={() => {
+							setActive(false);
+							windowsManager?.open("text-editor", {
+								mode: "view",
+								file: virtualRoot?.navigate("~/Documents/Info.md"),
+								size: new Vector2(575, 675),
+							});
+						}}>
+							<FontAwesomeIcon icon={faCircleInfo}/>
+							<p className={utilStyles.TextRegular}>Info</p>
+						</button>
+					}
+					{fileExplorerApp != null && <>
+						<button tabIndex={tabIndex} onClick={() => {
+							setActive(false);
+							windowsManager?.open(fileExplorerApp.id, { path: "~/Pictures" });
 						}}>
 							<FontAwesomeIcon icon={faImage}/>
 							<p className={utilStyles.TextRegular}>Images</p>
 						</button>
 						<button tabIndex={tabIndex} onClick={() => {
 							setActive(false);
-							windowsManager?.open(fileExplorer.id, { path: "~/Documents" }); }
+							windowsManager?.open(fileExplorerApp.id, { path: "~/Documents" }); }
 						}>
 							<FontAwesomeIcon icon={faFileLines}/>
 							<p className={utilStyles.TextRegular}>Documents</p>

@@ -31,8 +31,9 @@ export const Desktop = memo(() => {
 
 	const directory = virtualRoot?.navigate("~/Desktop");
 
-	const fileExplorer = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
-	const terminal = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Terminal);
+	const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
+	const terminalApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Terminal);
+	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Settings);
 
 	const { onContextMenu, ShortcutsListener } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
@@ -81,18 +82,20 @@ export const Desktop = memo(() => {
 					}
 				}}
 			/>
-			<ClickAction label="Change appearance" icon={faPaintBrush} onTrigger={() => {
-				windowsManager?.open("settings", { tab: 2 });
-			}}/>
-			<Divider/>
-			{fileExplorer != null &&
-				<ClickAction label={`Open in ${fileExplorer.name}`} icon={fileExplorer.iconUrl as string | undefined} onTrigger={() => {
-					windowsManager?.open(fileExplorer.id, { path: directory?.path });
+			{settingsApp != null &&
+				<ClickAction label="Change appearance" icon={faPaintBrush} onTrigger={() => {
+					windowsManager?.open(settingsApp.id, { tab: 2 });
 				}}/>
 			}
-			{terminal != null &&
-				<ClickAction label={`Open in ${terminal.name}`} icon={terminal.iconUrl as string | undefined} onTrigger={() => {
-					windowsManager?.open(terminal.id, { path: directory?.path });
+			<Divider/>
+			{fileExplorerApp != null &&
+				<ClickAction label={`Open in ${fileExplorerApp.name}`} icon={fileExplorerApp.iconUrl as string | undefined} onTrigger={() => {
+					windowsManager?.open(fileExplorerApp.id, { path: directory?.path });
+				}}/>
+			}
+			{terminalApp != null &&
+				<ClickAction label={`Open in ${terminalApp.name}`} icon={terminalApp.iconUrl as string | undefined} onTrigger={() => {
+					windowsManager?.open(terminalApp.id, { path: directory?.path });
 				}}/>
 			}
 			<Divider/>
@@ -109,8 +112,8 @@ export const Desktop = memo(() => {
 			<ClickAction label="Open" onTrigger={(event, file) => {
 				if (windowsManager != null) (file as VirtualFile).open(windowsManager);
 			}}/>
-			{fileExplorer != null &&
-				<ClickAction label={`Reveal in ${fileExplorer.name}`} icon={fileExplorer.iconUrl as string | undefined} onTrigger={(event, file) => {
+			{fileExplorerApp != null &&
+				<ClickAction label={`Reveal in ${fileExplorerApp.name}`} icon={fileExplorerApp.iconUrl as string | undefined} onTrigger={(event, file) => {
 					if (windowsManager != null)	(file as VirtualFile).parent?.open(windowsManager);
 				}}/>
 			}
@@ -124,13 +127,13 @@ export const Desktop = memo(() => {
 			<ClickAction label="Open" onTrigger={(event, folder) => {
 				if (windowsManager != null)	(folder as VirtualFolder).open(windowsManager);
 			}}/>
-			{fileExplorer != null &&
-				<ClickAction label={`Open in ${fileExplorer.name}`} icon={fileExplorer.iconUrl as string | undefined} onTrigger={(event, folder) => {
-					windowsManager?.open(fileExplorer.id, { path: (folder as VirtualFolder).path });
+			{fileExplorerApp != null &&
+				<ClickAction label={`Open in ${fileExplorerApp.name}`} icon={fileExplorerApp.iconUrl as string | undefined} onTrigger={(event, folder) => {
+					windowsManager?.open(fileExplorerApp.id, { path: (folder as VirtualFolder).path });
 				}}/>
 			}
-			{terminal != null &&
-				<ClickAction label={`Open in ${terminal.name}`} icon={terminal.iconUrl as string | undefined} onTrigger={(event, folder) => {
+			{terminalApp != null &&
+				<ClickAction label={`Open in ${terminalApp.name}`} icon={terminalApp.iconUrl as string | undefined} onTrigger={(event, folder) => {
 					if (windowsManager != null)	(folder as VirtualFolder).parent?.open(windowsManager);
 				}}/>
 			}
@@ -195,8 +198,8 @@ export const Desktop = memo(() => {
 					windowsManager?.openFile(file, options);
 				}}
 				onOpenFolder={(event, folder) => {
-					if (fileExplorer != null) {
-						windowsManager?.open(fileExplorer.id, {
+					if (fileExplorerApp != null) {
+						windowsManager?.open(fileExplorerApp.id, {
 							path: (folder as VirtualFolderLink).linkedPath ?? folder.path
 						});
 					}
