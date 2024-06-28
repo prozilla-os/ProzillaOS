@@ -17,7 +17,8 @@ export class AppsConfig {
 		Terminal: "terminal",
 		TextEditor: "text-editor",
 		Settings: "settings",
-		MediaViewer: "media-viewer"
+		MediaViewer: "media-viewer",
+		Browser: "browser"
 	};
 
 	constructor(options: OptionalInterface<AppsConfigOptions> = {}) {

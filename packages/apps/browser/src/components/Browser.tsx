@@ -1,14 +1,11 @@
 import { ChangeEventHandler, KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import styles from "./Browser.module.css";
-import { WebView } from "../_utils/web-view/WebView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight, faHome, faRotateRight } from "@fortawesome/free-solid-svg-icons";
-import { HOME_URL, SEARCH_URL } from "../../../config/apps/browser.config";
-import { isValidUrl } from "../../../features/_utils/browser.utils";
-import { useHistory } from "../../../hooks/_utils/history";
-import { WindowProps } from "../../windows/WindowView";
+import { isValidUrl, useHistory, WebView, WindowProps } from "@prozilla-os/core";
+import { HOME_URL, SEARCH_URL } from "../constants/browser.const";
 
-interface BrowserProps extends WindowProps {
+export interface BrowserProps extends WindowProps {
 	url?: string;
 }
 

@@ -35,6 +35,7 @@ $ pnpm add prozilla-os
 - [`@prozilla-os/text-editor`][text-editor] - Text editor app
 - [`@prozilla-os/settings`][settings] - Settings app
 - [`@prozilla-os/media-viewer`][media-viewer] - Media viewer app
+- [`@prozilla-os/browser`][browser] - Browser app
 
 ## Usage
 
@@ -187,3 +188,4 @@ function App() {
 [text-editor]: https://www.npmjs.com/package/@prozilla-os/text-editor
 [settings]: https://www.npmjs.com/package/@prozilla-os/settings
 [media-viewer]: https://www.npmjs.com/package/@prozilla-os/media-viewer
+[browser]: https://www.npmjs.com/package/@prozilla-os/browser
