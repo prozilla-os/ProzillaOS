@@ -1,4 +1,4 @@
-import { AppsConfig, fileExplorer, settings, terminal, textEditor } from "prozilla-os";
+import { AppsConfig, fileExplorer, mediaViewer, settings, terminal, textEditor } from "prozilla-os";
 import { NAME } from "./branding.config";
 
 export const appsConfig = new AppsConfig({
@@ -15,5 +15,7 @@ export const appsConfig = new AppsConfig({
 		settings.setName("Settings")
 			.setDescription(`Configure ${NAME}'s settings and customize your experience.`)
 			.setIconUrl("/assets/apps/icons/settings.svg"),
+		mediaViewer.setName("Photos")
+			.setIconUrl("/assets/apps/icons/media-viewer.svg"),
 	],
 });

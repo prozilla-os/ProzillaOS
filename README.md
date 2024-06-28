@@ -29,6 +29,7 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 - `@prozilla-os/terminal` ([source][terminal]) - Terminal/shell app
 - `@prozilla-os/text-editor` ([source][text-editor]) - Text editor app
 - `@prozilla-os/settings` ([source][settings]) - Settings app
+- `@prozilla-os/media-viewer` ([source][media-viewer]) - Media viewer app
 
 ## Links
 
@@ -65,3 +66,4 @@ These resources can help you get started with ProzillaOS.
 [terminal]: ./packages/apps/terminal/
 [text-editor]: ./packages/apps/text-editor/
 [settings]: ./packages/apps/settings/
+[media-viewer]: ./packages/apps/media-viewer/

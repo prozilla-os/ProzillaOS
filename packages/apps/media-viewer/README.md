@@ -13,16 +13,16 @@
 
 ## About 
 
-`@prozilla-os/file-explorer` is a standard ProzillaOS application for browsing files.
+`@prozilla-os/media-viewer` is a ProzillaOS application for viewing different kinds of media.
 
 ## Installation
 
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/file-explorer
-$ yarn add @prozilla-os/core @prozilla-os/file-explorer
-$ pnpm add @prozilla-os/core @prozilla-os/file-explorer
+$ npm install @prozilla-os/core @prozilla-os/media-viewer
+$ yarn add @prozilla-os/core @prozilla-os/media-viewer
+$ pnpm add @prozilla-os/core @prozilla-os/media-viewer
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ $ pnpm add @prozilla-os/core @prozilla-os/file-explorer
 
 ```tsx
 import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView, AppsConfig } from "@prozilla-os/core";
-import { fileExplorer } from "@prozilla-os/file-explorer";
+import { mediaViewer } from "@prozilla-os/media-viewer";
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
       tagLine="Powered by ProzillaOS"
       config={{
         apps: new AppsConfig({
-          apps: [ fileExplorer ]
+          apps: [ mediaViewer ]
         })
       }}
     >
@@ -57,35 +57,9 @@ function App() {
 
 ```tsx
 /**
- * Initial path that the app will open
- * @default "~" - Home directory
+ * A virtual file containing media to open
  */
-path: string;
-
-/**
- * Defines in which mode the application is running
- * 0: None
- * 1: Single
- * 2: Multiple
- * @default 0
- */
-selectorMode: number;
-
-/**
- * Footer component that will be displayed when `selectorMode` != 0
- * Can be used to display a list of selected files for example
- */
-Footer: React.FC;
-
-/**
- * Gets called each time the selection changes if `selectorMode` != 0
- */
-onSelectionChange: (params: OnSelectionChangeParams) => void;
-
-/**
- * Gets called when the selection is finished if `selectorMode` != 0
- */
-onSelectionFinish: Function;
+file: VirtualFile;
 ```
 
 ## Links
@@ -96,8 +70,8 @@ onSelectionFinish: Function;
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/file-explorer
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/file-explorer
-[npm]: https://www.npmjs.com/package/@prozilla-os/file-explorer
+[website]: https://os.prozilla.dev/media-viewer
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/media-viewer
+[npm]: https://www.npmjs.com/package/@prozilla-os/media-viewer
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

@@ -24,6 +24,7 @@
 		"@fortawesome/fontawesome-svg-core": "^6.5.2",
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/file-explorer": "workspace:*",
+		"@prozilla-os/media-viewer": "workspace:^",
 		"@prozilla-os/settings": "workspace:^",
 		"@prozilla-os/terminal": "workspace:*",
 		"@prozilla-os/text-editor": "workspace:*",

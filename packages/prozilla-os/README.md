@@ -1,7 +1,7 @@
 <div align="center">
   <br />
   <p>
-    <a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/logo.svg" height="200" alt="ProzillaOS" /></a>
+    <a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/logo.svg?v=2" height="200" alt="ProzillaOS" /></a>
   </p>
   <p>
     <a href="https://github.com/prozilla-os/ProzillaOS/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/github/license/Prozilla/ProzillaOS?style=flat-square&color=FF4D5B&label=License"></a>
@@ -34,6 +34,7 @@ $ pnpm add prozilla-os
 - [`@prozilla-os/terminal`][terminal] - Terminal/shell app
 - [`@prozilla-os/text-editor`][text-editor] - Text editor app
 - [`@prozilla-os/settings`][settings] - Settings app
+- [`@prozilla-os/media-viewer`][media-viewer] - Media viewer app
 
 ## Usage
 
@@ -185,3 +186,4 @@ function App() {
 [terminal]: https://www.npmjs.com/package/@prozilla-os/terminal
 [text-editor]: https://www.npmjs.com/package/@prozilla-os/text-editor
 [settings]: https://www.npmjs.com/package/@prozilla-os/settings
+[media-viewer]: https://www.npmjs.com/package/@prozilla-os/media-viewer

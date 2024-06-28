@@ -1,17 +1,13 @@
-
 import { useEffect } from "react";
-import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
 import styles from "./MediaViewer.module.css";
-import { APPS } from "../../../config/apps.config";
-import { IMAGE_FORMATS } from "../../../config/apps/mediaViewer.config";
-import { VirtualFile } from "../../../features/virtual-drive/file";
-import { WindowProps } from "../../windows/WindowView";
+import { AppsConfig, IMAGE_EXTENSIONS, useSystemManager, useWindowsManager, VirtualFile, WindowProps } from "@prozilla-os/core";
 
-interface MediaViewerProps extends WindowProps {
+export interface MediaViewerProps extends WindowProps {
 	file?: VirtualFile;
 }
 
 export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
+	const { appsConfig } = useSystemManager();
 	const windowsManager = useWindowsManager();
 
 	useEffect(() => {
@@ -19,14 +15,17 @@ export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 	}, [file, setTitle]);
 
 	if (file == null) {
+		const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
+
 		setTimeout(() => {
-			windowsManager?.open(APPS.FILE_EXPLORER, { path: "~/Pictures" });
+			if (fileExplorerApp != null)
+				windowsManager?.open(fileExplorerApp.id, { path: "~/Pictures" });
 			close?.();
 		}, 10);
 		return;
 	}
 
-	if (file.extension == null || !IMAGE_FORMATS.includes(file.extension)) return <p>Invalid file format.</p>;
+	if (file.extension == null || !IMAGE_EXTENSIONS.includes(file.extension)) return <p>Invalid file format.</p>;
 
 	if (file.source == null) return <p>File failed to load.</p>;
 
