@@ -28,12 +28,14 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 - `@prozilla-os/file-explorer` ([source][file-explorer]) - File explorer app
 - `@prozilla-os/terminal` ([source][terminal]) - Terminal/shell app
 - `@prozilla-os/text-editor` ([source][text-editor]) - Text editor app
+- `@prozilla-os/settings` ([source][settings]) - Settings app
 
 ## Links
 
 - [Website/demo][website]
 - [GitHub][github]
 - [npm][npm]
+- [Discord][discord]
 - [Ko-fi][ko-fi]
 
 ## Resources
@@ -51,6 +53,7 @@ These resources can help you get started with ProzillaOS.
 [website]: https://os.prozilla.dev/
 [github]: https://github.com/prozilla-os/ProzillaOS
 [npm]: https://www.npmjs.com/package/prozilla-os
+[discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla
 [issues]: https://github.com/prozilla-os/ProzillaOS/issues
 [boilerplate]: https://github.com/prozilla-os/ProzillaOS-boilerplate
@@ -61,3 +64,4 @@ These resources can help you get started with ProzillaOS.
 [file-explorer]: ./packages/apps/file-explorer/
 [terminal]: ./packages/apps/terminal/
 [text-editor]: ./packages/apps/text-editor/
+[settings]: ./packages/apps/settings/

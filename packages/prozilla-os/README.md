@@ -33,6 +33,7 @@ $ pnpm add prozilla-os
 - [`@prozilla-os/file-explorer`][file-explorer] - File explorer app
 - [`@prozilla-os/terminal`][terminal] - Terminal/shell app
 - [`@prozilla-os/text-editor`][text-editor] - Text editor app
+- [`@prozilla-os/settings`][settings] - Settings app
 
 ## Usage
 
@@ -170,14 +171,17 @@ function App() {
 - [Website/demo][website]
 - [GitHub][github]
 - [npm][npm]
+- [Discord][discord]
 - [Ko-fi][ko-fi]
 
 [website]: https://os.prozilla.dev/
 [website-source]: https://github.com/prozilla-os/ProzillaOS
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/prozilla-os
 [npm]: https://www.npmjs.com/package/prozilla-os
+[discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla
 [core]: https://www.npmjs.com/package/@prozilla-os/core
 [file-explorer]: https://www.npmjs.com/package/@prozilla-os/file-explorer
 [terminal]: https://www.npmjs.com/package/@prozilla-os/terminal
 [text-editor]: https://www.npmjs.com/package/@prozilla-os/text-editor
+[settings]: https://www.npmjs.com/package/@prozilla-os/settings

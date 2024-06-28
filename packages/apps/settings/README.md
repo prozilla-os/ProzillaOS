@@ -56,7 +56,11 @@ function App() {
 ### Window options
 
 ```tsx
-
+/**
+ * Initial tab to open
+ * @default 0
+ */
+tab: number;
 ```
 
 ## Links
@@ -64,9 +68,11 @@ function App() {
 - [Website/demo][website]
 - [GitHub][github]
 - [npm][npm]
+- [Discord][discord]
 - [Ko-fi][ko-fi]
 
 [website]: https://os.prozilla.dev/settings
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/settings
 [npm]: https://www.npmjs.com/package/@prozilla-os/settings
+[discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla
