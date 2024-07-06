@@ -15,16 +15,24 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 			folder.setAlias("~")
 				.createFolder(".config", (folder) => {
 					folder.createFile("desktop", "xml", (file) => {
-						file.setContent(`<options>
-							<wallpaper>${desktopConfig.defaultWallpaper}</wallpaper>
-							<show-icons>true</show-icons>
-						</options>`);
+						file.setContent([
+							"<options>",
+							`	<wallpaper>${desktopConfig.defaultWallpaper}</wallpaper>`,
+							"	<show-icons>true</show-icons>",
+							"</options>",
+						]);
 					}).createFile("taskbar", "xml", (file) => {
-						file.setContent(`<options>
-							<pins>${appsConfig.apps.map(({ id }) => id).join(",")}</pins>
-						</options>`);
+						file.setContent([
+							"<options>",
+							`	<pins>${appsConfig.apps.filter((app) => app.pinnedByDefault).map(({ id }) => id).join(",")}</pins>`,
+							"</options>",
+						]);
 					}).createFile("apps", "xml", (file) => {
-						file.setContent("<options></options>");
+						file.setContent([
+							"<options>",
+							`	<startup>${appsConfig.apps.filter((app) => app.launchAtStartup).map(({ id }) => id).join(",")}</startup>`,
+							"</options>",
+						]);
 					}).createFile("theme", "xml", (file) => {
 						file.setContent("<options><theme>0</theme></options>");
 					});

@@ -47,47 +47,55 @@ Each package follows a similar structure and has a `src/main.ts` entry file.
 
 ## Scripts
 
-These are the scripts in logical order, that will be available when you have installed the dependencies. Note that certain scripts can be omitted by running another script. For more information about scripts #1, #2 and #3, check the [officiel Vite documentation](https://vitejs.dev/guide/cli.html).
+These are the scripts in logical order, that will be available when you have installed the dependencies. Note that certain scripts can be omitted by running another script. For more information about scripts #1, #2 and #3, check the [officiel Vite documentation](https://vitejs.dev/guide/cli.html). ProzillaOS uses [pnpm](https://pnpm.io/) as its package manager.
 
 ### Main scripts
 
-1. `npm run start`
+These scripts are related to the website and its lifecycle.
+
+1. `pnpm start`
 
 	Start Vite dev server at [localhost:3000](http://localhost:3000/). Changes to module will dynamically be hot-reloaded, so normally there is no need for hard-refreshes. VSCode is configured to run this script whenever the project is opened.
 
-2. `npm run build`
+2. `pnpm run build`
 
 	Compile project using TypeScript and bundle all files into the `dist` directory, or the directory specified in config file. This directory can be uploaded to a web server.
 
-3. `npm run serve`
+3. `pnpm run serve`
 
 	Start web server with preview of build at [localhost:8080](http://localhost:8080/). Can be useful for testing build before deploying.
 
-4. `npm run stage`
+4. `pnpm run stage`
 
 	Execute [stage.ts](../scripts/stage.ts), which stages the build and prepares it for deployment. Script will generate a sitemap, robots.txt and all other necessary files.
 
-5. `npm run deploy`
+5. `pnpm run deploy`
 
 	Run scripts #2 and #4, then execute [deploy.ts](../scripts/deploy.ts), which uploads the staged build to GitHub Pages on branch called `gh-pages`. This should then trigger a GitHub Action that deploys the build to production.
 
 ### Extra scripts
 
-- `npm run fetch`
+- `pnpm run fetch`
 
 	Fetch the repository tree using GitHub's API and store it as a JSON file that will be used to populate the virtual drive. More information can be found on the [virtual drive](./features/virtual-drive/README.md) page.
 
-### Packages scripts
+### Scripts/commands for packages
 
-- `npm run packages:build`
+These scripts are related to the packages in this project and their lifecycles.
 
-	Build all packages in sequential order and output to respective `dist` directories.
+- `pnpm --filter <package_selector> build`
 
-- `npm run packages:update`
+	Build a sepecific subset of packages or a single package and output to respective `dist` directory/directories. For more information about selecting specific packages, read [pnpm's documentation on filtering](https://pnpm.io/filtering). 
+
+- `pnpm run packages:build`
+
+	Build all packages using Vite in sequential order and output to respective `dist` directories.
+
+- `pnpm run packages:update`
 
 	Create a new changeset for packages and update their version accordingly.
 
-- `npm run packages:release`
+- `pnpm run packages:release`
 
 	Publish the latest versions of each package to the npm registry.
 

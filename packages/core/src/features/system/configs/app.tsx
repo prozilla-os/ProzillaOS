@@ -52,6 +52,18 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	 */
 	associatedExtensions: string[] = [];
 
+	/**
+	 * Determines whether the app is pinned by default
+	 * @default true
+	 */
+	pinnedByDefault = true;
+
+	/**
+	 * Determiens whether the app is launched at startup
+	 * @default false
+	 */
+	launchAtStartup = false;
+
 	isActive: boolean = false;
 	isPinned?: boolean;
 
@@ -112,6 +124,22 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	 */
 	setAssociatedExtensions(extensions: string[] | null): this {
 		this.associatedExtensions = extensions ?? [];
+		return this;
+	}
+
+	/**
+	 * Changes whether this application is pinned by default or not
+	 */
+	setPinnedByDefault(pinnedByDefault: boolean): this {
+		this.pinnedByDefault = pinnedByDefault;
+		return this;
+	}
+
+	/**
+	 * Changes whether this application is launched at startup or not
+	 */
+	setLaunchAtStartup(launchAtStartup: boolean): this {
+		this.launchAtStartup = launchAtStartup;
 		return this;
 	}
 }

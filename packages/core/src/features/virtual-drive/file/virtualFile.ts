@@ -54,11 +54,11 @@ export class VirtualFile extends VirtualBase {
 	/**
 	 * Sets the content of this file and removes the source
 	 */
-	setContent(content: string): this {
+	setContent(content: string | string[]): this {
 		if (this.content === content || !this.canBeEdited)
 			return this;
 
-		this.content = content;
+		this.content = typeof content === "string" ? content : content.join("\n");
 		this.source = null;
 
 		this.emit(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, this);
