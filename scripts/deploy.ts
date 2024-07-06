@@ -1,5 +1,5 @@
 import ghpages from "gh-pages";
-import { ANSI } from "../src/config/apps/terminal.config";
+import { ANSI } from "../packages/core/src/constants";
 import { BASE_URL, BUILD_DIR, COMMIT_MESSAGE, DOMAIN, REPO_URL } from "../src/config/deploy.config";
 
 function deploy() {

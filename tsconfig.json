@@ -37,17 +37,12 @@
 		"src/**/*",
 		"vite.config.ts",
 		"*.vite.config.ts",
-		// "scripts/**/*", // TO DO: uncomment this line
+		"scripts/**/*",
 	],
 	"exclude": [
-		"**/node_modules",
-		"**/dist",
+		"**/node_modules/**/*",
+		"**/dist/**/*",
 		"./.vscode",
 		"./.github",
 	],
-	"ts-node": {
-		"experimentalSpecifierResolution": "node",
-		"transpileOnly": true,
-		"esm": true,
-    }
 }

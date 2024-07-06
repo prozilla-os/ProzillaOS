@@ -61,7 +61,7 @@ These scripts are related to the website and its lifecycle.
 
 	Compile project using TypeScript and bundle all files into the `dist` directory, or the directory specified in config file. This directory can be uploaded to a web server.
 
-3. `pnpm run serve`
+3. `pnpm run preview`
 
 	Start web server with preview of build at [localhost:8080](http://localhost:8080/). Can be useful for testing build before deploying.
 

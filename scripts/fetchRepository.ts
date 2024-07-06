@@ -1,9 +1,10 @@
 import fs from "node:fs";
 import { REPO } from "../src/config/deploy.config";
-import { ANSI } from "@prozilla-os/core";
+import { ANSI } from "../packages/core/src/constants";
 
 const API_URL = "https://api.github.com/";
-const TREE_PATH = "public/config/tree.json";
+const TREE_DIRECTORY = "public/config";
+const TREE_PATH = `${TREE_DIRECTORY}/tree.json`;
 
 interface ReponseType {
 	sha: string;
@@ -52,6 +53,7 @@ function fetchRepositoryTree(callback: (tree: string) => void) {
 
 try {
 	fetchRepositoryTree((tree) => {
+		fs.mkdirSync(TREE_DIRECTORY, { recursive: true });
 		fs.writeFileSync(TREE_PATH, tree, { flag: "w+" });
 		console.log(`\n${ANSI.fg.green}✓ Generated repository tree: ${ANSI.fg.cyan + TREE_PATH + ANSI.reset}`);
 	});
