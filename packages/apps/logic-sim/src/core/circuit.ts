@@ -1,10 +1,9 @@
-import { BACKGROUND, COLORS, CURSORS, FONT, CONTROLLER, ENABLE_COLOR_CACHING } from "../../../../config/apps/logicSim.config";
-import { Vector2 } from "../../../math/vector2";
+import { clamp, Vector2 } from "@prozilla-os/core";
 import { Chip, ChipJson } from "./chips/chip";
 import { ControlledPin } from "./pins/controlledPin";
 import { InputHandler } from "./inputHandler";
 import { Wire, WireJson } from "./wires/wire";
-import { clamp } from "../../../_utils/math.utils";
+import { BACKGROUND, COLORS, CONTROLLER, CURSORS, ENABLE_COLOR_CACHING, FONT } from "../constants/logicSim.const";
 
 export interface CircuitJson extends ChipJson {
 	wires: WireJson[];

@@ -1,7 +1,7 @@
-import { COLORS, CONTROLLER, CURSORS } from "../../../../config/apps/logicSim.config";
-import { Vector2 } from "../../../math/vector2";
+import { Vector2 } from "@prozilla-os/core";
 import { Circuit } from "../circuit";
 import { Pin } from "./pin";
+import { COLORS, CONTROLLER, CURSORS } from "../../constants/logicSim.const";
 
 export class ControlledPin extends Pin {
 	constructor(circuit: Circuit, name: string, isInput: boolean, id?: number) {

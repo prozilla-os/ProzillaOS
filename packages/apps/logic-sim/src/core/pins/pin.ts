@@ -1,9 +1,9 @@
-import { COLORS, CONTROLLER, CURSORS, PIN } from "../../../../config/apps/logicSim.config";
-import { Vector2 } from "../../../math/vector2";
+import { Vector2 } from "@prozilla-os/core";
 import { Chip } from "../chips/chip";
 import { Circuit } from "../circuit";
 import { State } from "../_utils/state";
 import { Wire } from "../wires/wire";
+import { COLORS, CONTROLLER, CURSORS, PIN } from "../../constants/logicSim.const";
 
 export interface PinJson {
 	name: string;

@@ -1,8 +1,8 @@
-import { WIRE } from "../../../../config/apps/logicSim.config";
-import { Vector2 } from "../../../math/vector2";
+import { Vector2 } from "@prozilla-os/core";
 import { Circuit } from "../circuit";
 import { Pin } from "../pins/pin";
 import { State } from "../_utils/state";
+import { WIRE } from "../../constants/logicSim.const";
 
 export interface WireJson {
 	color: string;

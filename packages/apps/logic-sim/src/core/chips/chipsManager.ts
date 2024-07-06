@@ -1,11 +1,10 @@
 import { Chip } from "./chip";
 import { State } from "../_utils/state";
 import { Circuit, CircuitJson } from "../circuit";
-import { VirtualFolder } from "../../../virtual-drive/folder";
 import { ControlledPin } from "../pins/controlledPin";
-import { Vector2 } from "../../../math/vector2";
 import { Pin } from "../pins/pin";
 import { Wire } from "../wires/wire";
+import { Vector2, VirtualFolder } from "@prozilla-os/core";
 
 export class ChipsManager {
 	static CHIPS: Record<string, Chip> = {

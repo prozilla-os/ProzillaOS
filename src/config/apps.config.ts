@@ -3,6 +3,7 @@ import { NAME } from "./branding.config";
 import { wordle } from "../apps/wordle";
 import { ballMaze } from "../apps/ball-maze";
 import { minesweeper } from "../apps/minesweeper";
+import { logicSim } from "@prozilla-os/logic-sim";
 
 export const appsConfig = new AppsConfig({
 	apps: [
@@ -29,5 +30,8 @@ export const appsConfig = new AppsConfig({
 		wordle.setIconUrl("/assets/apps/icons/wordle.svg"),
 		ballMaze.setIconUrl("/assets/apps/icons/ball-maze.svg"),
 		minesweeper.setIconUrl("/assets/apps/icons/minesweeper.svg"),
+		logicSim.setName("Logic Sim (WIP)")
+			.setDescription("Create digital logic circuits using the online simulator.")
+			.setIconUrl("/assets/apps/icons/logic-sim.svg")
 	],
 });

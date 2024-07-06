@@ -1,8 +1,8 @@
-import { CHIP, COLORS, PIN } from "../../../../config/apps/logicSim.config";
-import { Vector2 } from "../../../math/vector2";
 import { Circuit } from "../circuit";
 import { Pin, PinJson } from "../pins/pin";
 import { State } from "../_utils/state";
+import { Vector2 } from "@prozilla-os/core";
+import { CHIP, COLORS, PIN } from "../../constants/logicSim.const";
 
 export interface ChipJson {
 	color: string;

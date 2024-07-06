@@ -1,0 +1,47 @@
+{
+	"name": "@prozilla-os/logic-sim",
+	"description": "A ProzillaOS application for simulating digital logic.",
+	"version": "1.0.1",
+	"homepage": "https://os.prozilla.dev/logic-sim",
+	"author": {
+		"name": "Prozilla",
+		"email": "business@prozilla.dev",
+		"url": "https://prozilla.dev/"
+	},
+	"type": "module",
+	"main": "dist/main.js",
+	"types": "dist/main.d.ts",
+	"scripts": {
+		"build": "tsc && vite build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
+		"directory": "packages/apps/logic-sim"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"@prozilla-os/core": "workspace:*",
+		"react": "^18.3.1"
+	},
+	"devDependencies": {
+		"@types/node": "^20.14.5",
+		"@types/react": "^18.3.3",
+		"@vitejs/plugin-react-swc": "^3.7.0",
+		"typescript": "^5.4.5",
+		"vite": "^5.3.1",
+		"vite-plugin-dts": "^3.9.1",
+		"vite-plugin-lib-inject-css": "^2.1.1",
+		"@prozilla-os/shared": "workspace:*"
+	},
+	"files": [
+		"dist"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org/",
+		"access": "public"
+	}
+}

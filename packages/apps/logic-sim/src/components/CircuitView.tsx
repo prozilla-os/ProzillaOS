@@ -1,13 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Circuit } from "../../../features/apps/logic-sim/core/circuit";
 import styles from "./CircuitView.module.css";
-import { DropdownAction } from "../../actions/actions/DropdownAction";
-import { HeaderMenu } from "../_utils/header-menu/HeaderMenu";
-import { ClickAction } from "../../actions/actions/ClickAction";
-import { ChipsManager } from "../../../features/apps/logic-sim/chips/chipsManager";
-import { App } from "../../../features/apps/app";
-import { useAppFolder } from "../../../hooks/apps/appFolder";
-import { openUrl } from "../../../features/_utils/browser.utils";
+import { App, ClickAction, DropdownAction, HeaderMenu, openUrl, useAppFolder } from "@prozilla-os/core";
+import { Circuit } from "../core/circuit";
+import { ChipsManager } from "../core/chips/chipsManager";
 
 interface CircuitViewProps {
 	app?: App;

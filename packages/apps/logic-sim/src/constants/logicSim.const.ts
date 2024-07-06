@@ -1,5 +1,3 @@
-import { APPS } from "../apps.config";
-
 export const CURSORS = {
 	default: "default",
 	pointer: "pointer"
@@ -7,7 +5,7 @@ export const CURSORS = {
 
 export const FONT = "outfit";
 export const ENABLE_COLOR_CACHING = true;
-export const VIRTUAL_PATH = `~/Apps/${APPS.LOGIC_SIM}/`;
+export const VIRTUAL_PATH = "~/Apps/logic-sim/";
 
 export const BACKGROUND = {
 	padding: 30,

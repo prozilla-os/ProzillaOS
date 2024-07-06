@@ -1,11 +1,11 @@
-import { CONTROLLER, PIN, WIRE } from "../../../../config/apps/logicSim.config";
-import { Vector2 } from "../../../math/vector2";
 import { Chip } from "./chips/chip";
 import { Circuit } from "./circuit";
 import { ControlledPin } from "./pins/controlledPin";
 import { Pin } from "./pins/pin";
 import { State } from "./_utils/state";
 import { Wire } from "./wires/wire";
+import { Vector2 } from "@prozilla-os/core";
+import { CONTROLLER, PIN, WIRE } from "../constants/logicSim.const";
 
 export class InputHandler {
 	circuit!: Circuit;

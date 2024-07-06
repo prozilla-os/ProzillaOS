@@ -22,9 +22,17 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 
 ## Packages
 
-- [`prozilla-os`][prozilla-os] - A bundle containing all other packages
+Each package follows a similar structure and has a `src/main.ts` entry file.
+
+- [`prozilla-os`][prozilla-os] - A bundle containing all essential packages and standard applications of ProzillaOS
+
+### Essentials
+
 - [`@prozilla-os/core`][core] - Core functionality, React components and hooks
 - [`@prozilla-os/shared`][shared] - Shared functions and utilities
+
+### Standard applications
+
 - [`@prozilla-os/file-explorer`][file-explorer] - File explorer app
 - [`@prozilla-os/terminal`][terminal] - Terminal/shell app
 - [`@prozilla-os/text-editor`][text-editor] - Text editor app
@@ -32,6 +40,56 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 - [`@prozilla-os/media-viewer`][media-viewer] - Media viewer app
 - [`@prozilla-os/browser`][browser] - Browser app
 - [`@prozilla-os/calculator`][calculator] - Calculator app
+
+### Non-standard applications
+
+- [`@prozilla-os/logic-sim`][logic-sim] - Logic simulator app
+
+## Scripts
+
+These are the scripts in logical order, that will be available when you have installed the dependencies. Note that certain scripts can be omitted by running another script. For more information about scripts #1, #2 and #3, check the [officiel Vite documentation](https://vitejs.dev/guide/cli.html).
+
+### Main scripts
+
+1. `npm run start`
+
+	Start Vite dev server at [localhost:3000](http://localhost:3000/). Changes to module will dynamically be hot-reloaded, so normally there is no need for hard-refreshes. VSCode is configured to run this script whenever the project is opened.
+
+2. `npm run build`
+
+	Compile project using TypeScript and bundle all files into the `dist` directory, or the directory specified in config file. This directory can be uploaded to a web server.
+
+3. `npm run serve`
+
+	Start web server with preview of build at [localhost:8080](http://localhost:8080/). Can be useful for testing build before deploying.
+
+4. `npm run stage`
+
+	Execute [stage.ts](../scripts/stage.ts), which stages the build and prepares it for deployment. Script will generate a sitemap, robots.txt and all other necessary files.
+
+5. `npm run deploy`
+
+	Run scripts #2 and #4, then execute [deploy.ts](../scripts/deploy.ts), which uploads the staged build to GitHub Pages on branch called `gh-pages`. This should then trigger a GitHub Action that deploys the build to production.
+
+### Extra scripts
+
+- `npm run fetch`
+
+	Fetch the repository tree using GitHub's API and store it as a JSON file that will be used to populate the virtual drive. More information can be found on the [virtual drive](./features/virtual-drive/README.md) page.
+
+### Packages scripts
+
+- `npm run packages:build`
+
+	Build all packages in sequential order and output to respective `dist` directories.
+
+- `npm run packages:update`
+
+	Create a new changeset for packages and update their version accordingly.
+
+- `npm run packages:release`
+
+	Publish the latest versions of each package to the npm registry.
 
 ## Links
 
@@ -71,3 +129,4 @@ These resources can help you get started with ProzillaOS.
 [media-viewer]: ./packages/apps/media-viewer/
 [browser]: ./packages/apps/browser/
 [calculator]: ./packages/apps/calculator/
+[logic-sim]: ./packages/apps/logic-sim/
