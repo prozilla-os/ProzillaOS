@@ -1,0 +1,1 @@
+import{o as s}from"./command-nBL1aO7T-CliNWZCP.js";const n=new s().setManual({purpose:"Display the current uptime of the system"}).setExecute(function(r,t){const{systemManager:e}=t;return`Uptime: ${e.getUptime(2)}`});export{n as uptime};

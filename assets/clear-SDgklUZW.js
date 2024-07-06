@@ -1,1 +1,0 @@
-import{C as n}from"./command-b8KknBM2.js";const s=new n().setManual({purpose:"Clear terminal screen"}).setExecute(function(t,r){const{pushHistory:e}=r;return e==null||e({clear:!0,isInput:!1}),{blank:!0}});export{s as clear};

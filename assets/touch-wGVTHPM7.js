@@ -1,3 +1,0 @@
-import{f as s,V as a}from"./index-iuMu1bU5.js";import{C as c}from"./command-b8KknBM2.js";const f=new c().setRequireArgs(!0).setManual({purpose:"Change file timestamps",usage:"touch [options] files",description:`Update the access and modification times of each FILE to the current time.
-
-A file argument that does not exist is created empty.`}).setExecute(function(e,r){const{currentDirectory:t}=r,i=e[0];if(i==="girls\\"&&e[1]==="boo**")return s(this.name,"Cannot touch 'girls boo**': Permission denied");const{name:n,extension:o}=a.splitId(i);return t.findFile(n,o)?{blank:!0}:(t.createFile(n,o),{blank:!0})});export{f as touch};

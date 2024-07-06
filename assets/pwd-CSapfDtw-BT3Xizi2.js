@@ -1,0 +1,1 @@
+import{o as r}from"./command-nBL1aO7T-CliNWZCP.js";const s=new r().setManual({purpose:"Display path of the current directory"}).setExecute(function(e,o){const{currentDirectory:t}=o;return t.root?"/":t.absolutePath});export{s as pwd};

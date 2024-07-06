@@ -1,0 +1,1 @@
+import{o as n}from"./command-nBL1aO7T-CliNWZCP.js";const a=new n().setManual({purpose:"Quit terminal interface"}).setExecute(function(o,e){const{exit:t}=e;return t==null||t(),{blank:!0}});export{a as exit};

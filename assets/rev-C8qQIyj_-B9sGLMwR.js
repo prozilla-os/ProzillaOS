@@ -1,0 +1,1 @@
+import{o as r}from"./command-nBL1aO7T-CliNWZCP.js";const s=new r().setManual({purpose:"Display the reverse of a text"}).setExecute(function(n,t){const{rawInputValue:e}=t;return e==null?void 0:e.split("").reverse().join("")});export{s as rev};
