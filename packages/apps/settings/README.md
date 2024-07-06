@@ -72,7 +72,7 @@ tab: number;
 - [Ko-fi][ko-fi]
 
 [website]: https://os.prozilla.dev/settings
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/settings
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/settings
 [npm]: https://www.npmjs.com/package/@prozilla-os/settings
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

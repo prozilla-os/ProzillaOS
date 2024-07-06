@@ -62,7 +62,7 @@ function App() {
 - [Ko-fi][ko-fi]
 
 [website]: https://os.prozilla.dev/calculator
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/calculator
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/calculator
 [npm]: https://www.npmjs.com/package/@prozilla-os/calculator
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

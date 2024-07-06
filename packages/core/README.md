@@ -161,7 +161,7 @@ function App() {
 - [Ko-fi][ko-fi]
 
 [website]: https://os.prozilla.dev/
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/core
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/core
 [npm]: https://www.npmjs.com/package/@prozilla-os/core
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

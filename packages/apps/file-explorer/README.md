@@ -97,7 +97,7 @@ onSelectionFinish: Function;
 - [Ko-fi][ko-fi]
 
 [website]: https://os.prozilla.dev/file-explorer
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/file-explorer
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/file-explorer
 [npm]: https://www.npmjs.com/package/@prozilla-os/file-explorer
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

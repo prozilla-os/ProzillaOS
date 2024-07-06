@@ -179,7 +179,7 @@ function App() {
 
 [website]: https://os.prozilla.dev/
 [website-source]: https://github.com/prozilla-os/ProzillaOS
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/prozilla-os
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/prozilla-os
 [npm]: https://www.npmjs.com/package/prozilla-os
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

@@ -84,7 +84,7 @@ mode: "view" | "edit";
 - [Ko-fi][ko-fi]
 
 [website]: https://os.prozilla.dev/text-editor
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/text-editor
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/text-editor
 [npm]: https://www.npmjs.com/package/@prozilla-os/text-editor
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

@@ -71,7 +71,7 @@ url: string;
 - [Ko-fi][ko-fi]
 
 [website]: https://os.prozilla.dev/browser
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/convert-to-monorepo/packages/apps/browser
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/browser
 [npm]: https://www.npmjs.com/package/@prozilla-os/browser
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla
