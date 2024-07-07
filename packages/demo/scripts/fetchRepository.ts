@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import { REPO } from "../src/config/deploy.config";
 import { ANSI } from "../../core/src/constants";
+import { name } from "../package.json";
 
 const API_URL = "https://api.github.com/";
 const TREE_DIRECTORY = "public/config";
@@ -52,6 +53,8 @@ function fetchRepositoryTree(callback: (tree: string) => void) {
 }
 
 try {
+	console.log(`Context: ${ANSI.decoration.bold}${name}${ANSI.reset}\n`);
+
 	fetchRepositoryTree((tree) => {
 		fs.mkdirSync(TREE_DIRECTORY, { recursive: true });
 		fs.writeFileSync(TREE_PATH, tree, { flag: "w+" });

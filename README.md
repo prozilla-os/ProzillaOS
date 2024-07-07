@@ -17,91 +17,82 @@ This monorepo contains the source code of [os.prozilla.dev][website] as well as 
 
 ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows. It is made with React, Vite and TypeScript by [Prozilla][prozilla].
 
-> [!WARNING]  
-> This repository is currently being transformed into a monorepo. Some things may be temporarily missing/broken. If you have any questions in the meantime, feel free to [open an issue][issues].
-
 ## Packages
 
-Each package follows a similar structure and has a `src/main.ts` entry file.
+### Libraries
 
-- [`prozilla-os`][prozilla-os] - A bundle containing all essential packages and standard applications of ProzillaOS
+These libraries are different modules of ProzillaOS that can be installed separately or via the bundle package `prozilla-os`. Each library has a `src/main.ts` entry file and is published to the npm registry.
 
-### Essentials
+- [`prozilla-os`][prozilla-os]: A bundle containing the core packages and all standard applications of ProzillaOS
+- [`@prozilla-os/core`][core]: Core functionality, React components and hooks
+- [`@prozilla-os/shared`][shared]: Shared functions and utilities
 
-- [`@prozilla-os/core`][core] - Core functionality, React components and hooks
-- [`@prozilla-os/shared`][shared] - Shared functions and utilities
+#### Standard applications
 
-### Standard applications
+- [`@prozilla-os/file-explorer`][file-explorer]: File explorer app
+- [`@prozilla-os/terminal`][terminal]: Terminal/shell app
+- [`@prozilla-os/text-editor`][text-editor]: Text editor app
+- [`@prozilla-os/settings`][settings]: Settings app
+- [`@prozilla-os/media-viewer`][media-viewer]: Media viewer app
+- [`@prozilla-os/browser`][browser]: Browser app
+- [`@prozilla-os/calculator`][calculator]: Calculator app
 
-- [`@prozilla-os/file-explorer`][file-explorer] - File explorer app
-- [`@prozilla-os/terminal`][terminal] - Terminal/shell app
-- [`@prozilla-os/text-editor`][text-editor] - Text editor app
-- [`@prozilla-os/settings`][settings] - Settings app
-- [`@prozilla-os/media-viewer`][media-viewer] - Media viewer app
-- [`@prozilla-os/browser`][browser] - Browser app
-- [`@prozilla-os/calculator`][calculator] - Calculator app
+#### Non-standard applications
 
-### Non-standard applications
+- [`@prozilla-os/logic-sim`][logic-sim]: Logic simulator app
 
-- [`@prozilla-os/logic-sim`][logic-sim] - Logic simulator app
+### Sites
+
+These packages contains the source code of parts of the ProzillaOS website. They are published to GitHub pages.
+
+- [`prozilla-os-demo`](./packages/demo/): Demo site
+- [`prozilla-os-docs`](./packages/docs/): Documentation site
 
 ## Scripts
 
-These are the scripts in logical order, that will be available when you have installed the dependencies. Note that certain scripts can be omitted by running another script. For more information about scripts #1, #2 and #3, check the [officiel Vite documentation](https://vitejs.dev/guide/cli.html). ProzillaOS uses [pnpm](https://pnpm.io/) as its package manager.
+ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 
-### Main scripts
+### Shorthands
 
-These scripts are related to the website and its lifecycle.
+| Script | Description |
+| --- | --- |
+| `pnpm run start` | Run [`pnpm run site:start`](#package-prozilla-os-demo). VSCode is configured to run this script whenever the project is opened.
+| `pnpm run build` | Build every package in sequential order.
+| `pnpm run deploy` | Clear the `dist` directory, build and stage each package that comprises the website, then deploy to GitHub pages. This should then trigger a GitHub Action that deploys the build to production.
 
-1. `pnpm start`
+### Libraries
 
-	Start Vite dev server at [localhost:3000](http://localhost:3000/). Changes to module will dynamically be hot-reloaded, so normally there is no need for hard-refreshes. VSCode is configured to run this script whenever the project is opened.
+| Script | Description |
+| --- | --- |
+| `pnpm --filter <package_selector> build` | Build a sepecific subset of packages or a single package and output to respective `dist` directory/directories. For more information about selecting specific packages, read [pnpm's documentation on filtering](https://pnpm.io/filtering).
+| `pnpm run packages:build` | Build all packages using Vite in sequential order and output to respective `dist` directories.
+| `pnpm run packages:update` | Create a new changeset for packages and update their version accordingly.
+| `pnpm run packages:release` | Publish the latest versions of each package to the npm registry.
 
-2. `pnpm run build`
+### Package: `prozilla-os-demo`
 
-	Compile project using TypeScript and bundle all files into the `dist` directory, or the directory specified in config file. This directory can be uploaded to a web server.
+| Script | Linked package script |
+| --- | --- |
+| `pnpm run site:start` | [`pnpm run start`](./packages/demo/README.md#scripts)
+| `pnpm run site:build` | [`pnpm run build`](./packages/demo/README.md#scripts)
+| `pnpm run site:preview` | [`pnpm run preview`](./packages/demo/README.md#scripts)
+| `pnpm run site:stage` | [`pnpm run stage`](./packages/demo/README.md#scripts)
+| `pnpm run site:deploy` | [`pnpm run deploy`](./packages/demo/README.md#scripts)
+| `pnpm run site:fetch` | [`pnpm run fetch`](./packages/demo/README.md#scripts)
 
-3. `pnpm run preview`
+### Package: `prozilla-os-docs`
 
-	Start web server with preview of build at [localhost:8080](http://localhost:8080/). Can be useful for testing build before deploying.
-
-4. `pnpm run stage`
-
-	Execute [stage.ts](../scripts/stage.ts), which stages the build and prepares it for deployment. Script will generate a sitemap, robots.txt and all other necessary files.
-
-5. `pnpm run deploy`
-
-	Run scripts #2 and #4, then execute [deploy.ts](../scripts/deploy.ts), which uploads the staged build to GitHub Pages on branch called `gh-pages`. This should then trigger a GitHub Action that deploys the build to production.
-
-### Extra scripts
-
-- `pnpm run fetch`
-
-	Fetch the repository tree using GitHub's API and store it as a JSON file that will be used to populate the virtual drive. More information can be found on the [virtual drive](./features/virtual-drive/README.md) page.
-
-### Scripts/commands for packages
-
-These scripts are related to the packages in this project and their lifecycles.
-
-- `pnpm --filter <package_selector> build`
-
-	Build a sepecific subset of packages or a single package and output to respective `dist` directory/directories. For more information about selecting specific packages, read [pnpm's documentation on filtering](https://pnpm.io/filtering). 
-
-- `pnpm run packages:build`
-
-	Build all packages using Vite in sequential order and output to respective `dist` directories.
-
-- `pnpm run packages:update`
-
-	Create a new changeset for packages and update their version accordingly.
-
-- `pnpm run packages:release`
-
-	Publish the latest versions of each package to the npm registry.
+| Script | Linked package script |
+| --- | --- |
+| `pnpm run docs:start` | [`pnpm run start`](./packages/docs/README.md#scripts)
+| `pnpm run docs:build` | [`pnpm run build`](./packages/docs/README.md#scripts)
+| `pnpm run docs:preview` | [`pnpm run preview`](./packages/docs/README.md#scripts)
+| `pnpm run docs:stage` | [`pnpm run stage`](./packages/docs/README.md#scripts)
 
 ## Links
 
-- [Website/demo][website]
+- [Demo][demo]
+- [Docs][docs]
 - [GitHub][github]
 - [npm][npm]
 - [Discord][discord]
@@ -111,7 +102,7 @@ These scripts are related to the packages in this project and their lifecycles.
 
 These resources can help you get started with ProzillaOS.
 
-- [prozilla-os/ProzillaOS-boilerplate][boilerplate] - Boilerplate code for a React Vite app implementing ProzillaOS
+- [prozilla-os/ProzillaOS-boilerplate][boilerplate]: Boilerplate code for a React Vite app implementing ProzillaOS
 
 <div align="center">
 	<br />
@@ -119,7 +110,8 @@ These resources can help you get started with ProzillaOS.
 	<br />
 </div>
 
-[website]: https://os.prozilla.dev/
+[demo]: https://os.prozilla.dev/
+[docs]: https://os.prozilla.dev/docs
 [github]: https://github.com/prozilla-os/ProzillaOS
 [npm]: https://www.npmjs.com/package/prozilla-os
 [discord]: https://discord.gg/JwbyQP4tdz

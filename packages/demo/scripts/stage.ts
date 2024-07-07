@@ -5,6 +5,7 @@ import { NAME, TAG_LINE } from "../src/config/branding.config";
 import { BASE_URL, BUILD_DIR, DOMAIN } from "../src/config/deploy.config";
 import { desktopConfig } from "../src/config/desktop.config";
 import path from "node:path";
+import { name } from "../package.json";
 
 const PATHS = {
 	sitemapXml: BUILD_DIR + "/sitemap.xml",
@@ -122,6 +123,7 @@ function generateAppPages(template: string) {
 
 function stage() {
 	try {
+		console.log(`Context: ${ANSI.decoration.bold}${name}${ANSI.reset}\n`);
 		console.log(`${ANSI.fg.yellow}Staging build...${ANSI.reset}`);
 	
 		const files: [string, () => string][] = [
