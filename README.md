@@ -56,38 +56,40 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 
 | Script | Description |
 | --- | --- |
-| `pnpm run start` | Run [`pnpm run site:start`](#package-prozilla-os-demo). VSCode is configured to run this script whenever the project is opened.
-| `pnpm run build` | Build every package in sequential order.
-| `pnpm run deploy` | Clear the `dist` directory, build and stage each package that comprises the website, then deploy to GitHub pages. This should then trigger a GitHub Action that deploys the build to production.
+| <pre>pnpm&nbsp;run&nbsp;start</pre> | Run [`pnpm run site:start`](#package-prozilla-os-demo). VSCode is configured to run this script whenever the project is opened.
+| <pre>pnpm&nbsp;run&nbsp;build</pre> | Build every package in sequential order.
+| <pre>pnpm&nbsp;run&nbsp;deploy</pre> | Clear the `dist` directory, build and stage each package that comprises the website, then deploy to GitHub pages. This should then trigger a GitHub Action that deploys the build to production.
 
 ### Libraries
 
 | Script | Description |
 | --- | --- |
-| `pnpm --filter <package_selector> build` | Build a sepecific subset of packages or a single package and output to respective `dist` directory/directories. For more information about selecting specific packages, read [pnpm's documentation on filtering](https://pnpm.io/filtering).
-| `pnpm run packages:build` | Build all packages using Vite in sequential order and output to respective `dist` directories.
-| `pnpm run packages:update` | Create a new changeset for packages and update their version accordingly.
-| `pnpm run packages:release` | Publish the latest versions of each package to the npm registry.
+| <pre>pnpm&nbsp;run&nbsp;packages:build</pre> | Build all packages using Vite in sequential order and output to respective `dist` directories.
+| <pre>pnpm&nbsp;run&nbsp;packages:update</pre> | Create a new changeset for packages and update their version accordingly.
+| <pre>pnpm&nbsp;run&nbsp;packages:release</pre> | Publish the latest versions of each package to the npm registry.
+
+> [!TIP] 
+> Use `pnpm --filter <package_selector> build` to build a sepecific subset of packages or a single package and output to respective `dist` directory/directories. For more information about selecting/filtering specific packages, read [pnpm's documentation on filtering](https://pnpm.io/filtering).
 
 ### Package: `prozilla-os-demo`
 
 | Script | Linked package script |
 | --- | --- |
-| `pnpm run site:start` | [`pnpm run start`](./packages/demo/README.md#scripts)
-| `pnpm run site:build` | [`pnpm run build`](./packages/demo/README.md#scripts)
-| `pnpm run site:preview` | [`pnpm run preview`](./packages/demo/README.md#scripts)
-| `pnpm run site:stage` | [`pnpm run stage`](./packages/demo/README.md#scripts)
-| `pnpm run site:deploy` | [`pnpm run deploy`](./packages/demo/README.md#scripts)
-| `pnpm run site:fetch` | [`pnpm run fetch`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;site:start</pre> | [`pnpm run start`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;site:build</pre> | [`pnpm run build`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;site:preview</pre> | [`pnpm run preview`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;site:stage</pre> | [`pnpm run stage`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;site:deploy</pre> | [`pnpm run deploy`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;site:fetch</pre> | [`pnpm run fetch`](./packages/demo/README.md#scripts)
 
 ### Package: `prozilla-os-docs`
 
 | Script | Linked package script |
 | --- | --- |
-| `pnpm run docs:start` | [`pnpm run start`](./packages/docs/README.md#scripts)
-| `pnpm run docs:build` | [`pnpm run build`](./packages/docs/README.md#scripts)
-| `pnpm run docs:preview` | [`pnpm run preview`](./packages/docs/README.md#scripts)
-| `pnpm run docs:stage` | [`pnpm run stage`](./packages/docs/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;docs:start</pre> | [`pnpm run start`](./packages/docs/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;docs:build</pre> | [`pnpm run build`](./packages/docs/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;docs:preview</pre> | [`pnpm run preview`](./packages/docs/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;docs:stage</pre> | [`pnpm run stage`](./packages/docs/README.md#scripts)
 
 ## Links
 
