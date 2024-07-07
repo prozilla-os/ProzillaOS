@@ -1,0 +1,26 @@
+{
+	"name": "prozilla-os-docs",
+	"private": true,
+	"author": {
+		"name": "Prozilla",
+		"email": "business@prozilla.dev",
+		"url": "https://prozilla.dev/"
+	},
+	"homepage": "https://os.prozilla.dev/docs",
+	"type": "module",
+	"scripts": {
+		"start": "vitepress --port 3000",
+		"build": "vitepress build",
+		"preview": "vitepress preview --port 8080",
+		"stage": "vite-node scripts/stage"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Prozilla/ProzillaOS.git"
+	},
+	"devDependencies": {
+		"vite-node": "^1.6.0",
+		"vitepress": "^1.2.3",
+		"vue": "^3.4.31"
+	}
+}
