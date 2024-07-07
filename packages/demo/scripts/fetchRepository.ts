@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { REPO } from "../src/config/deploy.config";
-import { ANSI } from "../packages/core/src/constants";
+import { ANSI } from "../../core/src/constants";
 
 const API_URL = "https://api.github.com/";
 const TREE_DIRECTORY = "public/config";

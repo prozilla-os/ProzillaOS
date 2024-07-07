@@ -1,5 +1,20 @@
 # prozilla-os
 
+## 1.0.16
+
+### Patch Changes
+
+- Added logic-sim app + updated app class
+- Updated dependencies
+  - @prozilla-os/browser@1.0.2
+  - @prozilla-os/calculator@1.0.2
+  - @prozilla-os/file-explorer@1.0.13
+  - @prozilla-os/media-viewer@1.0.2
+  - @prozilla-os/settings@1.0.2
+  - @prozilla-os/terminal@1.0.6
+  - @prozilla-os/text-editor@1.0.6
+  - @prozilla-os/core@1.0.16
+
 ## 1.0.15
 
 ### Patch Changes

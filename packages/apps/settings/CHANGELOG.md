@@ -1,5 +1,14 @@
 # @prozilla-os/settings
 
+## 1.0.2
+
+### Patch Changes
+
+- Added logic-sim app + updated app class
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.0.13
+  - @prozilla-os/core@1.0.16
+
 ## 1.0.1
 
 ### Patch Changes

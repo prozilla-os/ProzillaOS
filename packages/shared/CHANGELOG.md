@@ -1,5 +1,11 @@
 # @prozilla-os/shared
 
+## 1.0.3
+
+### Patch Changes
+
+- Added logic-sim app + updated app class
+
 ## 1.0.2
 
 ### Patch Changes

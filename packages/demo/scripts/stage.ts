@@ -1,9 +1,10 @@
 import fs from "node:fs";
 import { appsConfig } from "../src/config/apps.config";
-import { ANSI } from "../packages/core/src/constants";
+import { ANSI } from "../../core/src/constants";
 import { NAME, TAG_LINE } from "../src/config/branding.config";
 import { BASE_URL, BUILD_DIR, DOMAIN } from "../src/config/deploy.config";
 import { desktopConfig } from "../src/config/desktop.config";
+import path from "node:path";
 
 const PATHS = {
 	sitemapXml: BUILD_DIR + "/sitemap.xml",
@@ -146,6 +147,8 @@ function stage() {
 	
 		generate404Page(template);
 		generateAppPages(template);
+
+		fs.cpSync(BUILD_DIR, path.resolve(__dirname, "../../../", BUILD_DIR), { recursive: true });
 	
 		console.log(`\n${ANSI.fg.green}✓ Staging complete${ANSI.reset}`);
 	} catch (error) {

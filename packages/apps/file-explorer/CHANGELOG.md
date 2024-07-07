@@ -1,5 +1,13 @@
 # @prozilla-os/file-explorer
 
+## 1.0.13
+
+### Patch Changes
+
+- Added logic-sim app + updated app class
+- Updated dependencies
+  - @prozilla-os/core@1.0.16
+
 ## 1.0.12
 
 ### Patch Changes

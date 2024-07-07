@@ -1,5 +1,11 @@
 # @prozilla-os/core
 
+## 1.0.16
+
+### Patch Changes
+
+- Added logic-sim app + updated app class
+
 ## 1.0.15
 
 ### Patch Changes

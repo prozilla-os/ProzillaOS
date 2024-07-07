@@ -22,9 +22,9 @@ function generateAliases() {
 	const entryFile = USE_PACKAGE_BUILDS ? "dist/main.js" : "src/main.ts";
 
 	const localPackages = [
-		{ name: "prozilla-os", path: resolve(__dirname, "packages/prozilla-os/" + entryFile) },
-		{ name: "@prozilla-os/core", path: resolve(__dirname, "packages/core/" + entryFile) },
-		{ name: "@prozilla-os/shared", path: resolve(__dirname, "packages/shared/" + entryFile) }
+		{ name: "prozilla-os", path: resolve(__dirname, "../prozilla-os/" + entryFile) },
+		{ name: "@prozilla-os/core", path: resolve(__dirname, "../core/" + entryFile) },
+		{ name: "@prozilla-os/shared", path: resolve(__dirname, "../shared/" + entryFile) }
 	];
 
 	const localApps = [
@@ -35,7 +35,7 @@ function generateAliases() {
 
 	localApps.forEach((id) => {
 		const name = `@prozilla-os/${id}`;
-		const path = resolve(__dirname, `packages/apps/${id}/${entryFile}`);
+		const path = resolve(__dirname, `../apps/${id}/${entryFile}`);
 		localPackages.push({ name, path });
 	});
 
