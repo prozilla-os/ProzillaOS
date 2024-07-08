@@ -59,7 +59,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	pinnedByDefault = true;
 
 	/**
-	 * Determiens whether the app is launched at startup
+	 * Determines whether the app is launched at startup
 	 * @default false
 	 */
 	launchAtStartup = false;

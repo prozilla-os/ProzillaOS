@@ -13,7 +13,7 @@
 
 ## About
 
-This monorepo contains the source code of [os.prozilla.dev][website] as well as multiple packages. You can find the main package at [`prozilla-os`][prozilla-os].
+This monorepo contains the source code of [os.prozilla.dev][demo] as well as multiple packages. You can find the main package at [`prozilla-os`][prozilla-os].
 
 ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows. It is made with React, Vite and TypeScript by [Prozilla][prozilla].
 

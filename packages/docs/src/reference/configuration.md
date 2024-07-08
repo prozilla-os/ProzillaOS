@@ -12,31 +12,36 @@ To configure ProzillaOS, pass the following properties inside to the `config` pr
 
 <br>
 
-#### @default
-
-```ts
-"ProzillaOS"
-```
+> **@default**
+> 
+> ```ts
+> "ProzillaOS"
+> ```
 
 ### tagLine : `string`
 
 <br>
 
-#### @default
+> **@default**
+> 
+> ```ts
+> "Web-based Operating System"
+> ```
 
-```ts
-"Web-based Operating System"
-```
-
-### config : {}
+### config
 
 <br>
 
 #### Properties
 
-- apps : [`AppsConfig`](classes/system/apps-config)
-- desktop : [`DesktopConfig`](classes/system/desktop-config)
-- taskbar : [`TaskbarConfig`](classes/system/taskbar-config)
+- config.apps : [`AppsConfig`](classes/system/apps-config)
+- config.desktop : [`DesktopConfig`](classes/system/desktop-config)
+- config.misc : [`MiscConfig`](classes/system/misc-config)
+- config.modals : [`ModalsConfig`](classes/system/modals-config)
+- config.taskbar : [`TaskbarConfig`](classes/system/taskbar-config)
+- config.tracking : [`TrackingConfig`](classes/system/tracking-config)
+- config.virtualDrive : [`VirtualDriveConfig`](classes/system/virtual-drive-config)
+- config.windows : [`WindowsConfig`](classes/system/windows-config)
 
 ## Example
 

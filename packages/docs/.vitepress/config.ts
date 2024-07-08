@@ -65,9 +65,15 @@ export default defineConfig({
 								text: "System",
 								base: "/reference/classes/system/",
 								items: [
+									{ text: "App", link: "app" },
 									{ text: "AppsConfig", link: "apps-config" },
 									{ text: "DesktopConfig", link: "desktop-config" },
-									{ text: "TaskbarConfig", link: "taskbar-config" }
+									{ text: "MiscConfig", link: "misc-config" },
+									{ text: "ModalsConfig", link: "modals-config" },
+									{ text: "TaskbarConfig", link: "taskbar-config" },
+									{ text: "TrackingConfig", link: "tracking-config" },
+									{ text: "VirtualDriveConfig", link: "virtual-drive-config" },
+									{ text: "WindowsConfig", link: "windows-config" },
 								]
 							},
 						]
