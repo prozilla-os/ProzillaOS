@@ -30,6 +30,7 @@ export default defineConfig({
 		nav: [
 			{ text: "Home", link: "/" },
 			{ text: "Demo", link: "https://os.prozilla.dev/", target: "_blank" },
+			{ text: "About", link: "/about", activeMatch: "/about/" },
 			{ text: "Guides", link: "/guides/getting-started", activeMatch: "/guides/" },
 			{ text: "Reference", link: "/reference/configuration", activeMatch: "/reference/" }
 		],
@@ -41,7 +42,7 @@ export default defineConfig({
 					text: "Guides",
 					items: [
 						{ text: "Getting started", link: "/getting-started" },
-						{ text: "Custom app", link: "/custom-app" },
+						// { text: "Custom app", link: "/custom-app" },
 					]
 				}]
 			},
@@ -73,6 +74,12 @@ export default defineConfig({
 					}
 				]
 			},
+			"/about/": {
+				base: "/about/",
+				items: [
+					{ text: "About", link: "/" }
+				]
+			}
 		},
 
 		editLink: {
