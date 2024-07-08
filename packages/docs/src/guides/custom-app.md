@@ -2,6 +2,6 @@
 outline: deep
 ---
 
-# Getting started
+# Making a custom app
 
 Coming soon!
