@@ -1,10 +1,14 @@
-import { defineConfig } from "vitepress";
+import { defineConfig, HeadConfig } from "vitepress";
+
+const TITLE = "ProzillaOS Docs";
+const DESCRIPTION = "Documentation for ProzillaOS and its packages.";
+const LOCALE = "en_US";
+const IMAGE = "https://os.prozilla.dev/assets/logo.png";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-	title: "ProzillaOS Docs",
-
-	description: "Documentation for ProzillaOS and its packages.",
+	title: TITLE,
+	description: DESCRIPTION,
 
 	srcDir: "src",
 
@@ -50,8 +54,7 @@ export default defineConfig({
 				base: "/reference/",
 				items: [
 					{
-						text: "Reference",
-						collapsed: false,
+						text: "Overview",
 						items: [
 							{ text: "Configuration", link: "/configuration" },
 						]
@@ -64,6 +67,7 @@ export default defineConfig({
 							{
 								text: "System",
 								base: "/reference/classes/system/",
+								collapsed: true,
 								items: [
 									{ text: "App", link: "app" },
 									{ text: "AppsConfig", link: "apps-config" },
@@ -74,6 +78,14 @@ export default defineConfig({
 									{ text: "TrackingConfig", link: "tracking-config" },
 									{ text: "VirtualDriveConfig", link: "virtual-drive-config" },
 									{ text: "WindowsConfig", link: "windows-config" },
+								]
+							},
+							{
+								text: "Utils",
+								base: "/reference/classes/utils/",
+								collapsed: true,
+								items: [
+									{ text: "Vector2", link: "vector2" },
 								]
 							},
 						]
@@ -90,8 +102,16 @@ export default defineConfig({
 
 		editLink: {
 			pattern: "https://github.com/prozilla-os/ProzillaOS/edit/main/packages/docs/src/:path",
-			text: "Edit this page on GitHub"
+			text: "Suggest changes to this page"
 		},
+
+		// lastUpdated: {
+		// 	text: "Updated at",
+		// 	formatOptions: {
+		// 		dateStyle: "short",
+		// 		timeStyle: "short"
+		// 	}
+		// },
 
 		socialLinks: [
 			{ icon: "github", link: "https://github.com/prozilla-os/ProzillaOS" },
@@ -110,5 +130,37 @@ export default defineConfig({
 			message: "Built by <strong><a href=\"https://prozilla.dev/\" target=\"_blank\">Prozilla</a></strong>",
 			copyright: "Copyright &copy; 2023-present Prozilla"
 		},
-	}
+	},
+
+	transformPageData(pageData) {
+		pageData.frontmatter.head ??= [] as HeadConfig[];
+		const head = pageData.frontmatter.head as HeadConfig[];
+
+		const title = pageData.frontmatter.layout === "home"
+			? TITLE
+			: `${pageData.title} | ${TITLE}`;
+		head.push(["meta", { name: "og:title", content: title }]);
+		head.push(["meta", { name: "twitter:title", content: title }]);
+
+		const description = pageData.frontmatter.description as string ?? DESCRIPTION;
+		head.push(["meta", { name: "og:description", content: description }]);
+		head.push(["meta", { name: "twitter:description", content: description }]);
+
+		const canonicalUrl = `https://os.prozilla.dev/docs/${pageData.relativePath}`
+			.replace(/index\.md$/, "")
+			.replace(/\.(md|html)$/, "");
+		head.push(["link", { rel: "canonical", href: canonicalUrl }]);
+		head.push(["meta", { name: "og:url", content: canonicalUrl }]);
+		head.push(["meta", { name: "twitter:url", content: canonicalUrl }]);
+
+		const locale = LOCALE;
+		head.push(["meta", { name: "og:locale", content: locale }]);
+
+		const image = pageData.frontmatter.image as string ?? IMAGE;
+		head.push(["meta", { name: "og:image", content: image }]);
+		head.push(["meta", { name: "twitter:image", content: image }]);
+
+		// Other meta data
+		head.push(["meta", { name: "og:type", content: "website" }]);
+	},
 });

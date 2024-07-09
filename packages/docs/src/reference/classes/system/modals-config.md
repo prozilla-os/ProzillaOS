@@ -14,12 +14,12 @@ outline: deep
 
 #### options
 
-- options.defaultDialogSize : `Vector2`
-- options.defaultFileSelectorSize : `Vector2`
+- options.defaultDialogSize : [`Vector2`](/reference/classes/utils/vector2)
+- options.defaultFileSelectorSize : [`Vector2`](/reference/classes/utils/vector2)
 
 ## Properties
 
-### defaultDialogSize : `Vector2` {#default-dialog-size}
+### defaultDialogSize : [`Vector2`](/reference/classes/utils/vector2) {#default-dialog-size}
 
 Default size of a dialog box
 
@@ -29,7 +29,7 @@ Default size of a dialog box
 > new Vector2(400, 200)
 > ```
 
-### defaultFileSelectorSize : `Vector2` {#default-file-selector-size}
+### defaultFileSelectorSize : [`Vector2`](/reference/classes/utils/vector2) {#default-file-selector-size}
 
 Default size of a file selector
 

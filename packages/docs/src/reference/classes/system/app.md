@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: "An application that can be run by ProzillaOS"
 ---
 
 # Class [`App`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/features/system/configs/app.tsx)
@@ -24,9 +25,9 @@ Applications can be installed by adding them to the `apps` array in [`AppsConfig
 
 - **windowContent** : `React.FC<AppProps>`
 
-- **windowOptions** : `object`
+- **windowOptions** : `object` (optional)
 
-	- windowOptions.size : `Vector2`
+	- windowOptions.size : [`Vector2`](/reference/classes/utils/vector2)
 
 ## Properties
 
@@ -63,7 +64,7 @@ You can extend this object with any properties
 
 #### Properties
 
-- windowOptions.size : `Vector2`
+- windowOptions.size : [`Vector2`](/reference/classes/utils/vector2)
 
 ### description : `string | null` {#description}
 

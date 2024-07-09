@@ -6,9 +6,9 @@ outline: deep
 
 To configure ProzillaOS, pass the following properties inside to the `config` prop on the `<ProzillaOS>` component.
 
-## `<ProzillaOS>` props
+## `<ProzillaOS>` props {#prozillaos}
 
-### systemName : `string`
+### systemName : `string` {#system-name}
 
 <br>
 
@@ -18,7 +18,7 @@ To configure ProzillaOS, pass the following properties inside to the `config` pr
 > "ProzillaOS"
 > ```
 
-### tagLine : `string`
+### tagLine : `string` {#tag-line}
 
 <br>
 

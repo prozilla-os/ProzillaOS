@@ -16,7 +16,7 @@ outline: deep
 
 - options.screenMargin : `number`
 - options.titleSeparator : `string`
-- options.minScreenSize : `Vector2`
+- options.minScreenSize : [`Vector2`](/reference/classes/utils/vector2)
 
 ## Properties
 
@@ -38,7 +38,7 @@ A string that is placed between different parts of a window title
 > "-"
 > ```
 
-### minScreenSize : `Vector2` {#min-screen-size}
+### minScreenSize : [`Vector2`](/reference/classes/utils/vector2) {#min-screen-size}
 
 If the user's screen is smaller than these values, windows will always be maximized
 
