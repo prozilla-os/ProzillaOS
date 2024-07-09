@@ -19,7 +19,7 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 
 ## Packages
 
-### Libraries
+### Libraries (external)
 
 These libraries are different modules of ProzillaOS that can be installed separately or via the bundle package `prozilla-os`. Each library has a `src/main.ts` entry file and is published to the npm registry.
 
@@ -41,12 +41,12 @@ These libraries are different modules of ProzillaOS that can be installed separa
 
 - [`@prozilla-os/logic-sim`][logic-sim]: Logic simulator app
 
-### Sites
+### Sites (internal)
 
 These packages contains the source code of parts of the ProzillaOS website. They are published to GitHub pages.
 
-- [`prozilla-os-demo`](./packages/demo/): Demo site
-- [`prozilla-os-docs`](./packages/docs/): Documentation site
+- [`@prozilla-os/demo`](./packages/demo/): Demo site
+- [`@prozilla-os/docs`](./packages/docs/): Documentation site
 
 ## Scripts
 
@@ -59,8 +59,9 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 | <pre>pnpm&nbsp;run&nbsp;start</pre> | Run [`pnpm run site:start`](#package-prozilla-os-demo). VSCode is configured to run this script whenever the project is opened.
 | <pre>pnpm&nbsp;run&nbsp;build</pre> | Build every package in sequential order.
 | <pre>pnpm&nbsp;run&nbsp;deploy</pre> | Clear the `dist` directory, build and stage each package that comprises the website, then deploy to GitHub pages. This should then trigger a GitHub Action that deploys the build to production.
+| <pre>pnpm&nbsp;run&nbsp;publish</pre> | Publish the `dist` directory to GitHub pages.
 
-### Libraries
+### External packages
 
 | Script | Description |
 | --- | --- |
@@ -71,18 +72,18 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 > [!TIP] 
 > Use `pnpm --filter <package_selector> build` to build a sepecific subset of packages or a single package and output to respective `dist` directory/directories. For more information about selecting/filtering specific packages, read [pnpm's documentation on filtering](https://pnpm.io/filtering).
 
-### Package: `prozilla-os-demo`
+### Internal package: `@prozilla-os/demo`
 
 | Script | Linked package script |
 | --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;site:start</pre> | [`pnpm run start`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;site:build</pre> | [`pnpm run build`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;site:preview</pre> | [`pnpm run preview`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;site:stage</pre> | [`pnpm run stage`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;site:deploy</pre> | [`pnpm run deploy`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;site:fetch</pre> | [`pnpm run fetch`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:start</pre> | [`pnpm run start`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:build</pre> | [`pnpm run build`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:preview</pre> | [`pnpm run preview`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:stage</pre> | [`pnpm run stage`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:deploy</pre> | [`pnpm run deploy`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:fetch</pre> | [`pnpm run fetch`](./packages/demo/README.md#scripts)
 
-### Package: `prozilla-os-docs`
+### Internal package: `@prozilla-os/docs`
 
 | Script | Linked package script |
 | --- | --- |

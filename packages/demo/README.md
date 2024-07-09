@@ -15,7 +15,7 @@
 
 **🔗 [os.prozilla.dev](https://os.prozilla.dev/)**
 
-`prozilla-os-demo` is a React Vite website that demonstrates the features of ProzillaOS.
+`@prozilla-os/demo` is a React Vite website that demonstrates the features of ProzillaOS.
 
 ## Scripts
 

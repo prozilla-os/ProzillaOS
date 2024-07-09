@@ -15,7 +15,7 @@
 
 **🔗 [os.prozilla.dev/docs](https://os.prozilla.dev/docs)**
 
-`prozilla-os-docs` is a VitePress website that contains the documentation for ProzillaOS.
+`@prozilla-os/docs` is a VitePress website that contains the documentation for ProzillaOS.
 
 ## Scripts
 
