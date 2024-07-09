@@ -8,7 +8,7 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows 
 
 ## Open-source
 
-This website was made using React, Vite and TypeScript. The source code is available both on [GitHub](https://github.com/Prozilla/ProzillaOS) and [on the website itself](/). You can find the documentation for this project inside the [docs](/docs) folder.
+This website was made using React, Vite and TypeScript. The source code is available both on [GitHub](https://github.com/prozilla-os/ProzillaOS) and [on the website itself](/). You can find the documentation for this project inside the [docs](/docs) folder.
 
 ## Support ProzillaOS
 

@@ -19,7 +19,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Prozilla/ProzillaOS.git"
+		"url": "git+https://github.com/prozilla-os/ProzillaOS.git"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.5.2",

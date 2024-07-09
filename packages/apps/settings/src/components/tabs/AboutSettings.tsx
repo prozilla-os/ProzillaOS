@@ -25,7 +25,7 @@ export function AboutSettings() {
 			</Button>
 			<Button
 				className={`${styles.Button} ${utilStyles.TextBold}`}
-				href="https://github.com/Prozilla/ProzillaOS"
+				href="https://github.com/prozilla-os/ProzillaOS"
 			>
 				View source
 			</Button>
