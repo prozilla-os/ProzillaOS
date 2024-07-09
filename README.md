@@ -19,7 +19,7 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 
 ## Packages
 
-### Libraries (external)
+### Libraries (public)
 
 These libraries are different modules of ProzillaOS that can be installed separately or via the bundle package `prozilla-os`. Each library has a `src/main.ts` entry file and is published to the npm registry.
 
@@ -61,7 +61,7 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 | <pre>pnpm&nbsp;run&nbsp;deploy</pre> | Clear the `dist` directory, build and stage each package that comprises the website, then deploy to GitHub pages. This should then trigger a GitHub Action that deploys the build to production.
 | <pre>pnpm&nbsp;run&nbsp;publish</pre> | Publish the `dist` directory to GitHub pages.
 
-### External packages
+### Public packages
 
 | Script | Description |
 | --- | --- |
