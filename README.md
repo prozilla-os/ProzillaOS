@@ -59,7 +59,7 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 | <pre>pnpm&nbsp;run&nbsp;start</pre> | Run [`pnpm run site:start`](#package-prozilla-os-demo). VSCode is configured to run this script whenever the project is opened.
 | <pre>pnpm&nbsp;run&nbsp;build</pre> | Build every package in sequential order.
 | <pre>pnpm&nbsp;run&nbsp;deploy</pre> | Clear the `dist` directory, build and stage each package that comprises the website, then deploy to GitHub pages. This should then trigger a GitHub Action that deploys the build to production.
-| <pre>pnpm&nbsp;run&nbsp;publish</pre> | Publish the `dist` directory to GitHub pages.
+| <pre>pnpm&nbsp;run&nbsp;publish</pre> | Publish the `dist` directory directly to GitHub pages.
 
 ### Public packages
 

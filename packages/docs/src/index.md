@@ -61,7 +61,7 @@ const developers = [
 
 <VPTeamPage>
 	<VPTeamPageTitle>
-		<template #title>Developers</template>
+		<template #title>Developer</template>
 	</VPTeamPageTitle>
 	<VPTeamMembers class="center" :members="developers" />
 </VPTeamPage>

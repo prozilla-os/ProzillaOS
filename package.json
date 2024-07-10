@@ -26,6 +26,7 @@
 		"docs:build": "pnpm --filter @prozilla-os/docs run build",
 		"docs:stage": "pnpm --filter @prozilla-os/docs run stage",
 		"docs:preview": "pnpm --filter @prozilla-os/docs run preview",
+		"docs:deploy": "pnpm run docs:build && pnpm run docs:stage && pnpm run publish",
 		"docs:generate": "pnpm --filter @prozilla-os/docs run generate",
 		"packages:build": "pnpm -r --sequential --filter prozilla-os... build",
 		"packages:update": "npx changeset && pnpm changeset version",
