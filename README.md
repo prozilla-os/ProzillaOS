@@ -52,7 +52,7 @@ These packages contains the source code of parts of the ProzillaOS website. They
 
 ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 
-### Shorthands
+### Global
 
 | Script | Description |
 | --- | --- |
@@ -74,24 +74,25 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 
 ### Internal package: `@prozilla-os/demo`
 
-| Script | Linked package script |
+| Script | Description |
 | --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;demo:start</pre> | [`pnpm run start`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;demo:build</pre> | [`pnpm run build`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;demo:preview</pre> | [`pnpm run preview`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;demo:stage</pre> | [`pnpm run stage`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;demo:deploy</pre> | [`pnpm run deploy`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;demo:fetch</pre> | [`pnpm run fetch`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:start</pre> | See [`pnpm run start`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:build</pre> | See [`pnpm run build`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:preview</pre> | See [`pnpm run preview`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:stage</pre> | See [`pnpm run stage`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:deploy</pre> | See [`pnpm run deploy`](./packages/demo/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;demo:fetch</pre> | See [`pnpm run fetch`](./packages/demo/README.md#scripts)
 
 ### Internal package: `@prozilla-os/docs`
 
-| Script | Linked package script |
+| Script | Description |
 | --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;docs:start</pre> | [`pnpm run start`](./packages/docs/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;docs:build</pre> | [`pnpm run build`](./packages/docs/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;docs:preview</pre> | [`pnpm run preview`](./packages/docs/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;docs:stage</pre> | [`pnpm run stage`](./packages/docs/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;docs:generate</pre> | [`pnpm run generate`](./packages/docs/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;docs:start</pre> | See [`pnpm run start`](./packages/docs/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;docs:build</pre> | See [`pnpm run build`](./packages/docs/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;docs:preview</pre> | See [`pnpm run preview`](./packages/docs/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;docs:stage</pre> | See [`pnpm run stage`](./packages/docs/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;docs:deploy</pre> | Build and stage docs, then run `pnpm run publish`.
+| <pre>pnpm&nbsp;run&nbsp;docs:generate</pre> | See [`pnpm run generate`](./packages/docs/README.md#scripts)
 
 ## Links
 
