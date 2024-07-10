@@ -3,7 +3,7 @@ import { defineConfig, HeadConfig } from "vitepress";
 const TITLE = "ProzillaOS Docs";
 const DESCRIPTION = "Documentation for ProzillaOS and its packages.";
 const LOCALE = "en_US";
-const IMAGE = "https://os.prozilla.dev/assets/logo.png";
+const IMAGE = "https://os.prozilla.dev/docs/prozilla-os-title-banner.png";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -34,12 +34,22 @@ export default defineConfig({
 		nav: [
 			{ text: "Home", link: "/" },
 			{ text: "Demo", link: "https://os.prozilla.dev/", target: "_blank" },
-			{ text: "About", link: "/about", activeMatch: "/about/" },
+			{ text: "About", link: "/about/introduction", activeMatch: "/about/" },
 			{ text: "Guides", link: "/guides/getting-started", activeMatch: "/guides/" },
 			{ text: "Reference", link: "/reference/configuration", activeMatch: "/reference/" }
 		],
 
 		sidebar: {
+			"/about/": {
+				base: "/about/",
+				items: [{
+					text: "About ProzillaOS",
+					items: [
+						{ text: "Introduction", link: "/introduction" },
+						{ text: "Features", link: "/features" },
+					]
+				}]
+			},
 			"/guides/": {
 				base: "/guides/",
 				items: [{
@@ -57,6 +67,8 @@ export default defineConfig({
 						text: "Overview",
 						items: [
 							{ text: "Configuration", link: "/configuration" },
+							{ text: "Packages", link: "/packages" },
+							{ text: "Glossary", link: "/glossary" },
 						]
 					},
 					{
@@ -92,12 +104,6 @@ export default defineConfig({
 					}
 				]
 			},
-			"/about/": {
-				base: "/about/",
-				items: [
-					{ text: "About", link: "/" }
-				]
-			}
 		},
 
 		editLink: {
@@ -162,5 +168,6 @@ export default defineConfig({
 
 		// Other meta data
 		head.push(["meta", { name: "og:type", content: "website" }]);
+		head.push(["meta", { name: "twitter:card", content: "summary_large_image" }]);
 	},
 });

@@ -25,6 +25,7 @@
 | <pre>pnpm&nbsp;run&nbsp;build</pre> | Compile project using VitePress and output to the `dist` directory.
 | <pre>pnpm&nbsp;run&nbsp;preview</pre> | Start web server with preview of build at [localhost:8080](http://localhost:8080/). Can be useful for validating build before deploying.
 | <pre>pnpm&nbsp;run&nbsp;stage</pre> | Execute [stage.ts](./scripts/stage.ts), which copies the `./dist` directory of this package into the `/dist/docs` directory at the root, within the build of the demo site.
+| <pre>pnpm&nbsp;run&nbsp;generate</pre> | Generate basic information files in JSON format to use as a base for writing the documentation and output to the `data` directory.
 
 ## Links
 

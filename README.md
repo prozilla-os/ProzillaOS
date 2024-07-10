@@ -91,6 +91,7 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 | <pre>pnpm&nbsp;run&nbsp;docs:build</pre> | [`pnpm run build`](./packages/docs/README.md#scripts)
 | <pre>pnpm&nbsp;run&nbsp;docs:preview</pre> | [`pnpm run preview`](./packages/docs/README.md#scripts)
 | <pre>pnpm&nbsp;run&nbsp;docs:stage</pre> | [`pnpm run stage`](./packages/docs/README.md#scripts)
+| <pre>pnpm&nbsp;run&nbsp;docs:generate</pre> | [`pnpm run generate`](./packages/docs/README.md#scripts)
 
 ## Links
 
