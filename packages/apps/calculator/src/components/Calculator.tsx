@@ -137,6 +137,11 @@ export function Calculator({ active }: WindowProps) {
 				case "%":
 					addInput("%");
 					break;
+				case "Backspace":
+					if (input != null && input.length > 0) {
+						setInput(input.slice(0, -1));
+					}
+					break;
 			}
 		};
 
