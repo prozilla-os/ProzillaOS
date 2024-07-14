@@ -6,7 +6,7 @@ import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawe
 import { ReactSVG } from "react-svg";
 import { useEffect, useState } from "react";
 import { AppsConfig, closeViewport, Vector2 } from "../../../features";
-import { useWindowsManager, useVirtualRoot, useKeyboardListener, useSystemManager } from "../../../hooks";
+import { useWindowsManager, useVirtualRoot, useKeyboardListener, useSystemManager, useClassNames } from "../../../hooks";
 import { utilStyles } from "../../../styles";
 
 interface HomeMenuProps {
@@ -61,7 +61,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 
 	return (
 		<div className={classNames.join(" ")}>
-			<div className={`${styles.HomeMenu} ${taskbarStyles.Menu}`}>
+			<div className={useClassNames([styles.HomeMenu, taskbarStyles.Menu], "Taskbar", "Menu", "Home")}>
 				<div className={styles.Buttons}>
 					<button tabIndex={tabIndex} onClick={() => { closeViewport(true, systemName); }}>
 						<FontAwesomeIcon icon={faPowerOff}/>

@@ -3,8 +3,8 @@
 	"compilerOptions": {
 		"baseUrl": "../..",
 		"paths": {
-			"@prozilla-os/core": ["packages/core/dist/main"],
-			"@prozilla-os/*": ["packages/apps/*/dist/main"]
+			"prozilla-os": ["packages/prozilla-os/src/main"],
+			"@prozilla-os/*": ["packages/*/src/main", "packages/apps/*/src/main"],
 		},
 	},
 	"include": [

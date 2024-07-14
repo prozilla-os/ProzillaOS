@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import styles from "./UtilMenu.module.css";
+import { useClassNames } from "../../../hooks";
 
 interface UtilMenuProps {
 	active: boolean;
@@ -16,7 +17,7 @@ export function UtilMenu({ active, setActive: _setActive, className, children }:
 		classNames.push(className);
 
 	return (<div className={classNames.join(" ")}>
-		<div className={styles.UtilMenu}>
+		<div className={useClassNames([styles.UtilMenu], "Taskbar", "Menu", "Util")}>
 			{children}
 		</div>
 	</div>);

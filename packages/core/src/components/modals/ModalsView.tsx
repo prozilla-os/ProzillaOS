@@ -4,6 +4,7 @@ import styles from "./ModalsView.module.css";
 import { useModals } from "../../hooks/modals/modalsContext";
 import { useModalsManager } from "../../hooks/modals/modalsManagerContext";
 import { Modal } from "../../features/modals/modal";
+import { useClassNames } from "../../hooks";
 
 export const ModalsView = memo(() => {
 	const ref = useRef<HTMLDivElement>(null);
@@ -24,7 +25,7 @@ export const ModalsView = memo(() => {
 			modalsManager.containerRef = ref as MutableRefObject<HTMLDivElement>;
 	}, [modalsManager, ref]);
 
-	return <div ref={ref} className={styles.ModalsView}>
+	return <div ref={ref} className={useClassNames([styles.ModalsView], "ModalsView")}>
 		{sortedModals?.map((modal) =>
 			<ModalView key={modal.id} modal={modal}/>
 		)}

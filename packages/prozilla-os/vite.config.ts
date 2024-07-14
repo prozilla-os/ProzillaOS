@@ -15,7 +15,8 @@ export default defineConfig({
 			rollupTypes: true,
 			strictOutput: true,
 			pathsToAliases: false,
-			bundledPackages: ["@prozilla-os/*"]
+			bundledPackages: ["@prozilla-os/*"],
+			tsconfigPath: "tsconfig-build.json"
 		})
 	],
 	build: {
@@ -24,12 +25,12 @@ export default defineConfig({
 			formats: ["es"],
 		},
 		rollupOptions: {
-			external: ["react", "react/jsx-runtime", /@prozilla-os\//g],
+			external: ["react", "react/jsx-runtime", /@prozilla-os/g],
 			output: {
 				assetFileNames: "assets/[name][extname]",
 				entryFileNames: "[name].js",
 			}
 		},
 		sourcemap: true
-	}
+	},
 });

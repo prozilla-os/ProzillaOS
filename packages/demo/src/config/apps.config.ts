@@ -26,10 +26,14 @@ export const appsConfig = new AppsConfig({
 			.setIconUrl("/assets/apps/icons/browser.svg"),
 		calculator.setName("Maths")
 			.setDescription("Simple calculator app.")
-			.setIconUrl("/assets/apps/icons/calculator.svg"),
-		wordle.setIconUrl("/assets/apps/icons/wordle.svg"),
-		ballMaze.setIconUrl("/assets/apps/icons/ball-maze.svg"),
-		minesweeper.setIconUrl("/assets/apps/icons/minesweeper.svg"),
+			.setIconUrl("/assets/apps/icons/calculator.svg")
+			.setPinnedByDefault(true),
+		wordle.setIconUrl("/assets/apps/icons/wordle.svg")
+			.setPinnedByDefault(false),
+		ballMaze.setIconUrl("/assets/apps/icons/ball-maze.svg")
+			.setPinnedByDefault(false),
+		minesweeper.setIconUrl("/assets/apps/icons/minesweeper.svg")
+			.setPinnedByDefault(false),
 		logicSim.setName("Logic Sim (WIP)")
 			.setDescription("Create digital logic circuits using the online simulator.")
 			.setIconUrl("/assets/apps/icons/logic-sim.svg")

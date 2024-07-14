@@ -18,7 +18,7 @@ import { useWindows } from "../../hooks/windows/windowsContext";
 import { ZIndexManager } from "../../features/z-index/zIndexManager";
 import { useZIndex } from "../../hooks/z-index/zIndex";
 import { Battery, Calendar, Network, Volume } from "./indicators";
-import { useSystemManager } from "../../hooks";
+import { useClassNames, useSystemManager } from "../../hooks";
 import { App, AppsConfig } from "../../features";
 
 export const Taskbar = memo(() => {
@@ -123,14 +123,14 @@ export const Taskbar = memo(() => {
 
 	return <div
 		style={{ "--taskbar-height": `${taskbarConfig.height}px`, zIndex } as CSSProperties}
-		className={styles.Taskbar}
+		className={useClassNames([styles.Taskbar], "Taskbar")}
 		data-allow-context-menu={true}
 		onContextMenu={(event) => {
 			if ((event.target as HTMLElement).getAttribute("data-allow-context-menu"))
 				onContextMenu(event as unknown as MouseEvent<HTMLElement, MouseEvent>);
 		}}
 	>
-		<div className={styles.MenuIcons}>
+		<div className={useClassNames([styles.MenuIcons], "Taskbar", "MenuIcons")}>
 			<div className={styles.HomeContainer}>
 				<OutsideClickListener onOutsideClick={() => { updateShowHome(false); }}>
 					<button
@@ -164,7 +164,7 @@ export const Taskbar = memo(() => {
 				</OutsideClickListener>
 			</div>
 		</div>
-		<div className={styles.AppIconsContainer} data-allow-context-menu={true} style={{ boxShadow }}>
+		<div className={useClassNames([styles.AppIconsContainer], "Taskbar", "AppIcons")} data-allow-context-menu={true} style={{ boxShadow }}>
 			<div
 				className={styles.AppIcons}
 				data-allow-context-menu={true}
@@ -187,7 +187,7 @@ export const Taskbar = memo(() => {
 				})}
 			</div>
 		</div>
-		<div className={styles.UtilIcons}>
+		<div className={useClassNames([styles.UtilIcons], "Taskbar", "UtilIcons")}>
 			<Battery showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
 			<Network showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
 			<Volume showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>

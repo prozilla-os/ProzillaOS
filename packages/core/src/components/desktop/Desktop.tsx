@@ -16,6 +16,7 @@ import { VirtualFolder, VirtualFolderLink } from "../../features/virtual-drive/f
 import { useSettingsManager, useWindowsManager, useVirtualRoot, useWindowedModal, useContextMenu, useSystemManager } from "../../hooks";
 import { DirectoryList } from "../_utils";
 import { FileEventHandler, FolderEventHandler } from "../_utils/directory-list/DirectoryList";
+import { useClassNames } from "../../hooks";
 
 export const Desktop = memo(() => {
 	const { desktopConfig, appsConfig } = useSystemManager();
@@ -170,11 +171,12 @@ export const Desktop = memo(() => {
 	};
 
 	const iconScale = 1 + ((isValidInteger(iconSize) ? iconSize : desktopConfig.defaultIconSize) - 1) / 5;
+	const wallpaperClassName = useClassNames([styles.Wallpaper], "Desktop", "Wallpaper");
 
 	return <>
 		<ShortcutsListener/>
 		<div
-			className={styles.Desktop}
+			className={useClassNames([styles.Desktop], "Desktop")}
 			onContextMenu={onContextMenu as unknown as MouseEventHandler}
 		>
 			{showIcons && <DirectoryList
@@ -208,7 +210,12 @@ export const Desktop = memo(() => {
 				onContextMenuFolder={onContextMenuFolder as unknown as FolderEventHandler}
 			/>}
 			{wallpaper
-				? <img src={wallpaper} className={styles.Wallpaper} alt="Desktop wallpaper" onError={onError}/>
+				? <img
+					src={wallpaper}
+					className={wallpaperClassName}
+					alt="Desktop wallpaper"
+					onError={onError}
+				/>
 				: null
 			}
 		</div>

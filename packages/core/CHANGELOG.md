@@ -1,5 +1,11 @@
 # @prozilla-os/core
 
+## 1.1.0
+
+### Minor Changes
+
+- Added skins feature
+
 ## 1.0.16
 
 ### Patch Changes

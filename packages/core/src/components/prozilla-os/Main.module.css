@@ -1,4 +1,4 @@
-.ProzillaOS {
+.Main {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -9,6 +9,6 @@
 	pointer-events: none;
 }
 
-.ProzillaOS > * {
+.Main > * {
 	pointer-events: auto;
 }

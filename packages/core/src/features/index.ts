@@ -2,6 +2,7 @@ export * from "./system/configs";
 export * from "./virtual-drive";
 export * from "./_utils";
 
+export { App } from "./apps/app";
 export { ModalsManager } from "./modals/modalsManager";
 export { SettingsManager } from "./settings/settingsManager";
 export { StorageManager } from "./storage/storageManager";

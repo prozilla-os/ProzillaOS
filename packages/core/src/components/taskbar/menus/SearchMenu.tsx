@@ -3,9 +3,9 @@ import appStyles from "./AppList.module.css";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
 import { ChangeEventHandler, MutableRefObject, useEffect, useState } from "react";
 import { useKeyboardListener } from "../../../hooks/_utils/keyboard";
-import { App } from "../../../features/system/configs/app";
+import { App } from "../../../features/";
 import { ReactSVG } from "react-svg";
-import { useSystemManager } from "../../../hooks";
+import { useClassNames, useSystemManager } from "../../../hooks";
 
 interface SearchMenuProps {
 	active: boolean;
@@ -68,7 +68,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 	useKeyboardListener({ onKeyDown });
 
 	return <div className={classNames.join(" ")}>
-		<div className={styles.SearchMenu}>
+		<div className={useClassNames([styles.SearchMenu], "Taskbar", "Menu", "Search")}>
 			<div className={appStyles.AppList}>
 				{apps?.map(({ name, id }) => 
 					<button

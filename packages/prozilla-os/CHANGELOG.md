@@ -1,5 +1,23 @@
 # prozilla-os
 
+## 1.1.0
+
+### Minor Changes
+
+- Added skins feature
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.1.0
+  - @prozilla-os/browser@1.0.3
+  - @prozilla-os/calculator@1.0.3
+  - @prozilla-os/file-explorer@1.0.14
+  - @prozilla-os/media-viewer@1.0.3
+  - @prozilla-os/settings@1.0.3
+  - @prozilla-os/terminal@1.0.7
+  - @prozilla-os/text-editor@1.0.7
+
 ## 1.0.16
 
 ### Patch Changes

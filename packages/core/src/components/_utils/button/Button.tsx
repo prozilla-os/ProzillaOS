@@ -3,6 +3,7 @@ import styles from "./Button.module.css";
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { HTMLAttributeAnchorTarget, ReactNode } from "react";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { useClassNames } from "../../../hooks";
 
 interface ButtonProps {
 	className?: string;
@@ -27,7 +28,7 @@ export function Button({ className, href, children, icon, target, ...props }: Bu
 			target={target ?? "_blank"}
 			rel="noreferrer"
 			tabIndex={0}
-			className={classNames.join(" ")}
+			className={useClassNames(classNames, "Button", "Link")}
 		>
 			{children}
 			<FontAwesomeIcon icon={icon ?? faExternalLink}/>
@@ -36,7 +37,7 @@ export function Button({ className, href, children, icon, target, ...props }: Bu
 		return (<button
 			{...props}
 			tabIndex={0}
-			className={classNames.join(" ")}
+			className={useClassNames(classNames, "Button")}
 		>
 			{children}
 			{icon != null

@@ -1,5 +1,4 @@
 import { memo, ReactElement, ReactNode } from "react";
-import styles from "./ProzillaOS.module.css";
 import { VirtualRootProvider } from "../../hooks/virtual-drive/virtualRootProvider";
 import { ZIndexManagerProvider } from "../../hooks/z-index/zIndexManagerProvider";
 import { WindowsManagerProvider } from "../../hooks/windows/windowsManagerProvider";
@@ -18,8 +17,10 @@ import { WindowsConfig, WindowsConfigOptions } from "../../features/system/confi
 import { OptionalInterface } from "../../types/utils";
 import { TrackingManagerProvider } from "../../hooks/tracking/trackingManagerProvider";
 import { VirtualDriveConfig, VirtualDriveConfigOptions } from "../../features/system/configs/virtualDriveConfig";
+import { Main } from "./Main";
+import { Skin } from "@prozilla-os/skins";
 
-interface ProzillaOSProps {
+export interface ProzillaOSProps {
 	systemName?: string;
 	tagLine?: string;
 	config?: {
@@ -31,16 +32,18 @@ interface ProzillaOSProps {
 		tracking?: OptionalInterface<TrackingConfigOptions>;
 		windows?: OptionalInterface<WindowsConfigOptions>;
 		virtualDrive?: OptionalInterface<VirtualDriveConfigOptions>;
-	}
+	},
+	skin?: Skin;
 	children?: ReactNode;
 }
 
 export const ProzillaOS = memo(function(props: ProzillaOSProps): ReactElement {
-	const { systemName, tagLine, config, children } = props;
+	const { systemName, tagLine, skin, config, children } = props;
 
 	const systemParams = {
 		systemName,
 		tagLine,
+		skin,
 		appsConfig: new AppsConfig(config?.apps),
 		desktopConfig: new DesktopConfig(config?.desktop),
 		miscConfig: new MiscConfig(config?.misc),
@@ -59,12 +62,9 @@ export const ProzillaOS = memo(function(props: ProzillaOSProps): ReactElement {
 						<ModalsManagerProvider>
 							<SettingsManagerProvider>
 								<ThemeProvider>
-									<div
-										onContextMenu={(event) => { event.preventDefault(); }}
-										className={styles.ProzillaOS}
-									>
+									<Main>
 										{children}
-									</div>
+									</Main>
 								</ThemeProvider>
 							</SettingsManagerProvider>
 						</ModalsManagerProvider>

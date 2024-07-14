@@ -2,7 +2,7 @@ import { FC, memo, useEffect, useState } from "react";
 import { WindowProps, WindowView } from "./WindowView";
 import { setViewportTitle, setViewportIcon, getViewportParams, SettingsManager, removeDuplicatesFromArray } from "../../features";
 import { WindowOptions } from "../../features/windows/windowsManager";
-import { useSettingsManager, useSystemManager, useWindowsManager } from "../../hooks";
+import { useClassNames, useSettingsManager, useSystemManager, useWindowsManager } from "../../hooks";
 import { useWindows } from "../../hooks/windows/windowsContext";
 
 export const WindowsView: FC = memo(() => {
@@ -62,7 +62,7 @@ export const WindowsView: FC = memo(() => {
 		});
 	}, [settingsManager, windowsManager]);
 
-	return (<div>
+	return (<div className={useClassNames([], "WindowsView")}>
 		{windows?.map((window: WindowProps) => {
 			const { id, app, size, position, options, minimized, fullscreen } = window;
 			const index = sortedWindows.indexOf(window);

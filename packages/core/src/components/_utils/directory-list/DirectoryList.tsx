@@ -5,6 +5,7 @@ import { VirtualFile } from "../../../features/virtual-drive/file";
 import { VirtualFolder } from "../../../features/virtual-drive/folder";
 import { Vector2 } from "../../../features";
 import { Interactable } from "../interactable/Interactable";
+import { useClassNames } from "../../../hooks/_utils/classNames";
 
 export interface OnSelectionChangeParams {
 	files?: string[];
@@ -144,9 +145,12 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 	if (fileClassName)
 		fileClassNames.push(fileClassName);
 
+	folderClassName = useClassNames(folderClassNames, "DirectoryList", "Folder");
+	fileClassName = useClassNames(fileClassNames, "DirectoryList", "File");
+
 	return <div
 		ref={ref}
-		className={classNames.join(" ")}
+		className={useClassNames(classNames, "DirectoryList")}
 		onClick={clearSelection}
 		onMouseDown={onStartRectSelect as unknown as MouseEventHandler}
 		{...props}
@@ -159,7 +163,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 			<Interactable
 				key={folder.id}
 				tabIndex={0}
-				className={folderClassNames.join(" ")}
+				className={folderClassName}
 				data-selected={selectedFolders.includes(folder.id)}
 				onContextMenu={(event: MouseEvent) => {
 					onContextMenuFolder?.(event, folder);
@@ -181,7 +185,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 			<Interactable
 				key={file.id}
 				tabIndex={0}
-				className={fileClassNames.join(" ")}
+				className={fileClassName}
 				data-selected={selectedFiles.includes(file.id)}
 				onContextMenu={(event: MouseEvent) => {
 					onContextMenuFile?.(event, file);

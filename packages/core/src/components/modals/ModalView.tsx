@@ -3,6 +3,7 @@ import { Modal } from "../../features/modals/modal";
 import { OutsideClickListener } from "../../hooks/_utils/outsideClick";
 import styles from "./ModalView.module.css";
 import { useEffect } from "react";
+import { useClassNames } from "../../hooks";
 
 export interface ModalProps {
 	modal?: Modal;
@@ -38,7 +39,7 @@ export const ModalView: FC<ModalProps> = memo(({ modal }) => {
 	const Modal = modal.element;
 
 	const Container = () => (<div
-		className={styles.ModalView}
+		className={useClassNames([styles.ModalView], "ModalView")}
 		style={{ "--position-x": modal?.position.x, "--position-y": modal?.position.y } as CSSProperties}
 	>
 		<Modal modal={modal} {...modal?.props}/>

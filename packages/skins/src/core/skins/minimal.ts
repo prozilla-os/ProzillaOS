@@ -1,0 +1,26 @@
+import { Skin } from "../skin";
+
+export const minimalSkin = new Skin({
+	appIcons: {
+		"browser": "/assets/skins/minimal/apps/icons/browser.svg",
+		"calculator": "/assets/skins/minimal/apps/icons/calculator.svg",
+		"file-explorer": "/assets/skins/minimal/apps/icons/file-explorer.svg",
+		"media-viewer": "/assets/skins/minimal/apps/icons/media-viewer.svg",
+		"settings": "/assets/skins/minimal/apps/icons/settings.svg",
+		"terminal": "/assets/skins/minimal/apps/icons/terminal.svg",
+		"text-editor": "/assets/skins/minimal/apps/icons/text-editor.svg",
+	},
+	wallpapers: [
+		"/assets/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png"
+	],
+	defaultWallpaper: "/assets/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png",
+	fileIcons: {
+		generic: "/assets/skins/minimal/apps/file-explorer/file.svg"
+	},
+	folderIcons: {
+		generic: "/assets/skins/minimal/apps/file-explorer/folder.svg"
+	},
+	loadStyleSheet: () => {
+		import("../../styles/skins/minimal.css");
+	}
+});

@@ -14,7 +14,7 @@ const ENABLE_ALIASES = true;
  * Enables importing local packages from their dist (build) directory instead of their src directory
  * Useful for testing builds before publishing
  */
-const USE_PACKAGE_BUILDS = true;
+const USE_PACKAGE_BUILDS = false;
 
 function generateAliases() {
 	if (!ENABLE_ALIASES) return {};
@@ -24,11 +24,17 @@ function generateAliases() {
 	const localPackages = [
 		{ name: "prozilla-os", path: resolve(__dirname, "../prozilla-os/" + entryFile) },
 		{ name: "@prozilla-os/core", path: resolve(__dirname, "../core/" + entryFile) },
-		{ name: "@prozilla-os/shared", path: resolve(__dirname, "../shared/" + entryFile) }
+		{ name: "@prozilla-os/shared", path: resolve(__dirname, "../shared/" + entryFile) },
+		{ name: "@prozilla-os/skins", path: resolve(__dirname, "../skins/" + entryFile) }
 	];
 
 	const localApps = [
+		"browser",
+		"calculator",
 		"file-explorer",
+		"logic-sim",
+		"media-viewer",
+		"settings",
 		"terminal",
 		"text-editor"
 	];

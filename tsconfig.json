@@ -17,6 +17,7 @@
 		
 		/* Emit */
 		"noEmit": true,
+		"noEmitOnError": true,
 		
 		/* Interop Constraints */
 		"allowSyntheticDefaultImports": true,
@@ -29,8 +30,8 @@
 		/* Module resolution */
 		"baseUrl": "./",
 		"paths": {
-			"prozilla-os": ["packages/prozilla-os/dist/main"],
-			"@prozilla-os/*": ["packages/*/dist/main", "packages/*/src/main", "packages/apps/*/dist/main"],
+			"prozilla-os": ["packages/prozilla-os/dist/main", "packages/prozilla-os/src/main"],
+			"@prozilla-os/*": ["packages/*/dist/main", "packages/*/src/main", "packages/apps/*/dist/main", "packages/apps/*/src/main"],
 		}
 	},
 	"include": [

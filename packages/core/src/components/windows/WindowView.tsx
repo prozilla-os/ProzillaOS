@@ -23,7 +23,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { WindowFallbackView } from "./WindowFallbackView";
 import { WindowOptions } from "../../features/windows/windowsManager";
 import { ModalProps } from "../modals/ModalView";
-import { useSystemManager } from "../../hooks";
+import { useClassNames, useSystemManager } from "../../hooks";
 
 export interface WindowProps extends WindowOptions {
 	fullscreen?: boolean;
@@ -157,7 +157,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 			grid={[1, 1]}
 		>
 			<div
-				className={classNames.join(" ")}
+				className={useClassNames(classNames, "WindowView")}
 				ref={nodeRef}
 				onClick={focus as unknown as MouseEventHandler}
 			>
@@ -169,7 +169,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 					}}
 				>
 					<div
-						className={`${styles.Header} Window-handle`}
+						className={useClassNames([styles.Header, "Window-handle"], "WindowHeader")}
 						onContextMenu={onContextMenu as unknown as MouseEventHandler}
 						onDoubleClick={(event) => {
 							setMaximized(!maximized);
@@ -177,10 +177,10 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 						}}
 					>
 						<ReactSVG
-							className={styles["Window-icon"]}
+							className={useClassNames([styles["Window-icon"]], "WindowIcon")}
 							src={iconUrl}
 						/>
-						<p className={utilStyles.TextSemibold}>{title}</p>
+						<p className={useClassNames([utilStyles.TextSemibold], "WindowTitle")}>{title}</p>
 						<button aria-label="Minimize" className={styles["Header-button"]} tabIndex={0} id="minimize-window"
 							onClick={toggleMinimized as MouseEventHandler}
 						>
@@ -204,12 +204,9 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 							<FontAwesomeIcon icon={faXmark}/>
 						</button>
 					</div>
-					<div className={styles["Window-content"]}>
+					<div className={useClassNames([styles["Window-content"]], "WindowContent")}>
 						<ErrorBoundary
 							FallbackComponent={(props) => <WindowFallbackView app={app} closeWindow={close} {...props}/>}
-							onReset={() => {
-								// Reset the state of your app so the error doesn't happen again
-							}}
 							onError={(error) => {
 								console.error(error);
 							}}

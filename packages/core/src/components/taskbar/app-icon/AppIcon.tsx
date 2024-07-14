@@ -1,5 +1,5 @@
 import { FC, memo, MouseEvent } from "react";
-import { App } from "../../../features/system/configs/app";
+import { App } from "../../../features/";
 import styles from "./AppIcon.module.css";
 import { ReactSVG } from "react-svg";
 import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext";
@@ -7,6 +7,7 @@ import { useContextMenu } from "../../../hooks/modals/contextMenu";
 import { Actions } from "../../actions/Actions";
 import { ClickAction } from "../../actions/actions/ClickAction";
 import { WindowsManager } from "../../../features/windows/windowsManager";
+import { useClassNames } from "../../../hooks";
 
 interface AppButtonProps {
 	app: App;
@@ -45,6 +46,8 @@ export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, active
 	if (!visible)
 		classNames.push(styles.Hidden);
 
+	const className = useClassNames(classNames, "Taskbar", "AppIcon");
+
 	if (!windowsManager)
 		return;
 
@@ -52,7 +55,7 @@ export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, active
 		<button
 			key={app.id}
 			tabIndex={0}
-			className={classNames.join(" ")}
+			className={className}
 			onClick={() => {
 				const windowId =  windowsManager.getAppWindowId(app.id);
 

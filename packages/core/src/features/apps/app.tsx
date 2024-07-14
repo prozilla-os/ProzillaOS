@@ -1,5 +1,5 @@
-import { Vector2 } from "../../math/vector2";
-import { WindowProps } from "../../../components/windows/WindowView";
+import { WindowProps } from "../../components";
+import { Vector2 } from "../";
 import { FC } from "react";
 
 const validIdRegex = /^[a-zA-Z0-9-]+$/;

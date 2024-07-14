@@ -1,5 +1,5 @@
 import { randomRange } from "../_utils/math.utils";
-import { App } from "../system/configs/app";
+import { App } from "../";
 import { Vector2 } from "../math/vector2";
 import { SystemManager } from "../system/systemManager";
 import { TrackingManager } from "../tracking/trackingManager";

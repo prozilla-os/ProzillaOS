@@ -37,17 +37,21 @@ export function Calendar({ hideUtilMenus, showUtilMenu }: CalendarProps) {
 
 	return (<OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
 		<button className={styles.Button} title="Date & Time" tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
-			{date.toLocaleString("en-GB", {
-				hour: "numeric",
-				minute: "numeric",
-				hour12: false,
-			})}
+			<p>
+				{date.toLocaleString("en-GB", {
+					hour: "numeric",
+					minute: "numeric",
+					hour12: false,
+				})}
+			</p>
 			<br/>
-			{date.toLocaleDateString("en-GB", {
-				day: "numeric",
-				month: "short",
-				year: "numeric",
-			})}
+			<p>
+				{date.toLocaleDateString("en-GB", {
+					day: "numeric",
+					month: "short",
+					year: "numeric",
+				})}
+			</p>
 		</button>
 		<UtilMenu active={showMenu} setActive={setShowMenu} className={styles.Menu}>
 			<p className={styles.Time}>{date.toLocaleString("en-GB", {

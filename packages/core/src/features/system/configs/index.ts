@@ -1,4 +1,3 @@
-export { App } from "./app";
 export { AppsConfig } from "./appsConfig";
 export { DesktopConfig } from "./desktopConfig";
 export { MiscConfig } from "./miscConfig";

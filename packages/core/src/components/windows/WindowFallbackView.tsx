@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAlert } from "../../hooks/modals/alert";
 import { Vector2 } from "../../features/math/vector2";
-import { App } from "../../features/system/configs/app";
 import { useSystemManager } from "../../hooks";
+import { App } from "../../features";
 
 export interface WindowFallbackViewProps {
 	error?: Error;

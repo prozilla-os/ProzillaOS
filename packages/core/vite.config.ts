@@ -11,9 +11,11 @@ export default defineConfig({
 		libInjectCss(),
 		dts({
 			include: ["src"],
-			outDir: "dist",
+			outDir: "./dist",
 			rollupTypes: true,
-			strictOutput: true
+			strictOutput: true,
+			pathsToAliases: false,
+			bundledPackages: ["@prozilla-os/*"]
 		})
 	],
 	build: {
@@ -22,12 +24,12 @@ export default defineConfig({
 			formats: ["es"],
 		},
 		rollupOptions: {
-			external: ["react", "react/jsx-runtime"],
+			external: ["react", "react/jsx-runtime", /@prozilla-os/],
 			output: {
 				assetFileNames: "assets/[name][extname]",
 				entryFileNames: "[name].js",
 			}
 		},
-		sourcemap: true
-	}
+		sourcemap: true,
+	},
 });

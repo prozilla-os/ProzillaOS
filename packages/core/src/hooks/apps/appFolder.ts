@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { App } from "../../features/system/configs/app";
+import { App } from "../../features/";
 import { VirtualFolder } from "../../features/virtual-drive/folder";
 import { useVirtualRoot } from "../virtual-drive/virtualRootContext";
 
