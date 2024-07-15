@@ -3,7 +3,7 @@ import { appsConfig } from "../src/config/apps.config";
 import { ANSI } from "../../core/src/constants";
 import { NAME, TAG_LINE } from "../src/config/branding.config";
 import { BASE_URL, BUILD_DIR, DOMAIN } from "../src/config/deploy.config";
-import { desktopConfig } from "../src/config/desktop.config";
+import { skin } from "../src/config/skin.config";
 import path from "node:path";
 import { name } from "../package.json";
 
@@ -18,7 +18,7 @@ function generateSitemapXml() {
 	const date = new Date();
 	const lastModified = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
-	const images = desktopConfig.wallpapers.map((path) => `
+	const images = skin.wallpapers.map((path) => `
 		<image:image>
 			<image:loc>${BASE_URL.slice(0, -1) + path}</image:loc>
 		</image:image>`

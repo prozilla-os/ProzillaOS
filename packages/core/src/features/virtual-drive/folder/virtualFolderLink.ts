@@ -58,8 +58,8 @@ export class VirtualFolderLink extends VirtualFolder {
 		if (this.isValid() && this.linkedFolder?.iconUrl)
 			return this.linkedFolder.iconUrl;
 
-		const { virtualDriveConfig } = this.getRoot().systemManager;
-		return virtualDriveConfig.folderLinkIcon;
+		const { skin } = this.getRoot().systemManager;
+		return skin.folderIcons.link ?? skin.folderIcons.generic;
 	}
 
 	toJSON(): VirtualFolderLinkJson | null {
@@ -137,7 +137,7 @@ export class VirtualFolderLink extends VirtualFolder {
 	}
 
 	open(...args: Parameters<VirtualFolder["open"]>): ReturnType<VirtualFolder["open"]> {
-		if (this.isValid()) return this.linkedFolder?.open(...args) as ReturnType<VirtualFolder["open"]>;
+		if (this.isValid()) return this.linkedFolder?.open(...args);
 		return null;
 	}
 

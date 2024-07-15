@@ -28,6 +28,10 @@ To configure ProzillaOS, pass the following properties inside to the `config` pr
 > "Web-based Operating System"
 > ```
 
+### skin : [`Skin`](./classes/skins/skin) {#skin}
+
+<br>
+
 ### config
 
 <br>
@@ -40,7 +44,6 @@ To configure ProzillaOS, pass the following properties inside to the `config` pr
 - config.modals : [`ModalsConfig`](classes/system/modals-config)
 - config.taskbar : [`TaskbarConfig`](classes/system/taskbar-config)
 - config.tracking : [`TrackingConfig`](classes/system/tracking-config)
-- config.virtualDrive : [`VirtualDriveConfig`](classes/system/virtual-drive-config)
 - config.windows : [`WindowsConfig`](classes/system/windows-config)
 
 ## Example
@@ -49,6 +52,9 @@ To configure ProzillaOS, pass the following properties inside to the `config` pr
 <ProzillaOS
 	systemName={"ProzillaOS"}
 	tagLine={"Web-based Operating System"}
+	skin={new Skin({
+		defaultWallpaper: "/assets/wallpapers/abstract-mesh-gradient-orange-red-purple.png"
+	})}
 	config={{
 		apps: new AppsConfig({
 			apps: [

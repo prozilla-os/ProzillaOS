@@ -3,11 +3,15 @@
 	"compilerOptions": {
 		"baseUrl": "../..",
 		"composite": true,
-		"outDir": "dist",
+		"outDir": "./dist",
 		"declaration": true,
 		"emitDeclarationOnly": true,
-		"noEmit": false
+		"noEmit": false,
+		"rootDir": "../",
+		"paths": {
+			"@prozilla-os/*": ["packages/*/src/main"],
+		},
 	},
-	"include": ["src", "vite.config.ts"],
+	"include": ["src", "vite.config.ts", "../skins/src/**/*",],
 	"exclude": ["node_modules"]
 }

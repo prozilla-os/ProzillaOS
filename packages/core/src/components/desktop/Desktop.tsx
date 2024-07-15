@@ -19,7 +19,7 @@ import { FileEventHandler, FolderEventHandler } from "../_utils/directory-list/D
 import { useClassNames } from "../../hooks";
 
 export const Desktop = memo(() => {
-	const { desktopConfig, appsConfig } = useSystemManager();
+	const { desktopConfig, skin, appsConfig } = useSystemManager();
 	const settingsManager = useSettingsManager();
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
@@ -167,7 +167,7 @@ export const Desktop = memo(() => {
 
 	const onError = () => {
 		const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.desktop);
-		void settings?.set("wallpaper", desktopConfig.defaultWallpaper);
+		void settings?.set("wallpaper", skin.defaultWallpaper);
 	};
 
 	const iconScale = 1 + ((isValidInteger(iconSize) ? iconSize : desktopConfig.defaultIconSize) - 1) / 5;

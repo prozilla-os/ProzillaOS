@@ -99,8 +99,8 @@ export class VirtualFileLink extends VirtualFile {
 	}
 
 	getIconUrl(...args: Parameters<VirtualFile["getIconUrl"]>): ReturnType<VirtualFile["getIconUrl"]>  {
-		const { virtualDriveConfig } = this.getRoot().systemManager;
-		const defaultIconUrl = virtualDriveConfig.fileIcon;
+		const { skin } = this.getRoot().systemManager;
+		const defaultIconUrl = skin.fileIcons.generic;
 
 		if (this.isValid()) {
 			return this.iconUrl ?? this.linkedFile?.getIconUrl(...args) ?? defaultIconUrl;

@@ -44,7 +44,6 @@ export function Calendar({ hideUtilMenus, showUtilMenu }: CalendarProps) {
 					hour12: false,
 				})}
 			</p>
-			<br/>
 			<p>
 				{date.toLocaleDateString("en-GB", {
 					day: "numeric",

@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/skins",
 	"description": "A React library that contains skins for ProzillaOS.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"homepage": "https://os.prozilla.dev",
 	"author": {
 		"name": "Prozilla",

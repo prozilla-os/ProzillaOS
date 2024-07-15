@@ -16,7 +16,7 @@ export default defineConfig({
 			strictOutput: true,
 			pathsToAliases: false,
 			bundledPackages: ["@prozilla-os/*"],
-			tsconfigPath: "tsconfig-build.json"
+			tsconfigPath: "tsconfig.build.json"
 		})
 	],
 	build: {

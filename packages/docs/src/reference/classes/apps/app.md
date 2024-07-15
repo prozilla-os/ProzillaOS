@@ -7,7 +7,7 @@ description: "An application that can be run by ProzillaOS"
 
 An application that can be run by ProzillaOS
 
-Applications can be installed by adding them to the `apps` array in [`AppsConfig`](apps-config#apps-app)
+Applications can be installed by adding them to the `apps` array in [`AppsConfig`](../system/apps-config#apps-app)
 
 ## Type parameters
 

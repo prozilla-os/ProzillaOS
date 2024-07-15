@@ -1,6 +1,12 @@
 .Button {
+	display: flex;
+	flex-direction: column;
 	white-space: nowrap;
 	user-select: none;
+}
+
+.Button > p {
+	margin: 0;
 }
 
 .Menu > div {
@@ -20,5 +26,5 @@
 }
 
 .Date {
-	color: var(--foreground-color-1);
+	opacity: 0.5;
 }

@@ -123,12 +123,12 @@ export class VirtualFile extends VirtualBase {
 		if (this.source != null && this.extension != null && IMAGE_EXTENSIONS.includes(this.extension))
 			return this.source;
 
-		const { virtualDriveConfig } = this.getRoot().systemManager;
+		const { skin } = this.getRoot().systemManager;
 
 		switch (this.extension) {
 			case "txt":
 			case "md":
-				iconUrl = virtualDriveConfig.textFileIcon;
+				iconUrl = skin.fileIcons.text ?? skin.fileIcons.generic;
 				break;
 			case "xml":
 			case "js":
@@ -139,10 +139,10 @@ export class VirtualFile extends VirtualBase {
 			case "css":
 			case "html":
 			case "yml":
-				iconUrl = virtualDriveConfig.codeFileIcon;
+				iconUrl = skin.fileIcons.code ?? skin.fileIcons.generic;
 				break;
 			default:
-				iconUrl = virtualDriveConfig.fileIcon;
+				iconUrl = skin.fileIcons.generic;
 				break;
 		}
 

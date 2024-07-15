@@ -1,5 +1,12 @@
 # @prozilla-os/file-explorer
 
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.1.1
+
 ## 1.0.14
 
 ### Patch Changes

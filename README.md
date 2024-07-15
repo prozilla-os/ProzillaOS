@@ -25,6 +25,7 @@ These libraries are different modules of ProzillaOS that can be installed separa
 
 - [`prozilla-os`][prozilla-os]: A bundle containing the core packages and all standard applications of ProzillaOS
 - [`@prozilla-os/core`][core]: Core functionality, React components and hooks
+- [`@prozilla-os/skins`](./shared/): Customizable skins for ProzillaOS
 - [`@prozilla-os/shared`][shared]: Shared functions and utilities
 
 #### Standard applications

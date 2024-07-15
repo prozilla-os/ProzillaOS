@@ -83,8 +83,8 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 		if (this.linkedFile?.iconUrl != null) return this.linkedFile.iconUrl;
 		if (this.linkedFolder?.iconUrl != null) return this.linkedFolder.iconUrl;
 
-		const { virtualDriveConfig } = this.getRoot().systemManager;
-		return virtualDriveConfig.fileIcon;
+		const { skin } = this.getRoot().systemManager;
+		return skin.fileIcons.generic;
 	}
 
 	getType(): string {

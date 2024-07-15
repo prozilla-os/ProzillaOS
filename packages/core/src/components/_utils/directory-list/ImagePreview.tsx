@@ -10,7 +10,7 @@ interface ImagePreviewProps {
 }
 
 export function ImagePreview({ source, className, onError, ...props }: ImagePreviewProps) {
-	const { virtualDriveConfig } = useSystemManager();
+	const { skin } = useSystemManager();
 	const [loadingFailed, setLoadingFailed] = useState(false);
 
 	const onLoadingError = () => {
@@ -24,7 +24,7 @@ export function ImagePreview({ source, className, onError, ...props }: ImagePrev
 
 	return (<div className={classNames.join(" ")} {...props}>
 		{loadingFailed
-			? <ReactSVG src={virtualDriveConfig.fileIcon}/>
+			? <ReactSVG src={skin.fileIcons.generic}/>
 			: source.endsWith(".svg")
 				? <ReactSVG src={source} onError={onLoadingError}/>
 				: <img src={source} onError={onLoadingError} alt="Preview" draggable="false"/>

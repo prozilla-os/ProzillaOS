@@ -1,5 +1,13 @@
 # @prozilla-os/core
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated skins and configuration
+- Updated dependencies
+  - @prozilla-os/skins@1.0.1
+
 ## 1.1.0
 
 ### Minor Changes

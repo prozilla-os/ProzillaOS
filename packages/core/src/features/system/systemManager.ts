@@ -26,20 +26,20 @@ export interface SystemManagerParams {
 }; 
 
 export class SystemManager {
-	systemName: string;
-	tagLine: string;
+	readonly systemName: string;
+	readonly tagLine: string;
 	#startDate: Date;
 
-	skin?: Skin;
+	readonly skin: Skin;
 
-	appsConfig: AppsConfig;
-	desktopConfig: DesktopConfig;
-	miscConfig: MiscConfig;
-	modalsConfig: ModalsConfig;
-	taskbarConfig: TaskbarConfig;
-	trackingConfig: TrackingConfig;
-	windowsConfig: WindowsConfig;
-	virtualDriveConfig: VirtualDriveConfig;
+	readonly appsConfig: AppsConfig;
+	readonly desktopConfig: DesktopConfig;
+	readonly miscConfig: MiscConfig;
+	readonly modalsConfig: ModalsConfig;
+	readonly taskbarConfig: TaskbarConfig;
+	readonly trackingConfig: TrackingConfig;
+	readonly windowsConfig: WindowsConfig;
+	readonly virtualDriveConfig: VirtualDriveConfig;
 
 	constructor({
 		systemName,
@@ -57,7 +57,7 @@ export class SystemManager {
 		this.systemName = systemName ?? "ProzillaOS";
 		this.tagLine = tagLine ?? "Web-based Operating System";
 
-		this.skin = skin;
+		this.skin = skin ?? new Skin();
 
 		this.desktopConfig = desktopConfig;
 		this.appsConfig = appsConfig;
@@ -68,43 +68,28 @@ export class SystemManager {
 		this.windowsConfig = windowsConfig;
 		this.virtualDriveConfig = virtualDriveConfig;
 
-		if (this.skin != null) {
-			const skin = this.skin;
-
-			if (skin.appIcons != null) {
-				const appIcons = skin.appIcons as { [key: string]: string };
-
-				this.appsConfig.apps.forEach((app) => {
-					if (Object.keys(appIcons).includes(app.id))
-						app.setIconUrl(appIcons[app.id]);
-				});
-			}
-
-			if (skin.wallpapers != null)
-				this.desktopConfig.wallpapers = this.desktopConfig.wallpapers.concat(skin.wallpapers);
-
-			if (skin.defaultWallpaper != null)
-				this.desktopConfig.defaultWallpaper = skin.defaultWallpaper;
-
-			if (skin.fileIcons != null) {
-				this.virtualDriveConfig.fileIcon = skin.fileIcons.generic;
-				this.virtualDriveConfig.infoFileIcon = skin.fileIcons.info ?? skin.fileIcons.generic;
-				this.virtualDriveConfig.textFileIcon = skin.fileIcons.text ?? skin.fileIcons.generic;
-				this.virtualDriveConfig.codeFileIcon = skin.fileIcons.code ?? skin.fileIcons.generic;
-			}
-
-			if (skin.folderIcons != null) {
-				this.virtualDriveConfig.folderIcon = skin.folderIcons.generic;
-				this.virtualDriveConfig.textFolderIcon = skin.folderIcons.text ?? skin.folderIcons.generic;
-				this.virtualDriveConfig.imagesFolderIcon = skin.folderIcons.images ?? skin.folderIcons.generic;
-				this.virtualDriveConfig.folderLinkIcon = skin.folderIcons.link ?? skin.folderIcons.generic;
-			}
-
-			if (skin.loadStyleSheet != null)
-				skin.loadStyleSheet();
-		}
+		this.loadSkin();
 
 		this.#startDate = new Date();
+	}
+
+	private loadSkin() {
+		const skin = this.skin;
+
+		if (skin.appIcons != null) {
+			const appIcons = skin.appIcons as { [key: string]: string };
+			const appNames = skin.appNames as { [key: string]: string };
+
+			this.appsConfig.apps.forEach((app) => {
+				if (Object.keys(appIcons).includes(app.id))
+					app.setIconUrl(appIcons[app.id]);
+				if (Object.keys(appNames).includes(app.id))
+					app.setIconUrl(appNames[app.id]);
+			});
+		}
+
+		if (skin.loadStyleSheet != null)
+			skin.loadStyleSheet();
 	}
 
 	getUptime(precision = 2) {

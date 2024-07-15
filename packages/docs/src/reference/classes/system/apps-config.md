@@ -14,10 +14,12 @@ outline: deep
 
 #### options
 
-- options.apps : [`App[]`](app)
+- options.apps : [`App[]`](../apps/app)
 
 ## Properties
 
-### apps : [`App[]`](app) {#apps}
+### apps
+
+- **Type:** [`App[]`](../apps/app)
 
 An array of applications

@@ -7,7 +7,7 @@ import { VirtualRoot } from "./virtualRoot";
  * Loads default data on the virtual root
  */
 export function loadDefaultData(systemManager: SystemManager, virtualRoot: VirtualRoot) {
-	const { desktopConfig, virtualDriveConfig, appsConfig } = systemManager;
+	const { skin, appsConfig } = systemManager;
 	const linkedPaths: Record<string, string> = {};
 	
 	virtualRoot.createFolder("home", (folder) => {
@@ -17,7 +17,7 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 					folder.createFile("desktop", "xml", (file) => {
 						file.setContent([
 							"<options>",
-							`	<wallpaper>${desktopConfig.defaultWallpaper}</wallpaper>`,
+							`	<wallpaper>${skin.defaultWallpaper}</wallpaper>`,
 							"	<show-icons>true</show-icons>",
 							"</options>",
 						]);
@@ -38,11 +38,11 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 					});
 				})
 				.createFolder("Pictures", (folder) => {
-					folder.setIconUrl(virtualDriveConfig.imagesFolderIcon);
+					folder.setIconUrl(skin.folderIcons.images ?? skin.folderIcons.generic);
 					folder.createFolder("Wallpapers", (folder) => {
 						folder.setProtected(true);
-						for (let i = 0; i < desktopConfig.wallpapers.length; i++) {
-							const source = desktopConfig.wallpapers[i];
+						for (let i = 0; i < skin.wallpapers.length; i++) {
+							const source = skin.wallpapers[i];
 							folder.createFile(`Wallpaper${i + 1}`, "png", (file) => {
 								file.setSource(source);
 							});
@@ -63,13 +63,13 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 					linkedPaths.images = folder.path;
 				})
 				.createFolder("Documents", (folder) => {
-					folder.setIconUrl(virtualDriveConfig.textFolderIcon);
+					folder.setIconUrl(skin.folderIcons.text ?? skin.folderIcons.generic);
 					folder.createFile("text", "txt", (file) => {
 						file.setContent("Hello world!");
 					}).createFile("Info", "md", (file) => {
 						file.setProtected(true)
 							.setSource("/documents/info.md")
-							.setIconUrl(virtualDriveConfig.infoFileIcon);
+							.setIconUrl(skin.fileIcons.info ?? skin.fileIcons.generic);
 						linkedPaths.info = file.path;
 					}).createFile("Prozilla", "md", (file) => {
 						file.setProtected(true)
