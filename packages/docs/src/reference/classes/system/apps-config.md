@@ -1,5 +1,6 @@
 ---
 outline: deep
+package: "@prozilla-os/core"
 ---
 
 # Class [`AppsConfig`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/features/system/configs/appsConfig.ts)
@@ -14,7 +15,17 @@ outline: deep
 
 #### options
 
-- options.apps : [`App[]`](../apps/app)
+- **Optional**
+- **Type:** `AppsConfigOptions`
+
+```ts
+interface AppsConfigOptions {
+	apps?: App[];
+}
+```
+
+> [!NOTE] References
+> - [App](/reference/classes/apps/app)
 
 ## Properties
 

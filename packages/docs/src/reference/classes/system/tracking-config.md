@@ -1,5 +1,6 @@
 ---
 outline: deep
+package: "@prozilla-os/core"
 ---
 
 # Class [`TrackingConfig`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/features/system/configs/trackingConfig.ts)
@@ -14,22 +15,28 @@ outline: deep
 
 #### options
 
-- options.enabled : `boolean`
-- options.GAMeasurementId : `string`
+- **Optional**
+- **Type:** `TrackingConfigOptions`
+
+```ts
+interface TrackingConfigOptions {
+	enabled?: boolean;
+	GAMeasurementId?: string;
+}
+```
 
 ## Properties
 
-### enabled : `boolean` {#enabled}
+### enabled
+
+- **Type:** `boolean`
+- **Default:** `true`
 
 Determines whether tracking is enabled
 
-> **@default**
->
-> ```ts
-> true
-> ```
+### GAMeasurementId
 
-### GAMeasurementId : `string` {#ga-measurement-id}
+- **Type:** `string`
 
 Google Analytics measurement ID
 

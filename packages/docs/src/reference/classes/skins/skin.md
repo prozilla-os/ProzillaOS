@@ -1,11 +1,12 @@
 ---
 outline: deep
 description: "Change the look and feel of ProzillaOS"
+package: "@prozilla-os/skins"
 ---
 
 # Class [`Skin`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/skins/src/core/skin.ts)
 
-Change the look and feel of ProzillaOS
+{{ $frontmatter.description }}
 
 ## Constructor
 
@@ -105,12 +106,13 @@ interface FolderIcons {
 ### loadStyleSheet
 
 - **Type:** `() => void`
-- **Example:** 
+
+Function that dynamically imports style sheet
+
+- **Example** 
 
 	```ts
 	function loadStyleSheet() {
 		import("../styles/skins/macOs.css");
 	}
 	```
-
-Function that dynamically imports style sheet

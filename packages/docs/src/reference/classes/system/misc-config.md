@@ -1,5 +1,6 @@
 ---
 outline: deep
+package: "@prozilla-os/core"
 ---
 
 # Class [`MiscConfig`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/features/system/configs/miscConfig.ts)
@@ -14,19 +15,23 @@ outline: deep
 
 #### options
 
-- options.doubleClickDelay : `number`
+- **Optional**
+- **Type:** `MiscConfigOptions`
+
+```ts
+interface MiscConfigOptions {
+	doubleClickDelay?: number;
+}
+```
 
 ## Properties
 
-### doubleClickDelay : `number` {#double-click-delay}
+### doubleClickDelay
+
+- **Type:** `number`
+- **Default:** `250`
 
 The maximum time between two clicks for those clicks to register as a double click in milliseconds
-
-> **@default**
-> 
-> ```ts
-> 250
-> ```
 
 > [!NOTE] 
 > Also applies to touch devices.

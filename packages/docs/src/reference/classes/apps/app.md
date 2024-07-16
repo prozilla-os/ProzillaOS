@@ -1,11 +1,12 @@
 ---
 outline: deep
 description: "An application that can be run by ProzillaOS"
+package: "@prozilla-os/core"
 ---
 
 # Class [`App`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/features/system/configs/app.tsx)
 
-An application that can be run by ProzillaOS
+{{ $frontmatter.description }}
 
 Applications can be installed by adding them to the `apps` array in [`AppsConfig`](../system/apps-config#apps-app)
 
@@ -19,117 +20,192 @@ Applications can be installed by adding them to the `apps` array in [`AppsConfig
 
 ### Parameters
 
-- **name** : `string`
+<br>
 
-- **id** : `string`
+#### name
 
-- **windowContent** : `React.FC<AppProps>`
+- **Type:** `string`
 
-- **windowOptions** : `object` (optional)
+#### id
 
-	- windowOptions.size : [`Vector2`](/reference/classes/utils/vector2)
+- **Type:** `string`
+
+#### windowContent
+
+- **Type:** `React.FC<AppProps>`
+
+#### windowOptions
+
+- **Optional**
+- **Type:** `WindowOptions`
+
+```ts
+interface WindowOptions {
+	size?: Vector2;
+	[key: string]: unknown;
+}
+```
+
+> [!NOTE] References
+> - [Vector2](../utils/vector2)
 
 ## Properties
 
-### name : `string` {#name}
+### name
+
+- **Type:** `string`
+- **Default:** `"App"`
 
 The display name of this application
 
-> **@default**
-> ```ts
-> "App"
-> ```
+### id
 
-### id : `string` {#id}
+- **Type:** `string`
+- **Default:** `"app"`
 
 The unique ID of this application
-
-> **@default**
-> ```ts
-> "app"
-> ```
 
 > [!WARNING]
 > Every app must have a unique ID that only contains lower case letters (a-z), numbers (0-9) and dashes (-).
 
-### windowContent : `React.FC<AppProps>` {#window-content}
+### windowContent
+
+- **Type:** `React.FC<AppProps>`
 
 React component that renders this app inside a window when the app is running
 
-### windowOptions : `object` {#window-options}
+### windowOptions
+
+- **Type:** `WindowOptions`
 
 Default options that get passed to the `windowContent` component
 
-You can extend this object with any properties
+```ts
+interface WindowOptions {
+	size?: Vector2;
+	[key: string]: unknown;
+}
+```
 
-#### Properties
+> [!NOTE] References
+> - [Vector2](../utils/vector2)
 
-- windowOptions.size : [`Vector2`](/reference/classes/utils/vector2)
+### description
 
-### description : `string | null` {#description}
+- **Type:** `string | null`
 
 Description of this application
 
-### iconUrl : `string | null` {#icon-url}
+### iconUrl
+
+- **Type:** `string | null`
 
 URL of the icon of this application
 
-### role : `string | null` {#role}
+### role
+
+- **Type:** `string | null`
 
 Defines what parts of the OS this app is responsible for and how it can be used by other apps
 
-### associatedExtensions : `string[]` {#associated-extensions}
+### associatedExtensions
+
+- **Type:** `string | null`
 
 An array of file extensions that this application is used to open and read
 
-### pinnedByDefault : `boolean` {#pinned-by-default}
+### pinnedByDefault
+
+- **Type:** `boolean`
+- **Default:** `true`
 
 Determines whether the app is pinned by default
 
-> **@default**
-> ```ts
-> true
-> ```
+### launchAtStartup
 
-### launchAtStartup : `boolean` {#launch-at-startup}
+- **Type:** `boolean`
+- **Default:** `false`
 
 Determines whether the app is launched at startup
 
-> **@default**
-> ```ts
-> false
-> ```
-
 ## Methods
 
-### setName (name : `string`) => `this` {#set-name}
+### setName(name)
+
+- **Parameters**
+  - **name**
+	- **Type:** `string`
+- **Returns**
+  - **Type:** `this`
 
 Set the display name of this application
 
-### setDescription (description : `string | null`) => `this` {#set-description}
+### setDescription(description)
+
+- **Parameters**
+  - **description**
+	- **Type:** `string`
+- **Returns**
+  - **Type:** `this`
 
 Set the description of this application
 
-### setIconUrl (iconUrl : `string | null`) => `this` {#set-icon-url}
+### setIconUrl(iconUrl)
+
+- **Parameters**
+  - **iconUrl**
+	- **Type:** `string | null`
+- **Returns**
+  - **Type:** `this`
 
 Set the URL of the icon of this application
 
-### setRole (role : `string | null`) => `this` {#set-role}
+### setRole(role)
+
+- **Parameters**
+  - **role**
+	- **Type:** `string | null`
+- **Returns**
+  - **Type:** `this`
 
 Set the role of this application
 
-### setAssociatedExtensions (extensions : `string[] | null`) => `this` {#set-associated-extensions}
+### setAssociatedExtensions(extensions)
+
+- **Parameters**
+  - **extensions**
+	- **Type:** `string[] | null`
+- **Returns**
+  - **Type:** `this`
 
 Set the associated extensions of this application
 
-### setPinnedByDefault (pinnedByDefault : `boolean`) => `this` {#set-pinned-by-default}
+### setPinnedByDefault(pinnedByDefault)
+
+- **Parameters**
+  - **pinnedByDefault**
+	- **Type:** `boolean`
+- **Returns**
+  - **Type:** `this`
 
 Changes whether this application is pinned by default or not
 
-### setLaunchAtStartup (launchAtStartup : `boolean`) => `this` {#set-launch-at-startup}
+### setLaunchAtStartup(launchAtStartup)
+
+- **Parameters**
+  - **launchAtStartup**
+	- **Type:** `boolean`
+- **Returns**
+  - **Type:** `this`
 
 Changes whether this application is launched at startup or not
 
-### WindowContent (props : `AppProps`) => `React.ReactElement` {#Window-content}
+### WindowContent(props)
+
+- **Parameters**
+  - **props**
+	- **Type:** `AppProps`
+- **Returns**
+  - **Type:** `React.ReactElement`
 
 Renders the app as a React component

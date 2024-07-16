@@ -1,5 +1,6 @@
 ---
 outline: deep
+package: "@prozilla-os/core"
 ---
 
 # Class [`ModalsConfig`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/features/system/configs/modalsConfig.ts)
@@ -14,27 +15,31 @@ outline: deep
 
 #### options
 
-- options.defaultDialogSize : [`Vector2`](/reference/classes/utils/vector2)
-- options.defaultFileSelectorSize : [`Vector2`](/reference/classes/utils/vector2)
+- **Optional**
+- **Type:** `ModalsConfigOptions`
+
+```ts
+interface ModalsConfigOptions {
+	defaultDialogSize?: Vector2;
+	defaultFileSelectorSize?: Vector2;
+}
+```
+
+> [!NOTE] References
+> - [Vector2](/reference/classes/utils/vector2)
 
 ## Properties
 
-### defaultDialogSize : [`Vector2`](/reference/classes/utils/vector2) {#default-dialog-size}
+### defaultDialogSize
+
+- **Type:** [`Vector2`](/reference/classes/utils/vector2)
+- **Default:** `new Vector2(400, 200)`
 
 Default size of a dialog box
 
-> **@default**
->
-> ```ts
-> new Vector2(400, 200)
-> ```
+### defaultFileSelectorSize
 
-### defaultFileSelectorSize : [`Vector2`](/reference/classes/utils/vector2) {#default-file-selector-size}
+- **Type:** [`Vector2`](/reference/classes/utils/vector2)
+- **Default:** `new Vector2(700, 400)`
 
 Default size of a file selector
-
-> **@default**
->
-> ```ts
-> new Vector2(700, 400)
-> ```

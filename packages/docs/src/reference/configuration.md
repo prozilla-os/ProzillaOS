@@ -6,45 +6,51 @@ outline: deep
 
 To configure ProzillaOS, pass the following properties inside to the `config` prop on the `<ProzillaOS>` component.
 
-## `<ProzillaOS>` props {#prozillaos}
+## `<ProzillaOS>` props
 
-### systemName : `string` {#system-name}
+### systemName
 
-<br>
+- **Optional**
+- **Type:** `string`
+- **Default:** `"ProzillaOS"`
 
-> **@default**
-> 
-> ```ts
-> "ProzillaOS"
-> ```
+### tagLine
 
-### tagLine : `string` {#tag-line}
+- **Optional**
+- **Type:** `string`
+- **Default:** `"Web-based Operating System"`
 
-<br>
+### skin
 
-> **@default**
-> 
-> ```ts
-> "Web-based Operating System"
-> ```
-
-### skin : [`Skin`](./classes/skins/skin) {#skin}
-
-<br>
+- **Optional**
+- **Type:** [`Skin`](/reference/classes/skins/skin)
+- **Default:** `new Skin()`
 
 ### config
 
-<br>
+- **Optional**
+- **Type:** `ConfigOptions`
 
-#### Properties
+```ts
+interface ConfigOptions {
+	apps?: AppsConfig;
+	desktop?: DesktopConfig;
+	misc?: MiscConfig;
+	modals?: ModalsConfig;
+	taskbar?: TaskbarConfig;
+	tracking?: TrackingConfig;
+	windows?: WindowsConfig;
+}
+```
 
-- config.apps : [`AppsConfig`](classes/system/apps-config)
-- config.desktop : [`DesktopConfig`](classes/system/desktop-config)
-- config.misc : [`MiscConfig`](classes/system/misc-config)
-- config.modals : [`ModalsConfig`](classes/system/modals-config)
-- config.taskbar : [`TaskbarConfig`](classes/system/taskbar-config)
-- config.tracking : [`TrackingConfig`](classes/system/tracking-config)
-- config.windows : [`WindowsConfig`](classes/system/windows-config)
+> [!NOTE] References
+> - [AppsConfig](/reference/classes/system/apps-config)
+> - [DesktopConfig](/reference/classes/system/desktop-config)
+> - [MiscConfig](/reference/classes/system/misc-config)
+> - [ModalsConfig](/reference/classes/system/modals-config)
+> - [TaskbarConfig](/reference/classes/system/taskbar-config)
+> - [TrackingConfig](/reference/classes/system/tracking-config)
+> - [WindowsConfig](/reference/classes/system/windows-config)
 
 ## Example
 
