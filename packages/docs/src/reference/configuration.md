@@ -29,7 +29,7 @@ Tag line or short description of the system
 Configurations for assets, stylesheets and other visual elements
 
 - **Optional**
-- **Type:** [`Skin`](/reference/core/skins/classes/skin)
+- **Type:** [`Skin`](/reference/skins/classes/skin)
 - **Default:** `new Skin()`
 
 ### config

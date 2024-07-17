@@ -118,6 +118,11 @@ export const PACKAGES: PackageData[] = [
 		category: "Standard apps",
 	},
 	{
+		text: "@prozilla-os/text-editor",
+		link: "apps/text-editor",
+		category: "Standard apps",
+	},
+	{
 		text: "@prozilla-os/logic-sim",
 		link: "apps/logic-sim",
 		category: "Non-standard apps",
