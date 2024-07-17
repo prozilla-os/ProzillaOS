@@ -90,13 +90,15 @@ onSelectionFinish: Function;
 
 ## Links
 
-- [Website/demo][website]
+- [Demo][demo]
+- [Docs][docs]
 - [GitHub][github]
 - [npm][npm]
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/file-explorer
+[demo]: https://os.prozilla.dev/file-explorer
+[docs]: https://os.prozilla.dev/docs/reference/apps/file-explorer
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/file-explorer
 [npm]: https://www.npmjs.com/package/@prozilla-os/file-explorer
 [discord]: https://discord.gg/JwbyQP4tdz

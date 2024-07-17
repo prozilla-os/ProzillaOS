@@ -27,7 +27,7 @@ interface WindowsConfigOptions {
 ```
 
 > [!NOTE] References
-> - [Vector2](/reference/classes/utils/vector2)
+> - [Vector2](/reference/core/classes/utils/vector2)
 
 ## Properties
 
@@ -49,7 +49,7 @@ A string that is placed between different parts of a window title
 
 If the user's screen is smaller than these values, windows will always be maximized
 
-- **Type:** [`Vector2`](/reference/classes/utils/vector2)
+- **Type:** [`Vector2`](/reference/core/classes/utils/vector2)
 - **Default:** `new Vector2(350, 350)`
 
 > [!WARNING] 

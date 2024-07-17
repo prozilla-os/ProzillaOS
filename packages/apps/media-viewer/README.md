@@ -64,13 +64,15 @@ file: VirtualFile;
 
 ## Links
 
-- [Website/demo][website]
+- [Demo][demo]
+- [Docs][docs]
 - [GitHub][github]
 - [npm][npm]
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/media-viewer
+[demo]: https://os.prozilla.dev/media-viewer
+[docs]: https://os.prozilla.dev/docs/reference/apps/media-viewer
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/media-viewer
 [npm]: https://www.npmjs.com/package/@prozilla-os/media-viewer
 [discord]: https://discord.gg/JwbyQP4tdz

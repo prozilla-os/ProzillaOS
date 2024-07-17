@@ -64,13 +64,15 @@ url: string;
 
 ## Links
 
-- [Website/demo][website]
+- [Demo][demo]
+- [Docs][docs]
 - [GitHub][github]
 - [npm][npm]
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/browser
+[demo]: https://os.prozilla.dev/browser
+[docs]: https://os.prozilla.dev/docs/reference/apps/browser
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/browser
 [npm]: https://www.npmjs.com/package/@prozilla-os/browser
 [discord]: https://discord.gg/JwbyQP4tdz

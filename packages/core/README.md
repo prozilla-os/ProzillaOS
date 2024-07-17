@@ -44,14 +44,42 @@ function App() {
 
 <br />
 
-### `<ProzillaOS>` props
+### Configuration
 
 ```tsx
-{
+interface ProzillaOSProps {
 
   systemName: string,
 
   tagLine: string,
+
+  skin: new Skin({
+
+    appIcons: Record<number, string> | undefined,
+
+	appNames: Record<number, string> | undefined,
+
+	wallpapers: string[],
+
+	defaultWallpaper: string,
+
+	fileIcons: {
+		generic: string;
+		info: string | undefined;
+		text: string | undefined;
+		code: string | undefined;
+	},
+
+	folderIcons: {
+		generic: string;
+		images: string | undefined;
+		text: string | undefined;
+		link: string | undefined;
+	},
+
+	loadStyleSheet: () => void | undefined
+
+  })
 
   config: {
     apps: new AppsConfig({
@@ -60,12 +88,6 @@ function App() {
 
     }),
     desktop: new DesktopConfig({
-
-      /** Array of URLs of wallpaper images */
-      wallpapers: string[],
-
-      /** URL of default wallpaper image */
-      defaultWallpaper: string,
 
       /**
        * @default 1
@@ -79,6 +101,14 @@ function App() {
       defaultIconDirection: 0 | 1
 
     }),
+	misc: new MiscConfig({
+
+      /**
+	   * @default 250
+	   */
+	  doubleClickDelay: number
+
+	})
     modals: new ModalsConfig({
 
       /**
@@ -115,19 +145,6 @@ function App() {
       GAMeasurementId: string
 
     }),
-    virtualDrive: new VirtualDriveConfig({
-
-      fileIcon: string,
-      infoFileIcon: string,
-      textFileIcon: string,
-      codeFileIcon: string,
-
-      folderIcon: string,
-      imagesFolderIcon: string,
-      textFolderIcon: string,
-      folderLinkIcon: string
-
-    }),
     windows: new WindowsConfig({
 
       /**
@@ -154,13 +171,15 @@ function App() {
 
 ## Links
 
-- [Website/demo][website]
+- [Demo][demo]
+- [Docs][docs]
 - [GitHub][github]
 - [npm][npm]
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/
+[demo]: https://os.prozilla.dev/
+[docs]: https://os.prozilla.dev/docs/reference/core
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/core
 [npm]: https://www.npmjs.com/package/@prozilla-os/core
 [discord]: https://discord.gg/JwbyQP4tdz

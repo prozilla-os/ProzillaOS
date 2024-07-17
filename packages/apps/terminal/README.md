@@ -70,13 +70,15 @@ input: string;
 
 ## Links
 
-- [Website/demo][website]
+- [Demo][demo]
+- [Docs][docs]
 - [GitHub][github]
 - [npm][npm]
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/terminal
+[demo]: https://os.prozilla.dev/terminal
+[docs]: https://os.prozilla.dev/docs/reference/apps/terminal
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/terminal
 [npm]: https://www.npmjs.com/package/@prozilla-os/terminal
 [discord]: https://discord.gg/JwbyQP4tdz

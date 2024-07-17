@@ -25,7 +25,7 @@ interface AppsConfigOptions {
 ```
 
 > [!NOTE] References
-> - [App](/reference/classes/apps/app)
+> - [App](/reference/core/classes/apps/app)
 
 ## Properties
 
@@ -33,4 +33,4 @@ interface AppsConfigOptions {
 
 An array of applications
 
-- **Type:** [`App[]`](../apps/app)
+- **Type:** [`App[]`](/reference/core/classes/apps/app)

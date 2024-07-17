@@ -48,13 +48,15 @@ export default defineConfig({
 
 ## Links
 
-- [Website/demo][website]
+- [Demo][demo]
+- [Docs][docs]
 - [GitHub][github]
 - [npm][npm]
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/
+[demo]: https://os.prozilla.dev/
+[docs]: [docs]: https://os.prozilla.dev/docs/reference/shared
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/shared
 [npm]: https://www.npmjs.com/package/@prozilla-os/shared
 [discord]: https://discord.gg/JwbyQP4tdz

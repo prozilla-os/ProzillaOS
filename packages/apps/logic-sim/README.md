@@ -55,13 +55,15 @@ function App() {
 
 ## Links
 
-- [Website/demo][website]
+- [Demo][demo]
+- [Docs][docs]
 - [GitHub][github]
 - [npm][npm]
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/logic-sim
+[demo]: https://os.prozilla.dev/logic-sim
+[docs]: https://os.prozilla.dev/docs/reference/apps/logic-sim
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/logic-sim
 [npm]: https://www.npmjs.com/package/@prozilla-os/logic-sim
 [discord]: https://discord.gg/JwbyQP4tdz

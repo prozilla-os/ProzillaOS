@@ -29,7 +29,7 @@ Tag line or short description of the system
 Configurations for assets, stylesheets and other visual elements
 
 - **Optional**
-- **Type:** [`Skin`](/reference/classes/skins/skin)
+- **Type:** [`Skin`](/reference/core/skins/classes/skin)
 - **Default:** `new Skin()`
 
 ### config
@@ -52,13 +52,13 @@ interface ConfigOptions {
 ```
 
 > [!NOTE] References
-> - [AppsConfig](/reference/classes/system/apps-config)
-> - [DesktopConfig](/reference/classes/system/desktop-config)
-> - [MiscConfig](/reference/classes/system/misc-config)
-> - [ModalsConfig](/reference/classes/system/modals-config)
-> - [TaskbarConfig](/reference/classes/system/taskbar-config)
-> - [TrackingConfig](/reference/classes/system/tracking-config)
-> - [WindowsConfig](/reference/classes/system/windows-config)
+> - [AppsConfig](/reference/core/classes/system/apps-config)
+> - [DesktopConfig](/reference/core/classes/system/desktop-config)
+> - [MiscConfig](/reference/core/classes/system/misc-config)
+> - [ModalsConfig](/reference/core/classes/system/modals-config)
+> - [TaskbarConfig](/reference/core/classes/system/taskbar-config)
+> - [TrackingConfig](/reference/core/classes/system/tracking-config)
+> - [WindowsConfig](/reference/core/classes/system/windows-config)
 
 ## Example
 

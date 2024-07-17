@@ -25,13 +25,15 @@ $ pnpm add @prozilla-os/skins
 
 ## Links
 
-- [Website/demo][website]
+- [Demo][demo]
+- [Docs][docs]
 - [GitHub][github]
 - [npm][npm]
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/
+[demo]: https://os.prozilla.dev/
+[docs]: https://os.prozilla.dev/docs/reference/skins
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/skins
 [npm]: https://www.npmjs.com/package/@prozilla-os/skins
 [discord]: https://discord.gg/JwbyQP4tdz

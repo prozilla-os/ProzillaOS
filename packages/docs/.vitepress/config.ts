@@ -1,9 +1,6 @@
 import { defineConfig, HeadConfig } from "vitepress";
-
-const TITLE = "ProzillaOS Docs";
-const DESCRIPTION = "Documentation for ProzillaOS and its packages.";
-const LOCALE = "en_US";
-const IMAGE = "https://os.prozilla.dev/docs/prozilla-os-title-banner.png";
+import { packageReferenceItems, PACKAGES, packageSidebars } from "./packages.config";
+import { DESCRIPTION, IMAGE, LOCALE, TITLE } from "./meta.config";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -64,75 +61,22 @@ export default defineConfig({
 				base: "/reference/",
 				items: [
 					{
-						text: "Overview",
+						text: "Reference",
 						items: [
 							{ text: "Configuration", link: "/configuration" },
-							{ text: "Packages", link: "/packages" },
 							{ text: "Glossary", link: "/glossary" },
-						]
+						],
 					},
 					{
-						text: "Classes",
-						base: "/reference/classes/",
-						collapsed: false,
+						text: "Packages",
 						items: [
-							{
-								text: "Apps",
-								base: "/reference/classes/apps/",
-								collapsed: true,
-								items: [
-									{ text: "App", link: "app" },
-								]
-							},
-							{
-								text: "Skins",
-								base: "/reference/classes/skins/",
-								collapsed: true,
-								items: [
-									{ text: "Skin", link: "skin" },
-								]
-							},
-							{
-								text: "System",
-								base: "/reference/classes/system/",
-								collapsed: true,
-								items: [
-									{ text: "AppsConfig", link: "apps-config" },
-									{ text: "DesktopConfig", link: "desktop-config" },
-									{ text: "MiscConfig", link: "misc-config" },
-									{ text: "ModalsConfig", link: "modals-config" },
-									{ text: "TaskbarConfig", link: "taskbar-config" },
-									{ text: "TrackingConfig", link: "tracking-config" },
-									{ text: "WindowsConfig", link: "windows-config" },
-								]
-							},
-							{
-								text: "Utils",
-								base: "/reference/classes/utils/",
-								collapsed: true,
-								items: [
-									{ text: "Vector2", link: "vector2" },
-								]
-							},
+							{ text: "Overview", link: "/packages" },
+							...packageReferenceItems(PACKAGES)
 						]
-					},
-					{
-						text: "Functions",
-						base: "/reference/functions/",
-						collapsed: false,
-						items: [
-							{ text: "Array", link: "/array" },
-							{ text: "Browser", link: "/browser" },
-							{ text: "Date", link: "/date" },
-							{ text: "Math", link: "/math" },
-						]
-					},
-					{
-						text: "Constants",
-						link: "constants"
-					},
+					}
 				]
 			},
+			...packageSidebars(PACKAGES),
 		},
 
 		editLink: {

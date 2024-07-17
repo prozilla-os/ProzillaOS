@@ -65,13 +65,15 @@ tab: number;
 
 ## Links
 
-- [Website/demo][website]
+- [Demo][demo]
+- [Docs][docs]
 - [GitHub][github]
 - [npm][npm]
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/settings
+[demo]: https://os.prozilla.dev/settings
+[docs]: https://os.prozilla.dev/docs/reference/apps/settings
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/settings
 [npm]: https://www.npmjs.com/package/@prozilla-os/settings
 [discord]: https://discord.gg/JwbyQP4tdz
