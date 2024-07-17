@@ -47,11 +47,10 @@ new Vector2(3)
 
 ### ZERO
 
-- **Static**
-- **Type:** `Vector2`
-
 Returns a vector with each value set to zero
 
+- **Static**
+- **Type:** `Vector2`
 - **Example**
 
 	```ts
@@ -61,19 +60,20 @@ Returns a vector with each value set to zero
 
 ### clone
 
-- **Type:** `Vector2`
-
 Returns a clone of this vector
+
+- **Type:** `Vector2`
 
 ## Methods
 
 ### round()
 
-- **Returns**
-  - **Type:** `this`
-
 Round the values of this vector to whole numbers
 
+::: details
+
+- **Returns**
+  - **Type:** `this`
 - **Example**
 
 	```ts
@@ -81,7 +81,13 @@ Round the values of this vector to whole numbers
 	// Result: Vector2(4, 1)
 	```
 
+:::
+
 ### getDistance(x, y)
+
+Get the distance between this vector and another
+
+::: details
 
 - **Parameters**
   - **x**
@@ -91,9 +97,13 @@ Round the values of this vector to whole numbers
 - **Returns**
   - **Type:** `number`
 
-Get the distance between this vector and another
+:::
 
 ### getDistance(vector2)
+
+Get the distance between this vector and another
+
+::: details
 
 - **Parameters**
   - **vector2**
@@ -101,10 +111,14 @@ Get the distance between this vector and another
 - **Returns**
   - **Type:** `number`
 
-Get the distance between this vector and another
+:::
 
 ### add(vector2A, vector2B)
 
+Add two vectors together
+
+::: details
+
 - **Static**
 - **Parameters**
   - **vector2A**
@@ -114,10 +128,14 @@ Get the distance between this vector and another
 - **Returns**
   - **Type:** `Vector2`
 
-Add two vectors together
+:::
 
 ### subtract(vector2A, vector2B)
 
+Subtract two vectors
+
+::: details
+
 - **Static**
 - **Parameters**
   - **vector2A**
@@ -127,9 +145,13 @@ Add two vectors together
 - **Returns**
   - **Type:** `Vector2`
 
-Subtract two vectors
+:::
 
 ### scale(vector2, scalar)
+
+Scale a vector
+
+::: details
 
 - **Static**
 - **Parameters**
@@ -140,9 +162,13 @@ Subtract two vectors
 - **Returns**
   - **Type:** `Vector2`
 
-Scale a vector
+:::
 
 ### magnitude(vector2)
+
+Get the magnitude of a vector
+
+::: details
 
 - **Static**
 - **Parameters**
@@ -151,9 +177,13 @@ Scale a vector
 - **Returns**
   - **Type:** `number`
 
-Get the magnitude of a vector
+:::
 
 ### normalize(vector2)
+
+Normalize a vector
+
+::: details
 
 - **Static**
 - **Parameters**
@@ -162,9 +192,13 @@ Get the magnitude of a vector
 - **Returns**
   - **Type:** `Vector2`
 
-Normalize a vector
+:::
 
 ### sqrDistance (vector2A, vector2B)
+
+Get the square distance between two vectors
+
+::: details
 
 - **Static**
 - **Parameters**
@@ -175,9 +209,13 @@ Normalize a vector
 - **Returns**
   - **Type:** `number`
 
-Get the square distance between two vectors
+:::
 
 ### lerp(vector2A, vector2B, t)
+
+Lerp between two vectors
+
+::: details
 
 - **Static**
 - **Parameters**
@@ -190,4 +228,4 @@ Get the square distance between two vectors
 - **Returns**
   - **Type:** `Vector2`
 
-Lerp between two vectors
+:::

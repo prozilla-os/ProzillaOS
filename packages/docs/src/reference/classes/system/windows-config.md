@@ -33,24 +33,24 @@ interface WindowsConfigOptions {
 
 ### screenMargin
 
+The margin in CSS pixels that windows will keep between them and the edges of the screen on smaller devices
+
 - **Type:** `number`
 - **Default:** `32`
 
-The margin in CSS pixels that windows will keep between them and the edges of the screen on smaller devices
-
 ### titleSeparator
+
+A string that is placed between different parts of a window title
 
 - **Type:** `string`
 - **Default:** `"-"`
 
-A string that is placed between different parts of a window title
-
 ### minScreenSize
+
+If the user's screen is smaller than these values, windows will always be maximized
 
 - **Type:** [`Vector2`](/reference/classes/utils/vector2)
 - **Default:** `new Vector2(350, 350)`
-
-If the user's screen is smaller than these values, windows will always be maximized
 
 > [!WARNING] 
 > Keep these values as low as possible, as this limits some functionality of the OS on devices with certain screen sizes.

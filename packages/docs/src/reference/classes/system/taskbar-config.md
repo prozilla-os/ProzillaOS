@@ -28,8 +28,8 @@ interface TaskbarConfigOptions {
 
 ### height
 
+Height of the taskbar in CSS pixels
+
 - **Type:** `number`
 - **Default:** `48`
-
-Height of the taskbar in CSS pixels
 

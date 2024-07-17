@@ -53,32 +53,32 @@ interface WindowOptions {
 
 ### name
 
+The display name of this application
+
 - **Type:** `string`
 - **Default:** `"App"`
 
-The display name of this application
-
 ### id
+
+The unique ID of this application
 
 - **Type:** `string`
 - **Default:** `"app"`
-
-The unique ID of this application
 
 > [!WARNING]
 > Every app must have a unique ID that only contains lower case letters (a-z), numbers (0-9) and dashes (-).
 
 ### windowContent
 
-- **Type:** `React.FC<AppProps>`
-
 React component that renders this app inside a window when the app is running
+
+- **Type:** `React.FC<AppProps>`
 
 ### windowOptions
 
-- **Type:** `WindowOptions`
-
 Default options that get passed to the `windowContent` component
+
+- **Type:** `WindowOptions`
 
 ```ts
 interface WindowOptions {
@@ -92,45 +92,47 @@ interface WindowOptions {
 
 ### description
 
-- **Type:** `string | null`
-
 Description of this application
+
+- **Type:** `string | null`
 
 ### iconUrl
 
-- **Type:** `string | null`
-
 URL of the icon of this application
+
+- **Type:** `string | null`
 
 ### role
 
-- **Type:** `string | null`
-
 Defines what parts of the OS this app is responsible for and how it can be used by other apps
+
+- **Type:** `string | null`
 
 ### associatedExtensions
 
-- **Type:** `string | null`
-
 An array of file extensions that this application is used to open and read
 
+- **Type:** `string | null`
+
 ### pinnedByDefault
+
+Determines whether the app is pinned by default
 
 - **Type:** `boolean`
 - **Default:** `true`
 
-Determines whether the app is pinned by default
-
 ### launchAtStartup
+
+Determines whether the app is launched at startup
 
 - **Type:** `boolean`
 - **Default:** `false`
 
-Determines whether the app is launched at startup
-
 ## Methods
 
 ### setName(name)
+
+Set the display name of this application
 
 - **Parameters**
   - **name**
@@ -138,9 +140,9 @@ Determines whether the app is launched at startup
 - **Returns**
   - **Type:** `this`
 
-Set the display name of this application
-
 ### setDescription(description)
+
+Set the description of this application
 
 - **Parameters**
   - **description**
@@ -148,9 +150,9 @@ Set the display name of this application
 - **Returns**
   - **Type:** `this`
 
-Set the description of this application
-
 ### setIconUrl(iconUrl)
+
+Set the URL of the icon of this application
 
 - **Parameters**
   - **iconUrl**
@@ -158,9 +160,9 @@ Set the description of this application
 - **Returns**
   - **Type:** `this`
 
-Set the URL of the icon of this application
-
 ### setRole(role)
+
+Set the role of this application
 
 - **Parameters**
   - **role**
@@ -168,9 +170,9 @@ Set the URL of the icon of this application
 - **Returns**
   - **Type:** `this`
 
-Set the role of this application
-
 ### setAssociatedExtensions(extensions)
+
+Set the associated extensions of this application
 
 - **Parameters**
   - **extensions**
@@ -178,9 +180,9 @@ Set the role of this application
 - **Returns**
   - **Type:** `this`
 
-Set the associated extensions of this application
-
 ### setPinnedByDefault(pinnedByDefault)
+
+Changes whether this application is pinned by default or not
 
 - **Parameters**
   - **pinnedByDefault**
@@ -188,9 +190,9 @@ Set the associated extensions of this application
 - **Returns**
   - **Type:** `this`
 
-Changes whether this application is pinned by default or not
-
 ### setLaunchAtStartup(launchAtStartup)
+
+Changes whether this application is launched at startup or not
 
 - **Parameters**
   - **launchAtStartup**
@@ -198,14 +200,12 @@ Changes whether this application is pinned by default or not
 - **Returns**
   - **Type:** `this`
 
-Changes whether this application is launched at startup or not
-
 ### WindowContent(props)
+
+Renders the app as a React component
 
 - **Parameters**
   - **props**
 	- **Type:** `AppProps`
 - **Returns**
   - **Type:** `React.ReactElement`
-
-Renders the app as a React component

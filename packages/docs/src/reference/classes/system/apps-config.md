@@ -31,6 +31,6 @@ interface AppsConfigOptions {
 
 ### apps
 
-- **Type:** [`App[]`](../apps/app)
-
 An array of applications
+
+- **Type:** [`App[]`](../apps/app)

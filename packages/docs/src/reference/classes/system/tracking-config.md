@@ -29,16 +29,16 @@ interface TrackingConfigOptions {
 
 ### enabled
 
+Determines whether tracking is enabled
+
 - **Type:** `boolean`
 - **Default:** `true`
 
-Determines whether tracking is enabled
-
 ### GAMeasurementId
 
-- **Type:** `string`
-
 Google Analytics measurement ID
+
+- **Type:** `string`
 
 > [!WARNING]
 > This option is required if you want to enable tracking. The tracking feature currently only supports tracking via Google Analytics.

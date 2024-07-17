@@ -1,0 +1,62 @@
+---
+outline: deep
+description: "Functions related to math"
+package: "@prozilla-os/core"
+---
+
+# Math functions
+
+{{ $frontmatter.description }}
+
+- **Source:** [`math.utils.ts`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/features/_utils/math.utils.ts)
+
+
+## clamp(value, min, max)
+
+Clamp a value between a min and a max value
+
+::: details
+
+- **Parameters**
+  - **value**
+    - **Type:** `number`
+  - **min**
+    - **Type:** `number`
+  - **max**
+    - **Type:** `number`
+- **Returns**
+  - **Type:** `number`
+
+:::
+
+## randomRange(min, max)
+
+Get a random number in a range between a min and a max value
+
+::: details
+
+- **Parameters**
+  - **min**
+    - **Type:** `number`
+  - **max**
+    - **Type:** `number`
+- **Returns**
+  - **Type:** `number`
+
+:::
+
+## round(value, precision)
+
+Round a number off to a certain amount of digits after the comma
+
+::: details
+
+- **Parameters**
+  - **value** - Initial value
+    - **Type:** `number`
+  - **precision** - Maximum amount of digits allowed after the comma
+    - **Type:** `number`
+- **Returns** - Rounded value
+  - **Type:** `number`
+
+:::

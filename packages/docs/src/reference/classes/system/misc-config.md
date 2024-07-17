@@ -28,10 +28,10 @@ interface MiscConfigOptions {
 
 ### doubleClickDelay
 
+The maximum time between two clicks for those clicks to register as a double click in milliseconds
+
 - **Type:** `number`
 - **Default:** `250`
-
-The maximum time between two clicks for those clicks to register as a double click in milliseconds
 
 > [!NOTE] 
 > Also applies to touch devices.

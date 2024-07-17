@@ -29,9 +29,6 @@ interface DesktopConfigOptions {
 
 ### defaultIconSize
 
-- **Type:** `0 | 1 | 2`
-- **Default:** `1` (Medium)
-
 The default size of the desktop icons
 
 | Value | Description |
@@ -40,10 +37,10 @@ The default size of the desktop icons
 | 1 | Medium |
 | 2 | Large |
 
-### defaultIconDirection
+- **Type:** `0 | 1 | 2`
+- **Default:** `1` (Medium)
 
-- **Type:** `0 | 1`
-- **Default:** `0` (Vertical)
+### defaultIconDirection
 
 The default direction of the desktop icons
 
@@ -51,3 +48,6 @@ The default direction of the desktop icons
 | --- | --- |
 | 0 | Vertical |
 | 1 | Horizontal |
+
+- **Type:** `0 | 1`
+- **Default:** `0` (Vertical)

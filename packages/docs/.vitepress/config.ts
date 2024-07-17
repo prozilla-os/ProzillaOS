@@ -115,7 +115,22 @@ export default defineConfig({
 								]
 							},
 						]
-					}
+					},
+					{
+						text: "Functions",
+						base: "/reference/functions/",
+						collapsed: false,
+						items: [
+							{ text: "Array", link: "/array" },
+							{ text: "Browser", link: "/browser" },
+							{ text: "Date", link: "/date" },
+							{ text: "Math", link: "/math" },
+						]
+					},
+					{
+						text: "Constants",
+						link: "constants"
+					},
 				]
 			},
 		},

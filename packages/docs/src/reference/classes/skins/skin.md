@@ -23,8 +23,8 @@ package: "@prozilla-os/skins"
 
 ```ts
 interface SkinOptions {
-	appIcons?: { [key: string]: string };
-	appNames?: { [key: string]: string };
+	appIcons?: Record<number, string>;
+	appNames?: Record<number, string>;
 	wallpapers: string[];
 	defaultWallpaper: string;
 	fileIcons: {
@@ -47,37 +47,35 @@ interface SkinOptions {
 
 ### appIcons
 
-- **Type:** `{ [key: string]: string }`
-
 Replacements for app icons based on app id
+
+- **Type:** `{ [key: string]: string }`
 
 ### appNames
 
-- **Type:** `{ [key: string]: string }`
-
 Replacements for app names based on app id
+
+- **Type:** `{ [key: string]: string }`
 
 ### wallpapers
 
-- **Type:** `string[]`
-
 Array of URLs of wallpaper images
+
+- **Type:** `string[]`
 
 ### defaultWallpaper
 
+URL of default wallpaper image
+
 - **Type:** `string`
 - **Default:** `"https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png"`
-	- Preview:
-	
-		![Default wallpaper](https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png)
-
-URL of default wallpaper image
+    ![Default wallpaper](https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png)
 
 ### fileIcons
 
-- **Type:** `FileIcons`
-
 URLs of icons for types of files
+
+- **Type:** `FileIcons`
 
 ```ts
 interface FileIcons {
@@ -88,11 +86,15 @@ interface FileIcons {
 }
 ```
 
+#### Default
+
+![Default file icons](/assets/file-icons.png)
+
 ### folderIcons
 
-- **Type:** `FolderIcons`
-
 URLs of icons for types of folders
+
+- **Type:** `FolderIcons`
 
 ```ts
 interface FolderIcons {
@@ -103,12 +105,15 @@ interface FolderIcons {
 }
 ```
 
-### loadStyleSheet
+#### Default
 
-- **Type:** `() => void`
+![Default folder icons](/assets/folder-icons.png)
+
+### loadStyleSheet
 
 Function that dynamically imports style sheet
 
+- **Type:** `() => void`
 - **Example** 
 
 	```ts
@@ -116,3 +121,13 @@ Function that dynamically imports style sheet
 		import("../styles/skins/macOs.css");
 	}
 	```
+
+## Instances
+
+### macOsSkin
+
+A skin inspired by the macOS interface
+
+### minimalSkin
+
+A minimalistic skin with monochrome icons

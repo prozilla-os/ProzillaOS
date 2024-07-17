@@ -10,11 +10,15 @@ To configure ProzillaOS, pass the following properties inside to the `config` pr
 
 ### systemName
 
+Name of the system
+
 - **Optional**
 - **Type:** `string`
 - **Default:** `"ProzillaOS"`
 
 ### tagLine
+
+Tag line or short description of the system
 
 - **Optional**
 - **Type:** `string`
@@ -22,11 +26,15 @@ To configure ProzillaOS, pass the following properties inside to the `config` pr
 
 ### skin
 
+Configurations for assets, stylesheets and other visual elements
+
 - **Optional**
 - **Type:** [`Skin`](/reference/classes/skins/skin)
 - **Default:** `new Skin()`
 
 ### config
+
+Configurations for functional elements and features
 
 - **Optional**
 - **Type:** `ConfigOptions`

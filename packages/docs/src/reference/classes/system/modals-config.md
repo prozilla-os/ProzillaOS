@@ -32,14 +32,14 @@ interface ModalsConfigOptions {
 
 ### defaultDialogSize
 
+Default size of a dialog box
+
 - **Type:** [`Vector2`](/reference/classes/utils/vector2)
 - **Default:** `new Vector2(400, 200)`
 
-Default size of a dialog box
-
 ### defaultFileSelectorSize
+
+Default size of a file selector
 
 - **Type:** [`Vector2`](/reference/classes/utils/vector2)
 - **Default:** `new Vector2(700, 400)`
-
-Default size of a file selector
