@@ -1,5 +1,24 @@
 # @prozilla-os/media-viewer
 
+## 1.1.0
+
+### Minor Changes
+
+- Changed license to GNU General Public License
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.2.0
+
+## 1.0.5
+
+### Patch Changes
+
+- Added link to documentation site
+- Updated dependencies
+  - @prozilla-os/core@1.1.2
+
 ## 1.0.4
 
 ### Patch Changes

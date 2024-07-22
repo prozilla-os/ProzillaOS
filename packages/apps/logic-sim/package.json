@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/logic-sim",
 	"description": "A ProzillaOS application for simulating digital logic.",
-	"version": "1.0.4",
+	"version": "1.1.0",
 	"homepage": "https://os.prozilla.dev/logic-sim",
 	"author": {
 		"name": "Prozilla",
@@ -19,7 +19,7 @@
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
 		"directory": "packages/apps/logic-sim"
 	},
-	"license": "MIT",
+	"license": "GPL-3.0-only",
 	"dependencies": {
 		"@prozilla-os/core": "workspace:*",
 		"react": "^18.3.1"

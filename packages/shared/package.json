@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/shared",
 	"description": "A library of shared utility functions for ProzillaOS packages.",
-	"version": "1.0.3",
+	"version": "1.1.0",
 	"homepage": "https://os.prozilla.dev",
 	"author": {
 		"name": "Prozilla",
@@ -19,7 +19,7 @@
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
 		"directory": "packages/shared"
 	},
-	"license": "MIT",
+	"license": "GPL-3.0-only",
 	"dependencies": {},
 	"devDependencies": {
 		"@types/node": "^20.14.5",

@@ -1,5 +1,38 @@
 # prozilla-os
 
+## 1.2.0
+
+### Minor Changes
+
+- Changed license to GNU General Public License
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.1.0
+  - @prozilla-os/media-viewer@1.1.0
+  - @prozilla-os/text-editor@1.1.0
+  - @prozilla-os/calculator@1.1.0
+  - @prozilla-os/settings@1.1.0
+  - @prozilla-os/terminal@1.1.0
+  - @prozilla-os/browser@1.1.0
+  - @prozilla-os/core@1.2.0
+
+## 1.1.2
+
+### Patch Changes
+
+- Added link to documentation site
+- Updated dependencies
+  - @prozilla-os/browser@1.0.5
+  - @prozilla-os/calculator@1.0.5
+  - @prozilla-os/file-explorer@1.0.16
+  - @prozilla-os/media-viewer@1.0.5
+  - @prozilla-os/settings@1.0.5
+  - @prozilla-os/terminal@1.0.9
+  - @prozilla-os/text-editor@1.0.9
+  - @prozilla-os/core@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

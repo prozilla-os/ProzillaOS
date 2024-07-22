@@ -1,5 +1,17 @@
 # @prozilla-os/shared
 
+## 1.1.0
+
+### Minor Changes
+
+- Changed license to GNU General Public License
+
+## 1.0.4
+
+### Patch Changes
+
+- Added link to documentation site
+
 ## 1.0.3
 
 ### Patch Changes

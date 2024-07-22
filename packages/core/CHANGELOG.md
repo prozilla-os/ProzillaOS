@@ -1,5 +1,24 @@
 # @prozilla-os/core
 
+## 1.2.0
+
+### Minor Changes
+
+- Changed license to GNU General Public License
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.0
+
+## 1.1.2
+
+### Patch Changes
+
+- Added link to documentation site
+- Updated dependencies
+  - @prozilla-os/skins@1.0.2
+
 ## 1.1.1
 
 ### Patch Changes

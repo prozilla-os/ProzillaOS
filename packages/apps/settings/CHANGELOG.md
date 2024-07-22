@@ -1,5 +1,26 @@
 # @prozilla-os/settings
 
+## 1.1.0
+
+### Minor Changes
+
+- Changed license to GNU General Public License
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.1.0
+  - @prozilla-os/core@1.2.0
+
+## 1.0.5
+
+### Patch Changes
+
+- Added link to documentation site
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.0.16
+  - @prozilla-os/core@1.1.2
+
 ## 1.0.4
 
 ### Patch Changes

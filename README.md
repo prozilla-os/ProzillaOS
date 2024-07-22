@@ -13,9 +13,15 @@
 
 ## About
 
-This monorepo contains the source code of [os.prozilla.dev][demo] as well as multiple packages. You can find the main package at [`prozilla-os`][prozilla-os].
+This repository contains the source code of [os.prozilla.dev][demo] as well as multiple packages. You can find the main package at [`prozilla-os`][prozilla-os].
 
 ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows. It is made with React, Vite and TypeScript by [Prozilla][prozilla].
+
+<div align="center">
+	<br />
+	<a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/screenshots/screenshot-files-info-taskbar-desktop.png" width="720" alt="Screenshot of ProzillaOS" /></a>
+	<br />
+</div>
 
 ## Packages
 
@@ -108,13 +114,14 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 
 These resources can help you get started with ProzillaOS.
 
+- [Getting started guide](https://os.prozilla.dev/docs/guides/getting-started)
 - [prozilla-os/ProzillaOS-boilerplate][boilerplate]: Boilerplate code for a React Vite app implementing ProzillaOS
 
-<div align="center">
-	<br />
-	<a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/screenshots/screenshot-files-info-taskbar-desktop.png" width="720" alt="Screenshot of ProzillaOS" /></a>
-	<br />
-</div>
+
+## License
+
+ProzillaOS is licensed under the [GNU General Public License][license].
+
 
 [demo]: https://os.prozilla.dev/
 [docs]: https://os.prozilla.dev/docs
@@ -137,3 +144,4 @@ These resources can help you get started with ProzillaOS.
 [browser]: ./packages/apps/browser/
 [calculator]: ./packages/apps/calculator/
 [logic-sim]: ./packages/apps/logic-sim/
+[license]: ./LICENSE

@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/skins",
 	"description": "A React library that contains skins for ProzillaOS.",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"homepage": "https://os.prozilla.dev",
 	"author": {
 		"name": "Prozilla",
@@ -19,7 +19,7 @@
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
 		"directory": "packages/skins"
 	},
-	"license": "MIT",
+	"license": "GPL-3.0-only",
 	"devDependencies": {
 		"@types/react": "^18.3.3",
 		"@vitejs/plugin-react-swc": "^3.7.0",
