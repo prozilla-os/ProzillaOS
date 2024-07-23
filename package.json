@@ -10,6 +10,7 @@
 	"homepage": "https://os.prozilla.dev/",
 	"repository": "https://github.com/Prozilla/ProzillaOS",
 	"type": "module",
+	"license": "GPL-3.0-only",
 	"scripts": {
 		"start": "vite",
 		"build": "tsc && vite build",

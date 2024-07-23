@@ -40,4 +40,4 @@ You can support this project by donating to **[ko-fi.com/prozilla](https://ko-fi
 
 ## License
 
-This project is licensed under the MIT license, Copyright (c) 2023 Sieben De Beule. For more information see [LICENSE.md](LICENSE.md).
+ProzillaOS is licensed under the [GNU General Public License](./LICENSE).
