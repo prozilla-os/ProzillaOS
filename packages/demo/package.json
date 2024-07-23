@@ -11,10 +11,9 @@
 	"scripts": {
 		"start": "vite",
 		"build": "tsc --project tsconfig.build.json && vite build",
+		"postbuild": "pnpm run stage",
 		"preview": "vite preview --port 8080",
 		"stage": "vite-node scripts/stage",
-		"predeploy": "pnpm run build && pnpm run stage",
-		"deploy": "vite-node scripts/deploy",
 		"fetch": "vite-node scripts/fetchRepository"
 	},
 	"repository": {

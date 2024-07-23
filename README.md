@@ -63,16 +63,16 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 
 | Script | Description |
 | --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;start</pre> | Run [`pnpm run site:start`](#package-prozilla-os-demo). VSCode is configured to run this script whenever the project is opened.
+| <pre>pnpm&nbsp;run&nbsp;start</pre> | Run [`pnpm run demo:start`](#package-prozilla-os-demo). VSCode is configured to run this script whenever the project is opened.
 | <pre>pnpm&nbsp;run&nbsp;build</pre> | Build every package in sequential order.
-| <pre>pnpm&nbsp;run&nbsp;deploy</pre> | Clear the `dist` directory, build and stage each package that comprises the website, then deploy to GitHub pages. This should then trigger a GitHub Action that deploys the build to production.
-| <pre>pnpm&nbsp;run&nbsp;publish</pre> | Publish the `dist` directory directly to GitHub pages.
+| <pre>pnpm&nbsp;run&nbsp;stage</pre> | Copy and combine the build of each package that comprises the website in the `dist` directory at the root.
+| <pre>pnpm&nbsp;run&nbsp;deploy</pre> | Clear the `dist` directory, stage each package that comprises the website, then deploy to GitHub pages. This should trigger a GitHub Action that deploys the build to production.
 
 ### Public packages
 
 | Script | Description |
 | --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;packages:build</pre> | Build all packages using Vite in sequential order and output to respective `dist` directories.
+| <pre>pnpm&nbsp;run&nbsp;packages:build</pre> | Build all dependencies of the `prozilla-os` package in sequential order and output to respective `dist` directories.
 | <pre>pnpm&nbsp;run&nbsp;packages:update</pre> | Create a new changeset for packages and update their version accordingly.
 | <pre>pnpm&nbsp;run&nbsp;packages:release</pre> | Publish the latest versions of each package to the npm registry.
 
@@ -87,7 +87,6 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 | <pre>pnpm&nbsp;run&nbsp;demo:build</pre> | See [`pnpm run build`](./packages/demo/README.md#scripts)
 | <pre>pnpm&nbsp;run&nbsp;demo:preview</pre> | See [`pnpm run preview`](./packages/demo/README.md#scripts)
 | <pre>pnpm&nbsp;run&nbsp;demo:stage</pre> | See [`pnpm run stage`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;demo:deploy</pre> | See [`pnpm run deploy`](./packages/demo/README.md#scripts)
 | <pre>pnpm&nbsp;run&nbsp;demo:fetch</pre> | See [`pnpm run fetch`](./packages/demo/README.md#scripts)
 
 ### Internal package: `@prozilla-os/docs`
@@ -97,8 +96,6 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 | <pre>pnpm&nbsp;run&nbsp;docs:start</pre> | See [`pnpm run start`](./packages/docs/README.md#scripts)
 | <pre>pnpm&nbsp;run&nbsp;docs:build</pre> | See [`pnpm run build`](./packages/docs/README.md#scripts)
 | <pre>pnpm&nbsp;run&nbsp;docs:preview</pre> | See [`pnpm run preview`](./packages/docs/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;docs:stage</pre> | See [`pnpm run stage`](./packages/docs/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;docs:deploy</pre> | Build and stage docs, then run `pnpm run publish`.
 | <pre>pnpm&nbsp;run&nbsp;docs:generate</pre> | See [`pnpm run generate`](./packages/docs/README.md#scripts)
 
 ## Links

@@ -4,7 +4,6 @@ import { ANSI } from "../../core/src/constants";
 import { NAME, TAG_LINE } from "../src/config/branding.config";
 import { BASE_URL, BUILD_DIR, DOMAIN } from "../src/config/deploy.config";
 import { skin } from "../src/config/skin.config";
-import path from "node:path";
 import { name } from "../package.json";
 
 const PATHS = {
@@ -134,9 +133,8 @@ function stage() {
 	
 		files.forEach(([path, generateContent]) => {
 			const directory = path.substring(0, path.lastIndexOf("/"));
-			if (directory != "" && !fs.existsSync(directory)){
+			if (directory != "" && !fs.existsSync(directory))
 				fs.mkdirSync(directory, { recursive: true });
-			}
 	
 			fs.writeFileSync(path, generateContent(), { flag: "w+" });
 			console.log(`- ${ANSI.fg.cyan}${path}${ANSI.reset}`);
@@ -149,8 +147,6 @@ function stage() {
 	
 		generate404Page(template);
 		generateAppPages(template);
-
-		fs.cpSync(BUILD_DIR, path.resolve(__dirname, "../../../", BUILD_DIR), { recursive: true });
 	
 		console.log(`\n${ANSI.fg.green}✓ Staging complete${ANSI.reset}`);
 	} catch (error) {

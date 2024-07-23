@@ -33,19 +33,17 @@ const createGitHubRelease = (): void => {
 		// Write changelog to a temporary file
 		fs.writeFileSync(changelogFilePath, changelog);
 
-		// Push all tags, not recommended
-		console.log(`${ANSI.fg.yellow}Pushing tags...${ANSI.reset}`);
-		execSync("git push --tags", {
+		console.log(`${ANSI.fg.yellow}Pushing tag...${ANSI.reset}`);
+		execSync(`git push origin tag ${tagName}`, {
 			stdio: "inherit"
 		});
 
-		// Create a new release
 		console.log(`${ANSI.fg.yellow}Creating release...${ANSI.reset}`);
 		execSync(`gh release create ${tagName} --title "${releaseTitle}" --notes-file "${changelogFilePath}"`, {
 			stdio: "inherit"
 		});
 
-		console.log(`\n${ANSI.fg.green}✓ Release created:${ANSI.reset} ${releaseTitle}`);
+		console.log(`\n${ANSI.fg.green}✓ Release created: ${ANSI.fg.cyan + releaseTitle + ANSI.reset}`);
 	} catch (error) {
 		if ((error as Record<string, string>).stdout) {
 			console.error((error as Record<string, string>).stdout.toString());
@@ -54,7 +52,7 @@ const createGitHubRelease = (): void => {
 			console.error((error as Record<string, string>).stderr.toString());
 		}
 
-		console.error(`${ANSI.fg.red}⚠ Failed to create release:${ANSI.reset} ${(error as Error).message}`);
+		console.error(`\n${ANSI.fg.red}⚠ Failed to create release: ${(error as Error).message}${ANSI.reset}`);
 		process.exit(1);
 	} finally {
 		// Clean up the temporary file
