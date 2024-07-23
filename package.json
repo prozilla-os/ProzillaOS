@@ -31,7 +31,7 @@
 		"docs:generate": "pnpm --filter @prozilla-os/docs run generate",
 		"packages:build": "pnpm -r --sequential --filter prozilla-os... build",
 		"packages:update": "npx changeset && pnpm changeset version",
-		"packages:release": "pnpm changeset publish"
+		"packages:release": "pnpm changeset publish && pnpm vite-node scripts/releasePackage.ts"
 	},
 	"workspaces": [
 		"packages/*",
@@ -42,6 +42,7 @@
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git"
 	},
 	"dependencies": {
+		"commander": "^12.1.0",
 		"pnpm": "^9.5.0"
 	},
 	"devDependencies": {
