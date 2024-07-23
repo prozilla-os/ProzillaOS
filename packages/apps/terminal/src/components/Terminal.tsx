@@ -142,7 +142,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		if (value === "") return;
 
 		// Parse arguments
-		const args = value.match(/(?:[^\s"]+|"[^"]*")+/g);
+		let args: string[] | null = value.match(/(?:[^\s"]+|"[^"]*")+/g);
 		if (args == null) return;
 		if (args[0].toLowerCase() === "sudo" && args.length >= 2) args.shift();
 
@@ -152,6 +152,13 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		const command = CommandsManager.find(commandName);
 
 		if (!command) return formatError(commandName, "Command not found");
+
+		args = args.map((arg) => {
+			if (arg.startsWith("\"") && arg.endsWith("\""))
+				return arg.slice(1, -1);
+
+			return arg;
+		});
 
 		// Get options
 		const options: string[] = [];

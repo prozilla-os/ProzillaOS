@@ -54,6 +54,7 @@ function generateAliases() {
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
 	const devMode = command == "serve";
+	const aliases = generateAliases();
 
 	return {
 		base: "/",
@@ -67,13 +68,13 @@ export default defineConfig(({ command }) => {
 			outDir: BUILD_DIR
 		},
 		resolve: {
-			alias: devMode ? generateAliases() : {},
+			alias: devMode ? aliases : {},
 		},
 		server: {
 			port: 3000,
 		},
 		optimizeDeps: {
-			exclude: devMode ? ["prozilla-os"] : []
+			exclude: devMode ? Object.keys(aliases) : []
 		}
 	};
 });
