@@ -8,6 +8,7 @@
 	},
 	"homepage": "https://os.prozilla.dev/",
 	"type": "module",
+	"license": "GPL-3.0-only",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
 		"start": "vite",

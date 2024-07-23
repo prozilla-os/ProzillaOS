@@ -119,6 +119,10 @@ These resources can help you get started with ProzillaOS.
 	<br />
 </div>
 
+## License
+
+ProzillaOS is licensed under the [GNU General Public License](./LICENSE).
+
 [website]: https://os.prozilla.dev/
 [github]: https://github.com/prozilla-os/ProzillaOS
 [npm]: https://www.npmjs.com/package/prozilla-os
