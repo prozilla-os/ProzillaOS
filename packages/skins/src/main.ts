@@ -1,1 +1,1 @@
-export { Skin, macOsSkin, minimalSkin } from "./core";
+export * from "./core";

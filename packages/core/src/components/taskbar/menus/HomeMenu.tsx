@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { AppsConfig, closeViewport, Vector2 } from "../../../features";
 import { useWindowsManager, useVirtualRoot, useKeyboardListener, useSystemManager, useClassNames } from "../../../hooks";
 import { utilStyles } from "../../../styles";
+import { VectorImage } from "../../_utils/vector-image/VectorImage";
 
 interface HomeMenuProps {
 	active: boolean;
@@ -123,7 +124,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 								}}
 								title={name}
 							>
-								<ReactSVG src={iconUrl ?? ""}/>
+								<VectorImage src={iconUrl ?? ""}/>
 								<h2 className={utilStyles.TextRegular}>{name}</h2>
 							</button>
 						)}

@@ -8,6 +8,7 @@ import Draggable from "react-draggable";
 import { ReactSVG } from "react-svg";
 import utilStyles from "../../../styles/utils.module.css";
 import { ModalProps } from "../ModalView";
+import { VectorImage } from "../../_utils/vector-image/VectorImage";
 
 export function WindowedModal({ modal, params, children, ...props }: ModalProps) {
 	const nodeRef = useRef(null);
@@ -53,7 +54,7 @@ export function WindowedModal({ modal, params, children, ...props }: ModalProps)
 			}}
 		>
 			<div className={`${styles.Header} Window-handle`}>
-				<ReactSVG
+				<VectorImage
 					className={styles["Window-icon"]}
 					src={params?.iconUrl as string}
 				/>

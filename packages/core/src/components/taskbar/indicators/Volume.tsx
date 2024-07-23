@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 import { UtilMenu } from "../menus/UtilMenu";
 import styles from "./Volume.module.css";
+import { useClassNames } from "@prozilla-os/core";
 
 interface VolumeProps {
 	hideUtilMenus: boolean;
@@ -27,7 +28,7 @@ export function Volume({ hideUtilMenus, showUtilMenu }: VolumeProps) {
 	};
 
 	return (<OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
-		<button title="Volume" tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
+		<button title="Volume" className={useClassNames([], "Taskbar", "Indicator", "Volume")} tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
 			<FontAwesomeIcon icon={faVolumeHigh}/>
 		</button>
 		<UtilMenu active={showMenu} setActive={setShowMenu} className={styles.Menu}>

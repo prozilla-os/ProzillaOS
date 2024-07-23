@@ -1,6 +1,6 @@
 import { Skin } from "@prozilla-os/skins";
 
-export const skin = new Skin({
+export const defaultSkin = new Skin({
 	wallpapers: [
 		"/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png",
 		"/assets/wallpapers/abstract-mesh-gradient-orange-red-purple.png",
@@ -24,5 +24,5 @@ export const skin = new Skin({
 		images: "/assets/apps/file-explorer/icons/folder-images.svg",
 		text: "/assets/apps/file-explorer/icons/folder-text.svg",
 		link: "/assets/apps/file-explorer/icons/folder-link.svg",
-	}
+	},
 });

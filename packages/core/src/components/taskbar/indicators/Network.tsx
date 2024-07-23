@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 import { UtilMenu } from "../menus/UtilMenu";
 import styles from "./Network.module.css";
+import { useClassNames } from "@prozilla-os/core";
 
 interface NetworkProps {
 	hideUtilMenus: boolean;
@@ -27,7 +28,7 @@ export function Network({ hideUtilMenus, showUtilMenu }: NetworkProps) {
 	};
 
 	return (<OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
-		<button title="Network" tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
+		<button title="Network" className={useClassNames([], "Taskbar", "Indicator", "Network")} tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
 			<FontAwesomeIcon icon={faWifi}/>
 		</button>
 		<UtilMenu active={showMenu} setActive={setShowMenu} className={styles.Menu}>

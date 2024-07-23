@@ -1,5 +1,13 @@
 # @prozilla-os/core
 
+## 1.2.1
+
+### Patch Changes
+
+- Added Pixel skin
+- Updated dependencies
+  - @prozilla-os/skins@1.1.1
+
 ## 1.2.0
 
 ### Minor Changes

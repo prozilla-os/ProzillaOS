@@ -1,5 +1,11 @@
 # @prozilla-os/skins
 
+## 1.1.1
+
+### Patch Changes
+
+- Added Pixel skin
+
 ## 1.1.0
 
 ### Minor Changes

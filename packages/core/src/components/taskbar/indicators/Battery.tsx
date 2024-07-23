@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./Battery.module.css";
 import { UtilMenu } from "../menus/UtilMenu";
 import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
+import { useClassNames } from "@prozilla-os/core";
 
 type Battery = {
 	charging: boolean | ((prevState: boolean) => boolean);
@@ -93,7 +94,7 @@ export function Battery({ hideUtilMenus, showUtilMenu }: BatteryProps) {
 	}
 
 	return (<OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
-		<button className={styles.Button} title="Battery" tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
+		<button className={useClassNames([styles.Button], "Taskbar", "Indicator", "Battery")} title="Battery" tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
 			{!isCharging
 				? <FontAwesomeIcon className={styles["Charging-indicator"]} icon={faMinus}/>
 				: null

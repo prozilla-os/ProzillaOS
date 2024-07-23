@@ -16,8 +16,12 @@ export function UtilMenu({ active, setActive: _setActive, className, children }:
 	if (className != null)
 		classNames.push(className);
 
+	const modifiers = ["Util"];
+	if (active)
+		modifiers.push("Active");
+
 	return (<div className={classNames.join(" ")}>
-		<div className={useClassNames([styles.UtilMenu], "Taskbar", "Menu", "Util")}>
+		<div className={useClassNames([styles.UtilMenu], "Taskbar", "Menu", modifiers)}>
 			{children}
 		</div>
 	</div>);

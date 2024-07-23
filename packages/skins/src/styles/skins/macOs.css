@@ -100,13 +100,28 @@
 	pointer-events: auto;
 }
 
-.ProzillaOS-Taskbar_UtilIcons button {
+.ProzillaOS-Taskbar_Indicator--Calendar {
 	display: flex;
+	flex-direction: row;
 	gap: 0.5rem;
 }
 
-.ProzillaOS-Taskbar_UtilIcons button br {
-	display: none;
+.ProzillaOS-Taskbar_UtilIcons > div {
+	position: relative;
+}
+
+.ProzillaOS-Taskbar_UtilIcons > div > div {
+	top: 100%;
+	bottom: unset;
+}
+
+.ProzillaOS-Taskbar_Menu--Util {
+	border-radius: var(--border-radius-1);
+	border-top-right-radius: 0;
+}
+
+.ProzillaOS-Taskbar_UtilIcons > div > div > .ProzillaOS-Taskbar_Menu--Util:not(.ProzillaOS-Taskbar_Menu--Active) {
+	transform: translateY(-100px);
 }
 
 .ProzillaOS-Desktop .ProzillaOS-DirectoryList {

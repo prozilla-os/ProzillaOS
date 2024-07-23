@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./WindowView.module.css";
 import { faCircleRight, faExpand, faMinus, faWindowMaximize as fasWindowMaximize, faTimes, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { ReactSVG } from "react-svg";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import Draggable from "react-draggable";
 import { CSSProperties, FC, memo, MouseEventHandler, useEffect, useRef, useState } from "react";
@@ -24,6 +23,7 @@ import { WindowFallbackView } from "./WindowFallbackView";
 import { WindowOptions } from "../../features/windows/windowsManager";
 import { ModalProps } from "../modals/ModalView";
 import { useClassNames, useSystemManager } from "../../hooks";
+import { VectorImage } from "../_utils/vector-image/VectorImage";
 
 export interface WindowProps extends WindowOptions {
 	fullscreen?: boolean;
@@ -176,7 +176,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 							focus(event as unknown as Event, true);
 						}}
 					>
-						<ReactSVG
+						<VectorImage
 							className={useClassNames([styles["Window-icon"]], "WindowIcon")}
 							src={iconUrl}
 						/>

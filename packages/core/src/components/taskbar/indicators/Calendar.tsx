@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./Calendar.module.css";
 import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 import { UtilMenu } from "../menus/UtilMenu";
+import { useClassNames } from "@prozilla-os/core";
 
 interface CalendarProps {
 	hideUtilMenus: boolean;
@@ -35,8 +36,8 @@ export function Calendar({ hideUtilMenus, showUtilMenu }: CalendarProps) {
 		setShowMenu(show);
 	};
 
-	return (<OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
-		<button className={styles.Button} title="Date & Time" tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
+	return <OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
+		<button className={useClassNames([styles.Button], "Taskbar", "Indicator", "Calendar")} title="Date & Time" tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
 			<p>
 				{date.toLocaleString("en-GB", {
 					hour: "numeric",
@@ -66,5 +67,5 @@ export function Calendar({ hideUtilMenus, showUtilMenu }: CalendarProps) {
 				year: "numeric",
 			})}</p>
 		</UtilMenu>
-	</OutsideClickListener>);
+	</OutsideClickListener>;
 }

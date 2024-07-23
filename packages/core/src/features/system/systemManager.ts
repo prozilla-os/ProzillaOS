@@ -76,15 +76,15 @@ export class SystemManager {
 	private loadSkin() {
 		const skin = this.skin;
 
-		if (skin.appIcons != null) {
-			const appIcons = skin.appIcons as { [key: string]: string };
-			const appNames = skin.appNames as { [key: string]: string };
+		if (skin.appIcons != null || skin.appNames != null) {
+			const appIcons = skin.appIcons as { [key: string]: string } ?? {};
+			const appNames = skin.appNames as { [key: string]: string } ?? {};
 
 			this.appsConfig.apps.forEach((app) => {
 				if (Object.keys(appIcons).includes(app.id))
 					app.setIconUrl(appIcons[app.id]);
 				if (Object.keys(appNames).includes(app.id))
-					app.setIconUrl(appNames[app.id]);
+					app.setName(appNames[app.id]);
 			});
 		}
 

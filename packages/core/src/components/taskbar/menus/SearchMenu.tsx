@@ -6,6 +6,7 @@ import { useKeyboardListener } from "../../../hooks/_utils/keyboard";
 import { App } from "../../../features/";
 import { ReactSVG } from "react-svg";
 import { useClassNames, useSystemManager } from "../../../hooks";
+import { VectorImage } from "../../_utils/vector-image/VectorImage";
 
 interface SearchMenuProps {
 	active: boolean;
@@ -80,7 +81,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 							windowsManager?.open(id);
 						}}
 					>
-						<ReactSVG src={appsConfig.getAppById(id)?.iconUrl ?? ""}/>
+						<VectorImage src={appsConfig.getAppById(id)?.iconUrl ?? ""}/>
 						<p>{name}</p>
 					</button>
 				)}

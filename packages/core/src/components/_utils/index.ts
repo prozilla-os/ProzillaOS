@@ -6,5 +6,6 @@ export { ProgressBar } from "./progress-bar/ProgressBar";
 export { HeaderMenu } from "./header-menu/HeaderMenu";
 export { WebView } from "./web-view/WebView";
 export { ImagePreview } from "./directory-list/ImagePreview";
+export { VectorImage as Image } from "./vector-image/VectorImage";
 
 export type { OnSelectionChangeParams, FileEventHandler, FolderEventHandler } from "./directory-list/DirectoryList";

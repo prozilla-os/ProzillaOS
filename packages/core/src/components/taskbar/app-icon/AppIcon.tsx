@@ -8,6 +8,7 @@ import { Actions } from "../../actions/Actions";
 import { ClickAction } from "../../actions/actions/ClickAction";
 import { WindowsManager } from "../../../features/windows/windowsManager";
 import { useClassNames } from "../../../hooks";
+import { VectorImage } from "../../_utils/vector-image/VectorImage";
 
 interface AppButtonProps {
 	app: App;
@@ -73,7 +74,7 @@ export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, active
 			}}
 			title={app.name}
 		>
-			<ReactSVG src={app.iconUrl as string}/>
+			<VectorImage src={app.iconUrl as string}/>
 		</button>
 	);
 });

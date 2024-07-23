@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./ImagePreview.module.css";
 import { ReactSVG } from "react-svg";
 import { useSystemManager } from "../../../hooks";
+import { VectorImage } from "../vector-image/VectorImage";
 
 interface ImagePreviewProps {
 	source: string;
@@ -25,9 +26,7 @@ export function ImagePreview({ source, className, onError, ...props }: ImagePrev
 	return (<div className={classNames.join(" ")} {...props}>
 		{loadingFailed
 			? <ReactSVG src={skin.fileIcons.generic}/>
-			: source.endsWith(".svg")
-				? <ReactSVG src={source} onError={onLoadingError}/>
-				: <img src={source} onError={onLoadingError} alt="Preview" draggable="false"/>
+			: <VectorImage src={source} onError={onLoadingError}/>
 		}
 	</div>);
 }

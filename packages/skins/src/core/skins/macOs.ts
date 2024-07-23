@@ -13,6 +13,14 @@ export const macOsSkin = new Skin({
 		"text-editor": "/assets/skins/mac/apps/icons/text-editor.svg",
 		"wordle": "/assets/skins/mac/apps/icons/wordle.svg",
 	},
+	appNames: {
+		"browser": "Safari",
+		"calculator": "Calculator",
+		"file-explorer": "Finder",
+		"media-viewer": "Photos",
+		"terminal": "Terminal",
+		"text-editor": "Notes",
+	},
 	wallpapers: [
 		"/assets/skins/mac/wallpapers/macos-monterey.jpg"
 	],
