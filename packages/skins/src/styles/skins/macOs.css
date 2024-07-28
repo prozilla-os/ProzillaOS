@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 :root {
 	--util-menu-height: 2rem;
 	--taskbar-margin: 0.5rem;
+
+	--body-font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
+
+/* TASKBAR */
 
 .ProzillaOS-Taskbar {
 	--taskbar-opacity: 0.1;
@@ -124,6 +131,80 @@
 	transform: translateY(-100px);
 }
 
+/* DESKTOP */
+
 .ProzillaOS-Desktop .ProzillaOS-DirectoryList {
 	margin-top: var(--util-menu-height);
+}
+
+/* WINDOWS */
+
+.ProzillaOS-WindowsView {
+	margin-top: var(--util-menu-height);
+}
+
+.ProzillaOS-WindowHeader {
+	--window-icon-margin: 0.5rem;
+
+	flex-direction: row-reverse;
+	justify-content: flex-end;
+	gap: 0.25rem;
+}
+
+.ProzillaOS-WindowIcon {
+	display: none;
+}
+
+.ProzillaOS-WindowTitle {
+	position: absolute;
+	left: 50%;
+	transform: translateX(calc(-50% - var(--window-icon-margin)));
+}
+
+.ProzillaOS-WindowHeader > button {
+	--height: 1rem;
+	--icon-opacity: 0;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 9999px;
+	margin: 0;
+	padding: 0.2rem;
+	height: var(--height);
+	color: var(--background-color-0);
+	border: 1px solid var(--header-button-hover-color);
+}
+
+.ProzillaOS-WindowHeader > button:hover,
+.ProzillaOS-WindowHeader > button:focus-visible {
+	--icon-opacity: 1;
+	background-color: var(--header-button-hover-color) !important;
+}
+
+.ProzillaOS-WindowHeader > button#close-window {
+	--header-button-hover-color: var(--red-1);
+	background-color: var(--red-0);
+}
+
+.ProzillaOS-WindowHeader > button#maximize-window {
+	--header-button-hover-color: var(--green-1);
+	background-color: var(--green-0);
+	order: -1;
+}
+
+.ProzillaOS-WindowHeader > button#minimize-window {
+	--header-button-hover-color: var(--yellow-1);
+	background-color: var(--yellow-0);
+}
+
+.ProzillaOS-WindowHeader > button > svg {
+	opacity: var(--icon-opacity);
+	color: var(--background-color-0);
+	transition: opacity 200ms ease-in-out;
+}
+
+.ProzillaOS-WindowHeader > button > svg * {
+	color: inherit;
+	fill: currentColor;
 }
