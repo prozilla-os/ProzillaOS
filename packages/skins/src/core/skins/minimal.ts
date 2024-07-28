@@ -9,10 +9,11 @@ export const minimalSkin = new Skin({
 		"settings": "/assets/skins/minimal/apps/icons/settings.svg",
 		"terminal": "/assets/skins/minimal/apps/icons/terminal.svg",
 		"text-editor": "/assets/skins/minimal/apps/icons/text-editor.svg",
+		"ball-maze": "/assets/skins/minimal/apps/icons/ball-maze.svg",
+		"minesweeper": "/assets/skins/minimal/apps/icons/minesweeper.svg",
+		"wordle": "/assets/skins/minimal/apps/icons/wordle.svg",
+		"logic-sim": "/assets/skins/minimal/apps/icons/logic-sim.svg",
 	},
-	wallpapers: [
-		"/assets/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png"
-	],
 	defaultWallpaper: "/assets/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png",
 	fileIcons: {
 		generic: "/assets/skins/minimal/apps/file-explorer/file.svg"
