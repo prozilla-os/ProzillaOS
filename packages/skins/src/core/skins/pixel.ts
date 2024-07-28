@@ -14,6 +14,24 @@ export const pixelSkin = new Skin({
 		"text-editor": "/assets/skins/pixel/apps/icons/text-editor.png",
 		"wordle": "/assets/skins/pixel/apps/icons/wordle.png",
 	},
+	wallpapers: [
+		"/assets/skins/pixel/wallpapers/vibrant-wallpaper-blue-purple-red.png",
+		"/assets/skins/pixel/wallpapers/abstract-mesh-gradient-orange-red-purple.png",
+		"/assets/skins/pixel/wallpapers/vibrant-wallpaper-purple-yellow.png",
+		"/assets/skins/pixel/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png",
+		"/assets/skins/pixel/wallpapers/colorful-abstract-wallpaper-blue-red-green.png",
+		"/assets/skins/pixel/wallpapers/mesh-gradient-wallpaper-red-purple.png",
+		"/assets/skins/pixel/wallpapers/colorful-mesh-gradient-red-green.png",
+		"/assets/skins/pixel/wallpapers/flame-abstract-wallpaper-orange.png",
+		"/assets/skins/pixel/wallpapers/wave-abstract-wallpaper-teal.png",
+	],
+	defaultWallpaper: "/assets/skins/pixel/wallpapers/vibrant-wallpaper-blue-purple-red.png",
+	fileIcons: {
+		generic: "/assets/skins/pixel/apps/file-explorer/file.png"
+	},
+	folderIcons: {
+		generic: "/assets/skins/pixel/apps/file-explorer/folder.png"
+	},
 	loadStyleSheet: () => {
 		import("../../styles/skins/pixel.css");
 	}

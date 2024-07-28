@@ -18,7 +18,6 @@ export function VectorImage({ className, src, ...props }: ImageProps) {
 		const image = new Image();
 
 		image.onload = () => {
-			console.log(image);
 			setDimensions(new Vector2(image.naturalWidth, image.naturalHeight));
 		};
 
