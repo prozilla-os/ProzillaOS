@@ -1,4 +1,4 @@
-import { Vector2 } from "@prozilla-os/core";
+import { Vector2 } from "../../../features/math/vector2";
 import { useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 

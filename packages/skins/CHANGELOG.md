@@ -1,5 +1,11 @@
 # @prozilla-os/skins
 
+## 1.1.2
+
+### Patch Changes
+
+- Changed license to MIT
+
 ## 1.1.1
 
 ### Patch Changes

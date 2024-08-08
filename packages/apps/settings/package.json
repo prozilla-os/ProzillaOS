@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/settings",
 	"description": "A settings app for ProzillaOS.",
-	"version": "1.1.2",
+	"version": "1.1.3",
 	"homepage": "https://os.prozilla.dev/settings",
 	"author": {
 		"name": "Prozilla",
@@ -19,7 +19,7 @@
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
 		"directory": "packages/apps/settings"
 	},
-	"license": "GPL-3.0-only",
+	"license": "MIT",
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.5.2",
 		"@fortawesome/free-solid-svg-icons": "^6.5.2",

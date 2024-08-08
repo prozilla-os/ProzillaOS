@@ -1,5 +1,13 @@
 # @prozilla-os/media-viewer
 
+## 1.1.3
+
+### Patch Changes
+
+- Changed license to MIT
+- Updated dependencies
+  - @prozilla-os/core@1.2.3
+
 ## 1.1.2
 
 ### Patch Changes

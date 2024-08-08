@@ -1,5 +1,13 @@
 # @prozilla-os/core
 
+## 1.2.3
+
+### Patch Changes
+
+- Changed license to MIT
+- Updated dependencies
+  - @prozilla-os/skins@1.1.2
+
 ## 1.2.2
 
 ### Patch Changes

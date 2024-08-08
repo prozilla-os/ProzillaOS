@@ -1,5 +1,11 @@
 # @prozilla-os/shared
 
+## 1.1.1
+
+### Patch Changes
+
+- Changed license to MIT
+
 ## 1.1.0
 
 ### Minor Changes

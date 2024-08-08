@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./Calendar.module.css";
 import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 import { UtilMenu } from "../menus/UtilMenu";
-import { useClassNames } from "@prozilla-os/core";
+import { useClassNames } from "../../../hooks/_utils/classNames";
 
 interface CalendarProps {
 	hideUtilMenus: boolean;

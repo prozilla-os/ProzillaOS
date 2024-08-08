@@ -1,5 +1,20 @@
 # prozilla-os
 
+## 1.2.4
+
+### Patch Changes
+
+- Changed license to MIT
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.1.3
+  - @prozilla-os/media-viewer@1.1.3
+  - @prozilla-os/text-editor@1.1.3
+  - @prozilla-os/calculator@1.1.3
+  - @prozilla-os/settings@1.1.3
+  - @prozilla-os/terminal@1.1.4
+  - @prozilla-os/browser@1.1.3
+  - @prozilla-os/core@1.2.3
+
 ## 1.2.3
 
 ### Patch Changes

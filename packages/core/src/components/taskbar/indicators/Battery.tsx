@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./Battery.module.css";
 import { UtilMenu } from "../menus/UtilMenu";
 import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
-import { useClassNames } from "@prozilla-os/core";
+import { useClassNames } from "../../../hooks/_utils/classNames";
 
 type Battery = {
 	charging: boolean | ((prevState: boolean) => boolean);

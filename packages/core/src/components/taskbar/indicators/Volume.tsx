@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 import { UtilMenu } from "../menus/UtilMenu";
 import styles from "./Volume.module.css";
-import { useClassNames } from "@prozilla-os/core";
+import { useClassNames } from "../../../hooks/_utils/classNames";
 
 interface VolumeProps {
 	hideUtilMenus: boolean;
