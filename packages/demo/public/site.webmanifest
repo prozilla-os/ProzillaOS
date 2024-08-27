@@ -1,6 +1,8 @@
 {
     "name": "ProzillaOS",
     "short_name": "ProzillaOS",
+    "start_url": ".",
+    "scope": ".",
     "icons": [
         {
             "src": "/android-chrome-192x192.png?v=4",
@@ -11,6 +13,21 @@
             "src": "/android-chrome-512x512.png?v=4",
             "sizes": "512x512",
             "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/assets/screenshots/pwa/info-taskbar-desktop-512x320.png",
+            "sizes": "512x320",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "ProzillaOS"
+        },
+        {
+            "src": "/assets/screenshots/pwa/desktop-350x335.png",
+            "sizes": "350x335",
+            "type": "image/png",
+            "label": "ProzillaOS"
         }
     ],
     "theme_color": "#0D1114",
