@@ -1,6 +1,7 @@
 {
     "name": "ProzillaOS",
     "short_name": "ProzillaOS",
+	"description": "ProzillaOS is an open-source web-based operating system inspired by Ubuntu Linux and Windows made with React.js by Prozilla.",
     "start_url": ".",
     "scope": ".",
     "icons": [
