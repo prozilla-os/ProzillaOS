@@ -423,6 +423,9 @@ importers:
       vite:
         specifier: ^5.3.1
         version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+      vite-plugin-css-injected-by-js:
+        specifier: ^3.5.1
+        version: 3.5.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-dts:
         specifier: ^3.9.1
         version: 3.9.1(@types/node@20.14.10)(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
@@ -442,8 +445,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(@fortawesome/fontawesome-svg-core@6.5.2)(react@18.3.1)
       '@prozilla-os/bliss-radio':
-        specifier: ^1.0.3
-        version: 1.0.3
+        specifier: ^1.0.6
+        version: 1.0.6
       '@prozilla-os/logic-sim':
         specifier: workspace:*
         version: link:../apps/logic-sim
@@ -1256,11 +1259,11 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@prozilla-os/bliss-radio@1.0.3':
-    resolution: {integrity: sha512-kkKsJKY3em52lP+qOSYhtPwox8GY5XFVf0Jasw3HIJRjfmSksx3BY3iCLeWrYskoBTUV45+wQcPaOiqdV3eejg==}
+  '@prozilla-os/bliss-radio@1.0.6':
+    resolution: {integrity: sha512-kAbMW6I8bvmQ+iYNzzchcO6mY9QgnMeXPYHI5gobvDY+nn3xqKSVUsHytMAthH0t4OgcH30ygZ/Lu3rdNuUGtg==}
 
-  '@prozilla-os/core@1.2.3':
-    resolution: {integrity: sha512-0iF+y1zhxwWou7WhLHJhKV6f3HoMajIbVW7t3seC3YbG7WN6tbNGEdMiFpM/nMe3wXc8+CBNHclIVMxiLTVJUQ==}
+  '@prozilla-os/core@1.2.4':
+    resolution: {integrity: sha512-AaVjW696xWS6Zy3Iw4BZ72AHg91XSjOWeqPXOEzCtT7ysbjdkPfiuzQVZkEYmHkqmhNPG1+E7c+oUnWy03sVkg==}
     peerDependencies:
       react: ^18.3.1
 
@@ -3850,6 +3853,11 @@ packages:
       vue-tsc:
         optional: true
 
+  vite-plugin-css-injected-by-js@3.5.1:
+    resolution: {integrity: sha512-9ioqwDuEBxW55gNoWFEDhfLTrVKXEEZgl5adhWmmqa88EQGKfTmexy4v1Rh0pAS6RhKQs2bUYQArprB32JpUZQ==}
+    peerDependencies:
+      vite: '>2.0.0-0'
+
   vite-plugin-dts@3.9.1:
     resolution: {integrity: sha512-rVp2KM9Ue22NGWB8dNtWEr+KekN3rIgz1tWD050QnRGlriUCmaDwa7qA5zDEjbXg5lAXhYMSBJtx3q3hQIJZSg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -4794,16 +4802,16 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prozilla-os/bliss-radio@1.0.3':
+  '@prozilla-os/bliss-radio@1.0.6':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.6.0
       '@fortawesome/free-solid-svg-icons': 6.6.0
       '@fortawesome/react-fontawesome': 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
-      '@prozilla-os/core': 1.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@prozilla-os/core': 1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@prozilla-os/core@1.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@prozilla-os/core@1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.6.0
       '@fortawesome/free-regular-svg-icons': 6.5.2
@@ -7632,6 +7640,10 @@ snapshots:
       optionator: 0.9.4
       stylelint: 16.6.1(typescript@5.4.5)
       typescript: 5.4.5
+
+  vite-plugin-css-injected-by-js@3.5.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0)):
+    dependencies:
+      vite: 5.3.1(@types/node@20.14.10)(less@4.2.0)
 
   vite-plugin-dts@3.9.1(@types/node@20.14.10)(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0)):
     dependencies:

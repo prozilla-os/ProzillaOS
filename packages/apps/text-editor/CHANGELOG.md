@@ -1,5 +1,12 @@
 # @prozilla-os/text-editor
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.2.4
+
 ## 1.1.3
 
 ### Patch Changes

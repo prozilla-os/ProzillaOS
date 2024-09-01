@@ -1,5 +1,11 @@
 # @prozilla-os/core
 
+## 1.2.4
+
+### Patch Changes
+
+- Added CSS in JS injection
+
 ## 1.2.3
 
 ### Patch Changes
