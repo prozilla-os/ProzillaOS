@@ -4,6 +4,7 @@ import { wordle } from "../apps/wordle";
 import { ballMaze } from "../apps/ball-maze";
 import { minesweeper } from "../apps/minesweeper";
 import { logicSim } from "@prozilla-os/logic-sim";
+import { blissRadio } from "@prozilla-os/bliss-radio";
 
 export const appsConfig = new AppsConfig({
 	apps: [
@@ -36,6 +37,8 @@ export const appsConfig = new AppsConfig({
 			.setPinnedByDefault(false),
 		logicSim.setName("Logic Sim (WIP)")
 			.setDescription("Create digital logic circuits using the online simulator.")
-			.setIconUrl("/assets/apps/icons/logic-sim.svg")
+			.setIconUrl("/assets/apps/icons/logic-sim.svg"),
+		blissRadio.setName("Bliss Radio")
+			.setDescription("Listen to Bliss Radio on ProzillaOS.")
 	],
 });

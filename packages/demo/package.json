@@ -25,6 +25,7 @@
 		"@fortawesome/fontawesome-svg-core": "^6.5.2",
 		"@fortawesome/free-solid-svg-icons": "^6.5.2",
 		"@fortawesome/react-fontawesome": "^0.2.2",
+		"@prozilla-os/bliss-radio": "^1.0.3",
 		"@prozilla-os/logic-sim": "workspace:*",
 		"@prozilla-os/skins": "workspace:*",
 		"prozilla-os": "workspace:*",
