@@ -23,6 +23,33 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 	<br />
 </div>
 
+## Getting started
+
+1. Clone the GitHub repository.
+
+	```
+	git clone https://github.com/prozilla-os/ProzillaOS.git ProzillaOS
+	cd ProzillaOS
+	```
+
+2. Install package manager and dependencies
+
+	```
+	npm i pnpm -g
+	pnpm i
+	```
+
+3. Run project
+
+	```
+	pnpm start
+	```
+
+4. Test local dev server by visiting [localhost:3000](http://localhost:3000/)
+
+> [!TIP] 
+> If you encounter an error saying `module not found`, that probably means you haven't built the packages yet. In most cases, you can fix this by typing `pnpm run packages:build`.
+
 ## Packages
 
 ### Libraries (public)
