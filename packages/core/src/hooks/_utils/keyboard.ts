@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { removeFromArray } from "../../features";
+import { removeFromArray } from "@prozilla-os/shared";
 
 interface UseKeyboardListenerParams {
 	onKeyDown?: (event: KeyboardEvent) => void;

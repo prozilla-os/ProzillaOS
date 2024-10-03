@@ -1,7 +1,7 @@
-import { EventEmitter, EventNamesMap } from "../_utils/event.utils";
 import { VirtualRoot } from "./root/virtualRoot";
 import { VirtualFile } from "./file";
 import { VirtualFolder } from "./folder";
+import { EventEmitter, EventNamesMap } from "@prozilla-os/shared";
 
 export interface VirtualBaseJson {
 	nam: string;

@@ -1,9 +1,10 @@
 import { FC, memo, useEffect, useState } from "react";
 import { WindowProps, WindowView } from "./WindowView";
-import { setViewportTitle, setViewportIcon, getViewportParams, SettingsManager, removeDuplicatesFromArray } from "../../features";
+import { setViewportTitle, setViewportIcon, getViewportParams, SettingsManager } from "../../features";
 import { WindowOptions } from "../../features/windows/windowsManager";
 import { useClassNames, useSettingsManager, useSystemManager, useWindowsManager } from "../../hooks";
 import { useWindows } from "../../hooks/windows/windowsContext";
+import { removeDuplicatesFromArray } from "@prozilla-os/shared";
 
 export const WindowsView: FC = memo(() => {
 	const { systemName, tagLine } = useSystemManager();

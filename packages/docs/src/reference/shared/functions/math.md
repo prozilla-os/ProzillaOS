@@ -1,14 +1,14 @@
 ---
 outline: deep
 description: "Functions related to math"
-package: "@prozilla-os/core"
+package: "@prozilla-os/shared"
 ---
 
 # Math functions
 
 {{ $frontmatter.description }}
 
-- **Source:** [`math.utils.ts`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/features/_utils/math.utils.ts)
+- **Source:** [`math.utils.ts`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/shared/src/features/_utils/math.utils.ts)
 
 
 ## clamp(value, min, max)

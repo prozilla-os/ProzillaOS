@@ -1,4 +1,3 @@
-import { formatRelativeTime } from "../_utils";
 import { Skin } from "@prozilla-os/skins";
 import { VirtualDriveConfig } from "./configs";
 import { AppsConfig } from "./configs/appsConfig";
@@ -8,6 +7,7 @@ import { ModalsConfig } from "./configs/modalsConfig";
 import { TaskbarConfig } from "./configs/taskbarConfig";
 import { TrackingConfig } from "./configs/trackingConfig";
 import { WindowsConfig } from "./configs/windowsConfig";
+import { formatRelativeTime } from "@prozilla-os/shared";
 
 export interface SystemManagerParams {
 	systemName: SystemManager["systemName"] | null;

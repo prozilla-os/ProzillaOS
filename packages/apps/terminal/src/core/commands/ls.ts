@@ -1,6 +1,7 @@
-import { ANSI, VirtualFolder } from "@prozilla-os/core";
+import { VirtualFolder } from "@prozilla-os/core";
 import { formatError } from "../_utils/terminal.utils";
 import { Command, ExecuteParams } from "../command";
+import { ANSI } from "@prozilla-os/shared";
 
 export const ls = new Command()
 	.setManual({

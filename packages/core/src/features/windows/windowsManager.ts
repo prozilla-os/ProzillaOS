@@ -1,4 +1,4 @@
-import { randomRange } from "../_utils/math.utils";
+import { randomRange } from "@prozilla-os/shared";
 import { App } from "../";
 import { Vector2 } from "../math/vector2";
 import { SystemManager } from "../system/systemManager";

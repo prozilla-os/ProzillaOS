@@ -1,14 +1,14 @@
 ---
 outline: deep
 description: "Functions related to dates and time"
-package: "@prozilla-os/core"
+package: "@prozilla-os/shared"
 ---
 
 # Date functions
 
 {{ $frontmatter.description }}
 
-- **Source:** [`date.utils.ts`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/features/_utils/date.utils.ts)
+- **Source:** [`date.utils.ts`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/shared/src/features/_utils/date.utils.ts)
 
 
 ## formatTime(time, maxLength, allowAffixes)

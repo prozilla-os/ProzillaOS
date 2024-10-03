@@ -1,7 +1,7 @@
 import { CSSProperties } from "react";
 import styles from "./ProgressBar.module.css";
-import { clamp } from "../../../features/_utils/math.utils";
 import { useClassNames } from "../../../hooks";
+import { clamp } from "@prozilla-os/shared";
 
 interface ProgressBarProps {
 	fillPercentage: number;

@@ -1,4 +1,4 @@
-import { ANSI } from "@prozilla-os/core";
+import { ANSI } from "@prozilla-os/shared";
 import { formatError } from "../_utils/terminal.utils";
 import { Command, ExecuteParams } from "../command";
 import { CommandsManager } from "../commands";

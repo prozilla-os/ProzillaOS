@@ -1,9 +1,10 @@
-import { clamp, Vector2 } from "@prozilla-os/core";
+import { Vector2 } from "@prozilla-os/core";
 import { Chip, ChipJson } from "./chips/chip";
 import { ControlledPin } from "./pins/controlledPin";
 import { InputHandler } from "./inputHandler";
 import { Wire, WireJson } from "./wires/wire";
 import { BACKGROUND, COLORS, CONTROLLER, CURSORS, ENABLE_COLOR_CACHING, FONT } from "../constants/logicSim.const";
+import { clamp } from "@prozilla-os/shared";
 
 export interface CircuitJson extends ChipJson {
 	wires: WireJson[];

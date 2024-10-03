@@ -1,4 +1,4 @@
-import { EventEmitter } from "@prozilla-os/core";
+import { EventEmitter } from "@prozilla-os/shared";
 
 const StreamEvents = {
 	new: "new",

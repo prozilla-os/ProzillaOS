@@ -13,7 +13,7 @@
 
 ## About 
 
-`@prozilla-os/shared` is a library of shared utility functions for ProzillaOS packages.
+`@prozilla-os/shared` is a library of shared utility functions and variables for ProzillaOS packages.
 
 ## Installation
 
@@ -21,29 +21,6 @@
 $ npm install @prozilla-os/shared
 $ yarn add @prozilla-os/shared
 $ pnpm add @prozilla-os/shared
-```
-
-## Usage
-
-### `appViteConfig(basePath, entryPath)`
-
-Helper function for creating Vite configurations for ProzillaOS apps.
-
-#### Params
-
-- `basePath` (string) - Path of base directory
-- `entryPath` (string) - Path of library entry
-
-#### Example
-```tsx
-// vite.config.ts
-
-import { defineConfig } from "vite";
-import { appViteConfig } from "@prozilla-os/shared";
-
-export default defineConfig({
-	...appViteConfig(__dirname, "src/main.ts")
-});
 ```
 
 ## Links
@@ -56,7 +33,7 @@ export default defineConfig({
 - [Ko-fi][ko-fi]
 
 [demo]: https://os.prozilla.dev/
-[docs]: [docs]: https://os.prozilla.dev/docs/reference/shared
+[docs]: https://os.prozilla.dev/docs/reference/shared
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/shared
 [npm]: https://www.npmjs.com/package/@prozilla-os/shared
 [discord]: https://discord.gg/JwbyQP4tdz

@@ -8,6 +8,7 @@
 		"email": "business@prozilla.dev",
 		"url": "https://prozilla.dev/"
 	},
+	"funding": "https://ko-fi.com/prozilla",
 	"type": "module",
 	"main": "dist/main.js",
 	"types": "dist/main.d.ts",

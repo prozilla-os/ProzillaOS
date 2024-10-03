@@ -2,12 +2,13 @@ import { MouseEventHandler, MutableRefObject, useEffect, useRef, useState } from
 import styles from "./Terminal.module.css";
 import { OutputLine } from "./OutputLine";
 import { InputLine } from "./InputLine";
-import { ANSI, App, clamp, removeFromArray, SettingsManager, useSettingsManager, useSystemManager, useVirtualRoot, VirtualFolder, WindowProps } from "@prozilla-os/core";
+import { App, SettingsManager, useSettingsManager, useSystemManager, useVirtualRoot, VirtualFolder, WindowProps } from "@prozilla-os/core";
 import { HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../constants/terminal.const";
 import { Stream } from "../core/stream";
 import { CommandResponse } from "../core/command";
 import { formatError } from "../core/_utils/terminal.utils";
 import { CommandsManager } from "../core/commands";
+import { ANSI, clamp, removeFromArray } from "@prozilla-os/shared";
 
 export interface TerminalProps extends WindowProps {
 	path?: string;

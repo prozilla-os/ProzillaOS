@@ -40,7 +40,7 @@ export const appViteConfig = (basePath: string, entryPath: string): UserConfig =
 				formats: ["es"],
 			},
 			rollupOptions: {
-				external: ["react", "react/jsx-runtime", "@prozilla-os/core"],
+				external: ["react", "react/jsx-runtime", "@prozilla-os/core", "@prozilla-os/shared"],
 				output: {
 					assetFileNames: "assets/[name][extname]",
 					entryFileNames: "[name].js",

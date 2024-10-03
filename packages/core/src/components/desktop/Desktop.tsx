@@ -10,13 +10,14 @@ import { RadioAction } from "../actions/actions/RadioAction";
 import { Divider } from "../actions/actions/Divider";
 import { Share } from "../modals/share/Share";
 import { ModalProps } from "../modals/ModalView";
-import { SettingsManager, reloadViewport, ModalsManager, Vector2, isValidInteger, AppsConfig } from "../../features";
+import { SettingsManager, reloadViewport, ModalsManager, Vector2, AppsConfig } from "../../features";
 import { VirtualFile } from "../../features/virtual-drive/file";
 import { VirtualFolder, VirtualFolderLink } from "../../features/virtual-drive/folder";
 import { useSettingsManager, useWindowsManager, useVirtualRoot, useWindowedModal, useContextMenu, useSystemManager } from "../../hooks";
 import { DirectoryList } from "../_utils";
 import { FileEventHandler, FolderEventHandler } from "../_utils/directory-list/DirectoryList";
 import { useClassNames } from "../../hooks";
+import { isValidInteger } from "@prozilla-os/shared";
 
 export const Desktop = memo(() => {
 	const { desktopConfig, skin, appsConfig } = useSystemManager();

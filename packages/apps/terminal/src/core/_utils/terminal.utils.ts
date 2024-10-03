@@ -1,4 +1,4 @@
-import { ANSI } from "@prozilla-os/core";
+import { ANSI } from "@prozilla-os/shared";
 
 export function formatError(commandName: string, error: string): string {
 	return `${ANSI.fg.red}${commandName}: ${error}${ANSI.reset}`;

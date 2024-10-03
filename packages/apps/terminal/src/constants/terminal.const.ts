@@ -1,4 +1,4 @@
-import { ANSI } from "@prozilla-os/core";
+import { ANSI } from "@prozilla-os/shared";
 
 export const USERNAME = "user";
 export const HOSTNAME = "prozilla-os";

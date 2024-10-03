@@ -1,4 +1,4 @@
-import { EventEmitter } from "../_utils/event.utils";
+import { EventEmitter } from "@prozilla-os/shared";
 import { ZIndexGroup } from "./zIndexGroup";
 
 const ZIndexManagerEvents = {

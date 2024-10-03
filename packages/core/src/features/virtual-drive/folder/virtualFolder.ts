@@ -1,10 +1,10 @@
-import { removeFromArray } from "../../_utils/array.utils";
 import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualFileJson } from "../file/virtualFile";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 import { VirtualFolderLink } from ".";
 import { VirtualFile, VirtualFileLink } from "../file";
 import { AppsConfig } from "../../system/configs";
+import { removeFromArray } from "@prozilla-os/shared";
 
 export interface VirtualFolderJson extends VirtualBaseJson {
 	fls?: VirtualFileJson[];

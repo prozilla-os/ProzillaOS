@@ -2,7 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../Settings.module.css";
 import { faEllipsisVertical, faThumbTack } from "@fortawesome/free-solid-svg-icons";
 import { MouseEventHandler } from "react";
-import { Actions, App, ClickAction, ImagePreview, removeFromArray, SettingsManager, useContextMenu, useSettingsManager, useWindowsManager } from "@prozilla-os/core";
+import { Actions, App, ClickAction, ImagePreview, SettingsManager, useContextMenu, useSettingsManager, useWindowsManager } from "@prozilla-os/core";
+import { removeFromArray } from "@prozilla-os/shared";
 
 interface AppOptionProps {
 	app: App;

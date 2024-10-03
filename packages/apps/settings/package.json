@@ -8,6 +8,7 @@
 		"email": "business@prozilla.dev",
 		"url": "https://prozilla.dev/"
 	},
+	"funding": "https://ko-fi.com/prozilla",
 	"type": "module",
 	"main": "dist/main.js",
 	"types": "dist/main.d.ts",
@@ -26,10 +27,10 @@
 		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/file-explorer": "workspace:*",
+		"@prozilla-os/shared": "^1.1.1",
 		"react": "^18.3.1"
 	},
 	"devDependencies": {
-		"@prozilla-os/shared": "workspace:*",
 		"@types/node": "^20.14.5",
 		"@types/react": "^18.3.3",
 		"@vitejs/plugin-react-swc": "^3.7.0",

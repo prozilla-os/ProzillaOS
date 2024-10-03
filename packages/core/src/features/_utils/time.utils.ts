@@ -1,4 +1,4 @@
-import { formatRelativeTime } from "./date.utils";
+import { formatRelativeTime } from "@prozilla-os/shared";
 
 export class TimeManager {
 	static startDate: Date;

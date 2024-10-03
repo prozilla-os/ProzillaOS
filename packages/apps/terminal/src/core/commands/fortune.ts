@@ -1,4 +1,4 @@
-import { randomFromArray } from "@prozilla-os/core";
+import { randomFromArray } from "@prozilla-os/shared";
 import { Command } from "../command";
 
 /**

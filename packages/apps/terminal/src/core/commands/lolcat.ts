@@ -1,4 +1,4 @@
-import { ANSI } from "@prozilla-os/core";
+import { ANSI } from "@prozilla-os/shared";
 import { removeAnsi } from "../_utils/terminal.utils";
 import { Command, ExecuteParams } from "../command";
 

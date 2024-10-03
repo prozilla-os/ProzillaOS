@@ -1,14 +1,14 @@
 ---
 outline: deep
 description: "Functions related to arrays"
-package: "@prozilla-os/core"
+package: "@prozilla-os/shared"
 ---
 
 # Array functions
 
 {{ $frontmatter.description }}
 
-- **Source:** [`array.utils.ts`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/features/_utils/array.utils.ts)
+- **Source:** [`array.utils.ts`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/shared/src/features/_utils/array.utils.ts)
 
 
 ## removeFromArray(item, array)

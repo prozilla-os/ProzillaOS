@@ -6,6 +6,7 @@
 		"email": "business@prozilla.dev",
 		"url": "https://prozilla.dev/"
 	},
+	"funding": "https://ko-fi.com/prozilla",
 	"homepage": "https://os.prozilla.dev/",
 	"type": "module",
 	"license": "MIT",

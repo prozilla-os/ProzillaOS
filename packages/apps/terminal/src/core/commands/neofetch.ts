@@ -1,4 +1,5 @@
-import { ANSI, SettingsManager, THEMES } from "@prozilla-os/core";
+import { SettingsManager, THEMES } from "@prozilla-os/core";
+import { ANSI } from "@prozilla-os/shared";
 import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR } from "../../constants/terminal.const";
 import { Command, ExecuteParams } from "../command";
 

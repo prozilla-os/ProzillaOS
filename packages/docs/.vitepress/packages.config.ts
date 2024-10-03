@@ -60,10 +60,8 @@ export const PACKAGES: PackageData[] = [
 				base: "/reference/core/functions/",
 				collapsed: false,
 				items: [
-					{ text: "Array", link: "/array" },
 					{ text: "Browser", link: "/browser" },
-					{ text: "Date", link: "/date" },
-					{ text: "Math", link: "/math" },
+					
 				]
 			},
 			{
@@ -91,6 +89,26 @@ export const PACKAGES: PackageData[] = [
 		text: "@prozilla-os/shared",
 		link: "shared",
 		category: "Libraries",
+		items: [
+			{
+				text: "Constants",
+				base: "/reference/shared/constants/",
+				collapsed: false,
+				items: [
+					{ text: "ANSI", link: "/ansi" },
+				]
+			},
+			{
+				text: "Functions",
+				base: "/reference/shared/functions/",
+				collapsed: false,
+				items: [
+					{ text: "Array", link: "/array" },
+					{ text: "Date", link: "/date" },
+					{ text: "Math", link: "/math" },
+				]
+			}
+		]
 	},
 	{
 		text: "@prozilla-os/calculator",

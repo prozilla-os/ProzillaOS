@@ -1,5 +1,5 @@
+import { clamp } from "@prozilla-os/shared";
 import { useState } from "react";
-import { clamp } from "../../features";
 
 export function useHistory<Type>(initialState: Type): {
 	history: Type[];

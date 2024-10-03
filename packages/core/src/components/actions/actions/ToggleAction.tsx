@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { formatShortcut } from "../../../features/_utils/string.utils";
+import { formatShortcut } from "../../../features/_utils/keyboard.utils";
 import styles from "../Actions.module.css";
 import { ReactElement, useState } from "react";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";

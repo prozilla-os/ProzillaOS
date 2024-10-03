@@ -8,6 +8,7 @@
 		"email": "business@prozilla.dev",
 		"url": "https://prozilla.dev/"
 	},
+	"funding": "https://ko-fi.com/prozilla",
 	"type": "module",
 	"main": "dist/main.js",
 	"types": "dist/main.d.ts",
@@ -22,6 +23,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@prozilla-os/core": "workspace:*",
+		"@prozilla-os/shared": "workspace:*",
 		"anser": "^2.1.1",
 		"escape-carriage": "^1.3.1",
 		"react": "^18.3.1"
@@ -33,8 +35,7 @@
 		"typescript": "^5.4.5",
 		"vite": "^5.3.1",
 		"vite-plugin-dts": "^3.9.1",
-		"vite-plugin-lib-inject-css": "^2.1.1",
-		"@prozilla-os/shared": "workspace:*"
+		"vite-plugin-lib-inject-css": "^2.1.1"
 	},
 	"files": [
 		"dist"
