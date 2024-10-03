@@ -456,15 +456,24 @@ importers:
       '@fortawesome/react-fontawesome':
         specifier: ^0.2.2
         version: 0.2.2(@fortawesome/fontawesome-svg-core@6.5.2)(react@18.3.1)
+      '@prozilla-os/ball-maze':
+        specifier: ^1.0.2
+        version: 1.0.2(@types/node@20.14.10)(less@4.2.0)(react-dom@18.3.1(react@18.3.1))(rollup@4.24.0)(typescript@5.4.5)
       '@prozilla-os/bliss-radio':
         specifier: ^1.0.6
         version: 1.0.6
       '@prozilla-os/logic-sim':
         specifier: workspace:*
         version: link:../apps/logic-sim
+      '@prozilla-os/minesweeper':
+        specifier: ^1.0.2
+        version: 1.0.2(@types/node@20.14.10)(less@4.2.0)(react-dom@18.3.1(react@18.3.1))(rollup@4.24.0)(typescript@5.4.5)
       '@prozilla-os/skins':
         specifier: workspace:*
         version: link:../skins
+      '@prozilla-os/wordle':
+        specifier: ^1.0.2
+        version: 1.0.2(@types/node@20.14.10)(less@4.2.0)(react-dom@18.3.1(react@18.3.1))(rollup@4.24.0)(typescript@5.4.5)
       prozilla-os:
         specifier: workspace:*
         version: link:../prozilla-os
@@ -567,10 +576,6 @@ importers:
         version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/docs:
-    dependencies:
-      '@prozilla-os/docs':
-        specifier: 'file:'
-        version: 'link:'
     devDependencies:
       '@types/node':
         specifier: ^20.14.6
@@ -675,9 +680,6 @@ importers:
 
   packages/skins:
     dependencies:
-      '@prozilla-os/skins':
-        specifier: 'file:'
-        version: 'link:'
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -1322,6 +1324,9 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
+  '@prozilla-os/ball-maze@1.0.2':
+    resolution: {integrity: sha512-tsROCkN4o7MCOmjzK5U68wPo6C9pkGysfdOVVEfG6oMNf+AgHX8hq/8HptE6kddX/JapjAFKUHG8sr9OI1PxgQ==}
+
   '@prozilla-os/bliss-radio@1.0.6':
     resolution: {integrity: sha512-kAbMW6I8bvmQ+iYNzzchcO6mY9QgnMeXPYHI5gobvDY+nn3xqKSVUsHytMAthH0t4OgcH30ygZ/Lu3rdNuUGtg==}
 
@@ -1330,10 +1335,19 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
+  '@prozilla-os/demo@file:packages/demo':
+    resolution: {directory: packages/demo, type: directory}
+
+  '@prozilla-os/minesweeper@1.0.2':
+    resolution: {integrity: sha512-HSdEaUPo4LAFMyD3/seu0GHj7z9AZtGk5955SmTcU3GCFdAGrSSBTqQEhuk8oWEmkQPEPcTiqQxRlE6SCWJrSg==}
+
   '@prozilla-os/skins@1.1.2':
     resolution: {integrity: sha512-QdoS37ECd7lzAkc6gDA74H8rscEZuwSFTE5vn6rNQoMFiQ33B0LYe8+jlzQdS4cTKFvMV4IfrvRdhBAPnldN3Q==}
     peerDependencies:
       react: ^18.3.1
+
+  '@prozilla-os/wordle@1.0.2':
+    resolution: {integrity: sha512-UhN+cddhHnu8uKArFs5yKhdFT8oOlxQh2jT3DIxVTBaYPfOmJo981glD7FiCQqTehXtL+exEHYGv6V7+q9g8qA==}
 
   '@remix-run/router@1.16.1':
     resolution: {integrity: sha512-es2g3dq6Nb07iFxGk5GuHN20RwBZOsuDQN7izWIisUcv9r+d2C5jQxqmgkdebXgReWfiyUabcki6Fg77mSNrig==}
@@ -5051,6 +5065,26 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
+  '@prozilla-os/ball-maze@1.0.2(@types/node@20.14.10)(less@4.2.0)(react-dom@18.3.1(react@18.3.1))(rollup@4.24.0)(typescript@5.4.5)':
+    dependencies:
+      '@prozilla-os/ball-maze': '@prozilla-os/demo@file:packages/demo(@types/node@20.14.10)(less@4.2.0)(rollup@4.24.0)(typescript@5.4.5)'
+      '@prozilla-os/core': 1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@prozilla-os/wordle': '@prozilla-os/demo@file:packages/demo(@types/node@20.14.10)(less@4.2.0)(rollup@4.24.0)(typescript@5.4.5)'
+      react: 18.3.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - react-dom
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+
   '@prozilla-os/bliss-radio@1.0.6':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.6.0
@@ -5075,9 +5109,76 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
+  '@prozilla-os/demo@file:packages/demo(@types/node@20.14.10)(less@4.2.0)(rollup@4.24.0)(typescript@5.4.5)':
+    dependencies:
+      '@fortawesome/fontawesome-svg-core': 6.6.0
+      '@fortawesome/free-solid-svg-icons': 6.6.0
+      '@fortawesome/react-fontawesome': 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
+      '@prozilla-os/bliss-radio': 1.0.6
+      '@prozilla-os/logic-sim': link:packages/apps/logic-sim
+      '@prozilla-os/skins': link:packages/skins
+      prozilla-os: link:packages/prozilla-os
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-router-dom: 6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-svg: 16.1.34(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-tabs: 6.0.2(react@18.3.1)
+      vite: 5.4.8(@types/node@20.14.10)(less@4.2.0)
+      vite-plugin-svgr: 4.2.0(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+
+  '@prozilla-os/minesweeper@1.0.2(@types/node@20.14.10)(less@4.2.0)(react-dom@18.3.1(react@18.3.1))(rollup@4.24.0)(typescript@5.4.5)':
+    dependencies:
+      '@prozilla-os/core': 1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@prozilla-os/minesweeper': '@prozilla-os/demo@file:packages/demo(@types/node@20.14.10)(less@4.2.0)(rollup@4.24.0)(typescript@5.4.5)'
+      react: 18.3.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - react-dom
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+
   '@prozilla-os/skins@1.1.2(react@18.3.1)':
     dependencies:
       react: 18.3.1
+
+  '@prozilla-os/wordle@1.0.2(@types/node@20.14.10)(less@4.2.0)(react-dom@18.3.1(react@18.3.1))(rollup@4.24.0)(typescript@5.4.5)':
+    dependencies:
+      '@prozilla-os/core': 1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@prozilla-os/wordle': '@prozilla-os/demo@file:packages/demo(@types/node@20.14.10)(less@4.2.0)(rollup@4.24.0)(typescript@5.4.5)'
+      react: 18.3.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - react-dom
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
 
   '@remix-run/router@1.16.1': {}
 

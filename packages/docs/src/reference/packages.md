@@ -4,8 +4,12 @@ outline: deep
 
 # Packages
 
-These packages are different modules of ProzillaOS that can be installed separately or via the bundle package `prozilla-os`.
+This is an overview of all packages related to ProzillaOS.
 
-### Libraries
+## Libraries
 
-<!--@include: ../../../README.md{4,23}-->
+<!--@include: ../../../README.md#libraries{3,}-->
+
+### External applications
+
+<!--@include: ../../../README.md#external{3,}-->

@@ -63,35 +63,7 @@ For more information, refer to the [self-hosting guide](https://os.prozilla.dev/
 
 ## Packages
 
-### Libraries (public)
-
-These libraries are different modules of ProzillaOS that can be installed separately or via the bundle package `prozilla-os`. Each library has a `src/main.ts` entry file and is published to the npm registry.
-
-- [`prozilla-os`][prozilla-os]: A bundle containing the core packages and all standard applications of ProzillaOS
-- [`@prozilla-os/core`][core]: Core functionality, React components and hooks
-- [`@prozilla-os/skins`][skins]: Customizable skins for ProzillaOS
-- [`@prozilla-os/shared`][shared]: Shared functions and utilities
-
-#### Standard applications
-
-- [`@prozilla-os/file-explorer`][file-explorer]: File explorer app
-- [`@prozilla-os/terminal`][terminal]: Terminal/shell app
-- [`@prozilla-os/text-editor`][text-editor]: Text editor app
-- [`@prozilla-os/settings`][settings]: Settings app
-- [`@prozilla-os/media-viewer`][media-viewer]: Media viewer app
-- [`@prozilla-os/browser`][browser]: Browser app
-- [`@prozilla-os/calculator`][calculator]: Calculator app
-
-#### Non-standard applications
-
-- [`@prozilla-os/logic-sim`][logic-sim]: Logic simulator app
-
-### Sites (internal)
-
-These packages contains the source code of parts of the ProzillaOS website. They are published to GitHub pages.
-
-- [`@prozilla-os/demo`](./packages/demo/): Demo site
-- [`@prozilla-os/docs`](./packages/docs/): Documentation site
+You can find a list of all packages related to ProzillaOS in [packages/README.md](./packages/README.md).
 
 <!-- #endregion packages -->
 
@@ -104,13 +76,11 @@ These packages contains the source code of parts of the ProzillaOS website. They
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-## Resources
-
-These resources can help you get started with ProzillaOS.
+### Resources
 
 - [Getting started guide](https://os.prozilla.dev/docs/guides/getting-started)
 - [Self-hosting guide](https://os.prozilla.dev/docs/guides/self-hosting)
-- [prozilla-os/ProzillaOS-boilerplate][boilerplate]: Boilerplate code for a React Vite app implementing ProzillaOS
+- [ProzillaOS boilerplate][boilerplate]
 
 ## License
 
@@ -125,14 +95,3 @@ ProzillaOS is [MIT licensed](./LICENSE).
 [boilerplate]: https://github.com/prozilla-os/ProzillaOS-boilerplate
 [prozilla]: https://prozilla.dev/
 [prozilla-os]: ./packages/prozilla-os/
-[core]: ./packages/core/
-[skins]: ./packages/skins/
-[shared]: ./packages/shared/
-[file-explorer]: ./packages/apps/file-explorer/
-[terminal]: ./packages/apps/terminal/
-[text-editor]: ./packages/apps/text-editor/
-[settings]: ./packages/apps/settings/
-[media-viewer]: ./packages/apps/media-viewer/
-[browser]: ./packages/apps/browser/
-[calculator]: ./packages/apps/calculator/
-[logic-sim]: ./packages/apps/logic-sim/

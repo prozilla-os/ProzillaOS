@@ -1,8 +1,8 @@
 import { AppsConfig, browser, calculator, fileExplorer, mediaViewer, settings, terminal, textEditor } from "prozilla-os";
 import { NAME } from "./branding.config";
-import { wordle } from "../apps/wordle";
-import { ballMaze } from "../apps/ball-maze";
-import { minesweeper } from "../apps/minesweeper";
+import { wordle } from "@prozilla-os/wordle";
+import { ballMaze } from "@prozilla-os/ball-maze";
+import { minesweeper } from "@prozilla-os/minesweeper";
 import { logicSim } from "@prozilla-os/logic-sim";
 import { blissRadio } from "@prozilla-os/bliss-radio";
 

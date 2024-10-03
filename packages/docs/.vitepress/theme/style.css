@@ -389,3 +389,7 @@ li > p {
 	border-radius: 8px;
 	margin: 16px 0;
 }
+
+.vp-doc p {
+	line-height: 1.5;
+}
