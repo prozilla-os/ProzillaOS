@@ -1,4 +1,4 @@
-import { ANSI } from "@prozilla-os/core";
+import { ANSI } from "@prozilla-os/shared";
 
 export type status = "error" | "info" | "file" | "success" | "start";
 

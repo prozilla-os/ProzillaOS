@@ -6,6 +6,7 @@
 		"email": "business@prozilla.dev",
 		"url": "https://prozilla.dev/"
 	},
+	"funding": "https://ko-fi.com/prozilla",
 	"homepage": "https://os.prozilla.dev/docs",
 	"type": "module",
 	"scripts": {
@@ -24,7 +25,10 @@
 		"react": "^18.3.1",
 		"rimraf": "^5.0.8",
 		"vite-node": "^1.6.0",
-		"vitepress": "^1.2.3",
+		"vitepress": "^1.3.4",
 		"vue": "^3.4.31"
+	},
+	"dependencies": {
+		"@prozilla-os/docs": "file:"
 	}
 }

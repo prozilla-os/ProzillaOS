@@ -15,16 +15,7 @@
 
 **🔗 [os.prozilla.dev/docs](https://os.prozilla.dev/docs)**
 
-`@prozilla-os/docs` is a VitePress website that contains the documentation for ProzillaOS.
-
-## Scripts
-
-| Script | Description |
-| --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;start</pre> | Start VitePress dev server at [localhost:3000](http://localhost:3000/). Changes to module will dynamically be hot-reloaded, so normally there is no need for hard-refreshes.
-| <pre>pnpm&nbsp;run&nbsp;build</pre> | Compile project using VitePress and output to the `dist` directory.
-| <pre>pnpm&nbsp;run&nbsp;preview</pre> | Start web server with preview of build at [localhost:8080](http://localhost:8080/). Can be useful for validating build before deploying.
-| <pre>pnpm&nbsp;run&nbsp;generate</pre> | Generate basic information files in JSON format to use as a base for writing the documentation and output to the `data` directory.
+`@prozilla-os/docs` is a VitePress website that contains the documentation for ProzillaOS. For more information about this package, visit the [self-hosting guide](https://os.prozilla.dev/docs/guides/self-hosting).
 
 ## Links
 

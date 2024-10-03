@@ -11,6 +11,8 @@
 	</p>
 </div>
 
+<!-- #region about -->
+
 ## About
 
 This repository contains the source code of [os.prozilla.dev][demo] as well as multiple packages. You can find the main package at [`prozilla-os`][prozilla-os].
@@ -22,6 +24,10 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 	<a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/screenshots/screenshot-files-info-taskbar-desktop.png" width="720" alt="Screenshot of ProzillaOS" /></a>
 	<br />
 </div>
+
+<!-- #endregion about -->
+
+<!-- #region getting-started -->
 
 ## Getting started
 
@@ -37,8 +43,8 @@ Make sure you have [NodeJS](https://nodejs.org/en) (version v18.12 or higher) in
 2. Install package manager and dependencies
 
 	```
-	npm i pnpm -g
-	pnpm i
+	npm install pnpm -g
+	pnpm install
 	```
 
 3. Run project
@@ -49,8 +55,12 @@ Make sure you have [NodeJS](https://nodejs.org/en) (version v18.12 or higher) in
 
 4. Test local dev server by visiting [localhost:3000](http://localhost:3000/)
 
-> [!TIP] 
-> If you encounter an error saying `module not found`, that probably means you haven't built the packages yet. In most cases, you can fix this by typing `pnpm run packages:build`.
+> [!WARNING]
+> In a local environment, ProzillaOS packages will try to import uncompiled versions of other ProzillaOS packages from their respective `src` directory. If this does not happen correctly and a package tries to import a compiled version of another package from its respective `dist` directory, you might run into an error message saying `module not found`. Executing the command `pnpm run packages:build` will compile each package into their `dist` directories and resolve this error. 
+
+<!-- #endregion getting-started -->
+
+<!-- #region packages -->
 
 ## Packages
 
@@ -84,48 +94,7 @@ These packages contains the source code of parts of the ProzillaOS website. They
 - [`@prozilla-os/demo`](./packages/demo/): Demo site
 - [`@prozilla-os/docs`](./packages/docs/): Documentation site
 
-## Scripts
-
-ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
-
-### Global
-
-| Script | Description |
-| --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;start</pre> | Run [`pnpm run demo:start`](#package-prozilla-os-demo). VSCode is configured to run this script whenever the project is opened.
-| <pre>pnpm&nbsp;run&nbsp;build</pre> | Build every package in sequential order.
-| <pre>pnpm&nbsp;run&nbsp;stage</pre> | Copy and combine the build of each package that comprises the website in the `dist` directory at the root.
-| <pre>pnpm&nbsp;run&nbsp;deploy</pre> | Clear the `dist` directory, stage each package that comprises the website, then deploy to GitHub pages. This should trigger a GitHub Action that deploys the build to production.
-
-### Public packages
-
-| Script | Description |
-| --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;packages:build</pre> | Build all dependencies of the `prozilla-os` package in sequential order and output to respective `dist` directories.
-| <pre>pnpm&nbsp;run&nbsp;packages:update</pre> | Create a new changeset for packages and update their version accordingly.
-| <pre>pnpm&nbsp;run&nbsp;packages:release</pre> | Publish the latest versions of each package to the npm registry.
-
-> [!TIP] 
-> Use `pnpm --filter <package_selector> build` to build a sepecific subset of packages or a single package and output to respective `dist` directory/directories. For more information about selecting/filtering specific packages, read [pnpm's documentation on filtering](https://pnpm.io/filtering).
-
-### Internal package: `@prozilla-os/demo`
-
-| Script | Description |
-| --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;demo:start</pre> | See [`pnpm run start`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;demo:build</pre> | See [`pnpm run build`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;demo:preview</pre> | See [`pnpm run preview`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;demo:stage</pre> | See [`pnpm run stage`](./packages/demo/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;demo:fetch</pre> | See [`pnpm run fetch`](./packages/demo/README.md#scripts)
-
-### Internal package: `@prozilla-os/docs`
-
-| Script | Description |
-| --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;docs:start</pre> | See [`pnpm run start`](./packages/docs/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;docs:build</pre> | See [`pnpm run build`](./packages/docs/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;docs:preview</pre> | See [`pnpm run preview`](./packages/docs/README.md#scripts)
-| <pre>pnpm&nbsp;run&nbsp;docs:generate</pre> | See [`pnpm run generate`](./packages/docs/README.md#scripts)
+<!-- #endregion packages -->
 
 ## Links
 
@@ -141,6 +110,7 @@ ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
 These resources can help you get started with ProzillaOS.
 
 - [Getting started guide](https://os.prozilla.dev/docs/guides/getting-started)
+- [Self-hosting guide](https://os.prozilla.dev/docs/guides/self-hosting)
 - [prozilla-os/ProzillaOS-boilerplate][boilerplate]: Boilerplate code for a React Vite app implementing ProzillaOS
 
 

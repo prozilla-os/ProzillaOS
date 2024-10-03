@@ -15,17 +15,7 @@
 
 **🔗 [os.prozilla.dev](https://os.prozilla.dev/)**
 
-`@prozilla-os/demo` is a React Vite website that demonstrates the features of ProzillaOS.
-
-## Scripts
-
-| Script | Description |
-| --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;start</pre> | Start Vite dev server at [localhost:3000](http://localhost:3000/). Changes to module will dynamically be hot-reloaded, so normally there is no need for hard-refreshes. VSCode is configured to run this script whenever the project is opened.
-| <pre>pnpm&nbsp;run&nbsp;build</pre> | Compile project using TypeScript and bundle all files into the `dist` directory, or the directory specified in config file. This directory can be uploaded to a web server.
-| <pre>pnpm&nbsp;run&nbsp;preview</pre> | Start web server with preview of build at [localhost:8080](http://localhost:8080/). Can be useful for validating build before deploying.
-| <pre>pnpm&nbsp;run&nbsp;stage</pre> | Execute [stage.ts](./scripts/stage.ts), which stages the build and prepares it for deployment. Script will generate a sitemap, robots.txt and all other necessary files.
-| <pre>pnpm&nbsp;run&nbsp;fetch</pre> | Fetch the repository tree using GitHub's API and store it as a JSON file that will be used to populate the virtual drive. More information can be found on the [virtual drive](./features/virtual-drive/README.md) page.
+`@prozilla-os/demo` is a React Vite website that demonstrates the features of ProzillaOS. For more information about this package, visit the [self-hosting guide](https://os.prozilla.dev/docs/guides/self-hosting).
 
 ## Links
 
