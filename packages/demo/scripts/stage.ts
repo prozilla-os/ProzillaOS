@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { appsConfig } from "../src/config/apps.config";
-import { ANSI } from "../../core/src/constants";
+import { ANSI } from "../../shared/src/constants";
 import { NAME, TAG_LINE } from "../src/config/branding.config";
 import { BASE_URL, BUILD_DIR, DOMAIN } from "../src/config/deploy.config";
 import { defaultSkin } from "../src/config/skin.config";

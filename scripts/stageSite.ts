@@ -1,7 +1,7 @@
-import { ANSI } from "../packages/core/src/constants";
+import { ANSI } from "../packages/shared/src/constants";
 import { name } from "../package.json";
 import fs from "node:fs";
-import { BUILD_DIR } from "packages/demo/src/config/deploy.config";
+import { BUILD_DIR } from "../packages/demo/src/config/deploy.config";
 import { resolve } from "node:path";
 
 const PACKAGES = [

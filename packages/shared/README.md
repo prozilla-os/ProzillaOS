@@ -11,16 +11,16 @@
   </p>
 </div>
 
-## About 
+## About
 
 `@prozilla-os/shared` is a library of shared utility functions and variables for ProzillaOS packages.
 
 ## Installation
 
 ```sh
-$ npm install @prozilla-os/shared
-$ yarn add @prozilla-os/shared
-$ pnpm add @prozilla-os/shared
+npm install @prozilla-os/shared
+yarn add @prozilla-os/shared
+pnpm add @prozilla-os/shared
 ```
 
 ## Links

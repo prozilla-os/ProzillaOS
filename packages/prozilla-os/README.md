@@ -11,7 +11,7 @@
   </p>
 </div>
 
-## About 
+## About
 
 `prozilla-os` is a React Vite component library written in TypeScript for building web-based operating systems, made by Prozilla. This package combines multiple other packages for easy access to different ProzillaOS features. You can also download these packages separately instead.
 
@@ -20,9 +20,9 @@
 ## Installation
 
 ```sh
-$ npm install prozilla-os
-$ yarn add prozilla-os
-$ pnpm add prozilla-os
+npm install prozilla-os
+yarn add prozilla-os
+pnpm add prozilla-os
 ```
 
 ## Packages
@@ -74,27 +74,27 @@ interface ProzillaOSProps {
 
     appIcons: Record<number, string> | undefined,
 
-	appNames: Record<number, string> | undefined,
+ appNames: Record<number, string> | undefined,
 
-	wallpapers: string[],
+ wallpapers: string[],
 
-	defaultWallpaper: string,
+ defaultWallpaper: string,
 
-	fileIcons: {
-		generic: string;
-		info: string | undefined;
-		text: string | undefined;
-		code: string | undefined;
-	},
+ fileIcons: {
+  generic: string;
+  info: string | undefined;
+  text: string | undefined;
+  code: string | undefined;
+ },
 
-	folderIcons: {
-		generic: string;
-		images: string | undefined;
-		text: string | undefined;
-		link: string | undefined;
-	},
+ folderIcons: {
+  generic: string;
+  images: string | undefined;
+  text: string | undefined;
+  link: string | undefined;
+ },
 
-	loadStyleSheet: () => void | undefined
+ loadStyleSheet: () => void | undefined
 
   })
 
@@ -118,14 +118,14 @@ interface ProzillaOSProps {
       defaultIconDirection: 0 | 1
 
     }),
-	misc: new MiscConfig({
+ misc: new MiscConfig({
 
       /**
-	   * @default 250
-	   */
-	  doubleClickDelay: number
+    * @default 250
+    */
+   doubleClickDelay: number
 
-	})
+ })
     modals: new ModalsConfig({
 
       /**

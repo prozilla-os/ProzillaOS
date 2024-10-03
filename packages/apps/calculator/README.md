@@ -11,7 +11,7 @@
   </p>
 </div>
 
-## About 
+## About
 
 `@prozilla-os/calculator` is a ProzillaOS application for making basic calculations.
 
@@ -20,9 +20,9 @@
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/calculator
-$ yarn add @prozilla-os/core @prozilla-os/calculator
-$ pnpm add @prozilla-os/core @prozilla-os/calculator
+npm install @prozilla-os/core @prozilla-os/calculator
+yarn add @prozilla-os/core @prozilla-os/calculator
+pnpm add @prozilla-os/core @prozilla-os/calculator
 ```
 
 ## Usage

@@ -1,5 +1,5 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig, UserConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
 import checker from "vite-plugin-checker";
 import { BUILD_DIR } from "./src/config/deploy.config";
 import { resolve } from "path";
@@ -65,7 +65,10 @@ export default defineConfig(({ command }) => {
 			}),
 		],
 		build: {
-			outDir: BUILD_DIR
+			outDir: BUILD_DIR,
+			rollupOptions: {
+				external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"]
+			}
 		},
 		resolve: {
 			alias: devMode ? aliases : {},
@@ -76,5 +79,5 @@ export default defineConfig(({ command }) => {
 		optimizeDeps: {
 			exclude: devMode ? Object.keys(aliases) : []
 		}
-	};
+	} as UserConfig;
 });

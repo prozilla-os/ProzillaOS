@@ -1,5 +1,11 @@
 # @prozilla-os/shared
 
+## 1.2.0
+
+### Minor Changes
+
+- Moved utilities from core package to shared and dev-tools
+
 ## 1.1.1
 
 ### Patch Changes

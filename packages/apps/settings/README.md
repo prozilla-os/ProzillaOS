@@ -11,7 +11,7 @@
   </p>
 </div>
 
-## About 
+## About
 
 `@prozilla-os/settings` is a ProzillaOS application for configuring settings.
 
@@ -20,9 +20,9 @@
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/settings
-$ yarn add @prozilla-os/core @prozilla-os/settings
-$ pnpm add @prozilla-os/core @prozilla-os/settings
+npm install @prozilla-os/core @prozilla-os/settings
+yarn add @prozilla-os/core @prozilla-os/settings
+pnpm add @prozilla-os/core @prozilla-os/settings
 ```
 
 ## Usage

@@ -13,44 +13,14 @@
 
 ## About
 
-`@prozilla-os/logic-sim` is a ProzillaOS application for simulating digital logic. Inspired by [Digital Logic Sim](https://sebastian.itch.io/digital-logic-sim) by Sebastian Lague.
+`@prozilla-os/dev-tools` is a library of tools for the development of ProzillaOS packages.
 
 ## Installation
 
-`@prozilla-os/core` is required to run this application.
-
 ```sh
-npm install @prozilla-os/core @prozilla-os/logic-sim
-yarn add @prozilla-os/core @prozilla-os/logic-sim
-pnpm add @prozilla-os/core @prozilla-os/logic-sim
-```
-
-## Usage
-
-### Basic setup
-
-```tsx
-import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView, AppsConfig } from "@prozilla-os/core";
-import { logicSim } from "@prozilla-os/logic-sim";
-
-function App() {
-  return (
-    <ProzillaOS
-      systemName="Example"
-      tagLine="Powered by ProzillaOS"
-      config={{
-        apps: new AppsConfig({
-          apps: [ logicSim ]
-        })
-      }}
-    >
-      <Taskbar/>
-      <WindowsView/>
-      <ModalsView/>
-      <Desktop/>
-    </ProzillaOS>
-  );
-}
+npm install @prozilla-os/dev-tools
+yarn add @prozilla-os/dev-tools
+pnpm add @prozilla-os/dev-tools
 ```
 
 ## Links
@@ -62,9 +32,9 @@ function App() {
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[demo]: https://os.prozilla.dev/logic-sim
-[docs]: https://os.prozilla.dev/docs/reference/apps/logic-sim
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/apps/logic-sim
-[npm]: https://www.npmjs.com/package/@prozilla-os/logic-sim
+[demo]: https://os.prozilla.dev/
+[docs]: https://os.prozilla.dev/docs/reference/dev-tools
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/dev-tools
+[npm]: https://www.npmjs.com/package/@prozilla-os/dev-tools
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

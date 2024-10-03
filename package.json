@@ -52,7 +52,7 @@
 		"eslint": "^8.57.0",
 		"eslint-plugin-react": "^7.34.3",
 		"eslint-plugin-react-refresh": "^0.4.7",
-		"rimraf": "^5.0.8",
+		"rimraf": "^5.0.10",
 		"stylelint": "^16.6.1",
 		"typescript": "^5.4.5",
 		"typescript-eslint": "^7.13.1",

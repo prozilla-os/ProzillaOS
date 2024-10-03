@@ -11,7 +11,7 @@
   </p>
 </div>
 
-## About 
+## About
 
 **🔗 [os.prozilla.dev/docs](https://os.prozilla.dev/docs)**
 

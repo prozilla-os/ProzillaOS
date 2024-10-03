@@ -1,7 +1,7 @@
 {
 	"name": "prozilla-os",
 	"description": "a React component library written in TypeScript for building web-based operating systems, made by Prozilla.",
-	"version": "1.2.5",
+	"version": "1.3.0",
 	"homepage": "https://os.prozilla.dev",
 	"author": {
 		"name": "Prozilla",
@@ -38,7 +38,7 @@
 		"@types/react": "^18.3.3",
 		"@vitejs/plugin-react-swc": "^3.7.0",
 		"typescript": "^5.4.5",
-		"vite": "^5.3.1",
+		"vite": "^5.4.8",
 		"vite-plugin-dts": "^3.9.1",
 		"vite-plugin-lib-inject-css": "^2.1.1"
 	},

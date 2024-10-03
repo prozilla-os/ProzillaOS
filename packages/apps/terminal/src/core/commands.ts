@@ -16,8 +16,11 @@ const loadCommands = () => {
 			const commandName = Object.keys(commandModule as Record<string, Command>)[0];
 
 			const command = (commandModule as Record<string, Command>)[commandName];
-			command.setName(commandName.toLowerCase());
 
+			if (command == null)
+				return;
+
+			command.setName(commandName.toLowerCase());
 			commands.push(command);
 		});
 	}

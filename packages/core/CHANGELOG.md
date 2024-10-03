@@ -1,5 +1,16 @@
 # @prozilla-os/core
 
+## 1.3.0
+
+### Minor Changes
+
+- Moved utilities from core package to shared and dev-tools
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/shared@1.2.0
+
 ## 1.2.4
 
 ### Patch Changes
@@ -131,7 +142,7 @@
 
 ### Patch Changes
 
-- Changed registry to https://registry.npmjs.org/
+- Changed registry to <https://registry.npmjs.org/>
 - Updated dependencies
   - @prozilla-os/file-explorer@1.0.4
 

@@ -11,7 +11,7 @@
   </p>
 </div>
 
-## About 
+## About
 
 `@prozilla-os/terminal` is a terminal/shell application for ProzillaOS.
 
@@ -20,9 +20,9 @@
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/terminal
-$ yarn add @prozilla-os/core @prozilla-os/terminal
-$ pnpm add @prozilla-os/core @prozilla-os/terminal
+npm install @prozilla-os/core @prozilla-os/terminal
+yarn add @prozilla-os/core @prozilla-os/terminal
+pnpm add @prozilla-os/core @prozilla-os/terminal
 ```
 
 ## Usage

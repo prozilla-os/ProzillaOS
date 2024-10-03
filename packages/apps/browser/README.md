@@ -11,7 +11,7 @@
   </p>
 </div>
 
-## About 
+## About
 
 `@prozilla-os/browser` is a ProzillaOS application for browsing the internet.
 
@@ -20,9 +20,9 @@
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/browser
-$ yarn add @prozilla-os/core @prozilla-os/browser
-$ pnpm add @prozilla-os/core @prozilla-os/browser
+npm install @prozilla-os/core @prozilla-os/browser
+yarn add @prozilla-os/core @prozilla-os/browser
+pnpm add @prozilla-os/core @prozilla-os/browser
 ```
 
 ## Usage

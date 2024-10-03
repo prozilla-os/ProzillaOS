@@ -11,7 +11,7 @@
   </p>
 </div>
 
-## About 
+## About
 
 `@prozilla-os/text-editor` is a text editor application for ProzillaOS.
 
@@ -20,9 +20,9 @@
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/text-editor
-$ yarn add @prozilla-os/core @prozilla-os/text-editor
-$ pnpm add @prozilla-os/core @prozilla-os/text-editor
+npm install @prozilla-os/core @prozilla-os/text-editor
+yarn add @prozilla-os/core @prozilla-os/text-editor
+pnpm add @prozilla-os/core @prozilla-os/text-editor
 ```
 
 ## Usage

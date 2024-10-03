@@ -144,4 +144,8 @@ export default defineConfig({
 		head.push(["meta", { name: "og:type", content: "website" }]);
 		head.push(["meta", { name: "twitter:card", content: "summary_large_image" }]);
 	},
+
+	ignoreDeadLinks: [
+		/^https?:\/\/localhost/
+	],
 });

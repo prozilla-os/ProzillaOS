@@ -11,7 +11,7 @@
   </p>
 </div>
 
-## About 
+## About
 
 `@prozilla-os/media-viewer` is a ProzillaOS application for viewing different kinds of media.
 
@@ -20,9 +20,9 @@
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/media-viewer
-$ yarn add @prozilla-os/core @prozilla-os/media-viewer
-$ pnpm add @prozilla-os/core @prozilla-os/media-viewer
+npm install @prozilla-os/core @prozilla-os/media-viewer
+yarn add @prozilla-os/core @prozilla-os/media-viewer
+pnpm add @prozilla-os/core @prozilla-os/media-viewer
 ```
 
 ## Usage

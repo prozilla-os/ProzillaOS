@@ -43,8 +43,8 @@ importers:
         specifier: ^0.4.7
         version: 0.4.7(eslint@8.57.0)
       rimraf:
-        specifier: ^5.0.8
-        version: 5.0.8
+        specifier: ^5.0.10
+        version: 5.0.10
       stylelint:
         specifier: ^16.6.1
         version: 16.6.1(typescript@5.4.5)
@@ -70,9 +70,9 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1
     devDependencies:
-      '@prozilla-os/shared':
+      '@prozilla-os/dev-tools':
         specifier: workspace:*
-        version: link:../../shared
+        version: link:../../dev-tools
       '@types/node':
         specifier: ^20.14.5
         version: 20.14.10
@@ -81,19 +81,19 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/apps/calculator:
     dependencies:
@@ -104,9 +104,9 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1
     devDependencies:
-      '@prozilla-os/shared':
+      '@prozilla-os/dev-tools':
         specifier: workspace:*
-        version: link:../../shared
+        version: link:../../dev-tools
       '@types/node':
         specifier: ^20.14.5
         version: 20.14.10
@@ -115,19 +115,19 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/apps/file-explorer:
     dependencies:
@@ -147,9 +147,9 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1
     devDependencies:
-      '@prozilla-os/shared':
+      '@prozilla-os/dev-tools':
         specifier: workspace:*
-        version: link:../../shared
+        version: link:../../dev-tools
       '@types/node':
         specifier: ^20.14.5
         version: 20.14.10
@@ -158,19 +158,19 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/apps/logic-sim:
     dependencies:
@@ -184,6 +184,9 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1
     devDependencies:
+      '@prozilla-os/dev-tools':
+        specifier: workspace:*
+        version: link:../../dev-tools
       '@types/node':
         specifier: ^20.14.5
         version: 20.14.10
@@ -192,19 +195,19 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/apps/media-viewer:
     dependencies:
@@ -215,9 +218,9 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1
     devDependencies:
-      '@prozilla-os/shared':
+      '@prozilla-os/dev-tools':
         specifier: workspace:*
-        version: link:../../shared
+        version: link:../../dev-tools
       '@types/node':
         specifier: ^20.14.5
         version: 20.14.10
@@ -226,19 +229,19 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/apps/settings:
     dependencies:
@@ -257,10 +260,16 @@ importers:
       '@prozilla-os/file-explorer':
         specifier: workspace:*
         version: link:../file-explorer
+      '@prozilla-os/shared':
+        specifier: workspace:*
+        version: link:../../shared
       react:
         specifier: ^18.3.1
         version: 18.3.1
     devDependencies:
+      '@prozilla-os/dev-tools':
+        specifier: workspace:*
+        version: link:../../dev-tools
       '@types/node':
         specifier: ^20.14.5
         version: 20.14.10
@@ -269,19 +278,19 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/apps/terminal:
     dependencies:
@@ -301,6 +310,9 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1
     devDependencies:
+      '@prozilla-os/dev-tools':
+        specifier: workspace:*
+        version: link:../../dev-tools
       '@types/node':
         specifier: ^20.14.5
         version: 20.14.10
@@ -309,19 +321,19 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/apps/text-editor:
     dependencies:
@@ -344,9 +356,9 @@ importers:
         specifier: ^15.5.0
         version: 15.5.0(react@18.3.1)
     devDependencies:
-      '@prozilla-os/shared':
+      '@prozilla-os/dev-tools':
         specifier: workspace:*
-        version: link:../../shared
+        version: link:../../dev-tools
       '@types/node':
         specifier: ^20.14.5
         version: 20.14.10
@@ -355,19 +367,19 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/core:
     dependencies:
@@ -413,7 +425,7 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       glob:
         specifier: ^11.0.0
         version: 11.0.0
@@ -421,17 +433,17 @@ importers:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-css-injected-by-js:
         specifier: ^3.5.1
-        version: 3.5.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.5.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/demo:
     dependencies:
@@ -472,11 +484,11 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2(react@18.3.1)
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-svgr:
         specifier: ^4.2.0
-        version: 4.2.0(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 4.2.0(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
     devDependencies:
       '@eslint/js':
         specifier: ^9.5.0
@@ -499,9 +511,9 @@ importers:
       '@types/react-syntax-highlighter':
         specifier: ^15.5.13
         version: 15.5.13
-      '@vitejs/plugin-react':
-        specifier: ^4.3.1
-        version: 4.3.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.7.0
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -528,7 +540,31 @@ importers:
         version: 1.6.0(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-checker:
         specifier: ^0.7.1
-        version: 0.7.1(eslint@8.57.0)(optionator@0.9.4)(stylelint@16.6.1(typescript@5.4.5))(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 0.7.1(eslint@8.57.0)(optionator@0.9.4)(stylelint@16.6.1(typescript@5.4.5))(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
+
+  packages/dev-tools:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.5
+        version: 20.14.10
+      '@types/react':
+        specifier: ^18.3.3
+        version: 18.3.3
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.7.0
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
+      vite:
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
+      vite-plugin-dts:
+        specifier: ^3.9.1
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
+      vite-plugin-lib-inject-css:
+        specifier: ^2.1.1
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/docs:
     dependencies:
@@ -599,25 +635,21 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/shared:
-    dependencies:
-      '@prozilla-os/shared':
-        specifier: 'file:'
-        version: 'link:'
     devDependencies:
       '@types/node':
         specifier: ^20.14.5
@@ -627,19 +659,19 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/skins:
     dependencies:
@@ -655,7 +687,7 @@ importers:
         version: 18.3.3
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       glob:
         specifier: ^11.0.0
         version: 11.0.0
@@ -663,14 +695,14 @@ importers:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.1.1
-        version: 2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))
+        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
 packages:
 
@@ -1316,19 +1348,9 @@ packages:
       rollup:
         optional: true
 
-  '@rollup/rollup-android-arm-eabi@4.18.0':
-    resolution: {integrity: sha512-Tya6xypR10giZV1XzxmH5wr25VcZSncG0pZIjfePT0OVBvqNEurzValetGNarVrGiq66EBVAFn15iYX4w6FKgQ==}
-    cpu: [arm]
-    os: [android]
-
   '@rollup/rollup-android-arm-eabi@4.24.0':
     resolution: {integrity: sha512-Q6HJd7Y6xdB48x8ZNVDOqsbh2uByBhgK8PiQgPhwkIw/HC/YX5Ghq2mQY5sRMZWHb3VsFkWooUVOZHKr7DmDIA==}
     cpu: [arm]
-    os: [android]
-
-  '@rollup/rollup-android-arm64@4.18.0':
-    resolution: {integrity: sha512-avCea0RAP03lTsDhEyfy+hpfr85KfyTctMADqHVhLAF3MlIkq83CP8UfAHUssgXTYd+6er6PaAhx/QGv4L1EiA==}
-    cpu: [arm64]
     os: [android]
 
   '@rollup/rollup-android-arm64@4.24.0':
@@ -1336,19 +1358,9 @@ packages:
     cpu: [arm64]
     os: [android]
 
-  '@rollup/rollup-darwin-arm64@4.18.0':
-    resolution: {integrity: sha512-IWfdwU7KDSm07Ty0PuA/W2JYoZ4iTj3TUQjkVsO/6U+4I1jN5lcR71ZEvRh52sDOERdnNhhHU57UITXz5jC1/w==}
-    cpu: [arm64]
-    os: [darwin]
-
   '@rollup/rollup-darwin-arm64@4.24.0':
     resolution: {integrity: sha512-bIv+X9xeSs1XCk6DVvkO+S/z8/2AMt/2lMqdQbMrmVpgFvXlmde9mLcbQpztXm1tajC3raFDqegsH18HQPMYtA==}
     cpu: [arm64]
-    os: [darwin]
-
-  '@rollup/rollup-darwin-x64@4.18.0':
-    resolution: {integrity: sha512-n2LMsUz7Ynu7DoQrSQkBf8iNrjOGyPLrdSg802vk6XT3FtsgX6JbE8IHRvposskFm9SNxzkLYGSq9QdpLYpRNA==}
-    cpu: [x64]
     os: [darwin]
 
   '@rollup/rollup-darwin-x64@4.24.0':
@@ -1356,18 +1368,8 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@rollup/rollup-linux-arm-gnueabihf@4.18.0':
-    resolution: {integrity: sha512-C/zbRYRXFjWvz9Z4haRxcTdnkPt1BtCkz+7RtBSuNmKzMzp3ZxdM28Mpccn6pt28/UWUCTXa+b0Mx1k3g6NOMA==}
-    cpu: [arm]
-    os: [linux]
-
   '@rollup/rollup-linux-arm-gnueabihf@4.24.0':
     resolution: {integrity: sha512-0KXvIJQMOImLCVCz9uvvdPgfyWo93aHHp8ui3FrtOP57svqrF/roSSR5pjqL2hcMp0ljeGlU4q9o/rQaAQ3AYA==}
-    cpu: [arm]
-    os: [linux]
-
-  '@rollup/rollup-linux-arm-musleabihf@4.18.0':
-    resolution: {integrity: sha512-l3m9ewPgjQSXrUMHg93vt0hYCGnrMOcUpTz6FLtbwljo2HluS4zTXFy2571YQbisTnfTKPZ01u/ukJdQTLGh9A==}
     cpu: [arm]
     os: [linux]
 
@@ -1376,18 +1378,8 @@ packages:
     cpu: [arm]
     os: [linux]
 
-  '@rollup/rollup-linux-arm64-gnu@4.18.0':
-    resolution: {integrity: sha512-rJ5D47d8WD7J+7STKdCUAgmQk49xuFrRi9pZkWoRD1UeSMakbcepWXPF8ycChBoAqs1pb2wzvbY6Q33WmN2ftw==}
-    cpu: [arm64]
-    os: [linux]
-
   '@rollup/rollup-linux-arm64-gnu@4.24.0':
     resolution: {integrity: sha512-i0xTLXjqap2eRfulFVlSnM5dEbTVque/3Pi4g2y7cxrs7+a9De42z4XxKLYJ7+OhE3IgxvfQM7vQc43bwTgPwA==}
-    cpu: [arm64]
-    os: [linux]
-
-  '@rollup/rollup-linux-arm64-musl@4.18.0':
-    resolution: {integrity: sha512-be6Yx37b24ZwxQ+wOQXXLZqpq4jTckJhtGlWGZs68TgdKXJgw54lUUoFYrg6Zs/kjzAQwEwYbp8JxZVzZLRepQ==}
     cpu: [arm64]
     os: [linux]
 
@@ -1396,19 +1388,9 @@ packages:
     cpu: [arm64]
     os: [linux]
 
-  '@rollup/rollup-linux-powerpc64le-gnu@4.18.0':
-    resolution: {integrity: sha512-hNVMQK+qrA9Todu9+wqrXOHxFiD5YmdEi3paj6vP02Kx1hjd2LLYR2eaN7DsEshg09+9uzWi2W18MJDlG0cxJA==}
-    cpu: [ppc64]
-    os: [linux]
-
   '@rollup/rollup-linux-powerpc64le-gnu@4.24.0':
     resolution: {integrity: sha512-2XFFPJ2XMEiF5Zi2EBf4h73oR1V/lycirxZxHZNc93SqDN/IWhYYSYj8I9381ikUFXZrz2v7r2tOVk2NBwxrWw==}
     cpu: [ppc64]
-    os: [linux]
-
-  '@rollup/rollup-linux-riscv64-gnu@4.18.0':
-    resolution: {integrity: sha512-ROCM7i+m1NfdrsmvwSzoxp9HFtmKGHEqu5NNDiZWQtXLA8S5HBCkVvKAxJ8U+CVctHwV2Gb5VUaK7UAkzhDjlg==}
-    cpu: [riscv64]
     os: [linux]
 
   '@rollup/rollup-linux-riscv64-gnu@4.24.0':
@@ -1416,28 +1398,13 @@ packages:
     cpu: [riscv64]
     os: [linux]
 
-  '@rollup/rollup-linux-s390x-gnu@4.18.0':
-    resolution: {integrity: sha512-0UyyRHyDN42QL+NbqevXIIUnKA47A+45WyasO+y2bGJ1mhQrfrtXUpTxCOrfxCR4esV3/RLYyucGVPiUsO8xjg==}
-    cpu: [s390x]
-    os: [linux]
-
   '@rollup/rollup-linux-s390x-gnu@4.24.0':
     resolution: {integrity: sha512-mjBaoo4ocxJppTorZVKWFpy1bfFj9FeCMJqzlMQGjpNPY9JwQi7OuS1axzNIk0nMX6jSgy6ZURDZ2w0QW6D56g==}
     cpu: [s390x]
     os: [linux]
 
-  '@rollup/rollup-linux-x64-gnu@4.18.0':
-    resolution: {integrity: sha512-xuglR2rBVHA5UsI8h8UbX4VJ470PtGCf5Vpswh7p2ukaqBGFTnsfzxUBetoWBWymHMxbIG0Cmx7Y9qDZzr648w==}
-    cpu: [x64]
-    os: [linux]
-
   '@rollup/rollup-linux-x64-gnu@4.24.0':
     resolution: {integrity: sha512-ZXFk7M72R0YYFN5q13niV0B7G8/5dcQ9JDp8keJSfr3GoZeXEoMHP/HlvqROA3OMbMdfr19IjCeNAnPUG93b6A==}
-    cpu: [x64]
-    os: [linux]
-
-  '@rollup/rollup-linux-x64-musl@4.18.0':
-    resolution: {integrity: sha512-LKaqQL9osY/ir2geuLVvRRs+utWUNilzdE90TpyoX0eNqPzWjRm14oMEE+YLve4k/NAqCdPkGYDaDF5Sw+xBfg==}
     cpu: [x64]
     os: [linux]
 
@@ -1446,29 +1413,14 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@rollup/rollup-win32-arm64-msvc@4.18.0':
-    resolution: {integrity: sha512-7J6TkZQFGo9qBKH0pk2cEVSRhJbL6MtfWxth7Y5YmZs57Pi+4x6c2dStAUvaQkHQLnEQv1jzBUW43GvZW8OFqA==}
-    cpu: [arm64]
-    os: [win32]
-
   '@rollup/rollup-win32-arm64-msvc@4.24.0':
     resolution: {integrity: sha512-VXBrnPWgBpVDCVY6XF3LEW0pOU51KbaHhccHw6AS6vBWIC60eqsH19DAeeObl+g8nKAz04QFdl/Cefta0xQtUQ==}
     cpu: [arm64]
     os: [win32]
 
-  '@rollup/rollup-win32-ia32-msvc@4.18.0':
-    resolution: {integrity: sha512-Txjh+IxBPbkUB9+SXZMpv+b/vnTEtFyfWZgJ6iyCmt2tdx0OF5WhFowLmnh8ENGNpfUlUZkdI//4IEmhwPieNg==}
-    cpu: [ia32]
-    os: [win32]
-
   '@rollup/rollup-win32-ia32-msvc@4.24.0':
     resolution: {integrity: sha512-xrNcGDU0OxVcPTH/8n/ShH4UevZxKIO6HJFK0e15XItZP2UcaiLFd5kiX7hJnqCbSztUF8Qot+JWBC/QXRPYWQ==}
     cpu: [ia32]
-    os: [win32]
-
-  '@rollup/rollup-win32-x64-msvc@4.18.0':
-    resolution: {integrity: sha512-UOo5FdvOL0+eIVTgS4tIdbW+TtnBLWg1YBCcU2KWM7nuNwRz9bksDX1bekJJCpu25N1DVWaCwnT39dVQxzqS8g==}
-    cpu: [x64]
     os: [win32]
 
   '@rollup/rollup-win32-x64-msvc@4.24.0':
@@ -3669,14 +3621,13 @@ packages:
     deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
+  rimraf@5.0.10:
+    resolution: {integrity: sha512-l0OE8wL34P4nJH/H2ffoaniAokM2qSmrtXHmlpvYr5AVVX8msAyW0l8NVJFDxlSK4u3Uh/f41cQheDVdnYijwQ==}
+    hasBin: true
+
   rimraf@5.0.8:
     resolution: {integrity: sha512-XSh0V2/yNhDEi8HwdIefD8MLgs4LQXPag/nEJWs3YUc3Upn+UHa1GyIkEg9xSSNt7HnkO5FjTvmcRzgf+8UZuw==}
     engines: {node: '>=18'}
-    hasBin: true
-
-  rollup@4.18.0:
-    resolution: {integrity: sha512-QmJz14PX3rzbJCN1SG4Xe/bAAX2a6NpCP8ab2vfu2GiUr8AQcr2nCV/oEO3yneFarB67zk8ShlIyWb2LGTb3Sg==}
-    engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
   rollup@4.24.0:
@@ -4145,34 +4096,6 @@ packages:
     resolution: {integrity: sha512-SC7+FfVtNQk7So0XMjrrtLAbEC8qjFPifyD7+fs/E6aaNdVde6umlVVh0QuwDLdOMu7vp5RiGFsB70nj5yo0XA==}
     peerDependencies:
       vite: ^2.6.0 || 3 || 4 || 5
-
-  vite@5.3.1:
-    resolution: {integrity: sha512-XBmSKRLXLxiaPYamLv3/hnP/KXDai1NDexN0FpkTaZXTfycHvkRHoenpgl/fvuK/kPbB6xAgoyiryAhQNxYmAQ==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^18.0.0 || >=20.0.0
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
 
   vite@5.4.8:
     resolution: {integrity: sha512-FqrItQ4DT1NC4zCUqMB4c4AZORMKIa0m8/URVCZ77OZ/QSNeJ54bU1vrFADbDsuwfIPcgknRkmqakQcgnL4GiQ==}
@@ -5166,97 +5089,49 @@ snapshots:
     optionalDependencies:
       rollup: 4.24.0
 
-  '@rollup/rollup-android-arm-eabi@4.18.0':
-    optional: true
-
   '@rollup/rollup-android-arm-eabi@4.24.0':
-    optional: true
-
-  '@rollup/rollup-android-arm64@4.18.0':
     optional: true
 
   '@rollup/rollup-android-arm64@4.24.0':
     optional: true
 
-  '@rollup/rollup-darwin-arm64@4.18.0':
-    optional: true
-
   '@rollup/rollup-darwin-arm64@4.24.0':
-    optional: true
-
-  '@rollup/rollup-darwin-x64@4.18.0':
     optional: true
 
   '@rollup/rollup-darwin-x64@4.24.0':
     optional: true
 
-  '@rollup/rollup-linux-arm-gnueabihf@4.18.0':
-    optional: true
-
   '@rollup/rollup-linux-arm-gnueabihf@4.24.0':
-    optional: true
-
-  '@rollup/rollup-linux-arm-musleabihf@4.18.0':
     optional: true
 
   '@rollup/rollup-linux-arm-musleabihf@4.24.0':
     optional: true
 
-  '@rollup/rollup-linux-arm64-gnu@4.18.0':
-    optional: true
-
   '@rollup/rollup-linux-arm64-gnu@4.24.0':
-    optional: true
-
-  '@rollup/rollup-linux-arm64-musl@4.18.0':
     optional: true
 
   '@rollup/rollup-linux-arm64-musl@4.24.0':
     optional: true
 
-  '@rollup/rollup-linux-powerpc64le-gnu@4.18.0':
-    optional: true
-
   '@rollup/rollup-linux-powerpc64le-gnu@4.24.0':
-    optional: true
-
-  '@rollup/rollup-linux-riscv64-gnu@4.18.0':
     optional: true
 
   '@rollup/rollup-linux-riscv64-gnu@4.24.0':
     optional: true
 
-  '@rollup/rollup-linux-s390x-gnu@4.18.0':
-    optional: true
-
   '@rollup/rollup-linux-s390x-gnu@4.24.0':
-    optional: true
-
-  '@rollup/rollup-linux-x64-gnu@4.18.0':
     optional: true
 
   '@rollup/rollup-linux-x64-gnu@4.24.0':
     optional: true
 
-  '@rollup/rollup-linux-x64-musl@4.18.0':
-    optional: true
-
   '@rollup/rollup-linux-x64-musl@4.24.0':
-    optional: true
-
-  '@rollup/rollup-win32-arm64-msvc@4.18.0':
     optional: true
 
   '@rollup/rollup-win32-arm64-msvc@4.24.0':
     optional: true
 
-  '@rollup/rollup-win32-ia32-msvc@4.18.0':
-    optional: true
-
   '@rollup/rollup-win32-ia32-msvc@4.24.0':
-    optional: true
-
-  '@rollup/rollup-win32-x64-msvc@4.18.0':
     optional: true
 
   '@rollup/rollup-win32-x64-msvc@4.24.0':
@@ -5626,23 +5501,12 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react-swc@3.7.0(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))':
+  '@vitejs/plugin-react-swc@3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))':
     dependencies:
       '@swc/core': 1.6.3
-      vite: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+      vite: 5.4.8(@types/node@20.14.10)(less@4.2.0)
     transitivePeerDependencies:
       - '@swc/helpers'
-
-  '@vitejs/plugin-react@4.3.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0))':
-    dependencies:
-      '@babel/core': 7.24.7
-      '@babel/plugin-transform-react-jsx-self': 7.24.7(@babel/core@7.24.7)
-      '@babel/plugin-transform-react-jsx-source': 7.24.7(@babel/core@7.24.7)
-      '@types/babel__core': 7.20.5
-      react-refresh: 0.14.2
-      vite: 5.3.1(@types/node@20.14.10)(less@4.2.0)
-    transitivePeerDependencies:
-      - supports-color
 
   '@vitejs/plugin-react@4.3.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))':
     dependencies:
@@ -7708,31 +7572,13 @@ snapshots:
     dependencies:
       glob: 7.2.3
 
-  rimraf@5.0.8:
+  rimraf@5.0.10:
     dependencies:
       glob: 10.4.3
 
-  rollup@4.18.0:
+  rimraf@5.0.8:
     dependencies:
-      '@types/estree': 1.0.5
-    optionalDependencies:
-      '@rollup/rollup-android-arm-eabi': 4.18.0
-      '@rollup/rollup-android-arm64': 4.18.0
-      '@rollup/rollup-darwin-arm64': 4.18.0
-      '@rollup/rollup-darwin-x64': 4.18.0
-      '@rollup/rollup-linux-arm-gnueabihf': 4.18.0
-      '@rollup/rollup-linux-arm-musleabihf': 4.18.0
-      '@rollup/rollup-linux-arm64-gnu': 4.18.0
-      '@rollup/rollup-linux-arm64-musl': 4.18.0
-      '@rollup/rollup-linux-powerpc64le-gnu': 4.18.0
-      '@rollup/rollup-linux-riscv64-gnu': 4.18.0
-      '@rollup/rollup-linux-s390x-gnu': 4.18.0
-      '@rollup/rollup-linux-x64-gnu': 4.18.0
-      '@rollup/rollup-linux-x64-musl': 4.18.0
-      '@rollup/rollup-win32-arm64-msvc': 4.18.0
-      '@rollup/rollup-win32-ia32-msvc': 4.18.0
-      '@rollup/rollup-win32-x64-msvc': 4.18.0
-      fsevents: 2.3.3
+      glob: 10.4.3
 
   rollup@4.24.0:
     dependencies:
@@ -8202,7 +8048,7 @@ snapshots:
     dependencies:
       browserslist: 4.23.1
       escalade: 3.1.2
-      picocolors: 1.0.1
+      picocolors: 1.1.0
 
   uri-js@4.4.1:
     dependencies:
@@ -8233,39 +8079,17 @@ snapshots:
       debug: 4.3.5
       pathe: 1.1.2
       picocolors: 1.0.1
-      vite: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+      vite: 5.4.8(@types/node@20.14.10)(less@4.2.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
       - lightningcss
       - sass
+      - sass-embedded
       - stylus
       - sugarss
       - supports-color
       - terser
-
-  vite-plugin-checker@0.7.1(eslint@8.57.0)(optionator@0.9.4)(stylelint@16.6.1(typescript@5.4.5))(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0)):
-    dependencies:
-      '@babel/code-frame': 7.24.7
-      ansi-escapes: 4.3.2
-      chalk: 4.1.2
-      chokidar: 3.6.0
-      commander: 8.3.0
-      fast-glob: 3.3.2
-      fs-extra: 11.2.0
-      npm-run-path: 4.0.1
-      strip-ansi: 6.0.1
-      tiny-invariant: 1.3.3
-      vite: 5.3.1(@types/node@20.14.10)(less@4.2.0)
-      vscode-languageclient: 7.0.0
-      vscode-languageserver: 7.0.0
-      vscode-languageserver-textdocument: 1.0.11
-      vscode-uri: 3.0.8
-    optionalDependencies:
-      eslint: 8.57.0
-      optionator: 0.9.4
-      stylelint: 16.6.1(typescript@5.4.5)
-      typescript: 5.4.5
 
   vite-plugin-checker@0.7.1(eslint@8.57.0)(optionator@0.9.4)(stylelint@16.6.1(typescript@5.4.5))(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0)):
     dependencies:
@@ -8290,11 +8114,11 @@ snapshots:
       stylelint: 16.6.1(typescript@5.4.5)
       typescript: 5.4.5
 
-  vite-plugin-css-injected-by-js@3.5.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0)):
+  vite-plugin-css-injected-by-js@3.5.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0)):
     dependencies:
-      vite: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+      vite: 5.4.8(@types/node@20.14.10)(less@4.2.0)
 
-  vite-plugin-dts@3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0)):
+  vite-plugin-dts@3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0)):
     dependencies:
       '@microsoft/api-extractor': 7.43.0(@types/node@20.14.10)
       '@rollup/pluginutils': 5.1.0(rollup@4.24.0)
@@ -8305,39 +8129,29 @@ snapshots:
       typescript: 5.4.5
       vue-tsc: 1.8.27(typescript@5.4.5)
     optionalDependencies:
-      vite: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+      vite: 5.4.8(@types/node@20.14.10)(less@4.2.0)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite-plugin-lib-inject-css@2.1.1(vite@5.3.1(@types/node@20.14.10)(less@4.2.0)):
+  vite-plugin-lib-inject-css@2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0)):
     dependencies:
       '@ast-grep/napi': 0.22.6
       magic-string: 0.30.10
       picocolors: 1.0.1
-      vite: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+      vite: 5.4.8(@types/node@20.14.10)(less@4.2.0)
 
-  vite-plugin-svgr@4.2.0(rollup@4.24.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.10)(less@4.2.0)):
+  vite-plugin-svgr@4.2.0(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0)):
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.24.0)
       '@svgr/core': 8.1.0(typescript@5.4.5)
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0(typescript@5.4.5))
-      vite: 5.3.1(@types/node@20.14.10)(less@4.2.0)
+      vite: 5.4.8(@types/node@20.14.10)(less@4.2.0)
     transitivePeerDependencies:
       - rollup
       - supports-color
       - typescript
-
-  vite@5.3.1(@types/node@20.14.10)(less@4.2.0):
-    dependencies:
-      esbuild: 0.21.5
-      postcss: 8.4.38
-      rollup: 4.18.0
-    optionalDependencies:
-      '@types/node': 20.14.10
-      fsevents: 2.3.3
-      less: 4.2.0
 
   vite@5.4.8(@types/node@20.14.10)(less@4.2.0):
     dependencies:

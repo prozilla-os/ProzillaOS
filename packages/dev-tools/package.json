@@ -1,8 +1,8 @@
 {
-	"name": "@prozilla-os/settings",
-	"description": "A settings app for ProzillaOS.",
-	"version": "1.1.5",
-	"homepage": "https://os.prozilla.dev/settings",
+	"name": "@prozilla-os/dev-tools",
+	"description": "A library of tools for the development of ProzillaOS packages.",
+	"version": "1.0.1",
+	"homepage": "https://os.prozilla.dev",
 	"author": {
 		"name": "Prozilla",
 		"email": "business@prozilla.dev",
@@ -13,25 +13,15 @@
 	"main": "dist/main.js",
 	"types": "dist/main.d.ts",
 	"scripts": {
-		"build": "tsc --project tsconfig.build.json && vite build"
+		"build": "tsc && vite build"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
-		"directory": "packages/apps/settings"
+		"directory": "packages/dev-tools"
 	},
 	"license": "MIT",
-	"dependencies": {
-		"@fortawesome/fontawesome-svg-core": "^6.5.2",
-		"@fortawesome/free-solid-svg-icons": "^6.5.2",
-		"@fortawesome/react-fontawesome": "^0.2.2",
-		"@prozilla-os/core": "workspace:*",
-		"@prozilla-os/file-explorer": "workspace:*",
-		"@prozilla-os/shared": "workspace:*",
-		"react": "^18.3.1"
-	},
 	"devDependencies": {
-		"@prozilla-os/dev-tools": "workspace:*",
 		"@types/node": "^20.14.5",
 		"@types/react": "^18.3.3",
 		"@vitejs/plugin-react-swc": "^3.7.0",
@@ -42,9 +32,6 @@
 	},
 	"files": [
 		"dist"
-	],
-	"sideEffects": [
-		"**/*.css"
 	],
 	"publishConfig": {
 		"registry": "https://registry.npmjs.org/",

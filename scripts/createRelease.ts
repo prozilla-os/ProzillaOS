@@ -3,7 +3,7 @@ import path from "node:path";
 import { execSync } from "node:child_process";
 import { version, name } from "../packages/prozilla-os/package.json";
 import os from "node:os";
-import { ANSI } from "../packages/core/src/constants";
+import { ANSI } from "../packages/shared/src/constants";
 
 const getChangelog = (): string => {
 	const changelogPath = path.resolve(__dirname, "../packages/prozilla-os/CHANGELOG.md");

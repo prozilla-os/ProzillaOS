@@ -11,7 +11,7 @@
   </p>
 </div>
 
-## About 
+## About
 
 `@prozilla-os/file-explorer` is a standard ProzillaOS application for browsing files.
 
@@ -20,9 +20,9 @@
 `@prozilla-os/core` is required to run this application.
 
 ```sh
-$ npm install @prozilla-os/core @prozilla-os/file-explorer
-$ yarn add @prozilla-os/core @prozilla-os/file-explorer
-$ pnpm add @prozilla-os/core @prozilla-os/file-explorer
+npm install @prozilla-os/core @prozilla-os/file-explorer
+yarn add @prozilla-os/core @prozilla-os/file-explorer
+pnpm add @prozilla-os/core @prozilla-os/file-explorer
 ```
 
 ## Usage

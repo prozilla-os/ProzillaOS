@@ -11,16 +11,16 @@
   </p>
 </div>
 
-## About 
+## About
 
 `@prozilla-os/skins` is a React library that contains skins for ProzillaOS.
 
 ## Installation
 
 ```sh
-$ npm install @prozilla-os/skins
-$ yarn add @prozilla-os/skins
-$ pnpm add @prozilla-os/skins
+npm install @prozilla-os/skins
+yarn add @prozilla-os/skins
+pnpm add @prozilla-os/skins
 ```
 
 ## Links

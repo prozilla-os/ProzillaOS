@@ -1,14 +1,14 @@
 <div align="center">
-	<br />
-	<p>
-		<a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/banner-logo-title-small.png" width="576" alt="ProzillaOS" /></a>
-	</p>
-	<p>
-		<a href="https://github.com/prozilla-os/ProzillaOS/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/github/license/Prozilla/ProzillaOS?style=flat-square&color=FF4D5B&label=License"></a>
-		<a href="https://github.com/prozilla-os/ProzillaOS"><img alt="Stars" src="https://img.shields.io/github/stars/Prozilla/ProzillaOS?style=flat-square&color=FED24C&label=%E2%AD%90"></a>
-		<a href="https://github.com/prozilla-os/ProzillaOS"><img alt="Forks" src="https://img.shields.io/github/forks/Prozilla/ProzillaOS?style=flat-square&color=4D9CFF&label=Forks&logo=github"></a>
-		<a href="https://www.npmjs.com/package/prozilla-os"><img alt="NPM Version" src="https://img.shields.io/npm/v/prozilla-os?logo=npm&style=flat-square&label=prozilla-os&color=FF4D5B"></a>
-	</p>
+ <br />
+ <p>
+  <a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/banner-logo-title-small.png" width="576" alt="ProzillaOS" /></a>
+ </p>
+ <p>
+  <a href="https://github.com/prozilla-os/ProzillaOS/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/github/license/Prozilla/ProzillaOS?style=flat-square&color=FF4D5B&label=License"></a>
+  <a href="https://github.com/prozilla-os/ProzillaOS"><img alt="Stars" src="https://img.shields.io/github/stars/Prozilla/ProzillaOS?style=flat-square&color=FED24C&label=%E2%AD%90"></a>
+  <a href="https://github.com/prozilla-os/ProzillaOS"><img alt="Forks" src="https://img.shields.io/github/forks/Prozilla/ProzillaOS?style=flat-square&color=4D9CFF&label=Forks&logo=github"></a>
+  <a href="https://www.npmjs.com/package/prozilla-os"><img alt="NPM Version" src="https://img.shields.io/npm/v/prozilla-os?logo=npm&style=flat-square&label=prozilla-os&color=FF4D5B"></a>
+ </p>
 </div>
 
 <!-- #region about -->
@@ -20,9 +20,9 @@ This repository contains the source code of [os.prozilla.dev][demo] as well as m
 ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows. It is made with React, Vite and TypeScript by [Prozilla][prozilla].
 
 <div align="center">
-	<br />
-	<a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/screenshots/screenshot-files-info-taskbar-desktop.png" width="720" alt="Screenshot of ProzillaOS" /></a>
-	<br />
+ <br />
+ <a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/screenshots/screenshot-files-info-taskbar-desktop.png" width="720" alt="Screenshot of ProzillaOS" /></a>
+ <br />
 </div>
 
 <!-- #endregion about -->
@@ -35,30 +35,29 @@ Make sure you have [NodeJS](https://nodejs.org/en) (version v18.12 or higher) in
 
 1. Clone the GitHub repository.
 
-	```
-	git clone https://github.com/prozilla-os/ProzillaOS.git ProzillaOS
-	cd ProzillaOS
-	```
+   ```sh
+   git clone https://github.com/prozilla-os/ProzillaOS.git ProzillaOS
+   cd ProzillaOS
+   ```
 
 2. Install package manager and dependencies
 
-	```
-	npm install pnpm -g
-	pnpm install
-	```
+   ```sh
+   npm install pnpm -g
+   pnpm install
+   ```
 
 3. Run project
 
-	```
-	pnpm start
-	```
+   ```sh
+   pnpm start
+   ```
 
 4. Test local dev server by visiting [localhost:3000](http://localhost:3000/)
 
-> [!WARNING]
-> In a local environment, ProzillaOS packages will try to import uncompiled versions of other ProzillaOS packages from their respective `src` directory. If this does not happen correctly and a package tries to import a compiled version of another package from its respective `dist` directory, you might run into an error message saying `module not found`. Executing the command `pnpm run packages:build` will compile each package into their `dist` directories and resolve this error. 
-
 <!-- #endregion getting-started -->
+
+For more information, refer to the [self-hosting guide](https://os.prozilla.dev/docs/guides/self-hosting).
 
 <!-- #region packages -->
 
@@ -113,7 +112,6 @@ These resources can help you get started with ProzillaOS.
 - [Self-hosting guide](https://os.prozilla.dev/docs/guides/self-hosting)
 - [prozilla-os/ProzillaOS-boilerplate][boilerplate]: Boilerplate code for a React Vite app implementing ProzillaOS
 
-
 ## License
 
 ProzillaOS is [MIT licensed](./LICENSE).
@@ -124,7 +122,6 @@ ProzillaOS is [MIT licensed](./LICENSE).
 [npm]: https://www.npmjs.com/package/prozilla-os
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla
-[issues]: https://github.com/prozilla-os/ProzillaOS/issues
 [boilerplate]: https://github.com/prozilla-os/ProzillaOS-boilerplate
 [prozilla]: https://prozilla.dev/
 [prozilla-os]: ./packages/prozilla-os/
@@ -139,4 +136,3 @@ ProzillaOS is [MIT licensed](./LICENSE).
 [browser]: ./packages/apps/browser/
 [calculator]: ./packages/apps/calculator/
 [logic-sim]: ./packages/apps/logic-sim/
-[license]: ./LICENSE
