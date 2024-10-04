@@ -13,6 +13,10 @@ const PATHS = {
 	cname: BUILD_DIR + "/CNAME",
 };
 
+function normalizeLineEndings(text: string) {
+	return text.replace(/\r\n/g, "\n");
+}
+
 function generateSitemapXml() {
 	const date = new Date();
 	const lastModified = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -43,16 +47,16 @@ function generateSitemapXml() {
 	${pages.join("")}
 </urlset>`;
 
-	return sitemap.trim();
+	return normalizeLineEndings(sitemap.trim());
 }
 
 function generateRobotsTxt() {
 	const sitemapUrl = BASE_URL + PATHS.sitemapXml.replace(BUILD_DIR + "/", "");
 
-	return `# https://www.robotstxt.org/robotstxt.html
+	return normalizeLineEndings(`# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:
-Sitemap: ${sitemapUrl}`;
+Sitemap: ${sitemapUrl}`);
 }
 
 function generateCname() {
@@ -73,7 +77,7 @@ function generateTemplate(html: string) {
 	fs.writeFileSync(path, html, { flag: "w+" });
 	console.log(`- ${ANSI.fg.cyan}${path}${ANSI.reset}`);
 
-	return html;
+	return normalizeLineEndings(html);
 }
 
 /**
@@ -125,13 +129,13 @@ function stage() {
 		console.log(`Context: ${ANSI.decoration.bold}${name}${ANSI.reset}\n`);
 		console.log(`${ANSI.fg.yellow}Staging build...${ANSI.reset}`);
 	
-		const files: [string, () => string][] = [
+		const metaFiles: [string, () => string][] = [
 			[PATHS.sitemapXml, generateSitemapXml],
 			[PATHS.robotsTxt, generateRobotsTxt],
 			[PATHS.cname, generateCname],
 		];
 	
-		files.forEach(([path, generateContent]) => {
+		metaFiles.forEach(([path, generateContent]) => {
 			const directory = path.substring(0, path.lastIndexOf("/"));
 			if (directory != "" && !fs.existsSync(directory))
 				fs.mkdirSync(directory, { recursive: true });

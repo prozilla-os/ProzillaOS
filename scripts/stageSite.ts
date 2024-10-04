@@ -16,6 +16,7 @@ function stageSite() {
 		console.log(`Context: ${ANSI.decoration.bold}${name}${ANSI.reset}\n`);
 		console.log(`${ANSI.fg.yellow}Staging site...${ANSI.reset}`);
 
+		// Copy packages to build directory
 		PACKAGES.forEach(({ source, path }) => {
 			const sourceDirectory = resolve(__dirname, source);
 			const targetDirectory = resolve(__dirname, TARGET, path.replace(/^\//, ""));
@@ -26,6 +27,13 @@ function stageSite() {
 			fs.cpSync(sourceDirectory, targetDirectory, { recursive: true });
 			console.log(`- Copied ${ANSI.fg.cyan + source.replace(/^\.\.\//, "") + ANSI.reset} to ${ANSI.fg.cyan + path + ANSI.reset}`);
 		});
+
+		// Copy git attributes to build directory
+		const gitAttributesDirectory = resolve(__dirname, "../.gitattributes");
+		if (fs.existsSync(gitAttributesDirectory)) {
+			fs.copyFileSync(gitAttributesDirectory, resolve(__dirname, `../${BUILD_DIR}/.gitattributes`));
+			console.log(`- Copied ${ANSI.fg.cyan + ".gitattributes" + ANSI.reset}`);
+		}
 		
 		console.log(`\n${ANSI.fg.green}✓ Site staged: ${ANSI.fg.cyan}./${BUILD_DIR + ANSI.reset}`);
 	} catch (error) {
