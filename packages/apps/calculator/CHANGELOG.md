@@ -1,5 +1,12 @@
 # @prozilla-os/calculator
 
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.1
+
 ## 1.1.5
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 import { UserConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import dts from "vite-plugin-dts";
-import { libInjectCss } from "vite-plugin-lib-inject-css";
+import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import { posix, resolve, sep } from "path";
 
 /**
@@ -24,7 +24,7 @@ export const appViteConfig = (basePath: string, entryPath: string): UserConfig =
 	return {
 		plugins: [
 			react(),
-			libInjectCss(),
+			cssInjectedByJsPlugin(),
 			dts({
 				include: ["src"],
 				outDir: "dist",

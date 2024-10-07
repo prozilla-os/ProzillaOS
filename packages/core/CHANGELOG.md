@@ -1,5 +1,11 @@
 # @prozilla-os/core
 
+## 1.3.1
+
+### Patch Changes
+
+- Added ProzillaOS router
+
 ## 1.3.0
 
 ### Minor Changes

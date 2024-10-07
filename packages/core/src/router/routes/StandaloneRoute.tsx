@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import styles from "./StandaloneRoute.module.css";
-import { NAME } from "../../config/branding.config";
-import { App, generateUrl, getViewportParams, ModalsView, openUrl, setViewportIcon, setViewportTitle } from "prozilla-os";
 import { StandaloneHeader } from "../../components/standalone/StandaloneHeader";
+import { App } from "../../features/apps/app";
+import { useSystemManager } from "../../hooks/system/systemManagerContext";
+import { generateUrl, getViewportParams, openUrl, setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils";
+import { ModalsView } from "../../components/modals/ModalsView";
 
 interface StandaloneRouteProps {
 	app: App;
 }
 
 export function StandaloneRoute({ app }: StandaloneRouteProps) {
+	const { systemName } = useSystemManager();
 	const [title, setTitle] = useState(app.name);
 	const [iconUrl, setIconUrl] = useState(app.iconUrl ?? "");
 
@@ -17,7 +20,7 @@ export function StandaloneRoute({ app }: StandaloneRouteProps) {
 
 		const setViewportTitleAndIcon = () => {
 			if (import.meta.env.DEV)
-				setViewportTitle(`${title} | ${NAME}`);
+				setViewportTitle(`${title} | ${systemName}`);
 			setViewportIcon(iconUrl);
 		};
 
