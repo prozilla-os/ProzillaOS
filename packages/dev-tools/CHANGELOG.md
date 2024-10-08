@@ -1,5 +1,23 @@
 # @prozilla-os/dev-tools
 
+## 1.0.6
+
+### Patch Changes
+
+- Converted stageSitePlugin to rollup plugin
+
+## 1.0.5
+
+### Patch Changes
+
+- Fixed type declarations
+
+## 1.0.4
+
+### Patch Changes
+
+- Added missing exports
+
 ## 1.0.3
 
 ### Patch Changes

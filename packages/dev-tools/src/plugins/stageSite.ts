@@ -1,8 +1,6 @@
-import fs from "node:fs";
 import type { AppsConfig } from "@prozilla-os/core";
-import { resolve } from "node:path";
 import { print } from "../features/console";
-import { Plugin, ResolvedConfig } from "vite";
+import type { OutputBundle, PluginContext, Plugin } from "rollup";
 
 export interface StageOptions {
 	appsConfig: AppsConfig;
@@ -18,9 +16,6 @@ export interface StageOptions {
 	 * @example "Web-based Operating System"
 	*/
 	siteTagLine: string;
-
-	/** Path to the build directory */
-	buildPath: string;
 
 	/**
 	 * Domain of the live website
@@ -110,7 +105,7 @@ function generateCname(options: StageOptionsExtended) {
 }
 
 function generateTemplate(html: string, options: StageOptionsExtended) {
-	const { baseUrl, buildPath } = options;
+	const { baseUrl } = options;
 
 	const baseUrlRegex = /(?<=")https?:\/\/[a-z0-9-]+(\.)([a-zA-Z0-9-]+(\.))*[a-z]{2,3}\/(?=.*")/gi;
 	html = html.replaceAll(baseUrlRegex, baseUrl);
@@ -121,10 +116,6 @@ function generateTemplate(html: string, options: StageOptionsExtended) {
 	const emptyLinesRegex = /^\s*$\n/gm;
 	html = html.replaceAll(emptyLinesRegex, "");
 
-	const path = resolve(buildPath, "index.html");
-	fs.writeFileSync(path, html, { flag: "w+" });
-	print(path, "file");
-
 	return normalizeLineEndings(html);
 }
 
@@ -132,19 +123,19 @@ function generateTemplate(html: string, options: StageOptionsExtended) {
  * To avoid GitHub pages rendering certain pages that are only defined by React router as a 404 page,
  * we copy the content of our index file to the 404 page, letting React router properly handle routing on every page 
  */
-function generate404Page(template: string, options: StageOptionsExtended) {
-	const { buildPath } = options;
-
-	const path = resolve(buildPath, "404.html");
-	fs.writeFileSync(path, template, { flag: "w+" });
-	print(path, "file");
+function generate404Page(context: PluginContext, template: string) {
+	context.emitFile({
+		type: "asset",
+		fileName: "404.html",
+		source: template
+	});
 }
 
 /**
  * Add an HTML file for every app page so they can be properly crawled and indexed
  */
-function generateAppPages(template: string, options: StageOptionsExtended) {
-	const { appsConfig, siteName, siteTagLine, baseUrl, buildPath } = options;
+function generateAppPages(context: PluginContext, template: string, options: StageOptionsExtended) {
+	const { appsConfig, siteName, siteTagLine, baseUrl } = options;
 
 	for (const app of appsConfig.apps) {
 		const appId = app.id;
@@ -170,23 +161,25 @@ function generateAppPages(template: string, options: StageOptionsExtended) {
 		const faqRegex = /(<!-- FAQ -->.*?)?<script type="application\/ld\+json">.*?<\/script>/gs;
 		html = html.replaceAll(faqRegex, "");
 
-		const path = resolve(buildPath, `${appId}.html`);
-		fs.writeFileSync(path, html, { flag: "w+" });
-		print(path, "file");
+		context.emitFile({
+			type: "asset",
+			fileName: `${appId}.html`,
+			source: html
+		});
 	}
 }
 
-function stageSite({ appsConfig, siteName, siteTagLine, buildPath, domain, imageUrls = [] }: StageOptions) {
+function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, siteName, siteTagLine, domain, imageUrls = [] }: StageOptions) {
 	try {
 		print("Staging build...", "start", true);
 
 		const baseUrl = `https://${domain}/`;
 
 		const paths: FilePaths = {
-			sitemapXml: resolve(buildPath, "sitemap.xml"),
-			robotsTxt: resolve(buildPath, "robots.txt"),
-			indexHtml: resolve(buildPath, "index.html"),
-			cname: resolve(buildPath, "CNAME"),
+			sitemapXml: "sitemap.xml",
+			robotsTxt: "robots.txt",
+			indexHtml: "index.html",
+			cname: "CNAME",
 		};
 	
 		const files: [string, (options: StageOptionsExtended) => string][] = [
@@ -199,7 +192,6 @@ function stageSite({ appsConfig, siteName, siteTagLine, buildPath, domain, image
 			appsConfig,
 			siteName,
 			siteTagLine,
-			buildPath,
 			domain,
 			baseUrl,
 			imageUrls,
@@ -207,21 +199,26 @@ function stageSite({ appsConfig, siteName, siteTagLine, buildPath, domain, image
 		};
 	
 		files.forEach(([path, generateContent]) => {
-			const directory = path.substring(0, path.lastIndexOf("/"));
-			if (directory != "" && !fs.existsSync(directory))
-				fs.mkdirSync(directory, { recursive: true });
-	
-			fs.writeFileSync(path, generateContent(extendedOptions), { flag: "w+" });
-			print(path, "file");
+			context.emitFile({
+				type: "asset",
+				fileName: path,
+				source: generateContent(extendedOptions)
+			});
 		});
 
-		print("Generating pages...", "start", true);
+		const html = bundle["index.html"];
+		if (html && html.type == "asset") {
+			const template = generateTemplate(html.source as string, extendedOptions);
+
+			context.emitFile({
+				type: "asset",
+				fileName: "index.html",
+				source: template 
+			});
 	
-		const html = fs.readFileSync(paths.indexHtml, "utf-8");
-		const template = generateTemplate(html, extendedOptions);
-	
-		generate404Page(template, extendedOptions);
-		generateAppPages(template, extendedOptions);
+			generate404Page(context, template);
+			generateAppPages(context, template, extendedOptions);
+		}
 	
 		print("Staging complete", "success", true);
 	} catch (error) {
@@ -231,22 +228,11 @@ function stageSite({ appsConfig, siteName, siteTagLine, buildPath, domain, image
 	}
 }
 
-export default function stageSitePlugin(options: StageOptions): Plugin {
-	let config: ResolvedConfig;
-	
+export function stageSitePlugin(options: StageOptions): Plugin {
 	return {
 		name: "vite-plugin-stage-site",
-		configResolved(resolvedConfig) {
-			config = resolvedConfig;
-		},
-		writeBundle() {
-			let buildDir = options.buildPath ?? config.build.outDir;
-			buildDir = resolve(config.root, buildDir);
-			
-			stageSite({
-				...options,
-				buildPath: buildDir
-			});
+		generateBundle(_outputOptions, bundle) {
+			stageSite(this, bundle, options);
 		},
 	};
 }

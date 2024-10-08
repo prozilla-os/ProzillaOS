@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import checker from "vite-plugin-checker";
 import { BUILD_DIR, DOMAIN } from "./src/config/deploy.config";
 import { resolve } from "path";
-import stageSitePlugin from "../dev-tools/src/plugins/stageSite";
+import { stageSitePlugin } from "@prozilla-os/dev-tools";
 import { appsConfig } from "./src/config/apps.config";
 import { NAME, TAG_LINE } from "./src/config/branding.config";
 
@@ -65,19 +65,20 @@ export default defineConfig(({ command }) => {
 			react(),
 			checker({
 				typescript: true,
-			}),
-			stageSitePlugin({
-				appsConfig,
-				siteName: NAME,
-				siteTagLine: TAG_LINE,
-				domain: DOMAIN,
-				buildPath: "dist"
 			})
 		],
 		build: {
 			outDir: BUILD_DIR,
 			rollupOptions: {
 				external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
+				plugins: [
+					stageSitePlugin({
+						appsConfig,
+						siteName: NAME,
+						siteTagLine: TAG_LINE,
+						domain: DOMAIN
+					})
+				]
 			},
 		},
 		resolve: {
