@@ -1,1 +1,0 @@
-import{F as t}from"./index-5kXZV_uG.js";import{o}from"./command-nBL1aO7T-CliNWZCP.js";const a=new o().setRequireArgs(!0).setExecute(function(e){if(e[0]==="love")return t(this.name,"*** No rule to make target 'love'. Stop.")});export{a as make};
