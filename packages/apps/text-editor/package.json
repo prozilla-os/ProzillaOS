@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/text-editor",
 	"description": "A text editor application for ProzillaOS.",
-	"version": "1.1.6",
+	"version": "1.1.7",
 	"homepage": "https://os.prozilla.dev/text-editor",
 	"author": {
 		"name": "Prozilla",

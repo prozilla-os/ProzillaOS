@@ -1,8 +1,11 @@
 import { defineConfig, UserConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import checker from "vite-plugin-checker";
-import { BUILD_DIR } from "./src/config/deploy.config";
+import { BUILD_DIR, DOMAIN } from "./src/config/deploy.config";
 import { resolve } from "path";
+import stageSitePlugin from "../dev-tools/src/plugins/stageSite";
+import { appsConfig } from "./src/config/apps.config";
+import { NAME, TAG_LINE } from "./src/config/branding.config";
 
 /**
  * Loads packages from their local path instead of node_modules 
@@ -63,12 +66,19 @@ export default defineConfig(({ command }) => {
 			checker({
 				typescript: true,
 			}),
+			stageSitePlugin({
+				appsConfig,
+				siteName: NAME,
+				siteTagLine: TAG_LINE,
+				domain: DOMAIN,
+				buildPath: "dist"
+			})
 		],
 		build: {
 			outDir: BUILD_DIR,
 			rollupOptions: {
-				external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"]
-			}
+				external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
+			},
 		},
 		resolve: {
 			alias: devMode ? aliases : {},
@@ -77,7 +87,7 @@ export default defineConfig(({ command }) => {
 			port: 3000,
 		},
 		optimizeDeps: {
-			exclude: devMode ? Object.keys(aliases) : []
+			exclude: devMode ? Object.keys(aliases) : [],
 		}
 	} as UserConfig;
 });

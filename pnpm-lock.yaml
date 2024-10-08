@@ -55,8 +55,8 @@ importers:
         specifier: ^7.13.1
         version: 7.13.1(eslint@8.57.0)(typescript@5.4.5)
       vite-node:
-        specifier: ^1.6.0
-        version: 1.6.0(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^2.1.2
+        version: 2.1.2(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-checker:
         specifier: ^0.7.1
         version: 0.7.1(eslint@8.57.0)(optionator@0.9.4)(stylelint@16.6.1(typescript@5.4.5))(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
@@ -441,9 +441,6 @@ importers:
       vite-plugin-dts:
         specifier: ^3.9.1
         version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
-      vite-plugin-lib-inject-css:
-        specifier: ^2.1.1
-        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/demo:
     dependencies:
@@ -457,8 +454,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
       '@prozilla-os/ball-maze':
-        specifier: ^1.0.3
-        version: 1.0.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.0.4
+        version: 1.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@prozilla-os/bliss-radio':
         specifier: ^1.0.6
         version: 1.0.6
@@ -466,14 +463,14 @@ importers:
         specifier: workspace:*
         version: link:../apps/logic-sim
       '@prozilla-os/minesweeper':
-        specifier: ^1.0.3
-        version: 1.0.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.0.4
+        version: 1.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@prozilla-os/skins':
         specifier: workspace:*
         version: link:../skins
       '@prozilla-os/wordle':
-        specifier: ^1.1.1
-        version: 1.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.1.5
+        version: 1.1.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       prozilla-os:
         specifier: workspace:*
         version: link:../prozilla-os
@@ -503,8 +500,8 @@ importers:
         specifier: ^9.5.0
         version: 9.5.0
       '@prozilla-os/dev-tools':
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: workspace:*
+        version: link:../dev-tools
       '@types/eslint':
         specifier: ^8.56.10
         version: 8.56.10
@@ -548,8 +545,8 @@ importers:
         specifier: ^7.13.1
         version: 7.13.1(eslint@8.57.0)(typescript@5.4.5)
       vite-node:
-        specifier: ^1.6.0
-        version: 1.6.0(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^2.1.2
+        version: 2.1.2(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-checker:
         specifier: ^0.7.1
         version: 0.7.1(eslint@8.57.0)(optionator@0.9.4)(stylelint@16.6.1(typescript@5.4.5))(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
@@ -557,14 +554,23 @@ importers:
   packages/dev-tools:
     dependencies:
       '@prozilla-os/core':
-        specifier: 1.3.0
-        version: 1.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 1.3.1
+        version: 1.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@prozilla-os/shared':
         specifier: ^1.2.0
         version: 1.2.0
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.7.0
+        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
+      vite:
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
       vite-plugin-css-injected-by-js:
         specifier: ^3.5.1
         version: 3.5.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
+      vite-plugin-dts:
+        specifier: ^3.9.1
+        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
     devDependencies:
       '@types/node':
         specifier: ^20.14.5
@@ -572,21 +578,9 @@ importers:
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.3
-      '@vitejs/plugin-react-swc':
-        specifier: ^3.7.0
-        version: 3.7.0(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
-      vite:
-        specifier: ^5.4.8
-        version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
-      vite-plugin-dts:
-        specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
-      vite-plugin-lib-inject-css:
-        specifier: ^2.1.1
-        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/docs:
     devDependencies:
@@ -600,8 +594,8 @@ importers:
         specifier: ^5.0.8
         version: 5.0.10
       vite-node:
-        specifier: ^1.6.0
-        version: 1.6.0(@types/node@20.14.10)(less@4.2.0)
+        specifier: ^2.1.2
+        version: 2.1.2(@types/node@20.14.10)(less@4.2.0)
       vitepress:
         specifier: ^1.3.4
         version: 1.3.4(@algolia/client-search@4.24.0)(@types/node@20.14.10)(@types/react@18.3.3)(less@4.2.0)(postcss@8.4.47)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.14.0)(typescript@5.4.5)
@@ -611,9 +605,6 @@ importers:
 
   packages/prozilla-os:
     dependencies:
-      '@fortawesome/fontawesome-svg-core':
-        specifier: ^6.5.2
-        version: 6.6.0
       '@prozilla-os/browser':
         specifier: workspace:*
         version: link:../apps/browser
@@ -641,9 +632,6 @@ importers:
       react:
         specifier: ^18.3.1
         version: 18.3.1
-      react-ga4:
-        specifier: ^2.1.0
-        version: 2.1.0
     devDependencies:
       '@types/node':
         specifier: ^20.14.5
@@ -660,12 +648,12 @@ importers:
       vite:
         specifier: ^5.4.8
         version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
+      vite-plugin-css-injected-by-js:
+        specifier: ^3.5.1
+        version: 3.5.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-dts:
         specifier: ^3.9.1
         version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
-      vite-plugin-lib-inject-css:
-        specifier: ^2.1.1
-        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
   packages/shared:
     devDependencies:
@@ -712,12 +700,12 @@ importers:
       vite:
         specifier: ^5.4.8
         version: 5.4.8(@types/node@20.14.10)(less@4.2.0)
+      vite-plugin-css-injected-by-js:
+        specifier: ^3.5.1
+        version: 3.5.2(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
       vite-plugin-dts:
         specifier: ^3.9.1
         version: 3.9.1(@types/node@20.14.10)(rollup@4.24.0)(typescript@5.4.5)(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
-      vite-plugin-lib-inject-css:
-        specifier: ^2.1.1
-        version: 2.1.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0))
 
 packages:
 
@@ -1313,8 +1301,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@prozilla-os/ball-maze@1.0.3':
-    resolution: {integrity: sha512-gTFEyNZ9mFFaiReDWh1rft/lM/mkFhuyqDUx2Hk0XBSQWAH5TbLd9JbN3+ciwXNm8c8SXXwt/fhdhPlqn3ZItg==}
+  '@prozilla-os/ball-maze@1.0.4':
+    resolution: {integrity: sha512-4h6DDK/tP+8tkU/oSJG/UR/czINgQNqF9HQBPOK8pkngS5Lhm2Z+8Oe3LIjEgXQfTg+DELWqRzMIFDyWEGGukg==}
     peerDependencies:
       react: ^18.3.1
 
@@ -1331,11 +1319,13 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/dev-tools@1.0.1':
-    resolution: {integrity: sha512-gBgv5nyJ7qLmmpzF/fXhtgN0pSPz1QQ/BoOh+0OVn+phK5ZFIYGD89QGJLbQ8Bip6MULaBl+UD7KQDGZyuhX3w==}
+  '@prozilla-os/core@1.3.1':
+    resolution: {integrity: sha512-6m0dxpY1lo2+w/wwaVHqZ1BeurbZ7U4gJhZ99VW9H81I8P5rTeMUm0HvWjQGO3Tfw7xwQL5yQFsam8J9dIZYFA==}
+    peerDependencies:
+      react: ^18.3.1
 
-  '@prozilla-os/minesweeper@1.0.3':
-    resolution: {integrity: sha512-xjMVmkw5vwxlAToAIZxxkUOzlIv0GC6F5GoeNrzDsaV6wvvqoeAsjPauIkUFKioo4bJJt9/ab6GIdRdlIdGYrw==}
+  '@prozilla-os/minesweeper@1.0.4':
+    resolution: {integrity: sha512-vriCqn/083/QlXypWXi8Rg16M/fpoI64Kl4+irsSNytYk6jBf1P+fBUm6oBS5Lov1FMD313v2jKERXx25WMoEQ==}
     peerDependencies:
       react: ^18.3.1
 
@@ -1347,8 +1337,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/wordle@1.1.1':
-    resolution: {integrity: sha512-AkXXOuYgokwSxwSigc1aCQo9GXqm7HtDoRFRK3sisxoXANtiMSEuiN5jYIwkabF2rKm51W46juD/aXlE+bt2jQ==}
+  '@prozilla-os/wordle@1.1.5':
+    resolution: {integrity: sha512-XEiqsC9DMzeq/6B/NFsLGLux5/khUh2NNrAH17QdZd2dkUzDW0HVLFKHi779WCOf2CyhQyvgUHvQLUCyV064fA==}
     peerDependencies:
       react: ^18.3.1
 
@@ -2264,6 +2254,15 @@ packages:
 
   debug@4.3.5:
     resolution: {integrity: sha512-pt0bNEmneDIvdL1Xsd9oDQ/wrQRkXDT4AUWlNZNPKvW5x/jyO9VFXkJUP07vQ2upmw5PlaITaPKc31jK13V+jg==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@4.3.7:
+    resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -3190,6 +3189,9 @@ packages:
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
+  ms@2.1.3:
+    resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+
   muggle-string@0.3.1:
     resolution: {integrity: sha512-ckmWDJjphvd/FvZawgygcUeQCxzvohjFO5RxTjj4eq8kw359gFF3E1brjfI+viLMxss5JrHTDRHZvu2/tuy0Qg==}
 
@@ -4000,8 +4002,8 @@ packages:
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
 
-  vite-node@1.6.0:
-    resolution: {integrity: sha512-de6HJgzC+TFzOu0NTC4RAIsyf/DY/ibWDYQUcuEA84EMHhcefTUGkjFHKKEJhQN4A+6I0u++kr3l36ZF2d7XRw==}
+  vite-node@2.1.2:
+    resolution: {integrity: sha512-HPcGNN5g/7I2OtPjLqgOtCRu/qhVvBxTUD3qzitmL0SrG1cWFzxzhMDWussxSbrRYWqnKf8P2jiNhPMSN+ymsQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
@@ -4038,6 +4040,11 @@ packages:
 
   vite-plugin-css-injected-by-js@3.5.1:
     resolution: {integrity: sha512-9ioqwDuEBxW55gNoWFEDhfLTrVKXEEZgl5adhWmmqa88EQGKfTmexy4v1Rh0pAS6RhKQs2bUYQArprB32JpUZQ==}
+    peerDependencies:
+      vite: '>2.0.0-0'
+
+  vite-plugin-css-injected-by-js@3.5.2:
+    resolution: {integrity: sha512-2MpU/Y+SCZyWUB6ua3HbJCrgnF0KACAsmzOQt1UvRVJCGF6S8xdA3ZUhWcWdM9ivG4I5az8PnQmwwrkC2CAQrQ==}
     peerDependencies:
       vite: '>2.0.0-0'
 
@@ -4981,7 +4988,7 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prozilla-os/ball-maze@1.0.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@prozilla-os/ball-maze@1.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@prozilla-os/core': 1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
@@ -5028,9 +5035,23 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@prozilla-os/dev-tools@1.0.1': {}
+  '@prozilla-os/core@1.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@fortawesome/fontawesome-svg-core': 6.6.0
+      '@fortawesome/free-regular-svg-icons': 6.6.0
+      '@fortawesome/free-solid-svg-icons': 6.6.0
+      '@fortawesome/react-fontawesome': 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
+      '@prozilla-os/shared': 1.2.0
+      '@prozilla-os/skins': 1.1.2(react@18.3.1)
+      react: 18.3.1
+      react-draggable: 4.4.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-error-boundary: 4.0.13(react@18.3.1)
+      react-ga4: 2.1.0
+      react-svg: 16.1.34(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    transitivePeerDependencies:
+      - react-dom
 
-  '@prozilla-os/minesweeper@1.0.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@prozilla-os/minesweeper@1.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@prozilla-os/core': 1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
@@ -5043,7 +5064,7 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@prozilla-os/wordle@1.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@prozilla-os/wordle@1.1.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.6.0
       '@fortawesome/free-solid-svg-icons': 6.6.0
@@ -6018,6 +6039,10 @@ snapshots:
   debug@4.3.5:
     dependencies:
       ms: 2.1.2
+
+  debug@4.3.7:
+    dependencies:
+      ms: 2.1.3
 
   decamelize-keys@1.1.1:
     dependencies:
@@ -7077,6 +7102,8 @@ snapshots:
 
   ms@2.1.2: {}
 
+  ms@2.1.3: {}
+
   muggle-string@0.3.1: {}
 
   nanoid@3.3.7: {}
@@ -7971,12 +7998,11 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.2
 
-  vite-node@1.6.0(@types/node@20.14.10)(less@4.2.0):
+  vite-node@2.1.2(@types/node@20.14.10)(less@4.2.0):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.5
+      debug: 4.3.7
       pathe: 1.1.2
-      picocolors: 1.1.0
       vite: 5.4.8(@types/node@20.14.10)(less@4.2.0)
     transitivePeerDependencies:
       - '@types/node'
@@ -8013,6 +8039,10 @@ snapshots:
       typescript: 5.4.5
 
   vite-plugin-css-injected-by-js@3.5.1(vite@5.4.8(@types/node@20.14.10)(less@4.2.0)):
+    dependencies:
+      vite: 5.4.8(@types/node@20.14.10)(less@4.2.0)
+
+  vite-plugin-css-injected-by-js@3.5.2(vite@5.4.8(@types/node@20.14.10)(less@4.2.0)):
     dependencies:
       vite: 5.4.8(@types/node@20.14.10)(less@4.2.0)
 

@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/dev-tools",
 	"description": "A library of tools for the development of ProzillaOS packages.",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"homepage": "https://os.prozilla.dev",
 	"author": {
 		"name": "Prozilla",
@@ -22,7 +22,7 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@prozilla-os/core": "1.3.1",
+		"@prozilla-os/core": "1.3.2",
 		"@prozilla-os/shared": "^1.2.0",
 		"vite-plugin-css-injected-by-js": "^3.5.1",
 		"vite": "^5.4.8",

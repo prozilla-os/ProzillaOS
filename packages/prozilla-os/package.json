@@ -1,7 +1,7 @@
 {
 	"name": "prozilla-os",
 	"description": "a React component library written in TypeScript for building web-based operating systems, made by Prozilla.",
-	"version": "1.3.1",
+	"version": "1.3.2",
 	"homepage": "https://os.prozilla.dev",
 	"author": {
 		"name": "Prozilla",
@@ -22,7 +22,6 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@fortawesome/fontawesome-svg-core": "^6.5.2",
 		"@prozilla-os/browser": "workspace:*",
 		"@prozilla-os/calculator": "workspace:*",
 		"@prozilla-os/core": "workspace:*",
@@ -30,8 +29,7 @@
 		"@prozilla-os/media-viewer": "workspace:*",
 		"@prozilla-os/settings": "workspace:*",
 		"@prozilla-os/terminal": "workspace:*",
-		"@prozilla-os/text-editor": "workspace:*",
-		"react-ga4": "^2.1.0"
+		"@prozilla-os/text-editor": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^20.14.5",
@@ -40,7 +38,7 @@
 		"typescript": "^5.4.5",
 		"vite": "^5.4.8",
 		"vite-plugin-dts": "^3.9.1",
-		"vite-plugin-lib-inject-css": "^2.1.1"
+		"vite-plugin-css-injected-by-js": "^3.5.1"
 	},
 	"peerDependencies": {
 		"react": "^18.3.1"

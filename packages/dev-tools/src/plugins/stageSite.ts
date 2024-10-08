@@ -2,6 +2,7 @@ import fs from "node:fs";
 import type { AppsConfig } from "@prozilla-os/core";
 import { resolve } from "node:path";
 import { print } from "../features/console";
+import { Plugin, ResolvedConfig } from "vite";
 
 export interface StageOptions {
 	appsConfig: AppsConfig;
@@ -56,7 +57,15 @@ function generateSitemapXml(options: StageOptionsExtended) {
 	const { imageUrls, appsConfig, baseUrl } = options;
 
 	const date = new Date();
-	const lastModified = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+
+	const monthString = month >= 10 ? month.toString() : "0" + month;
+	const dayString = day >= 10 ? day.toString() : "0" + day;
+
+	const lastModified = `${year}-${monthString}-${dayString}`;
 
 	const images = imageUrls.map((path) => `
 		<image:image>
@@ -112,7 +121,7 @@ function generateTemplate(html: string, options: StageOptionsExtended) {
 	const emptyLinesRegex = /^\s*$\n/gm;
 	html = html.replaceAll(emptyLinesRegex, "");
 
-	const path = resolve(buildPath, "/index.html");
+	const path = resolve(buildPath, "index.html");
 	fs.writeFileSync(path, html, { flag: "w+" });
 	print(path, "file");
 
@@ -126,7 +135,7 @@ function generateTemplate(html: string, options: StageOptionsExtended) {
 function generate404Page(template: string, options: StageOptionsExtended) {
 	const { buildPath } = options;
 
-	const path = resolve(buildPath, "/404.html");
+	const path = resolve(buildPath, "404.html");
 	fs.writeFileSync(path, template, { flag: "w+" });
 	print(path, "file");
 }
@@ -158,26 +167,26 @@ function generateAppPages(template: string, options: StageOptionsExtended) {
 		const canonicalRegex = /(?<=(<link rel="canonical" href="|<meta name="twitter:url" content="|<meta property="og:url" content="))(http(s)?:\/\/[a-zA-Z-.]+\/)(?=("\/?>))/g;
 		html = html.replaceAll(canonicalRegex, baseUrl + appId);
 
-		const faqRegex = /<!-- FAQ -->.*?<script type="application\/ld\+json">.*?<\/script>/gs;
+		const faqRegex = /(<!-- FAQ -->.*?)?<script type="application\/ld\+json">.*?<\/script>/gs;
 		html = html.replaceAll(faqRegex, "");
 
-		const path = resolve(buildPath, `/${appId}.html`);
+		const path = resolve(buildPath, `${appId}.html`);
 		fs.writeFileSync(path, html, { flag: "w+" });
 		print(path, "file");
 	}
 }
 
-export function stage({ appsConfig, siteName, siteTagLine, buildPath, domain, imageUrls = [] }: StageOptions) {
+function stageSite({ appsConfig, siteName, siteTagLine, buildPath, domain, imageUrls = [] }: StageOptions) {
 	try {
 		print("Staging build...", "start", true);
 
 		const baseUrl = `https://${domain}/`;
 
 		const paths: FilePaths = {
-			sitemapXml: resolve(buildPath, "/sitemap.xml"),
-			robotsTxt: resolve(buildPath, "/robots.txt"),
-			indexHtml: resolve(buildPath, "/index.html"),
-			cname: resolve(buildPath, "/CNAME"),
+			sitemapXml: resolve(buildPath, "sitemap.xml"),
+			robotsTxt: resolve(buildPath, "robots.txt"),
+			indexHtml: resolve(buildPath, "index.html"),
+			cname: resolve(buildPath, "CNAME"),
 		};
 	
 		const files: [string, (options: StageOptionsExtended) => string][] = [
@@ -220,4 +229,24 @@ export function stage({ appsConfig, siteName, siteTagLine, buildPath, domain, im
 		print("Staging failed", "error");
 		process.exit(1);
 	}
+}
+
+export default function stageSitePlugin(options: StageOptions): Plugin {
+	let config: ResolvedConfig;
+	
+	return {
+		name: "vite-plugin-stage-site",
+		configResolved(resolvedConfig) {
+			config = resolvedConfig;
+		},
+		writeBundle() {
+			let buildDir = options.buildPath ?? config.build.outDir;
+			buildDir = resolve(config.root, buildDir);
+			
+			stageSite({
+				...options,
+				buildPath: buildDir
+			});
+		},
+	};
 }

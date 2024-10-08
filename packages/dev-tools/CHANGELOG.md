@@ -1,5 +1,13 @@
 # @prozilla-os/dev-tools
 
+## 1.0.3
+
+### Patch Changes
+
+- Added vite plugin for site staging
+- Updated dependencies
+  - @prozilla-os/core@1.3.2
+
 ## 1.0.2
 
 ### Patch Changes

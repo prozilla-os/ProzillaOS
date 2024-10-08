@@ -1,5 +1,20 @@
 # prozilla-os
 
+## 1.3.2
+
+### Patch Changes
+
+- Added vite plugin for site staging
+- Updated dependencies
+  - @prozilla-os/core@1.3.2
+  - @prozilla-os/browser@1.1.7
+  - @prozilla-os/calculator@1.1.7
+  - @prozilla-os/file-explorer@1.1.7
+  - @prozilla-os/media-viewer@1.1.7
+  - @prozilla-os/settings@1.1.7
+  - @prozilla-os/terminal@1.1.8
+  - @prozilla-os/text-editor@1.1.7
+
 ## 1.3.1
 
 ### Patch Changes

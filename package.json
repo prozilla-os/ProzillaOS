@@ -56,7 +56,7 @@
 		"stylelint": "^16.6.1",
 		"typescript": "^5.4.5",
 		"typescript-eslint": "^7.13.1",
-		"vite-node": "^1.6.0",
+		"vite-node": "^2.1.2",
 		"vite-plugin-checker": "^0.7.1"
 	},
 	"browserslist": {
