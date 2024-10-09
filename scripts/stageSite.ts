@@ -1,12 +1,12 @@
 import { ANSI } from "../packages/shared/src/constants";
 import { name } from "../package.json";
 import fs from "node:fs";
-import { BUILD_DIR } from "../packages/demo/src/config/deploy.config";
+import { BUILD_DIR } from "../demo/src/config/deploy.config";
 import { resolve } from "node:path";
 
 const PACKAGES = [
-	{ source: `../packages/demo/${BUILD_DIR}`, path: "/" },
-	{ source: `../packages/docs/${BUILD_DIR}`, path: "/docs" }
+	{ source: `../demo/${BUILD_DIR}`, path: "/" },
+	{ source: `../docs/${BUILD_DIR}`, path: "/docs" }
 ];
 
 const TARGET = `../${BUILD_DIR}`;
