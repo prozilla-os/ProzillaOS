@@ -1,10 +1,10 @@
-import { ANSI } from "../../core/src/constants";
+import { ANSI } from "../../packages/core/src/constants";
 import { name } from "../package.json";
 import { resolve } from "node:path";
 import fs from "node:fs";
 import { isValidElement } from "react";
 
-const items = await import("../../core/src/main");
+const items = await import("../../packages/core/src/main");
 
 const OUTPUT_DIR = "data";
 
