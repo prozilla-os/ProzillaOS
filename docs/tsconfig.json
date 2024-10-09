@@ -1,9 +1,9 @@
 {
-	"extends": "../../tsconfig.json",
+	"extends": "../tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": "../..",
 		"types": ["node", "vitepress/client"]
 	},
-	"include": ["src", ".vitepress", "../core/src/**/*", "scripts"],
+	"include": ["src", ".vitepress", "../packages/core/src/**/*", "scripts"],
 	"exclude": ["node_modules"]
 }

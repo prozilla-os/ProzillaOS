@@ -1,7 +1,7 @@
 import { UserConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import dts from "vite-plugin-dts";
-import { libInjectCss } from "vite-plugin-lib-inject-css";
+import cssInjectedByJs from "vite-plugin-css-injected-by-js";
 import { posix, resolve, sep } from "path";
 
 /**
@@ -24,9 +24,8 @@ export const appViteConfig = (basePath: string, entryPath: string): UserConfig =
 	return {
 		plugins: [
 			react(),
-			libInjectCss(),
+			cssInjectedByJs(),
 			dts({
-				include: ["src"],
 				outDir: "dist",
 				rollupTypes: true,
 				strictOutput: true,
@@ -40,7 +39,7 @@ export const appViteConfig = (basePath: string, entryPath: string): UserConfig =
 				formats: ["es"],
 			},
 			rollupOptions: {
-				external: ["react", "react/jsx-runtime", "@prozilla-os/core", "@prozilla-os/shared"],
+				external: ["react", "react/jsx-runtime", "@prozilla-os/core", "@prozilla-os/shared", /@fortawesome\/*/g],
 				output: {
 					assetFileNames: "assets/[name][extname]",
 					entryFileNames: "[name].js",

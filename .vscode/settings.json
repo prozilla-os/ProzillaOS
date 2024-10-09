@@ -6,4 +6,8 @@
 	"workbench.colorCustomizations": {
 		"editorRuler.foreground": "#1F1F1F"
 	},
+	"eslint.useFlatConfig": true,
+	"eslint.validate": [
+		"ts", "tsx"
+	],
 }

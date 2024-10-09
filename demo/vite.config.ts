@@ -1,8 +1,11 @@
 import { defineConfig, UserConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import checker from "vite-plugin-checker";
-import { BUILD_DIR } from "./src/config/deploy.config";
+import { BUILD_DIR, DOMAIN } from "./src/config/deploy.config";
 import { resolve } from "path";
+import { stageSitePlugin } from "@prozilla-os/dev-tools";
+import { appsConfig } from "./src/config/apps.config";
+import { NAME, TAG_LINE } from "./src/config/branding.config";
 
 /**
  * Loads packages from their local path instead of node_modules 
@@ -22,10 +25,10 @@ function generateAliases() {
 	const entryFile = USE_PACKAGE_BUILDS ? "dist/main.js" : "src/main.ts";
 
 	const localPackages = [
-		{ name: "prozilla-os", path: resolve(__dirname, "../prozilla-os/" + entryFile) },
-		{ name: "@prozilla-os/core", path: resolve(__dirname, "../core/" + entryFile) },
-		{ name: "@prozilla-os/shared", path: resolve(__dirname, "../shared/" + entryFile) },
-		{ name: "@prozilla-os/skins", path: resolve(__dirname, "../skins/" + entryFile) }
+		{ name: "prozilla-os", path: resolve(__dirname, "../packages/prozilla-os/" + entryFile) },
+		{ name: "@prozilla-os/core", path: resolve(__dirname, "../packages/core/" + entryFile) },
+		{ name: "@prozilla-os/shared", path: resolve(__dirname, "../packages/shared/" + entryFile) },
+		{ name: "@prozilla-os/skins", path: resolve(__dirname, "../packages/skins/" + entryFile) }
 	];
 
 	const localApps = [
@@ -41,7 +44,7 @@ function generateAliases() {
 
 	localApps.forEach((id) => {
 		const name = `@prozilla-os/${id}`;
-		const path = resolve(__dirname, `../apps/${id}/${entryFile}`);
+		const path = resolve(__dirname, `../packages/apps/${id}/${entryFile}`);
 		localPackages.push({ name, path });
 	});
 
@@ -62,13 +65,21 @@ export default defineConfig(({ command }) => {
 			react(),
 			checker({
 				typescript: true,
-			}),
+			})
 		],
 		build: {
 			outDir: BUILD_DIR,
 			rollupOptions: {
-				external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"]
-			}
+				external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
+				plugins: [
+					stageSitePlugin({
+						appsConfig,
+						siteName: NAME,
+						siteTagLine: TAG_LINE,
+						domain: DOMAIN
+					})
+				]
+			},
 		},
 		resolve: {
 			alias: devMode ? aliases : {},
@@ -77,7 +88,7 @@ export default defineConfig(({ command }) => {
 			port: 3000,
 		},
 		optimizeDeps: {
-			exclude: devMode ? Object.keys(aliases) : []
+			exclude: devMode ? Object.keys(aliases) : [],
 		}
 	} as UserConfig;
 });

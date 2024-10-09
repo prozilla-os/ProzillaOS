@@ -14,7 +14,8 @@ function publishSite() {
 
 	void ghpages.publish(path.resolve(__dirname, "../", BUILD_DIR), {
 		repo: REPO_URL,
-		message: COMMIT_MESSAGE
+		message: COMMIT_MESSAGE,
+		dotfiles: true
 	}, (error) => {
 		if (error == null)
 			return;

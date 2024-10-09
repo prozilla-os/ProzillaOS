@@ -9,7 +9,9 @@ export default defineConfig({
 			include: ["src"],
 			outDir: "dist",
 			rollupTypes: true,
-			strictOutput: true
+			strictOutput: true,
+			pathsToAliases: false,
+			bundledPackages: ["@prozilla-os/*"]
 		})
 	],
 	build: {
@@ -18,7 +20,7 @@ export default defineConfig({
 			formats: ["es"],
 		},
 		rollupOptions: {
-			external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
+			external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup", "@prozilla-os/core", "@prozilla-os/shared"],
 			output: {
 				assetFileNames: "assets/[name][extname]",
 				entryFileNames: "[name].js",
