@@ -1,0 +1,1 @@
+import{o as n}from"./command-nBL1aO7T-CliNWZCP.js";const c=new n().setManual({purpose:"Create a directory"}).setRequireArgs(!0).setExecute(function(t,o){const{currentDirectory:e}=o,r=t[0];return e.findSubFolder(r)?{blank:!0}:(e.createFolder(r),{blank:!0})});export{c as mkdir};

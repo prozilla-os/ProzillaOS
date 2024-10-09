@@ -1,0 +1,1 @@
+import{o as n}from"./command-nBL1aO7T-CliNWZCP.js";const o=new n().setManual({purpose:"Clear terminal screen"}).setExecute(function(r,t){const{pushHistory:e}=t;return e==null||e({clear:!0,isInput:!1}),{blank:!0}});export{o as clear};

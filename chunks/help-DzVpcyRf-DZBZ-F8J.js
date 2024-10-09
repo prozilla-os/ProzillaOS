@@ -1,0 +1,2 @@
+import{e as m,A as r,F as s}from"../index.js";import{o as l}from"./command-nBL1aO7T-CliNWZCP.js";const d=new l().setExecute(function(o){var t;if((o==null?void 0:o.length)===0)return m.COMMANDS.map(n=>{var u;return(u=n.manual)!=null&&u.purpose?`${n.name} - ${r.fg.green}${r.decoration.dim}${n.manual.purpose}${r.reset}`:n.name}).sort().join(`
+`);const e=o[0].toLowerCase(),a=m.find(e);return a?(t=a.manual)!=null&&t.purpose?a.manual.purpose:s(this.name,`${e}: No manual found`):s(this.name,`${e}: Command not found`)});export{d as help};

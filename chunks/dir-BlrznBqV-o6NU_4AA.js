@@ -1,0 +1,1 @@
+import{o as i}from"./command-nBL1aO7T-CliNWZCP.js";const a=new i().setManual({purpose:"List all directories in the current directory"}).setExecute(function(c,t){const{currentDirectory:o}=t,r=o.subFolders.map(e=>e.id);return r.length===0?{blank:!0}:r.sort((e,n)=>e.localeCompare(n)).join(" ")});export{a as dir};
