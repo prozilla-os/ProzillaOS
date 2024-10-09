@@ -78,7 +78,12 @@ export default defineConfig(({ command }) => {
 						siteTagLine: TAG_LINE,
 						domain: DOMAIN
 					})
-				]
+				],
+				output: {
+					assetFileNames: "assets/[name][extname]",
+					chunkFileNames: "chunks/[name]-[hash].js",
+					entryFileNames: "[name].js"
+				}
 			},
 		},
 		resolve: {

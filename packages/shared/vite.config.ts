@@ -20,7 +20,7 @@ export default defineConfig({
 		rollupOptions: {
 			external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
 			output: {
-				assetFileNames: "assets/[name][extname]",
+				assetFileNames: "chunks/[name][extname]",
 				entryFileNames: "[name].js",
 			}
 		},
