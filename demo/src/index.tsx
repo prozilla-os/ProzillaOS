@@ -1,10 +1,10 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { Container, createRoot } from "react-dom/client";
 import { ASCII_LOGO, NAME } from "./config/branding.config";
 import { Main } from "./Main";
 
 // Render app
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = createRoot(document.getElementById("root") as Container);
 root.render(<React.StrictMode><Main/></React.StrictMode>);
 
 // Log welcome message
