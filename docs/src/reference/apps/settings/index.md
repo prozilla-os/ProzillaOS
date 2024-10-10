@@ -4,4 +4,4 @@ outline: deep
 
 # @prozilla-os/settings
 
-<!--@include: ../../../../../apps/settings/README.md{13,}-->
+<!--@include: ../../../../../packages/apps/settings/README.md{13,}-->

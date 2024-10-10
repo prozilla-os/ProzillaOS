@@ -81,7 +81,7 @@ export default defineConfig({
 		},
 
 		editLink: {
-			pattern: "https://github.com/prozilla-os/ProzillaOS/edit/main/packages/docs/src/:path",
+			pattern: "https://github.com/prozilla-os/ProzillaOS/edit/main/docs/src/:path",
 			text: "Suggest changes to this page"
 		},
 

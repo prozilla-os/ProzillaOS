@@ -4,4 +4,4 @@ outline: deep
 
 # @prozilla-os/core
 
-<!--@include: ../../../../core/README.md{13,}-->
+<!--@include: ../../../../packages/core/README.md{13,}-->

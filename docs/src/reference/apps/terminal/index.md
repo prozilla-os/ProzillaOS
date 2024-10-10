@@ -4,4 +4,4 @@ outline: deep
 
 # @prozilla-os/terminal
 
-<!--@include: ../../../../../apps/terminal/README.md{13,}-->
+<!--@include: ../../../../../packages/apps/terminal/README.md{13,}-->

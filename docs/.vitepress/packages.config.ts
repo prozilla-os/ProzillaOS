@@ -114,6 +114,16 @@ export const PACKAGES: PackageData[] = [
 		text: "@prozilla-os/dev-tools",
 		link: "dev-tools",
 		category: "Libraries",
+		items: [
+			{
+				text: "Functions",
+				base: "/reference/dev-tools/functions/",
+				collapsed: false,
+				items: [
+					{ text: "Console", link: "/console" },
+				]
+			}
+		]
 	},
 	{
 		text: "@prozilla-os/calculator",

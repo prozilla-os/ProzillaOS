@@ -4,4 +4,4 @@ outline: deep
 
 # @prozilla-os/media-viewer
 
-<!--@include: ../../../../../apps/media-viewer/README.md{13,}-->
+<!--@include: ../../../../../packages/apps/media-viewer/README.md{13,}-->

@@ -4,4 +4,4 @@ outline: deep
 
 # @prozilla-os/calculator
 
-<!--@include: ../../../../../apps/calculator/README.md{13,}-->
+<!--@include: ../../../../../packages/apps/calculator/README.md{13,}-->

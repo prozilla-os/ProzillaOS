@@ -4,4 +4,4 @@ outline: deep
 
 # @prozilla-os/browser
 
-<!--@include: ../../../../../apps/browser/README.md{13,}-->
+<!--@include: ../../../../../packages/apps/browser/README.md{13,}-->

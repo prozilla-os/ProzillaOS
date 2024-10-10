@@ -4,4 +4,4 @@ outline: deep
 
 # @prozilla-os/text-editor
 
-<!--@include: ../../../../../apps/text-editor/README.md{13,}-->
+<!--@include: ../../../../../packages/apps/text-editor/README.md{13,}-->

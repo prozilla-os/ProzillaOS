@@ -19,7 +19,7 @@ Simulate closing the viewport by opening a blank page
 - **Parameters**
   - **requireConfirmation** - Whether to ask the user for confirmation before closing
     - **Type:** `boolean | undefined`
-	- **Default:** `false`
+    - **Default:** `false`
   - **name** - Name of the system
     - **Type:** `string`
 
@@ -80,7 +80,7 @@ Get the current viewport parameters/search queries
 
 ## generateUrl(options)
 
-Generate a system URL based on some options 
+Generate a system URL based on some options
 
 ::: details
 
@@ -92,9 +92,9 @@ Generate a system URL based on some options
 
 ```ts
 interface GenerateUrlOptions {
-	appId?: string;
-	fullscreen?: boolean;
-	standalone?: boolean;
+ appId?: string;
+ fullscreen?: boolean;
+ standalone?: boolean;
 }
 ```
 
@@ -111,7 +111,7 @@ Open a URL in an optional target or the current window
     - **Type:** `string`
   - **target**
     - **Optional**
-	- **Type:** `React.HTMLAttributeAnchorTarget`
+    - **Type:** `React.HTMLAttributeAnchorTarget`
 
 :::
 

@@ -4,4 +4,4 @@ outline: deep
 
 # @prozilla-os/skins
 
-<!--@include: ../../../../skins/README.md{13,}-->
+<!--@include: ../../../../packages/skins/README.md{13,}-->

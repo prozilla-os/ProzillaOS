@@ -4,4 +4,4 @@ outline: deep
 
 # @prozilla-os/logic-sim
 
-<!--@include: ../../../../../apps/logic-sim/README.md{13,}-->
+<!--@include: ../../../../../packages/apps/logic-sim/README.md{13,}-->
