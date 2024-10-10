@@ -1,5 +1,5 @@
 ---
-outline: deep
+outline: 2
 description: "Constants for ProzillaOS"
 package: "@prozilla-os/core"
 ---
@@ -7,25 +7,6 @@ package: "@prozilla-os/core"
 # Constants
 
 {{ $frontmatter.description }}
-
-## Utility
-
-- **Source:** [`utils.const.ts`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/constants/utils.const.ts)
-
-### ANSI
-
-Ansi codes for coloring and decorating ansi text
-
-- **Type:** `Ansi`
-
-```ts
-interface Ansi {
-	fg: Record<number, string>; // Foreground colors
-	bg: Record<number, string>; // Background colors
-	decoration: Record<number, string>;
-	reset: string;
-};
-```
 
 ## Virtual drive
 

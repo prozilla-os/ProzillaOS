@@ -14,16 +14,10 @@ package: "@prozilla-os/core"
 
 ### Parameters
 
-<br>
-
-#### x
-
-- **Type:** `number`
-
-#### y
-
-- **Optional**
-- **Type:** `number`
+- **x**
+  - **Type:** `number`
+- **y**
+  - **Type:** `number | undefined`
 
 ### Examples
 

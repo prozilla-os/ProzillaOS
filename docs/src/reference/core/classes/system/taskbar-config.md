@@ -11,12 +11,8 @@ package: "@prozilla-os/core"
 
 ### Parameters
 
-<br>
-
-#### options
-
-- **Optional**
-- **Type:** `TaskbarConfigOptions`
+- **options**
+  - **Type:** `TaskbarConfigOptions | undefined`
 
 ```ts
 interface TaskbarConfigOptions {
@@ -32,4 +28,3 @@ Height of the taskbar in CSS pixels
 
 - **Type:** `number`
 - **Default:** `48`
-

@@ -148,4 +148,11 @@ export default defineConfig({
 	ignoreDeadLinks: [
 		/^https?:\/\/localhost/
 	],
+
+	markdown: {
+		theme: {
+			dark: "material-theme-palenight",
+			light: "material-theme-palenight"
+		}
+	}
 });

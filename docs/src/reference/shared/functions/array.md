@@ -1,5 +1,5 @@
 ---
-outline: deep
+outline: 2
 description: "Functions related to arrays"
 package: "@prozilla-os/shared"
 ---
@@ -10,48 +10,51 @@ package: "@prozilla-os/shared"
 
 - **Source:** [`array.utils.ts`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/shared/src/features/_utils/array.utils.ts)
 
-
 ## removeFromArray(item, array)
 
 Remove an item from an array
 
-::: details
+### Type parameters
 
-- **Type parameters:** `<ItemType>`
-- **Parameters**
-  - **item** - Item to remove from the array
-    - **Type:** `ItemType`
-  - **array**
-    - **Type:** `ItemType[]`
+- `<ItemType>`
 
-:::
+### Parameters
+
+- **item** - Item to remove from the array
+  - **Type:** `ItemType`
+- **array**
+  - **Type:** `ItemType[]`
 
 ## randomFromArray(array)
 
 Get a random item from an array
 
-::: details
+### Type parameters
 
-- **Type parameters:** `<ItemType>`
-- **Parameters**
-  - **array**
-    - **Type:** `ItemType[]`
-- **Returns**
-  - **Type:** `ItemType`
+- `<ItemType>`
 
-:::
+### Parameters
+
+- **array**
+  - **Type:** `ItemType[]`
+
+### Returns
+
+- **Type:** `ItemType`
 
 ## removeDuplicatesFromArray(array)
 
 Removes all duplicate items from an array and returns the array
 
-::: details
+### Type parameters
 
-- **Type parameters:** `<ItemType>`
-- **Parameters**
-  - **array**
-    - **Type:** `ItemType[]`
-- **Returns**
+- `<ItemType>`
+
+### Parameters
+
+- **array**
   - **Type:** `ItemType[]`
 
-:::
+### Returns
+
+- **Type:** `ItemType[]`

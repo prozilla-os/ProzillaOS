@@ -37,10 +37,10 @@ features:
 
 <script setup>
 import {
-  VPTeamPage,
-  VPTeamPageTitle,
-  VPTeamMembers,
-  VPTeamPageSection
+	VPTeamPage,
+	VPTeamPageTitle,
+	VPTeamMembers,
+	VPTeamPageSection
 } from "vitepress/theme"
 
 const developers = [

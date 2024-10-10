@@ -11,12 +11,8 @@ package: "@prozilla-os/core"
 
 ### Parameters
 
-<br>
-
-#### options
-
-- **Optional**
-- **Type:** `MiscConfigOptions`
+- **options**
+  - **Type:** `MiscConfigOptions | undefined`
 
 ```ts
 interface MiscConfigOptions {
@@ -33,5 +29,5 @@ The maximum time between two clicks for those clicks to register as a double cli
 - **Type:** `number`
 - **Default:** `250`
 
-> [!NOTE] 
+> [!NOTE]
 > Also applies to touch devices.

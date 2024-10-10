@@ -11,12 +11,8 @@ package: "@prozilla-os/core"
 
 ### Parameters
 
-<br>
-
-#### options
-
-- **Optional**
-- **Type:** `ModalsConfigOptions`
+- **options**
+  - **Type:** `ModalsConfigOptions | undefined`
 
 ```ts
 interface ModalsConfigOptions {
@@ -26,6 +22,7 @@ interface ModalsConfigOptions {
 ```
 
 > [!NOTE] References
+>
 > - [Vector2](/reference/core/classes/utils/vector2)
 
 ## Properties

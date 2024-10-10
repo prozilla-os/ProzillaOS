@@ -11,12 +11,8 @@ package: "@prozilla-os/core"
 
 ### Parameters
 
-<br>
-
-#### options
-
-- **Optional**
-- **Type:** `TrackingConfigOptions`
+- **options**
+  - **Type:** `TrackingConfigOptions | undefined`
 
 ```ts
 interface TrackingConfigOptions {

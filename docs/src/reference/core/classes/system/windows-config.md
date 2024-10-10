@@ -13,10 +13,8 @@ package: "@prozilla-os/core"
 
 <br>
 
-#### options
-
-- **Optional**
-- **Type:** `WindowsConfigOptions`
+- **options**
+  - **Type:** `WindowsConfigOptions | undefined`
 
 ```ts
 interface WindowsConfigOptions {
@@ -27,6 +25,7 @@ interface WindowsConfigOptions {
 ```
 
 > [!NOTE] References
+>
 > - [Vector2](/reference/core/classes/utils/vector2)
 
 ## Properties
@@ -52,5 +51,5 @@ If the user's screen is smaller than these values, windows will always be maximi
 - **Type:** [`Vector2`](/reference/core/classes/utils/vector2)
 - **Default:** `new Vector2(350, 350)`
 
-> [!WARNING] 
+> [!WARNING]
 > Keep these values as low as possible, as this limits some functionality of the OS on devices with certain screen sizes.

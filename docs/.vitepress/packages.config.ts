@@ -4,14 +4,14 @@ export interface PackageData {
 	text: string;
 	link: string;
 	items?: DefaultTheme.SidebarItem[];
-	category: "Libraries" | "Standard apps" | "Non-standard apps";
+	category: "Bundle" | "Libraries" | "Apps";
 };
 
 export const PACKAGES: PackageData[] = [
 	{
 		text: "prozilla-os",
 		link: "prozilla-os",
-		category: "Libraries"
+		category: "Bundle"
 	},
 	{
 		text: "@prozilla-os/core",
@@ -121,6 +121,7 @@ export const PACKAGES: PackageData[] = [
 				collapsed: false,
 				items: [
 					{ text: "Console", link: "/console" },
+					{ text: "Vite", link: "/vite" },
 				]
 			}
 		]
@@ -128,37 +129,37 @@ export const PACKAGES: PackageData[] = [
 	{
 		text: "@prozilla-os/calculator",
 		link: "apps/calculator",
-		category: "Standard apps",
+		category: "Apps",
 	},
 	{
 		text: "@prozilla-os/file-explorer",
 		link: "apps/file-explorer",
-		category: "Standard apps",
+		category: "Apps",
 	},
 	{
 		text: "@prozilla-os/media-viewer",
 		link: "apps/media-viewer",
-		category: "Standard apps",
+		category: "Apps",
 	},
 	{
 		text: "@prozilla-os/settings",
 		link: "apps/settings",
-		category: "Standard apps",
+		category: "Apps",
 	},
 	{
 		text: "@prozilla-os/terminal",
 		link: "apps/terminal",
-		category: "Standard apps",
+		category: "Apps",
 	},
 	{
 		text: "@prozilla-os/text-editor",
 		link: "apps/text-editor",
-		category: "Standard apps",
+		category: "Apps",
 	},
 	{
 		text: "@prozilla-os/logic-sim",
 		link: "apps/logic-sim",
-		category: "Non-standard apps",
+		category: "Apps",
 	}
 ];
 

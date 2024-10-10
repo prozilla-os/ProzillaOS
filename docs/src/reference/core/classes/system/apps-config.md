@@ -11,12 +11,8 @@ package: "@prozilla-os/core"
 
 ### Parameters
 
-<br>
-
-#### options
-
-- **Optional**
-- **Type:** `AppsConfigOptions`
+- **options**
+  - **Type:** `AppsConfigOptions | undefined`
 
 ```ts
 interface AppsConfigOptions {
@@ -25,6 +21,7 @@ interface AppsConfigOptions {
 ```
 
 > [!NOTE] References
+>
 > - [App](/reference/core/classes/apps/app)
 
 ## Properties

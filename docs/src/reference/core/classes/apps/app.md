@@ -12,7 +12,7 @@ Applications can be installed by adding them to the `apps` array in [`AppsConfig
 
 ## Type parameters
 
-> `<AppProps extends WindowProps = WindowProps>` 
+> `<AppProps extends WindowProps = WindowProps>`
 
 ## Constructor
 
@@ -20,24 +20,14 @@ Applications can be installed by adding them to the `apps` array in [`AppsConfig
 
 ### Parameters
 
-<br>
-
-#### name
-
-- **Type:** `string`
-
-#### id
-
-- **Type:** `string`
-
-#### windowContent
-
-- **Type:** `React.FC<AppProps>`
-
-#### windowOptions
-
-- **Optional**
-- **Type:** `WindowOptions`
+- **name**
+  - **Type:** `string`
+- **id**
+  - **Type:** `string`
+- **windowContent**
+  - **Type:** `React.FC<AppProps>`
+- **windowOptions**
+  - **Type:** `WindowOptions | undefined`
 
 ```ts
 interface WindowOptions {
@@ -47,6 +37,7 @@ interface WindowOptions {
 ```
 
 > [!NOTE] References
+>
 > - [Vector2](../utils/vector2)
 
 ## Properties
@@ -88,6 +79,7 @@ interface WindowOptions {
 ```
 
 > [!NOTE] References
+>
 > - [Vector2](../utils/vector2)
 
 ### description
@@ -136,7 +128,7 @@ Set the display name of this application
 
 - **Parameters**
   - **name**
-	- **Type:** `string`
+   	- **Type:** `string`
 - **Returns**
   - **Type:** `this`
 
@@ -146,7 +138,7 @@ Set the description of this application
 
 - **Parameters**
   - **description**
-	- **Type:** `string`
+   	- **Type:** `string`
 - **Returns**
   - **Type:** `this`
 
@@ -156,7 +148,7 @@ Set the URL of the icon of this application
 
 - **Parameters**
   - **iconUrl**
-	- **Type:** `string | null`
+   	- **Type:** `string | null`
 - **Returns**
   - **Type:** `this`
 
@@ -166,7 +158,7 @@ Set the role of this application
 
 - **Parameters**
   - **role**
-	- **Type:** `string | null`
+   	- **Type:** `string | null`
 - **Returns**
   - **Type:** `this`
 
@@ -176,7 +168,7 @@ Set the associated extensions of this application
 
 - **Parameters**
   - **extensions**
-	- **Type:** `string[] | null`
+   	- **Type:** `string[] | null`
 - **Returns**
   - **Type:** `this`
 
@@ -186,7 +178,7 @@ Changes whether this application is pinned by default or not
 
 - **Parameters**
   - **pinnedByDefault**
-	- **Type:** `boolean`
+   	- **Type:** `boolean`
 - **Returns**
   - **Type:** `this`
 
@@ -196,7 +188,7 @@ Changes whether this application is launched at startup or not
 
 - **Parameters**
   - **launchAtStartup**
-	- **Type:** `boolean`
+   	- **Type:** `boolean`
 - **Returns**
   - **Type:** `this`
 
@@ -206,6 +198,6 @@ Renders the app as a React component
 
 - **Parameters**
   - **props**
-	- **Type:** `AppProps`
+   	- **Type:** `AppProps`
 - **Returns**
   - **Type:** `React.ReactElement`

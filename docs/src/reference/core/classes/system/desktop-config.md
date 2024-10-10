@@ -11,12 +11,8 @@ package: "@prozilla-os/core"
 
 ### Parameters
 
-<br>
-
-#### options
-
-- **Optional**
-- **Type:** `DesktopConfigOptions`
+- **options**
+  - **Type:** `DesktopConfigOptions | undefined`
 
 ```ts
 interface DesktopConfigOptions {

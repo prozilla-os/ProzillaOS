@@ -52,6 +52,7 @@ interface ConfigOptions {
 ```
 
 > [!NOTE] References
+>
 > - [AppsConfig](/reference/core/classes/system/apps-config)
 > - [DesktopConfig](/reference/core/classes/system/desktop-config)
 > - [MiscConfig](/reference/core/classes/system/misc-config)

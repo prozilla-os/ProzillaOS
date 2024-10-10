@@ -14,12 +14,8 @@ package: "@prozilla-os/skins"
 
 ### Parameters
 
-<br>
-
-#### options
-
-- **Optional**
-- **Type:** `SkinOptions`
+- **options**
+  - **Type:** `SkinOptions | undefined`
 
 ```ts
 interface SkinOptions {
@@ -68,8 +64,12 @@ Array of URLs of wallpaper images
 URL of default wallpaper image
 
 - **Type:** `string`
-- **Default:** `"https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png"`
-    ![Default wallpaper](https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png)
+
+#### Default
+
+`"https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png"`
+
+![Default wallpaper](https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png)
 
 ### fileIcons
 
@@ -114,13 +114,14 @@ interface FolderIcons {
 Function that dynamically imports style sheet
 
 - **Type:** `() => void`
-- **Example** 
 
-	```ts
-	function loadStyleSheet() {
-		import("../styles/skins/macOs.css");
-	}
-	```
+#### Example
+
+```ts
+function loadStyleSheet() {
+	import("../styles/skins/macOs.css");
+}
+```
 
 ## Instances
 
