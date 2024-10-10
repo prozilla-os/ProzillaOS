@@ -53,7 +53,7 @@ export default defineConfig({
 					text: "Guides",
 					items: [
 						{ text: "Getting started", link: "/getting-started" },
-						// { text: "Custom app", link: "/custom-app" },
+						{ text: "Custom app", link: "/custom-app" },
 						{ text: "Self-hosting", link: "/self-hosting" },
 					]
 				}]

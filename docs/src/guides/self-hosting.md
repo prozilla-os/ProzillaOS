@@ -1,8 +1,9 @@
 ---
 outline: deep
+description: "Learn how to host ProzillaOS locally on your own device"
 ---
 
-# Self-hosting
+# Self-hosting ProzillaOS
 
 This guide explains how to host ProzillaOS locally on your own device or on your own server.
 

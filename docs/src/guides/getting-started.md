@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: "Learn how to get started with ProzillaOS"
 ---
 
 # Getting started
@@ -15,19 +16,19 @@ There are multiple ways to install ProzillaOS. The simplest way is to install th
 ::: code-group
 
 ```bash [NPM]
-$ npm install prozilla-os
+npm install prozilla-os
 ```
 
 ```bash [Yarn]
-$ yarn add prozilla-os
+yarn add prozilla-os
 ```
 
 ```bash [PNPM]
-$ pnpm add prozilla-os
+pnpm add prozilla-os
 ```
 
 ```bash [Bun]
-$ bun add prozilla-os
+bun add prozilla-os
 ```
 
 :::
@@ -37,19 +38,19 @@ Alternatively, you can install the `@prozilla-os/core` package, which only conta
 ::: code-group
 
 ```bash [NPM]
-$ npm install @prozilla-os/core
+npm install @prozilla-os/core
 ```
 
 ```bash [Yarn]
-$ yarn add @prozilla-os/core
+yarn add @prozilla-os/core
 ```
 
 ```bash [PNPM]
-$ pnpm add @prozilla-os/core
+pnpm add @prozilla-os/core
 ```
 
 ```bash [Bun]
-$ bun add @prozilla-os/core
+bun add @prozilla-os/core
 ```
 
 :::
@@ -61,19 +62,19 @@ Install apps by running the command below. Replace `[app]` with the id of the ap
 ::: code-group
 
 ```bash [NPM]
-$ npm install @prozilla-os/[app]
+npm install @prozilla-os/[app]
 ```
 
 ```bash [Yarn]
-$ yarn add @prozilla-os/[app]
+yarn add @prozilla-os/[app]
 ```
 
 ```bash [PNPM]
-$ pnpm add @prozilla-os/[app]
+pnpm add @prozilla-os/[app]
 ```
 
 ```bash [Bun]
-$ bun add @prozilla-os/[app]
+bun add @prozilla-os/[app]
 ```
 
 :::
@@ -120,7 +121,7 @@ Replace `"Example"` with a system name of your choosing and `"Power by ProzillaO
 
 If you don't want a taskbar/desktop/modal in your project, you can leave those components out. Unless you don't want to be able to open applications in your project, you will need to keep the `<WindowsView>` component.
 
-> [!CAUTION] 
+> [!CAUTION]
 > Depending on how you installed ProzillaOS, your import statement will look slightly different. Make sure you are importing from the correct package that you installed previously.
 
 ### Using apps
@@ -164,7 +165,7 @@ import { fileExplorer } from "prozilla-os"
 >
 ```
 
-> [!TIP] 
+> [!TIP]
 > Move your configurations to separate files to make them more readable and keep a better overview of your different configurations. You can then import these configurations into your `App.tsx` file and use them as values for the `config` prop of the `<ProzillaOS>` component.
 
 Once that's done, go ahead and start your project and open it in your browser to check it out. Congratulations, you've made your own operating system inside the browser!
