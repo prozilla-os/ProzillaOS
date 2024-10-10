@@ -159,7 +159,7 @@ export default defineConfig({
 	markdown: {
 		theme: {
 			dark: "material-theme",
-			light: "material-theme"
+			light: "material-theme-lighter"
 		},
 	},
 });
