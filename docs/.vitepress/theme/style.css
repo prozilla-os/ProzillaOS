@@ -1,100 +1,67 @@
+@import url("./variables.css");
+
 /**
  * Customize default theme styling by overriding CSS variables:
  * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
  */
 
-/**
- * Colors
- *
- * Each colors have exact same color scale system with 3 levels of solid
- * colors with different brightness, and 1 soft color.
- * 
- * - `XXX-1`: The most solid color used mainly for colored text. It must
- *	 satisfy the contrast ratio against when used on top of `XXX-soft`.
- *
- * - `XXX-2`: The color used mainly for hover state of the button.
- *
- * - `XXX-3`: The color for solid background, such as bg color of the button.
- *	 It must satisfy the contrast ratio with pure white (#ffffff) text on
- *	 top of it.
- *
- * - `XXX-soft`: The color used for subtle background such as custom container
- *	 or badges. It must satisfy the contrast ratio when putting `XXX-1` colors
- *	 on top of it.
- *
- *	 The soft color must be semi transparent alpha channel. This is crucial
- *	 because it allows adding multiple "soft" colors on top of each other
- *	 to create a accent, such as when having inline code block inside
- *	 custom containers.
- *
- * - `default`: The color used purely for subtle indication without any
- *	 special meanings attched to it such as bg color for menu hover state.
- *
- * - `brand`: Used for primary brand colors, such as link text, button with
- *	 brand theme, etc.
- *
- * - `tip`: Used to indicate useful information. The default theme uses the
- *	 brand color for this by default.
- *
- * - `warning`: Used to indicate warning to the users. Used in custom
- *	 container, badges, etc.
- *
- * - `danger`: Used to show error, or dangerous message to the users. Used
- *	 in custom container, badges, etc.
- * -------------------------------------------------------------------------- */
-
 :root {
-	--vp-c-default-1: #A0A9B2;
-	--vp-c-default-2: #A0A9B2;
-	--vp-c-default-3: #A0A9B2;
+	--vp-c-default-1: var(--white-1);
+	--vp-c-default-2: var(--white-1);
+	--vp-c-default-3: var(--white-1);
 	--vp-c-default-soft: hsl(210, 100%, 90%);
 
-	--vp-c-brand-1: #4D9CFF;
-	--vp-c-brand-2: #366DB2;
-	--vp-c-brand-3: #4D9CFF;
-	--vp-c-brand-soft: #366DB2;
+	--vp-c-brand-1: var(--blue-0);
+	--vp-c-brand-2: var(--blue-1);
+	--vp-c-brand-3: var(--blue-0);
+	--vp-c-brand-soft: var(--blue-1);
 
-	--vp-c-tip-1: #1F6638;
-	--vp-c-tip-2: #36B261;
-	--vp-c-tip-3: #4DFF8B;
-	--vp-c-tip-soft: #1F6638;
+	--vp-c-tip-1: var(--green-2);
+	--vp-c-tip-2: var(--green-1);
+	--vp-c-tip-3: var(--green-0);
+	--vp-c-tip-soft: var(--green-2);
 
-	--vp-c-note-1: #1F3E66;
-	--vp-c-note-2: #366DB2;
-	--vp-c-note-3: #4D9CFF;
-	--vp-c-note-soft: #1F3E66;
+	--vp-c-note-1: var(--blue-2);
+	--vp-c-note-2: var(--blue-1);
+	--vp-c-note-3: var(--blue-0);
+	--vp-c-note-soft: var(--blue-2);
 
-	--vp-c-success-1: #1F6638;
-	--vp-c-success-2: #36B261;
-	--vp-c-success-3: #4DFF8B;
-	--vp-c-success-soft: #1F6638;
+	--vp-c-success-1: var(--green-2);
+	--vp-c-success-2: var(--green-1);
+	--vp-c-success-3: var(--green-0);
+	--vp-c-success-soft: var(--green-2);
 
-	--vp-c-important-1: #3C1F66;
-	--vp-c-important-2: #6A36B2;
-	--vp-c-important-3: #974DFF;
-	--vp-c-important-soft: #3C1F66;
+	--vp-c-important-1: var(--purple-2);
+	--vp-c-important-2: var(--purple-1);
+	--vp-c-important-3: var(--purple-0);
+	--vp-c-important-soft: var(--purple-2);
 
-	--vp-c-warning-1: #663C1F;
-	--vp-c-warning-2: #B26A36;
-	--vp-c-warning-3: #FF974D;
-	--vp-c-warning-soft: #663C1F;
+	--vp-c-warning-1: var(--orange-2);
+	--vp-c-warning-2: var(--orange-1);
+	--vp-c-warning-3: var(--orange-0);
+	--vp-c-warning-soft: var(--orange-2);
 
-	--vp-c-danger-1: #661F25;
-	--vp-c-danger-2: #B23640;
-	--vp-c-danger-3: #FF4D5B;
-	--vp-c-danger-soft: #661F25;
+	--vp-c-danger-1: var(--red-2);
+	--vp-c-danger-2: var(--red-1);
+	--vp-c-danger-3: var(--red-0);
+	--vp-c-danger-soft: var(--red-2);
 
-	--vp-c-caution-1: #661F25;
-	--vp-c-caution-2: #B23640;
-	--vp-c-caution-3: #FF4D5B;
-	--vp-c-caution-soft: #661F25;
+	--vp-c-caution-1: var(--red-2);
+	--vp-c-caution-2: var(--red-1);
+	--vp-c-caution-3: var(--red-0);
+	--vp-c-caution-soft: var(--red-2);
+
+	--vp-c-neutral-inverse: var(--white-0);
+	--vp-input-switch-bg-color: var(--vp-c-bg-soft);
 }
 
 .dark {
-	--vp-c-default-1: #393C40;
-	--vp-c-default-2: #222426;
-	--vp-c-default-3: #393C40;
-	--vp-c-default-soft: #222426;
+	--vp-c-default-1: var(--white-3);
+	--vp-c-default-2: var(--white-4);
+	--vp-c-default-3: var(--white-3);
+	--vp-c-default-soft: var(--white-4);
+
+	--vp-c-neutral-inverse: var(--black-3);
 }
 
 /**
@@ -119,10 +86,10 @@
 }
 
 .dark {
-	--vp-c-bg: #14191F;
-	--vp-c-bg-alt: #0D1114;
-	--vp-c-bg-elv: #0D1114;
-	--vp-c-bg-soft: #0D1114;
+	--vp-c-bg: var(--black-2);
+	--vp-c-bg-alt: var(--black-3);
+	--vp-c-bg-elv: var(--black-3);
+	--vp-c-bg-soft: var(--black-3);
 }
 
 /**
@@ -130,15 +97,15 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-	--vp-c-border: #A0A9B2;
-	--vp-c-divider: #A0A9B2;
-	--vp-c-gutter: #5C6166;
+	--vp-c-border: var(--white-1);
+	--vp-c-divider: var(--white-1);
+	--vp-c-gutter: var(--white-2);
 }
 
 .dark {
-	--vp-c-border: #080B0D;
-	--vp-c-divider: #080B0D;
-	--vp-c-gutter: #000000;
+	--vp-c-border: var(--black-4);
+	--vp-c-divider: var(--black-4);
+	--vp-c-gutter: var(--black-4);
 }
 
 /**
@@ -181,14 +148,14 @@
 	--vp-home-hero-name-color: transparent;
 	--vp-home-hero-name-background: -webkit-linear-gradient(
 		120deg,
-		#4DFFE1 30%,
-		#4D9CFF
+		var(--cyan-0) 30%,
+		var(--blue-0)
 	);
 
 	--vp-home-hero-image-background-image: linear-gradient(
 		-45deg,
-		#4DFFE1 50%,
-		#4D9CFF 50%
+		var(--cyan-0) 50%,
+		var(--blue-0) 50%
 	);
 	--vp-home-hero-image-filter: blur(44px);
 }
@@ -392,4 +359,88 @@ li > p {
 
 .vp-doc p {
 	line-height: 1.5;
+}
+
+.vp-doc .VPBadge {
+	font-size: var(--vp-code-font-size);
+}
+
+.VPNavBar.has-sidebar .title,
+.VPSidebar,
+.VPDocAside {
+	--vp-c-divider: var(--vp-c-default-soft);
+}
+
+.vp-doc {
+	--vp-c-divider: var(--vp-c-default-soft);
+}
+
+.VPHome {
+	--vp-c-gutter: var(--vp-c-default-soft);
+}
+
+.VPBadge {
+	border-radius: var(--border-radius-1);
+}
+
+.vp-doc :not(pre) > code {
+	border-radius: var(--border-radius-0);
+	padding: 0.125em 0.25em;
+}
+
+.pager-link {
+	border-radius: var(--border-radius-1) !important;
+}
+
+.DocSearch-Button {
+	border-radius: var(--border-radius-1);
+}
+
+.VPFeature {
+	border-radius: var(--border-radius-1) !important;
+}
+
+.VPButton.medium {
+	border-radius: var(--border-radius-1) !important;
+}
+
+.VPTeamMembersItem {
+	border-radius: var(--border-radius-1) !important;
+}
+
+.vpi-heart {
+	--icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z'/%3E%3C/svg%3E");
+}
+
+.vpi-moon {
+	--icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'/%3E%3C/svg%3E");
+}
+
+.vp-doc img {
+	border-radius: var(--border-radius-1);
+}
+
+.vp-doc [class*="language-"] > button.copy {
+	border-radius: var(--border-radius-1);
+}
+
+.vp-doc div[class*="language-"], .vp-block, .custom-block {
+	border-radius: var(--border-radius-1);
+}
+
+.icon {
+	border-radius: var(--border-radius-1) !important;
+}
+
+.VPLocalSearchBox .shell {
+	border-radius: var(--border-radius-1) !important;
+}
+
+.VPSwitch .check {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.VPSwitch .check .icon [class^="vpi-"] {
+	color: var(--vp-c-text-2);
 }

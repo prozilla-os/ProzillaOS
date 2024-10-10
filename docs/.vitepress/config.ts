@@ -110,6 +110,13 @@ export default defineConfig({
 			message: "Built by <strong><a href=\"https://prozilla.dev/\" target=\"_blank\">Prozilla</a></strong>",
 			copyright: "Copyright &copy; 2023-present Prozilla"
 		},
+
+		search: {
+			provider: "local",
+			options: {
+				detailedView: true
+			}
+		},
 	},
 
 	transformPageData(pageData) {
@@ -151,8 +158,8 @@ export default defineConfig({
 
 	markdown: {
 		theme: {
-			dark: "material-theme-palenight",
-			light: "material-theme-palenight"
-		}
-	}
+			dark: "material-theme",
+			light: "material-theme"
+		},
+	},
 });

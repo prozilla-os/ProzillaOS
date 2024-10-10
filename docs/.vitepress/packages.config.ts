@@ -50,6 +50,7 @@ export const PACKAGES: PackageData[] = [
 						base: "/reference/core/classes/utils/",
 						collapsed: true,
 						items: [
+							{ text: "TimeManager", link: "time-manager" },
 							{ text: "Vector2", link: "vector2" },
 						]
 					},
@@ -61,6 +62,7 @@ export const PACKAGES: PackageData[] = [
 				collapsed: false,
 				items: [
 					{ text: "Browser", link: "/browser" },
+					{ text: "Keyboard", link: "/keyboard" },
 					
 				]
 			},
@@ -91,6 +93,14 @@ export const PACKAGES: PackageData[] = [
 		category: "Libraries",
 		items: [
 			{
+				text: "Classes",
+				base: "/reference/shared/classes",
+				collapsed: false,
+				items: [
+					{ text: "EventEmitter", link: "/event-emitter" },
+				]
+			},
+			{
 				text: "Constants",
 				base: "/reference/shared/constants/",
 				collapsed: false,
@@ -106,6 +116,7 @@ export const PACKAGES: PackageData[] = [
 					{ text: "Array", link: "/array" },
 					{ text: "Date", link: "/date" },
 					{ text: "Math", link: "/math" },
+					{ text: "Number", link: "/number" },
 				]
 			}
 		]

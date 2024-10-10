@@ -8,7 +8,7 @@ This guide explains how to host ProzillaOS locally on your own device or on your
 
 ## Installation
 
-<!--@include: ../../../../README.md#getting-started{3,}-->
+<!--@include: ../../../README.md#getting-started{3,}-->
 
 > [!WARNING]
 > In a local environment, ProzillaOS packages will try to import uncompiled versions of other ProzillaOS packages from their respective `src` directory. If this does not happen correctly and a package tries to import a compiled version of another package from its respective `dist` directory, you might run into an error message saying `module not found`. Executing the command `pnpm run packages:build` will compile each package into their `dist` directories and resolve this error.
