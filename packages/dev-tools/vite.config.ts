@@ -11,7 +11,8 @@ export default defineConfig({
 			rollupTypes: true,
 			strictOutput: true,
 			pathsToAliases: false,
-			bundledPackages: ["@prozilla-os/*"]
+			bundledPackages: ["@prozilla-os/*"],
+			tsconfigPath: "tsconfig.build.json"
 		})
 	],
 	build: {
