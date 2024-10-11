@@ -1,6 +1,7 @@
 ---
 outline: deep
 description: "Learn how to get started with ProzillaOS"
+image: "https://os.prozilla.dev/docs/thumbnails/getting-started-guide-thumbnail.png"
 ---
 
 # Getting started
@@ -148,9 +149,6 @@ Here is an example that shows you how to add the fileExplorer app:
 ```tsx
 import { fileExplorer } from "prozilla-os"
 
-```
-
-```tsx
 <ProzillaOS
 	{/* Other props */}
 	config={{

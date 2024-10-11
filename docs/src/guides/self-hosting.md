@@ -1,6 +1,7 @@
 ---
 outline: deep
 description: "Learn how to host ProzillaOS locally on your own device"
+image: "https://os.prozilla.dev/docs/thumbnails/self-hosting-guide-thumbnail.png"
 ---
 
 # Self-hosting ProzillaOS

@@ -1,6 +1,7 @@
 ---
 outline: deep
 description: "Learn how to create your own custom ProzillaOS apps"
+image: "https://os.prozilla.dev/docs/thumbnails/custom-app-guide-thumbnail.png"
 ---
 
 # Making a custom app
@@ -77,7 +78,78 @@ const myApp = new App(name, id, MyApp)
 export { myApp };
 ```
 
-Make sure to set a valid icon URL or your app might become invisible.
+Make sure to set a valid icon URL or your app might become invisible. For more information about the `App` class and about how to customize it, refer to the [App class documentation page](../reference/core/classes/apps/app).
+
+## Testing your app
+
+To test your ProzillaOS application, you will have to spin up a small ProzillaOS instance and place your app inside of it. You will also need React to render the page.
+
+To get started, create a new folder inside your `components` folder called `test`, this is where we'll put the React component mentioned previously. Now create a file inside your `test` folder called `Test.tsx`:
+
+```tsx
+// components/test/Test.tsx
+
+import { ProzillaOS, Taskbar, WindowsView, ModalsView, Desktop } from "prozilla-os";
+import { myApp } from "../../index";
+
+
+const appsConfig = new AppsConfig({
+	apps: [
+		myApp.setPinnedByDefault(true) // This option pins your app to the taskbar
+			.setLaunchAtStartup(true) // This option makes your app automatically launch whenever you open the test page
+	]
+}); 
+
+export function Test() {
+	return <ProzillaOS
+		config={{
+			apps: appsConfig
+		}}
+	>
+		<Taskbar/>
+		<WindowsView/>
+		<ModalsView/>
+		<Desktop/>
+	</ProzillaOS>;
+}
+```
+
+You can leave out any of the following components if they are not important for testing your app: `<Taskbar/>`, `<ModalsView/>` and `<Desktop/>`. Alternatively, you can omit the default interface of ProzillaOS and focus on the interface of your app by changing your `Test.tsx` file to a standalone page for your app like this:
+
+```tsx
+// components/test/Test.tsx
+
+import { ProzillaOS, StandaloneRoute } from "prozilla-os";
+import { myApp } from "../../index";
+
+export function Test() {
+	return <ProzillaOS>
+		<StandaloneRoute app={myApp}>
+	</ProzillaOS>;
+}
+```
+
+Next, create a file called `index.tsx` inside your `test` folder:
+
+```tsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Test } from "./Test";
+
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+root.render(<React.StrictMode><Test/></React.StrictMode>);
+```
+
+Finally, adjust the `body` of your `index.html` file to:
+
+```html
+<body>
+	<div id="root"></div>
+	<script type="module" src="components/test"></script>
+</body>
+```
+
+Now start your React website and you should see your test page. If you are using Vite, you can easily develop your app and watch the changes reload automatically on the test page.
 
 ## Using your app
 

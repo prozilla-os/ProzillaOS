@@ -76,9 +76,9 @@ Generate a system URL based on some options
 
 ```ts
 interface GenerateUrlOptions {
- appId?: string;
- fullscreen?: boolean;
- standalone?: boolean;
+	appId?: string;
+	fullscreen?: boolean;
+	standalone?: boolean;
 }
 ```
 
