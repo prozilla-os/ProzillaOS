@@ -23,7 +23,8 @@ export default defineConfig({
 		rollupOptions: {
 			external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup", "@prozilla-os/core", "@prozilla-os/shared"],
 			output: {
-				assetFileNames: "chunks/[name][extname]",
+				assetFileNames: "assets/[name][extname]",
+				chunkFileNames: "chunks/[name]-[hash].js",
 				entryFileNames: "[name].js",
 			}
 		},

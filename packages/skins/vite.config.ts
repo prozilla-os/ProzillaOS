@@ -24,9 +24,9 @@ export default defineConfig({
 		rollupOptions: {
 			external: ["react", "react/jsx-runtime"],
 			output: {
-				assetFileNames: "chunks/[name][extname]",
+				assetFileNames: "assets/[name][extname]",
+				chunkFileNames: "chunks/[name]-[hash].js",
 				entryFileNames: "[name].js",
-				chunkFileNames: "[name]-[hash].js",
 				manualChunks: undefined
 			},
 			plugins: [{
