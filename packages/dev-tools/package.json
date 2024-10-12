@@ -22,8 +22,8 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@prozilla-os/core": "1.3.2",
-		"@prozilla-os/shared": "^1.2.0",
+		"@prozilla-os/core": "workspace:*",
+		"@prozilla-os/shared": "workspace:*",
 		"@vitejs/plugin-react-swc": "^3.7.0",
 		"vite": "^5.4.8",
 		"vite-plugin-css-injected-by-js": "^3.5.1",

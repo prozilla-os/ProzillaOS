@@ -1,7 +1,7 @@
 {
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
-		"baseUrl": "..",
+		"baseUrl": "../",
 		"paths": {
 			"prozilla-os": ["packages/prozilla-os/src/main"],
 			"@prozilla-os/*": ["packages/*/src/main", "packages/apps/*/src/main"],
