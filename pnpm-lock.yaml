@@ -72,6 +72,9 @@ importers:
       '@fortawesome/react-fontawesome':
         specifier: ^0.2.2
         version: 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
+      '@prozilla-os/app-center':
+        specifier: workspace:*
+        version: link:../packages/apps/app-center
       '@prozilla-os/ball-maze':
         specifier: ^1.0.5
         version: 1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -190,6 +193,40 @@ importers:
       vue:
         specifier: ^3.4.31
         version: 3.5.11(typescript@5.6.3)
+
+  packages/apps/app-center:
+    dependencies:
+      '@prozilla-os/core':
+        specifier: workspace:*
+        version: link:../../core
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+    devDependencies:
+      '@prozilla-os/dev-tools':
+        specifier: workspace:*
+        version: link:../../dev-tools
+      '@types/node':
+        specifier: ^20.14.5
+        version: 20.16.11
+      '@types/react':
+        specifier: ^18.3.3
+        version: 18.3.11
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.7.0
+        version: 3.7.1(vite@5.4.8(@types/node@20.16.11)(less@4.2.0))
+      typescript:
+        specifier: ^5.4.5
+        version: 5.6.3
+      vite:
+        specifier: ^5.4.8
+        version: 5.4.8(@types/node@20.16.11)(less@4.2.0)
+      vite-plugin-dts:
+        specifier: ^3.9.1
+        version: 3.9.1(@types/node@20.16.11)(rollup@4.24.0)(typescript@5.6.3)(vite@5.4.8(@types/node@20.16.11)(less@4.2.0))
+      vite-plugin-lib-inject-css:
+        specifier: ^2.1.1
+        version: 2.1.1(vite@5.4.8(@types/node@20.16.11)(less@4.2.0))
 
   packages/apps/browser:
     dependencies:
@@ -608,6 +645,9 @@ importers:
 
   packages/prozilla-os:
     dependencies:
+      '@prozilla-os/app-center':
+        specifier: workspace:*
+        version: link:../apps/app-center
       '@prozilla-os/browser':
         specifier: workspace:*
         version: link:../apps/browser
