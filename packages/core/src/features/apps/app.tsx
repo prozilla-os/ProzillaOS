@@ -1,6 +1,7 @@
 import { WindowProps } from "../../components";
 import { Vector2 } from "../";
 import { FC } from "react";
+import { APP_CATEGORIES } from "../../constants/apps.const";
 
 const validIdRegex = /^[a-zA-Z0-9-]+$/;
 
@@ -64,8 +65,14 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	 */
 	launchAtStartup = false;
 
+	/**
+	 * The category the app belongs to
+	 */
+	category: typeof APP_CATEGORIES[number] | null = null;
+
 	isActive: boolean = false;
 	isPinned?: boolean;
+	isInstalled = true;
 
 	constructor(name: App["name"], id: App["id"], windowContent: App<AppProps>["windowContent"], windowOptions?: App["windowOptions"]) {
 		this.name = name;
@@ -140,6 +147,22 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	 */
 	setLaunchAtStartup(launchAtStartup: boolean): this {
 		this.launchAtStartup = launchAtStartup;
+		return this;
+	}
+
+	/**
+	 * Changes whether this application is installed by default or not
+	 */
+	setInstalled(installed: boolean): this {
+		this.isInstalled = installed;
+		return this;
+	}
+
+	/**
+	 * Changes the category this application belongs to
+	 */
+	setCategory(category: typeof APP_CATEGORIES[number] | null): this {
+		this.category = category;
 		return this;
 	}
 }

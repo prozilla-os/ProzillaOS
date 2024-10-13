@@ -1,3 +1,4 @@
+import { APP_CATEGORIES } from "../../../constants/apps.const";
 import { App } from "../../";
 import { OptionalInterface } from "../../../types/utils";
 
@@ -37,11 +38,18 @@ export class AppsConfig {
 		}
 	}
 
-	getAppById(id: string): App | null {
+	get installedApps() {
+		return this.apps.filter((app) => app.isInstalled);
+	}
+
+	/**
+	 * @param includeUninstalled Include apps that are not currently installed
+	 */
+	getAppById(id: string, includeUninstalled = false): App | null {
 		let resultApp: App | null = null;
 
 		this.apps.forEach((app) => {
-			if (resultApp == null && app.id === id) {
+			if (resultApp == null && app.id === id && app.isInstalled || includeUninstalled) {
 				resultApp = app;
 				return;
 			}
@@ -56,7 +64,7 @@ export class AppsConfig {
 	getAppByFileExtension(fileExtension: string): App | null {
 		let resultApp: App | null = null;
 
-		this.apps.forEach((app) => {
+		this.installedApps.forEach((app) => {
 			if (resultApp == null && app.associatedExtensions?.includes(fileExtension)) {
 				resultApp = app;
 				return;
@@ -72,7 +80,7 @@ export class AppsConfig {
 	getAppByRole(role: string): App | null {
 		let resultApp: App | null = null;
 
-		this.apps.forEach((app) => {
+		this.installedApps.forEach((app) => {
 			if (resultApp == null && app.role == role) {
 				resultApp = app;
 				return;
@@ -80,5 +88,20 @@ export class AppsConfig {
 		});
 
 		return resultApp;
+	}
+
+	/**
+	 * Get all applications (including uninstalled apps) that belong to a category
+	 */
+	getAppsByCategory(category: typeof APP_CATEGORIES[number]): App[] {
+		const resultApps: App[] = [];
+
+		this.apps.forEach((app) => {
+			if (app.category == category) {
+				resultApps.push(app);
+			}
+		});
+
+		return resultApps;
 	}
 }
