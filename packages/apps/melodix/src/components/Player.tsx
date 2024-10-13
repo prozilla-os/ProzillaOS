@@ -1,8 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPause, faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faPause, faBackward, faForward } from "@fortawesome/free-solid-svg-icons";
+import { Song } from "../types/song"; // Ensure this import is correct
 
-const Player = ({ songs, currentSongIndex, setCurrentSongIndex, isPlaying, setIsPlaying, volume, setVolume, setSongs, setTitle }) => {
+interface PlayerProps {
+    songs: Song[];
+    currentSongIndex: number;
+    setCurrentSongIndex: (index: number) => void;
+    isPlaying: boolean;
+    setIsPlaying: (isPlaying: boolean) => void;
+    volume: number;
+    setVolume: (volume: number) => void;
+    setSongs: (songs: Song[]) => void;
+    setTitle: (title: string) => void; // Ensure this is required
+}
+
+const Player: React.FC<PlayerProps> = ({
+    songs,
+    currentSongIndex,
+    setCurrentSongIndex,
+    isPlaying,
+    setIsPlaying,
+    volume,
+    setVolume,
+    setSongs,
+    setTitle,
+}) => {
     const [audio, setAudio] = useState(new Audio());
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
@@ -20,14 +43,14 @@ const Player = ({ songs, currentSongIndex, setCurrentSongIndex, isPlaying, setIs
 
             playAudio();
             setTitle(`${song.title} - ${song.artist} | Melodix`);
-            audio.addEventListener('ended', handleNext);
-            audio.addEventListener('timeupdate', () => {
+            audio.addEventListener("ended", handleNext);
+            audio.addEventListener("timeupdate", () => {
                 setCurrentTime(audio.currentTime);
                 setDuration(audio.duration);
             });
             return () => {
-                audio.removeEventListener('ended', handleNext);
-                audio.removeEventListener('timeupdate', () => {
+                audio.removeEventListener("ended", handleNext);
+                audio.removeEventListener("timeupdate", () => {
                     setCurrentTime(audio.currentTime);
                     setDuration(audio.duration);
                 });
@@ -60,59 +83,62 @@ const Player = ({ songs, currentSongIndex, setCurrentSongIndex, isPlaying, setIs
         }
     };
 
-    const handleVolumeChange = (e) => {
-        const newVolume = e.target.value;
+    const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newVolume = parseFloat(e.target.value); // Ensure this is a number
         setVolume(newVolume);
-        audio.volume = newVolume;
     };
 
-    const formatTime = (seconds) => {
+    const formatTime = (seconds: number) => {
         const minutes = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
-        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+    };
+
+    const handleSeek = (seconds: number) => {
+        // ... existing code ...
     };
 
     return (
         <div style={{
-            backgroundColor: '#25283D',
-            color: '#E5F2FF',
-            padding: '10px',
-            borderRadius: '10px',
-            boxShadow: '0 0 25px rgba(0, 0, 0, 0.9)',
-            marginTop: '20px',
-            border: '2px solid #6DC0D5',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
+            backgroundColor: "#25283D",
+            color: "#E5F2FF",
+            padding: "10px",
+            borderRadius: "10px",
+            boxShadow: "0 0 25px rgba(0, 0, 0, 0.9)",
+            marginTop: "20px",
+            border: "2px solid #6DC0D5",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
         }}>
             {currentSongIndex >= 0 && (
                 <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    width: '100%',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
                 }}>
                     <img 
-                        src={songs[currentSongIndex].images?.big || 'https://us-east-1.tixte.net/uploads/tay.needs.rest/MelodiXLogo.png'} 
+                        src={songs[currentSongIndex].images?.big || "https://us-east-1.tixte.net/uploads/tay.needs.rest/MelodiXLogo.png"} 
                         alt="Album Cover" 
                         style={{
-                            width: '70px',
-                            borderRadius: isPlaying ? '50%' : '10px',
-                            marginRight: '10px',
-                            animation: isPlaying ? 'spin 4s linear infinite' : 'none',
-                            transition: '0.5s',
+                            width: "70px",
+                            borderRadius: isPlaying ? "50%" : "10px",
+                            marginRight: "10px",
+                            animation: isPlaying ? "spin 4s linear infinite" : "none",
+                            transition: "0.5s",
                         }} 
                     />
-                    <div style={{ flex: 1, textAlign: 'left' }}>
-                        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+                    <div style={{ flex: 1, textAlign: "left" }}>
+                        <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
                             {songs[currentSongIndex].misc?.explicit ? "🔞 " : ""}{songs[currentSongIndex].title} - {songs[currentSongIndex].artist}
                         </p>
-                        <p style={{ fontSize: '0.9rem', color: '#E5F2FF' }}>
-                            Released: {songs[currentSongIndex].misc?.release?.year || 'Unknown Year'}
+                        <p style={{ fontSize: "0.9rem", color: "#E5F2FF" }}>
+                            Released: {songs[currentSongIndex].misc?.release?.year || "Unknown Year"}
                         </p>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', margin: '0 10px' }}>
+                    <div style={{ display: "flex", alignItems: "center", margin: "0 10px" }}>
                         <button onClick={handlePrevious} style={buttonStyle}>
                             <FontAwesomeIcon icon={faBackward} />
                         </button>
@@ -124,13 +150,13 @@ const Player = ({ songs, currentSongIndex, setCurrentSongIndex, isPlaying, setIs
                         </button>
                     </div>
                     <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginLeft: '10px',
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginLeft: "10px",
                     }}>
-                        <label style={{ color: '#E5F2FF', marginTop: '10px' }}>Volume {Math.round(volume * 100)}%</label>
+                        <label style={{ color: "#E5F2FF", marginTop: "10px" }}>Volume {Math.round(volume * 100)}%</label>
                         <input
                             type="range"
                             min="0"
@@ -139,23 +165,23 @@ const Player = ({ songs, currentSongIndex, setCurrentSongIndex, isPlaying, setIs
                             value={volume}
                             onChange={handleVolumeChange}
                             style={{
-                                width: '100%',
-                                marginTop: '5px',
-                                backgroundColor: '#25283D',
-                                borderRadius: '5px'
+                                width: "100%",
+                                marginTop: "5px",
+                                backgroundColor: "#25283D",
+                                borderRadius: "5px"
                             }}
                         />
                     </div>
                 </div>
             )}
             <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginLeft: '10px',
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                marginLeft: "10px",
             }}>
-                <span style={{ color: '#E5F2FF', marginRight: '10px' }}>
+                <span style={{ color: "#E5F2FF", marginRight: "10px" }}>
                     {formatTime(currentTime)} / {formatTime(duration)}
                 </span>
                 <input
@@ -164,13 +190,13 @@ const Player = ({ songs, currentSongIndex, setCurrentSongIndex, isPlaying, setIs
                     max={duration || 1}
                     value={currentTime}
                     onChange={(e) => {
-                        const newTime = e.target.value;
+                        const newTime = parseFloat(e.target.value);
                         audio.currentTime = newTime;
                     }}
                     style={{
-                        width: '100%',
-                        backgroundColor: '#25283D',
-                        borderRadius: '5px'
+                        width: "100%",
+                        backgroundColor: "#25283D",
+                        borderRadius: "5px"
                     }}
                 />
             </div>
@@ -189,13 +215,13 @@ const Player = ({ songs, currentSongIndex, setCurrentSongIndex, isPlaying, setIs
 };
 
 const buttonStyle = {
-    backgroundColor: '#78C091',
-    color: '#E5F2FF',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px',
-    cursor: 'pointer',
-    margin: '0 5px',
+    backgroundColor: "#78C091",
+    color: "#E5F2FF",
+    border: "none",
+    borderRadius: "5px",
+    padding: "10px",
+    cursor: "pointer",
+    margin: "0 5px",
 };
 
 export default Player;
