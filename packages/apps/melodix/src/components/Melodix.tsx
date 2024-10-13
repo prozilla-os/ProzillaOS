@@ -87,4 +87,4 @@ const buttonStyle = {
   marginBottom: "10px",
 };
 
-export default melodix;
+export { melodix };
