@@ -5,7 +5,7 @@ import { ballMaze } from "@prozilla-os/ball-maze";
 import { minesweeper } from "@prozilla-os/minesweeper";
 import { logicSim } from "@prozilla-os/logic-sim";
 import { blissRadio } from "@prozilla-os/bliss-radio";
-import { Melodix } from "@taygotfound/melodix";
+import { Melodix as melodix } from "@taygotfound/melodix";
 
 export const appsConfig = new AppsConfig({
 	apps: [
@@ -41,7 +41,7 @@ export const appsConfig = new AppsConfig({
 			.setIconUrl("/assets/apps/icons/logic-sim.svg"),
 		blissRadio.setName("Bliss Radio")
 			.setDescription("Listen to Bliss Radio on ProzillaOS."),
-		Melodix.setName("Melodix")
+		melodix.setName("Melodix")
 			.setDescription("Listen to music on Melodix.")	
 	],
 });
