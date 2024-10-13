@@ -1,0 +1,70 @@
+{
+	"name": "@taygotfound/melodix",
+	"private": false,
+	"version": "2.0.0",
+	"author": "Tay <marztayron@gmail.com> (https://taymaerz.de)",
+	"type": "module",
+	"main": "dist/main.js",
+	"types": "dist/main.d.ts",
+	"keywords": [
+		"music",
+		"app",
+		"prozillaos",
+		"melodix",
+		"deezer"
+	],
+	"scripts": {
+		"start": "vite",
+		"build": "tsc && vite build",
+		"update": "changeset && changeset version",
+		"release": "changeset publish"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/taynotfound/Melodix.git"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"@fortawesome/fontawesome-free": "^6.6.0",
+		"@fortawesome/fontawesome-svg-core": "^6.6.0",
+		"@fortawesome/free-solid-svg-icons": "^6.6.0",
+		"@fortawesome/react-fontawesome": "^0.2.2",
+		"@prozilla-os/core": "^1.2.4",
+		"axios": "^1.7.7",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1"
+	},
+	"devDependencies": {
+		"@changesets/cli": "^2.27.7",
+		"@eslint/js": "^9.9.0",
+		"@types/node": "^22.5.2",
+		"@types/react": "^18.3.3",
+		"@types/react-dom": "^18.3.0",
+		"@vitejs/plugin-react": "^4.3.1",
+		"eslint": "^9.9.0",
+		"eslint-plugin-react-hooks": "^5.1.0-rc.0",
+		"eslint-plugin-react-refresh": "^0.4.9",
+		"globals": "^15.9.0",
+		"typescript": "^5.5.3",
+		"typescript-eslint": "^8.0.1",
+		"vite": "^5.4.1",
+		"vite-node": "^2.0.5",
+		"vite-plugin-css-injected-by-js": "^3.5.1",
+		"vite-plugin-dts": "^4.0.3"
+	},
+	"files": [
+		"dist"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org/",
+		"access": "public"
+	},
+	"description": "Music App for ProzillaOS",
+	"bugs": {
+		"url": "https://github.com/taynotfound/Melodix/issues"
+	},
+	"homepage": "https://github.com/taynotfound/Melodix#readme"
+}

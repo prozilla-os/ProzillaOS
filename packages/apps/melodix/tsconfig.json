@@ -1,0 +1,38 @@
+{
+	"compilerOptions": {
+		/* Language and Environment */
+		"target": "ESNext",
+		"jsx": "react-jsx",
+		
+		/* Modules */
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"types": ["vite/client", "node"],
+		"allowUmdGlobalAccess": true,
+		"resolveJsonModule": true,
+		
+		/* JavaScript Support */
+		"allowJs": true,
+		"checkJs": true,
+		
+		/* Emit */
+		"noEmit": true,
+		"noEmitOnError": true,
+		
+		/* Interop Constraints */
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		
+		/* Type Checking */
+		"strict": true,
+
+		/* Module resolution */
+		"baseUrl": "./",
+	},
+	"include": ["src", "vite.config.ts"],
+	"exclude": [
+		"**/node_modules/**/*",
+		"**/dist/**/*",
+	]
+}
