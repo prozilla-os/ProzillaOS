@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { Song } from "../types/song"; // Ensure this import is correct
 
-const Melodix: React.FC<WindowProps> = ({ app, setTitle }) => {
+const melodix: React.FC<WindowProps> = ({ app, setTitle }) => {
   const [songs, setSongs] = useState<Song[]>([]);
   const [currentSongIndex, setCurrentSongIndex] = useState<number>(-1);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -87,4 +87,4 @@ const buttonStyle = {
   marginBottom: "10px",
 };
 
-export default Melodix;
+export default melodix;
