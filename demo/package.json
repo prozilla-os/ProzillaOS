@@ -31,6 +31,7 @@
 		"@prozilla-os/minesweeper": "^1.0.5",
 		"@prozilla-os/skins": "workspace:*",
 		"@prozilla-os/wordle": "^1.1.6",
+		"@taygotfound/melodix": "latest",
 		"prozilla-os": "workspace:*",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",

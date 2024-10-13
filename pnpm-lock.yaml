@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@taygotfound/melodix':
-        specifier: ^2.0.1
-        version: 2.0.1
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -93,6 +90,9 @@ importers:
       '@prozilla-os/wordle':
         specifier: ^1.1.6
         version: 1.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@taygotfound/melodix':
+        specifier: ^2.0.3
+        version: 2.0.3
       prozilla-os:
         specifier: workspace:*
         version: link:../packages/prozilla-os
@@ -1740,8 +1740,8 @@ packages:
   '@tanem/svg-injector@10.1.68':
     resolution: {integrity: sha512-UkJajeR44u73ujtr5GVSbIlELDWD/mzjqWe54YMK61ljKxFcJoPd9RBSaO7xj02ISCWUqJW99GjrS+sVF0UnrA==}
 
-  '@taygotfound/melodix@2.0.1':
-    resolution: {integrity: sha512-rZxkbpkpk7Nz2iwq59kN91JPKItPMnRkua38nUtPkyrCRz9U/Vz0ikexwxQe3aODh4FpqvbE5Ls8W62o2needQ==}
+  '@taygotfound/melodix@2.0.3':
+    resolution: {integrity: sha512-WKKlSsbfRISTgYlACytIkCIT/EdzTc65C7gv3kI+vthMXCrQ5B9ECsLnEmLIScGV2RxepviG8hyNZUoW8W4/Jg==}
 
   '@types/argparse@1.0.38':
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
@@ -5532,7 +5532,7 @@ snapshots:
       content-type: 1.0.5
       tslib: 2.7.0
 
-  '@taygotfound/melodix@2.0.1':
+  '@taygotfound/melodix@2.0.3':
     dependencies:
       '@fortawesome/fontawesome-free': 6.6.0
       '@fortawesome/fontawesome-svg-core': 6.6.0
