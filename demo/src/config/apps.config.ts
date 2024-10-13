@@ -40,7 +40,7 @@ export const appsConfig = new AppsConfig({
 			.setDescription("Create digital logic circuits using the online simulator.")
 			.setIconUrl("/assets/apps/icons/logic-sim.svg"),
 		blissRadio.setName("Bliss Radio")
-			.setDescription("Listen to Bliss Radio on ProzillaOS.")
+			.setDescription("Listen to Bliss Radio on ProzillaOS."),
 		Melodix.setName("Melodix")
 			.setDescription("Listen to music on Melodix.")	
 	],
