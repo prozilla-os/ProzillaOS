@@ -12,50 +12,89 @@ This guide explains how to host ProzillaOS locally on your own device or on your
 
 <!--@include: ../../../README.md#getting-started{3,}-->
 
-> [!WARNING]
-> In a local environment, ProzillaOS packages will try to import uncompiled versions of other ProzillaOS packages from their respective `src` directory. If this does not happen correctly and a package tries to import a compiled version of another package from its respective `dist` directory, you might run into an error message saying `module not found`. Executing the command `pnpm run packages:build` will compile each package into their `dist` directories and resolve this error.
+## Development
 
-## Scripts
+Once you have completed the installation process, you can use any of the following scripts to develop ProzillaOS:
 
-ProzillaOS uses the package manager [pnpm](https://pnpm.io/) to run scripts.
+```bash
+# Build packages using Vite lib mode
+pnpm run packages:build
 
-### General
+# Start the Vite development server of the demo website
+pnpm run demo:start
 
-| Script | Description |
-| --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;start</pre> | Run [`pnpm run demo:start`](#prozilla-osdemo). VSCode is configured to run this script whenever the project is opened. |
-| <pre>pnpm&nbsp;run&nbsp;build</pre> | Build every package in sequential order. |
-| <pre>pnpm&nbsp;run&nbsp;stage</pre> | Copy and combine the build of each package that comprises the website in the `dist` directory at the root. |
-| <pre>pnpm&nbsp;run&nbsp;deploy</pre> | Clear the `dist` directory, stage each package that comprises the website, then deploy to GitHub pages. This should trigger a GitHub Action that deploys the build to production. |
+# Start the VitePress development server of the docs website
+pnpm run docs:start
+```
 
-### Public packages
+## Deploying website
 
-| Script | Description |
-| --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;packages:build</pre> | Build all dependencies of the `prozilla-os` package in sequential order and output to respective `dist` directories. |
-| <pre>pnpm&nbsp;run&nbsp;packages:update</pre> | Create a new changeset for packages and update their version accordingly. |
-| <pre>pnpm&nbsp;run&nbsp;packages:release</pre> | Publish the latest versions of each package to the npm registry. |
+Before deploying the website, you will need to update `demo/src/config/deploy.config.ts` with the appropriate configuration. Remember to make sure your domain settings and output/build directory, in whatever tool you choose to use, matches the configurations in `deploy.config.ts`. Otherwise, deployment might fail or your website will not be indexable by search engines. Most tools will only allow you to adjust these settings after your intitial setup (and first deployment).
+
+### Deploying to GitHub Pages
+
+On your GitHub repository, go to **Settings > Pages**. Adjust your settings, if necessary, to match your configuration in `deploy.config.ts`. Set **Source** to **Deploy from a branch** and set the branch to **gh-pages**.
+
+Once your [installation](#installation) and configurations are complete and you have verified that the site works in a development environment, run the following commands in the given order:
+
+```bash
+pnpm run build # Builds all packages and websites
+pnpm run deploy # Stages the websites and deploys them to GitHub Pages
+```
+
+The Vite config for the website includes a plugin that will automatically generate a sitemap, robots.txt file, cname file and other metadata to facilitate deployment and improve SEO. More information about this step can be found [here](../reference/dev-tools/functions/vite#stagesiteplugin-options).
 
 > [!TIP]
-> Use `pnpm --filter <package_selector> build` to build a sepecific subset of packages or a single package and output to respective `dist` directory/directories. For more information about selecting/filtering specific packages, read [pnpm's documentation on filtering](https://pnpm.io/filtering).
+> To make sure each website works correctly after building them and before deploying them, you may use the `pnpm run demo:preview` and `pnpm run docs:preview` scripts.
 
-### Internal packages
+> [!NOTE]
+> The `pnpm run build` script runs the build script for each and every package in the entire project. If you only want to build the packages, demo website or documentation website, use `pnpm run packages:build`, `pnpm run demo:build` and `pnpm run docs:build` respectively. In the deployment process described above, you may substitute `pnpm run build` with any of these scripts. Make sure you have already built the packages once before building the demo or documentation website or the build will fail.
 
-#### `@prozilla-os/demo`
+### Deploying to Vercel
 
-| Script | Description |
-| --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;demo:start</pre> | Start Vite dev server at [localhost:3000](http://localhost:3000/). Changes to module will dynamically be hot-reloaded, so normally there is no need for hard-refreshes. VSCode is configured to run this script whenever the project is opened. |
-| <pre>pnpm&nbsp;run&nbsp;demo:build</pre> | Compile project using TypeScript and bundle all files into the `dist` directory, or the directory specified in config file. This directory can be uploaded to a web server. |
-| <pre>pnpm&nbsp;run&nbsp;demo:preview</pre> | Start web server with preview of build at [localhost:8080](http://localhost:8080/). Can be useful for validating build before deploying. |
-| <pre>pnpm&nbsp;run&nbsp;demo:stage</pre> | Execute staging script, which stages the build and prepares it for deployment. Script will generate a sitemap, robots.txt and all other necessary files. |
-| <pre>pnpm&nbsp;run&nbsp;demo:fetch</pre> | Fetch the repository tree using GitHub's API and store it as a JSON file that will be used to populate the virtual drive. |
+Create a new Vercel project and import your GitHub repository. Then configure your project with the values below:
 
-#### `@prozilla-os/docs`
+| Option | Value |
+| ---: | :--- |
+| Build command: | pnpm run build |
+| Output directory: | demo/dist |
+| Install command: | pnpm install |
+| Development command: | pnpm run start |
 
-| Script | Description |
-| --- | --- |
-| <pre>pnpm&nbsp;run&nbsp;docs:start</pre> | Start VitePress dev server at [localhost:3000](http://localhost:3000/). Changes to module will dynamically be hot-reloaded, so normally there is no need for hard-refreshes. |
-| <pre>pnpm&nbsp;run&nbsp;docs:build</pre> | Compile project using VitePress and output to the `dist` directory. |
-| <pre>pnpm&nbsp;run&nbsp;docs:preview</pre> | Start web server with preview of build at [localhost:8080](http://localhost:8080/). Can be useful for validating build before deploying. |
-| <pre>pnpm&nbsp;run&nbsp;docs:generate</pre> | Generate basic information files in JSON format to use as a base for writing the documentation and output to the `data` directory. |
+### Deploying to Cloudflare Pages
+
+Create a new Cloudflare Pages application and import your GitHub repository. Then configure your build settings with the values below:
+
+| Option | Value |
+| ---: | :--- |
+| Build command: | pnpm run build |
+| Output directory: | demo/dist |
+
+## Releasing packages
+
+To create a new release, run the following commands in the given order:
+
+```bash
+pnpm run packages:build # Builds all packages
+pnpm run packages:update # Creates a new changelog entry
+pnpm run packages:release # Releases the latest version of each package along with their changelogs
+```
+
+## Troubleshooting
+
+### Module not found
+
+In a local environment, ProzillaOS packages will try to import uncompiled versions of other ProzillaOS packages from their respective `src` directory. If this does not happen correctly and a package tries to import a compiled version of another package from its respective `dist` directory, you might run into an error message saying `module not found`. Executing the command `pnpm run packages:build` will compile each package into their `dist` directories and resolve this error.
+
+### "Only URLs with a scheme in: file, data, and node are supported by the default ESM loader."
+
+This error may be caused by faulty installations of dependencies and can be fixed by running in the following commands in that case:
+
+```bash
+pnpm install --fix-lockfile
+pnpm run build
+```
+
+## Support
+
+Feel free to reach out in our [Discord server](https://discord.gg/JwbyQP4tdz) if you need help with ProzillaOS.

@@ -116,3 +116,19 @@ export default defineConfig({
 	}
 });
 ```
+
+#### Output
+
+```bash
+✓ Staging complete
+.
+└── dist/
+	├── CNAME
+	├── robots.txt
+	├── sitemap.xml
+	├── file-explorer.html
+	├── terminal.html
+	├── text-editor.html
+	├── 404.html
+	└── index.html
+```

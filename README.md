@@ -47,9 +47,10 @@ Make sure you have [NodeJS](https://nodejs.org/en) (version v18.12 or higher) in
    pnpm install
    ```
 
-3. Run project
+3. Build packages and run project
 
    ```sh
+   pnpm run packages:build
    pnpm start
    ```
 
@@ -79,7 +80,9 @@ You can find a list of all packages related to ProzillaOS in [packages/README.md
 ### Resources
 
 - [Getting started guide](https://os.prozilla.dev/docs/guides/getting-started)
+- [Custom app guide](https://os.prozilla.dev/docs/guides/custom-app)
 - [Self-hosting guide](https://os.prozilla.dev/docs/guides/self-hosting)
+- [Contributing](CONTRIBUTING.md)
 - [ProzillaOS boilerplate][boilerplate]
 
 ## License
