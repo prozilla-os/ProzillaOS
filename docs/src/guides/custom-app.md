@@ -187,7 +187,7 @@ export default defineConfig({
 		react(),
 		cssInjectedByJsPlugin(),
 		dts({
-			include: ["components"], // A list of your folders
+			include: ["src"],
 			outDir: "dist", // Your output directory
 			rollupTypes: true,
 			strictOutput: true,
