@@ -1,6 +1,7 @@
-import { defineConfig, HeadConfig } from "vitepress";
-import { packageReferenceItems, PACKAGES, packageSidebars } from "./packages.config";
+import { DefaultTheme, defineConfig, HeadConfig } from "vitepress";
+import { PACKAGES, packageSidebars } from "./packages.config";
 import { DESCRIPTION, IMAGE, LOCALE, TITLE } from "./meta.config";
+import { NAVIGATION } from "./nav.config";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -29,69 +30,29 @@ export default defineConfig({
 	themeConfig: {
 		// https://vitepress.dev/reference/default-theme-config
 		nav: [
-			{ text: "Home", link: "/" },
 			{ text: "Demo", link: "https://os.prozilla.dev/", target: "_blank" },
-			{ text: "About", link: "/about/introduction", activeMatch: "/about/" },
-			{ text: "Guides", link: "/guides/getting-started", activeMatch: "/guides/" },
-			{ text: "Reference", link: "/reference/configuration", activeMatch: "/reference/" }
+			...NAVIGATION.map(({ text: navigationText, base, items = [] }) => ({
+				text: navigationText,
+				base,
+				items: items.map(({ text, link }) => ({
+					text,
+					link: base ? base + link : link
+				}))
+			}) as DefaultTheme.NavItem)
 		],
 
-		sidebar: {
-			"/about/": {
-				base: "/about/",
-				items: [{
-					text: "About ProzillaOS",
-					items: [
-						{ text: "Introduction", link: "/introduction" },
-						{ text: "Features", link: "/features" },
-					]
-				}]
-			},
-			"/guides/": {
-				base: "/guides/",
-				items: [{
-					text: "Guides",
-					items: [
-						{ text: "Getting started", link: "/getting-started" },
-						{ text: "Custom app", link: "/custom-app" },
-						{ text: "Self-hosting", link: "/self-hosting" },
-					]
-				}]
-			},
-			"/reference/": {
-				base: "/reference/",
-				items: [
-					{
-						text: "Reference",
-						items: [
-							{ text: "Configuration", link: "/configuration" },
-							{ text: "Glossary", link: "/glossary" },
-						],
-					},
-					{
-						text: "Packages",
-						items: [
-							{ text: "Overview", link: "/packages" },
-							...packageReferenceItems(PACKAGES)
-						]
-					}
-				]
-			},
-			...packageSidebars(PACKAGES),
-		},
+		sidebar: Object.assign(
+			{},
+			{
+				"/": NAVIGATION as DefaultTheme.SidebarItem[],
+				...packageSidebars(PACKAGES),
+			}
+		),
 
 		editLink: {
 			pattern: "https://github.com/prozilla-os/ProzillaOS/edit/main/docs/src/:path",
 			text: "Suggest changes to this page"
 		},
-
-		// lastUpdated: {
-		// 	text: "Updated at",
-		// 	formatOptions: {
-		// 		dateStyle: "short",
-		// 		timeStyle: "short"
-		// 	}
-		// },
 
 		socialLinks: [
 			{ icon: "github", link: "https://github.com/prozilla-os/ProzillaOS" },

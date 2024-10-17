@@ -5,6 +5,7 @@ import { ballMaze } from "@prozilla-os/ball-maze";
 import { minesweeper } from "@prozilla-os/minesweeper";
 import { logicSim } from "@prozilla-os/logic-sim";
 import { blissRadio } from "@prozilla-os/bliss-radio";
+import { Melodix as melodix } from "@taygotfound/melodix";
 
 export const appsConfig = new AppsConfig({
 	apps: [
@@ -29,6 +30,8 @@ export const appsConfig = new AppsConfig({
 			.setDescription("Simple calculator app.")
 			.setIconUrl("/assets/apps/icons/calculator.svg")
 			.setPinnedByDefault(true),
+		appCenter.setName("Apps")
+			.setDescription(`Browse and install ${NAME} apps.`),
 		wordle.setIconUrl("/assets/apps/icons/wordle.svg")
 			.setPinnedByDefault(false),
 		ballMaze.setIconUrl("/assets/apps/icons/ball-maze.svg")
@@ -39,8 +42,8 @@ export const appsConfig = new AppsConfig({
 			.setDescription("Create digital logic circuits using the online simulator.")
 			.setIconUrl("/assets/apps/icons/logic-sim.svg"),
 		blissRadio.setName("Bliss Radio")
-			.setDescription("Listen to Bliss Radio on ProzillaOS."),
-		appCenter.setName("Apps")
-			.setDescription(`Browse and install ${NAME} apps.`),
+			.setDescription(`Listen to Bliss Radio on ${NAME}.`),
+		melodix.setName("Melodix")
+			.setDescription("Listen to music on Melodix."),
 	],
 });

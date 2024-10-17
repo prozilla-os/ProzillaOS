@@ -15,7 +15,7 @@ This guide assumes you have already set up a basic React project with TypeScript
 Create a new file called `MyApp.tsx` inside your `components` folder, this file will hold the main part of your interface, which will be a React component.
 
 ```tsx
-// components/MyApp.tsx
+// src/components/MyApp.tsx
 
 import { WindowProps } from "prozilla-os";
 
@@ -27,7 +27,7 @@ export function MyApp({ app }: WindowProps) {
 To make your app look pretty, you'll need some CSS. Create a file called `MyApp.module.css` in the same folder as your component, which will include your classes and styles.
 
 ```css
-/* components/MyApp.module.css */
+/* src/components/MyApp.module.css */
 
 .Title {
 	font-size: 2rem;
@@ -37,7 +37,7 @@ To make your app look pretty, you'll need some CSS. Create a file called `MyApp.
 Then import your stylesheet in your React component and apply your classes:
 
 ```tsx
-// components/MyApp.tsx
+// src/components/MyApp.tsx
 
 import { WindowProps } from "prozilla-os";
 import styles from "./MyApp.module.css"
@@ -51,10 +51,10 @@ export function MyApp({ app }: WindowProps) {
 
 Now that we have a basic interface, we'll need to turn this into an actual app and make it work with the ProzillaOS applications sytem.
 
-Create a new file called `index.ts`, this file will set your app's metadata and export it along with a reference to your React component.
+Create a new file called `main.ts`, this file will set your app's metadata and export it along with a reference to your React component.
 
 ```ts
-// index.ts
+// src/main.ts
 
 import { App } from "prozilla-os";
 import { MyApp } from "./components/MyApp";
@@ -87,10 +87,10 @@ To test your ProzillaOS application, you will have to spin up a small ProzillaOS
 To get started, create a new folder inside your `components` folder called `test`, this is where we'll put the React component mentioned previously. Now create a file inside your `test` folder called `Test.tsx`:
 
 ```tsx
-// components/test/Test.tsx
+// src/components/test/Test.tsx
 
 import { ProzillaOS, Taskbar, WindowsView, ModalsView, Desktop } from "prozilla-os";
-import { myApp } from "../../index";
+import { myApp } from "../../main";
 
 
 const appsConfig = new AppsConfig({
@@ -117,10 +117,10 @@ export function Test() {
 You can leave out any of the following components if they are not important for testing your app: `<Taskbar/>`, `<ModalsView/>` and `<Desktop/>`. Alternatively, you can omit the default interface of ProzillaOS and focus on the interface of your app by changing your `Test.tsx` file to a standalone page for your app like this:
 
 ```tsx
-// components/test/Test.tsx
+// src/components/test/Test.tsx
 
 import { ProzillaOS, StandaloneRoute } from "prozilla-os";
-import { myApp } from "../../index";
+import { myApp } from "../../main";
 
 export function Test() {
 	return <ProzillaOS>
@@ -132,6 +132,8 @@ export function Test() {
 Next, create a file called `index.tsx` inside your `test` folder:
 
 ```tsx
+// src/components/test/index.tsx
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Test } from "./Test";
@@ -143,18 +145,100 @@ root.render(<React.StrictMode><Test/></React.StrictMode>);
 Finally, adjust the `body` of your `index.html` file to:
 
 ```html
+<!-- index.html -->
+
 <body>
 	<div id="root"></div>
-	<script type="module" src="components/test"></script>
+	<script type="module" src="/src/components/test"></script>
 </body>
 ```
 
 Now start your React website and you should see your test page. If you are using Vite, you can easily develop your app and watch the changes reload automatically on the test page.
 
+## Building your app
+
+If you are using Vite, you can use the following setup to build your app using Vite's lib mode. First of all, you will have to install some Vite plugins:
+
+::: code-group
+
+```bash [NPM]
+npm install @vitejs/plugin-react vite-plugin-dts vite-plugin-css-injected-by-js
+```
+
+```bash [PNPM]
+pnpm add @vitejs/plugin-react vite-plugin-dts vite-plugin-css-injected-by-js
+```
+
+:::
+
+Then, change your Vite config to:
+
+```ts
+// vite.config.ts
+
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import dts from "vite-plugin-dts";
+import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
+import { resolve } from "path";
+
+export default defineConfig({
+	plugins: [
+		react(),
+		cssInjectedByJsPlugin(),
+		dts({
+			include: ["src"],
+			outDir: "dist", // Your output directory
+			rollupTypes: true,
+			strictOutput: true,
+			pathsToAliases: false,
+			tsconfigPath: "tsconfig.json", // Your TypeScript config file
+		})
+	],
+	build: {
+		lib: {
+			entry: resolve(__dirname, "src/main.ts"), // Your entry file
+			formats: ["es"],
+		},
+		rollupOptions: {
+			external: ["react", "react/jsx-runtime", "@prozilla-os/core"],
+			output: {
+				assetFileNames: "assets/[name][extname]",
+				chunkFileNames: "chunks/[name]-[hash].js",
+				entryFileNames: "[name].js",
+			}
+		},
+		sourcemap: true
+	},
+})
+```
+
+In your `package.json` file, update the following properties:
+
+```json
+"type": "module",
+"main": "dist/main.js",
+"types": "dist/main.d.ts",
+"scripts": {
+	"start": "vite",
+	"build": "tsc && vite build"
+},
+"files": [
+	"dist" // Your output folder
+],
+"sideEffects": [
+	"**/*.css"
+]
+```
+
+Use the scripts from your `package.json` file to test and build your application before releasing it.
+
+## Releasing your app
+
+Now you can publish your app as an npm or a GitHub package and share it with others. Feel free to [edit the README.md](https://github.com/prozilla-os/ProzillaOS/edit/main/packages/README.md) to add a link to your ProzillaOS app in the official ProzillaOS repo on GitHub and on the ProzillaOS documentation site.
+
+I recommend setting up [changeset](https://github.com/changesets/changesets) to release your app and generate changelogs.
+
 ## Using your app
 
-There you go! You have now made a custom ProzillaOS app that you can start using. Refer to the [Getting started guide](./getting-started) for more information about how to use your custom app.
-
-## What's next?
-
-Now you can publish your app as an npm or a GitHub package and share it with others. Feel free to [edit this file](https://github.com/prozilla-os/ProzillaOS/edit/main/packages/README.md) to add a link to your ProzillaOS app in the official ProzillaOS repo on GitHub and on the ProzillaOS documentation site.
+There you go! You have now made a custom ProzillaOS app that you can start using in other ProzillaOS projects. Refer to the [Getting started guide](./getting-started) for more information about how to install and use your custom app.

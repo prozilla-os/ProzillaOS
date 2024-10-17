@@ -20,45 +20,45 @@ export const PACKAGES: PackageData[] = [
 		items: [
 			{
 				text: "Classes",
-				base: "/reference/core/classes/",
+				base: "/reference/core/classes",
 				collapsed: false,
 				items: [
 					{
 						text: "Apps",
-						base: "/reference/core/classes/apps/",
+						base: "/reference/core/classes/apps",
 						collapsed: true,
 						items: [
-							{ text: "App", link: "app" },
+							{ text: "App", link: "/app" },
 						]
 					},
 					{
 						text: "System",
-						base: "/reference/core/classes/system/",
+						base: "/reference/core/classes/system",
 						collapsed: true,
 						items: [
-							{ text: "AppsConfig", link: "apps-config" },
-							{ text: "DesktopConfig", link: "desktop-config" },
-							{ text: "MiscConfig", link: "misc-config" },
-							{ text: "ModalsConfig", link: "modals-config" },
-							{ text: "TaskbarConfig", link: "taskbar-config" },
-							{ text: "TrackingConfig", link: "tracking-config" },
-							{ text: "WindowsConfig", link: "windows-config" },
+							{ text: "AppsConfig", link: "/apps-config" },
+							{ text: "DesktopConfig", link: "/desktop-config" },
+							{ text: "MiscConfig", link: "/misc-config" },
+							{ text: "ModalsConfig", link: "/modals-config" },
+							{ text: "TaskbarConfig", link: "/taskbar-config" },
+							{ text: "TrackingConfig", link: "/tracking-config" },
+							{ text: "WindowsConfig", link: "/windows-config" },
 						]
 					},
 					{
 						text: "Utils",
-						base: "/reference/core/classes/utils/",
+						base: "/reference/core/classes/utils",
 						collapsed: true,
 						items: [
-							{ text: "TimeManager", link: "time-manager" },
-							{ text: "Vector2", link: "vector2" },
+							{ text: "TimeManager", link: "/time-manager" },
+							{ text: "Vector2", link: "/vector2" },
 						]
 					},
 				]
 			},
 			{
 				text: "Functions",
-				base: "/reference/core/functions/",
+				base: "/reference/core/functions",
 				collapsed: false,
 				items: [
 					{ text: "Browser", link: "/browser" },
@@ -68,7 +68,7 @@ export const PACKAGES: PackageData[] = [
 			},
 			{
 				text: "Constants",
-				link: "constants"
+				link: "/constants"
 			},
 		]
 	},
@@ -79,10 +79,10 @@ export const PACKAGES: PackageData[] = [
 		items: [
 			{
 				text: "Classes",
-				base: "/reference/skins/classes/",
+				base: "/reference/skins/classes",
 				collapsed: false,
 				items: [
-					{ text: "Skin", link: "skin" }
+					{ text: "Skin", link: "/skin" }
 				]
 			}
 		]
@@ -102,7 +102,7 @@ export const PACKAGES: PackageData[] = [
 			},
 			{
 				text: "Constants",
-				base: "/reference/shared/constants/",
+				base: "/reference/shared/constants",
 				collapsed: false,
 				items: [
 					{ text: "ANSI", link: "/ansi" },
@@ -110,7 +110,7 @@ export const PACKAGES: PackageData[] = [
 			},
 			{
 				text: "Functions",
-				base: "/reference/shared/functions/",
+				base: "/reference/shared/functions",
 				collapsed: false,
 				items: [
 					{ text: "Array", link: "/array" },
@@ -128,7 +128,7 @@ export const PACKAGES: PackageData[] = [
 		items: [
 			{
 				text: "Functions",
-				base: "/reference/dev-tools/functions/",
+				base: "/reference/dev-tools/functions",
 				collapsed: false,
 				items: [
 					{ text: "Console", link: "/console" },
@@ -178,7 +178,7 @@ export const packageSidebars = (packages: PackageData[]): DefaultTheme.Sidebar =
 	const sidebar: DefaultTheme.Sidebar = {};
 
 	packages.forEach(({ text, link, items = [] }) => {
-		const base = `/reference/${link}/`;
+		const base = `/reference/${link}`;
 		sidebar[base] = {
 			base,
 			items: [
@@ -203,14 +203,14 @@ export const packageReferenceItems = (packages: PackageData[]): DefaultTheme.Sid
 		if (!Object.keys(categories).includes(category)) {
 			categories[category] = {
 				text: category,
-				collapsed: true, 
+				collapsed: true,
 				items: []
 			};
 		}
 
 		categories[category].items?.push({
 			text,
-			link
+			link: "/" + link
 		});
 	});
 
