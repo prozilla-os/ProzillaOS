@@ -38,7 +38,7 @@
 		"packages/**/*",
 		"scripts/**/*",
 		"demo/**/*",
-		"docs/**/*"
+		"docs/**/*",
 	],
 	"exclude": [
 		"**/node_modules/**/*",

@@ -1,0 +1,48 @@
+.Header {
+	display: flex;
+	gap: 0.75rem;
+	flex-wrap: nowrap;
+	height: 2rem;
+	min-height: 2rem;
+	margin: 1rem;
+	overflow: hidden;
+}
+
+.SearchInput {
+	flex: 1;
+	width: auto;
+	max-width: 100%;
+	padding: 0.25rem 0.5rem;
+	height: 100%;
+	background-color: var(--background-color-2);
+	border: none;
+	border-radius: var(--border-radius-1);
+	outline: none;
+	font-family: inherit;
+	font-size: inherit;
+}
+
+.CategoryInput {
+	flex: 0.25;
+	width: auto;
+	max-width: 100%;
+	padding: 0.25rem 0.5rem;
+	height: 100%;
+	color: var(--text-color);
+	background-color: var(--background-color-1);
+	border: none;
+	border-radius: var(--border-radius-1);
+	outline: none;
+	font-size: inherit;
+	font-family: inherit;
+}
+
+.CategoryInput > * {
+	color: inherit;
+	background-color: inherit;
+	border: none;
+	border-radius: var(--border-radius-1);
+	outline: none;
+	font-family: inherit;
+	font-size: inherit;
+}

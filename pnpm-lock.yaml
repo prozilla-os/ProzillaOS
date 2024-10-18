@@ -72,9 +72,6 @@ importers:
       '@fortawesome/react-fontawesome':
         specifier: ^0.2.2
         version: 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
-      '@prozilla-os/app-center':
-        specifier: workspace:*
-        version: link:../packages/apps/app-center
       '@prozilla-os/ball-maze':
         specifier: latest
         version: 1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

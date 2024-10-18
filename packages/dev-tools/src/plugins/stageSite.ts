@@ -1,6 +1,6 @@
 import type { AppsConfig } from "@prozilla-os/core";
-import { print } from "../features/console";
 import type { OutputBundle, PluginContext, Plugin } from "rollup";
+import { print } from "../features";
 
 export interface StageOptions {
 	appsConfig: AppsConfig;

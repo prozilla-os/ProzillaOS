@@ -1,0 +1,54 @@
+.List {
+	--gap: 1rem;
+	--columns: 6;
+
+	display: flex;
+	gap: var(--gap);
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	margin: 1rem;
+	max-height: 100%;
+	overflow: auto;
+}
+
+.App {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	flex-direction: column;
+	width: calc((100% - var(--gap) * (var(--columns) - 1)) / var(--columns));
+	height: auto;
+	background-color: var(--background-color-1);
+	border-radius: var(--border-radius-1);
+	overflow: hidden;
+	aspect-ratio: 16 / 14;
+	transition: background-color 200ms ease-in-out;
+	cursor: pointer;
+}
+
+.App:hover, .App:focus-visible {
+	background-color: var(--background-color-0);
+}
+
+.AppIcon {
+	flex-grow: 0;
+	width: 50%;
+	height: auto;
+	aspect-ratio: 1;
+	filter: drop-shadow(0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--black-4) 75%, transparent));
+}
+
+.AppIcon div, .AppIcon svg {
+	width: 100%;
+	height: 100%;
+	aspect-ratio: inherit;
+	border-radius: var(--border-radius-1);
+}
+
+.AppName {
+	margin: 0;
+	font-size: 1.25rem;
+	font-weight: 500;
+}

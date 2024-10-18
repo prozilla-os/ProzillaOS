@@ -32,6 +32,7 @@ function generateAliases() {
 	];
 
 	const localApps = [
+		"app-center",
 		"browser",
 		"calculator",
 		"file-explorer",
@@ -39,7 +40,7 @@ function generateAliases() {
 		"media-viewer",
 		"settings",
 		"terminal",
-		"text-editor"
+		"text-editor",
 	];
 
 	localApps.forEach((id) => {

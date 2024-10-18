@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { App } from "../../features/";
 import { VirtualFolder } from "../../features/virtual-drive/folder";
 import { useVirtualRoot } from "../virtual-drive/virtualRootContext";
+import { App } from "../../features";
 
 export function useAppFolder(app?: App): VirtualFolder | null {
 	const virtualRoot = useVirtualRoot();
