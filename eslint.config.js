@@ -66,8 +66,17 @@ export default tseslint.config(
 			"@typescript-eslint/await-thenable": "off",
 			"react/boolean-prop-naming": "warn",
 			"react/jsx-handler-names": "warn",
-			"comma-dangle": ["warn", "always-multiline"],
-			"space-before-keywords": "error",
+			"comma-dangle": [
+				"warn",
+				{
+					"arrays": "always-multiline",
+					"objects": "always-multiline",
+					"imports": "always-multiline",
+					"exports": "always-multiline",
+					"functions": "never"
+				}
+			],
+			"keyword-spacing": "error",
 			"react/no-invalid-html-attribute": "error",
 		},
 	}
