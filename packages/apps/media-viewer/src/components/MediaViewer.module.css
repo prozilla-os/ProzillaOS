@@ -5,10 +5,64 @@
 	width: 100%;
 	height: 100%;
 	padding: 2rem;
-}
+}  
 
 .MediaViewer img {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
+}  
+
+.audioViewer {
+	width: 70%;
+	margin: 10px auto 0 auto;
+}
+
+.audioViewer .audioControls {
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.audioControls button {
+	margin: 1rem;
+	padding: 7px 0;
+	width: 20%;
+	border-radius: 5rem;
+}
+
+.isPlaying {
+	background-color: var(--purple-0);
+	color: var(--white-0);
+}
+
+.isNotPlaying {
+	background-color: var(--red-0);
+	color: var(--white-0);
+}
+
+.videoViewer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	padding: 2rem 0;
+}
+
+.videoViewer h3 {
+	margin: 0;
+}
+
+.videoViewer iframe {
+	margin-top: 1.5rem;
+}
+
+.videoPlayer {
+	width: 100%;
+	height: auto;
+	max-width: 90%;
+	max-height: 90%;
 }

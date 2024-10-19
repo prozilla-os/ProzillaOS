@@ -7,7 +7,7 @@ export const CODE_EXTENSIONS = [
 	"css",
 	"html",
 	"xml",
-	"yml"
+	"yml",
 ];
 
 export const IMAGE_EXTENSIONS = [
@@ -16,5 +16,32 @@ export const IMAGE_EXTENSIONS = [
 	"svg",
 	"gif",
 	"webp",
-	"ico"
+	"ico",
+];
+
+export const AUDIO_EXTENSIONS = [
+	"mp3",
+	"wav",
+	"aac",
+	"flac",
+	"ogg",
+	"m4a",
+	"wma",
+	"alac",
+	"aiff",
+	"pcm",
+];
+
+export const VIDEO_EXTENSIONS = [
+	"mp4",
+	"avi",
+	"mkv",
+	"mov",
+	"wmv",
+	"flv",
+	"webm",
+	"mpeg",
+	"mpg",
+	"m4v",
+	"youtube",
 ];

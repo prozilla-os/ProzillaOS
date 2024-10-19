@@ -89,6 +89,43 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 						(folderLink as VirtualFolderLink).setLinkedPath(linkedPaths.documents);
 					});
 				})
+				.createFolder("Audio", (folder) => {
+					folder.setIconUrl(skin.folderIcons.generic); // Use generic icon for audio folder
+					folder
+						.createFile("Assasins Creed Rogue Theme", "mp3", (file) => {
+							file.setSource(
+								"https://vgmsite.com/soundtracks/assassin-s-creed-rogue-original-game-soundtrack/rgvmdtdtyv/01.%20Assassin%27s%20Creed%20Rogue%20Main%20Theme.mp3"
+							);
+						})
+						.createFile("Mortal Kombat theme", "mp3", (file) => {
+							file.setSource(
+								"https://kappa.vgmsite.com/soundtracks/mortal-kombat-vscdt-1487-1993/posqvhcduj/01.%20TECHNO-SYNDROME%207%27%27%20MIX.mp3"
+							);
+						});
+					linkedPaths.audio = folder.path;
+				})
+				.createFolder("Video", (folder) => {
+					folder.setIconUrl(skin.folderIcons.generic); // Use generic icon for video folder
+					folder
+						.createFile("Big Buck Bunny", "mp4", (file) => {
+							file.setSource(
+								"https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"
+							);
+						})
+						.createFile("Recording 1", "webm", (file) => {
+							file.setSource("/assets/videos/recording1.webm");
+						})
+						.createFile("Recording 2", "webm", (file) => {
+							file.setSource("/assets/videos/recording2.webm");
+						})
+						.createFile("Jupiter Planetary Call", "youtube", (file) => {
+							file.setSource("https://www.youtube.com/watch?v=PILhE8263rQ");
+						})
+						.createFile("Beyond the Classroom", "youtube", (file) => {
+							file.setSource("https://www.youtube.com/watch?v=ME29dEfO2lI");
+						});
+					linkedPaths.video = folder.path;
+				})
 				.createFolder("Apps");
 		});
 	});
