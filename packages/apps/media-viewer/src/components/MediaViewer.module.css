@@ -13,36 +13,36 @@
 	object-fit: contain;
 }  
 
-.audioViewer {
+.AudioViewer {
 	width: 70%;
-	margin: 10px auto 0 auto;
+	margin: 0.5rem auto 0;
 }
 
-.audioViewer .audioControls {
+.AudioViewer .AudioControls {
 	margin-top: 20px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.audioControls button {
+.AudioControls button {
 	margin: 1rem;
-	padding: 7px 0;
+	padding: 0.5rem 0;
 	width: 20%;
-	border-radius: 5rem;
+	border-radius: var(--border-radius-1);
 }
 
-.isPlaying {
+.AudioControls > .Playing {
 	background-color: var(--purple-0);
 	color: var(--white-0);
 }
 
-.isNotPlaying {
+.AudioControls > :not(.Playing) {
 	background-color: var(--red-0);
 	color: var(--white-0);
 }
 
-.videoViewer {
+.VideoViewer {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -52,15 +52,15 @@
 	padding: 2rem 0;
 }
 
-.videoViewer h3 {
+.VideoViewer h3 {
 	margin: 0;
 }
 
-.videoViewer iframe {
+.VideoViewer iframe {
 	margin-top: 1.5rem;
 }
 
-.videoPlayer {
+.VideoPlayer {
 	width: 100%;
 	height: auto;
 	max-width: 90%;

@@ -61,7 +61,9 @@ export default tseslint.config(
 			],
 			"react-refresh/only-export-components": [
 				"warn",
-				{ "allowConstantExport": true }
+				{
+					"allowConstantExport": true
+				}
 			],
 			"@typescript-eslint/await-thenable": "off",
 			"react/boolean-prop-naming": "warn",
@@ -78,6 +80,14 @@ export default tseslint.config(
 			],
 			"keyword-spacing": "error",
 			"react/no-invalid-html-attribute": "error",
+			"object-curly-newline": [
+				"error",
+				{
+					"ImportDeclaration": "never",
+					"ExportDeclaration": "never",
+					"multiline": true
+				}
+			]
 		},
 	}
 );

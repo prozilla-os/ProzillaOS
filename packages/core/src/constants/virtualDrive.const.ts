@@ -45,3 +45,9 @@ export const VIDEO_EXTENSIONS = [
 	"m4v",
 	"youtube",
 ];
+
+export const MEDIA_EXTENSIONS = [
+	...IMAGE_EXTENSIONS,
+	...AUDIO_EXTENSIONS,
+	...VIDEO_EXTENSIONS
+];
