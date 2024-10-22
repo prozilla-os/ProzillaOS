@@ -27,14 +27,14 @@ import { VectorImage } from "../_utils/vector-image/VectorImage";
 
 export interface WindowProps extends WindowOptions {
 	fullscreen?: boolean;
-	onInteract?: Function
+	onInteract?: () => void;
 	setTitle?: React.Dispatch<React.SetStateAction<string>>;
 	setIconUrl?: React.Dispatch<React.SetStateAction<string>>;
 	close?: (event?: Event) => void;
 	focus?: (event: Event, force?: boolean) => void;
 	active?: boolean;
 	minimized?: boolean;
-	toggleMinimized?: Function;
+	toggleMinimized?: (event?: Event) => void;
 	index?: number;
 	standalone?: boolean;
 }
@@ -71,10 +71,10 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 						appId: app.id,
 						fullscreen: maximized,
 						size: new Vector2(350, 350),
-						Modal: (props: ModalProps) => <Share {...props}/>
+						Modal: (props: ModalProps) => <Share {...props}/>,
 					});
 			}}/>
-		</Actions>
+		</Actions>,
 	});
 
 	useEffect(() => {
@@ -148,7 +148,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 				top: 0,
 				bottom: (screenHeight ?? 0) - 55,
 				left: size ? -size.x + 85 : 85,
-				right: (screenWidth ?? 0) - 5
+				right: (screenWidth ?? 0) - 5,
 			}}
 			cancel="button"
 			nodeRef={nodeRef}
@@ -182,7 +182,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 						/>
 						<p className={useClassNames([utilStyles.TextSemibold], "WindowTitle")}>{title}</p>
 						<button aria-label="Minimize" className={styles["Header-button"]} tabIndex={0} id="minimize-window"
-							onClick={toggleMinimized as MouseEventHandler}
+							onClick={(event) => { toggleMinimized?.(event as unknown as Event); }}
 						>
 							<FontAwesomeIcon icon={faMinus}/>
 						</button>

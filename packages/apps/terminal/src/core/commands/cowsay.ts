@@ -13,9 +13,9 @@ export const cowsay = new Command()
 	.setManual({
 		purpose: "Show a cow saying something",
 		usage: "cowsay text",
-		description: "Show ASCII art of a cow saying something."
+		description: "Show ASCII art of a cow saying something.",
 	})
-	.setExecute(function(args, params) {
+	.setExecute(function(_args, params) {
 		const { rawInputValue } = params as ExecuteParams;
 
 		// Separate input value into lines

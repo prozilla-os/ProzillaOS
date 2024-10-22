@@ -23,7 +23,7 @@ export function useKeyboardListener({ onKeyDown, onKeyUp }: UseKeyboardListenerP
 }
 
 interface UseShortcutsParams {
-	options: Record<string, Record<string, Function>> | Record<string, Function>;
+	options: Record<string, Record<string, (event: KeyboardEvent) => void>> | Record<string, (event: KeyboardEvent) => void>;
 	shortcuts?: Record<string, Record<string, string[]>> | Record<string, string[]>;
 	useCategories?: boolean,
 }
@@ -59,9 +59,9 @@ export function useShortcuts({ options, shortcuts, useCategories = true }: UseSh
 					continue;
 
 				if (category != null) {
-					(options as Record<string, Record<string, Function>>)?.[category]?.[name]?.(event);
+					(options as Record<string, Record<string, (event: KeyboardEvent) => void>>)?.[category]?.[name]?.(event);
 				} else {
-					(options as Record<string, Function>)?.[name]?.(event);
+					(options as Record<string, (event: KeyboardEvent) => void>)?.[name]?.(event);
 				}
 			}
 		};

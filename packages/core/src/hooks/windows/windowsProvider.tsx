@@ -10,7 +10,7 @@ export const WindowsProvider: FC<{ children: ReactNode, windowsManager: WindowsM
 		setWindows(Object.values(updatedWindows));
 	}, []);
 
-	windowsManager.setUpdateWindows(updateWindows);
+	windowsManager.setUpdateWindows(updateWindows as WindowsManager["updateWindows"]);
 
 	return (
 		<WindowsContext.Provider value={windows}>

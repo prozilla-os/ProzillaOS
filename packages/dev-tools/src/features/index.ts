@@ -1,3 +1,3 @@
 export { print } from "./console";
 
-export type { status } from "./console";
+export type { Status } from "./console";

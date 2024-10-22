@@ -22,7 +22,7 @@ export class VirtualRoot extends VirtualFolder {
 	systemManager: SystemManager;
 
 	static EVENT_NAMES = {
-		ERROR: "error"
+		error: "error",
 	};
 
 	constructor(systemManager: SystemManager) {
@@ -152,8 +152,9 @@ export class VirtualRoot extends VirtualFolder {
 		try {
 			StorageManager.store("data", data);
 		} catch (error) {
-			this.emit(VirtualRoot.EVENT_NAMES.ERROR, {
-				message: "Failed to save data"
+			console.error(error);
+			this.emit(VirtualRoot.EVENT_NAMES.error, {
+				message: "Failed to save data",
 			});
 		}
 	}

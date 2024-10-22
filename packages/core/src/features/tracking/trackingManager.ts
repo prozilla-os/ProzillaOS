@@ -13,7 +13,7 @@ export class TrackingManager {
 
 	init(): this {
 		const { trackingConfig } = this.#systemManager;
-		this.measurementId = trackingConfig.enabled ? trackingConfig.GAMeasurementId : null;
+		this.measurementId = trackingConfig.enabled ? trackingConfig.googleAnalyticsMeasurementId : null;
 
 		try {
 			if (this.measurementId != null)

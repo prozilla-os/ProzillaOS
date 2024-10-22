@@ -79,13 +79,13 @@ export class Skin {
 			generic: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file.svg",
 			text: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-text.svg",
 			info: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-info.svg",
-			code: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-code.svg"
+			code: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-code.svg",
 		};
 		this.folderIcons = options.folderIcons ?? {
 			generic: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder.svg",
 			images: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-images.svg",
 			text: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-text.svg",
-			link: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-link.svg"
+			link: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-link.svg",
 		};
 
 		this.loadStyleSheet = options.loadStyleSheet;

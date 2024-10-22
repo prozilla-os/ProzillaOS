@@ -24,7 +24,7 @@ export class ControlledPin extends Pin {
 
 		const rect = {
 			position: { x: positionX, y: positionY } as Vector2,
-			size: { x: size.x, y: size.y } as Vector2
+			size: { x: size.x, y: size.y } as Vector2,
 		};
 
 		let color: string;

@@ -28,7 +28,7 @@ function generateAliases() {
 		{ name: "prozilla-os", path: resolve(__dirname, "../packages/prozilla-os/" + entryFile) },
 		{ name: "@prozilla-os/core", path: resolve(__dirname, "../packages/core/" + entryFile) },
 		{ name: "@prozilla-os/shared", path: resolve(__dirname, "../packages/shared/" + entryFile) },
-		{ name: "@prozilla-os/skins", path: resolve(__dirname, "../packages/skins/" + entryFile) }
+		{ name: "@prozilla-os/skins", path: resolve(__dirname, "../packages/skins/" + entryFile) },
 	];
 
 	const localApps = [
@@ -66,7 +66,11 @@ export default defineConfig(({ command }) => {
 			react(),
 			checker({
 				typescript: true,
-			})
+				eslint: {
+					lintCommand: "eslint -c ../eslint.config.js ../**/src/**/*",
+					useFlatConfig: true,
+				},
+			}),
 		],
 		build: {
 			outDir: BUILD_DIR,
@@ -77,14 +81,14 @@ export default defineConfig(({ command }) => {
 						appsConfig,
 						siteName: NAME,
 						siteTagLine: TAG_LINE,
-						domain: DOMAIN
-					})
+						domain: DOMAIN,
+					}),
 				],
 				output: {
 					assetFileNames: "assets/[name][extname]",
 					chunkFileNames: "chunks/[name]-[hash].js",
 					entryFileNames: "[name].js",
-				}
+				},
 			},
 		},
 		resolve: {
@@ -95,6 +99,6 @@ export default defineConfig(({ command }) => {
 		},
 		optimizeDeps: {
 			exclude: devMode ? Object.keys(aliases) : [],
-		}
+		},
 	} as UserConfig;
 });

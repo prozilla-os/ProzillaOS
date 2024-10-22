@@ -33,14 +33,14 @@ export const Desktop = memo(() => {
 
 	const directory = virtualRoot?.navigate("~/Desktop");
 
-	const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
-	const terminalApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Terminal);
-	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Settings);
+	const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.fileExplorer);
+	const terminalApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.terminal);
+	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.settings);
 
 	const { onContextMenu, ShortcutsListener } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
 			<DropdownAction label="View" icon={faEye}>
-				<RadioAction initialIndex={iconSize} onTrigger={(event, params, value) => {
+				<RadioAction initialIndex={iconSize} onTrigger={(_event, _params, value) => {
 					const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.desktop);
 					void settings?.set("icon-size", value as string);
 				}} options={[
@@ -49,7 +49,7 @@ export const Desktop = memo(() => {
 					{ label: "Large icons" },
 				]}/>
 				<Divider/>
-				<RadioAction initialIndex={iconDirection} onTrigger={(event, params, value) => {
+				<RadioAction initialIndex={iconDirection} onTrigger={(_event, _params, value) => {
 					const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.desktop);
 					void settings?.set("icon-direction", value as string);
 				}} options={[
@@ -104,46 +104,46 @@ export const Desktop = memo(() => {
 			<ClickAction label={"Share"} icon={ModalsManager.getModalIconUrl("share")} onTrigger={() => {
 				openWindowedModal({
 					size: new Vector2(350, 350),
-					Modal: (props: ModalProps) => <Share {...props}/>
+					Modal: (props: ModalProps) => <Share {...props}/>,
 				});
 			}}/>
-		</Actions>
+		</Actions>,
 	});
 	const { onContextMenu: onContextMenuFile } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label="Open" onTrigger={(event, file) => {
+			<ClickAction label="Open" onTrigger={(_event, file) => {
 				if (windowsManager != null) (file as VirtualFile).open(windowsManager);
 			}}/>
 			{fileExplorerApp != null &&
-				<ClickAction label={`Reveal in ${fileExplorerApp.name}`} icon={fileExplorerApp.iconUrl as string | undefined} onTrigger={(event, file) => {
+				<ClickAction label={`Reveal in ${fileExplorerApp.name}`} icon={fileExplorerApp.iconUrl as string | undefined} onTrigger={(_event, file) => {
 					if (windowsManager != null)	(file as VirtualFile).parent?.open(windowsManager);
 				}}/>
 			}
-			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(_event, file) => {
 				(file as VirtualFile).delete();
 			}}/>
-		</Actions>
+		</Actions>,
 	});
 	const { onContextMenu: onContextMenuFolder } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label="Open" onTrigger={(event, folder) => {
+			<ClickAction label="Open" onTrigger={(_event, folder) => {
 				if (windowsManager != null)	(folder as VirtualFolder).open(windowsManager);
 			}}/>
 			{fileExplorerApp != null &&
-				<ClickAction label={`Open in ${fileExplorerApp.name}`} icon={fileExplorerApp.iconUrl as string | undefined} onTrigger={(event, folder) => {
+				<ClickAction label={`Open in ${fileExplorerApp.name}`} icon={fileExplorerApp.iconUrl as string | undefined} onTrigger={(_event, folder) => {
 					windowsManager?.open(fileExplorerApp.id, { path: (folder as VirtualFolder).path });
 				}}/>
 			}
 			{terminalApp != null &&
-				<ClickAction label={`Open in ${terminalApp.name}`} icon={terminalApp.iconUrl as string | undefined} onTrigger={(event, folder) => {
+				<ClickAction label={`Open in ${terminalApp.name}`} icon={terminalApp.iconUrl as string | undefined} onTrigger={(_event, folder) => {
 					if (windowsManager != null)	(folder as VirtualFolder).parent?.open(windowsManager);
 				}}/>
 			}
 			<Divider/>
-			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder) => {
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(_event, folder) => {
 				(folder as VirtualFolder).delete();
 			}}/>
-		</Actions>
+		</Actions>,
 	});
 
 	useEffect(() => {
@@ -185,7 +185,7 @@ export const Desktop = memo(() => {
 				className={styles.Content}
 				style={{
 					"--scale": `${iconScale}rem`,
-					"--direction": iconDirection == 1 ? "row" : "column"
+					"--direction": iconDirection == 1 ? "row" : "column",
 				}}
 				fileClassName={styles["Item"]}
 				folderClassName={styles["Item"]}
@@ -200,10 +200,10 @@ export const Desktop = memo(() => {
 
 					windowsManager?.openFile(file, options);
 				}}
-				onOpenFolder={(event, folder) => {
+				onOpenFolder={(_event, folder) => {
 					if (fileExplorerApp != null) {
 						windowsManager?.open(fileExplorerApp.id, {
-							path: (folder as VirtualFolderLink).linkedPath ?? folder.path
+							path: (folder as VirtualFolderLink).linkedPath ?? folder.path,
 						});
 					}
 				}}

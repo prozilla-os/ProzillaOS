@@ -4,7 +4,7 @@ import styles from "./Share.module.css";
 interface OptionProps {
 	name: string;
 	label: string;
-	setOption: Function;
+	setOption: (name: string, value: string) => void;
 }
 
 export function Option({ name, label, setOption }: OptionProps) {

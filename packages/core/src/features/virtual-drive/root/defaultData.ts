@@ -99,7 +99,7 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 // Create files and folders based on repository tree
 function loadTree(virtualRoot: VirtualRoot) {
 	const excludedFiles = [
-		"/public/config/tree.json"
+		"/public/config/tree.json",
 	];
 
 	void fetch("/config/tree.json").then((response) => 

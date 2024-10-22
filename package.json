@@ -54,7 +54,7 @@
 		"eslint-plugin-react-refresh": "^0.4.7",
 		"rimraf": "^5.0.10",
 		"stylelint": "^16.6.1",
-		"typescript": "^5.4.5",
+		"typescript": "^5.5.4",
 		"typescript-eslint": "^8.8.1",
 		"vite-node": "^2.1.2",
 		"vite-plugin-checker": "^0.7.1"

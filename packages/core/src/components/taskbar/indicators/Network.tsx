@@ -8,7 +8,7 @@ import { useClassNames } from "../../../hooks/_utils/classNames";
 
 interface NetworkProps {
 	hideUtilMenus: boolean;
-	showUtilMenu: Function;
+	showUtilMenu: () => void;
 }
 
 export function Network({ hideUtilMenus, showUtilMenu }: NetworkProps) {

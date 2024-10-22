@@ -20,7 +20,7 @@ const LOCOMOTIVE_SMOKE = [
 		"            (@@@@)",
 		"",
 		"          (   )",
-	]
+	],
 ];
 
 const LOCOMOTIVE_TOP = [
@@ -63,7 +63,7 @@ const LOCOMOTIVE_BOTTOM = [
 		"__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__",
 		" |/-=|___|=    ||    ||    ||    |_____/~\\___/       ",
 		"  \\_/      \\_O=====O=====O=====O/      \\_/           ",
-	]
+	],
 ].reverse();
 
 const COAL_WAGON = [
@@ -178,15 +178,15 @@ export const sl = new Command()
 		usage: "sl\n"
 			+ "sl -w number",
 		options: {
-			"-w number": "Set the amount of wagons (defaults to 1)"
-		}
+			"-w number": "Set the amount of wagons (defaults to 1)",
+		},
 	})
 	.addOption({
 		short: "w",
 		long: "wagons",
-		isInput: true
+		isInput: true,
 	})
-	.setExecute(function(this: Command, args, params) {
+	.setExecute(function(this: Command, _args, params) {
 		const { inputs } = params as ExecuteParams;
 		let wagonCount = 1;
 

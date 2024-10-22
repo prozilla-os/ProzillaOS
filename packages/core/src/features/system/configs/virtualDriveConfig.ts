@@ -1,11 +1,11 @@
 import { OptionalInterface } from "../../../types/utils";
 
 export interface VirtualDriveConfigOptions {
-
+	[key: string]: unknown;
 }
 
 export class VirtualDriveConfig {
-	constructor(options: OptionalInterface<VirtualDriveConfigOptions> = {}) {
+	constructor(_options: OptionalInterface<VirtualDriveConfigOptions> = {}) {
 		// const { } = options as VirtualDriveConfigOptions;
 	}
 }

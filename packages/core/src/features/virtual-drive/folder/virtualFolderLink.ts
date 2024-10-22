@@ -68,7 +68,7 @@ export class VirtualFolderLink extends VirtualFolder {
 
 		const object = {
 			nam: this.name,
-			lnk: this.linkedPath
+			lnk: this.linkedPath,
 		};
 
 		return object;

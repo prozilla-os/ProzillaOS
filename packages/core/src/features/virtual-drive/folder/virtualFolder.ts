@@ -20,15 +20,15 @@ export class VirtualFolder extends VirtualBase {
 	type: number | undefined;
 
 	static TYPE = {
-		GENERAL: 0,
-		MEDIA: 1,
+		general: 0,
+		media: 1,
 	};
 	
 	constructor(name: string, type?: number) {
 		super(name);
 		this.subFolders = [];
 		this.files = [];
-		this.type = type ?? VirtualFolder.TYPE.GENERAL;
+		this.type = type ?? VirtualFolder.TYPE.general;
 	}
 
 	setAlias(alias: string): this {
@@ -289,7 +289,7 @@ export class VirtualFolder extends VirtualBase {
 	 */
 	open(windowsManager: WindowsManager) {
 		const { appsConfig } = this.getRoot().systemManager;
-		const fileExplorer = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
+		const fileExplorer = appsConfig.getAppByRole(AppsConfig.APP_ROLES.fileExplorer);
 		if (fileExplorer != null)
 			return windowsManager.open(fileExplorer.id, { path: this.path });
 	}
@@ -305,7 +305,7 @@ export class VirtualFolder extends VirtualBase {
 
 		const items = [
 			...this.files,
-			...this.subFolders
+			...this.subFolders,
 		];
 		
 		items.forEach((item) => {
@@ -368,7 +368,7 @@ export class VirtualFolder extends VirtualBase {
 		if (this.files.length > 0) {
 			const files = this.files
 				.map((file) => file.toJSON())
-				.filter((file) => file != null) as VirtualFileJson[];
+				.filter((file) => file != null);
 
 			if (files.length > 0)
 				object.fls = files;
@@ -376,7 +376,7 @@ export class VirtualFolder extends VirtualBase {
 		if (this.subFolders.length > 0) {
 			const folders = this.subFolders
 				.map((folder) => folder.toJSON())
-				.filter((folder) => folder != null) as VirtualFolderJson[];
+				.filter((folder) => folder != null);
 
 			if (folders.length > 0)
 				object.fds = folders;

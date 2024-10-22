@@ -11,16 +11,18 @@ import styles from "./Terminal.module.css";
 /**
  * Converts ANSI strings into JSON output.
  * @param input - The input string.
- * @param use_classes - If `true`, HTML classes will be appended
+ * @param useClasses - If `true`, HTML classes will be appended
  *                              to the HTML output.
  * @returns The parsed input.
  */
-function ansiToJSON(input: string, use_classes: boolean | undefined): AnserJsonEntry[] {
+function ansiToJSON(input: string, useClasses: boolean | undefined): AnserJsonEntry[] {
 	input = escapeCarriageReturn(fixBackspace(input));
 	return Anser.ansiToJson(input, {
 		json: true,
-		remove_empty: true,
-		use_classes,
+		// eslint-disable-next-line @typescript-eslint/naming-convention
+		"remove_empty": true,
+		// eslint-disable-next-line @typescript-eslint/naming-convention
+		"use_classes": useClasses,
 	});
 }
 

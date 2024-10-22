@@ -1,8 +1,7 @@
 import { FC, memo, MouseEvent } from "react";
 import { App } from "../../../features/";
 import styles from "./AppIcon.module.css";
-import { ReactSVG } from "react-svg";
-import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext";
+// import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext";
 import { useContextMenu } from "../../../hooks/modals/contextMenu";
 import { Actions } from "../../actions/Actions";
 import { ClickAction } from "../../actions/actions/ClickAction";
@@ -18,7 +17,7 @@ interface AppButtonProps {
 }
 
 export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, active, visible }: AppButtonProps) => {
-	const settingsManager = useSettingsManager();
+	// const settingsManager = useSettingsManager();
 	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions avoidTaskbar={false} {...props}>
 			<ClickAction label={app.name} icon={app.iconUrl as string | undefined} onTrigger={() => {
@@ -38,7 +37,7 @@ export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, active
 			{active && <ClickAction label="Close window" icon={faTimes} onTrigger={() => {
 				windowsManager.close(windowsManager.getAppWindowId(app.id));
 			}}/>} */}
-		</Actions>
+		</Actions>,
 	});
 
 	const classNames = [styles["App-icon"]];

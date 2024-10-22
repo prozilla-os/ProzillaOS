@@ -53,9 +53,9 @@ export function useScrollWithShadow(params: UseScrollWithShadowParams): {
 				r = 0,
 				g = 0,
 				b = 0,
-				a = 50
-			}
-		}
+				a = 50,
+			},
+		},
 	} = params;
 
 	const updateValues = useCallback((element: HTMLElement) => {

@@ -76,7 +76,7 @@ export class Settings {
 		if (callback) {
 			if (value != null) callback(value);
 
-			this.file.on(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, () => {
+			this.file.on(VirtualFile.EVENT_NAMES.contentChange, () => {
 				void (async () => {
 					await this.read();
 					const newValue = await this.get(key);

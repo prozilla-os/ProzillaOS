@@ -40,7 +40,7 @@ export function Actions({ children, mode, className, onAnyTrigger, triggerParams
 
 	const { ref, initiated, alignLeft, alignTop } = useScreenBounds({ avoidTaskbar });
 
-	const options: Record<number, Function> = {};
+	const options: Record<number, (event: Event, ...args: unknown[]) => void> = {};
 	const shortcuts: Record<number, string[]> = {};
 
 	let actionId = 0;
@@ -78,7 +78,7 @@ export function Actions({ children, mode, className, onAnyTrigger, triggerParams
 				actionId,
 				children: iterateOverChildren((child.props as ActionProps).children),
 				onTrigger: onTriggerOverride,
-				disabled
+				disabled,
 			} as ActionProps);
 		});
 

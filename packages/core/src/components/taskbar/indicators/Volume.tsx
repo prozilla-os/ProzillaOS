@@ -8,7 +8,7 @@ import { useClassNames } from "../../../hooks/_utils/classNames";
 
 interface VolumeProps {
 	hideUtilMenus: boolean;
-	showUtilMenu: Function;
+	showUtilMenu: () => void;
 }
 
 export function Volume({ hideUtilMenus, showUtilMenu }: VolumeProps) {

@@ -12,6 +12,6 @@
 			"@prozilla-os/*": ["packages/*/src/main"],
 		},
 	},
-	"include": ["src", "vite.config.ts", "../skins/src/**/*", "../shared/src/**/*"],
+	"include": ["src", "vite.config.ts", "../skins/src/**/*", "../shared/src/**/*", "../../eslint.d.ts"],
 	"exclude": ["node_modules"]
 }

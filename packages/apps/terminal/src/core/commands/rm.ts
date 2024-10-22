@@ -5,7 +5,7 @@ import { Command, ExecuteParams } from "../command";
 export const rm = new Command()
 	.setRequireArgs(true)
 	.setManual({
-		purpose: "Remove a file"
+		purpose: "Remove a file",
 	})
 	.setExecute(function(this: Command, args, params) {
 		const { currentDirectory } = params as ExecuteParams;

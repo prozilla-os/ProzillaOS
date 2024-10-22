@@ -27,12 +27,12 @@ export const pixelSkin = new Skin({
 	],
 	defaultWallpaper: "/assets/skins/pixel/wallpapers/vibrant-wallpaper-blue-purple-red.png",
 	fileIcons: {
-		generic: "/assets/skins/pixel/apps/file-explorer/file.png"
+		generic: "/assets/skins/pixel/apps/file-explorer/file.png",
 	},
 	folderIcons: {
-		generic: "/assets/skins/pixel/apps/file-explorer/folder.png"
+		generic: "/assets/skins/pixel/apps/file-explorer/folder.png",
 	},
 	loadStyleSheet: () => {
-		import("../../styles/skins/pixel.css");
-	}
+		void import("../../styles/skins/pixel.css");
+	},
 });

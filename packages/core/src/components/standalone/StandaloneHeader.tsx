@@ -5,7 +5,7 @@ import { Button } from "../_utils/button/Button";
 import { useSystemManager } from "../../hooks/system/systemManagerContext";
 
 interface StandaloneHeaderProps {
-	exit: Function;
+	exit: () => void;
 }
 
 export function StandaloneHeader({ exit }: StandaloneHeaderProps) {

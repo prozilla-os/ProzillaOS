@@ -23,7 +23,7 @@ export function isValidUrl(string: string): boolean {
 	try {
 		new URL(string);
 		return true;
-	} catch (err) {
+	} catch (_error) {
 		return false;
 	}
 }
@@ -60,13 +60,13 @@ export function getViewportParams(): Record<string, string> {
 	return params;
 }
 
-interface generateUrlOptions {
+interface GenerateUrlOptions {
 	appId?: string;
 	fullscreen?: boolean;
 	standalone?: boolean;
 }
 
-export function generateUrl(options: generateUrlOptions) {
+export function generateUrl(options: GenerateUrlOptions) {
 	let baseUrl = window.location.origin + "/";
 
 	if (!options || Object.keys(options).length === 0)

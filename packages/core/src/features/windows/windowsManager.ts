@@ -20,7 +20,7 @@ export interface WindowOptions {
 
 export class WindowsManager {
 	windows: { [id: string]: WindowOptions };
-	updateWindows: Function;
+	updateWindows: (window: WindowsManager["windows"]) => void;
 	startupComplete: boolean;
 
 	#systemManager: SystemManager;
@@ -85,7 +85,7 @@ export class WindowsManager {
 		this.#trackingManager.event({
 			category: "Actions",
 			action: "Opened window",
-			label: app.id
+			label: app.id,
 		});
 
 		console.info(`Opening window ${id}:${app.id}`);
@@ -223,11 +223,11 @@ export class WindowsManager {
 		return windowId;
 	}
 
-	setUpdateWindows(updateWindows: Function) {
+	setUpdateWindows(updateWindows: WindowsManager["updateWindows"]) {
 		this.updateWindows = updateWindows;
 	}
 
-	startup(appIds: string[], options: {}) {
+	startup(appIds: string[], options: Record<string, unknown>) {
 		if (appIds == null || this.startupComplete)
 			return;
 

@@ -33,7 +33,7 @@ export const Taskbar = memo(() => {
 		offset: 20,
 		blurRadius: 10,
 		spreadRadius: -10,
-		color: { a: 25 }
+		color: { a: 25 },
 	} });
 	const inputRef = useRef(null);
 	const windowsManager = useWindowsManager();
@@ -41,7 +41,7 @@ export const Taskbar = memo(() => {
 	const [apps, setApps] = useState<App[]>([]);
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.TASKBAR, index: 0 });
 
-	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Settings);
+	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.settings);
 
 	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions avoidTaskbar={false} {...props}>
@@ -50,7 +50,7 @@ export const Taskbar = memo(() => {
 					windowsManager?.open(settingsApp.id);
 				}}/>
 			}
-		</Actions>
+		</Actions>,
 	});
 
 	useEffect(() => {

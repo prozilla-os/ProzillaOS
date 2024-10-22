@@ -19,14 +19,14 @@ export class VirtualFile extends VirtualBase {
 	content: OptionalStringProperty;
 
 	static NON_TEXT_EXTENSIONS = [
-		"png"
+		"png",
 	];
 
 	static EVENT_NAMES = {
-		CONTENT_CHANGE: "contentchange"
+		contentChange: "contentchange",
 	};
 
-	constructor(name: string, extension?: string | undefined) {
+	constructor(name: string, extension?: string  ) {
 		super(name);
 		this.extension = extension;
 	}
@@ -45,7 +45,7 @@ export class VirtualFile extends VirtualBase {
 		this.source = source;
 		this.content = null;
 
-		this.emit(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, this);
+		this.emit(VirtualFile.EVENT_NAMES.contentChange, this);
 
 		this.confirmChanges();
 		return this;
@@ -61,7 +61,7 @@ export class VirtualFile extends VirtualBase {
 		this.content = typeof content === "string" ? content : content.join("\n");
 		this.source = null;
 
-		this.emit(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, this);
+		this.emit(VirtualFile.EVENT_NAMES.contentChange, this);
 
 		this.confirmChanges();
 		return this;

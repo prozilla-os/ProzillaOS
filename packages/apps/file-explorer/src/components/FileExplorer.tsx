@@ -14,7 +14,7 @@ export interface FileExplorerProps extends WindowProps {
 	selectorMode?: number;
 	Footer?: FC;
 	onSelectionChange?: (params: OnSelectionChangeParams) => void;
-	onSelectionFinish?: Function;
+	onSelectionFinish?: () => void;
 }
 
 export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSelectionChange, onSelectionFinish }: FileExplorerProps) {
@@ -33,7 +33,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 	const { openWindowedModal } = useWindowedModal();
 	const { onContextMenu: onContextMenuFile } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label={!isSelector ? "Open" : "Select"} onTrigger={(event, file) => {
+			<ClickAction label={!isSelector ? "Open" : "Select"} onTrigger={(_event, file) => {
 				if (isSelector) {
 					onSelectionChange?.({ files: [(file as VirtualFile).id], directory: currentDirectory });
 					onSelectionFinish?.();
@@ -41,32 +41,32 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 				}
 				if (windowsManager != null)	(file as VirtualFile).open(windowsManager);
 			}}/>
-			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, file) => {
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(_event, file) => {
 				(file as VirtualFile).delete();
 			}}/>
-			<ClickAction label="Properties" icon={faCircleInfo} onTrigger={(event, file) => {
+			<ClickAction label="Properties" icon={faCircleInfo} onTrigger={(_event, file) => {
 				openWindowedModal({
 					title: `${(file as VirtualFile).id} ${windowsConfig.titleSeparator} Properties`,
 					iconUrl: (file as VirtualFile).getIconUrl(),
 					size: new Vector2(400, 500),
-					Modal: (props: object) => <FileProperties file={file as VirtualFile} {...props}/>
+					Modal: (props: object) => <FileProperties file={file as VirtualFile} {...props}/>,
 				});
 			}}/>
-		</Actions>
+		</Actions>,
 	});
 	const { onContextMenu: onContextMenuFolder } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
-			<ClickAction label="Open" onTrigger={(event, folder) => {
+			<ClickAction label="Open" onTrigger={(_event, folder) => {
 				changeDirectory((folder as VirtualFolderLink).linkedPath ?? (folder as VirtualFolder).name);
 			}}/>
 			{/* <ClickAction label={`Open in ${APP_NAMES.TERMINAL}`} icon={APP_ICONS.TERMINAL} onTrigger={(event, folder) => {
 				windowsManager?.open(APPS.TERMINAL, { startPath: (folder as VirtualFolder).path });
 			}}/> */}
 			<Divider/>
-			<ClickAction label="Delete" icon={faTrash} onTrigger={(event, folder) => {
+			<ClickAction label="Delete" icon={faTrash} onTrigger={(_event, folder) => {
 				(folder as VirtualFolder).delete();
 			}}/>
-		</Actions>
+		</Actions>,
 	});
 	// const { onContextMenu: onNew } = useContextMenu({
 	// 	modalsManager,
@@ -116,10 +116,10 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 			});
 		};
 
-		virtualRoot?.on(VirtualRoot.EVENT_NAMES.ERROR, onError);
+		virtualRoot?.on(VirtualRoot.EVENT_NAMES.error, onError);
 
 		return () => {
-			virtualRoot?.off(VirtualRoot.EVENT_NAMES.ERROR, onError);
+			virtualRoot?.off(VirtualRoot.EVENT_NAMES.error, onError);
 		};
 	}, []);
 
@@ -144,8 +144,8 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 					Modal: (props: JSX.IntrinsicAttributes & ModalProps) =>
 						<DialogBox {...props}>
 							<p>Invalid path: "{value}"</p>
-							<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
-						</DialogBox>
+							<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.closeButton}>Ok</button>
+						</DialogBox>,
 				});
 				return;
 			}
@@ -199,8 +199,8 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 							Modal: (props: JSX.IntrinsicAttributes & ModalProps) =>
 								<DialogBox {...props}>
 									<p>This folder is protected.</p>
-									<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
-								</DialogBox>
+									<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.closeButton}>Ok</button>
+								</DialogBox>,
 						});
 
 						// if (currentDirectory.canBeEdited) {
@@ -252,7 +252,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 							options.mode = "view";
 						windowsManager?.openFile(file, options);
 					}}
-					onOpenFolder={(event, folder) => {
+					onOpenFolder={(_event, folder) => {
 						changeDirectory((folder as VirtualFolderLink).linkedPath ?? folder.name);
 					}}
 					onContextMenuFile={onContextMenuFile as unknown as FileEventHandler}

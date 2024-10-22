@@ -24,8 +24,8 @@ export function useAlert() {
 			Modal: (props: ModalProps) =>
 				<DialogBox {...props}>
 					<p>{text}</p>
-					<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
-				</DialogBox>
+					<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.closeButton}>Ok</button>
+				</DialogBox>,
 		});
 	}, [openWindowedModal]);
 	

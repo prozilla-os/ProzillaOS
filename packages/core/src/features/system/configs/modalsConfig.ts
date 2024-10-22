@@ -20,7 +20,7 @@ export class ModalsConfig {
 	defaultFileSelectorSize: ModalsConfigOptions["defaultFileSelectorSize"];
 
 	static DIALOG_CONTENT_TYPES = {
-		CloseButton: 0
+		closeButton: 0,
 	};
 
 	constructor(options: OptionalInterface<ModalsConfigOptions> = {}) {

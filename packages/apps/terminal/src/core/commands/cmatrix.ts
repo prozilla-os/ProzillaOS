@@ -12,7 +12,7 @@ const PARTICLES = {
 	framesBetweenSpawn: 30,
 	fallSpeed: 1,
 	minSize: 5,
-	maxSize: 25
+	maxSize: 25,
 };
 
 type Particle = {
@@ -25,7 +25,7 @@ function generateScreen(frame: number, screen: string[][], particles: Particle[]
 	if (frame % PARTICLES.framesBetweenSpawn) {
 		const newParticle: Particle = {
 			position: new Vector2(randomRange(0, SCREEN_WIDTH), SCREEN_HEIGHT).round(),
-			size: Math.round(randomRange(PARTICLES.minSize, PARTICLES.maxSize))
+			size: Math.round(randomRange(PARTICLES.minSize, PARTICLES.maxSize)),
 		};
 		particles.push(newParticle);
 	}

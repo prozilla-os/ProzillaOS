@@ -34,7 +34,7 @@ export function useContextMenu({ Actions }: UseContextMenuParams) {
 				mode: ActionsManager.MODES.contextMenu,
 				onAnyTrigger: () => {
 					newModal.close();
-				}
+				},
 			});
 
 		modalsManager?.open(newModal);

@@ -14,8 +14,8 @@ export const man = new Command()
 		description: "Each page arguments given to man is normally the name of a command.\n"
 			+ "The manual page associated with this command is then found and displayed.",
 		options: {
-			"-k": "Search for manual page using regexp"
-		}
+			"-k": "Search for manual page using regexp",
+		},
 	})
 	.setExecute(function(this: Command, args, params) {
 		const { options } = params as ExecuteParams;
@@ -59,14 +59,14 @@ export const man = new Command()
 		if (manual.usage) {
 			sections.push([
 				"SYNOPSIS",
-				formatText(manual.usage)
+				formatText(manual.usage),
 			]);
 		}
 		
 		if (manual.description) {
 			sections.push([
 				"DESCRIPTION",
-				formatText(manual.description)
+				formatText(manual.description),
 			]);
 		}
 
@@ -75,7 +75,7 @@ export const man = new Command()
 				"OPTIONS",
 				formatText(Object.entries(manual.options).map(([key, value]) => {
 					return `${key} ${ANSI.decoration.dim}${ANSI.fg.yellow}${value}${ANSI.reset}`;
-				}).join("\n"))
+				}).join("\n")),
 			]);
 		}
 

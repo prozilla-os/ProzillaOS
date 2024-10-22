@@ -5,9 +5,9 @@ import { Command, ExecuteParams } from "../command";
 
 export const neofetch = new Command()
 	.setManual({
-		purpose: "Fetch system information"
+		purpose: "Fetch system information",
 	})
-	.setExecute(async function(args, params) {
+	.setExecute(async function(_args, params) {
 		const { username, hostname, app, systemManager, settingsManager } = params as ExecuteParams;
 		const leftColumn = ANSI_ASCII_LOGO.split("\n");
 		const rightColumnWidth = (username?.length ?? 0) + (hostname?.length ?? 0) + 1;

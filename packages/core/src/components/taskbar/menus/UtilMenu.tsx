@@ -1,10 +1,10 @@
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import styles from "./UtilMenu.module.css";
 import { useClassNames } from "../../../hooks";
 
 interface UtilMenuProps {
 	active: boolean;
-	setActive: Function;
+	setActive: Dispatch<SetStateAction<boolean>>;
 	className: string;
 	children: ReactNode;
 }

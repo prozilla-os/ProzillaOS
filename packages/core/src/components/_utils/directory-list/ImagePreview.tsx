@@ -7,7 +7,7 @@ import { VectorImage } from "../vector-image/VectorImage";
 interface ImagePreviewProps {
 	source: string;
 	className?: string;
-	onError?: Function;
+	onError?: () => void;
 }
 
 export function ImagePreview({ source, className, onError, ...props }: ImagePreviewProps) {

@@ -4,8 +4,8 @@ import { useSystemManager } from "../../../hooks";
 let timeoutId: number | null = null;
 
 interface InteractableProps {
-	onClick: Function;
-	onDoubleClick: Function;
+	onClick?: (event: MouseEvent) => void;
+	onDoubleClick?: (event: MouseEvent) => void;
 	children: ReactNode;
 	[key: string]: unknown;
 }

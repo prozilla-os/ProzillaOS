@@ -15,7 +15,7 @@ export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 	}, [file, setTitle]);
 
 	if (file == null) {
-		const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
+		const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.fileExplorer);
 
 		setTimeout(() => {
 			if (fileExplorerApp != null)

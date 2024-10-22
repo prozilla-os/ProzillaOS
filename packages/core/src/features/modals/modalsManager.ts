@@ -4,7 +4,7 @@ import { Modal } from "./modal";
 export class ModalsManager {
 	modals: Record<string, Modal> = {};
 	containerRef?: MutableRefObject<HTMLElement>;
-	updateModals: Function = () => {};
+	updateModals:  (modals: ModalsManager["modals"]) => void = () => {};
 
 	/**
 	 * @param single - Set to false to preserve other open modals
@@ -58,7 +58,7 @@ export class ModalsManager {
 		this.updateModals(this.modals);
 	}
 
-	setUpdateModals(updateModals: Function) {
+	setUpdateModals(updateModals: ModalsManager["updateModals"]) {
 		this.updateModals = updateModals;
 	}
 

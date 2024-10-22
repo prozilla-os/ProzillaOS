@@ -3,7 +3,7 @@ export type EventNamesMap = Record<string, string>;
 export class EventEmitter<EventMap extends EventNamesMap> {
 	static EVENT_NAMES: EventNamesMap = {};
 
-	#events: Record<string, Array<Function>> = {};
+	#events: Record<string, Array<(data: unknown) => void>> = {};
 
 	/**
 	 * Add event listener for an event

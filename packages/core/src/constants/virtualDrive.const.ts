@@ -7,7 +7,7 @@ export const CODE_EXTENSIONS = [
 	"css",
 	"html",
 	"xml",
-	"yml"
+	"yml",
 ];
 
 export const IMAGE_EXTENSIONS = [
@@ -16,5 +16,5 @@ export const IMAGE_EXTENSIONS = [
 	"svg",
 	"gif",
 	"webp",
-	"ico"
+	"ico",
 ];

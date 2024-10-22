@@ -8,14 +8,14 @@ import { Vector2, VirtualFolder } from "@prozilla-os/core";
 
 export class ChipsManager {
 	static CHIPS: Record<string, Chip> = {
-		AND: new Chip(null, "AND", "blue", true, 2, 1).setLogic((inputStates: State[]) => {
+		and: new Chip(null, "AND", "blue", true, 2, 1).setLogic((inputStates: State[]) => {
 			if (inputStates[0].value === 1 && inputStates[1].value === 1) {
 				return [State.HIGH];
 			} else {
 				return [State.LOW];
 			}
 		}),
-		NOT: new Chip(null, "NOT", "red", true, 1, 1).setLogic((inputStates: State[]) => {
+		not: new Chip(null, "NOT", "red", true, 1, 1).setLogic((inputStates: State[]) => {
 			return [State.invert(inputStates[0])];
 		}),
 	};

@@ -21,7 +21,7 @@ type Battery = {
 
 interface BatteryProps {
 	hideUtilMenus: boolean;
-	showUtilMenu: Function;
+	showUtilMenu: () => void;
 }
 
 export function Battery({ hideUtilMenus, showUtilMenu }: BatteryProps) {

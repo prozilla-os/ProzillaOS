@@ -14,7 +14,7 @@ export const ANSI = {
 	},
 	decoration: {
 		dim: "\u001b[2m",
-		bold: "\u001b[1m"
+		bold: "\u001b[1m",
 	},
 	reset: "\u001b[0m",
 };

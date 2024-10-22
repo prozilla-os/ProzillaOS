@@ -18,30 +18,30 @@ const APP_OPTIONS: Record<string, { label: string, name: string }[]> = {
 	"terminal": [
 		{
 			label: "Command",
-			name: "input"
+			name: "input",
 		},
 		{
 			label: "Path",
-			name: "path"
-		}
+			name: "path",
+		},
 	],
 	"browser": [
 		{
 			label: "Website",
-			name: "url"
+			name: "url",
 		},
 	],
 	"file-explorer": [
 		{
 			label: "Path",
-			name: "path"
-		}
+			name: "path",
+		},
 	],
 	"text-editor": [
 		{
 			label: "Path",
-			name: "path"
-		}
+			name: "path",
+		},
 	],
 };
 
@@ -63,7 +63,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 			blurRadius: 10,
 			spreadRadius: -10,
 			color: { a: 25 },
-		}
+		},
 	});
 
 	useEffect(() => {
@@ -71,7 +71,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 			appId: appId !== "" ? appId : undefined,
 			fullscreen,
 			standalone,
-			...options
+			...options,
 		}));
 	}, [appId, fullscreen, standalone, options]);
 

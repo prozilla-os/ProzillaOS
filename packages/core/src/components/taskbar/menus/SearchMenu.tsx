@@ -1,18 +1,17 @@
 import styles from "./SearchMenu.module.css";
 import appStyles from "./AppList.module.css";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
-import { ChangeEventHandler, MutableRefObject, useEffect, useState } from "react";
+import { ChangeEventHandler, Dispatch, MutableRefObject, SetStateAction, useEffect, useState } from "react";
 import { useKeyboardListener } from "../../../hooks/_utils/keyboard";
 import { App } from "../../../features/";
-import { ReactSVG } from "react-svg";
 import { useClassNames, useSystemManager } from "../../../hooks";
 import { VectorImage } from "../../_utils/vector-image/VectorImage";
 
 interface SearchMenuProps {
 	active: boolean;
-	setActive: Function;
+	setActive: (show: boolean) => void;
 	searchQuery: string;
-	setSearchQuery: Function;
+	setSearchQuery: Dispatch<SetStateAction<string>>;
 	inputRef: MutableRefObject<HTMLInputElement>;
 }
 

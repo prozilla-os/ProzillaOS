@@ -2,7 +2,7 @@ import { Command, ExecuteParams } from "../command";
 
 export const mkdir = new Command()
 	.setManual({
-		purpose: "Create a directory"
+		purpose: "Create a directory",
 	})
 	.setRequireArgs(true)
 	.setExecute(function(args, params) {

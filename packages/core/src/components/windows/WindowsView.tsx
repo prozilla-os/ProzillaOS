@@ -78,9 +78,9 @@ export const WindowsView: FC = memo(() => {
 				position={position}
 				options={options}
 				minimized={minimized}
-				toggleMinimized={(event: Event) => {
-					event.preventDefault();
-					event.stopPropagation();
+				toggleMinimized={(event?: Event) => {
+					event?.preventDefault();
+					event?.stopPropagation();
 					windowsManager?.setMinimized(id as string, !minimized);
 				}}
 				fullscreen={fullscreen}

@@ -11,14 +11,14 @@ export class Modal {
 	modalsManager: ModalsManager | null = null;
 	element: FC<ModalProps> | null = null;
 	props: object = {};
-	callback: Function | null = null;
+	callback: ((...args: unknown[]) => void) | null = null;
 	id: number | null = null;
 	dismissible: boolean = true;
 	lastInteraction?: number;
 
 	constructor(element: Modal["element"], callback?: Modal["callback"]) {
 		this.element = element;
-		this.callback = callback as Modal["element"];
+		this.callback = callback as Modal["callback"];
 		this.focus();
 	}
 

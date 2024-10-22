@@ -2,7 +2,7 @@ import { MouseEventHandler, ReactNode, useMemo } from "react";
 import { faClipboard, faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { MarkdownProps } from "../TextEditor";
 import styles from "../TextEditor.module.css";
-import { Actions, ClickAction, copyToClipboard, DialogBox, ModalProps, ModalsConfig, removeUrlProtocol, TextDisplay, useContextMenu, useWindowedModal, Vector2 } from "@prozilla-os/core";
+import { Actions, ClickAction, copyToClipboard, DialogBox, ModalProps, ModalsConfig, removeUrlProtocol, TextDisplay, useContextMenu, useWindowedModal, Vector2, VirtualFile } from "@prozilla-os/core";
 import { sanitizeProps } from "../../core/_utils/sanitizeProps";
 
 interface MarkdownLinkProps extends MarkdownProps {
@@ -20,7 +20,7 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 			const target = currentFile.parent?.navigate(href);
 			if (target != null) {
 				if (target.isFile()) {
-					setCurrentFile(target);
+					setCurrentFile(target as VirtualFile);
 				} else {
 					windowsManager.open("file-explorer", { path: target.path });
 				}
@@ -32,8 +32,8 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 					Modal: (props: ModalProps) =>
 						<DialogBox {...props}>
 							<p>Target not found: "{href}"</p>
-							<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.CloseButton}>Ok</button>
-						</DialogBox>
+							<button data-type={ModalsConfig.DIALOG_CONTENT_TYPES.closeButton}>Ok</button>
+						</DialogBox>,
 				});
 			}
 		} else {
@@ -50,14 +50,14 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 			<ClickAction label="Copy link" icon={faClipboard} onTrigger={() => {
 				copyToClipboard(href);
 			}}/>
-		</Actions>
+		</Actions>,
 	});
 
 	const title = useMemo<string>(() => {
 		let title: string = "";
 		try {
 			title = new URL(href).hostname;
-		} catch (error) {
+		} catch (_error) {
 			title = href.split("/").pop() ?? "";
 		}
 		return title;
