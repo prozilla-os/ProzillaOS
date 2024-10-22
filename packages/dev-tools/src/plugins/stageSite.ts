@@ -127,7 +127,7 @@ function generate404Page(context: PluginContext, template: string) {
 	context.emitFile({
 		type: "asset",
 		fileName: "404.html",
-		source: template
+		source: template,
 	});
 }
 
@@ -164,7 +164,7 @@ function generateAppPages(context: PluginContext, template: string, options: Sta
 		context.emitFile({
 			type: "asset",
 			fileName: `${appId}.html`,
-			source: html
+			source: html,
 		});
 	}
 }
@@ -195,14 +195,14 @@ function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, s
 			domain,
 			baseUrl,
 			imageUrls,
-			paths
+			paths,
 		};
 	
 		files.forEach(([path, generateContent]) => {
 			context.emitFile({
 				type: "asset",
 				fileName: path,
-				source: generateContent(extendedOptions)
+				source: generateContent(extendedOptions),
 			});
 		});
 
@@ -213,7 +213,7 @@ function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, s
 			context.emitFile({
 				type: "asset",
 				fileName: "index.html",
-				source: template 
+				source: template, 
 			});
 	
 			generate404Page(context, template);

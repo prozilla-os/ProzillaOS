@@ -26,9 +26,9 @@ export function Header({ searchQuery, setSearchQuery, category, setCategory }: H
 		<select className={styles.CategoryInput} value={category} onChange={handleCategoryChange}>
 			<option value={"All"}>All</option>
 			{APP_CATEGORIES.filter((category) => {
-				return appsConfig.getAppsByCategory(category).length > 0
+				return appsConfig.getAppsByCategory(category).length > 0;
 			}).map((category) =>
-				<option value={category}>{category}</option>
+				<option key={category} value={category}>{category}</option>
 			)}
 		</select>
 	</div>;

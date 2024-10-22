@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import dts from "vite-plugin-dts";
 import cssInjectedByJs from "vite-plugin-css-injected-by-js";
 import { posix, resolve, sep } from "path";
+import { appMetadataPlugin } from "../plugins";
 
 /**
  * Helper function for creating Vite configurations for ProzillaOS apps
@@ -23,6 +24,9 @@ export const appViteConfig = (basePath: string, entryPath: string): UserConfig =
 
 	return {
 		plugins: [
+			appMetadataPlugin({
+				entryPath,
+			}),
 			react(),
 			cssInjectedByJs(),
 			dts({
@@ -30,8 +34,8 @@ export const appViteConfig = (basePath: string, entryPath: string): UserConfig =
 				rollupTypes: true,
 				strictOutput: true,
 				pathsToAliases: false,
-				tsconfigPath: "tsconfig.build.json"
-			})
+				tsconfigPath: "tsconfig.build.json",
+			}),
 		],
 		build: {
 			lib: {
@@ -41,11 +45,12 @@ export const appViteConfig = (basePath: string, entryPath: string): UserConfig =
 			rollupOptions: {
 				external: ["react", "react/jsx-runtime", "@prozilla-os/core", "@prozilla-os/shared", /@fortawesome\/*/g],
 				output: {
-					assetFileNames: "chunks/[name][extname]",
+					assetFileNames: "assets/[name][extname]",
+					chunkFileNames: "chunks/[name]-[hash].js",
 					entryFileNames: "[name].js",
-				}
+				},
 			},
-			sourcemap: true
-		}
+			sourcemap: true,
+		},
 	};
 };
