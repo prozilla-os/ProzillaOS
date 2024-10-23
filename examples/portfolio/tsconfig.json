@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"jsx": "react-jsx",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"types": ["vite/client", "vite-plugin-svgr/client"],
+		"allowUmdGlobalAccess": true,
+		"resolveJsonModule": true,
+		"allowJs": true,
+		"checkJs": true,
+		"noEmit": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+	},
+	"include": [
+		"src/**/*",
+		"vite.config.ts"
+	],
+	"exclude": [
+		"./node_modules"
+	]
+}

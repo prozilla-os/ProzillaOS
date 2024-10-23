@@ -32,7 +32,10 @@
 	},
 	"workspaces": [
 		"packages/*",
-		"packages/apps/*"
+		"packages/apps/*",
+		"demo",
+		"docs",
+		"examples/*"
 	],
 	"repository": {
 		"type": "git",

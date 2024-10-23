@@ -3,3 +3,5 @@ packages:
   - "packages/apps/*"
   - "demo"
   - "docs"
+  - "examples/*"
+    

@@ -67,7 +67,9 @@ export default tseslint.config(
 			"react/jsx-handler-names": "warn",
 			"react-refresh/only-export-components": [
 				"warn",
-				{ "allowConstantExport": true }
+				{
+					"allowConstantExport": true
+				}
 			],
 			"@typescript-eslint/ban-types": "off",
 			"@typescript-eslint/no-unused-vars": [

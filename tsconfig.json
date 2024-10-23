@@ -38,7 +38,8 @@
 		"packages/**/*",
 		"scripts/**/*",
 		"demo/**/*",
-		"docs/**/*", "types/eslint.d.ts",
+		"docs/**/*", 
+		"examples/**/*", 
 	],
 	"exclude": [
 		"**/node_modules/**/*",

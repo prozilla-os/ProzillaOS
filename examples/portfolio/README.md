@@ -13,9 +13,9 @@
 
 ## About
 
-**🔗 [os.prozilla.dev/docs](https://os.prozilla.dev/docs)**
+**🔗 [os.prozilla.dev/examples/portfolio](https://os.prozilla.dev/examples/portfolio)**
 
-`@prozilla-os/docs` is a VitePress website that contains the documentation for ProzillaOS. For more information about this package, visit the [self-hosting guide](https://os.prozilla.dev/docs/guides/self-hosting).
+`@prozilla-os/portfolio-example` is an example portfolio site made using ProzillaOS
 
 ## Links
 
@@ -24,7 +24,7 @@
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/docs
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/demo
+[website]: https://os.prozilla.dev/examples/portfolio
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/examples/portfolio
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla
