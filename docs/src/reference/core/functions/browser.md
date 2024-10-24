@@ -1,5 +1,5 @@
 ---
-outline: 2
+outline: [1, 2]
 description: "Functions related to the browser"
 package: "@prozilla-os/core"
 ---

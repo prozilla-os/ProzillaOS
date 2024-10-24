@@ -1,5 +1,5 @@
 ---
-outline: 2
+outline: [1, 2]
 description: "Constants for ProzillaOS"
 package: "@prozilla-os/core"
 ---

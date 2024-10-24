@@ -448,3 +448,12 @@ li > p {
 .VPSwitch .check .icon [class^="vpi-"] {
 	color: var(--vp-c-text-2);
 }
+
+.custom-block.note a, .custom-block.note code {
+	color: var(--vp-c-note-3);
+}
+
+.custom-block.note a:hover,
+.custom-block.note a:hover > code {
+	color: var(--vp-c-note-2);
+}

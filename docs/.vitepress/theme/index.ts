@@ -9,7 +9,7 @@ export default {
 	extends: DefaultTheme,
 	Layout() {
 		return h(DefaultTheme.Layout, null, {
-		 	"doc-before": () => h(PackageBadge)
+		 	"doc-before": () => h(PackageBadge),
 		});
-	}
+	},
 } satisfies Theme;

@@ -11,7 +11,9 @@ export default tseslint.config(
 	{
 		languageOptions: {
 			parserOptions: {
-				projectService: true,
+				projectService: {
+					allowDefaultProject: ["*.ts", "*.tsx"]
+				},
 				tsconfigRootDir: import.meta.dirname,
 				allowAutomaticSingleRunInference: true,
 			},

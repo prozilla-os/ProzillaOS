@@ -2,6 +2,13 @@ import { OptionalInterface } from "../types/utils";
 
 interface SkinOptions {
 	/**
+	 * SVG icon for the system
+	 * @default
+	 * "https://os.prozilla.dev/icon.svg"
+	 */
+	systemIcon: string;
+
+	/**
 	 * Replacements for app icons based on app id
 	 */
 	appIcons?: { [key: string]: string };
@@ -50,6 +57,7 @@ interface SkinOptions {
 }
 
 export class Skin {
+	systemIcon: SkinOptions["systemIcon"];
 	appIcons: SkinOptions["appIcons"];
 	appNames: SkinOptions["appNames"];
 	wallpapers: SkinOptions["wallpapers"];
@@ -59,6 +67,8 @@ export class Skin {
 	loadStyleSheet: SkinOptions["loadStyleSheet"];
 
 	constructor(options: OptionalInterface<SkinOptions> = {}) {
+		this.systemIcon = options.systemIcon ?? "https://os.prozilla.dev/icon.svg";
+
 		this.appIcons = options.appIcons;
 		this.appNames = options.appNames;
 

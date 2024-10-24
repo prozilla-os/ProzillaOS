@@ -22,7 +22,7 @@ import { useClassNames, useSystemManager } from "../../hooks";
 import { App, AppsConfig } from "../../features";
 
 export const Taskbar = memo(() => {
-	const { taskbarConfig, appsConfig } = useSystemManager();
+	const { taskbarConfig, appsConfig, skin } = useSystemManager();
 	const ref = useRef<HTMLDivElement>(null);
 	const settingsManager = useSettingsManager();
 	const [showHome, setShowHome] = useState(false);
@@ -139,7 +139,7 @@ export const Taskbar = memo(() => {
 						className={`${styles.MenuButton} ${styles.HomeButton}`}
 						onClick={() => { updateShowHome(!showHome); }}
 					>
-						<ReactSVG src={"/icon.svg"}/>
+						<ReactSVG src={skin.systemIcon}/>
 					</button>
 					<HomeMenu active={showHome} setActive={updateShowHome} search={search}/>
 				</OutsideClickListener>

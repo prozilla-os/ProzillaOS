@@ -1,5 +1,5 @@
 ---
-outline: deep
+outline: [1, 3]
 description: "Change the look and feel of ProzillaOS"
 package: "@prozilla-os/skins"
 ---
@@ -19,17 +19,18 @@ package: "@prozilla-os/skins"
 
 ```ts
 interface SkinOptions {
+	systemIcon?: string;
 	appIcons?: Record<number, string>;
 	appNames?: Record<number, string>;
-	wallpapers: string[];
-	defaultWallpaper: string;
-	fileIcons: {
+	wallpapers?: string[];
+	defaultWallpaper?: string;
+	fileIcons?: {
 		generic: string;
 		info?: string;
 		text?: string;
 		code?: string;
 	};
-	folderIcons: {
+	folderIcons?: {
 		generic: string;
 		images?: string;
 		text?: string;
@@ -40,6 +41,18 @@ interface SkinOptions {
 ```
 
 ## Properties
+
+### systemIcon
+
+SVG icon for the system
+
+- **Type:** `string`
+
+#### Default
+
+`"https://os.prozilla.dev/icon.svg"`
+
+![Default system icon](https://os.prozilla.dev/icon.svg)
 
 ### appIcons
 
@@ -129,6 +142,58 @@ function loadStyleSheet() {
 
 A skin inspired by the macOS interface
 
+#### Preview
+
+![Preview of the MacOS skin](/screenshots/skins/mac.png)
+
+#### Example
+
+```tsx
+// App.tsx
+
+import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView } from "prozilla-os";
+import { macOsSkin } from "@prozilla-os/skins"; // [!code highlight]
+
+export function App(): ReactElement {
+	return <ProzillaOS
+		systemName={"Example"}
+		tagLine={"Powered by ProzillaOS"}
+		skin={macOsSkin} // [!code highlight]
+	>
+		<Taskbar/>
+		<WindowsView/>
+		<ModalsView/>
+		<Desktop/>
+	</ProzillaOS>;
+}
+```
+
 ### minimalSkin
 
 A minimalistic skin with monochrome icons
+
+#### Preview
+
+![Preview of the minimalistic skin](/screenshots/skins/minimal.png)
+
+#### Example
+
+```tsx
+// App.tsx
+
+import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView } from "prozilla-os";
+import { minimalSkin } from "@prozilla-os/skins"; // [!code highlight]
+
+export function App(): ReactElement {
+	return <ProzillaOS
+		systemName={"Example"}
+		tagLine={"Powered by ProzillaOS"}
+		skin={minimalSkin} // [!code highlight]
+	>
+		<Taskbar/>
+		<WindowsView/>
+		<ModalsView/>
+		<Desktop/>
+	</ProzillaOS>;
+}
+```

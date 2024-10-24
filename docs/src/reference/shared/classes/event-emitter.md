@@ -1,5 +1,5 @@
 ---
-outline: 3
+outline: [1, 3]
 description: "An abstract class for creating event emitters"
 package: "@prozilla-os/shared"
 ---
