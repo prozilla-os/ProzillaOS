@@ -19,8 +19,8 @@
 		"directory": "examples/portfolio"
 	},
 	"dependencies": {
-		"@prozilla-os/skins": "^1.1.2",
-		"prozilla-os": "^1.3.2",
+		"@prozilla-os/skins": "workspace:*",
+		"prozilla-os": "workspace:*",
 		"react": "^18.3.1",
 		"react-dom": "^18.2.0",
 		"react-svg": "^16.1.34"

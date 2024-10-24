@@ -38,6 +38,9 @@ export class VirtualRoot extends VirtualFolder {
 	}
 
 	loadData() {
+		if (!this.systemManager.virtualDriveConfig.saveData)
+			return;
+
 		const data = StorageManager.load("data");
 		if (data == null)
 			return;
@@ -141,7 +144,7 @@ export class VirtualRoot extends VirtualFolder {
 	 * Calls the storage manager's store function with this root's data as a string
 	 */
 	saveData() {
-		if (!this.initiated)
+		if (!this.initiated || !this.systemManager.virtualDriveConfig.saveData)
 			return;
 
 		const data = this.toString();

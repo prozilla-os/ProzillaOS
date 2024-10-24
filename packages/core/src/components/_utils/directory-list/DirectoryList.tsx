@@ -43,6 +43,11 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 	useEffect(() => {
 		onSelectionChange?.({ files: selectedFiles, folders: selectedFolders, directory });
 	}, [directory, onSelectionChange, selectedFiles, selectedFolders]);
+
+	const clearSelection = () => {
+		setSelectedFolders([]);
+		setSelectedFiles([]);
+	};
 	
 	useEffect(() => {
 		clearSelection();
@@ -80,10 +85,6 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 	if (!directory)
 		return null;
 
-	const clearSelection = () => {
-		setSelectedFolders([]);
-		setSelectedFiles([]);
-	};
 	const selectFolder = (folder: VirtualFolder, exclusive = false) => {
 		if (!allowMultiSelect)
 			exclusive = true;
