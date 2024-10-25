@@ -1,0 +1,1 @@
+import{B as o}from"../index.js";import{o as t}from"./command-nBL1aO7T-CliNWZCP.js";const n=new t().setManual({purpose:"Reboot the system"}).setExecute(function(){return o(),{blank:!0}});export{n as reboot};
