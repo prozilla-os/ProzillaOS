@@ -4,64 +4,64 @@
 	xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 	<url>
 		<loc>https://os.prozilla.dev/</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 		
 	</url>
 	
 	<url>
 		<loc>https://os.prozilla.dev/file-explorer</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/terminal</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/text-editor</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/settings</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/media-viewer</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/browser</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/calculator</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/app-center</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/wordle</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/ball-maze</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/minesweeper</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/logic-sim</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/bliss-radio</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 	<url>
 		<loc>https://os.prozilla.dev/Melodix</loc>
-		<lastmod>2024-10-24</lastmod>
+		<lastmod>2024-10-25</lastmod>
 	</url>
 </urlset>
