@@ -31,7 +31,8 @@ export const appsConfig = new AppsConfig({
 			.setIconUrl("/assets/apps/icons/calculator.svg")
 			.setPinnedByDefault(true),
 		appCenter.setName("Apps")
-			.setDescription(`Browse and install ${NAME} apps.`),
+			.setDescription(`Browse and install ${NAME} apps.`)
+			.setPinnedByDefault(false),
 		wordle.setIconUrl("/assets/apps/icons/wordle.svg")
 			.setPinnedByDefault(false),
 		ballMaze.setIconUrl("/assets/apps/icons/ball-maze.svg")

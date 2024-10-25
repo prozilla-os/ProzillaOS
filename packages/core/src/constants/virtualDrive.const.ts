@@ -18,3 +18,8 @@ export const IMAGE_EXTENSIONS = [
 	"webp",
 	"ico",
 ];
+
+export const FILE_SCHEMES = {
+	external: "ext://",
+	app: "app://",
+};
