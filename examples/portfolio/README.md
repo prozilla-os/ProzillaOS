@@ -13,18 +13,43 @@
 
 ## About
 
-**🔗 [os.prozilla.dev/examples/portfolio](https://os.prozilla.dev/examples/portfolio)**
+**🔗 [Live demo](https://os.prozilla.dev/examples/portfolio)** | [(source)][source]
 
-`@prozilla-os/portfolio-example` is an example portfolio site made using ProzillaOS
+`@prozilla-os/portfolio-example` is an example portfolio site made using ProzillaOS.
+
+<div align="center">
+ <br />
+ <a href="https://os.prozilla.dev/examples/portfolio"><img src="https://os.prozilla.dev/assets/screenshots/examples/portfolio.png" width="720" alt="Screenshot of portfolio example site" /></a>
+ <br />
+</div>
+
+## Integrations
+
+- TypeScript
+- Vite
+
+## Scripts
+
+### `start`
+
+Start the Vite dev server at [localhost:3000](http://localhost:3000/).
+
+### `build`
+
+Build the website using Vite to the `dist` directory.
+
+### `preview`
+
+Start the Vite preview server at [localhost:8080](http://localhost:8080/) with the build of the website.
 
 ## Links
 
-- [Website][website]
-- [GitHub][github]
+- [Demo][demo]
+- [Source][source]
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[website]: https://os.prozilla.dev/examples/portfolio
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/examples/portfolio
+[demo]: https://os.prozilla.dev/examples/portfolio
+[source]: https://github.com/prozilla-os/ProzillaOS/tree/main/examples/portfolio
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

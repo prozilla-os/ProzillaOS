@@ -32,7 +32,7 @@ function loadData(virtualRoot: VirtualRoot) {
 		desktopFolder.createFolder("Links");
 
 		desktopFolder.createFile("AboutMe", "md", (file) => {
-			file.setSource("/documents/about-me.md");
+			file.setSource("documents/about-me.md");
 		});
 	});
 }

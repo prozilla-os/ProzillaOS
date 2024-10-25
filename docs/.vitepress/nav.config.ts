@@ -8,6 +8,7 @@ export const NAVIGATION: (DefaultTheme.NavItemChildren & DefaultTheme.SidebarIte
 		collapsed: false,
 		items: [
 			{ text: "Introduction", link: "/introduction" },
+			{ text: "Examples", link: "/examples" },
 			{ text: "Features", link: "/features" },
 		],
 	},

@@ -11,7 +11,7 @@
 		"src",
 		"vite.config.ts",
 		"scripts",
-		"../packages/core/src/**/*", "../types/eslint.d.ts",
+		"../packages/core/src/**/*"
 	],
 	"exclude": ["node_modules"]
 }

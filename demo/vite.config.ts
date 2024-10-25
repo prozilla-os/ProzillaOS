@@ -99,6 +99,9 @@ export default defineConfig(({ command }) => {
 		server: {
 			port: 3000,
 		},
+		preview: {
+			port: 8080,
+		},
 		optimizeDeps: {
 			exclude: devMode ? Object.keys(aliases) : [],
 		},
