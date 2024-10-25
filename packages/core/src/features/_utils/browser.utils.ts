@@ -106,6 +106,10 @@ export function removeUrlProtocol(url: string) {
 	return url.replace(/^https?:\/\/|\/$/g, "");
 }
 
+export function removeBaseUrl(url: string) {
+	return url.replace(/^https?:\/\/[a-z]+(\.[0-9a-z-]+)+/g, "");
+}
+
 export function copyToClipboard(string: string, onSuccess?: (value: void) => void, onFail?: (value: void) => void) {
 	void navigator.clipboard.writeText(string).then(onSuccess, onFail);
 }

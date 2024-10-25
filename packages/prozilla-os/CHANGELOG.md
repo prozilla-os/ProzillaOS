@@ -1,5 +1,28 @@
 # prozilla-os
 
+## 1.3.3
+
+### Patch Changes
+
+- - `@prozilla-os/core`
+    - Added file schemes
+    - Added app center and app installation status
+    - Added app metadata
+  - `@prozilla-os/dev-tools`
+    - Updated site staging plugin
+  - `@prozilla-os/skins`
+    - Added system icon property
+- Updated dependencies
+  - @prozilla-os/core@1.3.3
+  - @prozilla-os/app-center@1.0.1
+  - @prozilla-os/browser@1.1.8
+  - @prozilla-os/calculator@1.1.8
+  - @prozilla-os/file-explorer@1.1.8
+  - @prozilla-os/media-viewer@1.1.8
+  - @prozilla-os/settings@1.1.8
+  - @prozilla-os/terminal@1.1.9
+  - @prozilla-os/text-editor@1.1.8
+
 ## 1.3.2
 
 ### Patch Changes

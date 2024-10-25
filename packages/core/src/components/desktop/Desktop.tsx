@@ -86,7 +86,7 @@ export const Desktop = memo(() => {
 			/>
 			{settingsApp != null &&
 				<ClickAction label="Change appearance" icon={faPaintBrush} onTrigger={() => {
-					windowsManager?.open(settingsApp.id, { tab: 2 });
+					windowsManager?.open(settingsApp.id, { tab: 1 });
 				}}/>
 			}
 			<Divider/>

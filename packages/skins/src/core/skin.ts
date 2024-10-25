@@ -38,6 +38,7 @@ interface SkinOptions {
 		info?: string;
 		text?: string;
 		code?: string;
+		external?: string;
 	};
 
 	/**
@@ -82,6 +83,8 @@ export class Skin {
 			"https://os.prozilla.dev/assets/wallpapers/colorful-mesh-gradient-red-green.png",
 			"https://os.prozilla.dev/assets/wallpapers/flame-abstract-wallpaper-orange.png",
 			"https://os.prozilla.dev/assets/wallpapers/wave-abstract-wallpaper-teal.png",
+			"https://os.prozilla.dev/assets/wallpapers/abstract-wallpaper-gradient-blue-dark.png",
+			"https://os.prozilla.dev/assets/wallpapers/abstract-wallpaper-gradient-red.png",
 		];
 		this.defaultWallpaper = options.defaultWallpaper ?? "https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png";
 
@@ -90,6 +93,7 @@ export class Skin {
 			text: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-text.svg",
 			info: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-info.svg",
 			code: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-code.svg",
+			external: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-external.svg",
 		};
 		this.folderIcons = options.folderIcons ?? {
 			generic: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder.svg",
