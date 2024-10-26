@@ -43,13 +43,13 @@ export const VIDEO_EXTENSIONS = [
 	"mpeg",
 	"mpg",
 	"m4v",
-	"youtube",
+	"yt",
 ];
 
 export const MEDIA_EXTENSIONS = [
 	...IMAGE_EXTENSIONS,
 	...AUDIO_EXTENSIONS,
-	...VIDEO_EXTENSIONS
+	...VIDEO_EXTENSIONS,
 ];
 
 export const FILE_SCHEMES = {

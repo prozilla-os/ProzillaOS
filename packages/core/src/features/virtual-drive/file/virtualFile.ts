@@ -1,4 +1,4 @@
-import { FILE_SCHEMES, IMAGE_EXTENSIONS } from "../../../constants/virtualDrive.const";
+import { AUDIO_EXTENSIONS, FILE_SCHEMES, IMAGE_EXTENSIONS, VIDEO_EXTENSIONS } from "../../../constants/virtualDrive.const";
 import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 
@@ -121,8 +121,14 @@ export class VirtualFile extends VirtualBase {
 		const { skin, appsConfig } = this.getRoot().systemManager;
 
 		if (this.source != null) {
-			if (this.extension != null && IMAGE_EXTENSIONS.includes(this.extension)) {
-				return this.source;
+			if (this.extension != null) {
+				if (IMAGE_EXTENSIONS.includes(this.extension)) {
+					return this.source;
+				} else if (VIDEO_EXTENSIONS.includes(this.extension)) {
+					return skin.fileIcons.video ?? skin.fileIcons.generic;
+				} else if (AUDIO_EXTENSIONS.includes(this.extension)) {
+					return skin.fileIcons.audio ?? skin.fileIcons.generic;
+				}
 			} else if (this.source.startsWith(FILE_SCHEMES.app)) {
 				const app = appsConfig.getAppById(VirtualFile.removeFileScheme(this.source));
 
