@@ -49,20 +49,15 @@
 	justify-content: center;
 	width: 100%;
 	height: 100%;
-	padding: 2rem 0;
 }
 
 .VideoViewer h3 {
 	margin: 0;
 }
 
-.VideoViewer iframe {
-	margin-top: 1.5rem;
-}
-
-.VideoPlayer {
+.VideoViewer > * {
 	width: 100%;
-	height: auto;
-	max-width: 90%;
-	max-height: 90%;
+	height: 100%;
+	border: none;
+	background: transparent;
 }

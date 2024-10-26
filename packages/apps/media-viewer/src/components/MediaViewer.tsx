@@ -123,19 +123,16 @@ export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 	} else if (VIDEO_EXTENSIONS.includes(file.extension)) {
 		if (file.extension === "yt") {
 			return <div className={styles.VideoViewer}>
-				<h3>Playing video: {file.id}</h3>
 				<iframe
-					width="560"
-					height="315"
 					src={file.source.replace("watch?v=", "embed/")}
 					title={file.id}
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 					allowFullScreen
+					allowTransparency={true}
 				/>
 			</div>;
 		} else {
 			return <div className={styles.VideoViewer}>
-				<h3>Playing video: {file.id}</h3>
 				<video ref={videoRef} controls className={styles.VideoPlayer}>
 					<source src={file.source} type={`video/${file.extension}`} />
 					Your browser does not support videos.
