@@ -39,6 +39,8 @@ interface SkinOptions {
 		text?: string;
 		code?: string;
 		external?: string;
+		video?: string;
+		audio?: string;
 	};
 
 	/**
@@ -49,6 +51,8 @@ interface SkinOptions {
 		images?: string;
 		text?: string;
 		link?: string;
+		video?: string;
+		audio?: string;
 	};
 
 	/**
@@ -94,12 +98,16 @@ export class Skin {
 			info: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-info.svg",
 			code: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-code.svg",
 			external: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-external.svg",
+			video: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-video.svg",
+			audio: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-audio.svg",
 		};
 		this.folderIcons = options.folderIcons ?? {
 			generic: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder.svg",
 			images: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-images.svg",
 			text: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-text.svg",
 			link: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-link.svg",
+			video: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-video.svg",
+			audio: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-audio.svg",
 		};
 
 		this.loadStyleSheet = options.loadStyleSheet;

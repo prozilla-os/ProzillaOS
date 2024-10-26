@@ -29,12 +29,16 @@ interface SkinOptions {
 		info?: string;
 		text?: string;
 		code?: string;
+		video?: string;
+		audio?: string;
 	};
 	folderIcons?: {
 		generic: string;
 		images?: string;
 		text?: string;
 		link?: string;
+		video?: string;
+		audio?: string;
 	};
 	loadStyleSheet?: () => void;
 }
@@ -58,13 +62,13 @@ SVG icon for the system
 
 Replacements for app icons based on app id
 
-- **Type:** `{ [key: string]: string }`
+- **Type:** `Record<number, string>`
 
 ### appNames
 
 Replacements for app names based on app id
 
-- **Type:** `{ [key: string]: string }`
+- **Type:** `Record<number, string>`
 
 ### wallpapers
 
@@ -96,6 +100,8 @@ interface FileIcons {
 	info?: string;
 	text?: string;
 	code?: string;
+	video?: string;
+	audio?: string;
 }
 ```
 
@@ -115,6 +121,8 @@ interface FolderIcons {
 	images?: string;
 	text?: string;
 	link?: string;
+	video?: string;
+	audio?: string;
 }
 ```
 
