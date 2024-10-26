@@ -1,11 +1,11 @@
-import { ReactNode, Ref, useEffect, useRef, useState } from "react";
+import { Dispatch, ReactNode, Ref, SetStateAction, useEffect, useRef, useState } from "react";
 import styles from "./TextEditor.module.css";
 import Markdown from "markdown-to-jsx";
 import { MarkdownLink } from "./overrides/MarkdownLink";
 import { MarkdownImage } from "./overrides/MarkdownImage";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { MarkdownBlockquote } from "./overrides/MarkdownBlockquote";
-import { App, ClickAction, CODE_EXTENSIONS, Divider, DropdownAction, HeaderMenu, ModalsManager, useSystemManager, useVirtualRoot, useWindowedModal, useWindowsManager, VirtualFile, WindowProps, WindowsManager } from "@prozilla-os/core";
+import { App, ClickAction, CODE_EXTENSIONS, Divider, DropdownAction, HeaderMenu, ModalsManager, useSystemManager, useVirtualRoot, useWindowsManager, VirtualFile, WindowProps, WindowsManager } from "@prozilla-os/core";
 import { DEFAULT_ZOOM, EXTENSION_TO_LANGUAGE, ZOOM_FACTOR } from "../constants/textEditor.const";
 
 const OVERRIDES = {
@@ -16,7 +16,7 @@ const OVERRIDES = {
 
 export interface MarkdownProps {
 	modalsManager: ModalsManager;
-	setCurrentFile: Function;
+	setCurrentFile: Dispatch<SetStateAction<VirtualFile | null>>;
 	currentFile: VirtualFile;
 	app: App;
 	windowsManager: WindowsManager;
@@ -30,7 +30,7 @@ export interface TextEditorProps extends WindowProps {
 }
 
 export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app, modalsManager }: TextEditorProps) {
-	const { windowsConfig, modalsConfig } = useSystemManager();	
+	const { windowsConfig } = useSystemManager();	
 	const ref = useRef<HTMLDivElement | HTMLTextAreaElement>();
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
@@ -40,7 +40,6 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 	const [unsavedChanges, setUnsavedChanges] = useState(file == null);
 	const [zoom, setZoom] = useState(DEFAULT_ZOOM);
 	const [initialised, setInitialised] = useState(false);
-	const { openWindowedModal } = useWindowedModal();
 
 	useEffect(() => {
 		void (async () => {
@@ -132,8 +131,8 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 				setCurrentFile,
 				currentFile,
 				app,
-				windowsManager
-			} as MarkdownProps
+				windowsManager,
+			} as MarkdownProps,
 		};
 	}
 

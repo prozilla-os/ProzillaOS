@@ -6,7 +6,7 @@ import { useClassNames } from "../../../hooks/_utils/classNames";
 
 interface CalendarProps {
 	hideUtilMenus: boolean;
-	showUtilMenu: Function;
+	showUtilMenu: () => void;
 }
 
 export function Calendar({ hideUtilMenus, showUtilMenu }: CalendarProps) {

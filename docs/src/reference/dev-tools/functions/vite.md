@@ -1,5 +1,5 @@
 ---
-outline: 2
+outline: [1, 2]
 description: "Functions related to Vite"
 package: "@prozilla-os/dev-tools"
 ---

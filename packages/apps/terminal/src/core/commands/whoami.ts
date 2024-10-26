@@ -2,9 +2,9 @@ import { Command, ExecuteParams } from "../command";
 
 export const whoami = new Command()
 	.setManual({
-		purpose: "Display the username"
+		purpose: "Display the username",
 	})
-	.setExecute((args, params) => {
+	.setExecute((_args, params) => {
 		const { username } = params as ExecuteParams;
 		return username;
 	});

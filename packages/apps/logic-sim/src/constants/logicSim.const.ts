@@ -1,6 +1,6 @@
 export const CURSORS = {
 	default: "default",
-	pointer: "pointer"
+	pointer: "pointer",
 };
 
 export const FONT = "outfit";
@@ -35,7 +35,7 @@ export const PIN = {
 		offset: 10,
 		fontSize: 15,
 		padding: 5,
-	}
+	},
 };
 
 export const CHIP = {
@@ -50,7 +50,7 @@ export const COLORS = {
 		fill: "black-4",
 		fillHover: "black-3",
 		labelText: "white-0",
-		labelBackground: "black-4"
+		labelBackground: "black-4",
 	},
 	controller: {
 		stroke: "black-4",
@@ -73,5 +73,5 @@ export const COLORS = {
 	chip: {
 		text: "black-4",
 		outline: "white-0",
-	}
+	},
 };

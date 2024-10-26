@@ -1,5 +1,5 @@
 ---
-outline: 3
+outline: [1, 3]
 description: "A utility class for keeping track of time"
 package: "@prozilla-os/core"
 ---

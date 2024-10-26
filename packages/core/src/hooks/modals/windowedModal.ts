@@ -4,15 +4,16 @@ import { ModalProps } from "../../components/modals/ModalView";
 import { Modal } from "../../features/modals/modal";
 import { Vector2 } from "../../features";
 import { useSystemManager } from "../system/systemManagerContext";
+import { WindowProps } from "../../components";
 
 interface OpenWindowedModalParams {
 	appId?: string;
 	iconUrl?: string;
 	title?: string;
 	size: Vector2;
-	Modal: Function;
+	Modal: FC<ModalProps>;
 	single?: boolean;
-	fullscreen?: boolean;
+	fullscreen?: WindowProps["fullscreen"];
 }
 type OpenWindowedModal = (params: OpenWindowedModalParams) => Modal;
 
@@ -31,7 +32,7 @@ export function useWindowedModal(): { openWindowedModal: OpenWindowedModal; } {
 			positionY -= containerRect.y / 2;
 		}
 
-		const newModal = new Modal(WindowedModal as FC<ModalProps>)
+		const newModal = new Modal(WindowedModal)
 			.setPosition(new Vector2(positionX, positionY))
 			.setSize(size)
 			.setDismissible(false)

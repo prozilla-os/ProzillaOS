@@ -1,8 +1,8 @@
 import { ANSI } from "@prozilla-os/shared";
 
-export type status = "error" | "info" | "file" | "success" | "start";
+export type Status = "error" | "info" | "file" | "success" | "start";
 
-export function print(message: string, status?: status, newLine?: boolean) {
+export function print(message: string, status?: Status, newLine?: boolean) {
 	if (newLine)
 		console.log("");
 

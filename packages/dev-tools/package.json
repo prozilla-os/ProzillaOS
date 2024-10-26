@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/dev-tools",
 	"description": "A library of tools for the development of ProzillaOS packages.",
-	"version": "1.0.6",
+	"version": "1.1.0",
 	"homepage": "https://os.prozilla.dev",
 	"author": {
 		"name": "Prozilla",
@@ -33,7 +33,7 @@
 		"@types/node": "^20.14.5",
 		"@types/react": "^18.3.3",
 		"rollup": "^4.24.0",
-		"typescript": "^5.4.5"
+		"typescript": "^5.5.4"
 	},
 	"files": [
 		"dist"

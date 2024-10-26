@@ -12,8 +12,8 @@ import { VectorImage } from "../../_utils/vector-image/VectorImage";
 
 interface HomeMenuProps {
 	active: boolean;
-	setActive: Function;
-	search: Function;
+	setActive: (show: boolean) => void;
+	search: (query: string) => void;
 }
 
 export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
@@ -56,9 +56,9 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 
 	useKeyboardListener({ onKeyDown, onKeyUp });
 
-	const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
-	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Settings);
-	const textEditorApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.TextEditor);
+	const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.fileExplorer);
+	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.settings);
+	const textEditorApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.textEditor);
 
 	return (
 		<div className={classNames.join(" ")}>

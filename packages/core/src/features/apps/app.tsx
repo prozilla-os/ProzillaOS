@@ -5,6 +5,12 @@ import { APP_CATEGORIES } from "../../constants/apps.const";
 
 const validIdRegex = /^[a-zA-Z0-9-]+$/;
 
+interface AppMetadata {
+	name: string;
+	version: `${number}.${number}.${number}`;
+	author: string;
+}
+
 /**
  * An application that can be ran by ProzillaOS
  * Applications can be installed by adding them to the `apps` array in {@link AppsConfig}
@@ -69,6 +75,11 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	 * The category the app belongs to
 	 */
 	category: typeof APP_CATEGORIES[number] | null = null;
+
+	/**
+	 * Metadata of the app's package
+	 */
+	metadata: AppMetadata | null = null;
 
 	isActive: boolean = false;
 	isPinned?: boolean;
@@ -163,6 +174,11 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	 */
 	setCategory(category: typeof APP_CATEGORIES[number] | null): this {
 		this.category = category;
+		return this;
+	}
+
+	setMetadata(metadata: AppMetadata | null): this {
+		this.metadata = metadata;
 		return this;
 	}
 }

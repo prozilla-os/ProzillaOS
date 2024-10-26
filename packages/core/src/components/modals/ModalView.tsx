@@ -16,7 +16,7 @@ export interface ModalProps {
 		[key: string]: unknown;
 	};
 	children?: ReactNode;
-	onFinish?: Function;
+	onFinish?: () => void;
 	[key: string]: unknown;
 }
 

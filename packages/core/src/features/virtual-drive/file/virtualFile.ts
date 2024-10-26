@@ -1,4 +1,4 @@
-import { IMAGE_EXTENSIONS } from "../../../constants/virtualDrive.const";
+import { FILE_SCHEMES, IMAGE_EXTENSIONS } from "../../../constants/virtualDrive.const";
 import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 
@@ -19,14 +19,14 @@ export class VirtualFile extends VirtualBase {
 	content: OptionalStringProperty;
 
 	static NON_TEXT_EXTENSIONS = [
-		"png"
+		"png",
 	];
 
 	static EVENT_NAMES = {
-		CONTENT_CHANGE: "contentchange"
+		contentChange: "contentchange",
 	};
 
-	constructor(name: string, extension?: string | undefined) {
+	constructor(name: string, extension?: string  ) {
 		super(name);
 		this.extension = extension;
 	}
@@ -45,7 +45,7 @@ export class VirtualFile extends VirtualBase {
 		this.source = source;
 		this.content = null;
 
-		this.emit(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, this);
+		this.emit(VirtualFile.EVENT_NAMES.contentChange, this);
 
 		this.confirmChanges();
 		return this;
@@ -61,7 +61,7 @@ export class VirtualFile extends VirtualBase {
 		this.content = typeof content === "string" ? content : content.join("\n");
 		this.source = null;
 
-		this.emit(VirtualFile.EVENT_NAMES.CONTENT_CHANGE, this);
+		this.emit(VirtualFile.EVENT_NAMES.contentChange, this);
 
 		this.confirmChanges();
 		return this;
@@ -118,12 +118,22 @@ export class VirtualFile extends VirtualBase {
 		if (this.iconUrl != null)
 			return this.iconUrl;
 
+		const { skin, appsConfig } = this.getRoot().systemManager;
+
+		if (this.source != null) {
+			if (this.extension != null && IMAGE_EXTENSIONS.includes(this.extension)) {
+				return this.source;
+			} else if (this.source.startsWith(FILE_SCHEMES.app)) {
+				const app = appsConfig.getAppById(VirtualFile.removeFileScheme(this.source));
+
+				if (app?.iconUrl != null)
+					return app?.iconUrl;
+			} else if (this.source.startsWith(FILE_SCHEMES.external) && skin.fileIcons.external != null) {
+				return skin.fileIcons.external;
+			}
+		}
+
 		let iconUrl = null;
-
-		if (this.source != null && this.extension != null && IMAGE_EXTENSIONS.includes(this.extension))
-			return this.source;
-
-		const { skin } = this.getRoot().systemManager;
 
 		switch (this.extension) {
 			case "txt":
@@ -193,5 +203,18 @@ export class VirtualFile extends VirtualBase {
 		}
 
 		return object;
+	}
+
+	static removeFileScheme(source: string) {
+		let done = false;
+		
+		Object.values(FILE_SCHEMES).forEach((scheme) => {
+			if (source.startsWith(scheme) && !done) {
+				source.replace(scheme, "");
+				done = true;
+			}
+		});
+
+		return source;
 	}
 }

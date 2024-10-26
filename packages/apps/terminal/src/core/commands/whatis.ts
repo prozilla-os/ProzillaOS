@@ -6,7 +6,7 @@ import { CommandsManager } from "../commands";
 export const whatis = new Command()
 	.setRequireArgs(true)
 	.setManual({
-		purpose: "Show information about a command"
+		purpose: "Show information about a command",
 	})
 	.setExecute(function(this: Command, args) {
 		const commandName = (args as string[])[0].toLowerCase();

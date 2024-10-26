@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/app-center",
 	"description": "A ProzillaOS application for browsing and installing applications.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"homepage": "https://os.prozilla.dev/app-center",
 	"author": {
 		"name": "Prozilla",
@@ -30,7 +30,7 @@
 		"@types/node": "^20.14.5",
 		"@types/react": "^18.3.3",
 		"@vitejs/plugin-react-swc": "^3.7.0",
-		"typescript": "^5.4.5",
+		"typescript": "^5.5.4",
 		"vite": "^5.4.8",
 		"vite-plugin-dts": "^3.9.1",
 		"vite-plugin-lib-inject-css": "^2.1.1"

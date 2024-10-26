@@ -1,0 +1,43 @@
+{
+	"name": "@prozilla-os/portfolio-example",
+	"private": true,
+	"author": {
+		"name": "Prozilla",
+		"email": "business@prozilla.dev",
+		"url": "https://prozilla.dev/"
+	},
+	"homepage": "https://os.prozilla.dev/examples/portfolio",
+	"type": "module",
+	"scripts": {
+		"start": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
+		"directory": "examples/portfolio"
+	},
+	"dependencies": {
+		"@prozilla-os/skins": "workspace:*",
+		"prozilla-os": "workspace:*",
+		"react": "^18.3.1",
+		"react-dom": "^18.2.0",
+		"react-svg": "^16.1.34"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.5.0",
+		"@types/react": "^18.2.66",
+		"@types/react-dom": "^18.2.22",
+		"@typescript-eslint/eslint-plugin": "^7.2.0",
+		"@typescript-eslint/parser": "^7.2.0",
+		"@vitejs/plugin-react-swc": "^3.7.0",
+		"eslint": "^8.57.0",
+		"eslint-plugin-react": "^7.34.2",
+		"eslint-plugin-react-refresh": "^0.4.6",
+		"typescript": "^5.2.2",
+		"typescript-eslint": "^7.13.1",
+		"vite": "^5.2.0",
+		"vite-plugin-svgr": "^4.2.0"
+	}
+}

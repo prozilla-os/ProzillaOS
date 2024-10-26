@@ -55,7 +55,7 @@ export function AppearanceSettings() {
 									void desktopSettings?.set("wallpaper", file.source);
 							}}
 							{...props}
-						/>
+						/>,
 					});
 				}}
 			>

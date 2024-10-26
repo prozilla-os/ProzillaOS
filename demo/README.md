@@ -25,6 +25,6 @@
 - [Ko-fi][ko-fi]
 
 [website]: https://os.prozilla.dev/
-[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/demo
+[github]: https://github.com/prozilla-os/ProzillaOS/tree/main/demo
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla

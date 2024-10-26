@@ -83,7 +83,7 @@ export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 	};
 
 	if (file == null) {
-		const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.FileExplorer);
+		const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.fileExplorer);
 
 		setTimeout(() => {
 			if (fileExplorerApp != null)

@@ -7,7 +7,7 @@ export const ls = new Command()
 	.setManual({
 		purpose: "List directory contents",
 		usage: "ls [options] [files]",
-		description: "List information about directories or files (the current directory by default)."
+		description: "List information about directories or files (the current directory by default).",
 	})
 	.setExecute(function(this: Command, args, params) {
 		const { currentDirectory } = params as ExecuteParams;

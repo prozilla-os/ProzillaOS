@@ -16,12 +16,12 @@ export const minimalSkin = new Skin({
 	},
 	defaultWallpaper: "/assets/wallpapers/abstract-wallpaper-mesh-gradient-cyan.png",
 	fileIcons: {
-		generic: "/assets/skins/minimal/apps/file-explorer/file.svg"
+		generic: "/assets/skins/minimal/apps/file-explorer/file.svg",
 	},
 	folderIcons: {
-		generic: "/assets/skins/minimal/apps/file-explorer/folder.svg"
+		generic: "/assets/skins/minimal/apps/file-explorer/folder.svg",
 	},
 	loadStyleSheet: () => {
-		import("../../styles/skins/minimal.css");
-	}
+		void import("../../styles/skins/minimal.css");
+	},
 });

@@ -1,9 +1,10 @@
 import { randomRange } from "@prozilla-os/shared";
-import { App } from "../";
+import { App, openUrl } from "../";
 import { Vector2 } from "../math/vector2";
 import { SystemManager } from "../system/systemManager";
 import { TrackingManager } from "../tracking/trackingManager";
 import { VirtualFile } from "../virtual-drive/file";
+import { FILE_SCHEMES } from "../../constants/virtualDrive.const";
 
 export interface WindowOptions {
 	id?: string;
@@ -20,7 +21,7 @@ export interface WindowOptions {
 
 export class WindowsManager {
 	windows: { [id: string]: WindowOptions };
-	updateWindows: Function;
+	updateWindows: (window: WindowsManager["windows"]) => void;
 	startupComplete: boolean;
 
 	#systemManager: SystemManager;
@@ -34,6 +35,9 @@ export class WindowsManager {
 		this.startupComplete = false;
 	}
 
+	/**
+	 * Open a window for an app
+	 */
 	open(appId: string, options?: WindowOptions | null): object | null {
 		const { appsConfig, windowsConfig, taskbarConfig } = this.#systemManager;
 		const app = appsConfig.getAppById(appId);
@@ -85,7 +89,7 @@ export class WindowsManager {
 		this.#trackingManager.event({
 			category: "Actions",
 			action: "Opened window",
-			label: app.id
+			label: app.id,
 		});
 
 		console.info(`Opening window ${id}:${app.id}`);
@@ -108,8 +112,22 @@ export class WindowsManager {
 		// console.log(this);
 	}
 
+	/**
+	 * Opens a file with the associated app or by a method specified by the file scheme
+	 * @returns Opened window
+	 */
 	openFile(file: VirtualFile, options: object = {}): object | null {
-		if (file.extension == null) return null;
+		if (file.source != null) {
+			if (file.source.startsWith(FILE_SCHEMES.external)) {
+				openUrl(file.source.replace(FILE_SCHEMES.external, ""), "_blank");
+				return null;
+			} else if (file.source.startsWith(FILE_SCHEMES.app)) {
+				return this.open(file.source.replace(FILE_SCHEMES.app, ""));
+			}
+		}
+
+		if (file.extension == null)
+			return null;
 
 		const { appsConfig } = this.#systemManager;
 		const app = appsConfig.getAppByFileExtension(file?.extension);
@@ -120,6 +138,9 @@ export class WindowsManager {
 		}
 	}
 
+	/**
+	 * Close a window
+	 */
 	close(windowId: string) {
 		windowId = windowId.toString();
 
@@ -138,6 +159,9 @@ export class WindowsManager {
 		// console.log(this);
 	}
 
+	/**
+	 * Focus on a specific window
+	 */
 	focus(windowId: string) {
 		windowId = windowId.toString();
 
@@ -159,10 +183,16 @@ export class WindowsManager {
 		this.updateWindows(this.windows);
 	}
 
+	/**
+	 * Check whether a window is focused
+	 */
 	isFocused(windowId: string) {
 		return this.windows[windowId].isFocused;
 	}
 
+	/**
+	 * Check if any window is focused
+	 */
 	isAnyFocused() {
 		let anyFocused = false;
 
@@ -175,6 +205,7 @@ export class WindowsManager {
 	}
 
 	/**
+	 * Change the minimized state of a window
 	 * @param minimized - Leave as undefined to toggle the window's minimization state
 	 */
 	setMinimized(windowId: string, minimized?: boolean) {
@@ -191,6 +222,9 @@ export class WindowsManager {
 		this.updateWindows(this.windows);
 	}
 
+	/**
+	 * Minimize all windows
+	 */
 	minimizeAll() {
 		Object.values(this.windows).forEach((window) => {
 			window.minimized = true;
@@ -199,6 +233,9 @@ export class WindowsManager {
 		this.updateWindows(this.windows);
 	}
 
+	/**
+	 * Check if an app has an open window
+	 */
 	isAppActive(appId: string): boolean {
 		let active = false;
 
@@ -212,6 +249,9 @@ export class WindowsManager {
 		return active;
 	}
 
+	/**
+	 * Get an opened window of a certain app
+	 */
 	getAppWindowId(appId: string): string | null {
 		let windowId: string | null = null;
 
@@ -223,11 +263,11 @@ export class WindowsManager {
 		return windowId;
 	}
 
-	setUpdateWindows(updateWindows: Function) {
+	setUpdateWindows(updateWindows: WindowsManager["updateWindows"]) {
 		this.updateWindows = updateWindows;
 	}
 
-	startup(appIds: string[], options: {}) {
+	startup(appIds: string[], options: Record<string, unknown>) {
 		if (appIds == null || this.startupComplete)
 			return;
 

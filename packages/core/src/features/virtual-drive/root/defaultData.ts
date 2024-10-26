@@ -1,3 +1,4 @@
+import { FILE_SCHEMES } from "../../../constants/virtualDrive.const";
 import { SystemManager } from "../../system/systemManager";
 import { VirtualFile, VirtualFileLink } from "../file";
 import { VirtualFolder, VirtualFolderLink } from "../folder";
@@ -7,14 +8,14 @@ import { VirtualRoot } from "./virtualRoot";
  * Loads default data on the virtual root
  */
 export function loadDefaultData(systemManager: SystemManager, virtualRoot: VirtualRoot) {
-	const { skin, appsConfig } = systemManager;
+	const { skin, appsConfig, virtualDriveConfig } = systemManager;
 	const linkedPaths: Record<string, string> = {};
 	
-	virtualRoot.createFolder("home", (folder) => {
-		folder.createFolder("prozilla-os", (folder) => {
-			folder.setAlias("~")
-				.createFolder(".config", (folder) => {
-					folder.createFile("desktop", "xml", (file) => {
+	virtualRoot.createFolder("home", (homeFolder) => {
+		homeFolder.createFolder("prozilla-os", (userFolder) => {
+			userFolder.setAlias("~")
+				.createFolder(".config", (configFolder) => {
+					configFolder.createFile("desktop", "xml", (file) => {
 						file.setContent([
 							"<options>",
 							`	<wallpaper>${skin.defaultWallpaper}</wallpaper>`,
@@ -36,14 +37,16 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 					}).createFile("theme", "xml", (file) => {
 						file.setContent("<options><theme>0</theme></options>");
 					});
-				})
-				.createFolder("Pictures", (folder) => {
-					folder.setIconUrl(skin.folderIcons.images ?? skin.folderIcons.generic);
-					folder.createFolder("Wallpapers", (folder) => {
-						folder.setProtected(true);
+				});
+
+			if (virtualDriveConfig.defaultData.includePicturesFolder) {
+				userFolder.createFolder("Pictures", (picturesFolder) => {
+					picturesFolder.setIconUrl(skin.folderIcons.images ?? skin.folderIcons.generic);
+					picturesFolder.createFolder("Wallpapers", (wallpapersFolder) => {
+						wallpapersFolder.setProtected(true);
 						for (let i = 0; i < skin.wallpapers.length; i++) {
 							const source = skin.wallpapers[i];
-							folder.createFile(`Wallpaper${i + 1}`, "png", (file) => {
+							wallpapersFolder.createFile(`Wallpaper${i + 1}`, "png", (file) => {
 								file.setSource(source);
 							});
 						}
@@ -51,8 +54,8 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 						file.setSource("/assets/banner-logo-title.png");
 					}).createFile("Icon", "svg", (file) => {
 						file.setSource("/icon.svg");
-					}).createFolder("Crumbling City", (folder) => {
-						folder.createFile("Japan", "png", (file) => {
+					}).createFolder("Crumbling City", (crumblingCityFolder) => {
+						crumblingCityFolder.createFile("Japan", "png", (file) => {
 							file.setSource("https://daisygames.org/media/Games/Crumbling%20City/CrumblingCityRelease.png");
 						}).createFile("City Center", "png", (file) => {
 							file.setSource("https://daisygames.org/media/Games/Crumbling%20City/Screenshot_City_Firegun.png");
@@ -60,11 +63,14 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 							file.setSource("https://daisygames.org/media/Games/Crumbling%20City/Screenshot_Farms_Hammer.png");
 						});
 					});
-					linkedPaths.images = folder.path;
-				})
-				.createFolder("Documents", (folder) => {
-					folder.setIconUrl(skin.folderIcons.text ?? skin.folderIcons.generic);
-					folder.createFile("text", "txt", (file) => {
+					linkedPaths.images = picturesFolder.path;
+				});
+			}
+
+			if (virtualDriveConfig.defaultData.includeDocumentsFolder) {
+				userFolder.createFolder("Documents", (documentsFolder) => {
+					documentsFolder.setIconUrl(skin.folderIcons.text ?? skin.folderIcons.generic);
+					documentsFolder.createFile("text", "txt", (file) => {
 						file.setContent("Hello world!");
 					}).createFile("Info", "md", (file) => {
 						file.setProtected(true)
@@ -76,10 +82,13 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 							.setSource("/documents/prozilla.md");
 						linkedPaths.links = file.path;
 					});
-					linkedPaths.documents = folder.path;
-				})
-				.createFolder("Desktop", (folder) => {
-					folder.createFileLink("Info.md", (fileLink) => {
+					linkedPaths.documents = documentsFolder.path;
+				});
+			}
+
+			if (virtualDriveConfig.defaultData.includeDesktopFolder) {
+				userFolder.createFolder("Desktop", (desktopFolder) => {
+					desktopFolder.createFileLink("Info.md", (fileLink) => {
 						(fileLink as VirtualFileLink).setLinkedPath(linkedPaths.info);
 					}).createFileLink("Prozilla.md", (fileLink) => {
 						(fileLink as VirtualFileLink).setLinkedPath(linkedPaths.links);
@@ -87,53 +96,84 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 						(folderLink as VirtualFolderLink).setLinkedPath(linkedPaths.images);
 					}).createFolderLink("Documents", (folderLink) => {
 						(folderLink as VirtualFolderLink).setLinkedPath(linkedPaths.documents);
+					}).createFile("Documentation", undefined, (file) => {
+						file.setSource(FILE_SCHEMES.external + "https://os.prozilla.dev/docs/");
 					});
-				})
-				.createFolder("Audio", (folder) => {
-					folder.setIconUrl(skin.folderIcons.generic)
-						.createFile("Assasins Creed Rogue Theme", "mp3", (file) => {
-							file.setSource("https://vgmsite.com/soundtracks/assassin-s-creed-rogue-original-game-soundtrack/rgvmdtdtyv/01.%20Assassin%27s%20Creed%20Rogue%20Main%20Theme.mp3");
-						})
-						.createFile("Mortal Kombat theme", "mp3", (file) => {
-							file.setSource("https://kappa.vgmsite.com/soundtracks/mortal-kombat-vscdt-1487-1993/posqvhcduj/01.%20TECHNO-SYNDROME%207%27%27%20MIX.mp3");
+
+					appsConfig.apps.forEach((app) => {
+						if (!app.pinnedByDefault)
+							return;
+
+						desktopFolder.createFile(app.name, undefined, (file) => {
+							file.setSource(FILE_SCHEMES.app + app.id)
+								.setIconUrl(app.iconUrl);
 						});
-					linkedPaths.audio = folder.path;
-				})
-				.createFolder("Video", (folder) => {
-					folder.setIconUrl(skin.folderIcons.generic)
-						.createFile("Big Buck Bunny", "mp4", (file) => {
-							file.setSource("https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4");
-						})
-						.createFile("Recording 1", "webm", (file) => {
-							file.setSource("/assets/videos/recording1.webm");
-						})
-						.createFile("Recording 2", "webm", (file) => {
-							file.setSource("/assets/videos/recording2.webm");
-						})
-						.createFile("Jupiter Planetary Call", "yt", (file) => {
-							file.setSource("https://www.youtube.com/watch?v=PILhE8263rQ");
-						})
-						.createFile("Beyond the Classroom", "yt", (file) => {
-							file.setSource("https://www.youtube.com/watch?v=ME29dEfO2lI");
-						});
-					linkedPaths.video = folder.path;
-				})
-				.createFolder("Apps");
+					});
+				});
+			}
+
+			userFolder.createFolder("Audio", (folder) => {
+				folder.setIconUrl(skin.folderIcons.generic)
+					.createFile("Assasins Creed Rogue Theme", "mp3", (file) => {
+						file.setSource("https://vgmsite.com/soundtracks/assassin-s-creed-rogue-original-game-soundtrack/rgvmdtdtyv/01.%20Assassin%27s%20Creed%20Rogue%20Main%20Theme.mp3");
+					})
+					.createFile("Mortal Kombat theme", "mp3", (file) => {
+						file.setSource("https://kappa.vgmsite.com/soundtracks/mortal-kombat-vscdt-1487-1993/posqvhcduj/01.%20TECHNO-SYNDROME%207%27%27%20MIX.mp3");
+					});
+				linkedPaths.audio = folder.path;
+			});
+			
+			userFolder.createFolder("Video", (folder) => {
+				folder.setIconUrl(skin.folderIcons.generic)
+					.createFile("Big Buck Bunny", "mp4", (file) => {
+						file.setSource("https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4");
+					})
+					.createFile("Recording 1", "webm", (file) => {
+						file.setSource("/assets/videos/recording1.webm");
+					})
+					.createFile("Recording 2", "webm", (file) => {
+						file.setSource("/assets/videos/recording2.webm");
+					})
+					.createFile("Jupiter Planetary Call", "yt", (file) => {
+						file.setSource("https://www.youtube.com/watch?v=PILhE8263rQ");
+					})
+					.createFile("Beyond the Classroom", "yt", (file) => {
+						file.setSource("https://www.youtube.com/watch?v=ME29dEfO2lI");
+					});
+				linkedPaths.video = folder.path;
+			});
+			
+			userFolder.createFolder("Apps", (appsFolder) => {
+				appsConfig.apps.forEach((app) => {
+					appsFolder.createFile(app.name, undefined, (file) => {
+						file.setSource(FILE_SCHEMES.app + app.id)
+							.setIconUrl(app.iconUrl);
+					});
+				});
+			});
 		});
 	});
 
-	loadTree(virtualRoot);	
+	if (virtualDriveConfig.defaultData.includeSourceTree)
+		loadSourceTree(virtualRoot);
+
+	try {
+		virtualDriveConfig.defaultData.loadData?.(virtualRoot);
+	} catch (error) {
+		console.error(error);
+	}
 }
 
 // Create files and folders based on repository tree
-function loadTree(virtualRoot: VirtualRoot) {
+function loadSourceTree(virtualRoot: VirtualRoot) {
 	const excludedFiles = [
-		"/public/config/tree.json"
+		"/public/config/tree.json",
 	];
 
 	void fetch("/config/tree.json").then((response) => 
 		response.json()
 	).then(({ files, folders }: { files: string[], folders: string[] }) => {
+		// Add folders
 		folders.forEach((folderPath) => {
 			const lastSlashIndex = folderPath.lastIndexOf("/");
 
@@ -149,6 +189,7 @@ function loadTree(virtualRoot: VirtualRoot) {
 			parentFolder.createFolder(folderName);
 		});
 
+		// Add files
 		files.forEach((filePath) => {
 			if (excludedFiles.includes(filePath))
 				return;
@@ -177,6 +218,6 @@ function loadTree(virtualRoot: VirtualRoot) {
 			parentFolder.createFile(name, extension as string | undefined, callback);
 		});
 	}).catch(() => {
-		console.warn("Failed to load repository tree. Make sure the tree data is valid and up-to-date using 'npm run fetch'.");
+		console.warn("Failed to load source tree. Make sure the tree data is valid and up-to-date using the fetchRepository script.");
 	});
 }

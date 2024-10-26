@@ -7,7 +7,7 @@ import { useWindows } from "../../hooks/windows/windowsContext";
 import { removeDuplicatesFromArray } from "@prozilla-os/shared";
 
 export const WindowsView: FC = memo(() => {
-	const { systemName, tagLine } = useSystemManager();
+	const { systemName, tagLine, skin } = useSystemManager();
 	const settingsManager = useSettingsManager();
 	const windows = useWindows();
 	const windowsManager = useWindowsManager();
@@ -24,7 +24,7 @@ export const WindowsView: FC = memo(() => {
 	useEffect(() => {
 		const resetViewportTitleAndIcon = () => {
 			setViewportTitle(`${systemName} | ${tagLine}`);
-			setViewportIcon("/favicon.ico?v=6");
+			setViewportIcon(skin.systemIcon);
 		};
 
 		if (sortedWindows.length === 0 || sortedWindows[sortedWindows.length - 1].minimized)
@@ -78,9 +78,9 @@ export const WindowsView: FC = memo(() => {
 				position={position}
 				options={options}
 				minimized={minimized}
-				toggleMinimized={(event: Event) => {
-					event.preventDefault();
-					event.stopPropagation();
+				toggleMinimized={(event?: Event) => {
+					event?.preventDefault();
+					event?.stopPropagation();
 					windowsManager?.setMinimized(id as string, !minimized);
 				}}
 				fullscreen={fullscreen}

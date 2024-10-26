@@ -51,3 +51,8 @@ export const MEDIA_EXTENSIONS = [
 	...AUDIO_EXTENSIONS,
 	...VIDEO_EXTENSIONS
 ];
+
+export const FILE_SCHEMES = {
+	external: "ext://",
+	app: "app://",
+};

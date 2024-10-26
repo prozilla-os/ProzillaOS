@@ -15,8 +15,8 @@ export interface TerminalProps extends WindowProps {
 	input?: string;
 }
 
-interface HistoryEntry {
-	text: string;
+export interface HistoryEntry {
+	text?: string;
 	isInput: boolean;
 	value?: string;
 	clear?: boolean;
@@ -31,7 +31,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		isInput: false,
 	}]);
 	const virtualRoot = useVirtualRoot();
-	const [currentDirectory, setCurrentDirectory] = useState(virtualRoot?.navigate(startPath ?? "~"));
+	const [currentDirectory, setCurrentDirectory] = useState<VirtualFolder>(virtualRoot?.navigate(startPath ?? "~") as VirtualFolder);
 	const inputRef = useRef(null);
 	const [historyIndex, setHistoryIndex] = useState(0);
 	const [stream, setStream] = useState<Stream | null>(null);
@@ -83,7 +83,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	const promptOutput = (text: string) => {
 		pushHistory({
 			text,
-			isInput: false
+			isInput: false,
 		});
 	};
 
@@ -207,7 +207,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 				promptOutput,
 				pushHistory,
 				virtualRoot,
-				currentDirectory: currentDirectory as VirtualFolder,
+				currentDirectory: currentDirectory,
 				setCurrentDirectory,
 				username: USERNAME,
 				hostname: HOSTNAME,
@@ -241,7 +241,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		pushHistory({
 			text: prefix + value,
 			isInput: true,
-			value
+			value,
 		});
 
 		// Piping is used to chain commands
@@ -292,7 +292,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		setHistoryIndex(index);
 	};
 
-	const onKeyDown = (event: KeyboardEvent) => {
+	const onKeyDown = (event: React.KeyboardEvent) => {
 		const value = (event.target as HTMLInputElement).value;
 		const { key } = event;
 
@@ -310,7 +310,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		}
 	};
 
-	const onChange = (event: KeyboardEvent) => {
+	const onChange = (event: React.ChangeEvent) => {
 		const value = (event.target as HTMLInputElement).value;
 		return setInputValue(value);
 	};

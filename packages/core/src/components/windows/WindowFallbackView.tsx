@@ -8,7 +8,7 @@ export interface WindowFallbackViewProps {
 	error?: Error;
 	resetErrorBoundary?: unknown;
 	app?: App;
-	closeWindow?: Function
+	closeWindow?: () => void;
 }
 
 // I don't know why this component's type needs to be ReactNode instead of FC, it has something to do with the way it's implemented
@@ -30,7 +30,7 @@ export function WindowFallbackView({ error, resetErrorBoundary: _resetErrorBound
 				text: `${error.name}: ${error.message}`,
 				iconUrl: appsConfig.getAppById(app.id)?.iconUrl as string | undefined,
 				size: new Vector2(350, 150),
-				single: true
+				single: true,
 			});
 	}, [alerted, alert, app?.id, app?.name, error?.message, closeWindow, error?.name]);
 

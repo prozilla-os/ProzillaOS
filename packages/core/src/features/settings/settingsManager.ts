@@ -6,7 +6,7 @@ export class SettingsManager {
 		desktop: "~/.config/desktop.xml",
 		taskbar: "~/.config/taskbar.xml",
 		apps: "~/.config/apps.xml",
-		theme: "~/.config/theme.xml"
+		theme: "~/.config/theme.xml",
 	};
 
 	#pathToSettings: { [s: string]: Settings; } = {};

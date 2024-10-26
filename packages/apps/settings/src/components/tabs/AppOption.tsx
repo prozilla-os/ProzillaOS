@@ -8,7 +8,7 @@ import { removeFromArray } from "@prozilla-os/shared";
 interface AppOptionProps {
 	app: App;
 	pins: string[];
-	setPins: Function;
+	setPins: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export function AppOption({ app, pins, setPins: _setPins }: AppOptionProps) {
@@ -31,7 +31,7 @@ export function AppOption({ app, pins, setPins: _setPins }: AppOptionProps) {
 				const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.taskbar);
 				void settings?.set("pins", newPins.join(","));
 			}}/>
-		</Actions>
+		</Actions>,
 	});
 
 	return <div className={`${styles.Option} ${styles.OptionHorizontal}`}>

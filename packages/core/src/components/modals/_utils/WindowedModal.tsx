@@ -5,7 +5,6 @@ import styles from "./WindowedModal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Draggable from "react-draggable";
-import { ReactSVG } from "react-svg";
 import utilStyles from "../../../styles/utils.module.css";
 import { ModalProps } from "../ModalView";
 import { VectorImage } from "../../_utils/vector-image/VectorImage";
@@ -40,7 +39,7 @@ export function WindowedModal({ modal, params, children, ...props }: ModalProps)
 			top: -(modal?.position.y ?? 0) - 1,
 			bottom: (screenHeight ?? 0) - 55 - (modal?.position.y ?? 0),
 			left: -(modal?.size.x ?? 0) + 85 - (modal?.position.x ?? 0),
-			right: (screenWidth ?? 0) - 5 - (modal?.position.x ?? 0)
+			right: (screenWidth ?? 0) - 5 - (modal?.position.x ?? 0),
 		}}
 		cancel="button"
 		nodeRef={nodeRef}

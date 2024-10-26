@@ -1,19 +1,19 @@
 import { formatRelativeTime } from "@prozilla-os/shared";
 
 export class TimeManager {
-	static startDate: Date;
+	static START_DATE: Date;
 
 	/**
 	 * Resets the time
 	 */
 	static reset() {
-		TimeManager.startDate = new Date();
+		TimeManager.START_DATE = new Date();
 	}
 
 	/**
 	 * Get the current uptime
 	 */
 	static getUptime(precision = 2) {
-		return formatRelativeTime(TimeManager.startDate, precision, false);
+		return formatRelativeTime(TimeManager.START_DATE, precision, false);
 	}
 }

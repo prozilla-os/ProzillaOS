@@ -161,7 +161,7 @@ export class Chip {
 			name: this.name,
 			position: {
 				x: this.position.x,
-				y: this.position.y
+				y: this.position.y,
 			},
 		} as ChipJson;
 

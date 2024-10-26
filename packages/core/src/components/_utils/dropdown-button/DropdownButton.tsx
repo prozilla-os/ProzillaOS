@@ -3,7 +3,13 @@ import styles from "./DropdownButton.module.css";
 import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 import { formatShortcut } from "../../../features/_utils/keyboard.utils";
 
-export function DropdownButton({ label, options, shortcuts }: { label: string; options: { [s: string]: Function; }; shortcuts: { [s: string]: string[]; }; }) {
+interface DropdownButtonProps {
+	label: string;
+	options: Record<string, () => void>;
+	shortcuts: Record<string, string[]>;
+}
+
+export function DropdownButton({ label, options, shortcuts }: DropdownButtonProps) {
 	const [open, setOpen] = useState(false);
 	const [tabIndex, setTabIndex] = useState(-1);
 
@@ -19,7 +25,7 @@ export function DropdownButton({ label, options, shortcuts }: { label: string; o
 				</button>
 				{open && options
 					? (<div className={styles.Dropdown}>
-						{Object.entries(options).map(([label, callback]: [label: string, callback: Function]) =>
+						{Object.entries(options).map(([label, callback]: [label: string, callback: () => void]) =>
 							<button key={label} tabIndex={tabIndex} onClick={() => {
 								setOpen(false);
 								callback();

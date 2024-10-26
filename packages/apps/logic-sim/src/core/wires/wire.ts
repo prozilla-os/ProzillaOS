@@ -76,7 +76,7 @@ export class Wire {
 
 	toJson() {
 		const object = {
-			color: this.color
+			color: this.color,
 		} as WireJson;
 
 		if (this.inputPin != null)

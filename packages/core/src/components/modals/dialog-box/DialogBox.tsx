@@ -12,7 +12,7 @@ export function DialogBox({ modal, params, children, ...props }: ModalProps) {
 		const type = parseInt(attribute);
 
 		switch (type) {
-			case ModalsConfig.DIALOG_CONTENT_TYPES.CloseButton:
+			case ModalsConfig.DIALOG_CONTENT_TYPES.closeButton:
 				modal?.close();
 				break;
 		}

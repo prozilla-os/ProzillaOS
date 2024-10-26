@@ -2,6 +2,13 @@ import { OptionalInterface } from "../types/utils";
 
 interface SkinOptions {
 	/**
+	 * SVG icon for the system
+	 * @default
+	 * "https://os.prozilla.dev/icon.svg"
+	 */
+	systemIcon: string;
+
+	/**
 	 * Replacements for app icons based on app id
 	 */
 	appIcons?: { [key: string]: string };
@@ -31,6 +38,7 @@ interface SkinOptions {
 		info?: string;
 		text?: string;
 		code?: string;
+		external?: string;
 	};
 
 	/**
@@ -50,6 +58,7 @@ interface SkinOptions {
 }
 
 export class Skin {
+	systemIcon: SkinOptions["systemIcon"];
 	appIcons: SkinOptions["appIcons"];
 	appNames: SkinOptions["appNames"];
 	wallpapers: SkinOptions["wallpapers"];
@@ -59,6 +68,8 @@ export class Skin {
 	loadStyleSheet: SkinOptions["loadStyleSheet"];
 
 	constructor(options: OptionalInterface<SkinOptions> = {}) {
+		this.systemIcon = options.systemIcon ?? "https://os.prozilla.dev/icon.svg";
+
 		this.appIcons = options.appIcons;
 		this.appNames = options.appNames;
 
@@ -72,6 +83,8 @@ export class Skin {
 			"https://os.prozilla.dev/assets/wallpapers/colorful-mesh-gradient-red-green.png",
 			"https://os.prozilla.dev/assets/wallpapers/flame-abstract-wallpaper-orange.png",
 			"https://os.prozilla.dev/assets/wallpapers/wave-abstract-wallpaper-teal.png",
+			"https://os.prozilla.dev/assets/wallpapers/abstract-wallpaper-gradient-blue-dark.png",
+			"https://os.prozilla.dev/assets/wallpapers/abstract-wallpaper-gradient-red.png",
 		];
 		this.defaultWallpaper = options.defaultWallpaper ?? "https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png";
 
@@ -79,13 +92,14 @@ export class Skin {
 			generic: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file.svg",
 			text: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-text.svg",
 			info: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-info.svg",
-			code: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-code.svg"
+			code: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-code.svg",
+			external: "https://os.prozilla.dev/assets/apps/file-explorer/icons/file-external.svg",
 		};
 		this.folderIcons = options.folderIcons ?? {
 			generic: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder.svg",
 			images: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-images.svg",
 			text: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-text.svg",
-			link: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-link.svg"
+			link: "https://os.prozilla.dev/assets/apps/file-explorer/icons/folder-link.svg",
 		};
 
 		this.loadStyleSheet = options.loadStyleSheet;

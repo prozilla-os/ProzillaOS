@@ -59,7 +59,7 @@ export class VirtualFileLink extends VirtualFile {
 
 		const object = {
 			nam: this.name,
-			lnk: this.linkedPath
+			lnk: this.linkedPath,
 		};
 
 		return object;

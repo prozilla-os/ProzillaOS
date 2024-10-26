@@ -52,7 +52,7 @@ export class SystemManager {
 		taskbarConfig,
 		trackingConfig,
 		windowsConfig,
-		virtualDriveConfig
+		virtualDriveConfig,
 	}: SystemManagerParams) {
 		this.systemName = systemName ?? "ProzillaOS";
 		this.tagLine = tagLine ?? "Web-based Operating System";

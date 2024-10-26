@@ -1,14 +1,13 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
 node_modules
 dist
 cache
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.ini
-
 /tmp
 demo/public/config/tree.json
+vite.config.ts.timestamp-*.mjs
+.temp

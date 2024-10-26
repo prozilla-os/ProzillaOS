@@ -16,9 +16,9 @@ const RAINBOW = [
 
 export const lolcat = new Command()
 	.setManual({
-		purpose: "Display text with a rainbow effect"
+		purpose: "Display text with a rainbow effect",
 	})
-	.setExecute(function(args, params) {
+	.setExecute(function(_args, params) {
 		const { rawInputValue, timestamp } = params as ExecuteParams;
 		if (rawInputValue == null) return;
 		let rows = removeAnsi(rawInputValue).split("\n");

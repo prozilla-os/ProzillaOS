@@ -22,16 +22,16 @@ export const macOsSkin = new Skin({
 		"text-editor": "Notes",
 	},
 	wallpapers: [
-		"/assets/skins/mac/wallpapers/macos-monterey.jpg"
+		"/assets/skins/mac/wallpapers/macos-monterey.jpg",
 	],
 	defaultWallpaper: "/assets/skins/mac/wallpapers/macos-monterey.jpg",
 	fileIcons: {
-		generic: "/assets/skins/mac/apps/file-explorer/file.svg"
+		generic: "/assets/skins/mac/apps/file-explorer/file.svg",
 	},
 	folderIcons: {
-		generic: "/assets/skins/mac/apps/file-explorer/folder.svg"
+		generic: "/assets/skins/mac/apps/file-explorer/folder.svg",
 	},
 	loadStyleSheet: () => {
-		import("../../styles/skins/macOs.css");
-	}
+		void import("../../styles/skins/macOs.css");
+	},
 });

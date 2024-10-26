@@ -1,6 +1,7 @@
 import { APP_CATEGORIES } from "../../../constants/apps.const";
 import { App } from "../../";
 import { OptionalInterface } from "../../../types/utils";
+import { WindowProps } from "../../../components";
 
 export interface AppsConfigOptions {
 	/**
@@ -14,12 +15,12 @@ export class AppsConfig {
 	apps: AppsConfigOptions["apps"] = [];
 
 	static APP_ROLES = {
-		FileExplorer: "file-explorer",
-		Terminal: "terminal",
-		TextEditor: "text-editor",
-		Settings: "settings",
-		MediaViewer: "media-viewer",
-		Browser: "browser"
+		fileExplorer: "file-explorer",
+		terminal: "terminal",
+		textEditor: "text-editor",
+		settings: "settings",
+		mediaViewer: "media-viewer",
+		browser: "browser",
 	};
 
 	constructor(options: OptionalInterface<AppsConfigOptions> = {}) {
@@ -71,7 +72,7 @@ export class AppsConfig {
 			}
 		});
 
-		return resultApp ?? this.getAppByRole(AppsConfig.APP_ROLES.TextEditor);
+		return resultApp ?? this.getAppByRole(AppsConfig.APP_ROLES.textEditor);
 	}
 
 	/**
@@ -98,7 +99,7 @@ export class AppsConfig {
 
 		this.apps.forEach((app) => {
 			if (app.category == category) {
-				resultApps.push(app);
+				resultApps.push(app as App<WindowProps>);
 			}
 		});
 

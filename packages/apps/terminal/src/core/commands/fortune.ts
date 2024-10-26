@@ -56,7 +56,7 @@ const FORTUNES = [
 
 export const fortune = new Command()
 	.setManual({
-		purpose: "Tell fortune"
+		purpose: "Tell fortune",
 	})
 	.setExecute(function() {
 		return randomFromArray(FORTUNES);

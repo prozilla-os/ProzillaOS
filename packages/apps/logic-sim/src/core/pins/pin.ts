@@ -76,7 +76,7 @@ export class Pin {
 
 			const backgroundSize = {
 				x: textRect.x + PIN.label.padding * 2,
-				y: textRect.y + PIN.label.padding * 2
+				y: textRect.y + PIN.label.padding * 2,
 			};
 
 			this.circuit.drawRect(
@@ -117,7 +117,7 @@ export class Pin {
 		const object = {
 			name: this.name,
 			id: this.id,
-			position: this.position
+			position: this.position,
 		} as PinJson;
 
 		return object;

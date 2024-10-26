@@ -4,9 +4,9 @@ import { useState } from "react";
 export function useHistory<Type>(initialState: Type): {
 	history: Type[];
 	stateIndex: number;
-	pushState: Function;
-	undo: Function;
-	redo: Function;
+	pushState: (state: Type) => void;
+	undo: () => void;
+	redo: () => void;
 	undoAvailable: boolean;
 	redoAvailable: boolean;
 } {
@@ -19,7 +19,7 @@ export function useHistory<Type>(initialState: Type): {
 
 		let newHistory = [
 			state,
-			...history.slice(stateIndex, history.length)
+			...history.slice(stateIndex, history.length),
 		];
 
 		// Remove repeated states

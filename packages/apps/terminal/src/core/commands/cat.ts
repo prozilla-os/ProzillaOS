@@ -7,7 +7,7 @@ export const cat = new Command()
 	.setManual({
 		purpose: "Concetenate files and display on the terminal screen",
 		usage: "cat [options] [files]",
-		description: "Concetenate files to standard output."
+		description: "Concetenate files to standard output.",
 	})
 	.setExecute(function(this: Command, args, params) {
 		const { currentDirectory, options } = params as ExecuteParams;

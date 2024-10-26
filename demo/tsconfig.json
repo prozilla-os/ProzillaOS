@@ -11,7 +11,7 @@
 		"src",
 		"vite.config.ts",
 		"scripts",
-		"../packages/core/src/**/*",
+		"../packages/core/src/**/*"
 	],
 	"exclude": ["node_modules"]
 }

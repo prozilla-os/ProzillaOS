@@ -11,7 +11,7 @@ export const PACKAGES: PackageData[] = [
 	{
 		text: "prozilla-os",
 		link: "prozilla-os",
-		category: "Bundle"
+		category: "Bundle",
 	},
 	{
 		text: "@prozilla-os/core",
@@ -29,7 +29,7 @@ export const PACKAGES: PackageData[] = [
 						collapsed: true,
 						items: [
 							{ text: "App", link: "/app" },
-						]
+						],
 					},
 					{
 						text: "System",
@@ -42,8 +42,9 @@ export const PACKAGES: PackageData[] = [
 							{ text: "ModalsConfig", link: "/modals-config" },
 							{ text: "TaskbarConfig", link: "/taskbar-config" },
 							{ text: "TrackingConfig", link: "/tracking-config" },
+							{ text: "VirtualDriveConfig", link: "/virtual-drive-config" },
 							{ text: "WindowsConfig", link: "/windows-config" },
-						]
+						],
 					},
 					{
 						text: "Utils",
@@ -52,9 +53,9 @@ export const PACKAGES: PackageData[] = [
 						items: [
 							{ text: "TimeManager", link: "/time-manager" },
 							{ text: "Vector2", link: "/vector2" },
-						]
+						],
 					},
-				]
+				],
 			},
 			{
 				text: "Functions",
@@ -64,13 +65,13 @@ export const PACKAGES: PackageData[] = [
 					{ text: "Browser", link: "/browser" },
 					{ text: "Keyboard", link: "/keyboard" },
 					
-				]
+				],
 			},
 			{
 				text: "Constants",
-				link: "/constants"
+				link: "/constants",
 			},
-		]
+		],
 	},
 	{
 		text: "@prozilla-os/skins",
@@ -82,10 +83,10 @@ export const PACKAGES: PackageData[] = [
 				base: "/reference/skins/classes",
 				collapsed: false,
 				items: [
-					{ text: "Skin", link: "/skin" }
-				]
-			}
-		]
+					{ text: "Skin", link: "/skin" },
+				],
+			},
+		],
 	},
 	{
 		text: "@prozilla-os/shared",
@@ -98,7 +99,7 @@ export const PACKAGES: PackageData[] = [
 				collapsed: false,
 				items: [
 					{ text: "EventEmitter", link: "/event-emitter" },
-				]
+				],
 			},
 			{
 				text: "Constants",
@@ -106,7 +107,7 @@ export const PACKAGES: PackageData[] = [
 				collapsed: false,
 				items: [
 					{ text: "ANSI", link: "/ansi" },
-				]
+				],
 			},
 			{
 				text: "Functions",
@@ -117,9 +118,9 @@ export const PACKAGES: PackageData[] = [
 					{ text: "Date", link: "/date" },
 					{ text: "Math", link: "/math" },
 					{ text: "Number", link: "/number" },
-				]
-			}
-		]
+				],
+			},
+		],
 	},
 	{
 		text: "@prozilla-os/dev-tools",
@@ -133,9 +134,9 @@ export const PACKAGES: PackageData[] = [
 				items: [
 					{ text: "Console", link: "/console" },
 					{ text: "Vite", link: "/vite" },
-				]
-			}
-		]
+				],
+			},
+		],
 	},
 	{
 		text: "@prozilla-os/calculator",
@@ -171,7 +172,7 @@ export const PACKAGES: PackageData[] = [
 		text: "@prozilla-os/logic-sim",
 		link: "apps/logic-sim",
 		category: "Apps",
-	}
+	},
 ];
 
 export const packageSidebars = (packages: PackageData[]): DefaultTheme.Sidebar => {
@@ -186,10 +187,10 @@ export const packageSidebars = (packages: PackageData[]): DefaultTheme.Sidebar =
 					text,
 					items: [
 						{ text: "Info", link: "/" },
-						...items
-					]
-				}
-			]
+						...items,
+					],
+				},
+			],
 		};
 	});
 
@@ -204,13 +205,13 @@ export const packageReferenceItems = (packages: PackageData[]): DefaultTheme.Sid
 			categories[category] = {
 				text: category,
 				collapsed: true,
-				items: []
+				items: [],
 			};
 		}
 
 		categories[category].items?.push({
 			text,
-			link: "/" + link
+			link: "/" + link,
 		});
 	});
 

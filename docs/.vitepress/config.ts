@@ -16,7 +16,7 @@ export default defineConfig({
 		["link", { rel: "icon", href: "/docs/favicon.ico" }],
 		["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
 		["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
-		["link", { href: "https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap", rel: "stylesheet" }]
+		["link", { href: "https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap", rel: "stylesheet" }],
 	],
 
 	cleanUrls: true,
@@ -24,7 +24,7 @@ export default defineConfig({
 	outDir: "./dist",
 
 	sitemap: {
-		hostname: "https://os.prozilla.dev/docs/"
+		hostname: "https://os.prozilla.dev/docs/",
 	},
 
 	themeConfig: {
@@ -36,9 +36,9 @@ export default defineConfig({
 				base,
 				items: items.map(({ text, link }) => ({
 					text,
-					link: base ? base + link : link
-				}))
-			}) as DefaultTheme.NavItem)
+					link: base ? base + link : link,
+				})),
+			}) as DefaultTheme.NavItem),
 		],
 
 		sidebar: Object.assign(
@@ -51,32 +51,32 @@ export default defineConfig({
 
 		editLink: {
 			pattern: "https://github.com/prozilla-os/ProzillaOS/edit/main/docs/src/:path",
-			text: "Suggest changes to this page"
+			text: "Suggest changes to this page",
 		},
 
 		socialLinks: [
 			{ icon: "github", link: "https://github.com/prozilla-os/ProzillaOS" },
 			{ icon: "discord", link: "https://discord.gg/JwbyQP4tdz" },
-			{ icon: "npm", link: "https://www.npmjs.com/package/prozilla-os" }
+			{ icon: "npm", link: "https://www.npmjs.com/package/prozilla-os" },
 		],
 
 		logo: {
 			dark: "/logo-light.svg",
-			light: "/logo-dark.svg"
+			light: "/logo-dark.svg",
 		},
 
 		siteTitle: "ProzillaOS",
 		
 		footer: {
 			message: "Built by <strong><a href=\"https://prozilla.dev/\" target=\"_blank\">Prozilla</a></strong>",
-			copyright: "Copyright &copy; 2023-present Prozilla"
+			copyright: "Copyright &copy; 2023-present Prozilla",
 		},
 
 		search: {
 			provider: "local",
 			options: {
-				detailedView: true
-			}
+				detailedView: true,
+			},
 		},
 	},
 
@@ -114,13 +114,13 @@ export default defineConfig({
 	},
 
 	ignoreDeadLinks: [
-		/^https?:\/\/localhost/
+		/^https?:\/\/localhost/,
 	],
 
 	markdown: {
 		theme: {
 			dark: "material-theme",
-			light: "material-theme-lighter"
+			light: "material-theme-lighter",
 		},
 	},
 });

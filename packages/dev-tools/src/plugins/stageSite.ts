@@ -6,6 +6,11 @@ export interface StageOptions {
 	appsConfig: AppsConfig;
 
 	/**
+	 * Favicon of the website
+	 */
+	favicon: string;
+
+	/**
 	 * Name of the website 
 	 * @example "ProzillaOS"
 	 */
@@ -127,7 +132,7 @@ function generate404Page(context: PluginContext, template: string) {
 	context.emitFile({
 		type: "asset",
 		fileName: "404.html",
-		source: template
+		source: template,
 	});
 }
 
@@ -135,12 +140,13 @@ function generate404Page(context: PluginContext, template: string) {
  * Add an HTML file for every app page so they can be properly crawled and indexed
  */
 function generateAppPages(context: PluginContext, template: string, options: StageOptionsExtended) {
-	const { appsConfig, siteName, siteTagLine, baseUrl } = options;
+	const { appsConfig, favicon, siteName, siteTagLine, baseUrl } = options;
 
 	for (const app of appsConfig.apps) {
 		const appId = app.id;
 		const appName = app.name;
 		const appDescription = app.description ?? siteTagLine;
+		const appIcon = app.iconUrl ?? favicon;
 
 		if (appId === "index") {
 			print("Invalid app ID found: " + appId, "error");
@@ -158,18 +164,21 @@ function generateAppPages(context: PluginContext, template: string, options: Sta
 		const canonicalRegex = /(?<=(<link rel="canonical" href="|<meta name="twitter:url" content="|<meta property="og:url" content="))(http(s)?:\/\/[a-zA-Z-.]+\/)(?=("\/?>))/g;
 		html = html.replaceAll(canonicalRegex, baseUrl + appId);
 
+		const iconRegex = /(?<=<link [^>]*rel="icon" [^>]*href=")[^"]+(?="[^>]*>)/g;
+		html = html.replaceAll(iconRegex, `${appIcon}?x=${Math.round(Date.now() / 3_600_000)}`);
+
 		const faqRegex = /(<!-- FAQ -->.*?)?<script type="application\/ld\+json">.*?<\/script>/gs;
 		html = html.replaceAll(faqRegex, "");
 
 		context.emitFile({
 			type: "asset",
 			fileName: `${appId}.html`,
-			source: html
+			source: html,
 		});
 	}
 }
 
-function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, siteName, siteTagLine, domain, imageUrls = [] }: StageOptions) {
+function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, favicon, siteName, siteTagLine, domain, imageUrls = [] }: StageOptions) {
 	try {
 		print("Staging build...", "start", true);
 
@@ -190,19 +199,20 @@ function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, s
 
 		const extendedOptions = {
 			appsConfig,
+			favicon,
 			siteName,
 			siteTagLine,
 			domain,
 			baseUrl,
 			imageUrls,
-			paths
+			paths,
 		};
 	
 		files.forEach(([path, generateContent]) => {
 			context.emitFile({
 				type: "asset",
 				fileName: path,
-				source: generateContent(extendedOptions)
+				source: generateContent(extendedOptions),
 			});
 		});
 
@@ -213,7 +223,7 @@ function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, s
 			context.emitFile({
 				type: "asset",
 				fileName: "index.html",
-				source: template 
+				source: template, 
 			});
 	
 			generate404Page(context, template);

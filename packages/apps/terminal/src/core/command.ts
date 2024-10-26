@@ -1,5 +1,7 @@
 import { App, SettingsManager, SystemManager, VirtualFolder, VirtualRoot } from "@prozilla-os/core";
 import { Stream } from "./stream";
+import { Dispatch, SetStateAction } from "react";
+import { HistoryEntry } from "../components/Terminal";
 
 type Option = {
 	long: string,
@@ -9,16 +11,16 @@ type Option = {
 
 export type CommandResponse = string | { blank: boolean } | void | Stream;
 export type ExecuteParams = {
-	promptOutput?: Function,
-	pushHistory?: Function,
+	promptOutput?: (text: string) => void,
+	pushHistory?: (entry: HistoryEntry) => void,
 	virtualRoot?: VirtualRoot,
 	currentDirectory: VirtualFolder,
-	setCurrentDirectory?: Function,
+	setCurrentDirectory?: Dispatch<SetStateAction<VirtualFolder>>,
 	username?: string,
 	hostname?: string,
 	rawInputValue?: string,
 	options?: string[],
-	exit?: Function,
+	exit?: () => void,
 	inputs?: Record<string, string>,
 	timestamp: number,
 	settingsManager: SettingsManager,

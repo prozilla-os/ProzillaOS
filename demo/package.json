@@ -19,7 +19,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
-		"directory": "packages/demo"
+		"directory": "demo"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.5.2",
@@ -56,7 +56,7 @@
 		"eslint-plugin-react-refresh": "^0.4.7",
 		"gh-pages": "^6.1.1",
 		"stylelint": "^16.6.1",
-		"typescript": "^5.4.5",
+		"typescript": "^5.5.4",
 		"typescript-eslint": "^7.13.1",
 		"vite-node": "^2.1.2",
 		"vite-plugin-checker": "^0.7.1"

@@ -8,8 +8,9 @@ export const NAVIGATION: (DefaultTheme.NavItemChildren & DefaultTheme.SidebarIte
 		collapsed: false,
 		items: [
 			{ text: "Introduction", link: "/introduction" },
+			{ text: "Examples", link: "/examples" },
 			{ text: "Features", link: "/features" },
-		]
+		],
 	},
 	{
 		text: "Guides",
@@ -19,7 +20,7 @@ export const NAVIGATION: (DefaultTheme.NavItemChildren & DefaultTheme.SidebarIte
 			{ text: "Getting started", link: "/getting-started" },
 			{ text: "Custom app", link: "/custom-app" },
 			{ text: "Self-hosting", link: "/self-hosting" },
-		]
+		],
 	},
 	{
 		text: "Reference",
@@ -30,8 +31,8 @@ export const NAVIGATION: (DefaultTheme.NavItemChildren & DefaultTheme.SidebarIte
 			{ text: "Glossary", link: "/glossary" },
 			{ text: "Packages", link: "/packages" },
 			{
-				items: packageReferenceItems(PACKAGES) as DefaultTheme.SidebarItem[]
-			}
+				items: packageReferenceItems(PACKAGES),
+			},
 		] as (DefaultTheme.NavItemWithLink & DefaultTheme.SidebarItem)[],
-	}
+	},
 ];

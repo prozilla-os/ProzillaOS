@@ -11,7 +11,7 @@ export class Stream extends EventEmitter<typeof StreamEvents> {
 
 	enabled: boolean = false;
 
-	start(callback?: Function): Stream {
+	start(callback?: (stream: this) => void): Stream {
 		if (this.enabled)
 			return this;
 

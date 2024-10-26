@@ -4,7 +4,7 @@ import { Command, ExecuteParams } from "../command";
 export const rmdir = new Command()
 	.setRequireArgs(true)
 	.setManual({
-		purpose: "Remove a directory"
+		purpose: "Remove a directory",
 	})
 	.setExecute(function(this: Command, args, params) {
 		const { currentDirectory } = params as ExecuteParams;

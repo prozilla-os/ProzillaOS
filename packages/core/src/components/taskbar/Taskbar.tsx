@@ -22,7 +22,7 @@ import { useClassNames, useSystemManager } from "../../hooks";
 import { App, AppsConfig } from "../../features";
 
 export const Taskbar = memo(() => {
-	const { taskbarConfig, appsConfig } = useSystemManager();
+	const { taskbarConfig, appsConfig, skin } = useSystemManager();
 	const ref = useRef<HTMLDivElement>(null);
 	const settingsManager = useSettingsManager();
 	const [showHome, setShowHome] = useState(false);
@@ -33,7 +33,7 @@ export const Taskbar = memo(() => {
 		offset: 20,
 		blurRadius: 10,
 		spreadRadius: -10,
-		color: { a: 25 }
+		color: { a: 25 },
 	} });
 	const inputRef = useRef(null);
 	const windowsManager = useWindowsManager();
@@ -41,7 +41,7 @@ export const Taskbar = memo(() => {
 	const [apps, setApps] = useState<App[]>([]);
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.TASKBAR, index: 0 });
 
-	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.Settings);
+	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.settings);
 
 	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions avoidTaskbar={false} {...props}>
@@ -50,7 +50,7 @@ export const Taskbar = memo(() => {
 					windowsManager?.open(settingsApp.id);
 				}}/>
 			}
-		</Actions>
+		</Actions>,
 	});
 
 	useEffect(() => {
@@ -139,7 +139,7 @@ export const Taskbar = memo(() => {
 						className={`${styles.MenuButton} ${styles.HomeButton}`}
 						onClick={() => { updateShowHome(!showHome); }}
 					>
-						<ReactSVG src={"/icon.svg"}/>
+						<ReactSVG src={skin.systemIcon}/>
 					</button>
 					<HomeMenu active={showHome} setActive={updateShowHome} search={search}/>
 				</OutsideClickListener>
