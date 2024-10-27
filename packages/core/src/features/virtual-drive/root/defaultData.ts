@@ -106,7 +106,7 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 					});
 
 					appsConfig.apps.forEach((app) => {
-						if (!app.pinnedByDefault)
+						if (!app.showDesktopIcon)
 							return;
 
 						desktopFolder.createFile(app.name, undefined, (file) => {
@@ -117,14 +117,16 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 				});
 			}
 			
-			userFolder.createFolder("Apps", (appsFolder) => {
-				appsConfig.apps.forEach((app) => {
-					appsFolder.createFile(app.name, undefined, (file) => {
-						file.setSource(FILE_SCHEMES.app + app.id)
-							.setIconUrl(app.iconUrl);
+			if (virtualDriveConfig.defaultData.includeAppsFolder) {
+				userFolder.createFolder("Apps", (appsFolder) => {
+					appsConfig.apps.forEach((app) => {
+						appsFolder.createFile(app.name, undefined, (file) => {
+							file.setSource(FILE_SCHEMES.app + app.id)
+								.setIconUrl(app.iconUrl);
+						});
 					});
 				});
-			});
+			}
 		});
 	});
 

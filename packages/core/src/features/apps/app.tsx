@@ -81,6 +81,12 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	 */
 	metadata: AppMetadata | null = null;
 
+	/**
+	 * Determines whether a desktop icon is added to the default data
+	 * @default false
+	 */
+	showDesktopIcon: boolean = false;
+
 	isActive: boolean = false;
 	isPinned?: boolean;
 	isInstalled = true;
@@ -177,8 +183,19 @@ export class App<AppProps extends WindowProps = WindowProps> {
 		return this;
 	}
 
+	/**
+	 * Changes the metadata for this application
+	 */
 	setMetadata(metadata: AppMetadata | null): this {
 		this.metadata = metadata;
+		return this;
+	}
+
+	/**
+	 * Changes whether this application has a desktop icon in the default data
+	 */
+	setShowDesktopIcon(showDesktopIcon: boolean): this {
+		this.showDesktopIcon = showDesktopIcon;
 		return this;
 	}
 }

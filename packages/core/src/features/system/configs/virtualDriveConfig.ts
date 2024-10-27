@@ -36,6 +36,12 @@ export interface VirtualDriveConfigOptions {
 		 */
 		includeSourceTree?: boolean;
 
+		/**
+		 * Include apps folder in default data
+		 * @default true
+		 */
+		includeAppsFolder?: boolean;
+
 		loadData?: (virtualRoot: VirtualRoot) => void;
 	};
 }
@@ -54,6 +60,7 @@ export class VirtualDriveConfig {
 			includeDocumentsFolder: true,
 			includeDesktopFolder: true,
 			includeSourceTree: true,
+			includeAppsFolder: true,
 			...defaultData,
 		};
 	}

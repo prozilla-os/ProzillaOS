@@ -44,6 +44,7 @@ export const virtualDriveConfig = new VirtualDriveConfig({
 		includeDocumentsFolder: false,
 		includePicturesFolder: false,
 		includeSourceTree: false,
+		includeAppsFolder: false,
 		loadData,
 	},
 });

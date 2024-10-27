@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/app-center",
 	"description": "A ProzillaOS application for browsing and installing applications.",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"homepage": "https://os.prozilla.dev/app-center",
 	"author": {
 		"name": "Prozilla",

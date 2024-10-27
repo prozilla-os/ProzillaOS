@@ -1,5 +1,11 @@
 # @prozilla-os/core
 
+## 1.3.7
+
+### Patch Changes
+
+- Added app desktop icons
+
 ## 1.3.6
 
 ### Patch Changes

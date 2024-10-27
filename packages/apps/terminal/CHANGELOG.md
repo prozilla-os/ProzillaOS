@@ -1,5 +1,12 @@
 # @prozilla-os/terminal
 
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.7
+
 ## 1.1.12
 
 ### Patch Changes
