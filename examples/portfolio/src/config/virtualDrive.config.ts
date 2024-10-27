@@ -1,6 +1,7 @@
-import { VirtualDriveConfig, VirtualFolder, VirtualRoot } from "prozilla-os";
+import { FILE_SCHEMES, removeUrlProtocol, VirtualDriveConfig, VirtualFolder, VirtualRoot } from "prozilla-os";
 import { PROJECTS } from "../constants/projects";
 import { BLOG } from "../constants/blog";
+import { LINKS } from "../constants/links";
 
 function loadData(virtualRoot: VirtualRoot) {
 	const userFolder = virtualRoot.navigate("~");
@@ -29,7 +30,14 @@ function loadData(virtualRoot: VirtualRoot) {
 			});
 		});
 
-		desktopFolder.createFolder("Links");
+		desktopFolder.createFolder("Links", (linksFolder) => {
+			LINKS.forEach((link) => {
+				linksFolder.createFile(removeUrlProtocol(link.url), undefined, (file) => {
+					file.setIconUrl(link.icon)
+						.setSource(FILE_SCHEMES.external + link.url);
+				});
+			});
+		});
 
 		desktopFolder.createFile("AboutMe", "md", (file) => {
 			file.setSource("documents/about-me.md");
