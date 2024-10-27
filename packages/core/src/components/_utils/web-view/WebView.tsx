@@ -35,13 +35,21 @@ export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source
 		setHovered(false);
 	};
 
+	const iframeProps = { ...props };
+
+	delete iframeProps.active;
+	delete iframeProps.close;
+	delete iframeProps.setTitle;
+	delete iframeProps.setIconUrl;
+	delete iframeProps.standalone;
+
 	return <div className={styles.WebView} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
 		<iframe
 			ref={ref}
 			src={source}
 			referrerPolicy="no-referrer"
 			sandbox="allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts"
-			{...props}
+			{...iframeProps}
 		/>
 	</div>;
 }) as FC;

@@ -164,7 +164,7 @@ function generateAppPages(context: PluginContext, template: string, options: Sta
 		const canonicalRegex = /(?<=(<link rel="canonical" href="|<meta name="twitter:url" content="|<meta property="og:url" content="))(http(s)?:\/\/[a-zA-Z-.]+\/)(?=("\/?>))/g;
 		html = html.replaceAll(canonicalRegex, baseUrl + appId);
 
-		const iconRegex = /(?<=<link [^>]*rel="icon" [^>]*href=")[^"]+(?="[^>]*>)/g;
+		const iconRegex = /(?<=<link [^>]*rel="(apple-touch-)?icon" [^>]*href=")[^"]+(?="[^>]*>)/g;
 		html = html.replaceAll(iconRegex, `${appIcon}?x=${Math.round(Date.now() / 3_600_000)}`);
 
 		const faqRegex = /(<!-- FAQ -->.*?)?<script type="application\/ld\+json">.*?<\/script>/gs;

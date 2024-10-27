@@ -37,13 +37,18 @@ export function setViewportTitle(title: string) {
 }
 
 export function setViewportIcon(url: string) {
-	let link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
-	if (link == null) {
-		link = document.createElement("link");
+	const links = document.querySelectorAll("link[rel~='icon'], link[rel~='apple-touch-icon']");
+
+	if (links.length == 0) {
+		const link = document.createElement("link");
 		link.rel = "icon";
+		link.href = url;
 		document.head.appendChild(link);
 	}
-	link.href = url;
+
+	links.forEach((link) => {
+		(link as HTMLLinkElement).href = url;
+	});
 }
 
 export function getViewportParams(): Record<string, string> {

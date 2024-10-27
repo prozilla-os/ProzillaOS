@@ -73,8 +73,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
       '@prozilla-os/ball-maze':
-        specifier: latest
-        version: 1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.0.6
+        version: 1.0.6(react@18.3.1)
       '@prozilla-os/bliss-radio':
         specifier: latest
         version: 1.0.6
@@ -82,14 +82,14 @@ importers:
         specifier: workspace:*
         version: link:../packages/apps/logic-sim
       '@prozilla-os/minesweeper':
-        specifier: latest
-        version: 1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.0.6
+        version: 1.0.6(react@18.3.1)
       '@prozilla-os/skins':
         specifier: workspace:*
         version: link:../packages/skins
       '@prozilla-os/wordle':
-        specifier: latest
-        version: 1.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.1.7
+        version: 1.1.7(react@18.3.1)
       '@taygotfound/melodix':
         specifier: latest
         version: 2.0.5
@@ -1019,6 +1019,10 @@ packages:
     resolution: {integrity: sha512-UwgBRMjJP+xv857DCngvqXI3Iq6J4v0wXmwc6sapg+zyhbwmQX67LUEFrkK5tbyJ30jGuG3ZvWpBiB9LCy1kWw==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/runtime@7.26.0':
+    resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/template@7.25.7':
     resolution: {integrity: sha512-wRwtAgI3bAS+JGU2upWNL9lSlDcRCqD05BZ1n3X2ONLH1WilFP6O1otQjeMK/1g0pvYcXC7b/qVUB1keofjtZA==}
     engines: {node: '>=6.9.0'}
@@ -1391,8 +1395,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@prozilla-os/ball-maze@1.0.5':
-    resolution: {integrity: sha512-NmS1Sxjis0vIsdh+w6pu+QF8XXDQdYqM++eNrkpbq8Xd+FLQ9SZE5m6D4fA0oQLrP7dIjYwJg4Z0Gu8rwlhhzg==}
+  '@prozilla-os/ball-maze@1.0.6':
+    resolution: {integrity: sha512-qS53rczlb6VUbSYo+Z/HdPRPybev415zzglF46so86VUOgh6CAULXtI7EN9WnfZJ2M5t4RK7mzDq54k/Mk1e7g==}
     peerDependencies:
       react: ^18.3.1
 
@@ -1404,8 +1408,13 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/minesweeper@1.0.5':
-    resolution: {integrity: sha512-R6XErjltAP7fJocU4YCAf8NXFvG9+459XwSzgfJ5VucaspacIW1R01WrV1+hJ9uPfI0Gm0Th+Crf4WFsXeFX+w==}
+  '@prozilla-os/core@1.3.6':
+    resolution: {integrity: sha512-7YX2TYguC8Jjji9JPy7raXAmgeP1vC5B3xjuVwDEmG+lEaL6jKMwj9fGZ85ANTVrtdidqaHagjbavSIVviteYw==}
+    peerDependencies:
+      react: ^18.3.1
+
+  '@prozilla-os/minesweeper@1.0.6':
+    resolution: {integrity: sha512-edbHU2uEV/QBZcxpJb4inNWan1SUwMPKkD4msJsobWjsdaNywT+7N+leRui/AcTKhRG9WQCHYG5FO46LlFXEmg==}
     peerDependencies:
       react: ^18.3.1
 
@@ -1417,8 +1426,13 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/wordle@1.1.6':
-    resolution: {integrity: sha512-B5xWBkAFXXHxh7xxs7NnHQqmc93sBrw9ALeD3zy+hGWEkFS2MJM2Tpmjv624WU287Vx8BRBICaLBeU+l1g7QHA==}
+  '@prozilla-os/skins@1.1.6':
+    resolution: {integrity: sha512-bW8pd6KYb8pLLPII/Vp6nFln0EhsOrfETQ4tkmHVV8TZj6gyZMBJuFHnQ9kQPjFPj++HiMCebY8JLEqV15Z50g==}
+    peerDependencies:
+      react: ^18.3.1
+
+  '@prozilla-os/wordle@1.1.7':
+    resolution: {integrity: sha512-r8Ag0tKayKGXP2FmPb5RZqVxprJff9Kl+yiQv3DHRIXlI3kNI61JS66Lhu0o+DU9Ye+7hNWHk7yVhJS7QTW3ZQ==}
     peerDependencies:
       react: ^18.3.1
 
@@ -3528,6 +3542,11 @@ packages:
     peerDependencies:
       react: '>=16.13.1'
 
+  react-error-boundary@4.1.2:
+    resolution: {integrity: sha512-GQDxZ5Jd+Aq/qUxbCm1UtzmL/s++V7zKgE8yMktJiCQXCCFZnMZh9ng+6/Ne6PjNSXH0L9CjeOEREfRnq6Duag==}
+    peerDependencies:
+      react: '>=16.13.1'
+
   react-ga4@2.1.0:
     resolution: {integrity: sha512-ZKS7PGNFqqMd3PJ6+C2Jtz/o1iU9ggiy8Y8nUeksgVuvNISbmrQtJiZNvC/TjDsqD0QlU5Wkgs7i+w9+OjHhhQ==}
 
@@ -4485,6 +4504,10 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
+  '@babel/runtime@7.26.0':
+    dependencies:
+      regenerator-runtime: 0.14.1
+
   '@babel/template@7.25.7':
     dependencies:
       '@babel/code-frame': 7.25.7
@@ -4941,12 +4964,10 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prozilla-os/ball-maze@1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@prozilla-os/ball-maze@1.0.6(react@18.3.1)':
     dependencies:
-      '@prozilla-os/core': 1.3.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@prozilla-os/core': 1.3.6(react@18.3.1)
       react: 18.3.1
-    transitivePeerDependencies:
-      - react-dom
 
   '@prozilla-os/bliss-radio@1.0.6':
     dependencies:
@@ -4973,12 +4994,25 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@prozilla-os/minesweeper@1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@prozilla-os/core@1.3.6(react@18.3.1)':
     dependencies:
-      '@prozilla-os/core': 1.3.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@fortawesome/fontawesome-svg-core': 6.6.0
+      '@fortawesome/free-regular-svg-icons': 6.6.0
+      '@fortawesome/free-solid-svg-icons': 6.6.0
+      '@fortawesome/react-fontawesome': 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
+      '@prozilla-os/shared': 1.2.0
+      '@prozilla-os/skins': 1.1.6(react@18.3.1)
       react: 18.3.1
-    transitivePeerDependencies:
-      - react-dom
+      react-dom: 18.3.1(react@18.3.1)
+      react-draggable: 4.4.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-error-boundary: 4.1.2(react@18.3.1)
+      react-ga4: 2.1.0
+      react-svg: 16.1.34(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+
+  '@prozilla-os/minesweeper@1.0.6(react@18.3.1)':
+    dependencies:
+      '@prozilla-os/core': 1.3.6(react@18.3.1)
+      react: 18.3.1
 
   '@prozilla-os/shared@1.2.0': {}
 
@@ -4986,16 +5020,18 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@prozilla-os/wordle@1.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@prozilla-os/skins@1.1.6(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+
+  '@prozilla-os/wordle@1.1.7(react@18.3.1)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.6.0
       '@fortawesome/free-solid-svg-icons': 6.6.0
       '@fortawesome/react-fontawesome': 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
-      '@prozilla-os/core': 1.3.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@prozilla-os/core': 1.3.6(react@18.3.1)
       '@prozilla-os/shared': 1.2.0
       react: 18.3.1
-    transitivePeerDependencies:
-      - react-dom
 
   '@remix-run/router@1.19.2': {}
 
@@ -7421,6 +7457,11 @@ snapshots:
   react-error-boundary@4.0.13(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.24.7
+      react: 18.3.1
+
+  react-error-boundary@4.1.2(react@18.3.1):
+    dependencies:
+      '@babel/runtime': 7.26.0
       react: 18.3.1
 
   react-ga4@2.1.0: {}
