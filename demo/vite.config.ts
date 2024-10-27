@@ -18,7 +18,7 @@ const ENABLE_ALIASES = true;
  * Enables importing local packages from their dist (build) directory instead of their src directory
  * Useful for testing builds before publishing
  */
-const USE_PACKAGE_BUILDS = false;
+const USE_PACKAGE_BUILDS = true;
 
 function generateAliases() {
 	if (!ENABLE_ALIASES) return {};

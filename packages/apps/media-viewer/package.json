@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/media-viewer",
 	"description": "A ProzillaOS application for viewing different kinds of media.",
-	"version": "1.1.9",
+	"version": "1.1.11",
 	"homepage": "https://os.prozilla.dev/media-viewer",
 	"author": {
 		"name": "Prozilla",

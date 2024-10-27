@@ -25,5 +25,5 @@ If you want me to continue developing ProzillaOS and adding awesome features, co
 
 ## Resources
 
-- [Design system - Figma](https://www.figma.com/design/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?node-id=0-1&t=gbL2aXquEjAJdtM7-1)
+- [Design system - Figma](https://www.figma.com/community/file/1432317697123280442/prozillaos-design-system)
 - [Task board - Notion](https://prozilla.notion.site/8325fabca1fb4f9885b6d6dfd5aa64c8)

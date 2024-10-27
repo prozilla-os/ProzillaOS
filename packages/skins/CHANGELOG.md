@@ -1,5 +1,17 @@
 # @prozilla-os/skins
 
+## 1.1.6
+
+### Patch Changes
+
+- Fixed internal dependency resolution
+
+## 1.1.5
+
+### Patch Changes
+
+- Fixed skin loading
+
 ## 1.1.4
 
 ### Patch Changes

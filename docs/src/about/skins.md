@@ -8,7 +8,7 @@ image: "https://os.prozilla.dev/docs/screenshots/skins/mac.png"
 
 {{ $frontmatter.description }}
 
-For more information about how to use skins, read the [documentation](../reference/skins/classes/skin). You can find the Figma file for the assets of ProzillaOS [here](https://www.figma.com/design/bEE5RyWgV0QILcXpZWEk2r/ProzillaOS?node-id=0-1&t=gbL2aXquEjAJdtM7-1).
+For more information about how to use skins, read the [documentation](../reference/skins/classes/skin). You can find the Figma file for the assets of ProzillaOS [here](https://www.figma.com/community/file/1432317697123280442/prozillaos-design-system).
 
 ## [Default](https://os.prozilla.dev/)
 

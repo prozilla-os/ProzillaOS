@@ -1,5 +1,35 @@
 # prozilla-os
 
+## 1.3.6
+
+### Patch Changes
+
+- Fixed internal dependency resolution
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.1.11
+  - @prozilla-os/media-viewer@1.1.11
+  - @prozilla-os/text-editor@1.1.11
+  - @prozilla-os/app-center@1.0.4
+  - @prozilla-os/calculator@1.1.11
+  - @prozilla-os/settings@1.1.11
+  - @prozilla-os/terminal@1.1.12
+  - @prozilla-os/browser@1.1.11
+  - @prozilla-os/core@1.3.6
+
+## 1.3.5
+
+### Patch Changes
+
+- @prozilla-os/settings@1.1.10
+- @prozilla-os/terminal@1.1.11
+- @prozilla-os/core@1.3.5
+- @prozilla-os/app-center@1.0.3
+- @prozilla-os/browser@1.1.10
+- @prozilla-os/calculator@1.1.10
+- @prozilla-os/file-explorer@1.1.10
+- @prozilla-os/media-viewer@1.1.10
+- @prozilla-os/text-editor@1.1.10
+
 ## 1.3.4
 
 ### Patch Changes

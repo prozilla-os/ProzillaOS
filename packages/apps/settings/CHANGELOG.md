@@ -1,5 +1,24 @@
 # @prozilla-os/settings
 
+## 1.1.11
+
+### Patch Changes
+
+- Fixed internal dependency resolution
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.1.11
+  - @prozilla-os/skins@1.1.6
+  - @prozilla-os/core@1.3.6
+
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.5
+  - @prozilla-os/core@1.3.5
+  - @prozilla-os/file-explorer@1.1.10
+
 ## 1.1.9
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @prozilla-os/core
 
+## 1.3.6
+
+### Patch Changes
+
+- Fixed internal dependency resolution
+- Updated dependencies
+  - @prozilla-os/skins@1.1.6
+
+## 1.3.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.5
+
 ## 1.3.4
 
 ### Patch Changes
