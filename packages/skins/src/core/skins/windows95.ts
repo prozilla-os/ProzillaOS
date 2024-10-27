@@ -1,6 +1,9 @@
 import { Theme } from "../../types";
 import { Skin } from "../skin";
 
+/**
+ * A skin inspired by the Windows95 interface
+ */
 export const windows95Skin = new Skin({
 	systemIcon: "/assets/skins/windows95/system-icon.png",
 	appIcons: {

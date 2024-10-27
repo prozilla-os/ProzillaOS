@@ -228,18 +228,6 @@
 	--vp-custom-block-details-code-bg: var(--vp-c-bg);
 }
 
-/**
- * Component: Algolia
- * -------------------------------------------------------------------------- */
-
-.DocSearch {
-	--docsearch-primary-color: var(--vp-c-brand-1) !important;
-}
-
-/**
- * Custom styles
- * -------------------------------------------------------------------------- */
-
 .custom-block {
 	--vp-code-block-bg: var(--vp-c-bg);
 
@@ -268,8 +256,31 @@
 	fill: currentColor;
 }
 
-.custom-block.note a, .custom-block.note code {
+
+.custom-block.tip a {
+	color: var(--vp-c-tip-3);
+}
+
+.custom-block.tip code {
+	color: var(--vp-c-tip-1);
+}
+
+.custom-block.tip a:hover,
+.custom-block.tip a:hover > code {
+	color: var(--vp-c-tip-2);
+}
+
+.custom-block.note a {
+	color: var(--vp-c-note-3);
+}
+
+.custom-block.note code {
 	color: var(--vp-c-note-1);
+}
+
+.custom-block.note a:hover,
+.custom-block.note a:hover > code {
+	color: var(--vp-c-note-2);
 }
 
 .custom-block.caution {
@@ -323,6 +334,18 @@
 .custom-block li + li {
 	margin-top: 4px !important;
 }
+
+/**
+ * Component: Algolia
+ * -------------------------------------------------------------------------- */
+
+.DocSearch {
+	--docsearch-primary-color: var(--vp-c-brand-1) !important;
+}
+
+/**
+ * Custom styles
+ * -------------------------------------------------------------------------- */
 
 li > p {
 	margin: 0 !important;
@@ -447,13 +470,4 @@ li > p {
 
 .VPSwitch .check .icon [class^="vpi-"] {
 	color: var(--vp-c-text-2);
-}
-
-.custom-block.note a, .custom-block.note code {
-	color: var(--vp-c-note-3);
-}
-
-.custom-block.note a:hover,
-.custom-block.note a:hover > code {
-	color: var(--vp-c-note-2);
 }

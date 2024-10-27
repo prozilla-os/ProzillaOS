@@ -138,9 +138,11 @@ function loadStyleSheet() {
 
 ## Instances
 
+For more information about the designs of these skins, refer to the [skins page](../../../about/skins).
+
 ### macOsSkin
 
-A skin inspired by the macOS interface
+A skin inspired by the MacOS interface
 
 #### Preview
 
@@ -189,6 +191,36 @@ export function App(): ReactElement {
 		systemName={"Example"}
 		tagLine={"Powered by ProzillaOS"}
 		skin={minimalSkin} // [!code highlight]
+	>
+		<Taskbar/>
+		<WindowsView/>
+		<ModalsView/>
+		<Desktop/>
+	</ProzillaOS>;
+}
+```
+
+### windows95Skin
+
+A skin inspired by the Windows95 interface
+
+#### Preview
+
+![Preview of the Windows95 skin](/screenshots/skins/windows95.png)
+
+#### Example
+
+```tsx
+// App.tsx
+
+import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView } from "prozilla-os";
+import { windows95Skin } from "@prozilla-os/skins"; // [!code highlight]
+
+export function App(): ReactElement {
+	return <ProzillaOS
+		systemName={"Example"}
+		tagLine={"Powered by ProzillaOS"}
+		skin={windows95Skin} // [!code highlight]
 	>
 		<Taskbar/>
 		<WindowsView/>

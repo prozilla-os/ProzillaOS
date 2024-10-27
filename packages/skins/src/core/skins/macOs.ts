@@ -1,5 +1,8 @@
 import { Skin } from "../skin";
 
+/**
+ * A skin inspired by the MacOS interface
+ */
 export const macOsSkin = new Skin({
 	appIcons: {
 		"ball-maze": "/assets/skins/mac/apps/icons/ball-maze.svg",

@@ -37,11 +37,14 @@ export const appsConfig = new AppsConfig({
 			.setDescription(`Browse and install ${NAME} apps.`)
 			.setPinnedByDefault(false),
 		wordle.setIconUrl("/assets/apps/icons/wordle.svg")
-			.setPinnedByDefault(false),
+			.setPinnedByDefault(false)
+			.setShowDesktopIcon(true),
 		ballMaze.setIconUrl("/assets/apps/icons/ball-maze.svg")
-			.setPinnedByDefault(false),
+			.setPinnedByDefault(false)
+			.setShowDesktopIcon(true),
 		minesweeper.setIconUrl("/assets/apps/icons/minesweeper.svg")
-			.setPinnedByDefault(false),
+			.setPinnedByDefault(false)
+			.setShowDesktopIcon(true),
 		logicSim.setName("Logic Sim (WIP)")
 			.setDescription("Create digital logic circuits using the online simulator.")
 			.setIconUrl("/assets/apps/icons/logic-sim.svg"),

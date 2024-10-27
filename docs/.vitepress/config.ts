@@ -2,6 +2,7 @@ import { DefaultTheme, defineConfig, HeadConfig } from "vitepress";
 import { PACKAGES, packageSidebars } from "./packages.config";
 import { DESCRIPTION, IMAGE, LOCALE, TITLE } from "./meta.config";
 import { NAVIGATION } from "./nav.config";
+import lightbox from "vitepress-plugin-lightbox";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -121,6 +122,9 @@ export default defineConfig({
 		theme: {
 			dark: "material-theme",
 			light: "material-theme-lighter",
+		},
+		config: (markdown) => {
+			markdown.use(lightbox, {});
 		},
 	},
 });

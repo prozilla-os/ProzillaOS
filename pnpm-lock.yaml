@@ -73,8 +73,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
       '@prozilla-os/ball-maze':
-        specifier: ^1.0.6
-        version: 1.0.6(react@18.3.1)
+        specifier: ^1.0.7
+        version: 1.0.7(react@18.3.1)
       '@prozilla-os/bliss-radio':
         specifier: latest
         version: 1.0.6
@@ -82,14 +82,14 @@ importers:
         specifier: workspace:*
         version: link:../packages/apps/logic-sim
       '@prozilla-os/minesweeper':
-        specifier: ^1.0.6
-        version: 1.0.6(react@18.3.1)
+        specifier: ^1.0.7
+        version: 1.0.7(react@18.3.1)
       '@prozilla-os/skins':
         specifier: workspace:*
         version: link:../packages/skins
       '@prozilla-os/wordle':
-        specifier: ^1.1.7
-        version: 1.1.7(react@18.3.1)
+        specifier: ^1.1.8
+        version: 1.1.8(react@18.3.1)
       '@taygotfound/melodix':
         specifier: latest
         version: 2.0.5
@@ -190,6 +190,9 @@ importers:
       vitepress:
         specifier: ^1.3.4
         version: 1.4.0(@algolia/client-search@4.24.0)(@types/node@20.16.11)(@types/react@18.3.11)(axios@1.7.7)(less@4.2.0)(postcss@8.4.47)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.2)(typescript@5.6.3)
+      vitepress-plugin-lightbox:
+        specifier: ^1.0.2
+        version: 1.0.2
       vue:
         specifier: ^3.4.31
         version: 3.5.11(typescript@5.6.3)
@@ -1395,8 +1398,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@prozilla-os/ball-maze@1.0.6':
-    resolution: {integrity: sha512-qS53rczlb6VUbSYo+Z/HdPRPybev415zzglF46so86VUOgh6CAULXtI7EN9WnfZJ2M5t4RK7mzDq54k/Mk1e7g==}
+  '@prozilla-os/ball-maze@1.0.7':
+    resolution: {integrity: sha512-PNgoq560biuTIsF2tPxn8Ue3Ytbp6iU0SSMdEQqW4Vq/w3kRAsajhf5+lBy/gCTw1TCHXZU/VNAZp1AmG526Jg==}
     peerDependencies:
       react: ^18.3.1
 
@@ -1408,13 +1411,13 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/core@1.3.6':
-    resolution: {integrity: sha512-7YX2TYguC8Jjji9JPy7raXAmgeP1vC5B3xjuVwDEmG+lEaL6jKMwj9fGZ85ANTVrtdidqaHagjbavSIVviteYw==}
+  '@prozilla-os/core@1.3.7':
+    resolution: {integrity: sha512-x3wnGyBxO6qCHMuRa4jzUZFmnKDD6tR0PPz/ZAo2cfnCZ1aerzncbiAFCg6JC4qMoBxPBykevWOVls+wgo8oHw==}
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/minesweeper@1.0.6':
-    resolution: {integrity: sha512-edbHU2uEV/QBZcxpJb4inNWan1SUwMPKkD4msJsobWjsdaNywT+7N+leRui/AcTKhRG9WQCHYG5FO46LlFXEmg==}
+  '@prozilla-os/minesweeper@1.0.7':
+    resolution: {integrity: sha512-yWeEP2rvbqXgic+J3mx/HM5GCc2EHKV4LsI3Q9p/NWbg2F/A35N9RtNAUCNQf2njfzNKH/OfVUuXP465id8p/Q==}
     peerDependencies:
       react: ^18.3.1
 
@@ -1431,8 +1434,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/wordle@1.1.7':
-    resolution: {integrity: sha512-r8Ag0tKayKGXP2FmPb5RZqVxprJff9Kl+yiQv3DHRIXlI3kNI61JS66Lhu0o+DU9Ye+7hNWHk7yVhJS7QTW3ZQ==}
+  '@prozilla-os/wordle@1.1.8':
+    resolution: {integrity: sha512-9m4mZYfl+RQMe9EpN6RQJtsL2p2gwgoXfipsgJtIDXZdzZjaUrmH+KacsDdRDct0Xo1eS+DxQLo7lHTHI6MKew==}
     peerDependencies:
       react: ^18.3.1
 
@@ -3191,6 +3194,9 @@ packages:
   mdn-data@2.0.30:
     resolution: {integrity: sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==}
 
+  medium-zoom@1.1.0:
+    resolution: {integrity: sha512-ewyDsp7k4InCUp3jRmwHBRFGyjBimKps/AJLjRSox+2q/2H4p/PNpQf+pwONWlJiOudkBXtbdmVbFjqyybfTmQ==}
+
   meow@13.2.0:
     resolution: {integrity: sha512-pxQJQzB6djGPXh08dacEloMFopsOqGVRKFPYvPOt9XDZ1HasbgDZA74CJGreSU4G3Ak7EFJGoiH2auq+yXISgA==}
     engines: {node: '>=18'}
@@ -3424,6 +3430,10 @@ packages:
 
   perfect-debounce@1.0.0:
     resolution: {integrity: sha512-xCy9V055GLEqoFaHoC1SoLIaLmWctgCUaBaWxDZ7/Zx4CTyX7cJQLJOok/orfjZAh9kEYpjJa4d0KcJmCbctZA==}
+
+  photoswipe@5.4.4:
+    resolution: {integrity: sha512-WNFHoKrkZNnvFFhbHL93WDkW3ifwVOXSW3w1UuZZelSmgXpIGiZSNlZJq37rR8YejqME2rHs9EhH9ZvlvFH2NA==}
+    engines: {node: '>= 0.12.0'}
 
   picocolors@1.1.0:
     resolution: {integrity: sha512-TQ92mBOW0l3LeMeyLV6mzy/kWr8lkd/hp3mTg7wYK7zJhuBStmGMBG0BdeDZS/dZx1IukaX6Bk11zcln25o1Aw==}
@@ -4121,6 +4131,9 @@ packages:
         optional: true
       terser:
         optional: true
+
+  vitepress-plugin-lightbox@1.0.2:
+    resolution: {integrity: sha512-CLgz6iWzhTH/Buk0y/SPRy0Ukh+X9QPD1HMAlpVcBPPpENlKwtxKUrAzqwxgh/vOz+6Q+Kw5nKfPH1yL78Rlag==}
 
   vitepress@1.4.0:
     resolution: {integrity: sha512-JXCv4EsKTDyAFb6C/UjZr7nsGAzZ6mafVk2rx7rG5o8N+B/4QstIk+iEOe/9dKoU6V624UIC6g1pZ+K63rxhlw==}
@@ -4964,9 +4977,9 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prozilla-os/ball-maze@1.0.6(react@18.3.1)':
+  '@prozilla-os/ball-maze@1.0.7(react@18.3.1)':
     dependencies:
-      '@prozilla-os/core': 1.3.6(react@18.3.1)
+      '@prozilla-os/core': 1.3.7(react@18.3.1)
       react: 18.3.1
 
   '@prozilla-os/bliss-radio@1.0.6':
@@ -4994,7 +5007,7 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@prozilla-os/core@1.3.6(react@18.3.1)':
+  '@prozilla-os/core@1.3.7(react@18.3.1)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.6.0
       '@fortawesome/free-regular-svg-icons': 6.6.0
@@ -5009,9 +5022,9 @@ snapshots:
       react-ga4: 2.1.0
       react-svg: 16.1.34(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
-  '@prozilla-os/minesweeper@1.0.6(react@18.3.1)':
+  '@prozilla-os/minesweeper@1.0.7(react@18.3.1)':
     dependencies:
-      '@prozilla-os/core': 1.3.6(react@18.3.1)
+      '@prozilla-os/core': 1.3.7(react@18.3.1)
       react: 18.3.1
 
   '@prozilla-os/shared@1.2.0': {}
@@ -5024,12 +5037,12 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@prozilla-os/wordle@1.1.7(react@18.3.1)':
+  '@prozilla-os/wordle@1.1.8(react@18.3.1)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.6.0
       '@fortawesome/free-solid-svg-icons': 6.6.0
       '@fortawesome/react-fontawesome': 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
-      '@prozilla-os/core': 1.3.6(react@18.3.1)
+      '@prozilla-os/core': 1.3.7(react@18.3.1)
       '@prozilla-os/shared': 1.2.0
       react: 18.3.1
 
@@ -7149,6 +7162,8 @@ snapshots:
 
   mdn-data@2.0.30: {}
 
+  medium-zoom@1.1.0: {}
+
   meow@13.2.0: {}
 
   merge2@1.4.1: {}
@@ -7366,6 +7381,8 @@ snapshots:
   pathe@1.1.2: {}
 
   perfect-debounce@1.0.0: {}
+
+  photoswipe@5.4.4: {}
 
   picocolors@1.1.0: {}
 
@@ -8186,6 +8203,11 @@ snapshots:
       '@types/node': 22.7.5
       fsevents: 2.3.3
       less: 4.2.0
+
+  vitepress-plugin-lightbox@1.0.2:
+    dependencies:
+      medium-zoom: 1.1.0
+      photoswipe: 5.4.4
 
   vitepress@1.4.0(@algolia/client-search@4.24.0)(@types/node@20.16.11)(@types/react@18.3.11)(axios@1.7.7)(less@4.2.0)(postcss@8.4.47)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.2)(typescript@5.6.3):
     dependencies:

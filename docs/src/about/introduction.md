@@ -7,13 +7,13 @@ image: "https://os.prozilla.dev/assets/screenshots/screenshot-files-info-taskbar
 
 <br>
 
-<img src="/assets/banner-logo-title-small.png" alt="ProzillaOS"/>
+![ProzillaOS](/assets/banner-logo-title-small.png)
 
 ## About
 
 ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows made with React by [Prozilla](https://prozilla.dev/). It's a virtual desktop environment that mimics a real operating system and runs entirely in the browser.
 
-<img src="https://os.prozilla.dev/assets/screenshots/screenshot-files-info-taskbar-desktop.png" alt="Screenshot of ProzillaOS"/>
+![Screenshot of ProzillaOS](https://os.prozilla.dev/assets/screenshots/screenshot-files-info-taskbar-desktop.png)
 
 ## Open-source
 
