@@ -31,7 +31,7 @@ p > a {
 	top: unset;
 }
 
-.ProzillaOS-Taskbar_Indicator--Calendar > p {
+.ProzillaOS-Taskbar__Indicator--Calendar > p {
 	font-size: 0.875rem;
 	line-height: 1.25rem;
 }

@@ -55,7 +55,20 @@ export const PACKAGES: PackageData[] = [
 							{ text: "Vector2", link: "/vector2" },
 						],
 					},
+					{
+						text: "Virtual Drive",
+						base: "/reference/core/classes/virtual-drive",
+						collapsed: true,
+						items: [
+							{ text: "VirtualBase", link: "/virtual-base" },
+							{ text: "VirtualFolder", link: "/virtual-folder" },
+						],
+					},
 				],
+			},
+			{
+				text: "Constants",
+				link: "/constants",
 			},
 			{
 				text: "Functions",
@@ -68,8 +81,14 @@ export const PACKAGES: PackageData[] = [
 				],
 			},
 			{
-				text: "Constants",
-				link: "/constants",
+				text: "Hooks",
+				base: "/reference/core/hooks",
+				collapsed: false,
+				items: [
+					{ text: "useClassNames", link: "/use-class-names" },
+					{ text: "useStaticClassName", link: "/use-static-class-name" },
+					{ text: "useSystemManager", link: "/use-system-manager" },
+				],
 			},
 		],
 	},

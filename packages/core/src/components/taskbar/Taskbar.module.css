@@ -72,6 +72,12 @@ button.HomeButton {
 	filter: none;
 }
 
+.HomeButton img {
+	height: 100%;
+	width: auto;
+	object-fit: contain;
+}
+
 .MenuIcons,
 .AppIcons {
 	display: flex;

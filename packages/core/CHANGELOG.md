@@ -1,5 +1,13 @@
 # @prozilla-os/core
 
+## 1.3.4
+
+### Patch Changes
+
+- Added Windows95 skin
+- Updated dependencies
+  - @prozilla-os/skins@1.1.4
+
 ## 1.3.3
 
 ### Patch Changes

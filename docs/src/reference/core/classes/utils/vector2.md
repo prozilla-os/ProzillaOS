@@ -66,8 +66,7 @@ Round the values of this vector to whole numbers
 
 ::: details
 
-- **Returns**
-  - **Type:** `this`
+- **Returns:** `this`
 - **Example**
 
 	```ts

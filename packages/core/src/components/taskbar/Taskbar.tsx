@@ -22,7 +22,7 @@ import { useClassNames, useSystemManager } from "../../hooks";
 import { App, AppsConfig } from "../../features";
 
 export const Taskbar = memo(() => {
-	const { taskbarConfig, appsConfig, skin } = useSystemManager();
+	const { systemName, taskbarConfig, appsConfig, skin } = useSystemManager();
 	const ref = useRef<HTMLDivElement>(null);
 	const settingsManager = useSettingsManager();
 	const [showHome, setShowHome] = useState(false);
@@ -134,12 +134,15 @@ export const Taskbar = memo(() => {
 			<div className={styles.HomeContainer}>
 				<OutsideClickListener onOutsideClick={() => { updateShowHome(false); }}>
 					<button
+						className={useClassNames([styles.MenuButton, styles.HomeButton], "Taskbar", "HomeIcon")}
 						title="Home"
 						tabIndex={0}
-						className={`${styles.MenuButton} ${styles.HomeButton}`}
 						onClick={() => { updateShowHome(!showHome); }}
 					>
-						<ReactSVG src={skin.systemIcon}/>
+						{skin.systemIcon.endsWith(".svg")
+							? <ReactSVG src={skin.systemIcon}/>
+							: <img src={skin.systemIcon} alt={systemName}/>
+						}
 					</button>
 					<HomeMenu active={showHome} setActive={updateShowHome} search={search}/>
 				</OutsideClickListener>
@@ -147,9 +150,9 @@ export const Taskbar = memo(() => {
 			<div className={styles.SearchContainer}>
 				<OutsideClickListener onOutsideClick={() => { updateShowSearch(false); }}>
 					<button
+						className={useClassNames([styles.MenuButton], "Taskbar", "SearchIcon")}
 						title="Search"
 						tabIndex={0}
-						className={styles.MenuButton}
 						onClick={() => { updateShowSearch(!showSearch); }}
 					>
 						<FontAwesomeIcon icon={faSearch}/>

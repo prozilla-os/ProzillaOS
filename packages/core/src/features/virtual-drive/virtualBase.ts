@@ -123,7 +123,7 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	}
 
 	/**
-	 * Returns path without using alias
+	 * Returns path without using this item's alias
 	 */
 	get displayPath() {
 		return this.parent?.path + "/" + this.id;

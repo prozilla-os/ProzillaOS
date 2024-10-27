@@ -129,8 +129,7 @@ Set the display name of this application
 - **Parameters**
   - **name**
    	- **Type:** `string`
-- **Returns**
-  - **Type:** `this`
+- **Returns:** `this`
 
 ### setDescription(description)
 
@@ -139,8 +138,7 @@ Set the description of this application
 - **Parameters**
   - **description**
    	- **Type:** `string`
-- **Returns**
-  - **Type:** `this`
+- **Returns:** `this`
 
 ### setIconUrl(iconUrl)
 
@@ -149,8 +147,7 @@ Set the URL of the icon of this application
 - **Parameters**
   - **iconUrl**
    	- **Type:** `string | null`
-- **Returns**
-  - **Type:** `this`
+- **Returns:** `this`
 
 ### setRole(role)
 
@@ -159,8 +156,7 @@ Set the role of this application
 - **Parameters**
   - **role**
    	- **Type:** `string | null`
-- **Returns**
-  - **Type:** `this`
+- **Returns:** `this`
 
 ### setAssociatedExtensions(extensions)
 
@@ -169,8 +165,7 @@ Set the associated extensions of this application
 - **Parameters**
   - **extensions**
    	- **Type:** `string[] | null`
-- **Returns**
-  - **Type:** `this`
+- **Returns:** `this`
 
 ### setPinnedByDefault(pinnedByDefault)
 
@@ -179,8 +174,7 @@ Changes whether this application is pinned by default or not
 - **Parameters**
   - **pinnedByDefault**
    	- **Type:** `boolean`
-- **Returns**
-  - **Type:** `this`
+- **Returns:** `this`
 
 ### setLaunchAtStartup(launchAtStartup)
 
@@ -189,8 +183,7 @@ Changes whether this application is launched at startup or not
 - **Parameters**
   - **launchAtStartup**
    	- **Type:** `boolean`
-- **Returns**
-  - **Type:** `this`
+- **Returns:** `this`
 
 ### WindowContent(props)
 

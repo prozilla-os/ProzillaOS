@@ -68,7 +68,7 @@
 	--border-radius-99: 9999px;
 
 	--svg-drop-shadow-color: var(--black-0);
-	--svg-drop-shadow-0: drop-shadow(0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--svg-drop-shadow-color) 50%, transparent));
+	--svg-drop-shadow-0: drop-shadow(0.05rem 0.1rem 0.15rem color-mix(in srgb, var(--svg-drop-shadow-color) 50%, transparent));
 	--svg-drop-shadow-1: drop-shadow(0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--svg-drop-shadow-color) 75%, transparent));
 	
 	--window-shadow-size: 0.3rem;

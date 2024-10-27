@@ -15,7 +15,7 @@ export function useStaticClassName(block?: string, element?: string, modifier?: 
 			className = `${NAME}-${block}`;
 
 			if (element != null)
-				className += `_${element}`;
+				className += `__${element}`;
 			if (modifier != null)
 				className += `--${modifier}`;
 		} else {
@@ -36,7 +36,7 @@ export function useStaticClassName(block?: string, element?: string, modifier?: 
 }
 
 /**
- * Combine clas names and an optional static class name
+ * Combine class names and an optional static class name
  */
 export function useClassNames(classNames: (string | undefined)[], block?: string, element?: string, modifier?: string | string[]) {
 	const staticClassName = useStaticClassName(block, element, modifier);

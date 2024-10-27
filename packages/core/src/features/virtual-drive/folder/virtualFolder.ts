@@ -135,13 +135,13 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Creates files based on an array of objects with file names and extensions
+	 * Creates file links based on an array of objects with file names and extensions
 	 */
-	createFileLinks(files: { name: string; }[]): this {
+	createFileLinks(fileLinks: { name: string; }[]): this {
 		if (!this.canBeEdited)
 			return this;
 
-		files.forEach(({ name }) => {
+		fileLinks.forEach(({ name }) => {
 			this.createFileLink(name);
 		});
 
@@ -317,6 +317,7 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Returns all files inside this folder
+	 * @param showHidden Whether to include hidden files
 	 */
 	getFiles(showHidden = false): VirtualFile[] {
 		if (showHidden) return this.files as VirtualFile[];
@@ -328,6 +329,7 @@ export class VirtualFolder extends VirtualBase {
 
 	/**
 	 * Returns all sub-folders inside this folder
+	 * @param showHidden Whether to include hidden folders
 	 */
 	getSubFolders(showHidden = false): VirtualFolder[] {
 		if (showHidden) return this.subFolders as VirtualFolder[];
@@ -338,11 +340,12 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Returns the amount of files and  sub-folders inside this folder
+	 * Returns the amount of files and sub-folders inside this folder
+	 * @param includeHidden Whether to include hidden files and folders in the count
 	 */
-	getItemCount(showHidden = false): number {
-		const filesCount = this.getFiles(showHidden)?.length ?? 0;
-		const foldersCount = this.getSubFolders(showHidden)?.length ?? 0;
+	getItemCount(includeHidden = false): number {
+		const filesCount = this.getFiles(includeHidden)?.length ?? 0;
+		const foldersCount = this.getSubFolders(includeHidden)?.length ?? 0;
 
 		return filesCount + foldersCount;
 	}

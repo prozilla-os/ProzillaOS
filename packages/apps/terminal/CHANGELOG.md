@@ -1,5 +1,13 @@
 # @prozilla-os/terminal
 
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.4
+  - @prozilla-os/core@1.3.4
+
 ## 1.1.9
 
 ### Patch Changes

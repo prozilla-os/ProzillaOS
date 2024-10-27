@@ -1,3 +1,4 @@
+import { Theme } from "@prozilla-os/skins";
 import { FILE_SCHEMES } from "../../../constants/virtualDrive.const";
 import { SystemManager } from "../../system/systemManager";
 import { VirtualFile, VirtualFileLink } from "../file";
@@ -35,7 +36,11 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 							"</options>",
 						]);
 					}).createFile("theme", "xml", (file) => {
-						file.setContent("<options><theme>0</theme></options>");
+						file.setContent([
+							"<options>",
+							`	<theme>${skin.defaultTheme ?? Theme.Dark}</theme>`,
+							"</options>",
+						]);
 					});
 				});
 

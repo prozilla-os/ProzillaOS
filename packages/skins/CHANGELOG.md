@@ -1,5 +1,11 @@
 # @prozilla-os/skins
 
+## 1.1.4
+
+### Patch Changes
+
+- Added Windows95 skin
+
 ## 1.1.3
 
 ### Patch Changes

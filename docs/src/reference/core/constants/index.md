@@ -23,13 +23,3 @@ An array of file extensions for code-related files
 An array of file extensions for image files
 
 - **Type:** `string[]`
-
-## Themes
-
-- **Source:** [`themes.const.ts`](https://github.com/prozilla-os/ProzillaOS/blob/main/packages/core/src/constants/themes.const.ts)
-
-### THEMES
-
-A map that transforms theme ids into theme names
-
-- **Type:** `Record<number, string | null>`

@@ -1,3 +1,4 @@
+import { Theme } from "../types";
 import { OptionalInterface } from "../types/utils";
 
 interface SkinOptions {
@@ -55,6 +56,11 @@ interface SkinOptions {
 	 * Function that dynamically imports style sheet
 	 */
 	loadStyleSheet?: () => void;
+
+	/**
+	 * Default theme
+	 */
+	defaultTheme?: Theme;
 }
 
 export class Skin {
@@ -66,6 +72,7 @@ export class Skin {
 	fileIcons: SkinOptions["fileIcons"];
 	folderIcons: SkinOptions["folderIcons"];
 	loadStyleSheet: SkinOptions["loadStyleSheet"];
+	defaultTheme: SkinOptions["defaultTheme"];
 
 	constructor(options: OptionalInterface<SkinOptions> = {}) {
 		this.systemIcon = options.systemIcon ?? "https://os.prozilla.dev/icon.svg";
@@ -103,5 +110,7 @@ export class Skin {
 		};
 
 		this.loadStyleSheet = options.loadStyleSheet;
+
+		this.defaultTheme = options.defaultTheme;
 	}
 }
