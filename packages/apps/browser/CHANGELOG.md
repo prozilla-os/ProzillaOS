@@ -1,5 +1,12 @@
 # @prozilla-os/browser
 
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.8
+
 ## 1.1.12
 
 ### Patch Changes

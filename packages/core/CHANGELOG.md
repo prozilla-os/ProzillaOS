@@ -1,5 +1,15 @@
 # @prozilla-os/core
 
+## 1.3.8
+
+### Patch Changes
+
+- `@prozilla-os/core`
+
+  - Fixed old apps not opening
+  - Updated CSS transitions
+  - Improved directory list state handling
+
 ## 1.3.7
 
 ### Patch Changes

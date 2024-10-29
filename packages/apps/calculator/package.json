@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/calculator",
 	"description": "A ProzillaOS application for making basic calculations.",
-	"version": "1.1.12",
+	"version": "1.1.13",
 	"homepage": "https://os.prozilla.dev/calculator",
 	"author": {
 		"name": "Prozilla",
