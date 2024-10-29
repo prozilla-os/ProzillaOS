@@ -18,6 +18,11 @@ export default tseslint.config(
 				allowAutomaticSingleRunInference: true,
 			},
 		},
+		settings: {
+			react: {
+				version: "detect"
+			}
+		},
 		ignores: [
 			"eslint.config.js",
 			"**/dist/**/*"

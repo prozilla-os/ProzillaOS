@@ -49,8 +49,10 @@ export class AppsConfig {
 	getAppById(id: string, includeUninstalled = false): App | null {
 		let resultApp: App | null = null;
 
-		this.apps.forEach((app) => {
-			if (resultApp == null && app.id === id && app.isInstalled || includeUninstalled) {
+		this.apps.forEach((app: App) => {
+			const includeApp = app.isInstalled == null || app.isInstalled || includeUninstalled;
+
+			if (resultApp == null && app.id === id && includeApp) {
 				resultApp = app;
 				return;
 			}
