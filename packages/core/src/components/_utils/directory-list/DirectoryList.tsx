@@ -84,7 +84,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 			document.removeEventListener("mousemove", onMoveRectSelect);
 			document.removeEventListener("mouseup", onStopRectSelect);
 		};
-	}, []);
+	});
 
 	useEffect(() => {
 		const onUpdate = () => {
@@ -140,6 +140,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 	};
 
 	const onStartRectSelect = (event: MouseEvent) => {
+		event.preventDefault();
 		setRectSelectStart({ x: event.clientX, y: event.clientY } as Vector2);
 	};
 
