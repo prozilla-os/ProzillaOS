@@ -24,6 +24,7 @@ export class VirtualFile extends VirtualBase {
 
 	static EVENT_NAMES = {
 		contentChange: "contentchange",
+		...super.EVENT_NAMES,
 	};
 
 	constructor(name: string, extension?: string  ) {
@@ -95,6 +96,7 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	async read(): Promise<OptionalStringProperty | undefined> {
+		if (this.isDeleted) return null;
 		if (this.content != null) return this.content;
 		if (this.source == null) return null;
 
@@ -115,6 +117,9 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	getIconUrl(): string {
+		if (this.isDeleted)
+			return super.getIconUrl();
+
 		if (this.iconUrl != null)
 			return this.iconUrl;
 

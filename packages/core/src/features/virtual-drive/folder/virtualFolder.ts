@@ -53,6 +53,9 @@ export class VirtualFolder extends VirtualBase {
 	 * Finds and returns a file inside this folder matching a name and extension
 	 */
 	findFile(name: string, extension?: string | null): VirtualFile | VirtualFileLink | null {
+		if (this.isDeleted)
+			return null;
+
 		let resultFile: VirtualFile | VirtualFileLink | null = null;
 
 		this.files.forEach((file) => {
@@ -70,6 +73,9 @@ export class VirtualFolder extends VirtualBase {
 	 * Finds and returns a folder inside this folder matching a name
 	 */
 	findSubFolder(name: string): VirtualFolder | VirtualFolderLink | null {
+		if (this.isDeleted)
+			return null;
+
 		let resultFolder: VirtualFolder | VirtualFolderLink | null = null;
 
 		this.subFolders.forEach((folder) => {
@@ -232,7 +238,8 @@ export class VirtualFolder extends VirtualBase {
 			removeFromArray(child, this.subFolders);
 		}
 
-		child.confirmChanges();
+		child.confirmChanges(this.getRoot());
+		this.emit(VirtualBase.EVENT_NAMES.update);
 		return this;
 	}
 
@@ -288,6 +295,9 @@ export class VirtualFolder extends VirtualBase {
 	 * Opens this folder in file explorer
 	 */
 	open(windowsManager: WindowsManager) {
+		if (this.isDeleted)
+			return;
+
 		const { appsConfig } = this.getRoot().systemManager;
 		const fileExplorer = appsConfig.getAppByRole(AppsConfig.APP_ROLES.fileExplorer);
 		if (fileExplorer != null)
@@ -320,6 +330,7 @@ export class VirtualFolder extends VirtualBase {
 	 * @param showHidden Whether to include hidden files
 	 */
 	getFiles(showHidden = false): VirtualFile[] {
+		if (this.isDeleted) return [];
 		if (showHidden) return this.files as VirtualFile[];
 
 		return this.files.filter(({ name }) => 
@@ -332,6 +343,7 @@ export class VirtualFolder extends VirtualBase {
 	 * @param showHidden Whether to include hidden folders
 	 */
 	getSubFolders(showHidden = false): VirtualFolder[] {
+		if (this.isDeleted) return [];
 		if (showHidden) return this.subFolders as VirtualFolder[];
 
 		return this.subFolders.filter(({ name }) => 
@@ -355,6 +367,9 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	getIconUrl(): string {
+		if (this.isDeleted)
+			return super.getIconUrl();
+
 		if (this.iconUrl != null)
 			return this.iconUrl;
 		
