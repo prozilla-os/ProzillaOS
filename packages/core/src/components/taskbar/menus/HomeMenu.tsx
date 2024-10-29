@@ -17,7 +17,7 @@ interface HomeMenuProps {
 }
 
 export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
-	const { systemName, appsConfig } = useSystemManager();
+	const { systemName, appsConfig, skin } = useSystemManager();
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
 	const [tabIndex, setTabIndex] = useState(active ? 0 : -1);
@@ -60,77 +60,77 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.settings);
 	const textEditorApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.textEditor);
 
-	return (
-		<div className={classNames.join(" ")}>
-			<div className={useClassNames([styles.HomeMenu, taskbarStyles.Menu], "Taskbar", "Menu", "Home")}>
-				<div className={styles.Buttons}>
-					<button tabIndex={tabIndex} onClick={() => { closeViewport(true, systemName); }}>
-						<FontAwesomeIcon icon={faPowerOff}/>
-						<p className={utilStyles.TextRegular}>Shut down</p>
+	const appButtonClassName = useClassNames([appStyles.AppButton], "SearchMenu", "AppButton");
+
+	return <div className={classNames.join(" ")}>
+		<div className={useClassNames([styles.HomeMenu, taskbarStyles.Menu], "Taskbar", "Menu", "Home")}>
+			<div className={useClassNames([styles.Buttons], "HomeMenu", "Buttons")}>
+				<button tabIndex={tabIndex} onClick={() => { closeViewport(true, systemName); }}>
+					<FontAwesomeIcon icon={faPowerOff}/>
+					<p className={utilStyles.TextRegular}>Shut down</p>
+				</button>
+				{settingsApp != null &&
+					<button tabIndex={tabIndex} onClick={() => {
+						setActive(false);
+						windowsManager?.open("settings");
+					}}>
+						<FontAwesomeIcon icon={faGear}/>
+						<p className={utilStyles.TextRegular}>Settings</p>
 					</button>
-					{settingsApp != null &&
-						<button tabIndex={tabIndex} onClick={() => {
-							setActive(false);
-							windowsManager?.open("settings");
-						}}>
-							<FontAwesomeIcon icon={faGear}/>
-							<p className={utilStyles.TextRegular}>Settings</p>
+				}
+				{textEditorApp != null &&
+					<button tabIndex={tabIndex} onClick={() => {
+						setActive(false);
+						windowsManager?.open("text-editor", {
+							mode: "view",
+							file: virtualRoot?.navigate("~/Documents/Info.md"),
+							size: new Vector2(575, 675),
+						});
+					}}>
+						<FontAwesomeIcon icon={faCircleInfo}/>
+						<p className={utilStyles.TextRegular}>Info</p>
+					</button>
+				}
+				{fileExplorerApp != null && <>
+					<button tabIndex={tabIndex} onClick={() => {
+						setActive(false);
+						windowsManager?.open(fileExplorerApp.id, { path: "~/Pictures" });
+					}}>
+						<FontAwesomeIcon icon={faImage}/>
+						<p className={utilStyles.TextRegular}>Images</p>
+					</button>
+					<button tabIndex={tabIndex} onClick={() => {
+						setActive(false);
+						windowsManager?.open(fileExplorerApp.id, { path: "~/Documents" }); }
+					}>
+						<FontAwesomeIcon icon={faFileLines}/>
+						<p className={utilStyles.TextRegular}>Documents</p>
+					</button>
+				</>}
+			</div>
+			<div className={useClassNames([styles.Apps], "HomeMenu", "Apps")}>
+				<span className={useClassNames([styles.Logo], "HomeMenu", "Logo")}>
+					<ReactSVG src={skin.systemIcon}/>
+					<h1 className={utilStyles.TextBold}>{systemName}</h1>
+				</span>
+				<div className={useClassNames([appStyles.AppList], "HomeMenu", "AppList")}>
+					{appsConfig.apps.sort((a, b) => a.name.localeCompare(b.name)).map(({ name, id, iconUrl }) => 
+						<button
+							key={id}
+							className={appButtonClassName}
+							tabIndex={tabIndex}
+							onClick={() => {
+								setActive(false);
+								windowsManager?.open(id);
+							}}
+							title={name}
+						>
+							<VectorImage src={iconUrl ?? ""}/>
+							<h2 className={utilStyles.TextRegular}>{name}</h2>
 						</button>
-					}
-					{textEditorApp != null &&
-						<button tabIndex={tabIndex} onClick={() => {
-							setActive(false);
-							windowsManager?.open("text-editor", {
-								mode: "view",
-								file: virtualRoot?.navigate("~/Documents/Info.md"),
-								size: new Vector2(575, 675),
-							});
-						}}>
-							<FontAwesomeIcon icon={faCircleInfo}/>
-							<p className={utilStyles.TextRegular}>Info</p>
-						</button>
-					}
-					{fileExplorerApp != null && <>
-						<button tabIndex={tabIndex} onClick={() => {
-							setActive(false);
-							windowsManager?.open(fileExplorerApp.id, { path: "~/Pictures" });
-						}}>
-							<FontAwesomeIcon icon={faImage}/>
-							<p className={utilStyles.TextRegular}>Images</p>
-						</button>
-						<button tabIndex={tabIndex} onClick={() => {
-							setActive(false);
-							windowsManager?.open(fileExplorerApp.id, { path: "~/Documents" }); }
-						}>
-							<FontAwesomeIcon icon={faFileLines}/>
-							<p className={utilStyles.TextRegular}>Documents</p>
-						</button>
-					</>}
-				</div>
-				<div className={styles.Apps}>
-					<span className={styles.Logo}>
-						<ReactSVG src={"/assets/logo.svg"}/>
-						<h1 className={utilStyles.TextBold}>{systemName}</h1>
-					</span>
-					<div className={appStyles.AppList}>
-						{appsConfig.apps.sort((a, b) => a.name.localeCompare(b.name)).map(({ name, id, iconUrl }) => 
-							<button
-								key={id}
-								className={appStyles.AppButton}
-								tabIndex={tabIndex}
-								onClick={() => {
-									setActive(false);
-									windowsManager?.open(id);
-								}}
-								title={name}
-							>
-								<VectorImage src={iconUrl ?? ""}/>
-								<h2 className={utilStyles.TextRegular}>{name}</h2>
-							</button>
-						)}
-					</div>
+					)}
 				</div>
 			</div>
 		</div>
-	);
+	</div>;
 }

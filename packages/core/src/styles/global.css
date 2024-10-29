@@ -49,7 +49,7 @@ button, li[data-rttab="true"] {
 	margin: 0;
 	border: none;
 	outline: none;
-	transition: background-color 100ms ease-in-out;
+	transition: background-color var(--transition-duration-0) var(--ease-in-out-default);
 	cursor: pointer;
 	user-select: none;
 }

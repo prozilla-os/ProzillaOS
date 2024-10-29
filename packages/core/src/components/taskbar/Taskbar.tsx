@@ -195,7 +195,11 @@ export const Taskbar = memo(() => {
 			<Network showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
 			<Volume showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
 			<Calendar showUtilMenu={showUtilMenu} hideUtilMenus={hideUtilMenus}/>
-			<button title="Show Desktop" id="desktop-button" onClick={() => { windowsManager?.minimizeAll(); }}/>
+			<button
+				title="Show Desktop"
+				className={useClassNames([styles.DesktopButton], "Taskbar", "UtilIcon", "Desktop")}
+				onClick={() => { windowsManager?.minimizeAll(); }}
+			/>
 		</div>
 	</div>;
 });

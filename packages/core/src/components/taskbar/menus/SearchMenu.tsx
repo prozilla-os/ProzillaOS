@@ -67,13 +67,15 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 
 	useKeyboardListener({ onKeyDown });
 
-	return <div className={classNames.join(" ")}>
+	const appButtonClassName = useClassNames([appStyles.AppButton], "SearchMenu", "AppButton");
+
+	return <div className={useClassNames(classNames)}>
 		<div className={useClassNames([styles.SearchMenu], "Taskbar", "Menu", "Search")}>
-			<div className={appStyles.AppList}>
+			<div className={useClassNames([appStyles.AppList], "SearchMenu", "AppList")}>
 				{apps?.map(({ name, id }) => 
 					<button
 						key={id}
-						className={appStyles.AppButton}
+						className={appButtonClassName}
 						tabIndex={tabIndex}
 						onClick={() => {
 							setActive(false);
@@ -87,7 +89,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 			</div>
 			<input
 				ref={inputRef}
-				className={styles.Input}
+				className={useClassNames([styles.Input], "SearchMenu", "Input")}
 				aria-label="Search query"
 				tabIndex={tabIndex}
 				value={searchQuery}

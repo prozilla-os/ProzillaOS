@@ -45,7 +45,7 @@
 	border-radius: var(--border-radius-99);
 	transform: scale(100%);
 	transform-origin: center;
-	transition: all 200ms ease-in-out;
+	transition: all var(--transition-duration-1) var(--ease-in-out-default);
 }
 
 .IconButton:hover::after, .IconButton:focus-visible::after {
@@ -63,7 +63,7 @@
 
 .IconButton svg path {
 	fill: var(--color);
-	transition: fill 100ms ease-in-out;
+	transition: fill var(--transition-duration-0) var(--ease-in-out-default);
 }
 
 .PathInput {
@@ -110,7 +110,7 @@
 	border-radius: var(--border-radius-1);
 	outline: none;
 	cursor: pointer;
-	transition: background-color 100ms ease-in-out;
+	transition: background-color var(--transition-duration-0) var(--ease-in-out-default);
 }
 
 .NavButton:hover, .NavButton:focus-visible {

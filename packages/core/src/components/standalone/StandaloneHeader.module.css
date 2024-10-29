@@ -15,7 +15,7 @@
 	align-items: center;
 	color: var(--foreground-color-1);
 	text-decoration: none;
-	transition: color 300ms ease-in-out;
+	transition: color var(--transition-duration-1) var(--ease-in-out-default);
 	user-select: none;
 }
 
@@ -55,7 +55,7 @@
 	color: var(--foreground-color-1);
 	background: none !important;
 	font-size: 1rem;
-	transition: color 300ms ease-in-out;
+	transition: color var(--transition-duration-1) var(--ease-in-out-default);
 }
 
 .ExitButton:hover {

@@ -8,7 +8,7 @@
 	border: none;
 	outline: none;
 	font-size: 0.875em;
-	transition: background-color 100ms ease-in-out;
+	transition: background-color var(--transition-duration-0) var(--ease-in-out-default);
 	cursor: pointer;
 }
 

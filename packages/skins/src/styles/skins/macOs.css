@@ -34,12 +34,12 @@
 	min-height: var(--taskbar-height);
 	transform: translateX(-50%);
 	border-radius: var(--border-radius-1);
-	transition: height 200ms ease-out 100ms;
+	transition: height var(--transition-duration-1) ease-out var(--transition-duration-0);
 	pointer-events: auto;
 }
 
 .ProzillaOS-Taskbar__AppIcons:has(.ProzillaOS-Taskbar__AppIcon:hover) {
-	animation: expand 200ms ease-out forwards;
+	animation: expand var(--transition-duration-1) ease-out forwards;
 }
 
 @keyframes expand {
@@ -85,7 +85,9 @@
 	width: var(--scale);
 	height: var(--scale);
 	padding: 0.5rem;
-	transition: width 200ms ease-out, height 200ms ease-out, background-color 100ms ease-in-out !important;
+	transition: width var(--transition-duration-1) ease-out,
+		height var(--transition-duration-1) ease-out,
+		background-color var(--transition-duration-1)var(--ease-in-out-default) !important;
 }
 
 .ProzillaOS-Taskbar__AppIcon svg {
@@ -201,7 +203,7 @@
 .ProzillaOS-WindowHeader > button > svg {
 	opacity: var(--icon-opacity);
 	color: var(--background-color-0);
-	transition: opacity 200ms ease-in-out;
+	transition: opacity var(--transition-duration-1) var(--ease-in-out-default);
 }
 
 .ProzillaOS-WindowHeader > button > svg * {

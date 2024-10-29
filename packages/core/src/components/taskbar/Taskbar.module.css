@@ -40,7 +40,7 @@
 	cursor: pointer;
 	border: none;
 	outline: none;
-	transition: background-color 100ms ease-in-out;
+	transition: background-color var(--transition-duration-0) var(--ease-in-out-default);
 	z-index: -1;
 }
 
@@ -160,12 +160,8 @@ button.HomeButton {
 	aspect-ratio: 1;
 }
 
-#desktop-button {
-	border-left: 1px solid rgba(255, 255, 255, 50%);
-	height: 100%;
-	width: 0.5rem;
-	padding: 0;
-	margin-left: 1rem;
+.DesktopButton {
+	width: 0.5rem !important;
 }
 
 .MenuContainer {
@@ -187,14 +183,15 @@ button.HomeButton {
 	border-top-right-radius: var(--border-radius-1);
 	border-bottom-left-radius: var(--border-radius-1);
 	transform: none;
-	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+	transition: opacity var(--transition-duration-1) var(--ease-in-out-default),
+		transform var(--transition-duration-1) var(--ease-in-out-default);
 	overflow: hidden;
 	resize: horizontal;
 }
 
 .MenuContainer:not(.Active) .Menu {
 	opacity: 0;
-	transform: translateY(100px);
+	transform: translateY(50%);
 }
 
 .Menu::after,
@@ -217,12 +214,13 @@ button.HomeButton {
 
 .MenuContainer::after {
 	opacity: 1;
-	transition: opacity 200ms ease-in-out, top 200ms ease-in-out;
+	transition: opacity var(--transition-duration-1) var(--ease-in-out-default),
+		top var(--transition-duration-1) var(--ease-in-out-default);
 	backdrop-filter: var(--taskbar-filter);
 	z-index: -3;
 }
 
 .MenuContainer:not(.Active)::after {
 	opacity: 0;
-	top: 100px;
+	top: 50%;
 }

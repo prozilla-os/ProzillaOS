@@ -40,22 +40,20 @@ export const AppButton: FC<AppButtonProps> = memo(({ app, windowsManager, active
 		</Actions>,
 	});
 
-	const classNames = [styles["App-icon"]];
+	if (!windowsManager)
+		return;
+
+	const classNames = [styles.AppIcon];
 	if (active)
 		classNames.push(styles.Active);
 	if (!visible)
 		classNames.push(styles.Hidden);
 
-	const className = useClassNames(classNames, "Taskbar", "AppIcon");
-
-	if (!windowsManager)
-		return;
-
 	return (
 		<button
 			key={app.id}
 			tabIndex={0}
-			className={className}
+			className={useClassNames(classNames, "Taskbar", "AppIcon")}
 			onClick={() => {
 				const windowId =  windowsManager.getAppWindowId(app.id);
 
