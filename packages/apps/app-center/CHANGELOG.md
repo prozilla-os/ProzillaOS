@@ -1,5 +1,11 @@
 # @prozilla-os/app-center
 
+## 1.0.7
+
+### Patch Changes
+
+- @prozilla-os/core@1.3.9
+
 ## 1.0.6
 
 ### Patch Changes

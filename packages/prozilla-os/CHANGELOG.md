@@ -1,5 +1,19 @@
 # prozilla-os
 
+## 1.3.9
+
+### Patch Changes
+
+- @prozilla-os/settings@1.1.14
+- @prozilla-os/terminal@1.1.15
+- @prozilla-os/core@1.3.9
+- @prozilla-os/app-center@1.0.7
+- @prozilla-os/browser@1.1.14
+- @prozilla-os/calculator@1.1.14
+- @prozilla-os/file-explorer@1.1.14
+- @prozilla-os/media-viewer@1.1.14
+- @prozilla-os/text-editor@1.1.14
+
 ## 1.3.8
 
 ### Patch Changes

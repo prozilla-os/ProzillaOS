@@ -1,5 +1,11 @@
 # @prozilla-os/skins
 
+## 1.1.7
+
+### Patch Changes
+
+- Updated MacOS skin
+
 ## 1.1.6
 
 ### Patch Changes

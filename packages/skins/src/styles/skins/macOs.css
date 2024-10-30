@@ -1,11 +1,76 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+:root {
+	/* https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors */
+
+	--red-0: rgb(255, 105, 97);
+	--red-1: rgb(255, 69, 58);
+	--red-2: rgb(215, 0, 21);
+
+	--orange-0: rgb(255, 179, 64);
+	--orange-1: rgb(255, 159, 10);
+	--orange-2: rgb(201, 52, 0);
+
+	--yellow-0: rgb(255, 212, 38);
+	--yellow-1: rgb(255, 214, 10);
+	--yellow-2: rgb(160, 90, 0);
+
+	--green-0: rgb(49, 222, 75);
+	--green-1: rgb(50, 215, 75);
+	--green-2: rgb(0, 125, 27);
+
+	--cyan-0: rgb(112, 215, 255);
+	--cyan-1: rgb(90, 200, 245);
+	--cyan-2: rgb(0, 113, 164);
+
+	--light-blue-0: rgb(102, 212, 207);
+	--light-blue-1: rgb(102, 212, 207);
+	--light-blue-2: rgb(12, 129, 123);
+
+	--blue-0: rgb(64, 156, 255);
+	--blue-1: rgb(10, 132, 255);
+	--blue-2: rgb(0, 64, 221);
+
+	--purple-0: rgb(125, 122, 255);
+	--purple-1: rgb(94, 92, 230);
+	--purple-2: rgb(54, 52, 163);
+
+	--pink-0: rgb(218, 143, 255);
+	--pink-1: rgb(191, 90, 242);
+	--pink-2: rgb(173, 68, 171);
+
+	--white-0: rgb(235, 235, 245);
+	--white-1: rgb(220, 220, 230);
+	--white-2: rgb(205, 205, 215);
+	--white-3: rgb(190, 190, 200);
+	--white-4: rgb(88, 89, 91);
+
+	--black-0: rgb(40, 41, 43);
+	--black-1: rgb(35, 36, 38);
+	--black-2: rgb(30, 31, 33);
+	--black-3: rgb(25, 26, 28);
+	--black-4: rgb(20, 21, 23);
+}
 
 :root {
 	--util-menu-height: 2rem;
 	--taskbar-margin: 0.5rem;
+	--border-radius-2: 0.75rem;
+	--window-box-shadow: 0 1rem 2rem 0 rgba(0, 0, 0, 40%),
+		0 0 0.25rem 0 rgba(0, 0, 0, 20%);
 
-	--body-font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	--body-font-family: "SF-Pro", sans-serif;
+	--mono-font-family: "SF-Mono", sans-serif;
+}
+
+@font-face {
+	font-family: "SF-Pro";
+	src: url("/assets/fonts/sf-pro/SF-Pro.ttf");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "SF-Mono";
+	src: url("/assets/fonts/sf-mono/SF-Mono-Regular.otf");
+	font-display: swap;
 }
 
 /* TASKBAR */
@@ -34,12 +99,12 @@
 	min-height: var(--taskbar-height);
 	transform: translateX(-50%);
 	border-radius: var(--border-radius-1);
-	transition: height var(--transition-duration-1) ease-out var(--transition-duration-0);
+	transition: height var(--transition-duration-1) var(--ease-in-out-default);
 	pointer-events: auto;
 }
 
 .ProzillaOS-Taskbar__AppIcons:has(.ProzillaOS-Taskbar__AppIcon:hover) {
-	animation: expand var(--transition-duration-1) ease-out forwards;
+	animation: expand var(--transition-duration-1) var(--ease-in-out-default) forwards;
 }
 
 @keyframes expand {
@@ -78,6 +143,7 @@
 	width: auto;
 	height: 100%;
 	align-items: flex-end;
+	overflow-x: hidden;
 }
 
 .ProzillaOS-Taskbar__AppIcon {
@@ -85,9 +151,9 @@
 	width: var(--scale);
 	height: var(--scale);
 	padding: 0.5rem;
-	transition: width var(--transition-duration-1) ease-out,
-		height var(--transition-duration-1) ease-out,
-		background-color var(--transition-duration-1)var(--ease-in-out-default) !important;
+	transition: width var(--transition-duration-1) var(--ease-in-out-default),
+		height var(--transition-duration-1) var(--ease-in-out-default),
+		background-color var(--transition-duration-1) var(--ease-in-out-default) !important;
 }
 
 .ProzillaOS-Taskbar__AppIcon svg {
@@ -145,12 +211,20 @@
 	margin-top: var(--util-menu-height);
 }
 
+.ProzillaOS-WindowView {
+	--header-height: 2rem;
+}
+
+.ProzillaOS-WindowView > div {
+	border-radius: var(--border-radius-2);
+}
+
 .ProzillaOS-WindowHeader {
-	--window-icon-margin: 0.5rem;
+	--window-icon-margin: 0.75rem;
 
 	flex-direction: row-reverse;
 	justify-content: flex-end;
-	gap: 0.25rem;
+	gap: 0.5rem;
 }
 
 .ProzillaOS-WindowIcon {
@@ -164,7 +238,7 @@
 }
 
 .ProzillaOS-WindowHeader > button {
-	--height: 1rem;
+	--height: 0.875rem;
 	--icon-opacity: 0;
 
 	display: flex;
@@ -172,7 +246,7 @@
 	align-items: center;
 	border-radius: 9999px;
 	margin: 0;
-	padding: 0.2rem;
+	padding: 0.1rem;
 	height: var(--height);
 	color: var(--background-color-0);
 	border: 1px solid var(--header-button-hover-color);

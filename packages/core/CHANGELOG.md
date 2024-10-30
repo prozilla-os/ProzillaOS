@@ -1,5 +1,12 @@
 # @prozilla-os/core
 
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.7
+
 ## 1.3.8
 
 ### Patch Changes

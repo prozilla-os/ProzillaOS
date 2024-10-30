@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/terminal",
 	"description": "A terminal/shell application for ProzillaOS.",
-	"version": "1.1.14",
+	"version": "1.1.15",
 	"homepage": "https://os.prozilla.dev/terminal",
 	"author": {
 		"name": "Prozilla",
