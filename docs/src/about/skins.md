@@ -59,3 +59,11 @@ A minimalistic skin with monochrome icons.
 ### Credits
 
 - [FontAwesome icons](https://fontawesome.com/)
+
+## [Pixel](https://os.prozilla.dev/?skin=pixel)
+
+A pixel art skin for ProzillaOS with pixelated icons and wallpapers.
+
+### Screenshot
+
+![Preview of the Pixel skin](/screenshots/skins/pixel.png)

@@ -229,3 +229,33 @@ export function App(): ReactElement {
 	</ProzillaOS>;
 }
 ```
+
+### pixelSkin
+
+A pixelated skin with pixel art
+
+#### Preview
+
+![Preview of the Pixel skin](/screenshots/skins/pixel.png)
+
+#### Example
+
+```tsx
+// App.tsx
+
+import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView } from "prozilla-os";
+import { pixelSkin } from "@prozilla-os/skins"; // [!code highlight]
+
+export function App(): ReactElement {
+	return <ProzillaOS
+		systemName={"Example"}
+		tagLine={"Powered by ProzillaOS"}
+		skin={pixelSkin} // [!code highlight]
+	>
+		<Taskbar/>
+		<WindowsView/>
+		<ModalsView/>
+		<Desktop/>
+	</ProzillaOS>;
+}
+```
