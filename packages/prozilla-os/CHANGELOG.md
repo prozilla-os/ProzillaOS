@@ -1,5 +1,20 @@
 # prozilla-os
 
+## 1.3.11
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.11
+  - @prozilla-os/app-center@1.0.9
+  - @prozilla-os/browser@1.1.16
+  - @prozilla-os/calculator@1.1.16
+  - @prozilla-os/file-explorer@1.1.16
+  - @prozilla-os/media-viewer@1.1.16
+  - @prozilla-os/settings@1.1.16
+  - @prozilla-os/terminal@1.1.17
+  - @prozilla-os/text-editor@1.1.16
+
 ## 1.3.10
 
 ### Patch Changes

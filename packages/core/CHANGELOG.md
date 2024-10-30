@@ -1,5 +1,11 @@
 # @prozilla-os/core
 
+## 1.3.11
+
+### Patch Changes
+
+- Fixed app config
+
 ## 1.3.10
 
 ### Patch Changes

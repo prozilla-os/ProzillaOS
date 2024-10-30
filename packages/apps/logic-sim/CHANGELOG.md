@@ -1,5 +1,12 @@
 # @prozilla-os/logic-sim
 
+## 1.1.16
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.11
+
 ## 1.1.15
 
 ### Patch Changes

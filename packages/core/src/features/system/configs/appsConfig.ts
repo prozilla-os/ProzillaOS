@@ -6,8 +6,7 @@ export interface AppsConfigOptions {
 	/**
 	 * An array of applications
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	apps: App<any>[];
+	apps: App<WindowProps>[];
 }
 
 export class AppsConfig {
@@ -100,7 +99,7 @@ export class AppsConfig {
 
 		this.apps.forEach((app) => {
 			if (app.category == category) {
-				resultApps.push(app as App<WindowProps>);
+				resultApps.push(app);
 			}
 		});
 
