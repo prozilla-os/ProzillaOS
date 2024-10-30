@@ -1,5 +1,3 @@
-import { OptionalInterface } from "../../../types/utils";
-
 export interface MiscConfigOptions {
 	/**
 	 * The maximum time between two clicks to register as a double click (in ms)
@@ -11,7 +9,7 @@ export interface MiscConfigOptions {
 export class MiscConfig {
 	doubleClickDelay: MiscConfigOptions["doubleClickDelay"];
 
-	constructor(options: OptionalInterface<MiscConfigOptions> = {}) {
+	constructor(options: Partial<MiscConfigOptions> = {}) {
 		const { doubleClickDelay } = options as MiscConfigOptions;
 		
 		this.doubleClickDelay = doubleClickDelay ?? 250;

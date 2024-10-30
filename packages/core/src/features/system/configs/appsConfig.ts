@@ -1,6 +1,5 @@
 import { APP_CATEGORIES } from "../../../constants/apps.const";
 import { App } from "../../";
-import { OptionalInterface } from "../../../types/utils";
 import { WindowProps } from "../../../components";
 
 export interface AppsConfigOptions {
@@ -23,7 +22,7 @@ export class AppsConfig {
 		browser: "browser",
 	};
 
-	constructor(options: OptionalInterface<AppsConfigOptions> = {}) {
+	constructor(options: Partial<AppsConfigOptions> = {}) {
 		const { apps } = options as AppsConfigOptions;
 
 		if (apps != null) {

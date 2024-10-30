@@ -1,5 +1,4 @@
 import { Theme } from "../types";
-import { OptionalInterface } from "../types/utils";
 
 interface SkinOptions {
 	/**
@@ -74,7 +73,7 @@ export class Skin {
 	loadStyleSheet: SkinOptions["loadStyleSheet"];
 	defaultTheme: SkinOptions["defaultTheme"];
 
-	constructor(options: OptionalInterface<SkinOptions> = {}) {
+	constructor(options: Partial<SkinOptions> = {}) {
 		this.systemIcon = options.systemIcon ?? "https://os.prozilla.dev/icon.svg";
 
 		this.appIcons = options.appIcons;

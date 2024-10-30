@@ -1,5 +1,15 @@
 # @prozilla-os/skins
 
+## 1.1.8
+
+### Patch Changes
+
+- `@prozilla-os/core`
+
+  - Updated windowOptions for apps
+    `@prozilla-os/skins`
+  - Updated shadows for pixel skin
+
 ## 1.1.7
 
 ### Patch Changes

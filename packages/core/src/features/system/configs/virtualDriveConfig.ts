@@ -1,4 +1,3 @@
-import { OptionalInterface } from "../../../types/utils";
 import { VirtualRoot } from "../../virtual-drive";
 
 export interface VirtualDriveConfigOptions {
@@ -50,7 +49,7 @@ export class VirtualDriveConfig {
 	saveData: VirtualDriveConfigOptions["saveData"];
 	defaultData: VirtualDriveConfigOptions["defaultData"];
 
-	constructor(options: OptionalInterface<VirtualDriveConfigOptions> = {}) {
+	constructor(options: Partial<VirtualDriveConfigOptions> = {}) {
 		const { saveData, defaultData } = options as VirtualDriveConfigOptions;
 
 		this.saveData = saveData ?? true;

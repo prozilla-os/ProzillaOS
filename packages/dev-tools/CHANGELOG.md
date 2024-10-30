@@ -1,5 +1,12 @@
 # @prozilla-os/dev-tools
 
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.10
+
 ## 1.1.6
 
 ### Patch Changes

@@ -148,7 +148,7 @@ A skin inspired by the MacOS interface
 
 ![Preview of the MacOS skin](/screenshots/skins/mac.png)
 
-#### Example
+#### Usage
 
 ```tsx
 // App.tsx
@@ -178,7 +178,7 @@ A minimalistic skin with monochrome icons
 
 ![Preview of the minimalistic skin](/screenshots/skins/minimal.png)
 
-#### Example
+#### Usage
 
 ```tsx
 // App.tsx
@@ -208,7 +208,7 @@ A skin inspired by the Windows95 interface
 
 ![Preview of the Windows95 skin](/screenshots/skins/windows95.png)
 
-#### Example
+#### Usage
 
 ```tsx
 // App.tsx
@@ -238,7 +238,7 @@ A pixelated skin with pixel art
 
 ![Preview of the Pixel skin](/screenshots/skins/pixel.png)
 
-#### Example
+#### Usage
 
 ```tsx
 // App.tsx

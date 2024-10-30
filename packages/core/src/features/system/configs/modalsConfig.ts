@@ -1,4 +1,3 @@
-import { OptionalInterface } from "../../../types/utils";
 import { Vector2 } from "../../math/vector2";
 
 export interface ModalsConfigOptions {
@@ -23,7 +22,7 @@ export class ModalsConfig {
 		closeButton: 0,
 	};
 
-	constructor(options: OptionalInterface<ModalsConfigOptions> = {}) {
+	constructor(options: Partial<ModalsConfigOptions> = {}) {
 		const { defaultDialogSize, defaultFileSelectorSize } = options as ModalsConfigOptions;
 		
 		this.defaultDialogSize = defaultDialogSize ?? new Vector2(400, 200);

@@ -27,7 +27,7 @@ Applications can be installed by adding them to the `apps` array in [`AppsConfig
 - **windowContent**
   - **Type:** `React.FC<AppProps>`
 - **windowOptions**
-  - **Type:** `WindowOptions | undefined`
+  - **Type:** `(Partial<AppProps> & WindowOptions) | undefined`
 
 ```ts
 interface WindowOptions {
@@ -69,7 +69,7 @@ React component that renders this app inside a window when the app is running
 
 Default options that get passed to the `windowContent` component
 
-- **Type:** `WindowOptions`
+- **Type:** `(Partial<AppProps> & WindowOptions) | undefined`
 
 ```ts
 interface WindowOptions {
