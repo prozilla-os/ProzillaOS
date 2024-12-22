@@ -12,8 +12,8 @@ importers:
         specifier: ^12.1.0
         version: 12.1.0
       pnpm:
-        specifier: ^9.12.1
-        version: 9.12.1
+        specifier: ^9.15.0
+        version: 9.15.0
     devDependencies:
       '@changesets/cli':
         specifier: ^2.27.5
@@ -3462,8 +3462,8 @@ packages:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
 
-  pnpm@9.12.1:
-    resolution: {integrity: sha512-5aflKkGDoC1ZMQV/eg2/+dXpzjFh4z+miuOSElt5KCqKikcKUd/IoO2GIhRC6y+1cBmwmQ7ST6tRm/DhvFzPxA==}
+  pnpm@9.15.0:
+    resolution: {integrity: sha512-duI3l2CkMo7EQVgVvNZije5yevN3mqpMkU45RBVsQpmSGon5djge4QfUHxLPpLZmgcqccY8GaPoIMe1MbYulbA==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -7402,7 +7402,7 @@ snapshots:
     dependencies:
       find-up: 4.1.0
 
-  pnpm@9.12.1: {}
+  pnpm@9.15.0: {}
 
   possible-typed-array-names@1.0.0: {}
 
