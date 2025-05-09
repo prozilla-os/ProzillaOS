@@ -39,10 +39,10 @@ export function CircuitView({ app }: CircuitViewProps) {
 			</DropdownAction>
 			<DropdownAction label="Add" showOnHover={false}>
 				<ClickAction label="AND gate" onTrigger={() => {
-					circuit.inputHandler.startChipPlacement(ChipsManager.CHIPS.AND);
+					circuit.inputHandler.startChipPlacement(ChipsManager.CHIPS.and);
 				}}/>
 				<ClickAction label="NOT gate" onTrigger={() => {
-					circuit.inputHandler.startChipPlacement(ChipsManager.CHIPS.NOT);
+					circuit.inputHandler.startChipPlacement(ChipsManager.CHIPS.not);
 				}}/>
 			</DropdownAction>
 			<DropdownAction label="Help" showOnHover={false}>

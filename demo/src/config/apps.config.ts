@@ -37,8 +37,8 @@ export const appsConfig = new AppsConfig({
 			.setDescription(`Browse and install ${NAME} apps.`)
 			.setPinnedByDefault(false),
 		wordle.setIconUrl("/assets/apps/icons/wordle.svg")
-			.setPinnedByDefault(false)
-			.setShowDesktopIcon(true),
+			.setPinnedByDefault(false),
+		// .setShowDesktopIcon(true),
 		ballMaze.setIconUrl("/assets/apps/icons/ball-maze.svg")
 			.setPinnedByDefault(false)
 			.setShowDesktopIcon(true),
