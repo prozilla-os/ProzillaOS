@@ -1,7 +1,7 @@
 import { ChangeEventHandler, FC, KeyboardEventHandler, useCallback, useEffect, useState } from "react";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faCaretLeft, faCaretRight, faCircleInfo, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faCaretLeft, faCaretRight, faCircleInfo, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch, faTrash, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { QuickAccessButton } from "./QuickAccessButton";
 import { ImportButton } from "./ImportButton";
 import { Actions, ClickAction, CODE_EXTENSIONS, DialogBox, DirectoryList, Divider, FileEventHandler, FolderEventHandler, ModalProps, ModalsConfig, OnSelectionChangeParams, useAlert, useContextMenu, useHistory, useSystemManager, useVirtualRoot, useWindowedModal, useWindowsManager, utilStyles, Vector2, VirtualFile, VirtualFolder, VirtualFolderLink, VirtualRoot, WindowProps } from "@prozilla-os/core";
@@ -41,6 +41,9 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 				}
 				if (windowsManager != null)	(file as VirtualFile).open(windowsManager);
 			}}/>
+			<ClickAction label="Download" icon={faUpload} onTrigger={(_event, file) => {
+				onFileDownload(file as VirtualFile);
+			}}/>			
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(_event, file) => {
 				(file as VirtualFile).delete();
 			}}/>
@@ -126,6 +129,24 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 	const onPathChange = (event: Event) => {
 		setPath((event.target as HTMLInputElement).value);
 	};
+
+	const onFileDownload = useCallback((file: VirtualFile) => {
+		void file.read().then((content) => {
+			if (content) {
+				const blob = new Blob([content], { type: "text/plain" });
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.href = url;
+				a.download = file.id;
+				document.body.appendChild(a);
+				a.click();
+				window.URL.revokeObjectURL(url);
+				document.body.removeChild(a);
+			}
+		}).catch((error) => {
+			console.error("Error downloading file:", error);
+		});
+	}, []);
 
 	const onKeyDown = (event: KeyboardEvent) => {
 		let value = (event.target as HTMLInputElement).value;
