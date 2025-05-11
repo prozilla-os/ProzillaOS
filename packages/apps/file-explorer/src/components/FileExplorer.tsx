@@ -41,9 +41,11 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 				}
 				if (windowsManager != null)	(file as VirtualFile).open(windowsManager);
 			}}/>
-			<ClickAction label="Download" icon={faUpload} onTrigger={(_event, file) => {
-				onFileDownload(file as VirtualFile);
-			}}/>			
+			{(props.triggerParams as VirtualFile)?.extension != null && 
+				<ClickAction label="Download" icon={faUpload} onTrigger={(_event, file) => {
+					onFileDownload(file as VirtualFile);
+				}}/>
+			}			
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(_event, file) => {
 				(file as VirtualFile).delete();
 			}}/>
