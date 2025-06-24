@@ -41,9 +41,9 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 				}
 				if (windowsManager != null)	(file as VirtualFile).open(windowsManager);
 			}}/>
-			{(props.triggerParams as VirtualFile)?.extension != null && 
-				<ClickAction label="Download" icon={faUpload} onTrigger={(_event, file) => {
-					onFileDownload(file as VirtualFile);
+			{(props.triggerParams as VirtualFile)?.isDownloadable() && 
+				<ClickAction label="Export" icon={faUpload} onTrigger={(_event, file) => {
+					(file as VirtualFile).download();
 				}}/>
 			}			
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(_event, file) => {
@@ -131,24 +131,6 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 	const onPathChange = (event: Event) => {
 		setPath((event.target as HTMLInputElement).value);
 	};
-
-	const onFileDownload = useCallback((file: VirtualFile) => {
-		void file.read().then((content) => {
-			if (content) {
-				const blob = new Blob([content], { type: "text/plain" });
-				const url = window.URL.createObjectURL(blob);
-				const a = document.createElement("a");
-				a.href = url;
-				a.download = file.id;
-				document.body.appendChild(a);
-				a.click();
-				window.URL.revokeObjectURL(url);
-				document.body.removeChild(a);
-			}
-		}).catch((error) => {
-			console.error("Error downloading file:", error);
-		});
-	}, []);
 
 	const onKeyDown = (event: KeyboardEvent) => {
 		let value = (event.target as HTMLInputElement).value;

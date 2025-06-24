@@ -187,6 +187,37 @@ export class VirtualFile extends VirtualBase {
 		return `${type} file (.${this.extension.toLowerCase()})`.trim();
 	}
 
+	download() {
+		if (!this.isDownloadable()) {
+			return;
+		}
+
+		void this.read().then((content) => {
+			if (content) {
+				const blob = new Blob([content], { type: "text/plain" });
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.href = url;
+				a.download = this.id;
+				document.body.appendChild(a);
+				a.click();
+				window.URL.revokeObjectURL(url);
+				document.body.removeChild(a);
+			}
+		}).catch((error) => {
+			console.error("Error while downloading file:", error);
+		});
+	}
+
+	isDownloadable(): boolean {
+		if (this.content != null) {
+			return true;
+		} else if (this.source != null) {
+			return !this.source.startsWith(FILE_SCHEMES.external) && !this.source.startsWith(FILE_SCHEMES.app);
+		}
+		return false;
+	}
+
 	toJSON(): VirtualFileJson | null {
 		// Don't return file if it can't or hasn't been edited
 		if (!this.canBeEdited || (this.editedByUser == null || !this.editedByUser))
