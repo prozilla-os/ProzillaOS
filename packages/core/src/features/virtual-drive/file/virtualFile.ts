@@ -1,4 +1,5 @@
 import { FILE_SCHEMES, IMAGE_EXTENSIONS } from "../../../constants/virtualDrive.const";
+import { downloadUrl } from "../../_utils";
 import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 
@@ -192,21 +193,18 @@ export class VirtualFile extends VirtualBase {
 			return;
 		}
 
-		void this.read().then((content) => {
-			if (content) {
-				const blob = new Blob([content], { type: "text/plain" });
+		try {
+			if (this.source != null) {
+				downloadUrl(this.source, this.id);
+			} else if (this.content != null) {
+				const blob = new Blob([this.content], { type: "text/plain" });
 				const url = window.URL.createObjectURL(blob);
-				const a = document.createElement("a");
-				a.href = url;
-				a.download = this.id;
-				document.body.appendChild(a);
-				a.click();
+				downloadUrl(url, this.id);
 				window.URL.revokeObjectURL(url);
-				document.body.removeChild(a);
 			}
-		}).catch((error) => {
+		} catch (error) {
 			console.error("Error while downloading file:", error);
-		});
+		}
 	}
 
 	isDownloadable(): boolean {
