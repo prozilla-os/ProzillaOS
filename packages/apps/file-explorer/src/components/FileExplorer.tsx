@@ -1,7 +1,7 @@
 import { ChangeEventHandler, FC, KeyboardEventHandler, useCallback, useEffect, useState } from "react";
 import styles from "./FileExplorer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faCaretLeft, faCaretRight, faCircleInfo, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faCaretLeft, faCaretRight, faCircleInfo, faCog, faDesktop, faFileLines, faHouse, faImage, faPlus, faSearch, faTrash, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { QuickAccessButton } from "./QuickAccessButton";
 import { ImportButton } from "./ImportButton";
 import { Actions, ClickAction, CODE_EXTENSIONS, DialogBox, DirectoryList, Divider, FileEventHandler, FolderEventHandler, ModalProps, ModalsConfig, OnSelectionChangeParams, useAlert, useContextMenu, useHistory, useSystemManager, useVirtualRoot, useWindowedModal, useWindowsManager, utilStyles, Vector2, VirtualFile, VirtualFolder, VirtualFolderLink, VirtualRoot, WindowProps } from "@prozilla-os/core";
@@ -41,6 +41,11 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 				}
 				if (windowsManager != null)	(file as VirtualFile).open(windowsManager);
 			}}/>
+			{(props.triggerParams as VirtualFile)?.isDownloadable() && 
+				<ClickAction label="Export" icon={faUpload} onTrigger={(_event, file) => {
+					(file as VirtualFile).download();
+				}}/>
+			}			
 			<ClickAction label="Delete" icon={faTrash} onTrigger={(_event, file) => {
 				(file as VirtualFile).delete();
 			}}/>
