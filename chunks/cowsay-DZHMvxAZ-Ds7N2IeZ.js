@@ -1,4 +1,4 @@
-import{_ as c}from"../index.js";import{o as f}from"./command-nBL1aO7T-CliNWZCP.js";const w=`
+import{v as c}from"../index.js";import{o as f}from"./command-nBL1aO7T-CliNWZCP.js";const w=`
         \\   ^__^
          \\  (oo)\\_______
             (__)\\       )\\/\\
