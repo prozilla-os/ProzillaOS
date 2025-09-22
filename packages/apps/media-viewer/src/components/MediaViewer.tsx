@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./MediaViewer.module.css";
 import { AppsConfig, IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, AUDIO_EXTENSIONS, useSystemManager, useWindowsManager, VirtualFile, WindowProps, MEDIA_EXTENSIONS } from "@prozilla-os/core";
 
@@ -9,7 +9,6 @@ export interface MediaViewerProps extends WindowProps {
 export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 	const { appsConfig } = useSystemManager();
 	const windowsManager = useWindowsManager();
-	const [isPlaying, setIsPlaying] = useState(false);
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 	const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -26,7 +25,6 @@ export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 			if (audioRef.current) {
 				audioRef.current.src = file.source;
 				void audioRef.current.play();
-				setIsPlaying(true);
 			}
 		}
 
@@ -34,7 +32,6 @@ export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 			if (videoRef.current) {
 				videoRef.current.src = file.source;
 				void videoRef.current.play();
-				setIsPlaying(true);
 			}
 		}
 
@@ -49,38 +46,6 @@ export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 			}
 		};
 	}, [file]);
-
-	const handlePlay = () => {
-		if (audioRef.current) {
-			void audioRef.current.play();
-		}
-		if (videoRef.current) {
-			void videoRef.current.play();
-		}
-		setIsPlaying(true);
-	};
-
-	const handlePause = () => {
-		if (audioRef.current) {
-			audioRef.current.pause();
-		}
-		if (videoRef.current) {
-			videoRef.current.pause();
-		}
-		setIsPlaying(false);
-	};
-
-	const handleStop = () => {
-		if (audioRef.current) {
-			audioRef.current.pause();
-			audioRef.current.currentTime = 0;
-		}
-		if (videoRef.current) {
-			videoRef.current.pause();
-			videoRef.current.currentTime = 0;
-		}
-		setIsPlaying(false);
-	};
 
 	if (file == null) {
 		const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.fileExplorer);
@@ -106,19 +71,10 @@ export function MediaViewer({ file, close, setTitle }: MediaViewerProps) {
 		</div>;
 	} else if (AUDIO_EXTENSIONS.includes(file.extension)) {
 		return <div className={styles.AudioViewer}>
-			<h3>Playing audio: {file.id}</h3>
-			<audio ref={audioRef} controls/>
-			<div className={styles.AudioControls}>
-				<button className={isPlaying ? styles.Playing : ""} onClick={handlePlay} disabled={isPlaying}>
-					Play
-				</button>
-				<button className={isPlaying ? styles.Playing : ""} onClick={handlePause} disabled={!isPlaying}>
-					Pause	
-				</button>
-				<button className={isPlaying ? styles.Playing : ""} onClick={handleStop}>
-					Stop
-				</button>
-			</div>
+			<audio ref={audioRef} controls>
+				<source src={file.source} type={`video/${file.extension}`}/>
+				Your browser does not support audio.
+			</audio> 
 		</div>;
 	} else if (VIDEO_EXTENSIONS.includes(file.extension)) {
 		if (file.extension === "yt") {

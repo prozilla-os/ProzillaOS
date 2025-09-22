@@ -121,11 +121,11 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 
 			userFolder.createFolder("Audio", (folder) => {
 				folder.setIconUrl(skin.folderIcons.audio ?? skin.folderIcons.generic)
-					.createFile("Assasins Creed Rogue Theme", "mp3", (file) => {
-						file.setSource("https://vgmsite.com/soundtracks/assassin-s-creed-rogue-original-game-soundtrack/rgvmdtdtyv/01.%20Assassin%27s%20Creed%20Rogue%20Main%20Theme.mp3");
+					.createFile("Andrew-Applepie_Im-So", "ogg", (file) => {
+						file.setSource("/assets/audio/Andrew-Applepie_Im-So.ogg");
 					})
-					.createFile("Mortal Kombat theme", "mp3", (file) => {
-						file.setSource("https://kappa.vgmsite.com/soundtracks/mortal-kombat-vscdt-1487-1993/posqvhcduj/01.%20TECHNO-SYNDROME%207%27%27%20MIX.mp3");
+					.createFile("Andrew-Applepie_Run-Part-2", "ogg", (file) => {
+						file.setSource("/assets/audio/Andrew-Applepie_Run-Part-2.ogg");
 					});
 			});
 			

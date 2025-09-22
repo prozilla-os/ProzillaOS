@@ -11,38 +11,9 @@
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
-}  
-
-.AudioViewer {
-	width: 70%;
-	margin: 0.5rem auto 0;
 }
 
-.AudioViewer .AudioControls {
-	margin-top: 20px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.AudioControls button {
-	margin: 1rem;
-	padding: 0.5rem 0;
-	width: 20%;
-	border-radius: var(--border-radius-1);
-}
-
-.AudioControls > .Playing {
-	background-color: var(--purple-0);
-	color: var(--white-0);
-}
-
-.AudioControls > :not(.Playing) {
-	background-color: var(--red-0);
-	color: var(--white-0);
-}
-
-.VideoViewer {
+.VideoViewer, .AudioViewer {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
