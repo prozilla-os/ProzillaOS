@@ -1,5 +1,21 @@
 # prozilla-os
 
+## 1.3.12
+
+### Patch Changes
+
+- Audio & video support & ability to download files
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.1.17
+  - @prozilla-os/media-viewer@1.1.17
+  - @prozilla-os/core@1.3.12
+  - @prozilla-os/settings@1.1.17
+  - @prozilla-os/app-center@1.0.10
+  - @prozilla-os/browser@1.1.17
+  - @prozilla-os/calculator@1.1.17
+  - @prozilla-os/terminal@1.1.18
+  - @prozilla-os/text-editor@1.1.17
+
 ## 1.3.11
 
 ### Patch Changes

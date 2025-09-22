@@ -1,5 +1,11 @@
 # @prozilla-os/skins
 
+## 1.1.9
+
+### Patch Changes
+
+- Audio & video support & ability to download files
+
 ## 1.1.8
 
 ### Patch Changes

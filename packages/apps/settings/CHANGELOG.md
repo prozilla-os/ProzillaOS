@@ -1,5 +1,14 @@
 # @prozilla-os/settings
 
+## 1.1.17
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.1.17
+  - @prozilla-os/core@1.3.12
+  - @prozilla-os/skins@1.1.9
+
 ## 1.1.16
 
 ### Patch Changes
