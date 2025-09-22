@@ -6,6 +6,8 @@ import { VirtualFolder } from "../../../features/virtual-drive/folder";
 import { Vector2 } from "../../../features";
 import { Interactable } from "../interactable/Interactable";
 import { useClassNames } from "../../../hooks/_utils/classNames";
+import { removeFromArray } from "@prozilla-os/shared";
+import { VirtualBase } from "../../../features/virtual-drive/virtualBase";
 
 export interface OnSelectionChangeParams {
 	files?: string[];
@@ -33,6 +35,8 @@ interface DirectoryListProps {
 
 export function DirectoryList({ directory, showHidden = false, folderClassName, fileClassName, className,
 	onContextMenuFile, onContextMenuFolder, onOpenFile, onOpenFolder, allowMultiSelect = true, onSelectionChange, ...props }: DirectoryListProps): ReactElement | null {
+	const [folders, setFolders] = useState<VirtualFolder[]>([]);
+	const [files, setFiles] = useState<VirtualFile[]>([]);
 	const [selectedFolders, setSelectedFolders] = useState<string[]>([]);
 	const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
 
@@ -82,6 +86,28 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		};
 	});
 
+	useEffect(() => {
+		const onUpdate = () => {
+			console.log("Updated");
+
+			setFolders([...directory.getSubFolders(showHidden)]);
+			setFiles([...directory.getFiles(showHidden)]);
+
+			setSelectedFolders((folders) => folders.filter((folder) => directory.hasFolder(folder)));
+			setSelectedFiles((files) => files.filter((file) => {
+				const { name, extension } = VirtualFile.splitId(file);
+				return directory.hasFile(name, extension as string | undefined);
+			}));
+		};
+
+		onUpdate();
+		directory.on(VirtualBase.EVENT_NAMES.update, onUpdate);
+
+		return () => {
+			directory.off(VirtualBase.EVENT_NAMES.update, onUpdate);
+		};
+	}, [directory, showHidden]);
+
 	if (!directory)
 		return null;
 
@@ -92,6 +118,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		if (exclusive)
 			setSelectedFiles([]);
 	};
+
 	const selectFile = (file: VirtualFile, exclusive = false) => {
 		if (!allowMultiSelect)
 			exclusive = true;
@@ -100,9 +127,23 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 			setSelectedFolders([]);
 	};
 
+	const deselectFolder = (folder: VirtualFolder) => {
+		const newFolders = [...selectedFolders];
+		removeFromArray(folder.id, newFolders);
+		setSelectedFolders(newFolders);
+	};
+
+	const deselectFile = (file: VirtualFile) => {
+		const newFiles = [...selectedFiles];
+		removeFromArray(file.id, newFiles);
+		setSelectedFiles(newFiles);
+	};
+
 	const onStartRectSelect = (event: MouseEvent) => {
+		event.preventDefault();
 		setRectSelectStart({ x: event.clientX, y: event.clientY } as Vector2);
 	};
+
 	const getRectSelectStyle = () => {
 		let x: number, y: number, width: number, height: number = 0;
 
@@ -160,7 +201,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 			? <div className={styles.SelectionRect} style={getRectSelectStyle()}/>
 			: null
 		}
-		{directory?.getSubFolders(showHidden)?.map((folder) => 
+		{folders.map((folder) => 
 			<Interactable
 				key={folder.id}
 				tabIndex={0}
@@ -174,6 +215,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 				}}
 				onDoubleClick={(event: MouseEvent) => {
 					onOpenFolder?.(event, folder);
+					deselectFolder(folder);
 				}}
 			>
 				<div className={styles.FolderIcon}>
@@ -182,7 +224,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 				<p>{folder.name}</p>
 			</Interactable>
 		)}
-		{directory?.getFiles(showHidden)?.map((file) => 
+		{files.map((file) => 
 			<Interactable
 				key={file.id}
 				tabIndex={0}
@@ -196,6 +238,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 				}}
 				onDoubleClick={(event: MouseEvent) => {
 					onOpenFile?.(event, file);
+					deselectFile(file);
 				}}
 			>
 				<div className={styles.FileIcon}>

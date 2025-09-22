@@ -1,5 +1,6 @@
 # Examples
 
-This is a list of example projects that showcase the features and use cases of ProzillaOS.
+This is a list of example projects that demonstrate the features and use cases of ProzillaOS.
 
+- [ProzillaOS boilerplate](https://github.com/prozilla-os/ProzillaOS-boilerplate)
 - [Portfolio](./portfolio)

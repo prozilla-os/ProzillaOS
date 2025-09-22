@@ -42,11 +42,11 @@
 	resize: both;
 	overflow: hidden;
 	transform-origin: center center;
-	animation: appear 250ms ease-in-out forwards;
+	animation: appear var(--transition-duration-1)var(--ease-in-out-default) forwards;
 }
 
 .Window-container.Minimized .Window-inner {
-	animation: disappear 250ms ease-in-out forwards;
+	animation: disappear var(--transition-duration-1)var(--ease-in-out-default) forwards;
 }
 
 @keyframes appear {

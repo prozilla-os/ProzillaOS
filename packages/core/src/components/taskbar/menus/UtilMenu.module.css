@@ -14,7 +14,8 @@
 	border-bottom-left-radius: var(--border-radius-1);
 	backdrop-filter: var(--taskbar-filter);
 	transform: none;
-	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+	transition: opacity var(--transition-duration-1) var(--ease-in-out-default),
+		transform var(--transition-duration-1) var(--ease-in-out-default);
 	overflow: hidden;
 	resize: horizontal;
 }

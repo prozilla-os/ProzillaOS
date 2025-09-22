@@ -1,7 +1,8 @@
-import { SettingsManager, THEMES } from "@prozilla-os/core";
+import { SettingsManager } from "@prozilla-os/core";
 import { ANSI } from "@prozilla-os/shared";
 import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR } from "../../constants/terminal.const";
 import { Command, ExecuteParams } from "../command";
+import { Theme } from "@prozilla-os/skins";
 
 export const neofetch = new Command()
 	.setManual({
@@ -13,9 +14,9 @@ export const neofetch = new Command()
 		const rightColumnWidth = (username?.length ?? 0) + (hostname?.length ?? 0) + 1;
 
 		const themeIndex = await settingsManager.getSettings(SettingsManager.VIRTUAL_PATHS.theme).get("theme");
-		let theme = THEMES[0] as string;
+		let theme = Theme[Theme.Dark];
 		if (themeIndex != null && parseInt(themeIndex)) {
-			theme = THEMES[(themeIndex as unknown as number) ?? 0] as string ?? THEMES[0];
+			theme = Theme[parseInt(themeIndex)];
 		}
 
 		const userAgent = navigator.userAgent;

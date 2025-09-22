@@ -1,3 +1,4 @@
+/* Color palette */
 :root {
 	--red-0: #FF4D5B;
 	--red-1: #B23640;
@@ -48,6 +49,7 @@
 	--black-4: #080B0D;
 }
 
+/* Theme colors */
 :root {
 	--foreground-color-0: var(--white-0);
 	--foreground-color-1: var(--white-1);
@@ -62,15 +64,19 @@
 	--scrollbar-color: color-mix(in srgb, var(--background-color-0) 25%, transparent);
 }
 
+/* Properties */
 :root {
+	/* Border radius */
 	--border-radius-0: 0.2rem;
 	--border-radius-1: 0.375rem;
 	--border-radius-99: 9999px;
 
+	/* SVG */
 	--svg-drop-shadow-color: var(--black-0);
-	--svg-drop-shadow-0: drop-shadow(0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--svg-drop-shadow-color) 50%, transparent));
+	--svg-drop-shadow-0: drop-shadow(0.05rem 0.1rem 0.15rem color-mix(in srgb, var(--svg-drop-shadow-color) 50%, transparent));
 	--svg-drop-shadow-1: drop-shadow(0.1rem 0.1rem 0.2rem color-mix(in srgb, var(--svg-drop-shadow-color) 75%, transparent));
 	
+	/* Windows */
 	--window-shadow-size: 0.3rem;
 	--window-shadow-opacity: 35%;
 	--window-shadow-spread: 3;
@@ -78,6 +84,7 @@
 		calc(var(--window-shadow-size) * var(--window-shadow-spread)) 0px
 		rgba(0, 0, 0, var(--window-shadow-opacity));
 
+	/* Taskbar */
 	--taskbar-height: 3rem;
 	--taskbar-color: var(--background-color-2);
 	--taskbar-opacity: 0.75;
@@ -85,4 +92,14 @@
 	--taskbar-menu-opacity: 0.5;
 	--taskbar-button-hover-color: rgba(255, 255, 255, 5%);
 	--taskbar-filter: blur(1rem);
+
+	/* Transitions (https://easings.net/) */
+	--transition-duration-0: 75ms;
+	--transition-duration-1: 250ms;
+	--transition-duration-2: 400ms;
+	--ease-int-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+	--ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+	--ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+	--ease-in-out-back: cubic-bezier(0.68, -1, 0.32, 2);
+	--ease-in-out-default: var(--ease-in-out-quart, ease-in-out);
 }

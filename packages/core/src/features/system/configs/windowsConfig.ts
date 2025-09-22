@@ -1,4 +1,3 @@
-import { OptionalInterface } from "../../../types/utils";
 import { Vector2 } from "../../math/vector2";
 
 export interface WindowsConfigOptions {
@@ -24,7 +23,7 @@ export class WindowsConfig {
 	titleSeparator: WindowsConfigOptions["titleSeparator"];
 	minScreenSize: WindowsConfigOptions["minScreenSize"];
 
-	constructor(options: OptionalInterface<WindowsConfigOptions> = {}) {
+	constructor(options: Partial<WindowsConfigOptions> = {}) {
 		const { screenMargin, titleSeparator, minScreenSize } = options as WindowsConfigOptions;
 		
 		this.screenMargin = screenMargin ?? 32;

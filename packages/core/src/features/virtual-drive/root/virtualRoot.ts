@@ -23,6 +23,7 @@ export class VirtualRoot extends VirtualFolder {
 
 	static EVENT_NAMES = {
 		error: "error",
+		...super.EVENT_NAMES,
 	};
 
 	constructor(systemManager: SystemManager) {

@@ -1,4 +1,3 @@
-import { OptionalInterface } from "../../../types/utils";
 import { VirtualRoot } from "../../virtual-drive";
 
 export interface VirtualDriveConfigOptions {
@@ -36,6 +35,12 @@ export interface VirtualDriveConfigOptions {
 		 */
 		includeSourceTree?: boolean;
 
+		/**
+		 * Include apps folder in default data
+		 * @default true
+		 */
+		includeAppsFolder?: boolean;
+
 		loadData?: (virtualRoot: VirtualRoot) => void;
 	};
 }
@@ -44,7 +49,7 @@ export class VirtualDriveConfig {
 	saveData: VirtualDriveConfigOptions["saveData"];
 	defaultData: VirtualDriveConfigOptions["defaultData"];
 
-	constructor(options: OptionalInterface<VirtualDriveConfigOptions> = {}) {
+	constructor(options: Partial<VirtualDriveConfigOptions> = {}) {
 		const { saveData, defaultData } = options as VirtualDriveConfigOptions;
 
 		this.saveData = saveData ?? true;
@@ -54,6 +59,7 @@ export class VirtualDriveConfig {
 			includeDocumentsFolder: true,
 			includeDesktopFolder: true,
 			includeSourceTree: true,
+			includeAppsFolder: true,
 			...defaultData,
 		};
 	}

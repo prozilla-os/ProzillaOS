@@ -1,14 +1,15 @@
 import { ChangeEventHandler, useEffect, useState } from "react";
 import styles from "../Settings.module.css";
-import { Button, SettingsManager, THEMES, useSettingsManager, useSystemManager, useVirtualRoot, useWindowedModal, utilStyles, IMAGE_EXTENSIONS, VirtualFile, VirtualFolder } from "@prozilla-os/core";
+import { Button, SettingsManager, useSettingsManager, useSystemManager, useVirtualRoot, useWindowedModal, utilStyles, IMAGE_EXTENSIONS, VirtualFile, VirtualFolder } from "@prozilla-os/core";
 import { FileSelectorMode, fileExplorer } from "@prozilla-os/file-explorer";
 import { WALLPAPERS_PATH } from "../../constants/settings.const";
+import { Theme } from "@prozilla-os/skins";
 
 export function AppearanceSettings() {
 	const { modalsConfig } = useSystemManager();
 	const virtualRoot = useVirtualRoot();
 	const settingsManager = useSettingsManager();
-	const [theme, setTheme] = useState(0);
+	const [theme, setTheme] = useState<number>(Theme.Dark);
 	const [wallpaper, setWallpaper] = useState<string | null>(null);
 	const desktopSettings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.desktop);
 	const themeSettings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.theme);
@@ -34,7 +35,7 @@ export function AppearanceSettings() {
 			<p className={styles.Label}>Theme</p>
 			<div className={styles.Input}>
 				<select className={styles.Dropdown} aria-label="theme" value={theme} onChange={onThemeChange as unknown as ChangeEventHandler}>
-					{Object.entries(THEMES).map(([key, value]) =>
+					{Object.entries(Theme).map(([key, value]) =>
 						<option key={key} value={key}>{value}</option>
 					)}
 				</select>

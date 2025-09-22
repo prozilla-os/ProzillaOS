@@ -127,7 +127,7 @@
 	position: relative;
 	display: inline-block;
 	color: var(--light-blue-0);
-	transition: color 200ms ease-in-out;
+	transition: color var(--transition-duration-1) var(--ease-in-out-default);
 }
 
 .MarkdownLink:hover, .MarkdownLink:focus-visible {

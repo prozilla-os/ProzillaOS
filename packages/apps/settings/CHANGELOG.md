@@ -1,5 +1,75 @@
 # @prozilla-os/settings
 
+## 1.1.16
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.11
+  - @prozilla-os/file-explorer@1.1.16
+
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.8
+  - @prozilla-os/core@1.3.10
+  - @prozilla-os/file-explorer@1.1.15
+
+## 1.1.14
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.7
+  - @prozilla-os/core@1.3.9
+  - @prozilla-os/file-explorer@1.1.14
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.8
+  - @prozilla-os/file-explorer@1.1.13
+
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.7
+  - @prozilla-os/file-explorer@1.1.12
+
+## 1.1.11
+
+### Patch Changes
+
+- Fixed internal dependency resolution
+- Updated dependencies
+  - @prozilla-os/file-explorer@1.1.11
+  - @prozilla-os/skins@1.1.6
+  - @prozilla-os/core@1.3.6
+
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.5
+  - @prozilla-os/core@1.3.5
+  - @prozilla-os/file-explorer@1.1.10
+
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.4
+  - @prozilla-os/core@1.3.4
+  - @prozilla-os/file-explorer@1.1.9
+
 ## 1.1.8
 
 ### Patch Changes

@@ -1,26 +1,26 @@
-.App-icon {
+.AppIcon {
 	opacity: 1;
 	position: relative;
 	width: var(--taskbar-height);
 	height: var(--taskbar-height);
 	aspect-ratio: 1;
-	animation: appear 100ms ease-out forwards;
+	animation: appear var(--transition-duration-0) ease-out forwards;
 }
 
-.App-icon svg {
+.AppIcon svg {
 	filter: var(--svg-drop-shadow-0);
 	transform: scale(100%);
 	transform-origin: center;
-	transition: transform 300ms ease-out 150ms;
+	transition: transform var(--transition-duration-1) ease-out var(--transition-duration-0);
 }
 
-.App-icon:not(.Active):hover svg,
-.App-icon:not(.Active):focus-visible svg {
-	transform: scale(115%);
+.AppIcon:not(.Active):hover svg,
+.AppIcon:not(.Active):focus-visible svg {
+	transform: scale(125%);
 }
 
-.App-icon.Hidden {
-	animation: disappear 400ms ease-in-out forwards;
+.AppIcon.Hidden {
+	animation: disappear var(--transition-duration-2)var(--ease-in-out-default) forwards;
 	pointer-events: none;
 }
 
@@ -47,7 +47,7 @@
 	}
 }
 
-.App-icon::after {
+.AppIcon::after {
 	content: "";
 	position: absolute;
 	left: 50%;
@@ -55,16 +55,16 @@
 	width: 90%;
 	height: 0.15rem;
 	background-color: var(--foreground-color-0);
-	transition: height 200ms ease-in-out, width 200ms ease-in-out;
+	transition: height var(--transition-duration-1)var(--ease-in-out-default), width var(--transition-duration-1) var(--ease-in-out-default);
 	transform: translateX(-50%);
 	-webkit-transform: translateX(-50%);
 }
 
-.App-icon:hover::after,
-.App-icon:focus-visible::after {
+.AppIcon:hover::after,
+.AppIcon:focus-visible::after {
 	width: 100%;
 }
 
-.App-icon:not(.Active)::after {
+.AppIcon:not(.Active)::after {
 	height: 0;
 }

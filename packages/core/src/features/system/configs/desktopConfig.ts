@@ -1,5 +1,3 @@
-import { OptionalInterface } from "../../../types/utils";
-
 export interface DesktopConfigOptions {
 	/**
 	 * @default 1
@@ -17,7 +15,7 @@ export class DesktopConfig {
 	defaultIconSize: DesktopConfigOptions["defaultIconSize"];
 	defaultIconDirection: DesktopConfigOptions["defaultIconDirection"];
 
-	constructor(options: OptionalInterface<DesktopConfigOptions> = {}) {
+	constructor(options: Partial<DesktopConfigOptions> = {}) {
 		const { defaultIconSize, defaultIconDirection } = options as DesktopConfigOptions;
 
 		this.defaultIconSize = defaultIconSize ?? 1;

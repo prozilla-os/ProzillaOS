@@ -6,5 +6,3 @@ export * from "./styles";
 export * from "./router";
 
 import "./styles/global.css";
-
-export type * from "./types/utils";

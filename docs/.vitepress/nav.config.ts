@@ -10,6 +10,8 @@ export const NAVIGATION: (DefaultTheme.NavItemChildren & DefaultTheme.SidebarIte
 			{ text: "Introduction", link: "/introduction" },
 			{ text: "Examples", link: "/examples" },
 			{ text: "Features", link: "/features" },
+			{ text: "Skins", link: "/skins" },
+			{ text: "Showcase", link: "/showcase" },
 		],
 	},
 	{

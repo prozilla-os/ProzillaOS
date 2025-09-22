@@ -24,7 +24,7 @@
 	border-radius: var(--border-radius-1);
 	overflow: hidden;
 	aspect-ratio: 16 / 14;
-	transition: background-color 200ms ease-in-out;
+	transition: background-color var(--transition-duration-1) var(--ease-in-out-default);
 	cursor: pointer;
 }
 

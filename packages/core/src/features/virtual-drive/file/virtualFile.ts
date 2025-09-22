@@ -1,4 +1,5 @@
 import { AUDIO_EXTENSIONS, FILE_SCHEMES, IMAGE_EXTENSIONS, VIDEO_EXTENSIONS } from "../../../constants/virtualDrive.const";
+import { downloadUrl } from "../../_utils";
 import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualBase, VirtualBaseJson } from "../virtualBase";
 
@@ -24,6 +25,7 @@ export class VirtualFile extends VirtualBase {
 
 	static EVENT_NAMES = {
 		contentChange: "contentchange",
+		...super.EVENT_NAMES,
 	};
 
 	constructor(name: string, extension?: string  ) {
@@ -95,6 +97,7 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	async read(): Promise<OptionalStringProperty | undefined> {
+		if (this.isDeleted) return null;
 		if (this.content != null) return this.content;
 		if (this.source == null) return null;
 
@@ -115,6 +118,9 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	getIconUrl(): string {
+		if (this.isDeleted)
+			return super.getIconUrl();
+
 		if (this.iconUrl != null)
 			return this.iconUrl;
 
@@ -186,6 +192,34 @@ export class VirtualFile extends VirtualBase {
 		}
 
 		return `${type} file (.${this.extension.toLowerCase()})`.trim();
+	}
+
+	download() {
+		if (!this.isDownloadable()) {
+			return;
+		}
+
+		try {
+			if (this.source != null) {
+				downloadUrl(this.source, this.id);
+			} else if (this.content != null) {
+				const blob = new Blob([this.content], { type: "text/plain" });
+				const url = window.URL.createObjectURL(blob);
+				downloadUrl(url, this.id);
+				window.URL.revokeObjectURL(url);
+			}
+		} catch (error) {
+			console.error("Error while downloading file:", error);
+		}
+	}
+
+	isDownloadable(): boolean {
+		if (this.content != null) {
+			return true;
+		} else if (this.source != null) {
+			return !this.source.startsWith(FILE_SCHEMES.external) && !this.source.startsWith(FILE_SCHEMES.app);
+		}
+		return false;
 	}
 
 	toJSON(): VirtualFileJson | null {

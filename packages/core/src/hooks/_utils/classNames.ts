@@ -1,6 +1,10 @@
 import { useMemo } from "react";
 import { NAME } from "../../constants/branding.const";
 
+const BLOCK_PREFIX = "-";
+const ELEMENT_PREFIX = "__";
+const MODIFIER_PREFIX = "--";
+
 /**
  * Generates static class name using BEM notation
  */
@@ -12,20 +16,20 @@ export function useStaticClassName(block?: string, element?: string, modifier?: 
 		let className = "";
 
 		if (modifier == null || typeof modifier == "string") {
-			className = `${NAME}-${block}`;
+			className = NAME + BLOCK_PREFIX + block;
 
 			if (element != null)
-				className += `_${element}`;
+				className += ELEMENT_PREFIX + element;
 			if (modifier != null)
-				className += `--${modifier}`;
+				className += MODIFIER_PREFIX + modifier;
 		} else {
 			modifier?.forEach((mod) => {
-				className += ` ${NAME}-${block}`;
+				className += ` ${NAME + BLOCK_PREFIX + block}`;
 
 				if (element != null)
-					className += `_${element}`;
+					className += ELEMENT_PREFIX + element;
 				if (mod != null)
-					className += `--${mod}`;
+					className += MODIFIER_PREFIX + mod;
 			});
 
 			className = className.trim();
@@ -36,7 +40,7 @@ export function useStaticClassName(block?: string, element?: string, modifier?: 
 }
 
 /**
- * Combine clas names and an optional static class name
+ * Combine class names and an optional static class name
  */
 export function useClassNames(classNames: (string | undefined)[], block?: string, element?: string, modifier?: string | string[]) {
 	const staticClassName = useStaticClassName(block, element, modifier);

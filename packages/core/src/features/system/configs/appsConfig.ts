@@ -1,14 +1,12 @@
 import { APP_CATEGORIES } from "../../../constants/apps.const";
 import { App } from "../../";
-import { OptionalInterface } from "../../../types/utils";
 import { WindowProps } from "../../../components";
 
 export interface AppsConfigOptions {
 	/**
 	 * An array of applications
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	apps: App<any>[];
+	apps: App<WindowProps>[];
 }
 
 export class AppsConfig {
@@ -23,7 +21,7 @@ export class AppsConfig {
 		browser: "browser",
 	};
 
-	constructor(options: OptionalInterface<AppsConfigOptions> = {}) {
+	constructor(options: Partial<AppsConfigOptions> = {}) {
 		const { apps } = options as AppsConfigOptions;
 
 		if (apps != null) {
@@ -49,8 +47,10 @@ export class AppsConfig {
 	getAppById(id: string, includeUninstalled = false): App | null {
 		let resultApp: App | null = null;
 
-		this.apps.forEach((app) => {
-			if (resultApp == null && app.id === id && app.isInstalled || includeUninstalled) {
+		this.apps.forEach((app: App) => {
+			const includeApp = app.isInstalled == null || app.isInstalled || includeUninstalled;
+
+			if (resultApp == null && app.id === id && includeApp) {
 				resultApp = app;
 				return;
 			}
@@ -99,7 +99,7 @@ export class AppsConfig {
 
 		this.apps.forEach((app) => {
 			if (app.category == category) {
-				resultApps.push(app as App<WindowProps>);
+				resultApps.push(app);
 			}
 		});
 

@@ -19,10 +19,16 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	editedByUser: boolean | undefined | null;
 	isRoot: boolean | undefined | null;
 	root: VirtualRoot | undefined | null;
+	isDeleted: boolean;
+
+	static EVENT_NAMES = {
+		update: "update",
+	};
 
 	constructor(name: string) {
 		super();
 		this.name = name;
+		this.isDeleted = false;
 	}
 
 	get id() {
@@ -79,11 +85,21 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	}
 
 	getIconUrl(): string {
+		if (this.isDeleted) {
+			const systemManager = this.parent?.getRoot().systemManager;
+
+			if (!systemManager)
+				return "";
+
+			return systemManager.skin.fileIcons.generic;
+		}
+
 		if (this.iconUrl != null) return this.iconUrl;
 		if (this.linkedFile?.iconUrl != null) return this.linkedFile.iconUrl;
 		if (this.linkedFolder?.iconUrl != null) return this.linkedFolder.iconUrl;
 
 		const { skin } = this.getRoot().systemManager;
+
 		return skin.fileIcons.generic;
 	}
 
@@ -101,17 +117,24 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 			return;
 
 		parent.remove?.(this as never);
+		this.isDeleted = true;
+
 		this.confirmChanges(parent.getRoot());
 	}
 
 	confirmChanges(root?: VirtualRoot) {
-		if (root == null)
+		if (root == null) {
+			if (this.isDeleted)
+				return;
+
 			root = this.getRoot();
+		}
 
 		if (root?.loadedDefaultData)
 			this.editedByUser = true;
 
 		root?.saveData();
+		this.emit(VirtualBase.EVENT_NAMES.update);
 	}
 
 	open(..._args: unknown[]): unknown {
@@ -123,7 +146,7 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	}
 
 	/**
-	 * Returns path without using alias
+	 * Returns path without using this item's alias
 	 */
 	get displayPath() {
 		return this.parent?.path + "/" + this.id;
@@ -144,6 +167,9 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	 * Returns whether this can be edited in its current state
 	 */
 	get canBeEdited(): boolean {
+		if (this.isDeleted)
+			return false;
+
 		const isProtected = this.isProtected && this.getRoot().loadedDefaultData;
 
 		if (!isProtected && this.parent != null) {
@@ -172,6 +198,9 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	}
 
 	toJSON(): VirtualBaseJson | null {
+		if (this.isDeleted)
+			return null;
+
 		const object = {
 			nam: this.name,
 			ico: this.iconUrl,

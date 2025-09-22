@@ -146,15 +146,17 @@ function loadStyleSheet() {
 
 ## Instances
 
+For more information about the designs of these skins, refer to the [skins page](../../../about/skins).
+
 ### macOsSkin
 
-A skin inspired by the macOS interface
+A skin inspired by the MacOS interface
 
 #### Preview
 
 ![Preview of the MacOS skin](/screenshots/skins/mac.png)
 
-#### Example
+#### Usage
 
 ```tsx
 // App.tsx
@@ -184,7 +186,7 @@ A minimalistic skin with monochrome icons
 
 ![Preview of the minimalistic skin](/screenshots/skins/minimal.png)
 
-#### Example
+#### Usage
 
 ```tsx
 // App.tsx
@@ -197,6 +199,66 @@ export function App(): ReactElement {
 		systemName={"Example"}
 		tagLine={"Powered by ProzillaOS"}
 		skin={minimalSkin} // [!code highlight]
+	>
+		<Taskbar/>
+		<WindowsView/>
+		<ModalsView/>
+		<Desktop/>
+	</ProzillaOS>;
+}
+```
+
+### windows95Skin
+
+A skin inspired by the Windows95 interface
+
+#### Preview
+
+![Preview of the Windows95 skin](/screenshots/skins/windows95.png)
+
+#### Usage
+
+```tsx
+// App.tsx
+
+import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView } from "prozilla-os";
+import { windows95Skin } from "@prozilla-os/skins"; // [!code highlight]
+
+export function App(): ReactElement {
+	return <ProzillaOS
+		systemName={"Example"}
+		tagLine={"Powered by ProzillaOS"}
+		skin={windows95Skin} // [!code highlight]
+	>
+		<Taskbar/>
+		<WindowsView/>
+		<ModalsView/>
+		<Desktop/>
+	</ProzillaOS>;
+}
+```
+
+### pixelSkin
+
+A pixelated skin with pixel art
+
+#### Preview
+
+![Preview of the Pixel skin](/screenshots/skins/pixel.png)
+
+#### Usage
+
+```tsx
+// App.tsx
+
+import { Desktop, ModalsView, ProzillaOS, Taskbar, WindowsView } from "prozilla-os";
+import { pixelSkin } from "@prozilla-os/skins"; // [!code highlight]
+
+export function App(): ReactElement {
+	return <ProzillaOS
+		systemName={"Example"}
+		tagLine={"Powered by ProzillaOS"}
+		skin={pixelSkin} // [!code highlight]
 	>
 		<Taskbar/>
 		<WindowsView/>

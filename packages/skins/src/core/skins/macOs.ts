@@ -1,5 +1,8 @@
 import { Skin } from "../skin";
 
+/**
+ * A skin inspired by the MacOS interface
+ */
 export const macOsSkin = new Skin({
 	appIcons: {
 		"ball-maze": "/assets/skins/mac/apps/icons/ball-maze.svg",
@@ -12,6 +15,7 @@ export const macOsSkin = new Skin({
 		"terminal": "/assets/skins/mac/apps/icons/terminal.svg",
 		"text-editor": "/assets/skins/mac/apps/icons/text-editor.svg",
 		"wordle": "/assets/skins/mac/apps/icons/wordle.svg",
+		"app-center": "/assets/skins/mac/apps/icons/app-center.svg",
 	},
 	appNames: {
 		"browser": "Safari",
@@ -20,9 +24,14 @@ export const macOsSkin = new Skin({
 		"media-viewer": "Photos",
 		"terminal": "Terminal",
 		"text-editor": "Notes",
+		"app-center": "Launchpad",
 	},
 	wallpapers: [
 		"/assets/skins/mac/wallpapers/macos-monterey.jpg",
+		"/assets/skins/mac/wallpapers/macos-big-sur.jpg",
+		"/assets/skins/mac/wallpapers/macos-sequoia.jpg",
+		"/assets/skins/mac/wallpapers/macos-sonoma.jpg",
+		"/assets/skins/mac/wallpapers/macos-ventura.jpg",
 	],
 	defaultWallpaper: "/assets/skins/mac/wallpapers/macos-monterey.jpg",
 	fileIcons: {

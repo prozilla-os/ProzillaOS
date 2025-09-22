@@ -1,5 +1,3 @@
-import { OptionalInterface } from "../../../types/utils";
-
 export interface TrackingConfigOptions {
 	/**
 	 * Enable tracking
@@ -15,7 +13,7 @@ export class TrackingConfig {
 	enabled: TrackingConfigOptions["enabled"];
 	googleAnalyticsMeasurementId: TrackingConfigOptions["GAMeasurementId"];
 
-	constructor(options: OptionalInterface<TrackingConfigOptions> = {}) {
+	constructor(options: Partial<TrackingConfigOptions> = {}) {
 		const { enabled, GAMeasurementId } = options as TrackingConfigOptions;
 		
 		this.enabled = enabled ?? true;

@@ -1,5 +1,3 @@
-import { OptionalInterface } from "../../../types/utils";
-
 export interface TaskbarConfigOptions {
 	/**
 	 * Height of the taskbar in CSS pixels
@@ -11,7 +9,7 @@ export interface TaskbarConfigOptions {
 export class TaskbarConfig {
 	height: TaskbarConfigOptions["height"];
 
-	constructor(options: OptionalInterface<TaskbarConfigOptions> = {}) {
+	constructor(options: Partial<TaskbarConfigOptions> = {}) {
 		const { height } = options as TaskbarConfigOptions;
 		
 		this.height = height ?? 3 * 16;

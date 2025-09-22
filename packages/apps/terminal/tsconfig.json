@@ -9,7 +9,8 @@
 		"noEmit": false,
 		"paths": {
 			"@prozilla-os/core": ["./node_modules/@prozilla-os/core/src/main"],
-			"@prozilla-os/shared": ["./node_modules/@prozilla-os/shared/src/main"]
+			"@prozilla-os/shared": ["./node_modules/@prozilla-os/shared/src/main"],
+			"@prozilla-os/skins": ["./node_modules/@prozilla-os/skins/src/main"]
 		}
 	},
 	"include": ["src", "vite.config.ts"],

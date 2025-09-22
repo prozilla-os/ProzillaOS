@@ -1,5 +1,60 @@
 # @prozilla-os/dev-tools
 
+## 1.1.8
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.11
+
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.10
+
+## 1.1.6
+
+### Patch Changes
+
+- @prozilla-os/core@1.3.9
+
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.8
+
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.7
+
+## 1.1.3
+
+### Patch Changes
+
+- Fixed internal dependency resolution
+- Updated dependencies
+  - @prozilla-os/core@1.3.6
+
+## 1.1.2
+
+### Patch Changes
+
+- @prozilla-os/core@1.3.5
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.4
+
 ## 1.1.0
 
 ### Minor Changes

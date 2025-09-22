@@ -32,7 +32,7 @@
 	height: 100%;
 	border-radius: var(--border-radius-1);
 	overflow: hidden;
-	transition: width 200ms ease-out 200ms;
+	transition: width var(--transition-duration-1) var(--ease-in-out-default) var(--transition-duration-1);
 	z-index: 1;
 }
 
@@ -46,7 +46,7 @@
 	border-radius: inherit;
 	pointer-events: none;
 	backdrop-filter: var(--filter);
-	transition: backdrop-filter 200ms ease-out 200ms;
+	transition: backdrop-filter var(--transition-duration-1) var(--ease-in-out-default) var(--transition-duration-1);
 }
 
 .Buttons:hover,

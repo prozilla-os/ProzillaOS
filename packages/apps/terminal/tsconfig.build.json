@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"paths": {
 			"@prozilla-os/core": ["packages/core/dist/main"],
-			"@prozilla-os/shared": ["packages/shared/dist/main"]
+			"@prozilla-os/shared": ["packages/shared/dist/main"],
+			"@prozilla-os/skins": ["packages/skins/dist/main"]
 		}
 	}
 }

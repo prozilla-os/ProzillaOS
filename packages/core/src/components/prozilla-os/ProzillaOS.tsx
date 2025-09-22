@@ -14,7 +14,6 @@ import { ModalsConfig, ModalsConfigOptions } from "../../features/system/configs
 import { TaskbarConfig, TaskbarConfigOptions } from "../../features/system/configs/taskbarConfig";
 import { TrackingConfig, TrackingConfigOptions } from "../../features/system/configs/trackingConfig";
 import { WindowsConfig, WindowsConfigOptions } from "../../features/system/configs/windowsConfig";
-import { OptionalInterface } from "../../types/utils";
 import { TrackingManagerProvider } from "../../hooks/tracking/trackingManagerProvider";
 import { VirtualDriveConfig, VirtualDriveConfigOptions } from "../../features/system/configs/virtualDriveConfig";
 import { Main } from "./Main";
@@ -24,14 +23,14 @@ export interface ProzillaOSProps {
 	systemName?: string;
 	tagLine?: string;
 	config?: {
-		apps?: OptionalInterface<AppsConfigOptions>;
-		desktop?: OptionalInterface<DesktopConfigOptions>;
-		misc?: OptionalInterface<MiscConfigOptions>;
-		modals?: OptionalInterface<ModalsConfigOptions>;
-		taskbar?: OptionalInterface<TaskbarConfigOptions>;
-		tracking?: OptionalInterface<TrackingConfigOptions>;
-		windows?: OptionalInterface<WindowsConfigOptions>;
-		virtualDrive?: OptionalInterface<VirtualDriveConfigOptions>;
+		apps?: Partial<AppsConfigOptions>;
+		desktop?: Partial<DesktopConfigOptions>;
+		misc?: Partial<MiscConfigOptions>;
+		modals?: Partial<ModalsConfigOptions>;
+		taskbar?: Partial<TaskbarConfigOptions>;
+		tracking?: Partial<TrackingConfigOptions>;
+		windows?: Partial<WindowsConfigOptions>;
+		virtualDrive?: Partial<VirtualDriveConfigOptions>;
 	},
 	skin?: Skin;
 	children?: ReactNode;

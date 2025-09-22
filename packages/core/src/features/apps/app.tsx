@@ -11,6 +11,11 @@ interface AppMetadata {
 	author: string;
 }
 
+interface WindowOptions {
+	size?: Vector2;
+	[key: string]: unknown;
+}
+
 /**
  * An application that can be ran by ProzillaOS
  * Applications can be installed by adding them to the `apps` array in {@link AppsConfig}
@@ -34,10 +39,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	/**
 	 * Default options that get passed to the {@link this.windowContent} component
 	 */
-	windowOptions?: {
-		size: Vector2;
-		[key: string]: unknown;
-	};
+	windowOptions?: Partial<AppProps> & WindowOptions;
 
 	/**
 	 * Description of this application
@@ -81,11 +83,17 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	 */
 	metadata: AppMetadata | null = null;
 
+	/**
+	 * Determines whether a desktop icon is added to the default data
+	 * @default false
+	 */
+	showDesktopIcon: boolean = false;
+
 	isActive: boolean = false;
 	isPinned?: boolean;
 	isInstalled = true;
 
-	constructor(name: App["name"], id: App["id"], windowContent: App<AppProps>["windowContent"], windowOptions?: App["windowOptions"]) {
+	constructor(name: App["name"], id: App["id"], windowContent: App<AppProps>["windowContent"], windowOptions?: Partial<AppProps> & WindowOptions) {
 		this.name = name;
 		this.id = id;
 		this.windowContent = windowContent;
@@ -177,8 +185,27 @@ export class App<AppProps extends WindowProps = WindowProps> {
 		return this;
 	}
 
+	/**
+	 * Changes the metadata for this application
+	 */
 	setMetadata(metadata: AppMetadata | null): this {
 		this.metadata = metadata;
+		return this;
+	}
+
+	/**
+	 * Changes whether this application has a desktop icon in the default data
+	 */
+	setShowDesktopIcon(showDesktopIcon: boolean): this {
+		this.showDesktopIcon = showDesktopIcon;
+		return this;
+	}
+
+	/**
+	 * Changes the default options for the {@link this.windowContent} component
+	 */
+	setWindowOptions(windowOptions: Partial<AppProps> & WindowOptions): this {
+		this.windowOptions = windowOptions;
 		return this;
 	}
 }

@@ -26,6 +26,7 @@
 		"rimraf": "^5.0.8",
 		"vite-node": "^2.1.2",
 		"vitepress": "^1.3.4",
-		"vue": "^3.4.31"
+		"vue": "^3.4.31",
+		"vitepress-plugin-lightbox": "^1.0.2"
 	}
 }

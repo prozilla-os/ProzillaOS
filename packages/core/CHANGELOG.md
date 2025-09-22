@@ -1,5 +1,70 @@
 # @prozilla-os/core
 
+## 1.3.11
+
+### Patch Changes
+
+- Fixed app config
+
+## 1.3.10
+
+### Patch Changes
+
+- `@prozilla-os/core`
+
+  - Updated windowOptions for apps
+    `@prozilla-os/skins`
+  - Updated shadows for pixel skin
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.8
+
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.7
+
+## 1.3.8
+
+### Patch Changes
+
+- `@prozilla-os/core`
+
+  - Fixed old apps not opening
+  - Updated CSS transitions
+  - Improved directory list state handling
+
+## 1.3.7
+
+### Patch Changes
+
+- Added app desktop icons
+
+## 1.3.6
+
+### Patch Changes
+
+- Fixed internal dependency resolution
+- Updated dependencies
+  - @prozilla-os/skins@1.1.6
+
+## 1.3.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/skins@1.1.5
+
+## 1.3.4
+
+### Patch Changes
+
+- Added Windows95 skin
+- Updated dependencies
+  - @prozilla-os/skins@1.1.4
+
 ## 1.3.3
 
 ### Patch Changes

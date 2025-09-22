@@ -12,7 +12,7 @@ export default defineConfig({
 			include: ["src"],
 			outDir: "./dist",
 			rollupTypes: true,
-			strictOutput: true
+			strictOutput: true,
 		}),
 		libInjectCss(),
 	],
@@ -27,7 +27,7 @@ export default defineConfig({
 				assetFileNames: "assets/[name][extname]",
 				chunkFileNames: "chunks/[name]-[hash].js",
 				entryFileNames: "[name].js",
-				manualChunks: undefined
+				manualChunks: undefined,
 			},
 			plugins: [{
 				name: "test",
@@ -40,7 +40,7 @@ export default defineConfig({
 				renderDynamicImport(options) {
 					const { targetModuleId } = options;
 					if (targetModuleId?.endsWith(".css")) {
-						const matches = targetModuleId.match(/(?<=\/)[a-zA-Z-]+(?=\.css$)/);
+						const matches = targetModuleId.match(/(?<=\/)[0-9a-zA-Z-]+(?=\.css$)/);
 
 						if (matches == null)
 							return;
@@ -48,12 +48,12 @@ export default defineConfig({
 						const name = matches[0];
 						return {
 							left: "import(/*",
-							right: `*/"./assets/${name}.css")`
+							right: `*/"./assets/${name}.css")`,
 						};
 					}
 					return null;
 				},
-			}]
+			}],
 		},
 		sourcemap: true,
 	},

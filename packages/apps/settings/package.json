@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/settings",
 	"description": "A settings app for ProzillaOS.",
-	"version": "1.1.8",
+	"version": "1.1.16",
 	"homepage": "https://os.prozilla.dev/settings",
 	"author": {
 		"name": "Prozilla",
@@ -28,6 +28,7 @@
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/file-explorer": "workspace:*",
 		"@prozilla-os/shared": "workspace:*",
+		"@prozilla-os/skins": "workspace:*",
 		"react": "^18.3.1"
 	},
 	"devDependencies": {

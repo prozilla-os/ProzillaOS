@@ -1,8 +1,6 @@
 ---
 outline: deep
+description: "This is a list of example projects that demonstrate the features and use cases of ProzillaOS."
 ---
 
 <!--@include: ../../../../examples/README.md-->
-
-> [!TIP]
-> Working on a project that uses ProzillaOS? Let me know by suggesting changes to this page via a pull request on GitHub!

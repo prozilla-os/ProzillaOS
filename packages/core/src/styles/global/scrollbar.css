@@ -20,7 +20,7 @@
 	background-color: var(--scrollbar-color);
 	background-clip: padding-box;
 	backdrop-filter: invert(100%);
-	transition: 200ms ease-in-out;
+	transition: var(--transition-duration-1) var(--ease-in-out-default);
 	z-index: 1;
 }
 

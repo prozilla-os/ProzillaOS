@@ -9,11 +9,11 @@ interface StandaloneHeaderProps {
 }
 
 export function StandaloneHeader({ exit }: StandaloneHeaderProps) {
-	const { systemName } = useSystemManager();
+	const { systemName, skin } = useSystemManager();
 
 	return <header className={styles.Header}>
 		<a className={styles.Logo} href="/" tabIndex={0}>
-			<ReactSVG src={"/assets/logo.svg"}/>
+			<ReactSVG src={skin.systemIcon}/>
 			<h1>{systemName}</h1>
 		</a>
 		<Button className={styles.ExitButton} onClick={exit} icon={faTimes}>
