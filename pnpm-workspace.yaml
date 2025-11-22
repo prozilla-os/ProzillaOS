@@ -1,7 +1,6 @@
 packages:
   - "packages/*"
   - "packages/apps/*"
-  - "demo"
+  - "web"
   - "docs"
   - "examples/*"
-    

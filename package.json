@@ -1,78 +1,78 @@
 {
-	"name": "@prozilla-os/monorepo",
-	"private": true,
-	"author": {
-		"name": "Prozilla",
-		"email": "business@prozilla.dev",
-		"url": "https://prozilla.dev/"
-	},
-	"funding": "https://ko-fi.com/prozilla",
-	"homepage": "https://os.prozilla.dev/",
-	"type": "module",
-	"license": "MIT",
-	"scripts": {
-		"preinstall": "npx only-allow pnpm",
-		"start": "pnpm run demo:start",
-		"build": "pnpm -r --sequential build",
-		"stage": "pnpm vite-node scripts/stageSite.ts",
-		"predeploy": "rimraf dist && pnpm run stage",
-		"deploy": "pnpm vite-node scripts/publishSite.ts",
-		"demo:start": "pnpm --filter @prozilla-os/demo run start",
-		"demo:build": "pnpm --filter @prozilla-os/demo run build",
-		"demo:preview": "pnpm --filter @prozilla-os/demo run preview",
-		"demo:stage": "pnpm --filter @prozilla-os/demo run stage",
-		"demo:fetch": "pnpm --filter @prozilla-os/demo run fetch",
-		"docs:start": "pnpm --filter @prozilla-os/docs run start",
-		"docs:build": "pnpm --filter @prozilla-os/docs run build",
-		"docs:preview": "pnpm --filter @prozilla-os/docs run preview",
-		"docs:generate": "pnpm --filter @prozilla-os/docs run generate",
-		"packages:build": "pnpm -r --sequential --filter \"@prozilla-os/demo^...\" build",
-		"packages:update": "npx changeset && pnpm changeset version",
-		"packages:release": "pnpm changeset publish && pnpm vite-node scripts/createRelease.ts"
-	},
-	"workspaces": [
-		"packages/*",
-		"packages/apps/*",
-		"demo",
-		"docs",
-		"examples/*"
-	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/prozilla-os/ProzillaOS.git"
-	},
-	"dependencies": {
-		"commander": "^12.1.0",
-		"pnpm": "^9.15.0"
-	},
-	"devDependencies": {
-		"@changesets/cli": "^2.27.5",
-		"@eslint/js": "^9.5.0",
-		"@types/eslint": "^8.56.10",
-		"@types/gh-pages": "^6.1.0",
-		"@types/node": "^20.14.6",
-		"@vitejs/plugin-react": "^4.3.1",
-		"eslint": "^8.57.0",
-		"eslint-plugin-react": "^7.37.1",
-		"eslint-plugin-react-refresh": "^0.4.7",
-		"rimraf": "^5.0.10",
-		"stylelint": "^16.6.1",
-		"typescript": "^5.5.4",
-		"typescript-eslint": "^8.8.1",
-		"vite-node": "^2.1.2",
-		"vite-plugin-checker": "^0.7.1"
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"packageManager": "pnpm@9.5.0"
+  "name": "@prozilla-os/monorepo",
+  "private": true,
+  "author": {
+    "name": "Prozilla",
+    "email": "business@prozilla.dev",
+    "url": "https://prozilla.dev/"
+  },
+  "funding": "https://ko-fi.com/prozilla",
+  "homepage": "https://os.prozilla.dev/",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "start": "pnpm run web:start",
+    "build": "pnpm -r --sequential build",
+    "stage": "pnpm vite-node scripts/stageSite.ts",
+    "predeploy": "rimraf dist && pnpm run stage",
+    "deploy": "pnpm vite-node scripts/publishSite.ts",
+    "web:start": "pnpm --filter @prozilla-os/web run start",
+    "web:build": "pnpm --filter @prozilla-os/web run build",
+    "web:preview": "pnpm --filter @prozilla-os/web run preview",
+    "web:stage": "pnpm --filter @prozilla-os/web run stage",
+    "web:fetch": "pnpm --filter @prozilla-os/web run fetch",
+    "docs:start": "pnpm --filter @prozilla-os/docs run start",
+    "docs:build": "pnpm --filter @prozilla-os/docs run build",
+    "docs:preview": "pnpm --filter @prozilla-os/docs run preview",
+    "docs:generate": "pnpm --filter @prozilla-os/docs run generate",
+    "packages:build": "pnpm -r --sequential --filter \"@prozilla-os/web^...\" build",
+    "packages:update": "npx changeset && pnpm changeset version",
+    "packages:release": "pnpm changeset publish && pnpm vite-node scripts/createRelease.ts"
+  },
+  "workspaces": [
+    "packages/*",
+    "packages/apps/*",
+    "demo",
+    "docs",
+    "examples/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prozilla-os/ProzillaOS.git"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "pnpm": "^9.15.0"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.5",
+    "@eslint/js": "^9.5.0",
+    "@types/eslint": "^8.56.10",
+    "@types/gh-pages": "^6.1.0",
+    "@types/node": "^20.14.6",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.37.1",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "rimraf": "^5.0.10",
+    "stylelint": "^16.6.1",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.8.1",
+    "vite-node": "^2.1.2",
+    "vite-plugin-checker": "^0.7.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "packageManager": "pnpm@9.5.0"
 }
