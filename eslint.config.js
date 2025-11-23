@@ -9,6 +9,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
+    ignores: ["web/**", "node_modules/**", "dist/**", "eslint.config.js"],
     languageOptions: {
       parserOptions: {
         projectService: {
@@ -155,4 +156,3 @@ export default tseslint.config(
     },
   }
 );
-

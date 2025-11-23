@@ -16,8 +16,8 @@ export default defineConfig({
 			strictOutput: true,
 			pathsToAliases: false,
 			bundledPackages: ["@prozilla-os/*"],
-			tsconfigPath: "tsconfig.build.json"
-		})
+			tsconfigPath: "tsconfig.build.json",
+		}),
 	],
 	build: {
 		lib: {
@@ -30,8 +30,8 @@ export default defineConfig({
 				assetFileNames: "assets/[name][extname]",
 				chunkFileNames: "chunks/[name]-[hash].js",
 				entryFileNames: "[name].js",
-			}
+			},
 		},
-		sourcemap: true
+		sourcemap: true,
 	},
 });

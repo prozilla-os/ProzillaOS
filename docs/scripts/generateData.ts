@@ -51,7 +51,7 @@ function generateContent(key: string, value: unknown, type: string, category: st
 	const content: { [key: string]: unknown } = {
 		name: key,
 		type,
-		value
+		value,
 	};
 
 	if (category != null)

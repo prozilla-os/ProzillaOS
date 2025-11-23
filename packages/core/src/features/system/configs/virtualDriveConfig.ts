@@ -1,48 +1,48 @@
 import { VirtualRoot } from "../../virtual-drive";
 
 export interface VirtualDriveConfigOptions {
-	/**
-	 * Enables persistent storage of the virtual drive
-	 * @default true
-	 */
-	saveData: boolean;
+  /**
+   * Enables persistent storage of the virtual drive
+   * @default true
+   */
+  saveData: boolean;
 
-	/**
-	 * Configure the data that is loaded initially when ProzillaOS is opened
-	 */
-	defaultData: {
-		/**
-		 * Include pictures folder in default data
-		 * @default true
-		 */
-		includePicturesFolder?: boolean;
+  /**
+   * Configure the data that is loaded initially when ProzillaOS is opened
+   */
+  defaultData: {
+    /**
+     * Include desktop folder in default data
+     * @default true
+     */
+    includeDesktopFolder?: boolean;
 
-		/**
-		 * Include documents folder in default data
-		 * @default true
-		 */
-		includeDocumentsFolder?: boolean;
+    /**
+     * Include source tree folder in default data
+     * @default true
+     */
+    includeSourceTree?: boolean;
 
-		/**
-		 * Include desktop folder in default data
-		 * @default true
-		 */
-		includeDesktopFolder?: boolean;
+    /**
+     * Include apps folder in default data
+     * @default true
+     */
+    includeAppsFolder?: boolean;
 
-		/**
-		 * Include source tree folder in default data
-		 * @default true
-		 */
-		includeSourceTree?: boolean;
+    /**
+     * Include audio folder in default data
+     * @default true
+     */
+    includeAudioFolder?: boolean;
 
-		/**
-		 * Include apps folder in default data
-		 * @default true
-		 */
-		includeAppsFolder?: boolean;
+    /**
+     * Include video folder in default data
+     * @default true
+     */
+    includeVideoFolder?: boolean;
 
-		loadData?: (virtualRoot: VirtualRoot) => void;
-	};
+    loadData?: (virtualRoot: VirtualRoot) => void;
+  };
 }
 
 export class VirtualDriveConfig {
@@ -55,11 +55,11 @@ export class VirtualDriveConfig {
 		this.saveData = saveData ?? true;
 
 		this.defaultData = {
-			includePicturesFolder: true,
-			includeDocumentsFolder: true,
 			includeDesktopFolder: true,
 			includeSourceTree: true,
 			includeAppsFolder: true,
+			includeAudioFolder: true,
+			includeVideoFolder: true,
 			...defaultData,
 		};
 	}

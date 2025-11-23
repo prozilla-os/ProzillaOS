@@ -1,0 +1,50 @@
+{
+	"name": "@kuhlekt1v-os/gh-repo-sweeper",
+	"description": "A terminal/shell application for managing GitHub repositories.",
+	"version": "1.0.0",
+	"author": {
+		"name": "Cody Sheridan",
+		"email": "cody.sheridan@pm.me",
+		"url": "https://www.codysheridan.com"
+	},
+	"type": "module",
+	"main": "dist/main.js",
+	"types": "dist/main.d.ts",
+	"scripts": {
+		"build": "tsc && vite build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kuhlekt1v/ProzillaOS.git",
+		"directory": "packages/apps/gh-repo-sweeper"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"@prozilla-os/core": "workspace:*",
+		"@prozilla-os/shared": "workspace:*",
+		"@prozilla-os/skins": "workspace:*",
+		"anser": "^2.1.1",
+		"escape-carriage": "^1.3.1",
+		"react": "^18.3.1"
+	},
+	"devDependencies": {
+		"@prozilla-os/dev-tools": "workspace:*",
+		"@types/node": "^20.14.5",
+		"@types/react": "^18.3.3",
+		"@vitejs/plugin-react-swc": "^3.7.0",
+		"typescript": "^5.5.4",
+		"vite": "^5.4.8",
+		"vite-plugin-dts": "^3.9.1",
+		"vite-plugin-lib-inject-css": "^2.1.1"
+	},
+	"files": [
+		"dist"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org/",
+		"access": "public"
+	}
+}

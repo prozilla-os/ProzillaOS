@@ -1,19 +1,4 @@
-export const NAME = "ProzillaOS";
-export const TAG_LINE = "Web-based Operating System";
+const NAME = "kuhlekt1vOS";
+const TAG_LINE = "Powered by Prozilla";
 
-export const ASCII_LOGO = `
-              :.           
-             -==.          
-           .=====:         
-   ---::..:=======-.       
-   :===+=----------::..    
-    =+=---------------:..  
-    --------------------:. 
-.:-+=----*###*--*####=---. 
-:==+----#%+-+%#-##%*+----:.
-  .=----#%+-+%#-*+-%#+---:.
-   ==----*###*--*###*----. 
-  ==+-------------------:. 
-  ...::---------------:.   
-       .::---------::..    
-          ....::...        `;
+export { NAME, TAG_LINE };

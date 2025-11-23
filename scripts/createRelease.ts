@@ -35,12 +35,12 @@ const createGitHubRelease = (): void => {
 
 		console.log(`${ANSI.fg.yellow}Pushing tag...${ANSI.reset}`);
 		execSync(`git push origin tag ${tagName}`, {
-			stdio: "inherit"
+			stdio: "inherit",
 		});
 
 		console.log(`${ANSI.fg.yellow}Creating release...${ANSI.reset}`);
 		execSync(`gh release create ${tagName} --title "${releaseTitle}" --notes-file "${changelogFilePath}"`, {
-			stdio: "inherit"
+			stdio: "inherit",
 		});
 
 		console.log(`\n${ANSI.fg.green}✓ Release created: ${ANSI.fg.cyan + releaseTitle + ANSI.reset}`);

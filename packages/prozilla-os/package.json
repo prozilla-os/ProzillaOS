@@ -30,7 +30,8 @@
 		"@prozilla-os/media-viewer": "workspace:*",
 		"@prozilla-os/settings": "workspace:*",
 		"@prozilla-os/terminal": "workspace:*",
-		"@prozilla-os/text-editor": "workspace:*"
+		"@prozilla-os/text-editor": "workspace:*",
+		"@kuhlekt1v-os/gh-repo-sweeper": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^20.14.5",
