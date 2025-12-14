@@ -20,7 +20,10 @@ const loadCommands = () => {
 			if (command == null)
 				return;
 
-			command.setName(commandName.toLowerCase());
+			if (!command.name || command.name === "command") {
+        		command.setName(commandName.toLowerCase());
+      		}
+
 			commands.push(command);
 		});
 	}
