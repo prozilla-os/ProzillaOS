@@ -38,7 +38,7 @@ type Manual = {
 };
 
 export class Command {
-	name: string = "command";
+	name: string | undefined;
 	options: Option[] = [];
 	manual: Manual | undefined;
 	requireArgs: boolean | undefined;

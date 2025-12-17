@@ -20,7 +20,7 @@ const loadCommands = () => {
 			if (command == null)
 				return;
 
-			if (!command.name || command.name === "command") {
+			if (!command.name) {
         		command.setName(commandName.toLowerCase());
       		}
 
