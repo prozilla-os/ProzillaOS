@@ -38,18 +38,18 @@ type Manual = {
 };
 
 export class Command {
-	name: string | undefined;
+	#name?: string;
 	options: Option[] = [];
-	manual: Manual | undefined;
-	requireArgs: boolean | undefined;
-	requireOptions: boolean | undefined;
+	manual?: Manual;
+	requireArgs?: boolean;
+	requireOptions?: boolean;
 
 	execute: Execute = () => {};
 
-	setName(name: string): Command {
-		this.name = name;
+	setName(name?: string): Command {
+		this.#name = name;
 
-		if (!this.manual?.usage) {
+		if (name && !this.manual?.usage) {
 			if (!this.manual)
 				this.manual = {};
 
@@ -57,6 +57,10 @@ export class Command {
 		}
 
 		return this;
+	}
+
+	get name() {
+		return this.#name ?? "";
 	}
 
 	setExecute(execute: Execute): Command {
