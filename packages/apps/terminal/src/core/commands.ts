@@ -20,7 +20,10 @@ const loadCommands = () => {
 			if (command == null)
 				return;
 
-			command.setName(commandName.toLowerCase());
+			if (!command.name) {
+				command.setName(commandName.toLowerCase());
+			}
+
 			commands.push(command);
 		});
 	}
@@ -45,7 +48,7 @@ export class CommandsManager {
 	}
 
 	static search(pattern: string): Command[] {
-		const matches = this.COMMANDS.filter((command) => command.name?.match(pattern));
+		const matches = this.COMMANDS.filter((command) => command.name.match(pattern));
 		return matches;
 	}
 
