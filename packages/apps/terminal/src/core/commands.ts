@@ -34,26 +34,20 @@ loadCommands();
 export class CommandsManager {
 	static COMMANDS = commands;
 
+	static addCommand(command: Command) {
+		this.COMMANDS.push(command);
+	}
+
 	static find(name: string): Command | null {
-		let matchCommand: Command | null = null;
-
-		this.COMMANDS.forEach((command) => {
-			if (command.name === name) {
-				matchCommand = command;
-				return;
-			}
-		});
-
-		return matchCommand;
+		return this.COMMANDS.find((command) => command.name == name)!;
 	}
 
 	static search(pattern: string): Command[] {
-		const matches = this.COMMANDS.filter((command) => command.name.match(pattern));
-		return matches;
+		return this.COMMANDS.filter((command) => command.name.match(pattern));
 	}
 
 	static reload() {
 		loadCommands();
-		CommandsManager.COMMANDS = commands;
+		this.COMMANDS = commands;
 	}
 }

@@ -1,9 +1,8 @@
-import { App, AppsConfig } from "@prozilla-os/core";
-import { Terminal, TerminalProps } from "./components/Terminal";
+import { TerminalApp } from "./core/terminalApp";
 
-const terminal = new App<TerminalProps>("Terminal", "terminal", Terminal)
-	.setIconUrl("https://os.prozilla.dev/assets/apps/icons/terminal.svg")
-	.setRole(AppsConfig.APP_ROLES.terminal)
-	.setCategory("Utilities & tools");
+const terminal = new TerminalApp();
 
 export { terminal };
+export * from "./core/commands";
+export * from "./core/command";
+export * from "./core/stream";
