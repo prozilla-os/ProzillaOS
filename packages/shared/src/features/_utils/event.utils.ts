@@ -1,24 +1,26 @@
 export type EventNamesMap = Record<string, string>;
+export type Listener = (data: unknown) => void;
 
 export class EventEmitter<EventMap extends EventNamesMap> {
 	static EVENT_NAMES: EventNamesMap = {};
 
-	#events: Record<string, Array<(data: unknown) => void>> = {};
+	#events: Record<string, Array<Listener>> = {};
 
 	/**
 	 * Add event listener for an event
 	 */
-	on<Key extends keyof EventMap>(eventName: Key, callback: (data: unknown) => void) {
+	on<Key extends keyof EventMap>(eventName: Key, callback: Listener) {
 		if (!this.#events[eventName as string]) {
 			this.#events[eventName as string] = [];
 		}
 		this.#events[eventName as string].push(callback);
+		return callback;
 	}
 	
 	/**
 	 * Remove event listener for an event
 	 */
-	off<Key extends keyof EventMap>(eventName: Key, callback: (data: unknown) => void) {
+	off<Key extends keyof EventMap>(eventName: Key, callback: Listener) {
 		if (this.#events[eventName as string]) {
 			this.#events[eventName as string] = this.#events[eventName as string].filter(
 				(listener) => listener !== callback

@@ -2,6 +2,7 @@ export * from "./_utils";
 export { useAppFolder } from "./apps/appFolder";
 export * from "./modals";
 export { useSettingsManager } from "./settings/settingsManagerContext";
+export * from "./settings/settings";
 export { useVirtualRoot } from "./virtual-drive/virtualRootContext";
 export { useWindowsManager } from "./windows/windowsManagerContext";
 export { useZIndex } from "./z-index/zIndex";

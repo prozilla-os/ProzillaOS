@@ -88,8 +88,6 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 
 	useEffect(() => {
 		const onUpdate = () => {
-			console.log("Updated");
-
 			setFolders([...directory.getSubFolders(showHidden)]);
 			setFiles([...directory.getFiles(showHidden)]);
 

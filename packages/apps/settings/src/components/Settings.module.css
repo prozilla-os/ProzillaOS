@@ -75,6 +75,42 @@
 	display: none;
 }
 
+.Breadcrumbs {
+	font-size: 1.25em;
+	font-weight: 600;
+	user-select: none;
+	margin: 1rem 0;
+	line-height: 1.5;
+}
+
+span.Breadcrumbs {
+	--gap: 0.5rem;
+	display: flex;
+	gap: calc(var(--gap) / 2);
+	align-items: center;
+}
+
+.Breadcrumbs button {
+	appearance: none;
+	background: none;
+	font-size: inherit;
+	font-weight: inherit;
+	padding: 0;
+	color: var(--foreground-color-1);
+}
+
+.Breadcrumbs p {
+	margin: 0;
+	line-height: inherit;
+}
+
+.Breadcrumbs > *:not(:first-child)::before {
+	content: "▸";
+	font-weight: 600;
+  	font-size: inherit;
+	margin-right: calc(var(--gap) / 2);
+}
+
 .Option {
 	display: flex;
 	flex-direction: column;
@@ -83,6 +119,7 @@
 	text-align: start;
 	width: 100%;
 	padding-bottom: 1rem;
+	background: none;
 }
 
 .OptionList {
@@ -91,6 +128,19 @@
 
 .OptionList .Option {
 	padding-bottom: 0;
+}
+
+.OptionList .OptionListItem {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: var(--background-color-1);
+	border-radius: var(--border-radius-1);
+	padding: 0.75rem;
+}
+
+.OptionList .OptionListItem > .Label {
+	font-size: 1rem;
 }
 
 .OptionHorizontal {
@@ -278,4 +328,22 @@
 	outline: none;
 	font-family: inherit;
 	font-size: inherit;
+}
+
+.Checkbox {
+	background: none;
+	height: 1.5rem;
+}
+
+.Checkbox > svg {
+	width: auto;
+	height: inherit;
+}
+
+.OptionList .OptionListItem:has(.Checkbox) {
+	transition: background-color var(--transition-duration-0) var(--ease-in-out-default);
+}
+
+.OptionList .OptionListItem:has(.Checkbox:not(.Checked)) {
+	background-color: var(--background-color-2);
 }

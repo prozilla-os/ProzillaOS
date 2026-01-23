@@ -2,10 +2,10 @@ import styles from "./Settings.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faHardDrive, faPalette, faShapes } from "@fortawesome/free-solid-svg-icons";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { AppearanceSettings } from "./tabs/AppearanceSettings";
+import { AppearanceSettings } from "./tabs/appearance/AppearanceSettings";
 import { AboutSettings } from "./tabs/AboutSettings";
 import { StorageTab } from "./tabs/StorageSettings";
-import { AppsSettings } from "./tabs/AppsSettings";
+import { AppsSettings } from "./tabs/apps/AppsSettings";
 import { utilStyles, WindowProps } from "@prozilla-os/core";
 
 export interface SettingsProps extends WindowProps {
