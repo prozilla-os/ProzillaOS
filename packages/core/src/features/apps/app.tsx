@@ -5,13 +5,13 @@ import { APP_CATEGORIES } from "../../constants/apps.const";
 
 const validIdRegex = /^[a-zA-Z0-9-]+$/;
 
-interface AppMetadata {
+export interface AppMetadata {
 	name: string;
 	version: `${number}.${number}.${number}`;
 	author: string;
 }
 
-interface WindowOptions {
+export interface DefaultWindowOptions {
 	size?: Vector2;
 	[key: string]: unknown;
 }
@@ -37,9 +37,9 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	windowContent: FC<AppProps>;
 
 	/**
-	 * Default options that get passed to the {@link this.windowContent} component
+	 * Default options that get passed to the {@link App.windowContent} component
 	 */
-	windowOptions?: Partial<AppProps> & WindowOptions;
+	windowOptions?: Partial<AppProps> & DefaultWindowOptions;
 
 	/**
 	 * Description of this application
@@ -93,7 +93,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	isPinned?: boolean;
 	isInstalled = true;
 
-	constructor(name: App["name"], id: App["id"], windowContent: App<AppProps>["windowContent"], windowOptions?: Partial<AppProps> & WindowOptions) {
+	constructor(name: App["name"], id: App["id"], windowContent: App<AppProps>["windowContent"], windowOptions?: Partial<AppProps> & DefaultWindowOptions) {
 		this.name = name;
 		this.id = id;
 		this.windowContent = windowContent;
@@ -104,6 +104,9 @@ export class App<AppProps extends WindowProps = WindowProps> {
 				+ "\nApp IDs may only contain letters (a-zA-Z), numbers (0-9) and dashes (-).");
 	}
 
+	/**
+	 * Returns the component that renders the content of a window for this app
+	 */
 	WindowContent = (props: AppProps) => {
 		props = { ...props, ...this.windowOptions };
 
@@ -114,7 +117,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	};
 
 	/**
-	 * Set the display name of this application
+	 * Sets the display name of this application
 	 */
 	setName(name: string): this {
 		this.name = name;
@@ -122,7 +125,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	}
 
 	/**
-	 * Set the description of this application
+	 * Sets the description of this application
 	 */
 	setDescription(description: App["description"]): this {
 		this.description = description;
@@ -130,7 +133,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	}
 
 	/**
-	 * Set the URL of the icon of this application
+	 * Sets the URL of the icon of this application
 	 */
 	setIconUrl(iconUrl: App["iconUrl"]): this {
 		this.iconUrl = iconUrl;
@@ -138,7 +141,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	}
 
 	/**
-	 * Set the role of this application
+	 * Sets the role of this application
 	 */
 	setRole(role: string | null): this {
 		this.role = role;
@@ -146,7 +149,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	}
 
 	/**
-	 * Set the associated extensions of this application
+	 * Sets the associated extensions of this application
 	 */
 	setAssociatedExtensions(extensions: string[] | null): this {
 		this.associatedExtensions = extensions ?? [];
@@ -178,7 +181,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	}
 
 	/**
-	 * Changes the category this application belongs to
+	 * Sets the category this application belongs to
 	 */
 	setCategory(category: typeof APP_CATEGORIES[number] | null): this {
 		this.category = category;
@@ -186,7 +189,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	}
 
 	/**
-	 * Changes the metadata for this application
+	 * Sets the metadata for this application
 	 */
 	setMetadata(metadata: AppMetadata | null): this {
 		this.metadata = metadata;
@@ -202,9 +205,9 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	}
 
 	/**
-	 * Changes the default options for the {@link this.windowContent} component
+	 * Sets the default options for the {@link App.windowContent} component
 	 */
-	setWindowOptions(windowOptions: Partial<AppProps> & WindowOptions): this {
+	setWindowOptions(windowOptions: Partial<AppProps> & DefaultWindowOptions): this {
 		this.windowOptions = windowOptions;
 		return this;
 	}

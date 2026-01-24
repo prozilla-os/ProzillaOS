@@ -1,10 +1,12 @@
 export interface DesktopConfigOptions {
 	/**
+	 * The default size of the icons
 	 * @default 1
 	 */
 	defaultIconSize: 0 | 1 | 2;
 
 	/**
+	 * The defailt direction of the icons
 	 * 0: vertical, 1: horizontal
 	 * @default 0
 	 * */

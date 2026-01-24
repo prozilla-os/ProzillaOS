@@ -1,2 +1,2 @@
-export { VirtualFolder } from "./virtualFolder"; 
-export { VirtualFolderLink } from "./virtualFolderLink";
+export * from "./virtualFolder"; 
+export * from "./virtualFolderLink";

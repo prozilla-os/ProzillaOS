@@ -6,7 +6,7 @@ import { useSystemManager } from "../../hooks/system/systemManagerContext";
 import { generateUrl, getViewportParams, openUrl, setViewportIcon, setViewportTitle } from "../../features/_utils/browser.utils";
 import { ModalsView } from "../../components/modals/ModalsView";
 
-interface StandaloneRouteProps {
+export interface StandaloneRouteProps {
 	app: App;
 }
 

@@ -6,10 +6,14 @@ import { Modal } from "../../features/modals/modal";
 import { ActionsManager } from "../../features/actions/actionsManager";
 import { Vector2 } from "../../features";
 
-interface UseContextMenuParams {
+export interface UseContextMenuParams {
+	/** The component with the actions of the context menu */
 	Actions: FC<ActionsProps>;
 }
 
+/**
+ * Creates a function that handles the opening of a custom context menu and a component that listens for keyboard shortcuts
+ */
 export function useContextMenu({ Actions }: UseContextMenuParams) {
 	const modalsManager = useModalsManager();
 

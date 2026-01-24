@@ -2,11 +2,13 @@ import { Vector2 } from "../../math/vector2";
 
 export interface WindowsConfigOptions {
 	/**
+	 * The margin around windows that are not maximized, in pixels
 	 * @default 32
 	 */
 	screenMargin: number;
 
 	/**
+	 * The separator to use in window titles
 	 * @default "-"
 	 */
 	titleSeparator: string;

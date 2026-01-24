@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useClassNames } from "../../hooks";
 
 export interface ModalProps {
+	/**  */
 	modal?: Modal;
 	params?: {
 		appId?: string;
@@ -20,6 +21,9 @@ export interface ModalProps {
 	[key: string]: unknown;
 }
 
+/**
+ * Component that renders a modal window
+ */
 export const ModalView: FC<ModalProps> = memo(({ modal }) => {
 	useEffect(() => {
 		const onDismiss = (event: Event) => {

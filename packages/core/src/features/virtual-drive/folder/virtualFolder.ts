@@ -15,8 +15,14 @@ export interface VirtualFolderJson extends VirtualBaseJson {
  * A virtual folder that can contains files and sub-folders
  */
 export class VirtualFolder extends VirtualBase {
+	/** The folders inside this folder */
 	subFolders: (VirtualFolder | VirtualFolderLink)[];
+	/** The files inside this folder */
 	files: (VirtualFile | VirtualFileLink)[];
+	/**
+	 * The type of this folder
+	 * @default VirtualFolder.TYPE.general
+	 */
 	type: number | undefined;
 
 	static TYPE = {

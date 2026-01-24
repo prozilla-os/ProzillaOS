@@ -7,9 +7,16 @@ import { VirtualFile } from "../virtual-drive/file";
 import { FILE_SCHEMES } from "../../constants/virtualDrive.const";
 
 export interface WindowOptions {
+	/** The ID of the window */
 	id?: string;
+	/** The app associated with the window */
 	app?: App;
+	/**
+	 * The size of the window
+	 * @default new Vector2(700, 400)
+	 */
 	size?: Vector2;
+	/** The position of the window */
 	position?: Vector2;
 	fullscreen?: boolean | string;
 	options?: object;
@@ -19,8 +26,12 @@ export interface WindowOptions {
 	[key: string]: unknown;
 }
 
+/**
+ * Manages the states of windows
+ */
 export class WindowsManager {
 	windows: { [id: string]: WindowOptions };
+	/** Function that handles changes to the open windows */
 	updateWindows: (window: WindowsManager["windows"]) => void;
 	startupComplete: boolean;
 
@@ -36,7 +47,8 @@ export class WindowsManager {
 	}
 
 	/**
-	 * Open a window for an app
+	 * Opens a window for an application
+	 * @param appId The ID of the app
 	 */
 	open(appId: string, options?: WindowOptions | null): object | null {
 		const { appsConfig, windowsConfig, taskbarConfig } = this.#systemManager;

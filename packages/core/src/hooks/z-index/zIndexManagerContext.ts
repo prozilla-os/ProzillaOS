@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import { ZIndexManager } from "../../features";
 
-type ZIndexManagerState = ZIndexManager | undefined;
+export type ZIndexManagerState = ZIndexManager | undefined;
 
 export const ZIndexManagerContext = createContext<ZIndexManagerState>(undefined);
 

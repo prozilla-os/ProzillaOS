@@ -6,16 +6,21 @@ import { Vector2 } from "../../features";
 import { useSystemManager } from "../system/systemManagerContext";
 import { WindowProps } from "../../components";
 
-interface OpenWindowedModalParams {
+export interface OpenWindowedModalParams {
+	/** The ID of the associated app */
 	appId?: string;
+	/** The URL of the icon of the modal */
 	iconUrl?: string;
+	/** The title of the modal */
 	title?: string;
+	/** The size of the modal */
 	size: Vector2;
+	/** The modal component */
 	Modal: FC<ModalProps>;
 	single?: boolean;
 	fullscreen?: WindowProps["fullscreen"];
 }
-type OpenWindowedModal = (params: OpenWindowedModalParams) => Modal;
+export type OpenWindowedModal = (params: OpenWindowedModalParams) => Modal;
 
 export function useWindowedModal(): { openWindowedModal: OpenWindowedModal; } {
 	const { modalsConfig } = useSystemManager();

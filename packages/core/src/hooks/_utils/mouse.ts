@@ -1,12 +1,19 @@
 import { useEffect } from "react";
 
-interface UseMouseListenerParams {
+export interface UseMouseListenerParams {
+	/** Function that handles `"mousedown"` events */
 	onMouseDown: EventListener;
+	/** Function that handles `"mouseup"` events */
 	onMouseUp: EventListener;
+	/** Function that handles `"click"` events */
 	onClick: EventListener;
+	/** Function that handles `"contextmenu"` events */
 	onContextMenu: EventListener;
 }
 
+/**
+ * Creates listeners for `"mousedown"`, `"mouseup"`, `"click"` and `"contextmenu"` events
+ */
 export function useMouseListener({ onMouseDown, onMouseUp, onClick, onContextMenu }: UseMouseListenerParams) {
 	useEffect(() => {
 		if (onMouseDown)

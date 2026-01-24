@@ -1,5 +1,8 @@
 import { ZIndexManager } from "./zIndexManager";
 
+/**
+ * Represents a group of HTML elements whose z-index is automatically calculated based on a given order
+ */
 export class ZIndexGroup {
 	length: number = 0;
 	offset: number = 0;

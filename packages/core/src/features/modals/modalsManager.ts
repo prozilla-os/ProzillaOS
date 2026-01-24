@@ -1,12 +1,18 @@
 import { MutableRefObject } from "react";
 import { Modal } from "./modal";
 
+/**
+ * Manages the opening, closing and ordering of modals
+ */
 export class ModalsManager {
+	/** Maps every modal ID to the corresponding modal */
 	modals: Record<string, Modal> = {};
 	containerRef?: MutableRefObject<HTMLElement>;
+	/** Function that handles changes to modals */
 	updateModals:  (modals: ModalsManager["modals"]) => void = () => {};
 
 	/**
+	 * Opens a modal
 	 * @param single - Set to false to preserve other open modals
 	 */
 	open(modal: Modal, single: boolean = true) {
@@ -29,6 +35,10 @@ export class ModalsManager {
 		this.updateModals(this.modals);
 	}
 
+	/**
+	 * Closes a modal
+	 * @param modalId The ID of the modal to close 
+	 */
 	close(modalId: string | number, sendModalsUpdate: boolean = true) {
 		modalId = modalId.toString();
 
@@ -44,6 +54,10 @@ export class ModalsManager {
 			this.updateModals(this.modals);
 	}
 
+	/**
+	 * Brings a modal into focus
+	 * @param modalId The ID of the modal to bring into focus
+	 */
 	focus(modalId: string) {
 		modalId = modalId.toString();
 
@@ -62,6 +76,9 @@ export class ModalsManager {
 		this.updateModals = updateModals;
 	}
 
+	/**
+	 * Returns the IDs of all open modals
+	 */
 	get modalIds(): string[] {
 		return Object.keys(this.modals);
 	}

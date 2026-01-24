@@ -1,4 +1,4 @@
-export { Router } from "./Router";
-export { DefaultRoute } from "./routes/DefaultRoute";
-export { NoRoute } from "./routes/NoRoute";
-export { StandaloneRoute } from "./routes/StandaloneRoute";
+export * from "./Router";
+export * from "./routes/DefaultRoute";
+export * from "./routes/NoRoute";
+export * from "./routes/StandaloneRoute";

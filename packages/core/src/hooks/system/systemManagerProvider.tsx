@@ -2,7 +2,7 @@ import { FC, ReactNode } from "react";
 import { SystemManagerContext } from "./systemManagerContext";
 import { SystemManager, SystemManagerParams } from "../../features/system/systemManager";
 
-interface SystemManagerProviderProps {
+export interface SystemManagerProviderProps {
 	systemName: SystemManagerParams["systemName"];
 	tagLine: SystemManagerParams["tagLine"];
 	appsConfig: SystemManagerParams["appsConfig"];

@@ -2,13 +2,16 @@ export * from "./system/configs";
 export * from "./virtual-drive";
 export * from "./_utils";
 
-export { App } from "./apps/app";
-export { ModalsManager } from "./modals/modalsManager";
-export { SettingsManager } from "./settings/settingsManager";
-export { StorageManager } from "./storage/storageManager";
-export { TrackingManager } from "./tracking/trackingManager";
-export { WindowsManager } from "./windows/windowsManager";
-export { ZIndexManager } from "./z-index/zIndexManager";
-export { SystemManager } from "./system/systemManager";
+export * from "./apps/app";
+export * from "./modals/modal";
+export * from "./modals/modalsManager";
+export * from "./settings/settings";
+export * from "./settings/settingsManager";
+export * from "./storage/storageManager";
+export * from "./tracking/trackingManager";
+export * from "./windows/windowsManager";
+export * from "./z-index/zIndexGroup";
+export * from "./z-index/zIndexManager";
+export * from "./system/systemManager";
 
-export { Vector2 } from "./math/vector2";
+export * from "./math/vector2";

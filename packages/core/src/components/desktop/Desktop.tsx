@@ -19,6 +19,9 @@ import { FileEventHandler, FolderEventHandler } from "../_utils/directory-list/D
 import { useClassNames } from "../../hooks";
 import { isValidInteger } from "@prozilla-os/shared";
 
+/**
+ * Component that renders the wallpaper and desktop icons
+ */
 export const Desktop = memo(() => {
 	const { desktopConfig, skin, appsConfig } = useSystemManager();
 	const settingsManager = useSettingsManager();

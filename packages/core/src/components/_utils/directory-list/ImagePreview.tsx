@@ -4,7 +4,7 @@ import { ReactSVG } from "react-svg";
 import { useSystemManager } from "../../../hooks";
 import { VectorImage } from "../vector-image/VectorImage";
 
-interface ImagePreviewProps {
+export interface ImagePreviewProps {
 	source: string;
 	className?: string;
 	onError?: () => void;

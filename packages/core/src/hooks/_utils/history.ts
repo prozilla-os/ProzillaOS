@@ -1,11 +1,19 @@
 import { clamp } from "@prozilla-os/shared";
 import { useState } from "react";
 
+/**
+ * Returns an object that handles stateful history with undo and redo methods
+ */
 export function useHistory<Type>(initialState: Type): {
+	/** The entries of the history */
 	history: Type[];
+	/** The index of the active entry in list of entries */
 	stateIndex: number;
+	/** Adds a new entry to the history */
 	pushState: (state: Type) => void;
+	/** Moves backwards in the history */
 	undo: () => void;
+	/** Moves forwards in the history */
 	redo: () => void;
 	undoAvailable: boolean;
 	redoAvailable: boolean;

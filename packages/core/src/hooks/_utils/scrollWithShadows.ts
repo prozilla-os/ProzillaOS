@@ -1,12 +1,7 @@
-/**
- * https://medium.com/dfind-consulting/react-scroll-hook-with-shadows-9ba2d47ae32
- */
-
-
 import { MutableRefObject, useCallback, useEffect } from "react";
 import { useState } from "react";
 
-interface UseScrollWithShadowParams {
+export interface UseScrollWithShadowParams {
 	ref?: MutableRefObject<HTMLElement>;
 	horizontal?: boolean;
 	dynamicOffset?: boolean;
@@ -24,6 +19,7 @@ interface UseScrollWithShadowParams {
 	}
 }
 
+// https://medium.com/dfind-consulting/react-scroll-hook-with-shadows-9ba2d47ae32
 export function useScrollWithShadow(params: UseScrollWithShadowParams): {
 	boxShadow: string;
 	onUpdate: (event: Event | { target: HTMLElement }) => void;

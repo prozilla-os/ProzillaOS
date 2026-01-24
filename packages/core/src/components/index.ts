@@ -1,10 +1,10 @@
-export { ProzillaOS } from "./prozilla-os/ProzillaOS";
-export { Taskbar } from "./taskbar/Taskbar";
-export { WindowsView } from "./windows/WindowsView";
-export { Desktop } from "./desktop/Desktop";
+export * from "./prozilla-os/ProzillaOS";
+export * from "./taskbar/Taskbar";
+export * from "./windows/WindowsView";
+export * from "./desktop/Desktop";
 
 export * from "./_utils";
 export * from "./actions";
 export * from "./modals";
 
-export type { WindowProps } from "./windows/WindowView";
+export * from "./windows/WindowView";

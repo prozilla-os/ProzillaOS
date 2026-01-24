@@ -5,7 +5,7 @@ import { HTMLAttributeAnchorTarget, ReactNode } from "react";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { useClassNames } from "../../../hooks";
 
-interface ButtonProps {
+export interface ButtonProps {
 	className?: string;
 	href?: string;
 	icon?: IconProp;

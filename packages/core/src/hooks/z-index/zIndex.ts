@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useZIndexManager } from "./zIndexManagerContext";
 import { ZIndexManager } from "../../features";
 
-interface UseZIndexParams {
+export interface UseZIndexParams {
 	groupIndex: number;
 	index: number;
 }

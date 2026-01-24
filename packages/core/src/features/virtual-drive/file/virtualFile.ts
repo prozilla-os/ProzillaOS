@@ -9,14 +9,17 @@ export interface VirtualFileJson extends VirtualBaseJson {
 	src?: string;
 }
 
-type OptionalStringProperty = string | null | undefined;
+export type OptionalStringProperty = string | null | undefined;
 
 /**
  * A virtual file that can be stored inside a folder
  */
 export class VirtualFile extends VirtualBase {
+	/** The extension of this file */
 	extension: OptionalStringProperty;
+	/** The URL of the source of this file */
 	source: OptionalStringProperty;
+	/** The content of this file */
 	content: OptionalStringProperty;
 
 	static NON_TEXT_EXTENSIONS = [

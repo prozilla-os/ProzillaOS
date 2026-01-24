@@ -5,26 +5,37 @@ import { useScreenBounds } from "../../hooks/_utils/screen";
 import { ActionsManager } from "../../features/actions/actionsManager";
 
 export interface ActionProps {
+	/** ID of the action */
 	actionId?: string;
+	/** Label of the action */
 	label?: string;
+	/** Icon for the action */
 	icon?: string | object;
+	/** Keyboard shortcut for the action */
 	shortcut?: string[];
+	/** Function that handles the trigger event for the action */
 	onTrigger?: (event?: Event, triggerParams?: unknown, ...args: unknown[]) => void;
 	children?: ReactNode;
+	/** Whether the action should be disabled */
 	disabled?: boolean;
 }
 
 export interface ActionsProps {
 	mode?: string;
+	/** `className` prop for the container */
 	className?: string;
+	/** Function that handles the trigger event for all actions */
 	onAnyTrigger?: (event: Event, triggerParams: unknown, ...args: unknown[]) => void;
 	children?: ReactNode;
+	/** The parameters to pass whenever an action is triggered */
 	triggerParams?: unknown;
+	/** Whether the actions should automatically orient themselves to not overlap with the taskbar */
 	avoidTaskbar?: boolean;
 	[key: string]: unknown;
 }
 
 /** 
+ * Component that renders a collection of actions (e.g., as a context menu or a header menu) and handles keyboard shortcuts
  * @example
  * <ClickAction
  * 	label="Reload"

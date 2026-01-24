@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import { TrackingManager } from "../../features";
 
-type TrackingManagerState = TrackingManager | undefined;
+export type TrackingManagerState = TrackingManager | undefined;
 
 export const TrackingManagerContext = createContext<TrackingManagerState>(undefined);
 

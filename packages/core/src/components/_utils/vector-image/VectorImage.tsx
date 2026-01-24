@@ -2,7 +2,7 @@ import { Vector2 } from "../../../features/math/vector2";
 import { useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 
-interface ImageProps {
+export interface ImageProps {
 	className?: string;
 	src?: string;
 	[key: string]: unknown;

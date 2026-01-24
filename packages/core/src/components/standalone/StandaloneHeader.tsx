@@ -5,9 +5,13 @@ import { Button } from "../_utils/button/Button";
 import { useSystemManager } from "../../hooks/system/systemManagerContext";
 
 interface StandaloneHeaderProps {
+	/** Function that closes standalone mode */
 	exit: () => void;
 }
 
+/**
+ * Component that contains the header for standalone mode
+ */
 export function StandaloneHeader({ exit }: StandaloneHeaderProps) {
 	const { systemName, skin } = useSystemManager();
 

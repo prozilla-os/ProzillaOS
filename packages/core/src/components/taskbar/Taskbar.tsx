@@ -21,6 +21,9 @@ import { Battery, Calendar, Network, Volume } from "./indicators";
 import { useClassNames, useSystemManager } from "../../hooks";
 import { App, AppsConfig } from "../../features";
 
+/**
+ * Component that renders the start and search menus, pinned applications and various indicators
+ */
 export const Taskbar = memo(() => {
 	const { systemName, taskbarConfig, appsConfig, skin } = useSystemManager();
 	const ref = useRef<HTMLDivElement>(null);

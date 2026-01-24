@@ -16,6 +16,7 @@ export interface VirtualRootJson extends VirtualFolderJson {
  * A virtual folder that serves as the root folder
  */
 export class VirtualRoot extends VirtualFolder {
+	/** Aliases for files and folders */
 	shortcuts: Record<string, VirtualFile | VirtualFileLink | VirtualFolder | VirtualFolderLink>;
 	initiated: boolean = false;
 	loadedDefaultData: boolean = false;
@@ -164,7 +165,7 @@ export class VirtualRoot extends VirtualFolder {
 	}
 
 	/**
-	 * Initiates this root by loading the default data and then the user's data on top
+	 * Initializes this root by loading the default data and then the user's data on top
 	 */
 	init(): VirtualRoot {
 		this.initiated = false;
@@ -202,14 +203,17 @@ export class VirtualRoot extends VirtualFolder {
 
 	static isValidName(_name: string) {
 		// TO DO
+		return true;
 	}
 
 	static isValidFileName(_name: string) {
 		// TO DO
+		return true;
 	}
 
 	static isValidFolderName(_name: string) {
 		// TO DO
+		return true;
 	}
 
 	get path() {

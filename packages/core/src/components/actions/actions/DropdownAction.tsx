@@ -5,7 +5,7 @@ import { ReactElement, useState } from "react";
 import { ActionProps } from "../Actions";
 import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 
-interface DropdownActionProps extends ActionProps {
+export interface DropdownActionProps extends ActionProps {
 	showOnHover?: boolean;
 }
 

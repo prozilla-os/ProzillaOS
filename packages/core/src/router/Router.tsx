@@ -5,7 +5,7 @@ import { NoRoute } from "./routes/NoRoute";
 import { useSystemManager } from "../hooks/system/systemManagerContext";
 import { ReactElement } from "react";
 
-interface RouterProps {
+export interface RouterProps {
 	path?: string;
 	homePage?: JSX.Element;
 	fallbackPage?: JSX.Element;

@@ -20,8 +20,11 @@ import { Main } from "./Main";
 import { Skin } from "@prozilla-os/skins";
 
 export interface ProzillaOSProps {
+	/** The name of the system */
 	systemName?: string;
+	/** The tagline/short description of the system */
 	tagLine?: string;
+	/** The system configuration */
 	config?: {
 		apps?: Partial<AppsConfigOptions>;
 		desktop?: Partial<DesktopConfigOptions>;
@@ -36,6 +39,9 @@ export interface ProzillaOSProps {
 	children?: ReactNode;
 }
 
+/**
+ * Main component that contains everything 
+ */
 export const ProzillaOS = memo(function(props: ProzillaOSProps): ReactElement {
 	const { systemName, tagLine, skin, config, children } = props;
 

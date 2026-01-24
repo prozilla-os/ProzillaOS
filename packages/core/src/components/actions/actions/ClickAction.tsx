@@ -6,7 +6,7 @@ import { ActionProps } from "../Actions";
 import { formatShortcut } from "../../../features";
 import { ImagePreview } from "../../_utils/directory-list/ImagePreview";
 
-interface ClickActionProps extends ActionProps {
+export interface ClickActionProps extends ActionProps {
 	icon?: string | object;
 }
 

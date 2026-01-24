@@ -6,6 +6,9 @@ import { useModalsManager } from "../../hooks/modals/modalsManagerContext";
 import { Modal } from "../../features/modals/modal";
 import { useClassNames } from "../../hooks";
 
+/**
+ * Component that renders all active modals
+ */
 export const ModalsView = memo(() => {
 	const ref = useRef<HTMLDivElement>(null);
 	const modals = useModals();

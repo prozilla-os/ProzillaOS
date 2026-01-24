@@ -6,7 +6,7 @@ import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { ActionProps } from "../Actions";
 
-interface ToggleActionProps extends ActionProps {
+export interface ToggleActionProps extends ActionProps {
 	initialValue: boolean;
 }
 

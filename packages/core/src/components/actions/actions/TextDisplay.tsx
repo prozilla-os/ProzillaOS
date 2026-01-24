@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import styles from "../Actions.module.css";
 
-interface TextDisplayProps {
+export interface TextDisplayProps {
 	children: ReactNode;
 }
 

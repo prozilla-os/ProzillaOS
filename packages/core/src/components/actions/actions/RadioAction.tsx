@@ -17,7 +17,7 @@ import { ActionProps } from "../Actions";
  * @param {Function} props.onTrigger
  */
 
-interface RadioActionProps extends ActionProps {
+export interface RadioActionProps extends ActionProps {
 	options: {
 		label: string;
 		shortcut?: string[]

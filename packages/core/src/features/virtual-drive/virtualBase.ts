@@ -9,16 +9,27 @@ export interface VirtualBaseJson {
 }
 
 export class VirtualBase extends EventEmitter<EventNamesMap> {
+	/** The name of this item */
 	name: string;
+	/** The alias of this item */
 	alias: string | undefined | null;
+	/** The folder this item is in */
 	parent: VirtualFolder | undefined | null;
+	/** Whether this item is protected from changes */
 	isProtected: boolean | undefined | null;
+	/** The URL of the icon of this item */
 	iconUrl: string | undefined | null;
+	/** The file this item links to */
 	linkedFile: VirtualFile | undefined | null;
+	/** The folder this item links to */
 	linkedFolder: VirtualFolder | undefined | null;
+	/** Whether this item has been edited by the user */
 	editedByUser: boolean | undefined | null;
+	/** Whether this item is the root folder */
 	isRoot: boolean | undefined | null;
+	/** The root folder */
 	root: VirtualRoot | undefined | null;
+	/** Whether this item has been deleted */
 	isDeleted: boolean;
 
 	static EVENT_NAMES = {
@@ -107,6 +118,9 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 		return "None";
 	}
 
+	/**
+	 * Tries to delete this item
+	 */
 	delete() {
 		if (!this.canBeEdited)
 			return;
@@ -137,10 +151,16 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 		this.emit(VirtualBase.EVENT_NAMES.update);
 	}
 
+	/**
+	 * Opens this item in the appropriate application
+	 */
 	open(..._args: unknown[]): unknown {
 		return null;
 	};
 
+	/**
+	 * Returns the path of this item
+	 */
 	get path(): string {
 		return this.alias ?? this.displayPath;
 	}
@@ -179,6 +199,9 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 		}
 	}
 
+	/**
+	 * Returns the root folder
+	 */
 	getRoot(): VirtualRoot {
 		const root = this.root ?? this.parent?.getRoot();
 

@@ -2,11 +2,15 @@ import { FC, forwardRef, useEffect, useState } from "react";
 import styles from "./WebView.module.css";
 import { WindowProps } from "../../windows/WindowView";
 
-interface WebViewProps extends WindowProps {
+export interface WebViewProps extends WindowProps {
+	/** The URL of the external application */
 	source?: string;
 	title?: string;
 }
 
+/**
+ * Component that renders an external application inside an iframe
+ */
 export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source, focus, ...props }: WebViewProps, ref) => {
 	const [hovered, setHovered] = useState(false);
 

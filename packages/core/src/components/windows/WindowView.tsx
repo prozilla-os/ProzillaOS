@@ -26,19 +26,36 @@ import { useClassNames, useSystemManager } from "../../hooks";
 import { VectorImage } from "../_utils/vector-image/VectorImage";
 
 export interface WindowProps extends WindowOptions {
+	/**
+	 * Whether to start the window in fullscreen mode
+	 * @default false
+	 */
 	fullscreen?: boolean;
+	/** Function that handles interactions with the window */
 	onInteract?: () => void;
+	/** Function that sets the title of the window */
 	setTitle?: React.Dispatch<React.SetStateAction<string>>;
+	/** Function that sets the icon URL of the window */
 	setIconUrl?: React.Dispatch<React.SetStateAction<string>>;
+	/** Function that closes the window */
 	close?: (event?: Event) => void;
+	/** Function that brings the window in focus */
 	focus?: (event: Event, force?: boolean) => void;
+	/** Whether the window is currently focused and should allow interactions */
 	active?: boolean;
+	/** Whether to start the window in minimized mode */
 	minimized?: boolean;
+	/** Function that toggles the minimized mode of the window */
 	toggleMinimized?: (event?: Event) => void;
+	/** The depth value of the window */
 	index?: number;
+	/** Whether the window is in standalone mode */
 	standalone?: boolean;
 }
 
+/**
+ * Component that renders the window for an application
+ */
 export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onInteract, options, active, fullscreen, minimized, toggleMinimized, index }) => {
 	const { systemName, windowsConfig, appsConfig } = useSystemManager();
 	const windowsManager = useWindowsManager();

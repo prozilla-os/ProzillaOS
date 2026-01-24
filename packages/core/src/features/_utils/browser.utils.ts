@@ -65,13 +65,13 @@ export function getViewportParams(): Record<string, string> {
 	return params;
 }
 
-interface GenerateUrlOptions {
+export interface GenerateUrlParams {
 	appId?: string;
 	fullscreen?: boolean;
 	standalone?: boolean;
 }
 
-export function generateUrl(options: GenerateUrlOptions) {
+export function generateUrl(options: GenerateUrlParams) {
 	let baseUrl = window.location.origin + "/";
 
 	if (!options || Object.keys(options).length === 0)

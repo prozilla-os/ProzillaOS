@@ -4,7 +4,7 @@ import { SettingsManager } from "../../features";
 import { useSystemManager } from "../system/systemManagerContext";
 import { Theme } from "@prozilla-os/skins";
 
-interface ThemeProviderProps {
+export interface ThemeProviderProps {
 	children: ReactElement;
 }
 
