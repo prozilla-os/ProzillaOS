@@ -1,0 +1,1 @@
+import{E as n}from"../index.js";const a=new n().setManual({purpose:"Clear terminal screen"}).setExecute(function(r,t){const{pushHistory:e}=t;return e==null||e({clear:!0,isInput:!1}),{blank:!0}});export{a as clear};

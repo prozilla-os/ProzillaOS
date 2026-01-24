@@ -1,0 +1,1 @@
+import{E as s,q as c}from"../index.js";const u=new s().setRequireArgs(!0).setManual({purpose:"Remove a directory"}).setExecute(function(t,o){const{currentDirectory:n}=o,e=t[0],r=n.findSubFolder(e);return r?(r.delete(),{blank:!0}):c(this.name,`${e}: No such directory`)});export{u as rmdir};

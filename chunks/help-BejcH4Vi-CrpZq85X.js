@@ -1,0 +1,2 @@
+import{E as l,n as m,A as r,q as s}from"../index.js";const i=new l().setExecute(function(a){var t;if((a==null?void 0:a.length)===0)return m.COMMANDS.map(n=>{var u;return(u=n.manual)!=null&&u.purpose?`${n.name} - ${r.fg.green}${r.decoration.dim}${n.manual.purpose}${r.reset}`:n.name}).sort().join(`
+`);const e=a[0].toLowerCase(),o=m.find(e);return o?(t=o.manual)!=null&&t.purpose?o.manual.purpose:s(this.name,`${e}: No manual found`):s(this.name,`${e}: Command not found`)});export{i as help};
