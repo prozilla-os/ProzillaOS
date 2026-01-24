@@ -78,7 +78,7 @@ const myApp = new App(name, id, MyApp)
 export { myApp };
 ```
 
-Make sure to set a valid icon URL or your app might become invisible. For more information about the `App` class and about how to customize it, refer to the [App class documentation page](../reference/core/classes/apps/app).
+Make sure to set a valid icon URL or your app might become invisible. For more information about the `App` class and about how to customize it, refer to the [App class documentation page](../reference/core/Classes/App).
 
 ## Testing your app
 

@@ -1,6 +1,8 @@
 import { Application, TypeDocOptions } from "typedoc";
 import type { PluginOptions } from "typedoc-plugin-markdown";
 import { ANSI } from "../../packages/shared/src/constants";
+import { writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 const PACKAGES_DIR = "../packages/";
 const PACKAGES = [
@@ -9,24 +11,32 @@ const PACKAGES = [
 	"shared",
 	"skins",
 ];
-const OUT_DIR = "./tmp/";
+const OUT_DIR = "./src/reference/";
 
 const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	plugin: [
 		"typedoc-plugin-mdn-links",
-		"./scripts/typedoc-categorizer.mjs",
+		"./scripts/typedoc-plugin.mjs",
 		"typedoc-plugin-markdown"
 	],
-	hideBreadcrumbs: true,
 	categorizeByGroup: true,
 	router: "group",
 	groupOrder: ["Components", "Hooks", "*", "Interfaces", "Types"],
 	sort: ["alphabetical-ignoring-documents"],
+	hideBreadcrumbs: true,
+	hidePageHeader: true,
 	expandParameters: true,
 	expandObjects: true,
 	pageTitleTemplates: {
-		member: formatPageTitle,
+		index: "API",
+		member: formatMemberPageTitle,
+		module: formatModulePageTitle,
 	},
+	entryFileName: "index",
+	modulesFileName: "api",
+	navigation: {
+		includeGroups: true
+	}
 };
 
 PACKAGES.forEach(async (path) => {
@@ -34,11 +44,15 @@ PACKAGES.forEach(async (path) => {
 	const entryPoint = `${packageDir}/src/main.ts`;
 	const tsConfig = `${packageDir}/tsconfig.json`;
 
+	const outDir = OUT_DIR + path;
+	const navigationJson = `${outDir}/nav.json`;
+
 	const options: TypeDocOptions & PluginOptions = {
 		...DEFAULT_OPTIONS,
 		entryPoints: [entryPoint],
 		tsconfig: tsConfig,
-		out: OUT_DIR + path,
+		out: outDir,
+		navigationJson,
 	};
 
 	console.log(`${ANSI.fg.yellow}Generating docs for: ${path}${ANSI.reset}`);
@@ -54,17 +68,27 @@ PACKAGES.forEach(async (path) => {
 	}
 });
 
+// Add auto-generated docs to gitignore
+writeFileSync(resolve(__dirname, "../", OUT_DIR, ".gitignore"), PACKAGES.join("\n"));
+
 interface PageData {
 	name: string;
-	rawName: string;
-	kind: string;
-	isDeprecated: boolean;
+    rawName: string;
+    kind: string;
+    isDeprecated: boolean;
+}
+
+interface MemberPageData extends PageData {
 	group?: string;
 	codeKeyword?: string;
 	keyword?: string;
 }
 
-function formatPageTitle({ group, rawName: name }: PageData) {
+function formatModulePageTitle({ name }: PageData) {
+	return name.toUpperCase();
+}
+
+function formatMemberPageTitle({ group, rawName: name }: MemberPageData) {
 	let title = "";
 	if (group?.toLowerCase().startsWith("component")) {
 		const componentName = name.endsWith("()") ? name.substring(0, name.length - 2) : name;

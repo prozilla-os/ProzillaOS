@@ -5,14 +5,15 @@ import { MarkdownPageEvent } from "typedoc-plugin-markdown";
 /**
  * @param {import("typedoc-plugin-markdown").MarkdownApplication} app
  */
-export function load (app) {
+export function load(app) {
 	app.converter.on(Converter.EVENT_CREATE_DECLARATION, (context, reflection) => {
 		addReactGroups(reflection);
-		addTypesGroup(reflection);
+		renameDefaultGroup(reflection);
 	});
 
 	app.renderer.on(MarkdownPageEvent.END, (event) => {
 		reformatSources(event);
+		insertFrontmatter(event);
 	});
 }
 
@@ -33,11 +34,12 @@ function addReactGroups(reflection) {
 /**
  * @param {DeclarationReflection} reflection 
  */
-function addTypesGroup(reflection) {
-	if (reflection.kind !== ReflectionKind.TypeAlias)
-		return;
-
-	addGroup(reflection, "Types");
+function renameDefaultGroup(reflection) {
+	if (reflection.kind === ReflectionKind.TypeAlias) {
+		addGroup(reflection, "Types");
+	} else if (reflection.kind === ReflectionKind.Enum) {
+		addGroup(reflection, "Enums");
+	}
 }
 
 /**
@@ -107,4 +109,45 @@ function reformatSources(event) {
 	});
 	
 	event.contents = contents.join("\n");
+}
+
+/**
+ * @param {MarkdownPageEvent} event 
+ */
+function insertFrontmatter(event) {
+	const frontmatter = {};
+
+	frontmatter.package = `"${event.project.packageName}"`;
+
+	/** @type {Comment} */
+	// @ts-ignore
+	const comment = event.model.comment;
+	if (comment) {
+		let description = Comment.combineDisplayParts(comment.getShortSummary(true));
+
+		description = description.trim().split("\n")[0].trim();
+
+		if (description.length) {
+			frontmatter.description = description;
+		} else {
+			const lines = event.contents.split("\n")
+				.map((line) => line.trim())
+				.filter((line) => line.length > 0);
+			const firstSection = lines.findIndex((line) => line.startsWith("##"));
+
+			if (firstSection >= 0) {
+				description = lines[firstSection - 1];
+				if (!description.startsWith("**Source")) {
+					frontmatter.description = description;
+				}
+			}
+		}
+	}
+
+	event.contents = [
+		"---",
+		...Object.entries(frontmatter).map(([key, value]) => `${key}: ${value}`),
+		"---",
+		""
+	].join("\n") + event.contents;
 }

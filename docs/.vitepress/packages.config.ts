@@ -1,9 +1,12 @@
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { DefaultTheme } from "vitepress";
 
 export interface PackageData {
 	text: string;
 	link: string;
 	items?: DefaultTheme.SidebarItem[];
+	auto?: boolean;
 	category: "Bundle" | "Libraries" | "Apps";
 };
 
@@ -17,145 +20,25 @@ export const PACKAGES: PackageData[] = [
 		text: "@prozilla-os/core",
 		link: "core",
 		category: "Libraries",
-		items: [
-			{
-				text: "Classes",
-				base: "/reference/core/classes",
-				collapsed: false,
-				items: [
-					{
-						text: "Apps",
-						base: "/reference/core/classes/apps",
-						collapsed: true,
-						items: [
-							{ text: "App", link: "/app" },
-						],
-					},
-					{
-						text: "System",
-						base: "/reference/core/classes/system",
-						collapsed: true,
-						items: [
-							{ text: "AppsConfig", link: "/apps-config" },
-							{ text: "DesktopConfig", link: "/desktop-config" },
-							{ text: "MiscConfig", link: "/misc-config" },
-							{ text: "ModalsConfig", link: "/modals-config" },
-							{ text: "TaskbarConfig", link: "/taskbar-config" },
-							{ text: "TrackingConfig", link: "/tracking-config" },
-							{ text: "VirtualDriveConfig", link: "/virtual-drive-config" },
-							{ text: "WindowsConfig", link: "/windows-config" },
-						],
-					},
-					{
-						text: "Utils",
-						base: "/reference/core/classes/utils",
-						collapsed: true,
-						items: [
-							{ text: "TimeManager", link: "/time-manager" },
-							{ text: "Vector2", link: "/vector2" },
-						],
-					},
-					{
-						text: "Virtual Drive",
-						base: "/reference/core/classes/virtual-drive",
-						collapsed: true,
-						items: [
-							{ text: "VirtualBase", link: "/virtual-base" },
-							{ text: "VirtualFolder", link: "/virtual-folder" },
-						],
-					},
-				],
-			},
-			{
-				text: "Constants",
-				link: "/constants",
-			},
-			{
-				text: "Functions",
-				base: "/reference/core/functions",
-				collapsed: false,
-				items: [
-					{ text: "Browser", link: "/browser" },
-					{ text: "Keyboard", link: "/keyboard" },
-					
-				],
-			},
-			{
-				text: "Hooks",
-				base: "/reference/core/hooks",
-				collapsed: false,
-				items: [
-					{ text: "useClassNames", link: "/use-class-names" },
-					{ text: "useStaticClassName", link: "/use-static-class-name" },
-					{ text: "useSystemManager", link: "/use-system-manager" },
-				],
-			},
-		],
+		auto: true,
 	},
 	{
 		text: "@prozilla-os/skins",
 		link: "skins",
 		category: "Libraries",
-		items: [
-			{
-				text: "Classes",
-				base: "/reference/skins/classes",
-				collapsed: false,
-				items: [
-					{ text: "Skin", link: "/skin" },
-				],
-			},
-		],
+		auto: true,
 	},
 	{
 		text: "@prozilla-os/shared",
 		link: "shared",
 		category: "Libraries",
-		items: [
-			{
-				text: "Classes",
-				base: "/reference/shared/classes",
-				collapsed: false,
-				items: [
-					{ text: "EventEmitter", link: "/event-emitter" },
-				],
-			},
-			{
-				text: "Constants",
-				base: "/reference/shared/constants",
-				collapsed: false,
-				items: [
-					{ text: "ANSI", link: "/ansi" },
-				],
-			},
-			{
-				text: "Functions",
-				base: "/reference/shared/functions",
-				collapsed: false,
-				items: [
-					{ text: "Array", link: "/array" },
-					{ text: "Date", link: "/date" },
-					{ text: "Math", link: "/math" },
-					{ text: "Number", link: "/number" },
-				],
-			},
-		],
+		auto: true,
 	},
 	{
 		text: "@prozilla-os/dev-tools",
 		link: "dev-tools",
 		category: "Libraries",
-		items: [
-			{
-				text: "Functions",
-				base: "/reference/dev-tools/functions",
-				collapsed: false,
-				items: [
-					{ text: "Console", link: "/console" },
-					{ text: "Vite", link: "/vite" },
-				],
-			},
-		],
+		auto: true,
 	},
 	{
 		text: "@prozilla-os/calculator",
@@ -197,8 +80,41 @@ export const PACKAGES: PackageData[] = [
 export const packageSidebars = (packages: PackageData[]): DefaultTheme.Sidebar => {
 	const sidebar: DefaultTheme.Sidebar = {};
 
-	packages.forEach(({ text, link, items = [] }) => {
+	packages.forEach(({ text, link, items = [], auto = false }) => {
 		const base = `/reference/${link}`;
+
+		let packageItems: DefaultTheme.SidebarItem[] = items;
+		if (auto) {
+			const path = resolve(__dirname, `../src${base}/nav.json`);
+
+			if (existsSync(path)) {
+				packageItems.push({
+					text: "API",
+					link: "/api"
+				});
+
+				const content = readFileSync(path, "utf-8");
+				const navigation = JSON.parse(content);
+				navigation.forEach((group: { children?: { title: string, kind: number, path: string, isDeprecated: boolean }[]; title: string; }) => {
+
+					const groupItems: DefaultTheme.SidebarItem[] = group.children?.map((child) => {
+						return {
+							text: child.title,
+							link: child.path.replace(group.title, ""),
+							collapsed: true,
+						};
+					}) ?? [];
+
+					packageItems.push({
+						text: group.title,
+						base: base + "/" + group.title,
+						collapsed: true,
+						items: groupItems,
+					});
+				});
+			}
+		}
+
 		sidebar[base] = {
 			base,
 			items: [
@@ -206,7 +122,7 @@ export const packageSidebars = (packages: PackageData[]): DefaultTheme.Sidebar =
 					text,
 					items: [
 						{ text: "Info", link: "/" },
-						...items,
+						...packageItems,
 					],
 				},
 			],

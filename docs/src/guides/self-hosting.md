@@ -42,7 +42,7 @@ pnpm run build # Builds all packages and websites
 pnpm run deploy # Stages the websites and deploys them to GitHub Pages
 ```
 
-The Vite config for the website includes a plugin that will automatically generate a sitemap, robots.txt file, cname file and other metadata to facilitate deployment and improve SEO. More information about this step can be found [here](../reference/dev-tools/functions/vite#stagesiteplugin-options).
+The Vite config for the website includes a plugin that will automatically generate a sitemap, robots.txt file, cname file and other metadata to facilitate deployment and improve SEO. More information about this step can be found [here](../reference/dev-tools/Functions/stageSitePlugin#options).
 
 > [!TIP]
 > To make sure each website works correctly after building them and before deploying them, you may use the `pnpm run demo:preview` and `pnpm run docs:preview` scripts.

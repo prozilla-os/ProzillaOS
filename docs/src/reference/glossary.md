@@ -14,7 +14,7 @@ A React component used to group and display actions together. This is used in th
 
 ## Application (app)
 
-To the user, applications (often shortened to apps) are processes that open a window when ran. The window allows the user to view and interact with the app. To developers, apps instances of the [`App`](core/classes/apps/app) class with a reference to a React component.
+To the user, applications (often shortened to apps) are processes that open a window when ran. The window allows the user to view and interact with the app. To developers, apps instances of the [`App`](core/Classes/App) class with a reference to a React component.
 
 ### Categorization
 
@@ -26,7 +26,7 @@ Applications are sorted into these different categories:
 
 ### Installation
 
-To install an application, you simply have to add it to the `apps` array in your [`AppsConfig`](core/classes/system/apps-config). There is currently no way for users to install apps via the website. There is currently also no support for applications that are not React components.
+To install an application, you simply have to add it to the `apps` array in your [`AppsConfig`](core/Classes/AppsConfig). There is currently no way for users to install apps via the website. There is currently also no support for applications that are not React components.
 
 ## Modal
 
