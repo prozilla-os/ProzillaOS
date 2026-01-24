@@ -1,8 +1,8 @@
-import { ANSI } from "../../packages/core/src/constants";
 import { name } from "../package.json";
 import { resolve } from "node:path";
 import fs from "node:fs";
 import { isValidElement } from "react";
+import { ANSI } from "../../packages/shared/src/main";
 
 const items = await import("../../packages/core/src/main");
 

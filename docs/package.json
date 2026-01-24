@@ -13,7 +13,8 @@
 		"start": "vitepress --port 3000",
 		"build": "vitepress build",
 		"preview": "vitepress preview --port 8080",
-		"generate": "rimraf data && vite-node scripts/generateData"
+		"data": "rimraf data && vite-node scripts/generateData",
+		"ref:build": "vite-node scripts/typedoc"
 	},
 	"repository": {
 		"type": "git",
@@ -24,9 +25,12 @@
 		"@types/node": "^20.14.6",
 		"react": "^18.3.1",
 		"rimraf": "^5.0.8",
+		"typedoc": "^0.28.16",
+		"typedoc-plugin-markdown": "^4.9.0",
+		"typedoc-plugin-mdn-links": "^5.1.0",
 		"vite-node": "^2.1.2",
 		"vitepress": "^1.3.4",
-		"vue": "^3.4.31",
-		"vitepress-plugin-lightbox": "^1.0.2"
+		"vitepress-plugin-lightbox": "^1.0.2",
+		"vue": "^3.4.31"
 	}
 }
