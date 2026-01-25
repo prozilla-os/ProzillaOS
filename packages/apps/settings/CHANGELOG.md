@@ -1,5 +1,28 @@
 # @prozilla-os/settings
 
+## 1.1.20
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/shared@1.2.1
+  - @prozilla-os/core@1.3.14
+  - @prozilla-os/file-explorer@1.1.19
+
+## 1.1.19
+
+### Patch Changes
+
+- Updated apps and appearance tabs
+
+## 1.1.18
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.13
+  - @prozilla-os/file-explorer@1.1.18
+
 ## 1.1.17
 
 ### Patch Changes

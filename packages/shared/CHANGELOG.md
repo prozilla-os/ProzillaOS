@@ -1,5 +1,11 @@
 # @prozilla-os/shared
 
+## 1.2.1
+
+### Patch Changes
+
+- Updated util functions
+
 ## 1.2.0
 
 ### Minor Changes

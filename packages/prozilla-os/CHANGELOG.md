@@ -1,5 +1,48 @@
 # prozilla-os
 
+## 1.3.16
+
+### Patch Changes
+
+- @prozilla-os/settings@1.1.20
+- @prozilla-os/terminal@1.1.21
+- @prozilla-os/core@1.3.14
+- @prozilla-os/app-center@1.0.12
+- @prozilla-os/browser@1.1.19
+- @prozilla-os/calculator@1.1.19
+- @prozilla-os/file-explorer@1.1.19
+- @prozilla-os/media-viewer@1.1.19
+- @prozilla-os/text-editor@1.1.19
+
+## 1.3.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/settings@1.1.19
+
+## 1.3.14
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/terminal@1.1.20
+
+## 1.3.13
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.13
+  - @prozilla-os/app-center@1.0.11
+  - @prozilla-os/browser@1.1.18
+  - @prozilla-os/calculator@1.1.18
+  - @prozilla-os/file-explorer@1.1.18
+  - @prozilla-os/media-viewer@1.1.18
+  - @prozilla-os/settings@1.1.18
+  - @prozilla-os/terminal@1.1.19
+  - @prozilla-os/text-editor@1.1.18
+
 ## 1.3.12
 
 ### Patch Changes

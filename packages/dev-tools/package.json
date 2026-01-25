@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/dev-tools",
 	"description": "A library of tools for the development of ProzillaOS packages.",
-	"version": "1.1.9",
+	"version": "1.1.11",
 	"homepage": "https://os.prozilla.dev",
 	"author": {
 		"name": "Prozilla",

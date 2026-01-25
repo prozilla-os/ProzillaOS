@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/browser",
 	"description": "A ProzillaOS application for browsing the internet.",
-	"version": "1.1.17",
+	"version": "1.1.19",
 	"homepage": "https://os.prozilla.dev/browser",
 	"author": {
 		"name": "Prozilla",
