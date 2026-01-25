@@ -1,5 +1,11 @@
 # @prozilla-os/core
 
+## 1.3.13
+
+### Patch Changes
+
+- Updated documentation
+
 ## 1.3.12
 
 ### Patch Changes

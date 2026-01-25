@@ -1,5 +1,18 @@
 # @prozilla-os/terminal
 
+## 1.1.20
+
+### Patch Changes
+
+- Improved support for custom commands
+
+## 1.1.19
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@1.3.13
+
 ## 1.1.18
 
 ### Patch Changes
