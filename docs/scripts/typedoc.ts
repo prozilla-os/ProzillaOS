@@ -10,14 +10,23 @@ const PACKAGES = [
 	"dev-tools",
 	"shared",
 	"skins",
+	"apps/app-center",
+	"apps/browser",
+	"apps/calculator",
+	"apps/file-explorer",
+	"apps/logic-sim",
+	"apps/media-viewer",
+	"apps/settings",
+	"apps/terminal",
+	"apps/text-editor",
 ];
 const OUT_DIR = "./src/reference/";
 
 const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	plugin: [
 		"typedoc-plugin-mdn-links",
+		"typedoc-plugin-markdown",
 		"./scripts/typedoc-plugin.mjs",
-		"typedoc-plugin-markdown"
 	],
 	categorizeByGroup: true,
 	router: "group",
@@ -28,7 +37,7 @@ const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	expandParameters: true,
 	expandObjects: true,
 	pageTitleTemplates: {
-		index: "API",
+		index: "Index",
 		member: formatMemberPageTitle,
 		module: formatModulePageTitle,
 	},
@@ -36,7 +45,7 @@ const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	modulesFileName: "api",
 	navigation: {
 		includeGroups: true
-	}
+	},
 };
 
 PACKAGES.forEach(async (path) => {

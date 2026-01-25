@@ -89,7 +89,7 @@ export const packageSidebars = (packages: PackageData[]): DefaultTheme.Sidebar =
 
 			if (existsSync(path)) {
 				packageItems.push({
-					text: "API",
+					text: "Index",
 					link: "/api"
 				});
 

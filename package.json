@@ -25,7 +25,8 @@
 		"docs:start": "pnpm --filter @prozilla-os/docs run start",
 		"docs:build": "pnpm --filter @prozilla-os/docs run build",
 		"docs:preview": "pnpm --filter @prozilla-os/docs run preview",
-		"docs:generate": "pnpm --filter @prozilla-os/docs run generate",
+		"docs:data": "pnpm --filter @prozilla-os/docs run data",
+		"docs:api": "pnpm --filter @prozilla-os/docs run api",
 		"packages:build": "pnpm -r --sequential --filter \"@prozilla-os/demo^...\" build",
 		"packages:update": "npx changeset && pnpm changeset version",
 		"packages:release": "pnpm changeset publish && pnpm vite-node scripts/createRelease.ts"

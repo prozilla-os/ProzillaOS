@@ -51,7 +51,13 @@ export default defineConfig({
 		),
 
 		editLink: {
-			pattern: "https://github.com/prozilla-os/ProzillaOS/edit/main/docs/src/:path",
+			pattern: ({ frontmatter }) => {
+				if ("editUrl" in frontmatter) {
+					return frontmatter.editUrl;
+				} else {
+					return "https://github.com/prozilla-os/ProzillaOS/edit/main/docs/src/:path";
+				}
+			},
 			text: "Suggest changes to this page",
 		},
 
