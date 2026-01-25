@@ -1,21 +1,65 @@
 // @ts-check
-import { Converter, ReflectionKind, CommentTag, Comment, DeclarationReflection, PageKind, Reflection } from "typedoc";
-import { MarkdownPageEvent, MarkdownRendererEvent } from "typedoc-plugin-markdown";
+import { Converter, ReflectionKind, CommentTag, Comment, DeclarationReflection, PageKind, ParameterType, Context, Reflection, ReferenceType } from "typedoc";
+import { MarkdownPageEvent } from "typedoc-plugin-markdown";
+import { ORG, PACKAGES } from "./packages.const.mjs";
+import { existsSync, readFileSync } from "node:fs";
+
+/** @type {Record<string, { title: string, children?: { title: string, kind: number, path: string, isDeprecated: boolean }[] }[]>} */
+const packageNavCache = {};
+
+/**
+ * @param {string} path 
+ */
+function getPackageNavigation(path) {
+	if (!PACKAGES.includes(path))
+		return;
+
+	if (path in packageNavCache)
+		return packageNavCache[path];
+
+	const navJsonPath = new URL("../src/reference/" + path + "/nav.json", import.meta.url);
+	if (!existsSync(navJsonPath)) {
+		console.log("⚠ Navigation file not found: " + navJsonPath);
+		return;
+	}
+
+	const navJson = readFileSync(navJsonPath, "utf-8");
+	const navigation = JSON.parse(navJson);
+
+	packageNavCache[path] = navigation;
+	return packageNavCache[path];
+}
 
 /**
  * @param {import("typedoc-plugin-markdown").MarkdownApplication} app
  */
 export function load(app) {
-	app.converter.on(Converter.EVENT_CREATE_DECLARATION, (context, reflection) => {
-		addReactGroups(reflection);
-		renameDefaultGroup(reflection);
+	app.options.addDeclaration({
+		name: "path",
+		type: ParameterType.String,
+		help: "The relative path of the package",
+		defaultValue: "",
 	});
 
-	/** @type {string | undefined} */
-	let packageReadmeEditUrl;
-	app.renderer.on(MarkdownRendererEvent.BEGIN, (event) => {
-		packageReadmeEditUrl = event.outputDirectory.replace(/^.*\/docs\/src\/reference\//, "https://github.com/prozilla-os/ProzillaOS/edit/main/packages/")
-		packageReadmeEditUrl += "/README.md";
+	function getRelativePath() {
+		return String(app.options.getValue("path"));
+	}
+
+	function getPackageReadmeEditUrl() {
+		return `https://github.com/prozilla-os/ProzillaOS/edit/main/packages/${getRelativePath()}/README.md`;
+	}
+
+	app.converter.addUnknownSymbolResolver((reference) => resolveUnknownSymbol(getRelativePath(), reference));
+
+	app.converter.on(Converter.EVENT_CREATE_DECLARATION, (context, reflection) => {
+		addReactGroups(reflection);
+		updateGroups(reflection);
+	});
+
+	app.converter.on(Converter.EVENT_RESOLVE_END, (context) => {
+		context.project.getReflectionsByKind(ReflectionKind.Variable).forEach((reflection) => {
+			addExtendedAppsToGroup(context, reflection);
+		});
 	});
 
 	app.renderer.on(MarkdownPageEvent.END, (event) => {
@@ -28,7 +72,7 @@ export function load(app) {
 
 		let editUrl;
 		if (event.pageKind === PageKind.Index) {
-			editUrl = packageReadmeEditUrl;
+			editUrl = getPackageReadmeEditUrl();
 		} else {
 			editUrl = sourceUrl?.replace(/\/blob\/[a-zA-ZZ0-9]+\//, "/edit/main/");
 		}
@@ -53,12 +97,51 @@ function addReactGroups(reflection) {
 /**
  * @param {DeclarationReflection} reflection 
  */
-function renameDefaultGroup(reflection) {
+function updateGroups(reflection) {
 	if (reflection.kind === ReflectionKind.TypeAlias) {
 		addGroup(reflection, "Types");
 	} else if (reflection.kind === ReflectionKind.Enum) {
 		addGroup(reflection, "Enums");
+	} else if (reflection.kind === ReflectionKind.Variable) {
+		if (reflection.type?.type === "reference") {
+			if (isAppReference(reflection.type)) {
+				addGroup(reflection, "Apps");
+			}
+		}
 	}
+}
+
+/**
+ * @param {Context} context
+ * @param {Reflection} reflection 
+ */
+function addExtendedAppsToGroup(context, reflection) {
+	if (!reflection.isDeclaration() || reflection.kind !== ReflectionKind.Variable || reflection.type?.type !== "reference")
+		return;
+
+	if (!reflection.type.name)
+		return;
+
+	const name = reflection.type.name;
+	const type = context.project.getReflectionsByKind(ReflectionKind.Class).find((ref) => ref.name === name);
+	if (!type || !type.isDeclaration() || !type.extendedTypes?.length)
+		return;
+
+	const extendedType = type.extendedTypes[0];
+	if (extendedType.type !== "reference")
+		return;
+
+	const isApp = isAppReference(extendedType);
+	if (isApp) {
+		addGroup(reflection, "Apps");
+	}
+}
+
+/**
+ * @param {ReferenceType} reference 
+ */
+function isAppReference(reference) {
+	return reference.name === "App" && reference.toDeclarationReference().moduleSource === ORG + "/core";
 }
 
 /**
@@ -108,12 +191,7 @@ function reformatSources(event) {
 			return;
 		}
 
-		if (!line.startsWith("Defined in: [")) {
-			contents.push(line);
-			return;
-		}
-
-		if (!firstSource) {
+		if (line.startsWith("Defined in: [") && !firstSource) {
 			const results = line.match(/\[([^\]]+)\]\(([^)]+)\)/);
 
 			firstSource = {};
@@ -128,6 +206,8 @@ function reformatSources(event) {
 				firstSource.fileName = fileName;
 				firstSource.url = url;
 			}
+		} else if (!line.startsWith("Defined in: ")) {
+			contents.push(line);
 		}
 	});
 	
@@ -215,5 +295,54 @@ function renameHeadings(event) {
 		if (reflection.kind === ReflectionKind.Enum) {
 			event.contents = event.contents.replace(/^## Enumeration Members\s*$/mi, "## Members\n");
 		}
+	}
+}
+
+/**
+ * @param {string} path 
+ * @param {import("typedoc").DeclarationReference} reference 
+ */
+function resolveUnknownSymbol(path, reference) {
+	if (reference.moduleSource?.startsWith("@prozilla-os/")) {
+		const targetName = reference.moduleSource.replace("@prozilla-os/", "");
+		const targetPath = PACKAGES.find((path) => path.endsWith(targetName));
+
+		if (!targetPath || path === targetPath)
+			return;
+
+		const navigation = getPackageNavigation(targetPath);
+		if (!navigation)
+			return;
+
+		const symbolName = reference.symbolReference?.path?.[0].path;
+		if (!symbolName)
+			return;
+		
+		/** @type {string | undefined} */
+		let pagePath;
+		for (const { children } of navigation) {
+			if (children) {
+				for (const { title, path } of children) {
+					if (title === symbolName) {
+						pagePath = path;
+						break;
+					}
+				}
+
+				if (pagePath)
+					break;
+			}
+		}
+		if (!pagePath)
+			return;
+
+		let relativePagePath = `../../${targetPath}/${pagePath}`;
+		const sourceDepth = path.split("/").length - 1;
+		const targetDepth = targetPath.split("/").length - 1;
+		for (let i = 0; i < sourceDepth - targetDepth; i++) {
+			relativePagePath = "../" + relativePagePath;
+		}
+
+		return relativePagePath;
 	}
 }

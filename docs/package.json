@@ -13,8 +13,9 @@
 		"start": "vitepress --port 3000",
 		"build": "vitepress build",
 		"preview": "vitepress preview --port 8080",
-		"data": "rimraf data && vite-node scripts/generateData",
-		"api": "vite-node scripts/typedoc"
+		"api": "vite-node scripts/typedoc",
+		"api:libs": "vite-node scripts/typedoc libs",
+		"api:apps": "vite-node scripts/typedoc apps"
 	},
 	"repository": {
 		"type": "git",

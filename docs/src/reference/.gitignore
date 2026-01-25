@@ -2,3 +2,12 @@ core
 dev-tools
 shared
 skins
+apps/app-center
+apps/browser
+apps/calculator
+apps/file-explorer
+apps/logic-sim
+apps/media-viewer
+apps/settings
+apps/terminal
+apps/text-editor

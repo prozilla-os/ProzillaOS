@@ -44,36 +44,43 @@ export const PACKAGES: PackageData[] = [
 		text: "@prozilla-os/calculator",
 		link: "apps/calculator",
 		category: "Apps",
+		auto: true,
 	},
 	{
 		text: "@prozilla-os/file-explorer",
 		link: "apps/file-explorer",
 		category: "Apps",
+		auto: true,
 	},
 	{
 		text: "@prozilla-os/media-viewer",
 		link: "apps/media-viewer",
 		category: "Apps",
+		auto: true,
 	},
 	{
 		text: "@prozilla-os/settings",
 		link: "apps/settings",
 		category: "Apps",
+		auto: true,
 	},
 	{
 		text: "@prozilla-os/terminal",
 		link: "apps/terminal",
 		category: "Apps",
+		auto: true,
 	},
 	{
 		text: "@prozilla-os/text-editor",
 		link: "apps/text-editor",
 		category: "Apps",
+		auto: true,
 	},
 	{
 		text: "@prozilla-os/logic-sim",
 		link: "apps/logic-sim",
 		category: "Apps",
+		auto: true,
 	},
 ];
 

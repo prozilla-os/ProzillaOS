@@ -3,24 +3,7 @@ import type { PluginOptions } from "typedoc-plugin-markdown";
 import { ANSI } from "../../packages/shared/src/constants";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-
-const PACKAGES_DIR = "../packages/";
-const PACKAGES = [
-	"core",
-	"dev-tools",
-	"shared",
-	"skins",
-	"apps/app-center",
-	"apps/browser",
-	"apps/calculator",
-	"apps/file-explorer",
-	"apps/logic-sim",
-	"apps/media-viewer",
-	"apps/settings",
-	"apps/terminal",
-	"apps/text-editor",
-];
-const OUT_DIR = "./src/reference/";
+import { OUT_DIR, PACKAGES, PACKAGES_DIR } from "./packages.const.mjs";
 
 const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	plugin: [
@@ -48,7 +31,20 @@ const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	},
 };
 
-PACKAGES.forEach(async (path) => {
+const packagesFilter = process.argv.length > 2 ? process.argv[2].toLowerCase() : "all";
+console.log("Filter: " + ANSI.decoration.bold + packagesFilter + ANSI.reset);
+
+// Apply filter
+let packages = PACKAGES;
+if (packagesFilter == "libs") {
+	packages = packages.filter((path) => !path.startsWith("apps/"));
+} else if (packagesFilter == "apps") {
+	packages = packages.filter((path) => path.startsWith("apps/"));
+}
+console.log("Packages: " + ANSI.decoration.bold + packages.length + ANSI.reset);
+
+// Generate docs
+packages.forEach(async (path) => {
 	const packageDir = PACKAGES_DIR + path;
 	const entryPoint = `${packageDir}/src/main.ts`;
 	const tsConfig = `${packageDir}/tsconfig.json`;
@@ -56,8 +52,9 @@ PACKAGES.forEach(async (path) => {
 	const outDir = OUT_DIR + path;
 	const navigationJson = `${outDir}/nav.json`;
 
-	const options: TypeDocOptions & PluginOptions = {
+	const options: TypeDocOptions & PluginOptions & { path: string } = {
 		...DEFAULT_OPTIONS,
+		path,
 		entryPoints: [entryPoint],
 		tsconfig: tsConfig,
 		out: outDir,
