@@ -8,26 +8,28 @@ import { existsSync, readFileSync } from "node:fs";
 const packageNavCache = {};
 
 /**
- * @param {string} path 
+ * @param {string} targetPath 
+ * @param {string} sourcePath 
  */
-function getPackageNavigation(path) {
-	if (!PACKAGES.includes(path))
+function getPackageNavigation(targetPath, sourcePath) {
+	if (!PACKAGES.includes(targetPath))
 		return;
 
-	if (path in packageNavCache)
-		return packageNavCache[path];
+	if (targetPath in packageNavCache)
+		return packageNavCache[targetPath];
 
-	const navJsonPath = new URL("../src/reference/" + path + "/nav.json", import.meta.url);
+	const navJsonPath = new URL("../src/reference/" + targetPath + "/nav.json", import.meta.url);
 	if (!existsSync(navJsonPath)) {
-		console.log("⚠ Navigation file not found: " + navJsonPath);
+		console.log(`[Warning] Unknown symbol from ${targetPath} failed to resolve in ${sourcePath}\n`
+			+ `Navigation file is missing: ${navJsonPath}\n`);
 		return;
 	}
 
 	const navJson = readFileSync(navJsonPath, "utf-8");
 	const navigation = JSON.parse(navJson);
 
-	packageNavCache[path] = navigation;
-	return packageNavCache[path];
+	packageNavCache[targetPath] = navigation;
+	return packageNavCache[targetPath];
 }
 
 /**
@@ -310,7 +312,7 @@ function resolveUnknownSymbol(path, reference) {
 		if (!targetPath || path === targetPath)
 			return;
 
-		const navigation = getPackageNavigation(targetPath);
+		const navigation = getPackageNavigation(targetPath, path);
 		if (!navigation)
 			return;
 

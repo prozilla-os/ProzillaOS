@@ -34,6 +34,9 @@ function stageSite() {
 			if (!fs.existsSync(sourceDirectory)) {
 				console.warn(`Directory not found: ${source}`);
 				return;
+			} else if (!fs.existsSync(resolve(sourceDirectory, "index.html"))) {
+				console.warn(`Directory does not contain index.html file: ${source}`);
+				return;
 			}
 
 			if (!fs.existsSync(targetDirectory))

@@ -1,10 +1,10 @@
 // @ts-check
 export const PACKAGES_DIR = "../packages/";
 export const PACKAGES = [
-	"core",
-	"dev-tools",
 	"shared",
 	"skins",
+	"core",
+	"dev-tools",
 	"apps/app-center",
 	"apps/browser",
 	"apps/calculator",

@@ -11,6 +11,7 @@
 	"type": "module",
 	"scripts": {
 		"start": "vitepress --port 3000",
+		"prebuild": "pnpm run api",
 		"build": "vitepress build",
 		"preview": "vitepress preview --port 8080",
 		"api": "vite-node scripts/typedoc",

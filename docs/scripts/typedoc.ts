@@ -5,6 +5,7 @@ import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { OUT_DIR, PACKAGES, PACKAGES_DIR } from "./packages.const.mjs";
 
+const CONCURRENT = false;
 const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	plugin: [
 		"typedoc-plugin-mdn-links",
@@ -42,9 +43,20 @@ if (packagesFilter == "libs") {
 	packages = packages.filter((path) => path.startsWith("apps/"));
 }
 console.log("Packages: " + ANSI.decoration.bold + packages.length + ANSI.reset);
+console.log("Concurrency: " + ANSI.decoration.bold + (CONCURRENT ? "enabled" : "disabled") + ANSI.reset);
 
 // Generate docs
-packages.forEach(async (path) => {
+if (CONCURRENT) {
+	packages.forEach(generateDocs);
+} else {
+	(async () => {
+		for (const path of packages) {
+			await generateDocs(path);
+		}
+	})();
+}
+
+async function generateDocs(path: string) {
 	const packageDir = PACKAGES_DIR + path;
 	const entryPoint = `${packageDir}/src/main.ts`;
 	const tsConfig = `${packageDir}/tsconfig.json`;
@@ -72,7 +84,7 @@ packages.forEach(async (path) => {
 			console.log(`\n${ANSI.fg.red}⚠ Failed to generate docs for: ${path}${ANSI.reset}`);
 		});
 	}
-});
+}
 
 // Add auto-generated docs to gitignore
 writeFileSync(resolve(__dirname, "../", OUT_DIR, ".gitignore"), PACKAGES.join("\n"));
