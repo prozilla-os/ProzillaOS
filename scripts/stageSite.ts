@@ -3,6 +3,7 @@ import { name } from "../package.json";
 import fs from "node:fs";
 import { BUILD_DIR } from "../demo/src/config/deploy.config";
 import { resolve } from "node:path";
+import { Print } from "../packages/shared/src/features";
 
 const EXAMPLES = [
 	"portfolio",
@@ -23,8 +24,8 @@ const TARGET = `../${BUILD_DIR}`;
 
 function stageSite() {
 	try {
-		console.log(`Context: ${ANSI.decoration.bold}${name}${ANSI.reset}\n`);
-		console.log(`${ANSI.fg.yellow}Staging site...${ANSI.reset}`);
+		Print.parameter("Context", name);
+		Print.pending("Staging site...");
 
 		// Copy packages to build directory
 		PACKAGES.forEach(({ source, destination }) => {
@@ -43,27 +44,27 @@ function stageSite() {
 				fs.mkdirSync(targetDirectory, { recursive: true });
 
 			fs.cpSync(sourceDirectory, targetDirectory, { recursive: true });
-			console.log(`- Copied ${ANSI.fg.cyan + source.replace(/^\.\.\//, "") + ANSI.reset} to ${ANSI.fg.cyan + destination + ANSI.reset}`);
+			Print.text(`- Copied ${Print.highlight(source.replace(/^\.\.\//, ""))} to ${Print.highlight(destination)}`);
 		});
 
 		// Copy git attributes to build directory
 		const gitAttributesDirectory = resolve(__dirname, "../.gitattributes");
 		if (fs.existsSync(gitAttributesDirectory)) {
 			fs.copyFileSync(gitAttributesDirectory, resolve(__dirname, `../${BUILD_DIR}/.gitattributes`));
-			console.log(`- Copied ${ANSI.fg.cyan + ".gitattributes" + ANSI.reset}`);
+			Print.text(`- Copied ${Print.highlight(".gitattributes")}`);
 		}
 		
-		console.log(`\n${ANSI.fg.green}✓ Site staged: ${ANSI.fg.cyan}./${BUILD_DIR + ANSI.reset}`);
+		Print.newLine().success(`Site staged: ${Print.highlight("./" + BUILD_DIR)}`);
 	} catch (error) {
-		if ((error as Record<string, string>).stdout) {
-			console.error((error as Record<string, string>).stdout.toString());
+		const errorObj = error as object;
+		if ("stdout" in errorObj) {
+			Print.error(errorObj.stdout?.toString());
 		}
-		if ((error as Record<string, string>).stderr) {
-			console.error((error as Record<string, string>).stderr.toString());
+		if ("stderr" in errorObj) {
+			Print.error(errorObj.stderr?.toString());
 		}
 
-		console.error(error);
-		console.log(`${ANSI.fg.red}⚠ Staging failed${ANSI.reset}`);
+		Print.error(error).error("Staging failed");
 		process.exit(1);
 	}
 }

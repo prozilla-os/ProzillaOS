@@ -1,16 +1,18 @@
 import ghpages from "gh-pages";
-import { ANSI } from "../packages/shared/src/constants";
 import { BASE_URL, BUILD_DIR, COMMIT_MESSAGE, DOMAIN, REPO_URL } from "../demo/src/config/deploy.config";
 import path from "node:path";
 import { name } from "../package.json";
+import { Print } from "../packages/shared/src/features";
 
 function publishSite() {
-	console.log(`Context: ${ANSI.decoration.bold}${name}${ANSI.reset}\n`);
+	Print.parameter("Context", name);
 
-	console.log(`${ANSI.fg.yellow}Publishing to GitHub Pages...${ANSI.reset}`);
-	console.log(`- Domain: ${ANSI.fg.cyan + DOMAIN + ANSI.reset}`);
-	console.log(`- Commit message: ${ANSI.fg.cyan + COMMIT_MESSAGE + ANSI.reset}`);
-	console.log(`- Repository: ${ANSI.fg.cyan + REPO_URL + ANSI.reset}\n`);
+	Print.pending("Publishing to GitHub Pages...");
+	Print.properties({
+		"Domain": DOMAIN,
+		"Commit message": COMMIT_MESSAGE,
+		"Repository": REPO_URL
+	});
 
 	void ghpages.publish(path.resolve(__dirname, "../", BUILD_DIR), {
 		repo: REPO_URL,
@@ -20,11 +22,10 @@ function publishSite() {
 		if (error == null)
 			return;
 
-		console.error(error);
-		console.log(`${ANSI.fg.red}⚠ Failed to publish${ANSI.reset}`);
+		Print.error(error).error("Failed to publish");
 		process.exit(1);
 	}).then(() => {
-		console.log(`${ANSI.fg.green}✓ Published site: ${ANSI.fg.cyan + BASE_URL + ANSI.reset}`);
+		Print.success(`Published site: ${Print.highlight(BASE_URL)}`);
 	});
 }
 

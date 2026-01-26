@@ -3,9 +3,11 @@ import type { PluginOptions } from "typedoc-plugin-markdown";
 import { ANSI } from "../../packages/shared/src/constants";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { OUT_DIR, PACKAGES, PACKAGES_DIR } from "./packages.const.mjs";
+import { ORG, OUT_DIR, PACKAGES, PACKAGES_DIR } from "./packages.const.mjs";
+import { Option, program } from "@commander-js/extra-typings";
+import { formatMemberPageTitle, formatModulePageTitle } from "./typedoc.utils";
+import { Print } from "@prozilla-os/shared";
 
-const CONCURRENT = false;
 const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	plugin: [
 		"typedoc-plugin-mdn-links",
@@ -14,8 +16,8 @@ const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	],
 	categorizeByGroup: true,
 	router: "group",
-	groupOrder: ["Components", "Hooks", "*", "Interfaces", "Types"],
-	sort: ["alphabetical-ignoring-documents"],
+	groupOrder: ["Apps", "Components", "Hooks", "Classes", "Properties", "Methods", "Functions", "Variables", "*", "Interfaces", "Types"],
+	sort: ["source-order"],
 	hideBreadcrumbs: true,
 	hidePageHeader: true,
 	expandParameters: true,
@@ -32,31 +34,54 @@ const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	},
 };
 
-const packagesFilter = process.argv.length > 2 ? process.argv[2].toLowerCase() : "all";
-console.log("Filter: " + ANSI.decoration.bold + packagesFilter + ANSI.reset);
+program.name("typedoc-helper")
+	.description("Automatically generates documentation for the API of each package and adds them to the documentation site.")
 
-// Apply filter
-let packages = PACKAGES;
-if (packagesFilter == "libs") {
-	packages = packages.filter((path) => !path.startsWith("apps/"));
-} else if (packagesFilter == "apps") {
-	packages = packages.filter((path) => path.startsWith("apps/"));
-}
-console.log("Packages: " + ANSI.decoration.bold + packages.length + ANSI.reset);
-console.log("Concurrency: " + ANSI.decoration.bold + (CONCURRENT ? "enabled" : "disabled") + ANSI.reset);
+program.command("run", { isDefault: true })
+	.option("-f --filter <filter>", "The filter to apply", "all")
+	.addOption(new Option("-s --sequential", "Generate documentation sequentially instead of concurrently").default(true))
+	.addOption(new Option("-c --concurrent", "Generate documentation concurrently (may cause issues if navigation files are missing)").implies({ sequential: false }).conflicts("concurrent"))
+	.option("-d --dry-run", "Does everything except actually generating documentation", false)
+	.action((options) => {
+		const packagesFilter = options.filter;
+		const concurrent = !options.sequential;
+		const dryRun = options.dryRun;
 
-// Generate docs
-if (CONCURRENT) {
-	packages.forEach(generateDocs);
-} else {
-	(async () => {
-		for (const path of packages) {
-			await generateDocs(path);
+		// Apply filter
+		let packages = PACKAGES;
+		if (packagesFilter !== "all") {
+			if (packagesFilter == "libs") {
+				packages = packages.filter((path) => !path.startsWith("apps/"));
+			} else if (packagesFilter == "apps") {
+				packages = packages.filter((path) => path.startsWith("apps/"));
+			} else {
+				const packagePaths = packagesFilter.split(",").map((path) => path.replace(ORG + "/", ""));
+				packages = packages.filter((path) => packagePaths.includes(path));
+			}
 		}
-	})();
-}
+		
+		Print.parameter("Filter", packagesFilter);
+		Print.parameter("Packages", packages.length);
+		Print.parameter("Concurrency", concurrent ? "enabled" : "disabled");
 
-async function generateDocs(path: string) {
+		// Generate docs
+		if (concurrent) {
+			packages.forEach((path) => generateDocs(path, dryRun));
+		} else {
+			(async () => {
+				for (const path of packages) {
+					await generateDocs(path, dryRun);
+				}
+			})();
+		}
+
+		// Add auto-generated docs to gitignore
+		if (!dryRun) {
+			writeFileSync(resolve(__dirname, "../", OUT_DIR, ".gitignore"), PACKAGES.join("\n"));
+		}
+	});
+
+async function generateDocs(path: string, dryRun: boolean) {
 	const packageDir = PACKAGES_DIR + path;
 	const entryPoint = `${packageDir}/src/main.ts`;
 	const tsConfig = `${packageDir}/tsconfig.json`;
@@ -73,63 +98,25 @@ async function generateDocs(path: string) {
 		navigationJson,
 	};
 
-	console.log(`${ANSI.fg.yellow}Generating docs for: ${path}${ANSI.reset}`);
-	const app = await Application.bootstrapWithPlugins(options);
-	const project = await app.convert();
+	Print.pending(`Generating docs for: ${path}`);
 
-	if (project) {
-		await app.generateOutputs(project).then(() => {
-			console.log(`\n${ANSI.fg.green}✓ Finished generating docs for: ${path}${ANSI.reset}`);
-		}).catch(() => {
-			console.log(`\n${ANSI.fg.red}⚠ Failed to generate docs for: ${path}${ANSI.reset}`);
-		});
-	}
-}
+	const onComplete = () => {
+		Print.success(`Finished generating docs for: ${path}`);
+	};
 
-// Add auto-generated docs to gitignore
-writeFileSync(resolve(__dirname, "../", OUT_DIR, ".gitignore"), PACKAGES.join("\n"));
+	if (!dryRun) {
+		const app = await Application.bootstrapWithPlugins(options);
+		const project = await app.convert();
 
-interface PageData {
-	name: string;
-    rawName: string;
-    kind: string;
-    isDeprecated: boolean;
-}
-
-interface MemberPageData extends PageData {
-	group?: string;
-	codeKeyword?: string;
-	keyword?: string;
-}
-
-function formatModulePageTitle({ name }: PageData) {
-	return name.toUpperCase();
-}
-
-function formatMemberPageTitle({ group, rawName: name }: MemberPageData) {
-	let title = "";
-	if (group?.toLowerCase().startsWith("component")) {
-		const componentName = name.endsWith("()") ? name.substring(0, name.length - 2) : name;
-		title = `<${componentName}/>`;
+		if (project) {
+			await app.generateOutputs(project).then(onComplete).catch(() => {
+				Print.error(`Failed to generate docs for: ${path}`);
+			});
+		}
 	} else {
-		title = name;
+		onComplete();
 	}
-
-	title = "`" + title + "`";
-
-	if (group) {
-		title = formatGroupName(group) + " " + title;
-	}
-
-	return title;
 }
 
-function formatGroupName(group: string) {
-	if (group.endsWith("ses")) {
-		return group.substring(0, group.length - 2);
-	} else if (group.endsWith("s")) {
-		return group.substring(0, group.length - 1);
-	}
-
-	return group;
-}
+// Execute program
+program.parse(process.argv);

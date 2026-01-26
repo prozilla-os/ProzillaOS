@@ -18,7 +18,9 @@ export interface DefaultWindowOptions {
 
 /**
  * An application that can be ran by ProzillaOS
- * Applications can be installed by adding them to the `apps` array in {@link AppsConfig}
+ * 
+ * Applications can be installed by adding them to {@link AppsConfig.apps}.
+ * @typeParam AppProps - The props of the {@link windowContent} of this app.
  */
 export class App<AppProps extends WindowProps = WindowProps> {
 	/**

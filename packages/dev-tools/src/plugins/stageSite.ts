@@ -1,6 +1,6 @@
 import type { AppsConfig } from "@prozilla-os/core";
+import { Print } from "@prozilla-os/shared";
 import type { OutputBundle, PluginContext, Plugin } from "rollup";
-import { print } from "../features";
 
 export interface StageOptions {
 	appsConfig: AppsConfig;
@@ -149,7 +149,7 @@ function generateAppPages(context: PluginContext, template: string, options: Sta
 		const appIcon = app.iconUrl ?? favicon;
 
 		if (appId === "index") {
-			print("Invalid app ID found: " + appId, "error");
+			Print.error(`Invalid app ID found: ${appId}`);
 			return;
 		}
 
@@ -180,7 +180,7 @@ function generateAppPages(context: PluginContext, template: string, options: Sta
 
 function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, favicon, siteName, siteTagLine, domain, imageUrls = [] }: StageOptions) {
 	try {
-		print("Staging build...", "start", true);
+		Print.pending("Staging build...");
 
 		const baseUrl = `https://${domain}/`;
 
@@ -230,10 +230,9 @@ function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, f
 			generateAppPages(context, template, extendedOptions);
 		}
 	
-		print("Staging complete", "success", true);
+		Print.success("Staging complete");
 	} catch (error) {
-		console.error(error);
-		print("Staging failed", "error");
+		Print.error(error).error("Staging failed");
 		process.exit(1);
 	}
 }

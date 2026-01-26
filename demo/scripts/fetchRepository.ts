@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { REPO } from "../src/config/deploy.config";
-import { ANSI } from "../../packages/shared/src/constants";
 import { name } from "../package.json";
+import { Print } from "@prozilla-os/shared";
 
 const API_URL = "https://api.github.com/";
 const TREE_DIRECTORY = "public/config";
@@ -23,7 +23,7 @@ interface ReponseType {
 function fetchRepositoryTree(callback: (tree: string) => void) {
 	const treeUrl = `${API_URL}repos/${REPO.owner}/${REPO.name}/git/trees/${REPO.branch}?recursive=true`;
 
-	console.log(`${ANSI.fg.yellow}Fetching: ${ANSI.fg.cyan + treeUrl + ANSI.reset}`);
+	Print.fetching(treeUrl);
 
 	void fetch(treeUrl).then((response) =>
 		response.json()
@@ -41,27 +41,24 @@ function fetchRepositoryTree(callback: (tree: string) => void) {
 			}
 		});
 
-		console.log(`Files found: ${ANSI.fg.cyan + files.length + ANSI.reset}`);
-		console.log(`Folders found: ${ANSI.fg.cyan + folders.length + ANSI.reset}`);
-		console.log(`Truncated: ${ANSI.fg.cyan + response.truncated.toString() + ANSI.reset}`);
+		Print.value("Files found", files.length)
+			.value("Folders found", folders.length)
+			.value("Truncated", response.truncated);
 
 		const tree = JSON.stringify({ files, folders });
 		callback(tree);
-	}).catch((error) => {
-		console.error(error);
-	});
+	}).catch(Print.error);
 }
 
 try {
-	console.log(`Context: ${ANSI.decoration.bold}${name}${ANSI.reset}\n`);
+	Print.parameter("Context", name);
 
 	fetchRepositoryTree((tree) => {
 		fs.mkdirSync(TREE_DIRECTORY, { recursive: true });
 		fs.writeFileSync(TREE_PATH, tree, { flag: "w+" });
-		console.log(`\n${ANSI.fg.green}✓ Generated repository tree: ${ANSI.fg.cyan + TREE_PATH + ANSI.reset}`);
+		Print.newLine().success("Generated repository tree: " + Print.highlight(TREE_PATH));
 	});
 } catch (error) {
-	console.error(error);
-	console.log(`${ANSI.fg.red}⚠ Failed to fetch repository${ANSI.reset}`);
+	Print.error(error).error("Failed to fetch repository");
 	process.exit(1);
 }

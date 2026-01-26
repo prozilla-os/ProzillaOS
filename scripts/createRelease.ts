@@ -4,6 +4,7 @@ import { execSync } from "node:child_process";
 import { version, name } from "../packages/prozilla-os/package.json";
 import os from "node:os";
 import { ANSI } from "../packages/shared/src/constants";
+import { Print } from "../packages/shared/src/features";
 
 const getChangelog = (): string => {
 	const changelogPath = path.resolve(__dirname, "../packages/prozilla-os/CHANGELOG.md");
@@ -24,7 +25,7 @@ const createGitHubRelease = (): void => {
 	const changelogFilePath = path.join(os.tmpdir(), `CHANGELOG-${version}.md`);
 
 	try {
-		console.log(`Context: ${ANSI.decoration.bold}${name}${ANSI.reset}\n`);
+		Print.parameter("Context", name);
 
 		const changelog = getChangelog();
 		const tagName = `prozilla-os@${version}`;
@@ -33,26 +34,27 @@ const createGitHubRelease = (): void => {
 		// Write changelog to a temporary file
 		fs.writeFileSync(changelogFilePath, changelog);
 
-		console.log(`${ANSI.fg.yellow}Pushing tag...${ANSI.reset}`);
+		Print.pending("Pushing tag...");
 		execSync(`git push origin tag ${tagName}`, {
 			stdio: "inherit"
 		});
 
-		console.log(`${ANSI.fg.yellow}Creating release...${ANSI.reset}`);
+		Print.pending("Creating release...");
 		execSync(`gh release create ${tagName} --title "${releaseTitle}" --notes-file "${changelogFilePath}"`, {
 			stdio: "inherit"
 		});
 
-		console.log(`\n${ANSI.fg.green}✓ Release created: ${ANSI.fg.cyan + releaseTitle + ANSI.reset}`);
+		Print.success(`Release created: ${Print.highlight(releaseTitle)}`);
 	} catch (error) {
-		if ((error as Record<string, string>).stdout) {
-			console.error((error as Record<string, string>).stdout.toString());
+		const errorObj = error as object;
+		if ("stdout" in errorObj) {
+			Print.error(errorObj.stdout?.toString());
 		}
-		if ((error as Record<string, string>).stderr) {
-			console.error((error as Record<string, string>).stderr.toString());
+		if ("stderr" in errorObj) {
+			Print.error(errorObj.stderr?.toString());
 		}
 
-		console.error(`\n${ANSI.fg.red}⚠ Failed to create release: ${(error as Error).message}${ANSI.reset}`);
+		Print.newLine().error(`Failed to create release: ${(error as Error).message}`);
 		process.exit(1);
 	} finally {
 		// Clean up the temporary file

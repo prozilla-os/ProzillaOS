@@ -3,6 +3,7 @@ import { Converter, ReflectionKind, CommentTag, Comment, DeclarationReflection, 
 import { MarkdownPageEvent } from "typedoc-plugin-markdown";
 import { ORG, PACKAGES } from "./packages.const.mjs";
 import { existsSync, readFileSync } from "node:fs";
+import { Print } from "@prozilla-os/shared";
 
 /** @type {Record<string, { title: string, children?: { title: string, kind: number, path: string, isDeprecated: boolean }[] }[]>} */
 const packageNavCache = {};
@@ -20,8 +21,12 @@ function getPackageNavigation(targetPath, sourcePath) {
 
 	const navJsonPath = new URL("../src/reference/" + targetPath + "/nav.json", import.meta.url);
 	if (!existsSync(navJsonPath)) {
-		console.log(`[Warning] Unknown symbol from ${targetPath} failed to resolve in ${sourcePath}\n`
-			+ `Navigation file is missing: ${navJsonPath}\n`);
+		Print.warning("Unknown symbol", 
+			`Referenced from: ${sourcePath}`,
+			`Imported from: ${targetPath}`,
+			`Missing navigation file: ${navJsonPath}`
+		);
+		packageNavCache[targetPath] = [];
 		return;
 	}
 
@@ -239,12 +244,17 @@ function insertFrontmatter(event, editUrl) {
 				const lines = event.contents.split("\n")
 					.map((line) => line.trim())
 					.filter((line) => line.length > 0);
-				const firstSection = lines.findIndex((line) => line.startsWith("##"));
+				const title = lines.findIndex((line) => line.startsWith("# "));
+				const firstSection = lines.findIndex((line) => line.startsWith("## "));
 
-				if (firstSection >= 0) {
-					description = lines[firstSection - 1];
-					if (!description.startsWith("**Source")) {
-						frontmatter.description = description;
+				if (title > 0) {
+					for (let i = title + 1; i < firstSection; i++) {
+						const line = lines[i];
+						if (!line.startsWith("**Source")
+							&& !line.startsWith("> ")) {
+							frontmatter.description = line;
+							break;
+						}
 					}
 				}
 			}

@@ -4,6 +4,7 @@ import dts from "vite-plugin-dts";
 import cssInjectedByJs from "vite-plugin-css-injected-by-js";
 import { posix, resolve, sep } from "path";
 import { appMetadataPlugin } from "../plugins";
+import { Print } from "@prozilla-os/shared";
 
 /**
  * Helper function for creating Vite configurations for ProzillaOS apps
@@ -19,8 +20,8 @@ export const appViteConfig = (basePath: string, entryPath: string): UserConfig =
 	if (sep === "\\")
 		entryFile = entryFile.split(sep).join(posix.sep);
 
-	console.log("Using Vite config for app");
-	console.log("Entry: " + entryFile);
+	Print.text("Using Vite config for app");
+	Print.parameter("Entry", entryFile);
 
 	return {
 		plugins: [

@@ -44,6 +44,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.5.0",
 		"@prozilla-os/dev-tools": "workspace:*",
+		"@prozilla-os/shared": "workspace:*",
 		"@types/eslint": "^8.56.10",
 		"@types/gh-pages": "^6.1.0",
 		"@types/node": "^20.14.6",
