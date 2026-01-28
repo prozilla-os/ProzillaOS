@@ -4,16 +4,16 @@ import { useSystemManager } from "../../../hooks";
 let timeoutId: number | null = null;
 
 export interface InteractableProps {
-	/** Function that handles single clicks */
+	/** Function that handles single clicks. */
 	onClick?: (event: MouseEvent) => void;
-	/** Function that handles double clicks */
+	/** Function that handles double clicks. */
 	onDoubleClick?: (event: MouseEvent) => void;
 	children: ReactNode;
 	[key: string]: unknown;
 }
 
 /**
- * Button component that handles single and double clicks
+ * Button component that handles single and double clicks.
  */
 export function Interactable({ onClick, onDoubleClick, children, ...props }: InteractableProps) {
 	const { miscConfig } = useSystemManager();

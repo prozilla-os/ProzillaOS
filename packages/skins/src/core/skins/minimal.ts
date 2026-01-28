@@ -1,7 +1,7 @@
 import { Skin } from "../skin";
 
 /**
- * A minimalistic skin with monochrome icons
+ * A minimalistic skin with monochrome icons.
  */
 export const minimalSkin = new Skin({
 	appIcons: {

@@ -2,41 +2,41 @@ import { VirtualRoot } from "../../virtual-drive";
 
 export interface VirtualDriveConfigOptions {
 	/**
-	 * Enables persistent storage of the virtual drive
+	 * Enables persistent storage of the virtual drive.
 	 * @default true
 	 */
 	saveData: boolean;
 
 	/**
-	 * Configure the data that is loaded initially when ProzillaOS is opened
+	 * Configure the data that is loaded initially when ProzillaOS is opened.
 	 */
 	defaultData: {
 		/**
-		 * Include pictures folder in default data
+		 * Include pictures folder in default data.
 		 * @default true
 		 */
 		includePicturesFolder?: boolean;
 
 		/**
-		 * Include documents folder in default data
+		 * Include documents folder in default data.
 		 * @default true
 		 */
 		includeDocumentsFolder?: boolean;
 
 		/**
-		 * Include desktop folder in default data
+		 * Include desktop folder in default data.
 		 * @default true
 		 */
 		includeDesktopFolder?: boolean;
 
 		/**
-		 * Include source tree folder in default data
+		 * Include source tree folder in default data.
 		 * @default true
 		 */
 		includeSourceTree?: boolean;
 
 		/**
-		 * Include apps folder in default data
+		 * Include apps folder in default data.
 		 * @default true
 		 */
 		includeAppsFolder?: boolean;

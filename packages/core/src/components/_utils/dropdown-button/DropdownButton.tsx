@@ -4,16 +4,16 @@ import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
 import { formatShortcut } from "../../../features/_utils/keyboard.utils";
 
 export interface DropdownButtonProps {
-	/** The label of the button */
+	/** The label of the button. */
 	label: string;
-	/** The options in the dropdown menu mapped to the function that handles their selection */
+	/** The options in the dropdown menu mapped to the function that handles their selection. */
 	options: Record<string, () => void>;
-	/** The keyboard shortcut for options in the dropdown menu */
+	/** The keyboard shortcut for options in the dropdown menu. */
 	shortcuts: Record<string, string[]>;
 }
 
 /**
- * Component that opens a dropdown menu
+ * Component that opens a dropdown menu.
  */
 export function DropdownButton({ label, options, shortcuts }: DropdownButtonProps) {
 	const [open, setOpen] = useState(false);

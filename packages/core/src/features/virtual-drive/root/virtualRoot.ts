@@ -13,10 +13,10 @@ export interface VirtualRootJson extends VirtualFolderJson {
 }
 
 /**
- * A virtual folder that serves as the root folder
+ * A virtual folder that serves as the root folder.
  */
 export class VirtualRoot extends VirtualFolder {
-	/** Aliases for files and folders */
+	/** Aliases for files and folders. */
 	shortcuts: Record<string, VirtualFile | VirtualFileLink | VirtualFolder | VirtualFolderLink>;
 	initiated: boolean = false;
 	loadedDefaultData: boolean = false;
@@ -143,7 +143,7 @@ export class VirtualRoot extends VirtualFolder {
 	}
 
 	/**
-	 * Calls the storage manager's store function with this root's data as a string
+	 * Calls the storage manager's store function with this root's data as a string.
 	 */
 	saveData() {
 		if (!this.initiated || !this.systemManager.virtualDriveConfig.saveData)
@@ -165,7 +165,7 @@ export class VirtualRoot extends VirtualFolder {
 	}
 
 	/**
-	 * Initializes this root by loading the default data and then the user's data on top
+	 * Initializes this root by loading the default data and then the user's data on top.
 	 */
 	init(): VirtualRoot {
 		this.initiated = false;
@@ -184,7 +184,7 @@ export class VirtualRoot extends VirtualFolder {
 	}
 
 	/**
-	 * Adds a shortcut to a file or folder
+	 * Adds a shortcut to a file or folder.
 	 */
 	addShortcut(name: string, destination: VirtualFile | VirtualFileLink | VirtualFolder | VirtualFolderLink) {
 		this.shortcuts[name] = destination;
@@ -192,7 +192,7 @@ export class VirtualRoot extends VirtualFolder {
 	}
 
 	/**
-	 * Tells the storage manager to clear all data and reloads the window
+	 * Tells the storage manager to clear all data and reloads the window.
 	 */
 	reset() {
 		if (window.confirm("Are you sure you want to reset all your data?")) {

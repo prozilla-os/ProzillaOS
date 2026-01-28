@@ -7,16 +7,16 @@ import { VirtualFile } from "../virtual-drive/file";
 import { FILE_SCHEMES } from "../../constants/virtualDrive.const";
 
 export interface WindowOptions {
-	/** The ID of the window */
+	/** The ID of the window. */
 	id?: string;
-	/** The app associated with the window */
+	/** The app associated with the window. */
 	app?: App;
 	/**
-	 * The size of the window
+	 * The size of the window.
 	 * @default new Vector2(700, 400)
 	 */
 	size?: Vector2;
-	/** The position of the window */
+	/** The position of the window. */
 	position?: Vector2;
 	fullscreen?: boolean | string;
 	options?: object;
@@ -27,11 +27,11 @@ export interface WindowOptions {
 }
 
 /**
- * Manages the states of windows
+ * Manages the states of windows.
  */
 export class WindowsManager {
 	windows: { [id: string]: WindowOptions };
-	/** Function that handles changes to the open windows */
+	/** Function that handles changes to the open windows. */
 	updateWindows: (window: WindowsManager["windows"]) => void;
 	startupComplete: boolean;
 
@@ -47,8 +47,8 @@ export class WindowsManager {
 	}
 
 	/**
-	 * Opens a window for an application
-	 * @param appId The ID of the app
+	 * Opens a window for an application.
+	 * @param appId - The ID of the app.
 	 */
 	open(appId: string, options?: WindowOptions | null): object | null {
 		const { appsConfig, windowsConfig, taskbarConfig } = this.#systemManager;
@@ -125,8 +125,8 @@ export class WindowsManager {
 	}
 
 	/**
-	 * Opens a file with the associated app or by a method specified by the file scheme
-	 * @returns Opened window
+	 * Opens a file with the associated app or by a method specified by the file scheme.
+	 * @returns Opened window.
 	 */
 	openFile(file: VirtualFile, options: object = {}): object | null {
 		if (file.source != null) {
@@ -151,7 +151,7 @@ export class WindowsManager {
 	}
 
 	/**
-	 * Close a window
+	 * Close a window.
 	 */
 	close(windowId: string) {
 		windowId = windowId.toString();
@@ -172,7 +172,7 @@ export class WindowsManager {
 	}
 
 	/**
-	 * Focus on a specific window
+	 * Focus on a specific window.
 	 */
 	focus(windowId: string) {
 		windowId = windowId.toString();
@@ -196,14 +196,14 @@ export class WindowsManager {
 	}
 
 	/**
-	 * Check whether a window is focused
+	 * Check whether a window is focused.
 	 */
 	isFocused(windowId: string) {
 		return this.windows[windowId].isFocused;
 	}
 
 	/**
-	 * Check if any window is focused
+	 * Check if any window is focused.
 	 */
 	isAnyFocused() {
 		let anyFocused = false;
@@ -217,8 +217,9 @@ export class WindowsManager {
 	}
 
 	/**
-	 * Change the minimized state of a window
-	 * @param minimized - Leave as undefined to toggle the window's minimization state
+	 * Change the minimized state of a window.
+	 * @param windowId - The ID of the window.
+	 * @param minimized - Leave as undefined to toggle the window's minimization state.
 	 */
 	setMinimized(windowId: string, minimized?: boolean) {
 		windowId = windowId.toString();
@@ -235,7 +236,7 @@ export class WindowsManager {
 	}
 
 	/**
-	 * Minimize all windows
+	 * Minimize all windows.
 	 */
 	minimizeAll() {
 		Object.values(this.windows).forEach((window) => {
@@ -246,7 +247,7 @@ export class WindowsManager {
 	}
 
 	/**
-	 * Check if an app has an open window
+	 * Check if an app has an open window.
 	 */
 	isAppActive(appId: string): boolean {
 		let active = false;
@@ -262,7 +263,7 @@ export class WindowsManager {
 	}
 
 	/**
-	 * Get an opened window of a certain app
+	 * Get an opened window of a certain app.
 	 */
 	getAppWindowId(appId: string): string | null {
 		let windowId: string | null = null;

@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import { removeFromArray } from "@prozilla-os/shared";
 
 export interface UseKeyboardListenerParams {
-	/** Function that handles `"keydown"` events */
+	/** Function that handles `"keydown"` events. */
 	onKeyDown?: (event: KeyboardEvent) => void;
-	/** Function that handles `"keyup"` events */
+	/** Function that handles `"keyup"` events. */
 	onKeyUp?: (event: KeyboardEvent) => void;
 };
 
 /**
- * Creates listeners for `"keydown"` and `"keyup"` events
+ * Creates listeners for `"keydown"` and `"keyup"` events.
  */
 export function useKeyboardListener({ onKeyDown, onKeyUp }: UseKeyboardListenerParams) {
 	useEffect(() => {
@@ -35,7 +35,7 @@ export interface UseShortcutsParams {
 
 // TO DO: rewrite to use a global shortcuts manager instead, to allow certain shortcuts to be prioritized and prevent conflicts
 /**
- * Creates listeners for keyboard shortcuts
+ * Creates listeners for keyboard shortcuts.
  */
 export function useShortcuts({ options, shortcuts, useCategories = true }: UseShortcutsParams) {
 	const [activeKeys, setActiveKeys] = useState<string[]>([]);

@@ -2,36 +2,36 @@ import { Theme } from "../types";
 
 interface SkinOptions {
 	/**
-	 * SVG icon for the system
+	 * SVG icon for the system.
 	 * @default
 	 * "https://os.prozilla.dev/icon.svg"
 	 */
 	systemIcon: string;
 
 	/**
-	 * Replacements for app icons based on app id
+	 * Replacements for app icons based on app id.
 	 */
 	appIcons?: { [key: string]: string };
 
 	/**
-	 * Replacements for app names based on app id
+	 * Replacements for app names based on app id.
 	 */
 	appNames?: { [key: string]: string };
 
 	/**
-	 * Array of URLs of wallpaper images
+	 * Array of URLs of wallpaper images.
 	 */
 	wallpapers: string[];
 
 	/**
-	 * URL of default wallpaper image
+	 * URL of default wallpaper image.
 	 * @default
 	 * "https://os.prozilla.dev/assets/wallpapers/vibrant-wallpaper-blue-purple-red.png"
 	 */
 	defaultWallpaper: string;
 
 	/**
-	 * URLs of icons for types of files
+	 * URLs of icons for types of files.
 	 */
 	fileIcons: {
 		generic: string;
@@ -44,7 +44,7 @@ interface SkinOptions {
 	};
 
 	/**
-	 * URLs of icons for types of folders
+	 * URLs of icons for types of folders.
 	 */
 	folderIcons: {
 		generic: string;
@@ -56,12 +56,12 @@ interface SkinOptions {
 	};
 
 	/**
-	 * Function that dynamically imports style sheet
+	 * Function that dynamically imports style sheet.
 	 */
 	loadStyleSheet?: () => void;
 
 	/**
-	 * Default theme
+	 * Default theme.
 	 */
 	defaultTheme?: Theme;
 }
@@ -77,6 +77,9 @@ export class Skin {
 	loadStyleSheet: SkinOptions["loadStyleSheet"];
 	defaultTheme: SkinOptions["defaultTheme"];
 
+	/**
+	 * @param options - {@inheritDoc SkinOptions}.
+	 */
 	constructor(options: Partial<SkinOptions> = {}) {
 		this.systemIcon = options.systemIcon ?? "https://os.prozilla.dev/icon.svg";
 

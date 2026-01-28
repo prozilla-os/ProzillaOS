@@ -2,13 +2,13 @@ import { Vector2 } from "../../math/vector2";
 
 export interface ModalsConfigOptions {
 	/**
-	 * Default size of a dialog box
+	 * Default size of a dialog box.
 	 * @default new Vector2(400, 200)
 	 */
 	defaultDialogSize: Vector2;
 
 	/**
-	 * Default size of a file selector
+	 * Default size of a file selector.
 	 * @default new Vector2(700, 400)
 	 */
 	defaultFileSelectorSize: Vector2;

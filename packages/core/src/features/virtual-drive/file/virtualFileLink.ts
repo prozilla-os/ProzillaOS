@@ -6,7 +6,7 @@ export interface VirtualFileLinkJson extends VirtualFileJson {
 }
 
 /**
- * A link that points to a virtual file
+ * A link that points to a virtual file.
  */
 export class VirtualFileLink extends VirtualFile {
 	linkedPath?: string;

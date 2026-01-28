@@ -10,11 +10,11 @@ import { removeFromArray } from "@prozilla-os/shared";
 import { VirtualBase } from "../../../features/virtual-drive/virtualBase";
 
 export interface OnSelectionChangeParams {
-	/** The selected files */
+	/** The selected files. */
 	files?: string[];
-	/** The selected folders */
+	/** The selected folders. */
 	folders?: string[];
-	/** The directory the selection was made in */
+	/** The directory the selection was made in. */
 	directory?: VirtualFolder;
 };
 
@@ -22,33 +22,33 @@ export type FileEventHandler = (event: Event, file: VirtualFile) => void;
 export type FolderEventHandler = (event: Event, folder: VirtualFolder) => void;
 
 export interface DirectoryListProps {
-	/** The directory to display */
+	/** The directory to display. */
 	directory: VirtualFolder;
-	/** Whether to show hidden files and folders */
+	/** Whether to show hidden files and folders. */
 	showHidden?: boolean;
-	/** `className` prop for folders */
+	/** `className` prop for folders. */
 	folderClassName?: string;
-	/** `className` prop for files */
+	/** `className` prop for files. */
 	fileClassName?: string;
-	/** `className` prop for this component */
+	/** `className` prop for this component. */
 	className?: string;
-	/** Function that handles context menu interactions on files */
+	/** Function that handles context menu interactions on files. */
 	onContextMenuFile?: FileEventHandler;
-	/** Function that handles context menu interactions on folders */
+	/** Function that handles context menu interactions on folders. */
 	onContextMenuFolder?: FolderEventHandler;
-	/** Function that handles file opening events */
+	/** Function that handles file opening events. */
 	onOpenFile?: FileEventHandler;
-	/** Function that handles folder opening events */
+	/** Function that handles folder opening events. */
 	onOpenFolder?: FolderEventHandler;
-	/** Whether to allow multiple files and folders to be selected at the same time */
+	/** Whether to allow multiple files and folders to be selected at the same time. */
 	allowMultiSelect?: boolean;
-	/** Function that handles selection changes */
+	/** Function that handles selection changes. */
 	onSelectionChange?: (params: OnSelectionChangeParams) => void;
 	[key: string]: unknown;
 }
 
 /**
- * Component that displays the contents of a directory
+ * Component that displays the contents of a directory.
  */
 export function DirectoryList({ directory, showHidden = false, folderClassName, fileClassName, className,
 	onContextMenuFile, onContextMenuFolder, onOpenFile, onOpenFolder, allowMultiSelect = true, onSelectionChange, ...props }: DirectoryListProps): ReactElement | null {

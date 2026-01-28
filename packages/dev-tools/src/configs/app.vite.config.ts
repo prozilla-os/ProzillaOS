@@ -10,8 +10,8 @@ const logger = new Logger();
 
 /**
  * Creates a Vite configuration for ProzillaOS apps.
- * @param basePath The path of the base directory.
- * @param entryPath The path of the library entry.
+ * @param basePath - The path of the base directory.
+ * @param entryPath - The path of the library entry.
  * @returns The Vite configuration.
  * @see https://vitejs.dev/config/
  */

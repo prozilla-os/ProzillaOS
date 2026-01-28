@@ -5,7 +5,7 @@ import utilStyles from "../../styles/utils.module.css";
 
 export interface NoRouteProps {
 	/**
-	 * Title of the route
+	 * Title of the route.
 	 * @default "404: Not Found"
 	 */
 	title: string;

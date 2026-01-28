@@ -6,7 +6,7 @@ export interface VirtualFolderLinkJson extends VirtualFolderJson {
 }
 
 /**
- * A link that points to a virtual folder
+ * A link that points to a virtual folder.
  */
 export class VirtualFolderLink extends VirtualFolder {
 	linkedPath?: string;

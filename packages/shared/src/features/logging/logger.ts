@@ -68,7 +68,7 @@ export class Logger {
 	} = {};
 
 	constructor(options?: {
-		/** {@inheritDoc Logger.level} */
+		/** {@inheritDoc Logger.level}. */
 		level?: Logger["level"],
 		/** 
 		 * The prefix(es) to prepend to logs.

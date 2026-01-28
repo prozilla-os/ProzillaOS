@@ -7,15 +7,15 @@ import { useSystemManager } from "../system/systemManagerContext";
 import { WindowProps } from "../../components";
 
 export interface OpenWindowedModalParams {
-	/** The ID of the associated app */
+	/** The ID of the associated app. */
 	appId?: string;
-	/** The URL of the icon of the modal */
+	/** The URL of the icon of the modal. */
 	iconUrl?: string;
-	/** The title of the modal */
+	/** The title of the modal. */
 	title?: string;
-	/** The size of the modal */
+	/** The size of the modal. */
 	size: Vector2;
-	/** The modal component */
+	/** The modal component. */
 	Modal: FC<ModalProps>;
 	single?: boolean;
 	fullscreen?: WindowProps["fullscreen"];

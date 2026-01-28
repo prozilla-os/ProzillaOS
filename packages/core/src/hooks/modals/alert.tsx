@@ -6,23 +6,23 @@ import { ModalsConfig, Vector2 } from "../../features";
 
 export interface AlertParams {
 	/**
-	 * The title of the alert
+	 * The title of the alert.
 	 * @default "Alert"
 	 */
 	title: string;
-	/** The body of the alert */
+	/** The body of the alert. */
 	text: string;
-	/** The URL of the icon of the alert */
+	/** The URL of the icon of the alert. */
 	iconUrl?: string;
 	/**
-	 * The size of the alert modal
+	 * The size of the alert modal.
 	 * @default new Vector2(300, 150)
 	 */
 	size?: Vector2;
 	single?: boolean;
 }
 
-/** Returns a function that opens an alert modal */
+/** Returns a function that opens an alert modal. */
 export function useAlert(): { alert: (params: AlertParams) => void } {
 	const { openWindowedModal } = useWindowedModal();
 

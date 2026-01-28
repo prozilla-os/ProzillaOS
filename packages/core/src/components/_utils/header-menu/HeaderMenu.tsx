@@ -6,7 +6,7 @@ import { ActionsManager } from "../../../features/actions/actionsManager";
 import { useClassNames } from "../../../hooks";
 
 /**
- * Component that shows a header menu at the top of a window
+ * Component that shows a header menu at the top of a window.
  */
 export function HeaderMenu({ children, ...props }: ActionsProps) {
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.MODALS, index: 5 });

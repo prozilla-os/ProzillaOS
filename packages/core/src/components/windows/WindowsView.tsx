@@ -7,7 +7,7 @@ import { useWindows } from "../../hooks/windows/windowsContext";
 import { removeDuplicatesFromArray } from "@prozilla-os/shared";
 
 /**
- * Component that renders the windows for all currently active applications
+ * Component that renders the windows for all currently active applications.
  */
 export const WindowsView: FC = memo(() => {
 	const { systemName, tagLine, skin } = useSystemManager();

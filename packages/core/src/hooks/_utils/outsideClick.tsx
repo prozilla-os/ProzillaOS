@@ -2,8 +2,10 @@ import { useRef, useEffect, memo, ReactNode } from "react";
 
 // https://stackoverflow.com/a/42234988
 /**
- * Calls a function when the user clicks outside of a given element
- * @param callback The function to call
+ * Calls a function when the user clicks outside of a given element.
+ * @param ref - The element.
+ * @param ref.current
+ * @param callback - The function to call.
  */
 function useOutsideClickListener(ref: { current: HTMLElement | null }, callback: (event: Event) => void) {
 	useEffect(() => {
@@ -22,13 +24,13 @@ function useOutsideClickListener(ref: { current: HTMLElement | null }, callback:
 }
 
 export interface OutsideClickListenerProps {
-	/** Function that handles clicks outside of this component */
+	/** Function that handles clicks outside of this component. */
 	onOutsideClick: (event: Event) => void;
 	children: ReactNode;
 }
 
 /**
- * Component that calls a function when the user clicks outside of it
+ * Component that calls a function when the user clicks outside of it.
  */
 export const OutsideClickListener = memo(({ onOutsideClick, children }: OutsideClickListenerProps) => {
 	const wrapperRef = useRef(null);

@@ -2,19 +2,19 @@ import { Vector2 } from "../../math/vector2";
 
 export interface WindowsConfigOptions {
 	/**
-	 * The margin around windows that are not maximized, in pixels
+	 * The margin around windows that are not maximized, in pixels.
 	 * @default 32
 	 */
 	screenMargin: number;
 
 	/**
-	 * The separator to use in window titles
+	 * The separator to use in window titles.
 	 * @default "-"
 	 */
 	titleSeparator: string;
 
 	/**
-	 * If the user's screen is smaller than these values, windows will always be maximized
+	 * If the user's screen is smaller than these values, windows will always be maximized.
 	 * @default new Vector2(350, 350)
 	 */
 	minScreenSize: Vector2;

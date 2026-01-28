@@ -1,11 +1,11 @@
 export interface TrackingConfigOptions {
 	/**
-	 * Enable tracking
+	 * Enable tracking.
 	 * @default true
 	*/
 	enabled: boolean;
 
-	/** Google Analytics measurement ID */
+	/** Google Analytics measurement ID. */
 	GAMeasurementId: string;
 }
 

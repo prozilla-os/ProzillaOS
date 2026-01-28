@@ -2,7 +2,7 @@ import { Ref, useEffect, useRef, useState } from "react";
 import { useSystemManager } from "../system/systemManagerContext";
 
 /**
- * Returns the width and height of the element with ID "root"
+ * Returns the width and height of the element with ID "root".
  */
 export function useScreenDimensions(): [screenWidth: number | null, screenHeight: number | null] {
 	const [screenWidth, setScreenWidth] = useState<number | null>(null);
@@ -26,18 +26,18 @@ export function useScreenDimensions(): [screenWidth: number | null, screenHeight
 }
 
 /**
- * Returns the ideal orientation of an element so that it does not go outside of the screen
+ * Returns the ideal orientation of an element so that it does not go outside of the screen.
  */
 export function useScreenBounds({ avoidTaskbar = true }: {
-	/** Whether to avoid the task bar */
+	/** Whether to avoid the task bar. */
 	avoidTaskbar: boolean;
 }): {
-	/** The React ref of the element */
+	/** The React ref of the element. */
 	ref: Ref<HTMLElement>;
 	initiated: boolean;
-	/** Whether the element should align to the left (`true`) or right (`false`) */
+	/** Whether the element should align to the left (`true`) or right (`false`). */
 	alignLeft: boolean;
-	/** Whether the element should align to the top (`true`) or bottom (`false`) */
+	/** Whether the element should align to the top (`true`) or bottom (`false`). */
 	alignTop: boolean;
 } {
 	const { taskbarConfig } = useSystemManager();

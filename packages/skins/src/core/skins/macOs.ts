@@ -1,7 +1,7 @@
 import { Skin } from "../skin";
 
 /**
- * A skin inspired by the MacOS interface
+ * A skin inspired by the MacOS interface.
  */
 export const macOsSkin = new Skin({
 	appIcons: {

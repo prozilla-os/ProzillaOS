@@ -6,17 +6,6 @@ import { ReactElement, useState } from "react";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { ActionProps } from "../Actions";
 
-/**
- * @param {object} props 
- * @param {string} props.actionId
- * @param {{
- * 	label: string,
- * 	shortcut: string[]
- * }[]} props.options
- * @param {number} props.initialIndex
- * @param {Function} props.onTrigger
- */
-
 export interface RadioActionProps extends ActionProps {
 	options: {
 		label: string;

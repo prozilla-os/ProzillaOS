@@ -12,14 +12,14 @@ export interface VirtualFileJson extends VirtualBaseJson {
 export type OptionalStringProperty = string | null | undefined;
 
 /**
- * A virtual file that can be stored inside a folder
+ * A virtual file that can be stored inside a folder.
  */
 export class VirtualFile extends VirtualBase {
-	/** The extension of this file */
+	/** The extension of this file. */
 	extension: OptionalStringProperty;
-	/** The URL of the source of this file */
+	/** The URL of the source of this file. */
 	source: OptionalStringProperty;
-	/** The content of this file */
+	/** The content of this file. */
 	content: OptionalStringProperty;
 
 	static NON_TEXT_EXTENSIONS = [
@@ -41,7 +41,7 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	/**
-	 * Sets the source of this file and removes the content
+	 * Sets the source of this file and removes the content.
 	 */
 	setSource(source: string): this {
 		if (this.source === source || !this.canBeEdited)
@@ -57,7 +57,7 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	/**
-	 * Sets the content of this file and removes the source
+	 * Sets the content of this file and removes the source.
 	 */
 	setContent(content: string | string[]): this {
 		if (this.content === content || !this.canBeEdited)
@@ -93,7 +93,7 @@ export class VirtualFile extends VirtualBase {
 	}
 
 	/**
-	 * Opens this file in an app associated with its extension
+	 * Opens this file in an app associated with its extension.
 	 */
 	open(windowsManager: WindowsManager): object | null {
 		return windowsManager.openFile(this);

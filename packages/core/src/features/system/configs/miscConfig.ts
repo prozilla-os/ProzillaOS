@@ -1,6 +1,6 @@
 export interface MiscConfigOptions {
 	/**
-	 * The maximum time between two clicks to register as a double click (in ms)
+	 * The maximum time between two clicks to register as a double click (in ms).
 	 * @default 250
 	 * */
 	doubleClickDelay: number;

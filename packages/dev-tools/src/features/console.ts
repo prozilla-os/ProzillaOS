@@ -3,7 +3,7 @@ import { ANSI } from "@prozilla-os/shared";
 export type Status = "error" | "info" | "file" | "success" | "start";
 
 /**
- * @deprecated Use {@link Print} instead
+ * @deprecated Use {@link Logger} instead.
  */
 export function print(message: string, status?: Status, newLine?: boolean) {
 	if (newLine)

@@ -1,8 +1,9 @@
 import { HTMLAttributeAnchorTarget } from "react";
 
 /**
- * Simulates closing the viewport by opening a blank page
- * @param name - Name of the app
+ * Simulates closing the viewport by opening a blank page.
+ * @param requireConfirmation - Whether to require confirmation before closing. 
+ * @param name - Name of the app.
  */
 export function closeViewport(requireConfirmation: boolean = false, name: string) {
 	if (requireConfirmation && window.confirm(`Are you sure you want to shut down ${name}?`)) {
@@ -12,7 +13,7 @@ export function closeViewport(requireConfirmation: boolean = false, name: string
 }
 
 /**
- * Reloads the viewport
+ * Reloads the viewport.
  */
 export function reloadViewport() {
 	console.info("Reloading viewport");

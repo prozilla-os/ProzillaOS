@@ -1,6 +1,6 @@
 export interface TaskbarConfigOptions {
 	/**
-	 * Height of the taskbar in CSS pixels
+	 * Height of the taskbar in CSS pixels.
 	 * @default 3 * 16
 	 */
 	height: number;

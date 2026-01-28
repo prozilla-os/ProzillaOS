@@ -12,15 +12,15 @@ export interface VirtualFolderJson extends VirtualBaseJson {
 }
 
 /**
- * A virtual folder that can contains files and sub-folders
+ * A virtual folder that can contains files and sub-folders.
  */
 export class VirtualFolder extends VirtualBase {
-	/** The folders inside this folder */
+	/** The folders inside this folder. */
 	subFolders: (VirtualFolder | VirtualFolderLink)[];
-	/** The files inside this folder */
+	/** The files inside this folder. */
 	files: (VirtualFile | VirtualFileLink)[];
 	/**
-	 * The type of this folder
+	 * The type of this folder.
 	 * @default VirtualFolder.TYPE.general
 	 */
 	type: number | undefined;
@@ -42,21 +42,21 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Returns true if this folder contains a file matching a name and extension
+	 * Returns true if this folder contains a file matching a name and extension.
 	 */
 	hasFile(name: string, extension?: string) {
 		return this.findFile(name, extension) !== null;
 	}
 
 	/**
-	 * Returns true if this folder contains a folder matching a name
+	 * Returns true if this folder contains a folder matching a name.
 	 */
 	hasFolder(name: string) {
 		return this.findSubFolder(name) !== null;
 	}
 
 	/**
-	 * Finds and returns a file inside this folder matching a name and extension
+	 * Finds and returns a file inside this folder matching a name and extension.
 	 */
 	findFile(name: string, extension?: string | null): VirtualFile | VirtualFileLink | null {
 		if (this.isDeleted)
@@ -76,7 +76,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Finds and returns a folder inside this folder matching a name
+	 * Finds and returns a folder inside this folder matching a name.
 	 */
 	findSubFolder(name: string): VirtualFolder | VirtualFolderLink | null {
 		if (this.isDeleted)
@@ -94,7 +94,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Creates a file with a name and extension
+	 * Creates a file with a name and extension.
 	 */
 	createFile(name: string, extension?: string, callback?: (newFile: VirtualFile | VirtualFileLink) => void): this {
 		if (!this.canBeEdited)
@@ -113,7 +113,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Creates files based on an array of objects with file names and extensions
+	 * Creates files based on an array of objects with file names and extensions.
 	 */
 	createFiles(files: { name: string; extension: string; }[]): this {
 		if (!this.canBeEdited)
@@ -128,7 +128,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Creates a file link with a name
+	 * Creates a file link with a name.
 	 */
 	createFileLink(name: string, callback?: (newFileLink: VirtualFileLink | VirtualFile) => void): this {
 		if (!this.canBeEdited)
@@ -147,7 +147,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Creates file links based on an array of objects with file names and extensions
+	 * Creates file links based on an array of objects with file names and extensions.
 	 */
 	createFileLinks(fileLinks: { name: string; }[]): this {
 		if (!this.canBeEdited)
@@ -162,7 +162,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Creates a folder with a name
+	 * Creates a folder with a name.
 	 */
 	createFolder(name: string, callback?: (newFolder: VirtualFolder) => void): this {
 		if (!this.canBeEdited)
@@ -181,7 +181,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Creates folders based on an array of folder names
+	 * Creates folders based on an array of folder names.
 	 */
 	createFolders(names: string[]): this {
 		if (!this.canBeEdited)
@@ -196,7 +196,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Creates a folder link with a name
+	 * Creates a folder link with a name.
 	 */
 	createFolderLink(name: string, callback?: (newFolderLink: VirtualFolderLink | VirtualFolder) => void): this {
 		if (!this.canBeEdited)
@@ -215,7 +215,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Creates folder links based on an array of folder names
+	 * Creates folder links based on an array of folder names.
 	 */
 	createFolderLinks(names: string[]): this {
 		if (!this.canBeEdited)
@@ -230,7 +230,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Removes a file or folder from this folder
+	 * Removes a file or folder from this folder.
 	 */
 	remove(child: VirtualFile | VirtualFileLink | VirtualFolder | VirtualFolderLink): this {
 		if (!this.canBeEdited)
@@ -250,7 +250,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Returns the file or folder at a relative path or null if it doesn't exist
+	 * Returns the file or folder at a relative path or null if it doesn't exist.
 	 */
 	navigate(relativePath: string): VirtualFile | VirtualFolder | null {
 		const segments = relativePath.split("/");
@@ -298,7 +298,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Opens this folder in file explorer
+	 * Opens this folder in file explorer.
 	 */
 	open(windowsManager: WindowsManager) {
 		if (this.isDeleted)
@@ -311,7 +311,7 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Deletes this folder and all its files and sub-folders recursively
+	 * Deletes this folder and all its files and sub-folders recursively.
 	 */
 	delete() {
 		if (!this.canBeEdited)
@@ -332,8 +332,8 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Returns all files inside this folder
-	 * @param showHidden Whether to include hidden files
+	 * Returns all files inside this folder.
+	 * @param showHidden - Whether to include hidden files.
 	 */
 	getFiles(showHidden = false): VirtualFile[] {
 		if (this.isDeleted) return [];
@@ -345,8 +345,8 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Returns all sub-folders inside this folder
-	 * @param showHidden Whether to include hidden folders
+	 * Returns all sub-folders inside this folder.
+	 * @param showHidden - Whether to include hidden folders.
 	 */
 	getSubFolders(showHidden = false): VirtualFolder[] {
 		if (this.isDeleted) return [];
@@ -358,8 +358,8 @@ export class VirtualFolder extends VirtualBase {
 	}
 
 	/**
-	 * Returns the amount of files and sub-folders inside this folder
-	 * @param includeHidden Whether to include hidden files and folders in the count
+	 * Returns the amount of files and sub-folders inside this folder.
+	 * @param includeHidden - Whether to include hidden files and folders in the count.
 	 */
 	getItemCount(includeHidden = false): number {
 		const filesCount = this.getFiles(includeHidden)?.length ?? 0;

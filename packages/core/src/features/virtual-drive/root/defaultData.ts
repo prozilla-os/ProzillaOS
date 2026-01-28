@@ -6,7 +6,7 @@ import { VirtualFolder, VirtualFolderLink } from "../folder";
 import { VirtualRoot } from "./virtualRoot";
 
 /**
- * Loads default data on the virtual root
+ * Loads default data on the virtual root.
  */
 export function loadDefaultData(systemManager: SystemManager, virtualRoot: VirtualRoot) {
 	const { skin, appsConfig, virtualDriveConfig } = systemManager;

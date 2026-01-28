@@ -9,27 +9,27 @@ export interface VirtualBaseJson {
 }
 
 export class VirtualBase extends EventEmitter<EventNamesMap> {
-	/** The name of this item */
+	/** The name of this item. */
 	name: string;
-	/** The alias of this item */
+	/** The alias of this item. */
 	alias: string | undefined | null;
-	/** The folder this item is in */
+	/** The folder this item is in. */
 	parent: VirtualFolder | undefined | null;
-	/** Whether this item is protected from changes */
+	/** Whether this item is protected from changes. */
 	isProtected: boolean | undefined | null;
-	/** The URL of the icon of this item */
+	/** The URL of the icon of this item. */
 	iconUrl: string | undefined | null;
-	/** The file this item links to */
+	/** The file this item links to. */
 	linkedFile: VirtualFile | undefined | null;
-	/** The folder this item links to */
+	/** The folder this item links to. */
 	linkedFolder: VirtualFolder | undefined | null;
-	/** Whether this item has been edited by the user */
+	/** Whether this item has been edited by the user. */
 	editedByUser: boolean | undefined | null;
-	/** Whether this item is the root folder */
+	/** Whether this item is the root folder. */
 	isRoot: boolean | undefined | null;
-	/** The root folder */
+	/** The root folder. */
 	root: VirtualRoot | undefined | null;
-	/** Whether this item has been deleted */
+	/** Whether this item has been deleted. */
 	isDeleted: boolean;
 
 	static EVENT_NAMES = {
@@ -119,7 +119,7 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	}
 
 	/**
-	 * Tries to delete this item
+	 * Tries to delete this item.
 	 */
 	delete() {
 		if (!this.canBeEdited)
@@ -152,28 +152,28 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	}
 
 	/**
-	 * Opens this item in the appropriate application
+	 * Opens this item in the appropriate application.
 	 */
 	open(..._args: unknown[]): unknown {
 		return null;
 	};
 
 	/**
-	 * Returns the path of this item
+	 * Returns the path of this item.
 	 */
 	get path(): string {
 		return this.alias ?? this.displayPath;
 	}
 
 	/**
-	 * Returns path without using this item's alias
+	 * Returns path without using this item's alias.
 	 */
 	get displayPath() {
 		return this.parent?.path + "/" + this.id;
 	}
 
 	/**
-	 * Returns path without using any aliases
+	 * Returns path without using any aliases.
 	 */
 	get absolutePath(): string {
 		if (this.parent?.isRoot) {
@@ -184,7 +184,7 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	}
 
 	/**
-	 * Returns whether this can be edited in its current state
+	 * Returns whether this can be edited in its current state.
 	 */
 	get canBeEdited(): boolean {
 		if (this.isDeleted)
@@ -200,7 +200,7 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	}
 
 	/**
-	 * Returns the root folder
+	 * Returns the root folder.
 	 */
 	getRoot(): VirtualRoot {
 		const root = this.root ?? this.parent?.getRoot();

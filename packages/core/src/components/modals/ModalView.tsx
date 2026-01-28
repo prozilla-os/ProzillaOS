@@ -22,7 +22,7 @@ export interface ModalProps {
 }
 
 /**
- * Component that renders a modal window
+ * Component that renders a modal window.
  */
 export const ModalView: FC<ModalProps> = memo(({ modal }) => {
 	useEffect(() => {

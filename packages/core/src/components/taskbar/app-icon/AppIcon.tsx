@@ -1,7 +1,6 @@
 import { FC, memo, MouseEvent } from "react";
 import { App } from "../../../features/";
 import styles from "./AppIcon.module.css";
-// import { useSettingsManager } from "../../../hooks/settings/settingsManagerContext";
 import { useContextMenu } from "../../../hooks/modals/contextMenu";
 import { Actions } from "../../actions/Actions";
 import { ClickAction } from "../../actions/actions/ClickAction";

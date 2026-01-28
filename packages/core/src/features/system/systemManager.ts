@@ -26,9 +26,9 @@ export interface SystemManagerParams {
 }; 
 
 export class SystemManager {
-	/** The name of the system */
+	/** The name of the system. */
 	readonly systemName: string;
-	/** The tagline/short description of the system */
+	/** The tagline/short description of the system. */
 	readonly tagLine: string;
 	#startDate: Date;
 

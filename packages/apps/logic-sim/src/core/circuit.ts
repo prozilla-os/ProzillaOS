@@ -127,7 +127,7 @@ export class Circuit extends Chip {
 
 		/**
 		 * Based on https://github.com/SebLague/Digital-Logic-Sim/blob/main/Assets/Modules/Chip%20Creation/Scripts/Chip/Wires/WireRenderer.cs
-		 * TO DO: optimize
+		 * TO DO: optimize.
 		 */
 
 		const drawPoints: Vector2[] = [];

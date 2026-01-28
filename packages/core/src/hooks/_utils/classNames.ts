@@ -6,7 +6,7 @@ const ELEMENT_PREFIX = "__";
 const MODIFIER_PREFIX = "--";
 
 /**
- * Generates static class name using BEM notation
+ * Generates static class name using BEM notation.
  */
 export function useStaticClassName(block?: string, element?: string, modifier?: string | string[]) {
 	return useMemo(() => {
@@ -40,7 +40,7 @@ export function useStaticClassName(block?: string, element?: string, modifier?: 
 }
 
 /**
- * Combine class names and an optional static class name
+ * Combine class names and an optional static class name.
  */
 export function useClassNames(classNames: (string | undefined)[], block?: string, element?: string, modifier?: string | string[]) {
 	const staticClassName = useStaticClassName(block, element, modifier);

@@ -5,7 +5,7 @@ import styles from "./Terminal.module.css";
 
 /**
  * Source:
- * https://github.com/nteract/ansi-to-react/blob/master/src/index.ts
+ * https://github.com/nteract/ansi-to-react/blob/master/src/index.ts.
  */
 
 /**
@@ -28,7 +28,7 @@ function ansiToJSON(input: string, useClasses: boolean | undefined): AnserJsonEn
 
 /**
  * Create a class string.
- * @returns class name(s)
+ * @returns Class name(s).
  */
 function createClass(bundle: AnserJsonEntry): string | null {
 	const classNames = [];
@@ -53,7 +53,7 @@ function createClass(bundle: AnserJsonEntry): string | null {
 /**
  * Create the style attribute.
  * @param bundle
- * @returns returns the style object
+ * @returns Returns the style object.
  */
 function createStyle(bundle: AnserJsonEntry): object {
 	const style: Record<string, string> = {};
@@ -93,8 +93,8 @@ function createStyle(bundle: AnserJsonEntry): object {
 
 /**
  * Converts an Anser bundle into a React Node.
- * @param linkify - whether links should be converting into clickable anchor tags.
- * @param useClasses - should render the span with a class instead of style.
+ * @param linkify - Whether links should be converting into clickable anchor tags.
+ * @param useClasses - Should render the span with a class instead of style.
  * @param bundle - Anser output.
  */
 function convertBundleIntoReact(linkify: boolean, useClasses: boolean, bundle: AnserJsonEntry, key: number) {

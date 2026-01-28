@@ -28,7 +28,7 @@ export class Settings {
 	}
 
 	/**
-	 * Reads the xml doc from the given path and assigns it to itself
+	 * Reads the xml doc from the given path and assigns it to itself.
 	 */
 	async read(): Promise<void> {
 		if (!this.file)
@@ -56,7 +56,7 @@ export class Settings {
 	}
 
 	/**
-	 * Checks if xml doc is missing
+	 * Checks if xml doc is missing.
 	 */
 	async isMissingXmlDoc(): Promise<boolean> {
 		if (this.xmlDoc == null)
@@ -66,9 +66,9 @@ export class Settings {
 	}
 
 	/**
-	 * Gets a value by a given key if it exists and optionally calls a callback function whenever the value changes
-	 * @param key The key of the setting
-	 * @param callback The callback function to call whenever the value changes
+	 * Gets a value by a given key if it exists and optionally calls a callback function whenever the value changes.
+	 * @param key - The key of the setting.
+	 * @param callback - The callback function to call whenever the value changes.
 	 */
 	async get(key: string, callback?: (value: string) => void): Promise<{ value: string | null, listener?: Listener }> {
 		if (await this.isMissingXmlDoc())
@@ -113,23 +113,23 @@ export class Settings {
 	}
 
 	/**
-	 * Gets a value by a given key as a boolean
+	 * Gets a value by a given key as a boolean.
 	 */
 	async getBool(key: string, callback?: (value: boolean) => void): Promise<{ value: boolean | null, listener?: Listener }> {
 		return await this.#getParsed(key, parseBool, callback);
 	}
 
 	/**
-	 * Gets a value by a given key as an integer
+	 * Gets a value by a given key as an integer.
 	 */
 	async getInt(key: string, callback?: (value: number) => void): Promise<{ value: number | null, listener?: Listener }> {
 		return await this.#getParsed(key, parseInt, callback);
 	}
 
 	/**
-	 * Sets the value associated with a given key
-	 * @param key The key of the setting
-	 * @param value The new value
+	 * Sets the value associated with a given key.
+	 * @param key - The key of the setting.
+	 * @param value - The new value.
 	 */
 	async set(key: string, value: string) {
 		if (await this.isMissingXmlDoc() || this.xmlDoc == null)
@@ -147,8 +147,8 @@ export class Settings {
 	}
 
 	/**
-	 * Removes a listener from the settings file
-	 * @param listener The listener to remove
+	 * Removes a listener from the settings file.
+	 * @param listener - The listener to remove.
 	 */
 	removeListener(listener: Listener) {
 		this.file.off(VirtualFile.EVENT_NAMES.contentChange, listener);

@@ -2,7 +2,7 @@ import { randomFromArray } from "@prozilla-os/shared";
 import { Command } from "../command";
 
 /**
- * Source: https://github.com/shlomif/fortune-mod/blob/master/fortune-mod/datfiles/fortunes
+ * @see [Source](https://github.com/shlomif/fortune-mod/blob/master/fortune-mod/datfiles/fortunes)
  */
 const FORTUNES = [
 	"Do not be afraid of competition.",

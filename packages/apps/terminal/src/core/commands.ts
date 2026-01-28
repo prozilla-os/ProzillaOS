@@ -6,7 +6,7 @@ let commands: Command[] = [];
 const modules = import.meta.glob("./commands/*.ts");
 
 /**
- * Dynamically import commands
+ * Dynamically import commands.
  */
 const loadCommands = () => {
 	commands = [];

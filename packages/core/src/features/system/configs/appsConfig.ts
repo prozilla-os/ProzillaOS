@@ -4,7 +4,7 @@ import { WindowProps } from "../../../components";
 
 export interface AppsConfigOptions {
 	/**
-	 * An array of applications
+	 * An array of applications.
 	 */
 	apps: App<WindowProps>[];
 }
@@ -42,7 +42,8 @@ export class AppsConfig {
 	}
 
 	/**
-	 * @param includeUninstalled Include apps that are not currently installed
+	 * @param id - The ID of the app.
+	 * @param includeUninstalled - Include apps that are not currently installed.
 	 */
 	getAppById(id: string, includeUninstalled = false): App | null {
 		let resultApp: App | null = null;
@@ -60,7 +61,7 @@ export class AppsConfig {
 	}
 
 	/**
-	 * Get the app associated with a file extension
+	 * Get the app associated with a file extension.
 	 */
 	getAppByFileExtension(fileExtension: string): App | null {
 		let resultApp: App | null = null;
@@ -76,7 +77,7 @@ export class AppsConfig {
 	}
 
 	/**
-	 * Get the app with a specific role
+	 * Get the app with a specific role.
 	 */
 	getAppByRole(role: string): App | null {
 		let resultApp: App | null = null;
@@ -92,7 +93,7 @@ export class AppsConfig {
 	}
 
 	/**
-	 * Get all applications (including uninstalled apps) that belong to a category
+	 * Get all applications (including uninstalled apps) that belong to a category.
 	 */
 	getAppsByCategory(category: typeof APP_CATEGORIES[number]): App[] {
 		const resultApps: App[] = [];

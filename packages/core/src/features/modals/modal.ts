@@ -4,48 +4,48 @@ import { ModalsManager } from "./modalsManager";
 import { ModalProps } from "../../components/modals/ModalView";
 
 /**
- * Represents a modal window
+ * Represents a modal window.
  */
 export class Modal {
 	/**
-	 * The size of this modal
+	 * The size of this modal.
 	 * @default new Vector2(400, 200)
 	 */
 	size: Vector2 = new Vector2(400, 200);
 	/**
-	 * The position of this modal
+	 * The position of this modal.
 	 * @default new Vector2(300, 300)
 	 */
 	position: Vector2 = new Vector2(300, 300);
 	/**
-	 * The icon of this modal
+	 * The icon of this modal.
 	 * @default null
 	 */
 	icon: string | null = null;
 	/**
-	 * The title of this modal
+	 * The title of this modal.
 	 * @default null
 	 */
 	title: string | null = null;
 	/**
-	 * The manager that handles all modals
+	 * The manager that handles all modals.
 	 */
 	modalsManager: ModalsManager | null = null;
 	/**
-	 * The content of this modal
+	 * The content of this modal.
 	 * @default null
 	 */
 	element: FC<ModalProps> | null = null;
 	props: object = {};
 	callback: ((...args: unknown[]) => void) | null = null;
-	/** The ID of this modal */
+	/** The ID of this modal. */
 	id: number | null = null;
 	/**
-	 * Whether this modal can be dismissed (e.g., by pressing ESC)
+	 * Whether this modal can be dismissed (e.g., by pressing ESC).
 	 * @default true
 	 */
 	dismissible: boolean = true;
-	/** Timestamp of the most recent interaction with this modal */
+	/** Timestamp of the most recent interaction with this modal. */
 	lastInteraction?: number;
 
 	constructor(element: Modal["element"], callback?: Modal["callback"]) {

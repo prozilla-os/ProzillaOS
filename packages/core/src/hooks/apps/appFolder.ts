@@ -4,7 +4,7 @@ import { useVirtualRoot } from "../virtual-drive/virtualRootContext";
 import { App } from "../../features";
 
 /**
- * Returns the folder associated with a given app
+ * Returns the folder associated with a given app.
  */
 export function useAppFolder(app?: App): VirtualFolder | null {
 	const virtualRoot = useVirtualRoot();
