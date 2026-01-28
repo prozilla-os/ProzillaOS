@@ -9,14 +9,14 @@ import { NAME, TAG_LINE } from "./src/config/branding.config";
 import { defaultSkin } from "./src/config/skin.config";
 
 /**
- * Loads packages from their local path instead of node_modules 
- * You must run `pnpm link <pkg>` to make this work correctly
+ * Loads packages from their local path instead of node_modules.
+ * You must run `pnpm link <pkg>` to make this work correctly.
  */
 const ENABLE_ALIASES = true;
 
 /**
- * Enables importing local packages from their dist (build) directory instead of their src directory
- * Useful for testing builds before publishing
+ * Enables importing local packages from their dist (build) directory instead of their src directory.
+ * Useful for testing builds before publishing.
  */
 const USE_PACKAGE_BUILDS = false;
 

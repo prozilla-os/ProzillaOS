@@ -1,11 +1,13 @@
 // @ts-check
-import { Converter, ReflectionKind, CommentTag, Comment, DeclarationReflection, PageKind, ParameterType, Context, Reflection, ReferenceType } from "typedoc";
+import { Converter, ReflectionKind, CommentTag, Comment, PageKind, ParameterType } from "typedoc";
 import { MarkdownPageEvent } from "typedoc-plugin-markdown";
 import { ORG, PACKAGES } from "./packages.const.mjs";
 import { existsSync, readFileSync } from "node:fs";
-import { Print } from "@prozilla-os/shared";
+import { Logger, Markdown } from "@prozilla-os/shared";
 
-/** @type {Record<string, { title: string, children?: { title: string, kind: number, path: string, isDeprecated: boolean }[] }[]>} */
+const logger = new Logger();
+
+/** @type {Record<string, import("typedoc-plugin-markdown").NavigationJSON>} */
 const packageNavCache = {};
 
 /**
@@ -21,7 +23,7 @@ function getPackageNavigation(targetPath, sourcePath) {
 
 	const navJsonPath = new URL("../src/reference/" + targetPath + "/nav.json", import.meta.url);
 	if (!existsSync(navJsonPath)) {
-		Print.warning("Unknown symbol", 
+		logger.warn("Unknown symbol", 
 			`Referenced from: ${sourcePath}`,
 			`Imported from: ${targetPath}`,
 			`Missing navigation file: ${navJsonPath}`
@@ -31,6 +33,8 @@ function getPackageNavigation(targetPath, sourcePath) {
 	}
 
 	const navJson = readFileSync(navJsonPath, "utf-8");
+	/** @type {import("typedoc-plugin-markdown").NavigationJSON} */
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const navigation = JSON.parse(navJson);
 
 	packageNavCache[targetPath] = navigation;
@@ -58,7 +62,7 @@ export function load(app) {
 
 	app.converter.addUnknownSymbolResolver((reference) => resolveUnknownSymbol(getRelativePath(), reference));
 
-	app.converter.on(Converter.EVENT_CREATE_DECLARATION, (context, reflection) => {
+	app.converter.on(Converter.EVENT_CREATE_DECLARATION, (_context, reflection) => {
 		addReactGroups(reflection);
 		updateGroups(reflection);
 	});
@@ -88,7 +92,7 @@ export function load(app) {
 }
 
 /**
- * @param {DeclarationReflection} reflection 
+ * @param {import("typedoc").DeclarationReflection} reflection 
  */
 function addReactGroups(reflection) {
 	if ((reflection.kind !== ReflectionKind.Function && reflection.kind !== ReflectionKind.Variable))
@@ -102,7 +106,7 @@ function addReactGroups(reflection) {
 }
 
 /**
- * @param {DeclarationReflection} reflection 
+ * @param {import("typedoc").DeclarationReflection} reflection 
  */
 function updateGroups(reflection) {
 	if (reflection.kind === ReflectionKind.TypeAlias) {
@@ -119,8 +123,8 @@ function updateGroups(reflection) {
 }
 
 /**
- * @param {Context} context
- * @param {Reflection} reflection 
+ * @param {import("typedoc").Context} context
+ * @param {import("typedoc").Reflection} reflection 
  */
 function addExtendedAppsToGroup(context, reflection) {
 	if (!reflection.isDeclaration() || reflection.kind !== ReflectionKind.Variable || reflection.type?.type !== "reference")
@@ -145,14 +149,14 @@ function addExtendedAppsToGroup(context, reflection) {
 }
 
 /**
- * @param {ReferenceType} reference 
+ * @param {import("typedoc").ReferenceType} reference 
  */
 function isAppReference(reference) {
 	return reference.name === "App" && reference.toDeclarationReference().moduleSource === ORG + "/core";
 }
 
 /**
- * @param {DeclarationReflection} reflection 
+ * @param {import("typedoc").DeclarationReflection} reflection 
  * @param {string} group 
  */
 function addGroup(reflection, group) {
@@ -171,13 +175,13 @@ function addGroup(reflection, group) {
 }
 
 /**
- * @param {DeclarationReflection} reflection 
+ * @param {import("typedoc").DeclarationReflection} reflection 
  */
 function getGroup({ name }) {
 	if (name.startsWith("use") && name.length > 3 && name[3] === name[3].toUpperCase()) {
 		return "Hooks";
 	} else if (name[0] === name[0].toUpperCase() && name !== name.toUpperCase()) {
-		return "Components"
+		return "Components";
 	}
 
 	return null;
@@ -209,7 +213,7 @@ function reformatSources(event) {
 					.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(":"))
 					.trim();
 
-				contents.push(`**Source:** [${fileName}](${url})`);
+				contents.push(Markdown.bold("Source:") + " " + Markdown.link(fileName, url));
 				firstSource.fileName = fileName;
 				firstSource.url = url;
 			}
@@ -236,7 +240,7 @@ function insertFrontmatter(event, editUrl) {
 			const comment = event.model.comment;
 			let description = Comment.combineDisplayParts(comment.getShortSummary(true));
 
-			description = description.replace(/\`/g, "").trim().split("\n")[0].trim();
+			description = description.replace(/`/g, "").trim().split("\n")[0].trim();
 
 			if (description.length) {
 				frontmatter.description = description;
@@ -260,8 +264,8 @@ function insertFrontmatter(event, editUrl) {
 			}
 		}
 	} else {
-		// Replace header image with title 
-		event.contents = event.contents.replace(/^\s*\<div(.|\s)*?\<\/div\>/, "# " + event.project.packageName);
+		// Replace header image with title
+		event.contents = event.contents.replace(/^\s*<div(.|\s)*?<\/div>/, event.project.packageName ? Markdown.heading1(event.project.packageName) : "");
 		
 		// TO DO: automatically fetch description from line below "## About"
 	}
@@ -290,7 +294,7 @@ function fixCodeBlockLanguages(event, fileName) {
 		return;
 
 	if (fileName?.endsWith(".tsx")) {
-		event.contents = event.contents.replaceAll(/^\`{3}ts\s*$/gm, "```tsx");
+		event.contents = event.contents.replaceAll(/^`{3}ts\s*$/gm, "```tsx");
 	}
 }
 
@@ -305,7 +309,7 @@ function renameHeadings(event) {
 		const reflection = event.model;
 
 		if (reflection.kind === ReflectionKind.Enum) {
-			event.contents = event.contents.replace(/^## Enumeration Members\s*$/mi, "## Members\n");
+			event.contents = event.contents.replace(/^## Enumeration Members\s*$/mi, Markdown.heading2("Members\n"));
 		}
 	}
 }
@@ -336,7 +340,7 @@ function resolveUnknownSymbol(path, reference) {
 			if (children) {
 				for (const { title, path } of children) {
 					if (title === symbolName) {
-						pagePath = path;
+						pagePath = path ?? undefined;
 						break;
 					}
 				}

@@ -1,9 +1,8 @@
-import { ANSI } from "../packages/shared/src/constants";
 import { name } from "../package.json";
 import fs from "node:fs";
 import { BUILD_DIR } from "../demo/src/config/deploy.config";
 import { resolve } from "node:path";
-import { Print } from "../packages/shared/src/features";
+import { Logger } from "../packages/shared/src/features";
 
 const EXAMPLES = [
 	"portfolio",
@@ -22,10 +21,12 @@ const PACKAGES = [
 
 const TARGET = `../${BUILD_DIR}`;
 
+const logger = new Logger();
+
 function stageSite() {
 	try {
-		Print.parameter("Context", name);
-		Print.pending("Staging site...");
+		logger.parameter("Context", name);
+		logger.pending("Staging site...");
 
 		// Copy packages to build directory
 		PACKAGES.forEach(({ source, destination }) => {
@@ -33,10 +34,10 @@ function stageSite() {
 			const targetDirectory = resolve(__dirname, TARGET, destination.replace(/^\//, ""));
 
 			if (!fs.existsSync(sourceDirectory)) {
-				console.warn(`Directory not found: ${source}`);
+				logger.warn(`Directory not found: ${source}`);
 				return;
 			} else if (!fs.existsSync(resolve(sourceDirectory, "index.html"))) {
-				console.warn(`Directory does not contain index.html file: ${source}`);
+				logger.warn(`Directory does not contain index.html file: ${source}`);
 				return;
 			}
 
@@ -44,27 +45,27 @@ function stageSite() {
 				fs.mkdirSync(targetDirectory, { recursive: true });
 
 			fs.cpSync(sourceDirectory, targetDirectory, { recursive: true });
-			Print.text(`- Copied ${Print.highlight(source.replace(/^\.\.\//, ""))} to ${Print.highlight(destination)}`);
+			logger.text(`- Copied ${logger.highlight(source.replace(/^\.\.\//, ""))} to ${logger.highlight(destination)}`);
 		});
 
 		// Copy git attributes to build directory
 		const gitAttributesDirectory = resolve(__dirname, "../.gitattributes");
 		if (fs.existsSync(gitAttributesDirectory)) {
 			fs.copyFileSync(gitAttributesDirectory, resolve(__dirname, `../${BUILD_DIR}/.gitattributes`));
-			Print.text(`- Copied ${Print.highlight(".gitattributes")}`);
+			logger.text(`- Copied ${logger.highlight(".gitattributes")}`);
 		}
 		
-		Print.newLine().success(`Site staged: ${Print.highlight("./" + BUILD_DIR)}`);
+		logger.newLine().success(`Site staged: ${logger.highlight("./" + BUILD_DIR)}`);
 	} catch (error) {
 		const errorObj = error as object;
 		if ("stdout" in errorObj) {
-			Print.error(errorObj.stdout?.toString());
+			logger.error(errorObj.stdout?.toString());
 		}
 		if ("stderr" in errorObj) {
-			Print.error(errorObj.stderr?.toString());
+			logger.error(errorObj.stderr?.toString());
 		}
 
-		Print.error(error).error("Staging failed");
+		logger.error(error).error("Staging failed");
 		process.exit(1);
 	}
 }

@@ -45,24 +45,25 @@
 	},
 	"dependencies": {
 		"commander": "^12.1.0",
-		"pnpm": "^9.15.0"
+		"pnpm": "^9.15.9"
 	},
 	"devDependencies": {
-		"@changesets/cli": "^2.27.5",
-		"@eslint/js": "^9.5.0",
-		"@types/eslint": "^8.56.10",
+		"@changesets/cli": "^2.29.8",
+		"@eslint/js": "^9.39.2",
+		"@types/eslint": "^8.56.12",
 		"@types/gh-pages": "^6.1.0",
-		"@types/node": "^20.14.6",
-		"@vitejs/plugin-react": "^4.3.1",
-		"eslint": "^8.57.0",
-		"eslint-plugin-react": "^7.37.1",
-		"eslint-plugin-react-refresh": "^0.4.7",
+		"@types/node": "^20.19.30",
+		"@vitejs/plugin-react": "^4.7.0",
+		"eslint": "^8.57.1",
+		"eslint-plugin-jsdoc": "^62.4.1",
+		"eslint-plugin-react": "^7.37.5",
+		"eslint-plugin-react-refresh": "^0.4.26",
 		"rimraf": "^5.0.10",
-		"stylelint": "^16.6.1",
-		"typescript": "^5.5.4",
-		"typescript-eslint": "^8.8.1",
-		"vite-node": "^2.1.2",
-		"vite-plugin-checker": "^0.7.1"
+		"stylelint": "^16.26.1",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.54.0",
+		"vite-node": "^2.1.9",
+		"vite-plugin-checker": "^0.7.2"
 	},
 	"browserslist": {
 		"production": [

@@ -7,7 +7,7 @@ export class EventEmitter<EventMap extends EventNamesMap> {
 	#events: Record<string, Array<Listener>> = {};
 
 	/**
-	 * Add event listener for an event
+	 * Adds an event listener.
 	 */
 	on<Key extends keyof EventMap>(eventName: Key, callback: Listener) {
 		if (!this.#events[eventName as string]) {
@@ -18,7 +18,7 @@ export class EventEmitter<EventMap extends EventNamesMap> {
 	}
 	
 	/**
-	 * Remove event listener for an event
+	 * Removes an event listener.
 	 */
 	off<Key extends keyof EventMap>(eventName: Key, callback: Listener) {
 		if (this.#events[eventName as string]) {
@@ -29,7 +29,7 @@ export class EventEmitter<EventMap extends EventNamesMap> {
 	}
 	
 	/**
-	 * Dispatch event
+	 * Dispatches an event.
 	 */
 	emit<Key extends keyof EventMap>(eventName: Key, data?: unknown) {
 		if (this.#events[eventName as string]) {

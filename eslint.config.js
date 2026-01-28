@@ -4,6 +4,7 @@ import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import react from "eslint-plugin-react";
 import reactRefresh from "eslint-plugin-react-refresh";
+import jsdoc from "eslint-plugin-jsdoc";
 
 export default tseslint.config(
 	eslint.configs.recommended,
@@ -25,11 +26,13 @@ export default tseslint.config(
 		},
 		ignores: [
 			"eslint.config.js",
-			"**/dist/**/*"
+			"**/dist/**/*",
+			"**/node_modules/**/*"
 		],
 		plugins: {
 			"react": /** @type {import("eslint").ESLint.Plugin} */ (react),
 			"react-refresh": reactRefresh,
+			"jsdoc": jsdoc,
 		},
 		rules: {
 			"quotes": ["error", "double"],
@@ -158,7 +161,18 @@ export default tseslint.config(
 					format: null,
 				},
 			],
-			"@typescript-eslint/await-thenable": "off"
+			"@typescript-eslint/await-thenable": "off",
+			"@typescript-eslint/unbound-method": ["error", {
+				ignoreStatic: true
+			}],
 		},
+	},
+	{
+		files: ["packages/**/*"],
+		rules: {
+			"jsdoc/require-description-complete-sentence": "warn",
+			"jsdoc/require-hyphen-before-param-description": "warn",
+			"jsdoc/check-param-names": "warn",
+		}
 	}
 );

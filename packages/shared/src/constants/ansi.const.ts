@@ -1,11 +1,11 @@
 /**
- * ANSI escape codes
+ * ANSI escape codes.
  * 
  * @see [ANSI escape code - Wikipedia](https://en.wikipedia.org/wiki/ANSI_escape_code)
  */
 export const ANSI = {
 	/**
-	 * Foreground colors
+	 * Foreground colors.
 	 */
 	fg: {
 		black: "\u001b[30m",
@@ -18,13 +18,13 @@ export const ANSI = {
 		white: "\u001b[37m",
 	},
 	/**
-	 * Background colors
+	 * Background colors.
 	 */
 	bg: {
 
 	},
 	/**
-	 * Decorations
+	 * Decorations.
 	 */
 	decoration: {
 		dim: "\u001b[2m",

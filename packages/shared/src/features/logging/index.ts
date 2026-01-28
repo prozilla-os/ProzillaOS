@@ -1,2 +1,2 @@
 export * from "./ansi";
-export * from "./print";
+export * from "./logger";

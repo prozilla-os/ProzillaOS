@@ -6,7 +6,8 @@
 		"outDir": "dist",
 		"declaration": true,
 		"emitDeclarationOnly": true,
-		"noEmit": false
+		"noEmit": false,
+		"noImplicitOverride": true
 	},
 	"include": ["src", "vite.config.ts"],
 	"exclude": ["node_modules"]

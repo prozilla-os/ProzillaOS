@@ -7,9 +7,10 @@
 		"editorRuler.foreground": "#1F1F1F"
 	},
 	"eslint.useFlatConfig": true,
-	"eslint.validate": [
-		"ts", "tsx"
-	],
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "always",
+		"source.fixAll.ts": "always"
+	},
 	"typescript.preferences.importModuleSpecifier": "relative",
-	"javascript.preferences.importModuleSpecifier": "relative"
+	"javascript.preferences.importModuleSpecifier": "relative",
 }

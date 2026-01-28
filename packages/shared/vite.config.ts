@@ -9,8 +9,8 @@ export default defineConfig({
 			include: ["src"],
 			outDir: "dist",
 			rollupTypes: true,
-			strictOutput: true
-		})
+			strictOutput: true,
+		}),
 	],
 	build: {
 		lib: {
@@ -23,8 +23,8 @@ export default defineConfig({
 				assetFileNames: "assets/[name][extname]",
 				chunkFileNames: "chunks/[name]-[hash].js",
 				entryFileNames: "[name].js",
-			}
+			},
 		},
-		sourcemap: true
-	}
+		sourcemap: true,
+	},
 });

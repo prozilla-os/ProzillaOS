@@ -5,7 +5,7 @@
 		"paths": {
 			"prozilla-os": ["packages/prozilla-os/src/main"],
 			"@prozilla-os/*": ["packages/*/src/main", "packages/apps/*/src/main"],
-		},
+		}
 	},
 	"include": [
 		"src",
@@ -13,5 +13,5 @@
 		"scripts",
 		"../packages/core/src/**/*"
 	],
-	"exclude": ["node_modules"]
+	"exclude": ["**/node_modules/**/*"]
 }

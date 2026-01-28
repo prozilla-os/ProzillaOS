@@ -25,7 +25,7 @@
 	},
 	"devDependencies": {
 		"@commander-js/extra-typings": "^14.0.0",
-		"@prozilla-os/shared": "^1.2.1",
+		"@prozilla-os/shared": "workspace:*",
 		"@types/node": "^20.19.30",
 		"commander": "^14.0.2",
 		"react": "^18.3.1",

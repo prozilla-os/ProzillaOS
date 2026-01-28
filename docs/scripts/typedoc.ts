@@ -1,12 +1,11 @@
 import { Application, TypeDocOptions } from "typedoc";
 import type { PluginOptions } from "typedoc-plugin-markdown";
-import { ANSI } from "../../packages/shared/src/constants";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { ORG, OUT_DIR, PACKAGES, PACKAGES_DIR } from "./packages.const.mjs";
 import { Option, program } from "@commander-js/extra-typings";
 import { formatMemberPageTitle, formatModulePageTitle } from "./typedoc.utils";
-import { Print } from "@prozilla-os/shared";
+import { Logger } from "@prozilla-os/shared";
 
 const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	plugin: [
@@ -16,7 +15,7 @@ const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	],
 	categorizeByGroup: true,
 	router: "group",
-	groupOrder: ["Apps", "Components", "Hooks", "Classes", "Properties", "Methods", "Functions", "Variables", "*", "Interfaces", "Types"],
+	groupOrder: ["Apps", "Components", "Hooks", "Classes", "Constructors", "Properties", "Methods", "Functions", "Variables", "*", "Interfaces", "Types"],
 	sort: ["source-order"],
 	hideBreadcrumbs: true,
 	hidePageHeader: true,
@@ -30,12 +29,14 @@ const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 	entryFileName: "index",
 	modulesFileName: "api",
 	navigation: {
-		includeGroups: true
+		includeGroups: true,
 	},
 };
 
+const logger = new Logger();
+
 program.name("typedoc-helper")
-	.description("Automatically generates documentation for the API of each package and adds them to the documentation site.")
+	.description("Automatically generates documentation for the API of each package and adds them to the documentation site.");
 
 program.command("run", { isDefault: true })
 	.option("-f --filter <filter>", "The filter to apply", "all")
@@ -60,15 +61,15 @@ program.command("run", { isDefault: true })
 			}
 		}
 		
-		Print.parameter("Filter", packagesFilter);
-		Print.parameter("Packages", packages.length);
-		Print.parameter("Concurrency", concurrent ? "enabled" : "disabled");
+		logger.parameter("Filter", packagesFilter);
+		logger.parameter("Packages", packages.length);
+		logger.parameter("Concurrency", concurrent ? "enabled" : "disabled");
 
 		// Generate docs
 		if (concurrent) {
-			packages.forEach((path) => generateDocs(path, dryRun));
+			packages.forEach((path) => void generateDocs(path, dryRun));
 		} else {
-			(async () => {
+			void (async () => {
 				for (const path of packages) {
 					await generateDocs(path, dryRun);
 				}
@@ -98,10 +99,10 @@ async function generateDocs(path: string, dryRun: boolean) {
 		navigationJson,
 	};
 
-	Print.pending(`Generating docs for: ${path}`);
+	logger.pending(`Generating docs for: ${path}`);
 
 	const onComplete = () => {
-		Print.success(`Finished generating docs for: ${path}`);
+		logger.success(`Finished generating docs for: ${path}`);
 	};
 
 	if (!dryRun) {
@@ -110,7 +111,7 @@ async function generateDocs(path: string, dryRun: boolean) {
 
 		if (project) {
 			await app.generateOutputs(project).then(onComplete).catch(() => {
-				Print.error(`Failed to generate docs for: ${path}`);
+				logger.error(`Failed to generate docs for: ${path}`);
 			});
 		}
 	} else {

@@ -4,13 +4,15 @@ import dts from "vite-plugin-dts";
 import cssInjectedByJs from "vite-plugin-css-injected-by-js";
 import { posix, resolve, sep } from "path";
 import { appMetadataPlugin } from "../plugins";
-import { Print } from "@prozilla-os/shared";
+import { Logger } from "@prozilla-os/shared";
+
+const logger = new Logger();
 
 /**
- * Helper function for creating Vite configurations for ProzillaOS apps
- * @param basePath - Path of base directory
- * @param entryPath - Path of library entry
- * @returns Vite configuration
+ * Creates a Vite configuration for ProzillaOS apps.
+ * @param basePath The path of the base directory.
+ * @param entryPath The path of the library entry.
+ * @returns The Vite configuration.
  * @see https://vitejs.dev/config/
  */
 export const appViteConfig = (basePath: string, entryPath: string): UserConfig => {
@@ -20,8 +22,8 @@ export const appViteConfig = (basePath: string, entryPath: string): UserConfig =
 	if (sep === "\\")
 		entryFile = entryFile.split(sep).join(posix.sep);
 
-	Print.text("Using Vite config for app");
-	Print.parameter("Entry", entryFile);
+	logger.text("Using Vite config for app");
+	logger.parameter("Entry", entryFile);
 
 	return {
 		plugins: [

@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { NavigationItem, NavigationJSON } from "typedoc-plugin-markdown";
 import { DefaultTheme } from "vitepress";
 
 export interface PackageData {
@@ -90,24 +91,23 @@ export const packageSidebars = (packages: PackageData[]): DefaultTheme.Sidebar =
 	packages.forEach(({ text, link, items = [], auto = false }) => {
 		const base = `/reference/${link}`;
 
-		let packageItems: DefaultTheme.SidebarItem[] = items;
+		const packageItems: DefaultTheme.SidebarItem[] = items;
 		if (auto) {
 			const path = resolve(__dirname, `../src${base}/nav.json`);
 
 			if (existsSync(path)) {
 				packageItems.push({
 					text: "Index",
-					link: "/api"
+					link: "/api",
 				});
 
 				const content = readFileSync(path, "utf-8");
-				const navigation = JSON.parse(content);
-				navigation.forEach((group: { children?: { title: string, kind: number, path: string, isDeprecated: boolean }[]; title: string; }) => {
-
+				const navigation = JSON.parse(content) as NavigationJSON;
+				navigation.forEach((group: NavigationItem) => {
 					const groupItems: DefaultTheme.SidebarItem[] = group.children?.map((child) => {
 						return {
 							text: child.title,
-							link: child.path.replace(group.title, ""),
+							link: child.path?.replace(group.title, ""),
 							collapsed: true,
 						};
 					}) ?? [];

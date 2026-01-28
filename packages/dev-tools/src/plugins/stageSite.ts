@@ -1,37 +1,37 @@
 import type { AppsConfig } from "@prozilla-os/core";
-import { Print } from "@prozilla-os/shared";
+import { Logger } from "@prozilla-os/shared";
 import type { OutputBundle, PluginContext, Plugin } from "rollup";
 
 export interface StageOptions {
 	appsConfig: AppsConfig;
 
 	/**
-	 * Favicon of the website
+	 * Favicon of the website.
 	 */
 	favicon: string;
 
 	/**
-	 * Name of the website 
+	 * Name of the website.
 	 * @example "ProzillaOS"
 	 */
 	siteName: string;
 
 	/**
-	 * Tag line of the website
+	 * Tag line of the website.
 	 * @example "Web-based Operating System"
 	*/
 	siteTagLine: string;
 
 	/**
-	 * Domain of the live website
+	 * Domain of the live website.
 	 * 
-	 * A CNAME file will be generated with this value
+	 * A CNAME file will be generated with this value.
 	 * @example "os.prozilla.dev"
 	 */
 	domain: string;
 
 	/**
-	 * Array of image URLs that will be added to the sitemap
+	 * Array of image URLs that will be added to the sitemap.
 	 */
 	imageUrls?: string[];
 }
@@ -48,6 +48,8 @@ interface FilePaths {
 	indexHtml: string;
 	cname: string;
 }
+
+const logger = new Logger();
 
 function normalizeLineEndings(text: string) {
 	return text.replace(/\r\n/g, "\n");
@@ -125,8 +127,8 @@ function generateTemplate(html: string, options: StageOptionsExtended) {
 }
 
 /**
- * To avoid GitHub pages rendering certain pages that are only defined by React router as a 404 page,
- * we copy the content of our index file to the 404 page, letting React router properly handle routing on every page 
+ * To avoid GitHub pages rendering certain pages that are only defined by React router as a 404 page, 
+ * we copy the content of our index file to the 404 page, letting React router properly handle routing on every page.
  */
 function generate404Page(context: PluginContext, template: string) {
 	context.emitFile({
@@ -137,7 +139,7 @@ function generate404Page(context: PluginContext, template: string) {
 }
 
 /**
- * Add an HTML file for every app page so they can be properly crawled and indexed
+ * Add an HTML file for every app page so they can be properly crawled and indexed.
  */
 function generateAppPages(context: PluginContext, template: string, options: StageOptionsExtended) {
 	const { appsConfig, favicon, siteName, siteTagLine, baseUrl } = options;
@@ -149,7 +151,7 @@ function generateAppPages(context: PluginContext, template: string, options: Sta
 		const appIcon = app.iconUrl ?? favicon;
 
 		if (appId === "index") {
-			Print.error(`Invalid app ID found: ${appId}`);
+			logger.error(`Invalid app ID found: ${appId}`);
 			return;
 		}
 
@@ -180,7 +182,7 @@ function generateAppPages(context: PluginContext, template: string, options: Sta
 
 function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, favicon, siteName, siteTagLine, domain, imageUrls = [] }: StageOptions) {
 	try {
-		Print.pending("Staging build...");
+		logger.pending("Staging build...");
 
 		const baseUrl = `https://${domain}/`;
 
@@ -230,9 +232,9 @@ function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, f
 			generateAppPages(context, template, extendedOptions);
 		}
 	
-		Print.success("Staging complete");
+		logger.success("Staging complete");
 	} catch (error) {
-		Print.error(error).error("Staging failed");
+		logger.error(error).error("Staging failed");
 		process.exit(1);
 	}
 }

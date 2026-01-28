@@ -1,3 +1,4 @@
+/* https://www.typescriptlang.org/tsconfig/ */
 {
 	"compilerOptions": {
 		/* Language and Environment */
@@ -10,6 +11,11 @@
 		"types": ["vite/client", "vite-plugin-svgr/client", "node"],
 		"allowUmdGlobalAccess": true,
 		"resolveJsonModule": true,
+		"baseUrl": "./",
+		"paths": {
+			"prozilla-os": ["packages/prozilla-os/dist/main", "packages/prozilla-os/src/main"],
+			"@prozilla-os/*": ["packages/*/dist/main", "packages/*/src/main", "packages/apps/*/dist/main", "packages/apps/*/src/main"],
+		},
 		
 		/* JavaScript Support */
 		"allowJs": true,
@@ -26,13 +32,7 @@
 		
 		/* Type Checking */
 		"strict": true,
-
-		/* Module resolution */
-		"baseUrl": "./",
-		"paths": {
-			"prozilla-os": ["packages/prozilla-os/dist/main", "packages/prozilla-os/src/main"],
-			"@prozilla-os/*": ["packages/*/dist/main", "packages/*/src/main", "packages/apps/*/dist/main", "packages/apps/*/src/main"],
-		}
+		"noImplicitOverride": false // TO DO: Slowly apply to all packages, then enable globally
 	},
 	"include": [
 		"packages/**/*",

@@ -52,7 +52,7 @@ export default defineConfig({
 
 		editLink: {
 			pattern: ({ frontmatter }) => {
-				if ("editUrl" in frontmatter) {
+				if ("editUrl" in frontmatter && typeof frontmatter.editUrl === "string") {
 					return frontmatter.editUrl;
 				} else {
 					return "https://github.com/prozilla-os/ProzillaOS/edit/main/docs/src/:path";

@@ -10,9 +10,9 @@ const TIME_INDICATORS = {
 };
 
 /**
- * Format a time
- * @param time - Time in milliseconds
- * @param maxLength - The maximum amount of units, e.g.: 3 => years, months, days
+ * Formats time in a human-readable format.
+ * @param time - Time in milliseconds.
+ * @param maxLength - The maximum amount of units, e.g.: 3 => years, months, days.
  */
 export function formatTime(time: number, maxLength: number = 3, allowAffixes: boolean): string {
 	const result: string[] = [];
@@ -80,9 +80,9 @@ export function formatTime(time: number, maxLength: number = 3, allowAffixes: bo
 };
 
 /**
- * Format a time relative to now
- * @param date - The date
- * @param maxLength - The maximum amount of units, e.g.: 3 => years, months, days
+ * Formats time relative to now.
+ * @param date - The date.
+ * @param maxLength - The maximum amount of units, e.g.: 3 => years, months, days.
  */
 export function formatRelativeTime(date: Date, maxLength: number = 3, allowAffixes: boolean): string {
 	const difference = date.valueOf() - Date.now();
