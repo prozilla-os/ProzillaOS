@@ -1,7 +1,7 @@
 // @ts-check
 import { Converter, ReflectionKind, CommentTag, Comment, PageKind, ParameterType } from "typedoc";
 import { MarkdownPageEvent } from "typedoc-plugin-markdown";
-import { ORG, PACKAGES } from "./packages.const.mjs";
+import { formatPackageName, ORG, PACKAGE_PATHS, PACKAGE_PREFIX, packagePathToName } from "./packages.utils.mjs";
 import { existsSync, readFileSync } from "node:fs";
 import { Logger, Markdown } from "@prozilla-os/shared";
 
@@ -15,7 +15,7 @@ const packageNavCache = {};
  * @param {string} sourcePath 
  */
 function getPackageNavigation(targetPath, sourcePath) {
-	if (!PACKAGES.includes(targetPath))
+	if (!PACKAGE_PATHS.includes(targetPath))
 		return;
 
 	if (targetPath in packageNavCache)
@@ -24,8 +24,8 @@ function getPackageNavigation(targetPath, sourcePath) {
 	const navJsonPath = new URL("../src/reference/" + targetPath + "/nav.json", import.meta.url);
 	if (!existsSync(navJsonPath)) {
 		logger.warn("Unknown symbol", 
-			`Referenced from: ${sourcePath}`,
-			`Imported from: ${targetPath}`,
+			`Referenced from: ${formatPackageName(sourcePath)}`,
+			`Imported from: ${formatPackageName(targetPath)}`,
 			`Missing navigation file: ${navJsonPath}`
 		);
 		packageNavCache[targetPath] = [];
@@ -319,9 +319,9 @@ function renameHeadings(event) {
  * @param {import("typedoc").DeclarationReference} reference 
  */
 function resolveUnknownSymbol(path, reference) {
-	if (reference.moduleSource?.startsWith("@prozilla-os/")) {
-		const targetName = reference.moduleSource.replace("@prozilla-os/", "");
-		const targetPath = PACKAGES.find((path) => path.endsWith(targetName));
+	if (reference.moduleSource?.startsWith(PACKAGE_PREFIX)) {
+		const targetName = reference.moduleSource.replace(PACKAGE_PREFIX, "");
+		const targetPath = PACKAGE_PATHS.find((path) => path.endsWith(targetName));
 
 		if (!targetPath || path === targetPath)
 			return;

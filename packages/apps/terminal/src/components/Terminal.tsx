@@ -99,30 +99,28 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 
 		let lastOutput: CommandResponse | null = null;
 
-		stream.on(Stream.EVENT_NAMES.new, (text) => {
-			void (async () => {
-				let output: CommandResponse = text as CommandResponse;
+		stream.onAsync(Stream.SEND_EVENT, async (text) => {
+			let output: CommandResponse = text as CommandResponse;
 
-				for (const pipe of pipes) {
-					if (output instanceof Stream)
-						continue;
-		
-					// Output from the previous command gets added as an argument for the next command
-					output = await handleInput(output ? `${pipe} ${output as string}` : pipe);
-				}
+			for (const pipe of pipes) {
+				if (output instanceof Stream)
+					continue;
+	
+				// Output from the previous command gets added as an argument for the next command
+				output = await handleInput(output ? `${pipe} ${output as string}` : pipe);
+			}
 
-				if ((output as unknown) instanceof Stream) {
-					stream.stop();
-					promptOutput(ANSI.fg.red + "Stream failed");
-					return;
-				}
+			if ((output as unknown) instanceof Stream) {
+				stream.stop();
+				promptOutput(ANSI.fg.red + "Stream failed");
+				return;
+			}
 
-				lastOutput = output;
-				setStreamOutput(output as string);
-			})();
+			lastOutput = output;
+			setStreamOutput(output as string);
 		});
 
-		stream.on(Stream.EVENT_NAMES.stop, () => {
+		stream.on(Stream.STOP_EVENT, () => {
 			document.removeEventListener("keydown", onKeyDown);
 
 			promptOutput(lastOutput as string);

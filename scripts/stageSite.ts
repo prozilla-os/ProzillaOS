@@ -67,6 +67,8 @@ function stageSite() {
 
 		logger.error(error).error("Staging failed");
 		process.exit(1);
+	} finally {
+		logger.summary();
 	}
 }
 

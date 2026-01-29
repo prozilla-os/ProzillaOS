@@ -21,10 +21,10 @@ export function useZIndex({ groupIndex, index }: UseZIndexParams) {
 		};
 
 		updateIndex();
-		zIndexManager?.on(ZIndexManager.EVENT_NAMES.indexChange, updateIndex);
+		zIndexManager?.on(ZIndexManager.INDEX_CHANGE_EVENT, updateIndex);
 
 		return () => {
-			zIndexManager?.off(ZIndexManager.EVENT_NAMES.indexChange, updateIndex);
+			zIndexManager?.off(ZIndexManager.INDEX_CHANGE_EVENT, updateIndex);
 		};
 	}, [groupIndex, index, zIndex, zIndexManager]);
 

@@ -92,7 +92,7 @@ export const cmatrix = new Command()
 			frame++;
 		}, 100 / ANIMATION_SPEED);
 
-		stream.on(Stream.EVENT_NAMES.stop, () => {
+		stream.on(Stream.STOP_EVENT, () => {
 			clearInterval(interval);
 		});
 

@@ -1,8 +1,10 @@
 import { Listener, parseBool } from "@prozilla-os/shared";
-import { VirtualFile } from "../virtual-drive/file";
+import { VirtualFile, VirtualFileEvents } from "../virtual-drive/file";
 import { VirtualRoot } from "../virtual-drive/root/virtualRoot";
 
 const PARENT_NODE = "options";
+
+export type SettingsListener = Listener<VirtualFileEvents, "contentChange">;
 
 export class Settings {
 	path: string;
@@ -70,17 +72,17 @@ export class Settings {
 	 * @param key - The key of the setting.
 	 * @param callback - The callback function to call whenever the value changes.
 	 */
-	async get(key: string, callback?: (value: string) => void): Promise<{ value: string | null, listener?: Listener }> {
+	async get(key: string, callback?: (value: string) => void): Promise<{ value: string | null, listener?: SettingsListener }> {
 		if (await this.isMissingXmlDoc())
 			return { value: null };
 
 		let value = this.xmlDoc?.getElementsByTagName(key)?.[0]?.textContent as string | null;
-		let listener: Listener | undefined;
+		let listener: SettingsListener | undefined;
 
 		if (callback) {
 			if (value != null) callback(value);
 
-			listener = this.file.on(VirtualFile.EVENT_NAMES.contentChange, () => {
+			listener = this.file.on(VirtualFile.CONTENT_CHANGE_EVENT, () => {
 				void (async () => {
 					await this.read();
 					const newValue = (await this.get(key)).value;
@@ -96,8 +98,8 @@ export class Settings {
 		return { value, listener };
 	}
 
-	async #getParsed<Type>(key: string, parser: (value: string) => Type, callback?: (value: Type) => void): Promise<{ value: Type | null, listener?: Listener }> {
-		let result: { value: string | null, listener?: Listener } = { value: null };
+	async #getParsed<Type>(key: string, parser: (value: string) => Type, callback?: (value: Type) => void): Promise<{ value: Type | null, listener?: SettingsListener }> {
+		let result: { value: string | null, listener?: SettingsListener } = { value: null };
 		if (callback !== undefined) {
 			result = await this.get(key, (value) => {
 				callback?.(parser(value));
@@ -115,14 +117,14 @@ export class Settings {
 	/**
 	 * Gets a value by a given key as a boolean.
 	 */
-	async getBool(key: string, callback?: (value: boolean) => void): Promise<{ value: boolean | null, listener?: Listener }> {
+	async getBool(key: string, callback?: (value: boolean) => void): Promise<{ value: boolean | null, listener?: SettingsListener }> {
 		return await this.#getParsed(key, parseBool, callback);
 	}
 
 	/**
 	 * Gets a value by a given key as an integer.
 	 */
-	async getInt(key: string, callback?: (value: number) => void): Promise<{ value: number | null, listener?: Listener }> {
+	async getInt(key: string, callback?: (value: number) => void): Promise<{ value: number | null, listener?: SettingsListener }> {
 		return await this.#getParsed(key, parseInt, callback);
 	}
 
@@ -150,7 +152,7 @@ export class Settings {
 	 * Removes a listener from the settings file.
 	 * @param listener - The listener to remove.
 	 */
-	removeListener(listener: Listener) {
-		this.file.off(VirtualFile.EVENT_NAMES.contentChange, listener);
+	removeListener(listener: SettingsListener) {
+		this.file.off(VirtualFile.CONTENT_CHANGE_EVENT, listener);
 	}
 }

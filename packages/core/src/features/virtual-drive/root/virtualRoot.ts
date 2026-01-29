@@ -7,25 +7,27 @@ import { VirtualFileLinkJson } from "../file/virtualFileLink";
 import { VirtualFolderJson } from "../folder/virtualFolder";
 import { VirtualFile, VirtualFileLink } from "../file";
 import { SystemManager } from "../../system/systemManager";
+import { VirtualBaseEvents } from "../virtualBase";
 
 export interface VirtualRootJson extends VirtualFolderJson {
 	scs: Record<string, string>;
 }
 
+export interface VirtualRootEvents extends VirtualBaseEvents {
+	error: [{ message: string }];
+}
+
 /**
  * A virtual folder that serves as the root folder.
  */
-export class VirtualRoot extends VirtualFolder {
+export class VirtualRoot extends VirtualFolder<VirtualRootEvents> {
 	/** Aliases for files and folders. */
 	shortcuts: Record<string, VirtualFile | VirtualFileLink | VirtualFolder | VirtualFolderLink>;
 	initiated: boolean = false;
 	loadedDefaultData: boolean = false;
 	systemManager: SystemManager;
 
-	static EVENT_NAMES = {
-		error: "error",
-		...super.EVENT_NAMES,
-	};
+	static readonly ERROR_EVENT = "error";
 
 	constructor(systemManager: SystemManager) {
 		super("root");
@@ -158,7 +160,7 @@ export class VirtualRoot extends VirtualFolder {
 			StorageManager.store("data", data);
 		} catch (error) {
 			console.error(error);
-			this.emit(VirtualRoot.EVENT_NAMES.error, {
+			this.emit(VirtualRoot.ERROR_EVENT, {
 				message: "Failed to save data",
 			});
 		}

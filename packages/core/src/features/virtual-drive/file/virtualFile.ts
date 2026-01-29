@@ -1,7 +1,7 @@
 import { AUDIO_EXTENSIONS, FILE_SCHEMES, IMAGE_EXTENSIONS, VIDEO_EXTENSIONS } from "../../../constants/virtualDrive.const";
 import { downloadUrl } from "../../_utils";
 import { WindowsManager } from "../../windows/windowsManager";
-import { VirtualBase, VirtualBaseJson } from "../virtualBase";
+import { VirtualBase, VirtualBaseEvents, VirtualBaseJson } from "../virtualBase";
 
 export interface VirtualFileJson extends VirtualBaseJson {	
 	ext?: string;
@@ -11,10 +11,14 @@ export interface VirtualFileJson extends VirtualBaseJson {
 
 export type OptionalStringProperty = string | null | undefined;
 
+export interface VirtualFileEvents extends VirtualBaseEvents {
+	contentChange: [VirtualFile];
+}
+
 /**
  * A virtual file that can be stored inside a folder.
  */
-export class VirtualFile extends VirtualBase {
+export class VirtualFile extends VirtualBase<VirtualFileEvents> {
 	/** The extension of this file. */
 	extension: OptionalStringProperty;
 	/** The URL of the source of this file. */
@@ -26,10 +30,7 @@ export class VirtualFile extends VirtualBase {
 		"png",
 	];
 
-	static EVENT_NAMES = {
-		contentChange: "contentchange",
-		...super.EVENT_NAMES,
-	};
+	static readonly CONTENT_CHANGE_EVENT = "contentChange";
 
 	constructor(name: string, extension?: string  ) {
 		super(name);
@@ -50,7 +51,7 @@ export class VirtualFile extends VirtualBase {
 		this.source = source;
 		this.content = null;
 
-		this.emit(VirtualFile.EVENT_NAMES.contentChange, this);
+		this.emit(VirtualFile.CONTENT_CHANGE_EVENT, this);
 
 		this.confirmChanges();
 		return this;
@@ -66,7 +67,7 @@ export class VirtualFile extends VirtualBase {
 		this.content = typeof content === "string" ? content : content.join("\n");
 		this.source = null;
 
-		this.emit(VirtualFile.EVENT_NAMES.contentChange, this);
+		this.emit(VirtualFile.CONTENT_CHANGE_EVENT, this);
 
 		this.confirmChanges();
 		return this;

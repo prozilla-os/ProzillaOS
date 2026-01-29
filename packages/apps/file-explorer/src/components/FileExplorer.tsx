@@ -121,10 +121,10 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 			});
 		};
 
-		virtualRoot?.on(VirtualRoot.EVENT_NAMES.error, onError);
+		virtualRoot?.on(VirtualRoot.ERROR_EVENT, onError);
 
 		return () => {
-			virtualRoot?.off(VirtualRoot.EVENT_NAMES.error, onError);
+			virtualRoot?.off(VirtualRoot.ERROR_EVENT, onError);
 		};
 	}, []);
 

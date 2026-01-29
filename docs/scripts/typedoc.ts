@@ -2,7 +2,7 @@ import { Application, TypeDocOptions } from "typedoc";
 import type { PluginOptions } from "typedoc-plugin-markdown";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { ORG, OUT_DIR, PACKAGES, PACKAGES_DIR } from "./packages.const.mjs";
+import { formatPackageName, ORG, OUT_DIR, PACKAGE_PATHS, PACKAGE_PREFIX, PACKAGES_DIR } from "./packages.utils.mjs";
 import { Option, program } from "@commander-js/extra-typings";
 import { formatMemberPageTitle, formatModulePageTitle } from "./typedoc.utils";
 import { Logger } from "@prozilla-os/shared";
@@ -41,22 +41,22 @@ program.name("typedoc-helper")
 program.command("run", { isDefault: true })
 	.option("-f --filter <filter>", "The filter to apply", "all")
 	.addOption(new Option("-s --sequential", "Generate documentation sequentially instead of concurrently").default(true))
-	.addOption(new Option("-c --concurrent", "Generate documentation concurrently (may cause issues if navigation files are missing)").implies({ sequential: false }).conflicts("concurrent"))
+	.addOption(new Option("-c --concurrent", "Generate documentation concurrently (may cause issues if navigation files are missing)").implies({ sequential: false }))
 	.option("-d --dry-run", "Does everything except actually generating documentation", false)
-	.action((options) => {
+	.action(async (options) => {
 		const packagesFilter = options.filter;
 		const concurrent = !options.sequential;
 		const dryRun = options.dryRun;
 
 		// Apply filter
-		let packages = PACKAGES;
+		let packages = PACKAGE_PATHS;
 		if (packagesFilter !== "all") {
 			if (packagesFilter == "libs") {
 				packages = packages.filter((path) => !path.startsWith("apps/"));
 			} else if (packagesFilter == "apps") {
 				packages = packages.filter((path) => path.startsWith("apps/"));
 			} else {
-				const packagePaths = packagesFilter.split(",").map((path) => path.replace(ORG + "/", ""));
+				const packagePaths = packagesFilter.split(",").map((path) => path.replace(PACKAGE_PREFIX, ""));
 				packages = packages.filter((path) => packagePaths.includes(path));
 			}
 		}
@@ -67,19 +67,20 @@ program.command("run", { isDefault: true })
 
 		// Generate docs
 		if (concurrent) {
-			packages.forEach((path) => void generateDocs(path, dryRun));
+			await Promise.all(packages.map(async (path) => await generateDocs(path, dryRun)));
 		} else {
-			void (async () => {
-				for (const path of packages) {
-					await generateDocs(path, dryRun);
-				}
-			})();
+			for (const path of packages) {
+				await generateDocs(path, dryRun);
+			}
 		}
 
 		// Add auto-generated docs to gitignore
 		if (!dryRun) {
-			writeFileSync(resolve(__dirname, "../", OUT_DIR, ".gitignore"), PACKAGES.join("\n"));
+			writeFileSync(resolve(__dirname, "../", OUT_DIR, ".gitignore"), "# Auto-generated documentation\n" + PACKAGE_PATHS.join("\n"));
 		}
+
+		logger.summary();
+		logger.success("Generated all docs");
 	});
 
 async function generateDocs(path: string, dryRun: boolean) {
@@ -99,10 +100,11 @@ async function generateDocs(path: string, dryRun: boolean) {
 		navigationJson,
 	};
 
-	logger.pending(`Generating docs for: ${path}`);
+	const packageName = formatPackageName(path);
+	logger.pending(`Generating docs for: ${packageName}`);
 
 	const onComplete = () => {
-		logger.success(`Finished generating docs for: ${path}`);
+		logger.success(`Generated docs for: ${packageName}`);
 	};
 
 	if (!dryRun) {
@@ -111,7 +113,7 @@ async function generateDocs(path: string, dryRun: boolean) {
 
 		if (project) {
 			await app.generateOutputs(project).then(onComplete).catch(() => {
-				logger.error(`Failed to generate docs for: ${path}`);
+				logger.error(`Failed to generate docs for: ${packageName}`);
 			});
 		}
 	} else {

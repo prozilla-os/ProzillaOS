@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { SettingsManager } from "../../features";
+import { SettingsListener, SettingsManager } from "../../features";
 import { useSettingsManager } from "./settingsManagerContext";
-import { Listener, parseBool } from "@prozilla-os/shared";
+import { parseBool } from "@prozilla-os/shared";
 
 export type SettingsPath = typeof SettingsManager.VIRTUAL_PATHS[string];
 
@@ -69,7 +69,7 @@ export function useSetting<Type = string>(path: SettingsPath, key: string, defau
 		if (!settings)
 			return;
 
-		let listener: Listener | undefined = undefined;
+		let listener: SettingsListener | undefined = undefined;
 		void settings.get(key, (newValue) => setValue(parse(newValue))).then((result) => {
 			listener = result.listener;
 

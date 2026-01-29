@@ -1,15 +1,23 @@
 // @ts-check
 
+import { defineConfig, globalIgnores } from "eslint/config";
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import react from "eslint-plugin-react";
 import reactRefresh from "eslint-plugin-react-refresh";
 import jsdoc from "eslint-plugin-jsdoc";
 
-export default tseslint.config(
-	eslint.configs.recommended,
-	...tseslint.configs.recommendedTypeChecked,
+export default defineConfig(
+	globalIgnores([
+		"eslint.config.js",
+		"**/dist/**/*",
+		"**/node_modules/**/*"
+	]),
 	{
+		extends: [
+			eslint.configs.recommended,
+			tseslint.configs.recommendedTypeChecked,
+		],
 		languageOptions: {
 			parserOptions: {
 				projectService: {
@@ -24,15 +32,9 @@ export default tseslint.config(
 				version: "detect"
 			}
 		},
-		ignores: [
-			"eslint.config.js",
-			"**/dist/**/*",
-			"**/node_modules/**/*"
-		],
 		plugins: {
 			"react": /** @type {import("eslint").ESLint.Plugin} */ (react),
 			"react-refresh": reactRefresh,
-			"jsdoc": jsdoc,
 		},
 		rules: {
 			"quotes": ["error", "double"],
@@ -169,6 +171,9 @@ export default tseslint.config(
 	},
 	{
 		files: ["packages/**/*"],
+		plugins: {
+			"jsdoc": jsdoc,
+		},
 		rules: {
 			"jsdoc/require-description-complete-sentence": "warn",
 			"jsdoc/require-hyphen-before-param-description": "warn",

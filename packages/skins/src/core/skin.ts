@@ -1,6 +1,6 @@
 import { Theme } from "../types";
 
-interface SkinOptions {
+export interface SkinOptions {
 	/**
 	 * SVG icon for the system.
 	 * @default
@@ -77,9 +77,6 @@ export class Skin {
 	loadStyleSheet: SkinOptions["loadStyleSheet"];
 	defaultTheme: SkinOptions["defaultTheme"];
 
-	/**
-	 * @param options - {@inheritDoc SkinOptions}.
-	 */
 	constructor(options: Partial<SkinOptions> = {}) {
 		this.systemIcon = options.systemIcon ?? "https://os.prozilla.dev/icon.svg";
 

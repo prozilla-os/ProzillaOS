@@ -1,18 +1,18 @@
 import { EventEmitter } from "@prozilla-os/shared";
 import { ZIndexGroup } from "./zIndexGroup";
 
-const ZIndexManagerEvents = {
-	indexChange: "indexChange",
-} as const;
+export interface ZIndexManagerEvents {
+	indexChange: [];
+}
 
-export class ZIndexManager extends EventEmitter<typeof ZIndexManagerEvents> {
+export class ZIndexManager extends EventEmitter<ZIndexManagerEvents> {
 	static GROUPS = {
 		WINDOWS: 0,
 		TASKBAR: 1,
 		MODALS: 2,
 	};
 
-	static EVENT_NAMES = ZIndexManagerEvents;
+	static readonly INDEX_CHANGE_EVENT = "indexChange";
 
 	groups: ZIndexGroup[] = [];
 
@@ -36,7 +36,7 @@ export class ZIndexManager extends EventEmitter<typeof ZIndexManagerEvents> {
 			offset += group.length;
 		}
 		if (changed) {
-			this.emit("indexChange");
+			this.emit(ZIndexManager.INDEX_CHANGE_EVENT);
 		}
 	}
 

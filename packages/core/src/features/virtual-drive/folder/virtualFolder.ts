@@ -1,6 +1,6 @@
 import { WindowsManager } from "../../windows/windowsManager";
 import { VirtualFileJson } from "../file/virtualFile";
-import { VirtualBase, VirtualBaseJson } from "../virtualBase";
+import { VirtualBase, VirtualBaseEvents, VirtualBaseJson } from "../virtualBase";
 import { VirtualFolderLink } from ".";
 import { VirtualFile, VirtualFileLink } from "../file";
 import { AppsConfig } from "../../system/configs";
@@ -14,7 +14,7 @@ export interface VirtualFolderJson extends VirtualBaseJson {
 /**
  * A virtual folder that can contains files and sub-folders.
  */
-export class VirtualFolder extends VirtualBase {
+export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> extends VirtualBase<E> {
 	/** The folders inside this folder. */
 	subFolders: (VirtualFolder | VirtualFolderLink)[];
 	/** The files inside this folder. */
@@ -245,7 +245,7 @@ export class VirtualFolder extends VirtualBase {
 		}
 
 		child.confirmChanges(this.getRoot());
-		this.emit(VirtualBase.EVENT_NAMES.update);
+		this.emit(VirtualBase.UPDATE_EVENT);
 		return this;
 	}
 

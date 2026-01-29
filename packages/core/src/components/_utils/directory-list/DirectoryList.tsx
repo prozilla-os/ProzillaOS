@@ -116,10 +116,10 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		};
 
 		onUpdate();
-		directory.on(VirtualBase.EVENT_NAMES.update, onUpdate);
+		directory.on(VirtualBase.UPDATE_EVENT, onUpdate);
 
 		return () => {
-			directory.off(VirtualBase.EVENT_NAMES.update, onUpdate);
+			directory.off(VirtualBase.UPDATE_EVENT, onUpdate);
 		};
 	}, [directory, showHidden]);
 

@@ -1,14 +1,18 @@
 import { VirtualRoot } from "./root/virtualRoot";
 import { VirtualFile } from "./file";
 import { VirtualFolder } from "./folder";
-import { EventEmitter, EventNamesMap } from "@prozilla-os/shared";
+import { EventEmitter } from "@prozilla-os/shared";
 
 export interface VirtualBaseJson {
 	nam: string;
 	ico?: string;
 }
 
-export class VirtualBase extends EventEmitter<EventNamesMap> {
+export interface VirtualBaseEvents {
+	update: [];
+}
+
+export class VirtualBase<E extends VirtualBaseEvents = VirtualBaseEvents> extends EventEmitter<E & Record<keyof E, unknown[]>> {
 	/** The name of this item. */
 	name: string;
 	/** The alias of this item. */
@@ -32,9 +36,7 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 	/** Whether this item has been deleted. */
 	isDeleted: boolean;
 
-	static EVENT_NAMES = {
-		update: "update",
-	};
+	static readonly UPDATE_EVENT = "update";
 
 	constructor(name: string) {
 		super();
@@ -148,7 +150,7 @@ export class VirtualBase extends EventEmitter<EventNamesMap> {
 			this.editedByUser = true;
 
 		root?.saveData();
-		this.emit(VirtualBase.EVENT_NAMES.update);
+		this.emit(VirtualBase.UPDATE_EVENT);
 	}
 
 	/**

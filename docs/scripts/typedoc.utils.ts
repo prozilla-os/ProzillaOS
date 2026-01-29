@@ -1,3 +1,5 @@
+import { PACKAGE_NAMES } from "./packages.utils.mjs";
+
 interface PageData {
 	name: string;
     rawName: string;
@@ -12,6 +14,8 @@ interface MemberPageData extends PageData {
 }
 
 export function formatModulePageTitle({ name }: PageData) {
+	if (!PACKAGE_NAMES.includes(name.toLowerCase()))
+		return name;
 	return name.toUpperCase();
 }
 

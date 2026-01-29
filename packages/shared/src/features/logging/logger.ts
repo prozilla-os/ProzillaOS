@@ -67,6 +67,9 @@ export class Logger {
 		[key in LogLevel | "global"]?: string
 	} = {};
 
+	#errorCount = 0;
+	#warningCount = 0;
+
 	constructor(options?: {
 		/** {@inheritDoc Logger.level}. */
 		level?: Logger["level"],
@@ -130,6 +133,9 @@ export class Logger {
 			[LogLevel.Error]: Ansi.red("[error]"),
 		};
 
+		this.#errorCount = 0;
+		this.#warningCount = 0;
+
 		return this;
 	}
 
@@ -140,7 +146,7 @@ export class Logger {
 	 * @param callback - The function to call.
 	 * @param indentation - The amount of indentation to use.
 	 */
-	indented(callback: () => void, indentation?: number): this
+	indented(callback: (this: undefined) => void, indentation?: number): this
 	/**
 	 * Logs every line while the level of indentation is increased.
 	 * 
@@ -255,6 +261,7 @@ export class Logger {
 	 * @param details - The details of the error message.
 	 */
 	error(message: unknown, ...details: unknown[]): this {
+		this.#errorCount++;
 		if (!this.isLevelEnabled(LogLevel.Error))
 			return this;
 
@@ -273,6 +280,7 @@ export class Logger {
 	 * @param details - The details of the warning message.
 	 */
 	warn(message: string, ...details: unknown[]): this {
+		this.#warningCount++;
 		return this.statusMessage(Ansi.yellow(message), details, LogLevel.Warning);
 	}
 
@@ -310,6 +318,26 @@ export class Logger {
 		}
 
 		return this.text(text, level);
+	}
+
+	/**
+	 * Logs the amount of errors and warnings that have been logged since the previous call to this function or the creation of this logger.
+	 */
+	summary(): this {
+		const errorsText = `${this.#errorCount} error${this.#errorCount != 1 ? "s" : ""}`;
+		const warningsText = `${this.#warningCount} warning${this.#warningCount != 1 ? "s" : ""}`;
+		let message = `Found ${errorsText} and ${warningsText}`;
+		if (this.#errorCount > 0) {
+			message = Ansi.red(message);
+		} else if (this.#warningCount > 0) {
+			message = Ansi.yellow(message);
+		} else {
+			message = Ansi.green(message);
+		}
+		this.text(message);
+		this.#errorCount = 0;
+		this.#warningCount = 0;
+		return this;
 	}
 
 	// ===== Logging text =====

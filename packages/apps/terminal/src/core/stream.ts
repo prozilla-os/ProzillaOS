@@ -1,15 +1,18 @@
 import { EventEmitter } from "@prozilla-os/shared";
 
-const StreamEvents = {
-	new: "new",
-	start: "start",
-	stop: "stop",
-} as const;
+export interface StreamEvents {
+	send: [string];
+	start: [];
+	stop: [];
+}
 
-export class Stream extends EventEmitter<typeof StreamEvents> {
-	static EVENT_NAMES = StreamEvents;
+export class Stream extends EventEmitter<StreamEvents> {
 
 	enabled: boolean = false;
+
+	static readonly SEND_EVENT = "send";
+	static readonly START_EVENT = "start";
+	static readonly STOP_EVENT = "stop";
 
 	start(callback?: (stream: this) => void): Stream {
 		if (this.enabled)
@@ -17,7 +20,7 @@ export class Stream extends EventEmitter<typeof StreamEvents> {
 
 		callback?.(this);
 		this.enabled = true;
-		this.emit("start");
+		this.emit(Stream.START_EVENT);
 		return this;
 	}
 
@@ -26,13 +29,13 @@ export class Stream extends EventEmitter<typeof StreamEvents> {
 			return this;
 
 		this.enabled = false;
-		this.emit("stop");
+		this.emit(Stream.STOP_EVENT);
 		return this;
 	}
 
 	send(text: string): Stream {
 		if (this.enabled)
-			this.emit("new", text);
+			this.emit(Stream.SEND_EVENT, text);
 		return this;
 	}
 }

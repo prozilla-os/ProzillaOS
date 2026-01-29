@@ -210,7 +210,7 @@ export const sl = new Command()
 				stream.stop();
 		}, 100 / ANIMATION_SPEED);
 
-		stream.on(Stream.EVENT_NAMES.stop, () => {
+		stream.on(Stream.STOP_EVENT, () => {
 			clearInterval(interval);
 		});
 
