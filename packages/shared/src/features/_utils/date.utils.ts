@@ -14,7 +14,7 @@ const TIME_INDICATORS = {
  * @param time - Time in milliseconds.
  * @param maxLength - The maximum amount of units, e.g.: 3 => years, months, days.
  */
-export function formatTime(time: number, maxLength: number = 3, allowAffixes: boolean): string {
+export function formatTime(time: number, maxLength: number = 3, allowAffixes: boolean = false): string {
 	const result: string[] = [];
 
 	const formatResult = (result: string[], inPast: boolean): string => {
@@ -46,12 +46,12 @@ export function formatTime(time: number, maxLength: number = 3, allowAffixes: bo
 
 	const units: { amount: number, label: string }[] = [];
 	const unitLabels: Record<string, string> = {
-		"s": "seconds",
-		"m": "minutes",
-		"h": "hours",
-		"d": "days",
-		"n": "months",
-		"y": "years",
+		"s": "second",
+		"m": "minute",
+		"h": "hour",
+		"d": "day",
+		"n": "month",
+		"y": "year",
 	};
 
 	for (const [key, value] of Object.entries(TIME_INDICATORS).reverse()) {
@@ -62,7 +62,7 @@ export function formatTime(time: number, maxLength: number = 3, allowAffixes: bo
 		time -= amount * value;
 
 		if (amount > 0)
-			units.push({ amount, label: unitLabels[key] });
+			units.push({ amount, label: amount != 1 ? unitLabels[key] + "s" : unitLabels[key] });
 	}
 
 	for (let i = 0; i < maxLength; i++) {
@@ -84,7 +84,7 @@ export function formatTime(time: number, maxLength: number = 3, allowAffixes: bo
  * @param date - The date.
  * @param maxLength - The maximum amount of units, e.g.: 3 => years, months, days.
  */
-export function formatRelativeTime(date: Date, maxLength: number = 3, allowAffixes: boolean): string {
+export function formatRelativeTime(date: Date, maxLength: number = 3, allowAffixes: boolean = false): string {
 	const difference = date.valueOf() - Date.now();
 	return formatTime(difference, maxLength, allowAffixes);
 };

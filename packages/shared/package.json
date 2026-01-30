@@ -13,7 +13,8 @@
 	"main": "dist/main.js",
 	"types": "dist/main.d.ts",
 	"scripts": {
-		"build": "tsc && vite build"
+		"build": "tsc && vite build",
+		"test": "vitest"
 	},
 	"repository": {
 		"type": "git",
@@ -22,13 +23,15 @@
 	},
 	"license": "MIT",
 	"devDependencies": {
+		"@prozilla-os/dev-tools": "workspace:*",
 		"@types/node": "^20.14.5",
 		"@types/react": "^18.3.27",
 		"@vitejs/plugin-react-swc": "^3.7.0",
 		"typescript": "^5.5.4",
 		"vite": "^7.3.1",
 		"vite-plugin-dts": "^4.5.4",
-		"vite-plugin-lib-inject-css": "^2.1.1"
+		"vite-plugin-lib-inject-css": "^2.1.1",
+		"vitest": "^4.0.18"
 	},
 	"files": [
 		"dist"
