@@ -2,13 +2,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./Button.module.css";
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { HTMLAttributeAnchorTarget, ReactNode } from "react";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { useClassNames } from "../../../hooks";
 
 export interface ButtonProps {
 	className?: string;
 	href?: string;
-	icon?: IconProp;
+	icon?: IconDefinition;
 	target?: HTMLAttributeAnchorTarget;
 	children?: ReactNode;
 	[key: string]: unknown;

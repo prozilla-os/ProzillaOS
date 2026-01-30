@@ -1,4 +1,4 @@
-import { ChangeEventHandler, MutableRefObject, ReactEventHandler, UIEventHandler, useEffect, useRef, useState } from "react";
+import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { ModalsManager } from "../../../features/modals/modalsManager";
 import { WindowedModal } from "../_utils/WindowedModal";
 import styles from "./Share.module.css";
@@ -55,7 +55,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 	const { alert } = useAlert();
 	const formRef = useRef<HTMLFormElement>(null);
 	const { boxShadow, onUpdate } = useScrollWithShadow({
-		ref: formRef as MutableRefObject<HTMLFormElement>,
+		ref: formRef,
 		horizontal: false,
 		dynamicOffsetFactor: 1,
 		shadow: {
@@ -76,7 +76,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 	}, [appId, fullscreen, standalone, options]);
 
 	useEffect(() => {
-		onUpdate({ target: formRef.current as unknown as HTMLElement });
+		onUpdate({ target: formRef.current });
 	}, [appId]);
 
 	const onAppIdChange = (event: Event) => {
@@ -116,8 +116,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 			<div className={styles.FormContainer} style={{ boxShadow }}>
 				<form
 					className={styles.Form}
-					onScroll={onUpdate as unknown as UIEventHandler}
-					onResize={onUpdate as unknown as ReactEventHandler}
+					onScroll={onUpdate}
 					ref={formRef}
 				>
 					<label className={styles.Label}>

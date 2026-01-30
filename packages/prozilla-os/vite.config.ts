@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
 import react from "@vitejs/plugin-react-swc";
-import dts from "vite-plugin-dts";
+import dts from "unplugin-dts/vite";
 import cssInjectedByJs from "vite-plugin-css-injected-by-js";
 
 // https://vitejs.dev/config/
@@ -11,13 +11,14 @@ export default defineConfig({
 		cssInjectedByJs(),
 		dts({
 			include: ["src"],
-			outDir: "dist",
-			rollupTypes: true,
+			outDirs: "./dist",
+			bundleTypes: {
+				bundledPackages: ["@prozilla-os/*"],
+			},
 			strictOutput: true,
 			pathsToAliases: false,
-			bundledPackages: ["@prozilla-os/*"],
-			tsconfigPath: "tsconfig.build.json"
-		})
+			tsconfigPath: "tsconfig.build.json",
+		}),
 	],
 	build: {
 		lib: {
@@ -30,8 +31,8 @@ export default defineConfig({
 				assetFileNames: "assets/[name][extname]",
 				chunkFileNames: "chunks/[name]-[hash].js",
 				entryFileNames: "[name].js",
-			}
+			},
 		},
-		sourcemap: true
+		sourcemap: true,
 	},
 });

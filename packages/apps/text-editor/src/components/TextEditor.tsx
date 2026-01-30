@@ -31,7 +31,7 @@ export interface TextEditorProps extends WindowProps {
 
 export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app, modalsManager }: TextEditorProps) {
 	const { windowsConfig } = useSystemManager();	
-	const ref = useRef<HTMLDivElement | HTMLTextAreaElement>();
+	const ref = useRef<HTMLDivElement | HTMLTextAreaElement>(null);
 	const windowsManager = useWindowsManager();
 	const virtualRoot = useVirtualRoot();
 	const [currentFile, setCurrentFile] = useState<VirtualFile | null>(file as VirtualFile);

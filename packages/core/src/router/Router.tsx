@@ -7,8 +7,8 @@ import { ReactElement } from "react";
 
 export interface RouterProps {
 	path?: string;
-	homePage?: JSX.Element;
-	fallbackPage?: JSX.Element;
+	homePage?: ReactElement;
+	fallbackPage?: ReactElement;
 	children?: ReactElement;
 }
 

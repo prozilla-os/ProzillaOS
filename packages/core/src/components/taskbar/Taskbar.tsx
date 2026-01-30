@@ -1,4 +1,4 @@
-import { CSSProperties, memo, MouseEvent, MutableRefObject, ReactEventHandler, UIEventHandler, useEffect, useRef, useState } from "react";
+import { CSSProperties, memo, MouseEvent, useEffect, useRef, useState } from "react";
 import styles from "./Taskbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -32,13 +32,13 @@ export const Taskbar = memo(() => {
 	const [showSearch, setShowSearch] = useState(false);
 	const [hideUtilMenus, setHideUtilMenus] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
-	const { boxShadow, onUpdate } = useScrollWithShadow({ ref: ref as MutableRefObject<HTMLElement>, shadow: {
+	const { boxShadow, onUpdate } = useScrollWithShadow({ ref: ref, shadow: {
 		offset: 20,
 		blurRadius: 10,
 		spreadRadius: -10,
 		color: { a: 25 },
 	} });
-	const inputRef = useRef(null);
+	const inputRef = useRef<HTMLInputElement>(null);
 	const windowsManager = useWindowsManager();
 	const windows = useWindows();
 	const [apps, setApps] = useState<App[]>([]);
@@ -165,7 +165,7 @@ export const Taskbar = memo(() => {
 						setActive={updateShowSearch}
 						searchQuery={searchQuery}
 						setSearchQuery={setSearchQuery}
-						inputRef={inputRef as unknown as MutableRefObject<HTMLInputElement>}
+						inputRef={inputRef}
 					/>
 				</OutsideClickListener>
 			</div>
@@ -174,8 +174,7 @@ export const Taskbar = memo(() => {
 			<div
 				className={styles.AppIcons}
 				data-allow-context-menu={true}
-				onScroll={onUpdate as unknown as UIEventHandler}
-				onResize={onUpdate as unknown as ReactEventHandler}
+				onScroll={onUpdate}
 				ref={ref}
 			>
 				{apps.map((app) => {

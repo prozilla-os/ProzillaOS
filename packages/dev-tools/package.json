@@ -25,14 +25,14 @@
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/shared": "workspace:*",
 		"@vitejs/plugin-react-swc": "^3.7.0",
-		"vite": "^5.4.8",
+		"vite": "^7.3.1",
 		"vite-plugin-css-injected-by-js": "^3.5.1",
-		"vite-plugin-dts": "^3.9.1"
+		"vite-plugin-dts": "^4.5.4"
 	},
 	"devDependencies": {
 		"@types/node": "^20.14.5",
-		"@types/react": "^18.3.3",
-		"rollup": "^4.24.0",
+		"@types/react": "^18.3.27",
+		"rollup": "^4.57.1",
 		"typescript": "^5.5.4"
 	},
 	"files": [

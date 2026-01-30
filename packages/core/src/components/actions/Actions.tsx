@@ -64,11 +64,13 @@ export function Actions({ children, mode, className, onAnyTrigger, triggerParams
 
 			const { label, shortcut, disabled, onTrigger } = child.props as ActionProps;
 
-			const onTriggerOverride = (event: Event, ...args: unknown[]) => {
+			const onTriggerOverride = (event?: Event, ...args: unknown[]) => {
 				if (disabled)
 					return;
 				
-				onAnyTrigger?.(event, triggerParams, ...args);
+				if (event) {
+					onAnyTrigger?.(event, triggerParams, ...args);
+				}
 				onTrigger?.(event, triggerParams, ...args);
 			};
 
@@ -85,8 +87,8 @@ export function Actions({ children, mode, className, onAnyTrigger, triggerParams
 				return iterateOverChildren((child.props as ActionProps).children);
 
 			return cloneElement(child, {
-				...child.props,
-				actionId,
+				...(child.props as ActionProps),
+				actionId: actionId.toString(),
 				children: iterateOverChildren((child.props as ActionProps).children),
 				onTrigger: onTriggerOverride,
 				disabled,

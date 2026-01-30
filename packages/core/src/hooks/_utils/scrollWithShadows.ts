@@ -1,8 +1,7 @@
-import { MutableRefObject, useCallback, useEffect } from "react";
-import { useState } from "react";
+import { RefObject, useCallback, useEffect, useState } from "react";
 
-export interface UseScrollWithShadowParams {
-	ref?: MutableRefObject<HTMLElement>;
+export interface UseScrollWithShadowParams<T extends HTMLElement = HTMLElement> {
+	ref?: RefObject<T | null>;
 	horizontal?: boolean;
 	dynamicOffset?: boolean;
 	dynamicOffsetFactor?: number;
@@ -20,10 +19,7 @@ export interface UseScrollWithShadowParams {
 }
 
 // https://medium.com/dfind-consulting/react-scroll-hook-with-shadows-9ba2d47ae32
-export function useScrollWithShadow(params: UseScrollWithShadowParams): {
-	boxShadow: string;
-	onUpdate: (event: Event | { target: HTMLElement }) => void;
-} {
+export function useScrollWithShadow<T extends HTMLElement = HTMLElement>(params: UseScrollWithShadowParams<T>) {
 	const [initiated, setInitiated] = useState(false);
 	const [scrollStart, setScrollStart] = useState(0);
 	const [scrollLength, setScrollLength] = useState(0);
@@ -54,7 +50,7 @@ export function useScrollWithShadow(params: UseScrollWithShadowParams): {
 		},
 	} = params;
 
-	const updateValues = useCallback((element: HTMLElement) => {
+	const updateValues = useCallback((element: T) => {
 		if (!element)
 			return;
 
@@ -63,8 +59,10 @@ export function useScrollWithShadow(params: UseScrollWithShadowParams): {
 		setClientLength(horizontal ? element.clientWidth : element.clientHeight);
 	}, [horizontal]);
 
-	const onUpdate = (event: Event | { target: HTMLElement }) => {
-		updateValues(event.target as HTMLElement);
+	const onUpdate = (event: React.UIEvent<T, UIEvent> | { target: T | null }) => {
+		if (event.target) {
+			updateValues(event.target as T);
+		}
 	};
 
 	useEffect(() => {

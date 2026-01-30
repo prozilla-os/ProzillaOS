@@ -1,7 +1,7 @@
 import styles from "./SearchMenu.module.css";
 import appStyles from "./AppList.module.css";
 import { useWindowsManager } from "../../../hooks/windows/windowsManagerContext";
-import { ChangeEventHandler, Dispatch, MutableRefObject, SetStateAction, useEffect, useState } from "react";
+import { ChangeEventHandler, Dispatch, RefObject, SetStateAction, useEffect, useState } from "react";
 import { useKeyboardListener } from "../../../hooks/_utils/keyboard";
 import { App } from "../../../features/";
 import { useClassNames, useSystemManager } from "../../../hooks";
@@ -12,7 +12,7 @@ interface SearchMenuProps {
 	setActive: (show: boolean) => void;
 	searchQuery: string;
 	setSearchQuery: Dispatch<SetStateAction<string>>;
-	inputRef: MutableRefObject<HTMLInputElement>;
+	inputRef: RefObject<HTMLInputElement>;
 }
 
 export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inputRef }: SearchMenuProps) {
@@ -41,8 +41,8 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 		));
 	}, [searchQuery]);
 
-	const onChange = (event: Event) => {
-		const value = (event.target as HTMLInputElement).value;
+	const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+		const value = event.target.value;
 		setSearchQuery(value);
 	};
 
@@ -93,7 +93,7 @@ export function SearchMenu({ active, setActive, searchQuery, setSearchQuery, inp
 				aria-label="Search query"
 				tabIndex={tabIndex}
 				value={searchQuery}
-				onChange={onChange as unknown as ChangeEventHandler}
+				onChange={onChange}
 				spellCheck={false}
 				placeholder="Search..."
 			/>

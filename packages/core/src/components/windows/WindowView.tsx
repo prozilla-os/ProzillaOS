@@ -18,7 +18,7 @@ import { useWindowedModal } from "../../hooks/modals/windowedModal";
 import { Divider } from "../actions/actions/Divider";
 import { ModalsManager } from "../../features/modals/modalsManager";
 import { Share } from "../modals/share/Share";
-import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { WindowFallbackView } from "./WindowFallbackView";
 import { WindowOptions } from "../../features/windows/windowsManager";
 import { ModalProps } from "../modals/ModalView";
@@ -223,7 +223,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 					</div>
 					<div className={useClassNames([styles["Window-content"]], "WindowContent")}>
 						<ErrorBoundary
-							FallbackComponent={(props) => <WindowFallbackView app={app} closeWindow={close} {...props}/>}
+							FallbackComponent={(props: FallbackProps) => <WindowFallbackView app={app} closeWindow={close} {...props}/>}
 							onError={(error) => {
 								console.error(error);
 							}}

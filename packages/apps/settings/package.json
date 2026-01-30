@@ -22,9 +22,9 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@fortawesome/fontawesome-svg-core": "^6.5.2",
-		"@fortawesome/free-solid-svg-icons": "^6.5.2",
-		"@fortawesome/react-fontawesome": "^0.2.2",
+		"@fortawesome/fontawesome-svg-core": "^7.1.0",
+		"@fortawesome/free-solid-svg-icons": "^7.1.0",
+		"@fortawesome/react-fontawesome": "^3.1.1",
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/file-explorer": "workspace:*",
 		"@prozilla-os/shared": "workspace:*",
@@ -34,11 +34,11 @@
 	"devDependencies": {
 		"@prozilla-os/dev-tools": "workspace:*",
 		"@types/node": "^20.14.5",
-		"@types/react": "^18.3.3",
+		"@types/react": "^18.3.27",
 		"@vitejs/plugin-react-swc": "^3.7.0",
 		"typescript": "^5.5.4",
-		"vite": "^5.4.8",
-		"vite-plugin-dts": "^3.9.1",
+		"vite": "^7.3.1",
+		"vite-plugin-dts": "^4.5.4",
 		"vite-plugin-lib-inject-css": "^2.1.1"
 	},
 	"files": [
