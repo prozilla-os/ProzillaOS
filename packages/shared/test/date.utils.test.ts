@@ -1,12 +1,15 @@
-import { describe } from "vitest";
+import { test as base } from "vitest";
 import { formatTime } from "../src/features";
-import { testFunction } from "@prozilla-os/dev-tools";
+import { extend } from "@prozilla-os/dev-tools";
 
-describe("formatTime", testFunction(formatTime, [
+const test = extend(base);
+
+test.cases(formatTime, [
 	[[1000], "1 second"],
 	[[1000, 1, true], "in 1 second"],
 	[[-1000, 1, true], "1 second ago"],
 	[[2000], "2 seconds"],
 	[[2000, 1, true], "in 2 seconds"],
 	[[-2000, 1, true], "2 seconds ago"],
-]));
+	// TO DO: Add cases for other units of time
+]);

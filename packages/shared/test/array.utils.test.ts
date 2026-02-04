@@ -1,6 +1,8 @@
-import { expect, test } from "vitest";
+import { expect, test as base } from "vitest";
 import { randomFromArray, removeDuplicatesFromArray, removeFromArray } from "../src/features";
-import { testSimpleFunction } from "@prozilla-os/dev-tools";
+import { extend } from "@prozilla-os/dev-tools";
+
+const test = extend(base);
 
 test.each([
 	[1, [2, 3]],
@@ -17,7 +19,7 @@ test("randomFromArray", { repeats: 5 }, () => {
 	expect(randomFromArray(array)).toBeOneOf(array);
 });
 
-testSimpleFunction(removeDuplicatesFromArray, [
+test.simpleCases(removeDuplicatesFromArray, [
 	[[1, 2, 3], [1, 2, 3]],
 	[[1, 1, 1], [1]],
 	[[1, 2, 2, 3], [1, 2, 3]],
