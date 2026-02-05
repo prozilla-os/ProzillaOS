@@ -12,12 +12,13 @@ ProzillaOS is a monorepo with multiple packages. See [packages/README.md](packag
 
 ### Tech stack
 
-- **Vite** - Building packages and websites
-- **TypeScript** - Type safety
-- **React** - UI
-- **Eslint** - Code linting
-- **pnpm** - Package management
-- **VitePress** - Documentation
+- [**Vite**](https://vite.dev/) - Building packages and websites
+- [**TypeScript**](https://www.typescriptlang.org/) - Type safety
+- [**React**](https://react.dev/) - UI
+- [**Eslint**](https://eslint.org/) - Code linting
+- [**pnpm**](https://pnpm.io/) - Package management
+- [**VitePress**](https://vitepress.dev/) - Documentation
+- [**Vitest**](https://vitest.dev/) - Testing
 
 ### Code style
 
