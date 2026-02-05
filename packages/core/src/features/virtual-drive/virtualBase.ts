@@ -214,11 +214,11 @@ export class VirtualBase<E extends VirtualBaseEvents = VirtualBaseEvents> extend
 		return root;
 	}
 
-	isFile(): boolean {
+	isFile(): this is VirtualFile {
 		return false;
 	}
 
-	isFolder(): boolean {
+	isFolder(): this is VirtualFolder {
 		return false;
 	}
 

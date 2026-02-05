@@ -684,6 +684,9 @@ importers:
         specifier: ^16.1.34
         version: 16.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
+      '@prozilla-os/dev-tools':
+        specifier: workspace:*
+        version: link:../dev-tools
       '@types/node':
         specifier: ^20.14.5
         version: 20.19.30
@@ -708,6 +711,9 @@ importers:
       vite-plugin-dts:
         specifier: ^4.5.4
         version: 4.5.4(@types/node@20.19.30)(rollup@4.57.1)(typescript@5.9.3)(vite@7.3.1(@types/node@20.19.30)(less@4.5.1)(yaml@2.8.2))
+      vitest:
+        specifier: ^4.0.18
+        version: 4.0.18(@types/node@20.19.30)(less@4.5.1)(yaml@2.8.2)
 
   packages/dev-tools:
     dependencies:

@@ -32,7 +32,7 @@ export class VirtualFile extends VirtualBase<VirtualFileEvents> {
 
 	static readonly CONTENT_CHANGE_EVENT = "contentChange";
 
-	constructor(name: string, extension?: string  ) {
+	constructor(name: string, extension?: string) {
 		super(name);
 		this.extension = extension;
 	}
@@ -117,7 +117,7 @@ export class VirtualFile extends VirtualBase<VirtualFileEvents> {
 		}) as string;
 	}
 
-	isFile(): boolean {
+	isFile(): this is VirtualFile {
 		return true;
 	}
 

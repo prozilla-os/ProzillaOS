@@ -93,6 +93,16 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		return resultFolder;
 	}
 
+	addFile(file: VirtualFile, confirmChanges = true): this {
+		this.files.push(file);
+		if (confirmChanges) {
+			file.setParent(this);
+		} else {
+			file.parent = this;
+		}
+		return this;
+	}
+
 	/**
 	 * Creates a file with a name and extension.
 	 */
@@ -103,8 +113,7 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		let newFile = this.findFile(name, extension);
 		if (newFile == null) {
 			newFile = new VirtualFile(name, extension);
-			this.files.push(newFile);
-			newFile.parent = this;
+			this.addFile(newFile, false);
 		}
 		callback?.(newFile);
 
@@ -161,6 +170,16 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		return this;
 	}
 
+	addFolder(folder: VirtualFolder, confirmChanges = true): this {
+		this.subFolders.push(folder);
+		if (confirmChanges) {
+			folder.setParent(this);
+		} else {
+			folder.parent = this;
+		}
+		return this;
+	}
+
 	/**
 	 * Creates a folder with a name.
 	 */
@@ -171,8 +190,7 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		let newFolder = this.findSubFolder(name);
 		if (newFolder == null) {
 			newFolder = new VirtualFolder(name);
-			this.subFolders.push(newFolder);
-			newFolder.parent = this;
+			this.addFolder(newFolder, false);
 		}
 		callback?.(newFolder as VirtualFolder);
 		
@@ -368,7 +386,7 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		return filesCount + foldersCount;
 	}
 
-	isFolder(): boolean {
+	isFolder(): this is VirtualFolder {
 		return true;
 	}
 

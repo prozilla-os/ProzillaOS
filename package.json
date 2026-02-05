@@ -17,6 +17,7 @@
 		"stage": "pnpm vite-node scripts/stageSite.ts",
 		"predeploy": "rimraf dist && pnpm run stage",
 		"deploy": "pnpm vite-node scripts/publishSite.ts",
+		"test": "pnpm -r test",
 		"demo:start": "pnpm --filter @prozilla-os/demo run start",
 		"demo:build": "pnpm --filter @prozilla-os/demo run build",
 		"demo:preview": "pnpm --filter @prozilla-os/demo run preview",
