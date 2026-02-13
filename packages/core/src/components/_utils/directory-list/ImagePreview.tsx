@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./ImagePreview.module.css";
 import { ReactSVG } from "react-svg";
-import { useSystemManager } from "../../../hooks";
+import { useSkin } from "../../../hooks";
 import { VectorImage } from "../vector-image/VectorImage";
 
 export interface ImagePreviewProps {
@@ -11,7 +11,7 @@ export interface ImagePreviewProps {
 }
 
 export function ImagePreview({ source, className, onError, ...props }: ImagePreviewProps) {
-	const { skin } = useSystemManager();
+	const skin = useSkin();
 	const [loadingFailed, setLoadingFailed] = useState(false);
 
 	const onLoadingError = () => {

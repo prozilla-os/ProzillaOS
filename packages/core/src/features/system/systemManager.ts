@@ -8,6 +8,7 @@ import { TaskbarConfig } from "./configs/taskbarConfig";
 import { TrackingConfig } from "./configs/trackingConfig";
 import { WindowsConfig } from "./configs/windowsConfig";
 import { formatRelativeTime } from "@prozilla-os/shared";
+import { Storage } from "../storage/storage";
 
 export interface SystemManagerParams {
 	systemName: SystemManager["systemName"] | null;
@@ -43,6 +44,8 @@ export class SystemManager {
 	readonly windowsConfig: WindowsConfig;
 	readonly virtualDriveConfig: VirtualDriveConfig;
 
+	readonly storage: Storage;
+
 	constructor({
 		systemName,
 		tagLine,
@@ -69,6 +72,8 @@ export class SystemManager {
 		this.trackingConfig = trackingConfig;
 		this.windowsConfig = windowsConfig;
 		this.virtualDriveConfig = virtualDriveConfig;
+
+		this.storage = new Storage();
 
 		this.loadSkin();
 

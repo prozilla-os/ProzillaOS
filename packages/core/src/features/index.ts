@@ -7,6 +7,7 @@ export * from "./modals/modal";
 export * from "./modals/modalsManager";
 export * from "./settings/settings";
 export * from "./settings/settingsManager";
+export * from "./storage/storage";
 export * from "./storage/storageManager";
 export * from "./tracking/trackingManager";
 export * from "./windows/windowsManager";

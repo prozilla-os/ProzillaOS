@@ -87,7 +87,7 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 			if (newFile == null || !newFile.isFile())
 				return;
 
-			setCurrentFile(newFile as VirtualFile);
+			setCurrentFile(newFile);
 			setInitialised(true);
 		}
 	}, [path, currentFile]);

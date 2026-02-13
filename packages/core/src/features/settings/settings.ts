@@ -1,16 +1,44 @@
 import { Listener, parseBool } from "@prozilla-os/shared";
 import { VirtualFile, VirtualFileEvents } from "../virtual-drive/file";
 import { VirtualRoot } from "../virtual-drive/root/virtualRoot";
+import { SettingsManager } from "./settingsManager";
 
 const PARENT_NODE = "options";
 
 export type SettingsListener = Listener<VirtualFileEvents, "contentChange">;
 
 export class Settings {
+	/**
+	 * The virtual path of the settings file.
+	 */
 	path: string;
+	/**
+	 * The settings file.
+	 */
 	file: VirtualFile;
 	xmlDoc?: Document;
 	#virtualRoot?: VirtualRoot;
+
+	/**
+	 * Virtual path to the desktop settings.
+	 */
+	static readonly DESKTOP = SettingsManager.VIRTUAL_PATHS.desktop;
+	/**
+	 * Virtual path to the taskbar settings.
+	 */
+	static readonly TASKBAR = SettingsManager.VIRTUAL_PATHS.taskbar;
+	/**
+	 * Virtual path to the apps settings.
+	 */
+	static readonly APPS = SettingsManager.VIRTUAL_PATHS.apps;
+	/**
+	 * Virtual path to the theme settings.
+	 */
+	static readonly THEME = SettingsManager.VIRTUAL_PATHS.theme;
+	/**
+	 * Virtual path to the virtual drive settings.
+	 */
+	static readonly VIRTUAL_DRIVE = SettingsManager.VIRTUAL_PATHS.virtualDrive;
 
 	constructor(virtualRoot: VirtualRoot, path: string) {
 		this.#virtualRoot = virtualRoot;

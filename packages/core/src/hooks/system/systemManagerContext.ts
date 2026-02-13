@@ -11,3 +11,13 @@ export function useSystemManager(): SystemManager {
 
 	return systemManager;
 }
+
+export function useStorage() {
+	const systemManager = useSystemManager();
+	return systemManager.storage;
+}
+
+export function useSkin() {
+	const systemManager = useSystemManager();
+	return systemManager.skin;
+}

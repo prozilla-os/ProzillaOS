@@ -2,7 +2,7 @@ import { MouseEventHandler, ReactNode, useMemo } from "react";
 import { faClipboard, faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { MarkdownProps } from "../TextEditor";
 import styles from "../TextEditor.module.css";
-import { Actions, ClickAction, copyToClipboard, DialogBox, ModalProps, ModalsConfig, removeUrlProtocol, TextDisplay, useContextMenu, useWindowedModal, Vector2, VirtualFile } from "@prozilla-os/core";
+import { Actions, ClickAction, copyToClipboard, DialogBox, ModalProps, ModalsConfig, removeUrlProtocol, TextDisplay, useContextMenu, useWindowedModal, Vector2 } from "@prozilla-os/core";
 import { sanitizeProps } from "../../core/_utils/sanitizeProps";
 
 interface MarkdownLinkProps extends MarkdownProps {
@@ -20,7 +20,7 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 			const target = currentFile.parent?.navigate(href);
 			if (target != null) {
 				if (target.isFile()) {
-					setCurrentFile(target as VirtualFile);
+					setCurrentFile(target);
 				} else {
 					windowsManager.open("file-explorer", { path: target.path });
 				}

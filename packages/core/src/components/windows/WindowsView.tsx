@@ -1,6 +1,6 @@
 import { FC, memo, useEffect, useState } from "react";
 import { WindowProps, WindowView } from "./WindowView";
-import { setViewportTitle, setViewportIcon, getViewportParams, SettingsManager } from "../../features";
+import { setViewportTitle, setViewportIcon, getViewportParams, Settings } from "../../features";
 import { WindowOptions } from "../../features/windows/windowsManager";
 import { useClassNames, useSettingsManager, useSystemManager, useWindowsManager } from "../../hooks";
 import { useWindows } from "../../hooks/windows/windowsContext";
@@ -55,7 +55,7 @@ export const WindowsView: FC = memo(() => {
 		delete params.app;
 
 		// Get list of app names from settings file
-		const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.apps);
+		const settings = settingsManager?.getSettings(Settings.APPS);
 		void settings?.get("startup", (value) => {
 			if (value !== "") {
 				startupAppNames = value?.split(",").concat(startupAppNames);

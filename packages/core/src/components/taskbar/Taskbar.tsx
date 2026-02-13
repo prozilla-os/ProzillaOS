@@ -13,13 +13,12 @@ import { Actions } from "../actions/Actions";
 import { ClickAction } from "../actions/actions/ClickAction";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import { useSettingsManager } from "../../hooks/settings/settingsManagerContext";
-import { SettingsManager } from "../../features/settings/settingsManager";
 import { useWindows } from "../../hooks/windows/windowsContext";
 import { ZIndexManager } from "../../features/z-index/zIndexManager";
 import { useZIndex } from "../../hooks/z-index/zIndex";
 import { Battery, Calendar, Network, Volume } from "./indicators";
 import { useClassNames, useSystemManager } from "../../hooks";
-import { App, AppsConfig } from "../../features";
+import { App, AppsConfig, Settings } from "../../features";
 
 /**
  * Component that renders the start and search menus, pinned applications and various indicators.
@@ -57,7 +56,7 @@ export const Taskbar = memo(() => {
 	});
 
 	useEffect(() => {
-		const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.taskbar);
+		const settings = settingsManager?.getSettings(Settings.TASKBAR);
 		void settings?.get("pins", (pinList: string) => {
 			const pins = pinList.split(",");
 

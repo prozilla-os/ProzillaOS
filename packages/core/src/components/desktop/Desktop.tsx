@@ -10,7 +10,7 @@ import { RadioAction } from "../actions/actions/RadioAction";
 import { Divider } from "../actions/actions/Divider";
 import { Share } from "../modals/share/Share";
 import { ModalProps } from "../modals/ModalView";
-import { SettingsManager, reloadViewport, ModalsManager, Vector2, AppsConfig } from "../../features";
+import { reloadViewport, ModalsManager, Vector2, AppsConfig, Settings } from "../../features";
 import { VirtualFile } from "../../features/virtual-drive/file";
 import { VirtualFolder, VirtualFolderLink } from "../../features/virtual-drive/folder";
 import { useSettingsManager, useWindowsManager, useVirtualRoot, useWindowedModal, useContextMenu, useSystemManager } from "../../hooks";
@@ -44,7 +44,7 @@ export const Desktop = memo(() => {
 		<Actions {...props}>
 			<DropdownAction label="View" icon={faEye}>
 				<RadioAction initialIndex={iconSize} onTrigger={(_event, _params, value) => {
-					const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.desktop);
+					const settings = settingsManager?.getSettings(Settings.DESKTOP);
 					void settings?.set("icon-size", value as string);
 				}} options={[
 					{ label: "Small icons" },
@@ -53,7 +53,7 @@ export const Desktop = memo(() => {
 				]}/>
 				<Divider/>
 				<RadioAction initialIndex={iconDirection} onTrigger={(_event, _params, value) => {
-					const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.desktop);
+					const settings = settingsManager?.getSettings(Settings.DESKTOP);
 					void settings?.set("icon-direction", value as string);
 				}} options={[
 					{ label: "Align vertically" },
@@ -61,7 +61,7 @@ export const Desktop = memo(() => {
 				]}/>
 				<Divider/>
 				<ToggleAction label="Show dekstop icons" initialValue={showIcons} onTrigger={() => {
-					const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.desktop);
+					const settings = settingsManager?.getSettings(Settings.DESKTOP);
 					void settings?.set("show-icons", (!showIcons).toString());
 				}}/>
 			</DropdownAction>
@@ -150,7 +150,7 @@ export const Desktop = memo(() => {
 	});
 
 	useEffect(() => {
-		const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.desktop);
+		const settings = settingsManager?.getSettings(Settings.DESKTOP);
 		void settings?.get("wallpaper", setWallpaper);
 		void settings?.get("show-icons", (value) => {
 			if (value != null) {
@@ -170,7 +170,7 @@ export const Desktop = memo(() => {
 	}, [settingsManager]);
 
 	const onError = () => {
-		const settings = settingsManager?.getSettings(SettingsManager.VIRTUAL_PATHS.desktop);
+		const settings = settingsManager?.getSettings(Settings.DESKTOP);
 		void settings?.set("wallpaper", skin.defaultWallpaper);
 	};
 

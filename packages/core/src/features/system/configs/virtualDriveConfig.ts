@@ -1,11 +1,32 @@
-import { VirtualRoot } from "../../virtual-drive";
+import { VirtualDriveStorage, VirtualRoot } from "../../virtual-drive";
 
 export interface VirtualDriveConfigOptions {
 	/**
 	 * Enables persistent storage of the virtual drive.
-	 * @default true
+	 * @default {
+	enableCompression: true,
+	prefix: "pos-"
+}
 	 */
-	saveData: boolean;
+	saveData: false | {
+		/**
+		 * Enables compression of stored items.
+		 * @default false
+		 */
+		enableCompression: boolean;
+
+		/**
+		 * The prefix to prepend to stored keys.
+		 * @default "pos-"
+		 */
+		prefix?: string;
+
+		/**
+		 * An array of tuples of old and new keys to migrate.
+		 * @default [["data", VirtualDriveStorage.KEY]]
+		 */
+		migrations?: [string, string][];
+	};
 
 	/**
 	 * Configure the data that is loaded initially when ProzillaOS is opened.
@@ -50,9 +71,13 @@ export class VirtualDriveConfig {
 	defaultData: VirtualDriveConfigOptions["defaultData"];
 
 	constructor(options: Partial<VirtualDriveConfigOptions> = {}) {
-		const { saveData, defaultData } = options as VirtualDriveConfigOptions;
+		const { saveData, defaultData } = options;
 
-		this.saveData = saveData ?? true;
+		this.saveData = saveData ?? {
+			enableCompression: false,
+			prefix: "pos-",
+			migrations: [["data", VirtualDriveStorage.KEY]],
+		};
 
 		this.defaultData = {
 			includePicturesFolder: true,

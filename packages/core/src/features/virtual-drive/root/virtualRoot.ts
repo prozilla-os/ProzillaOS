@@ -1,4 +1,3 @@
-import { StorageManager } from "../../storage/storageManager";
 import { VirtualFolderLink, VirtualFolderLinkJson } from "../folder/virtualFolderLink";
 import { loadDefaultData } from "./defaultData";
 import { VirtualFileJson } from "../file/virtualFile";
@@ -8,6 +7,7 @@ import { VirtualFolderJson } from "../folder/virtualFolder";
 import { VirtualFile, VirtualFileLink } from "../file";
 import { SystemManager } from "../../system/systemManager";
 import { VirtualBaseEvents } from "../virtualBase";
+import { VirtualDriveStorage } from "../virtualDriveStorage";
 
 export interface VirtualRootJson extends VirtualFolderJson {
 	scs: Record<string, string>;
@@ -26,6 +26,7 @@ export class VirtualRoot extends VirtualFolder<VirtualRootEvents> {
 	initiated: boolean = false;
 	loadedDefaultData: boolean = false;
 	systemManager: SystemManager;
+	storage: VirtualDriveStorage;
 
 	static readonly ERROR_EVENT = "error";
 
@@ -33,6 +34,7 @@ export class VirtualRoot extends VirtualFolder<VirtualRootEvents> {
 		super("root");
 		this.root = this;
 		this.systemManager = systemManager;
+		this.storage = new VirtualDriveStorage(systemManager.virtualDriveConfig);
 		this.isRoot = true;
 		this.shortcuts = {};
 	}
@@ -45,7 +47,7 @@ export class VirtualRoot extends VirtualFolder<VirtualRootEvents> {
 		if (!this.systemManager.virtualDriveConfig.saveData)
 			return;
 
-		const data = StorageManager.load("data");
+		const data = this.storage.load(VirtualDriveStorage.KEY);
 		if (data == null)
 			return;
 
@@ -157,7 +159,7 @@ export class VirtualRoot extends VirtualFolder<VirtualRootEvents> {
 			return;
 
 		try {
-			StorageManager.store("data", data);
+			this.storage.store(VirtualDriveStorage.KEY, data);
 		} catch (error) {
 			console.error(error);
 			this.emit(VirtualRoot.ERROR_EVENT, {
@@ -198,7 +200,7 @@ export class VirtualRoot extends VirtualFolder<VirtualRootEvents> {
 	 */
 	reset() {
 		if (window.confirm("Are you sure you want to reset all your data?")) {
-			StorageManager.clear();
+			this.systemManager.storage.clear();
 			window.location.reload();
 		}
 	}

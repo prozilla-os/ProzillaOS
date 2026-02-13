@@ -1,3 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Storage } from "./storage";
+
+/**
+ * @deprecated Use {@link Storage} instead.
+ */
 export class StorageManager {
 	static MAX_BYTES = 5_000_000;
 

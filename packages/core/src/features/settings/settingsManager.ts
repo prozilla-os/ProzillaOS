@@ -7,6 +7,7 @@ export class SettingsManager {
 		taskbar: "~/.config/taskbar.xml",
 		apps: "~/.config/apps.xml",
 		theme: "~/.config/theme.xml",
+		virtualDrive: "~/.config/virtual-drive.xml",
 	} as const;
 
 	#pathToSettings: { [s: string]: Settings; } = {};
@@ -19,8 +20,9 @@ export class SettingsManager {
 		if (this.#virtualRoot == null) {
 			throw new Error("SettingsManager is missing VirtualRoot"); // Why does this sound so sad :'(
 		} else {
+			const root = this.#virtualRoot;
 			Object.values(SettingsManager.VIRTUAL_PATHS).forEach((path) => {
-				this.#pathToSettings[path] = new Settings(this.#virtualRoot as VirtualRoot, path);
+				this.#pathToSettings[path] = new Settings(root, path);
 			});
 		}
 	}

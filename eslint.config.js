@@ -136,10 +136,16 @@ export default defineConfig(
 					leadingUnderscore: "allow",
 				},
 				{
+					// Constant (static & readonly) class fields
+					selector: "classProperty",
+					modifiers: ["static", "readonly"],
+					format: ["UPPER_CASE"],
+				},
+				{
 					// Static class fields
 					selector: "classProperty",
 					modifiers: ["static"],
-					format: ["UPPER_CASE"],
+					format: ["UPPER_CASE", "camelCase"],
 				},
 				{
 					// Ignore destructured variables and parameters

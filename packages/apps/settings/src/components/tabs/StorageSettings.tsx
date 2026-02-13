@@ -1,18 +1,26 @@
 import { round } from "@prozilla-os/shared";
 import styles from "../Settings.module.css";
-import { Button, ProgressBar, StorageManager, useVirtualRoot, utilStyles } from "@prozilla-os/core";
+import { Button, ProgressBar, Storage, useVirtualRoot, utilStyles, VirtualDriveStorage } from "@prozilla-os/core";
 
 export function StorageTab() {
 	const virtualRoot = useVirtualRoot();
 
-	const maxBytes = StorageManager.MAX_BYTES;
-	const usedBytes = StorageManager.getByteSize(virtualRoot?.toString() ?? "");
+	if (!virtualRoot) {
+		return <div className={styles.Option}>
+			<p className={styles.Label}>Virtual Drive is unavailable.</p>
+		</div>;
+	}
 
-	const maxKB = StorageManager.byteToKilobyte(maxBytes);
-	const usedKB = StorageManager.byteToKilobyte(usedBytes);
+	const storage = virtualRoot.storage;
+
+	const maxBytes = Storage.MAX_BYTES;
+	const usedBytes = storage.getItemByteSize(VirtualDriveStorage.KEY, virtualRoot?.toString() ?? "");
+
+	const maxKB = Storage.byteToKilobyte(maxBytes);
+	const usedKB = Storage.byteToKilobyte(usedBytes);
 	const freeKB = maxKB - usedKB;
 
-	return (<>
+	return <>
 		<div className={`${styles.Option} ${styles.ProgressBarContainer}`}>
 			<p className={styles.Label}>Virtual Drive ({round(maxKB, 1)} KB)</p>
 			<ProgressBar fillPercentage={usedKB / maxKB * 100} className={styles.ProgressBar}/>
@@ -30,5 +38,5 @@ export function StorageTab() {
 				Reset
 			</Button>
 		</div>
-	</>);
+	</>;
 }
