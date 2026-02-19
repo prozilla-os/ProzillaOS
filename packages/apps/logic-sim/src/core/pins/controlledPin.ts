@@ -10,26 +10,26 @@ export class ControlledPin extends Pin {
 	}
 
 	drawControllerHandle(isPlacing: boolean) {
-		const size = { x: CONTROLLER.handleWidth, y: CONTROLLER.radius * 2 };
+		const size = { x: CONTROLLER.handleWidth, y: CONTROLLER.handleHeight };
 
-		let positionX = this.position.x;
-		const positionY = this.position.y - size.y / 2;
-
+		const rawPosition = this.getRawPosition();
+		let positionX = rawPosition.x;
+		const positionY = (rawPosition.y) - size.y / 2;
 
 		if (this.isInput) {
-			positionX -= CONTROLLER.pinOffset + CONTROLLER.handleTrackWidth + CONTROLLER.radius;
+			positionX -= CONTROLLER.pinOffset + CONTROLLER.handleTrackWidth + CONTROLLER.handleHeight / 2;
 		} else {
-			positionX += CONTROLLER.pinOffset + (CONTROLLER.handleTrackWidth - CONTROLLER.handleWidth) + CONTROLLER.radius;
+			positionX += CONTROLLER.pinOffset + (CONTROLLER.handleTrackWidth - CONTROLLER.handleWidth) + CONTROLLER.handleHeight / 2;
 		}
 
 		const rect = {
-			position: { x: positionX, y: positionY } as Vector2,
-			size: { x: size.x, y: size.y } as Vector2,
+			position: new Vector2(positionX, positionY),
+			size: new Vector2(size.x, size.y),
 		};
 
 		let color: string;
 
-		if (this.circuit.isPointInsideRect(rect, this.circuit.inputHandler.mousePosition)) {
+		if (this.circuit.isPointInsideRect(rect, this.circuit.inputHandler.rawMousePosition)) {
 			color = COLORS.controller.handleHover;
 			this.circuit.cursor = CURSORS.pointer;
 		} else {
@@ -50,8 +50,9 @@ export class ControlledPin extends Pin {
 	}
 
 	drawController(isPlacing: boolean) {
-		const positionX = this.isInput ? this.position.x - CONTROLLER.pinOffset : this.position.x + CONTROLLER.pinOffset;
-		const positionY = this.position.y;
+		const rawPosition = this.getRawPosition();
+		const positionX = this.isInput ? rawPosition.x - CONTROLLER.pinOffset : rawPosition.x + CONTROLLER.pinOffset;
+		const positionY = rawPosition.y;
 
 		let color: string;
 
@@ -76,7 +77,7 @@ export class ControlledPin extends Pin {
 		);
 
 		const isInteractable = this.isInput && this.isControlled && !isPlacing;
-		if (isInteractable && this.circuit.inputHandler.mousePosition.getDistance(positionX, positionY) <= CONTROLLER.radius) {
+		if (isInteractable && this.circuit.inputHandler.rawMousePosition.getDistance(positionX, positionY) <= CONTROLLER.radius) {
 			this.circuit.setDrawingOpacity(0.125);
 			this.circuit.drawCircle(
 				this.circuit.getColor(COLORS.controller.hover),
@@ -93,10 +94,11 @@ export class ControlledPin extends Pin {
 
 	drawConnector(isPlacing: boolean) {
 		if (isPlacing)
-			return;
+			return; // Overlapping shapes with opacity look weird, so we hide the connector while placing
 
-		const positionX = this.isInput ? this.position.x - CONTROLLER.pinOffset : this.position.x;
-		const positionY = this.position.y;
+		const rawPosition = this.getRawPosition();
+		const positionX = this.isInput ? rawPosition.x - CONTROLLER.pinOffset : rawPosition.x;
+		const positionY = rawPosition.y;
 
 		if (isPlacing)
 			this.circuit.setDrawingOpacity(CONTROLLER.placingOpacity);
@@ -112,6 +114,10 @@ export class ControlledPin extends Pin {
 	}
 
 	draw(isPlacing: boolean) {
+		if (!this.isInput) {
+			this.position.x = (this.circuit.size.x - (CONTROLLER.handleTrackWidth + CONTROLLER.pinOffset + CONTROLLER.radius)) / this.circuit.size.x;
+		}
+
 		this.drawConnector(isPlacing);
 		this.drawController(isPlacing);
 		this.drawControllerHandle(isPlacing);

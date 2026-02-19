@@ -11,8 +11,8 @@ export interface ChipJson {
 		x: number;
 		y: number;
 	};
-	inputPins: PinJson[];
-	outputPins: PinJson[];
+	inputPins?: PinJson[];
+	outputPins?: PinJson[];
 }
 
 export class Chip {
@@ -103,7 +103,7 @@ export class Chip {
 			if (reposition) {
 				const gap = (this.size.y - this.inputCount * PIN.radius * 2) / (this.inputCount + 1);
 				pin.position.x = this.position.x;
-				pin.position.y = this.position.y + gap * (index + 1) + PIN.radius * (2 * index + 1);
+				pin.position.y = this.position.y + (gap * (index + 1) + PIN.radius * (2 * index + 1)) / this.circuit.size.y;
 			}
 
 			const isPlacingPin = this.circuit.inputHandler.isPlacingPin(pin, index);
@@ -113,8 +113,8 @@ export class Chip {
 		this.outputPins.forEach((pin, index) => {
 			if (reposition) {
 				const gap = (this.size.y - this.outputCount * PIN.radius * 2) / (this.outputCount + 1);
-				pin.position.x = this.position.x + this.size.x;
-				pin.position.y = this.position.y + gap * (index + 1) + PIN.radius * (2 * index + 1);
+				pin.position.x = this.position.x + this.size.x / this.circuit.size.x;
+				pin.position.y = this.position.y + (gap * (index + 1) + PIN.radius * (2 * index + 1)) / this.circuit.size.y;
 			}
 
 			const isPlacingPin = this.circuit.inputHandler.isPlacingPin(pin, index);
@@ -123,21 +123,24 @@ export class Chip {
 	}
 
 	draw(isPlacing: boolean) {
+		const positionX = this.position.x * this.circuit.size.x;
+		const positionY = this.position.y * this.circuit.size.y;
+
 		this.circuit.drawRect(
 			this.circuit.getColor(this.color + "-1"),
-			this.position.x, this.position.y,
+			positionX, positionY,
 			this.size.x, this.size.y
 		);
 		this.circuit.drawRect(
 			this.circuit.getColor(this.color + "-0"),
-			this.position.x + CHIP.BorderWidth, this.position.y + CHIP.BorderWidth,
+			positionX + CHIP.BorderWidth, positionY + CHIP.BorderWidth,
 			this.size.x - CHIP.BorderWidth * 2, this.size.y - CHIP.BorderWidth * 2
 		);
 
 		this.circuit.drawText(
 			this.circuit.getColor(COLORS.chip.text),
 			"center",
-			this.position.x + this.size.x / 2, this.position.y + this.size.y / 2,
+			positionX + this.size.x / 2, positionY + this.size.y / 2,
 			CHIP.fontSize,
 			this.name
 		);
@@ -146,7 +149,7 @@ export class Chip {
 			this.circuit.setDrawingOpacity(0.25);
 			this.circuit.drawRect(
 				this.circuit.getColor(COLORS.chip.outline),
-				this.position.x - CHIP.placingOutline, this.position.y - CHIP.placingOutline,
+				positionX - CHIP.placingOutline, positionY - CHIP.placingOutline,
 				this.size.x + CHIP.placingOutline * 2, this.size.y + CHIP.placingOutline * 2
 			);
 			this.circuit.resetDrawingOpacity();
@@ -156,14 +159,14 @@ export class Chip {
 	}
 
 	toJson(): ChipJson {
-		const object = {
+		const object: ChipJson = {
 			color: this.color,
 			name: this.name,
 			position: {
 				x: this.position.x,
 				y: this.position.y,
 			},
-		} as ChipJson;
+		};
 
 		if (this.inputPins.length > 0)
 			object.inputPins = this.inputPins.map((pin) => pin.toJson());

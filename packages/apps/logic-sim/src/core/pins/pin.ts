@@ -31,6 +31,10 @@ export class Pin {
 		this.id = id ?? this.circuit.getUniqueId();
 	}
 
+	getRawPosition() {
+		return Vector2.multiply(this.position, this.circuit.size);
+	}
+
 	addOutputWire(wire: Wire) {
 		this.outputWires.push(wire);
 		wire.setState(this.state);
@@ -59,19 +63,20 @@ export class Pin {
 	draw(isPlacing: boolean) {
 		let color = COLORS.pin.fill;
 
-		if (this.circuit.inputHandler.mousePosition.getDistance(this.position.x, this.position.y) <= PIN.radius) {
+		const { x: positionX, y: positionY } = this.getRawPosition();
+		if (this.circuit.inputHandler.rawMousePosition.getDistance(this.position.x * this.circuit.size.x, positionY) <= PIN.radius) {
 			this.circuit.cursor = CURSORS.pointer;
 			color = COLORS.pin.fillHover;
 
 			// Draw label
-			let positionX = this.position.x;
+			let offsetPositionX = positionX;
 			const leftAligned = this.isPointingRight;
 			const textRect = this.circuit.getTextRect(PIN.label.fontSize, this.name);
 
 			if (leftAligned) {
-				positionX += PIN.radius + PIN.label.offset;
+				offsetPositionX += PIN.radius + PIN.label.offset;
 			} else {
-				positionX -= PIN.radius + PIN.label.offset;
+				offsetPositionX -= PIN.radius + PIN.label.offset;
 			}
 
 			const backgroundSize = {
@@ -81,20 +86,20 @@ export class Pin {
 
 			this.circuit.drawRect(
 				this.circuit.getColor(COLORS.pin.labelBackground),
-				leftAligned ? positionX : positionX - backgroundSize.x, this.position.y - textRect.y / 2 - PIN.label.padding,
+				leftAligned ? offsetPositionX : offsetPositionX - backgroundSize.x, positionY - textRect.y / 2 - PIN.label.padding,
 				backgroundSize.x, backgroundSize.y
 			);
 
 			if (leftAligned) {
-				positionX += PIN.label.padding;
+				offsetPositionX += PIN.label.padding;
 			} else {
-				positionX -= PIN.label.padding;
+				offsetPositionX -= PIN.label.padding;
 			}
 
 			this.circuit.drawText(
 				this.circuit.getColor(COLORS.pin.labelText),
 				leftAligned ? "left" : "right",
-				positionX, this.position.y,
+				offsetPositionX, positionY,
 				PIN.label.fontSize,
 				this.name
 			);
@@ -105,7 +110,7 @@ export class Pin {
 
 		this.circuit.drawCircle(
 			this.circuit.getColor(color),
-			this.position.x, this.position.y,
+			positionX, positionY,
 			PIN.radius
 		);
 
@@ -114,11 +119,11 @@ export class Pin {
 	}
 
 	toJson(): PinJson {
-		const object = {
+		const object: PinJson = {
 			name: this.name,
 			id: this.id,
 			position: this.position,
-		} as PinJson;
+		};
 
 		return object;
 	}

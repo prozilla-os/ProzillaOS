@@ -18,6 +18,7 @@ export const CONTROLLER = {
 	pinOffset: 42.5,
 	connectorWidth: 7.5,
 	handleWidth: 15,
+	handleHeight: 50,
 	handleTrackWidth: 22.5,
 	placingOpacity: 0.5,
 };

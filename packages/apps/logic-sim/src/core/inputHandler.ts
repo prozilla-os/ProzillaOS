@@ -12,6 +12,7 @@ export class InputHandler {
 	canvas!: HTMLCanvasElement;
 
 	mousePosition = Vector2.ZERO;
+	rawMousePosition = Vector2.ZERO;
 
 	isPlacing = false;
 	snapping = false;
@@ -27,8 +28,10 @@ export class InputHandler {
 
 	setMousePosition(event: MouseEvent) {
 		const rect = this.canvas.getBoundingClientRect();
-		this.mousePosition.x = event.clientX - rect.left;
-		this.mousePosition.y = event.clientY - rect.top;
+		this.rawMousePosition.x = event.clientX - rect.left;
+		this.rawMousePosition.y = event.clientY - rect.top;
+		this.mousePosition.x = this.rawMousePosition.x / this.circuit.size.x;
+		this.mousePosition.y = this.rawMousePosition.y / this.circuit.size.y;
 	}
 
 	init() {
@@ -41,6 +44,7 @@ export class InputHandler {
 		this.canvas.addEventListener("mouseup", this.onMouseUp);
 		this.canvas.addEventListener("contextmenu", this.onMouseUp);
 		this.canvas.addEventListener("mousedown", this.onMouseDown);
+		this.canvas.addEventListener("mouseleave", this.onMouseLeave);
 
 		window.addEventListener("keydown", this.onKeyDown);
 		window.addEventListener("keyup", this.onKeyUp);
@@ -51,6 +55,7 @@ export class InputHandler {
 		this.canvas.removeEventListener("mouseup", this.onMouseUp);
 		this.canvas.removeEventListener("contextmenu", this.onMouseUp);
 		this.canvas.removeEventListener("mousedown", this.onMouseDown);
+		this.canvas.removeEventListener("mouseleave", this.onMouseLeave);
 
 		window.removeEventListener("keydown", this.onKeyDown);
 		window.removeEventListener("keyup", this.onKeyUp);
@@ -80,14 +85,15 @@ export class InputHandler {
 		}
 
 		const isHoveringPinHandle = (pin: ControlledPin) => {
-			const top = pin.position.y - CONTROLLER.radius;
-			const bottom = pin.position.y + CONTROLLER.radius;
+			const pinPositionY = pin.position.y * this.circuit.size.y;
+			const top = pinPositionY - CONTROLLER.handleHeight / 2;
+			const bottom = pinPositionY + CONTROLLER.handleHeight / 2;
 
-			return (this.mousePosition.y > top && this.mousePosition.y < bottom);
+			return (this.rawMousePosition.y > top && this.rawMousePosition.y < bottom);
 		};
 
 		if (this.placingPin != null) {
-			let invalidPlacement = this.mousePosition.x > CONTROLLER.handleTrackWidth && this.mousePosition.x < this.circuit.size.x - CONTROLLER.handleTrackWidth;
+			let invalidPlacement = this.rawMousePosition.x > CONTROLLER.handleTrackWidth && this.rawMousePosition.x < this.circuit.size.x - CONTROLLER.handleTrackWidth;
 
 			if (invalidPlacement) {
 				this.cancelPinPlacement();
@@ -118,7 +124,7 @@ export class InputHandler {
 				this.updatePinPlacement();
 			}
 		} else {
-			if (this.mousePosition.x < CONTROLLER.handleTrackWidth) {
+			if (this.rawMousePosition.x < CONTROLLER.handleTrackWidth) {
 				let invalidPlacement = false;
 
 				this.circuit.inputPins.forEach((pin) => {
@@ -131,7 +137,7 @@ export class InputHandler {
 
 				if (!invalidPlacement)
 					this.startPinPlacement(true);
-			} else if (this.mousePosition.x > this.circuit.size.x - CONTROLLER.handleTrackWidth) {
+			} else if (this.rawMousePosition.x > this.circuit.size.x - CONTROLLER.handleTrackWidth) {
 				let invalidPlacement = false;
 
 				this.circuit.outputPins.forEach((pin) => {
@@ -169,10 +175,11 @@ export class InputHandler {
 			let eventComplete = false;
 
 			this.circuit.inputPins.forEach((pin: Pin) => {
-				if (this.mousePosition.getDistance(pin.position.x - CONTROLLER.pinOffset, pin.position.y) <= CONTROLLER.radius) {
+				const rawPinPosition = pin.getRawPosition();
+				if (this.rawMousePosition.getDistance(rawPinPosition.x - CONTROLLER.pinOffset, rawPinPosition.y) <= CONTROLLER.radius) {
 					pin.setState(State.invert(pin.state));
 					eventComplete = true;
-				} else if (this.mousePosition.getDistance(pin.position.x, pin.position.y) <= PIN.radius) {
+				} else if (this.rawMousePosition.getDistance(rawPinPosition) <= PIN.radius) {
 					this.onClickPin(pin);
 					eventComplete = true;
 				}
@@ -182,7 +189,7 @@ export class InputHandler {
 				return;
 	
 			this.circuit.outputPins.forEach((pin: Pin) => {
-				if (this.mousePosition.getDistance(pin.position.x, pin.position.y) <= PIN.radius) {
+				if (this.rawMousePosition.getDistance(pin.getRawPosition()) <= PIN.radius) {
 					this.onClickPin(pin);
 					eventComplete = true;
 				}
@@ -193,7 +200,7 @@ export class InputHandler {
 
 			this.circuit.chips.forEach((chip) => {
 				chip.inputPins.concat(chip.outputPins).forEach((pin) => {
-					if (this.mousePosition.getDistance(pin.position.x, pin.position.y) <= PIN.radius) {
+					if (this.rawMousePosition.getDistance(pin.getRawPosition()) <= PIN.radius) {
 						this.onClickPin(pin);
 						eventComplete = true;
 					}
@@ -263,6 +270,10 @@ export class InputHandler {
 				this.onMouseMove();
 				break;
 		}
+	};
+
+	onMouseLeave = (_event: MouseEvent) => {
+		// this.cancelPinPlacement();
 	};
 
 	startWirePlacement(pin: Pin) {
@@ -342,7 +353,7 @@ export class InputHandler {
 			}
 		});
 
-		if (closestDistance != null && closestPositionY != null && closestDistance < WIRE.snappingSensitivity)
+		if (closestDistance !== undefined && closestPositionY !== undefined && closestDistance < WIRE.snappingSensitivity)
 			lastAnchorPoint.y = closestPositionY;
 	}
 
@@ -418,8 +429,8 @@ export class InputHandler {
 		const newChip = new Chip(this.circuit, chip.name, chip.color, false, chip.inputCount, chip.outputCount);
 		newChip.setLogic(chip.logic);
 		newChip.position = new Vector2(
-			this.mousePosition.x - newChip.size.x / 2,
-			this.mousePosition.y - newChip.size.y / 2
+			this.mousePosition.x - (newChip.size.x / 2) / this.circuit.size.x,
+			this.mousePosition.y - (newChip.size.y / 2) / this.circuit.size.y
 		);
 
 		this.placingChip = newChip;
@@ -429,8 +440,8 @@ export class InputHandler {
 
 	editChipPlacement(chip: Chip, index: number) {
 		this.placingOffset = new Vector2(
-			(chip.position.x + chip.size.x / 2) - this.mousePosition.x,
-			(chip.position.y + chip.size.y / 2) - this.mousePosition.y
+			(chip.position.x + (chip.size.x / 2) / this.circuit.size.x) - this.mousePosition.x,
+			(chip.position.y + (chip.size.y / 2) / this.circuit.size.y) - this.mousePosition.y
 		);
 		this.previousPlacement = chip.position.clone;
 		this.circuit.chips.push(this.circuit.chips.splice(index, 1)[0]);
@@ -441,8 +452,8 @@ export class InputHandler {
 
 	updateChipPlacement() {
 		if (this.placingChip == null) return;
-		this.placingChip.position.x = this.mousePosition.x - this.placingChip.size.x / 2 + this.placingOffset.x;
-		this.placingChip.position.y = this.mousePosition.y - this.placingChip.size.y / 2 + this.placingOffset.y;
+		this.placingChip.position.x = this.mousePosition.x - (this.placingChip.size.x / 2) / this.circuit.size.x + this.placingOffset.x;
+		this.placingChip.position.y = this.mousePosition.y - (this.placingChip.size.y / 2) / this.circuit.size.y + this.placingOffset.y;
 	}
 
 	cancelChipPlacement() {
@@ -468,13 +479,13 @@ export class InputHandler {
 	startPinPlacement(isInput: boolean) {
 		const newPin = new ControlledPin(this.circuit, "PIN", isInput);
 
-		newPin.position.x = CONTROLLER.handleTrackWidth + CONTROLLER.pinOffset + CONTROLLER.radius;
+		newPin.position.x = (CONTROLLER.handleTrackWidth + CONTROLLER.pinOffset + CONTROLLER.radius) / this.circuit.size.x;
 		newPin.position.y = this.mousePosition.y;
 
 		if (isInput) {
 			this.circuit.inputPins.push(newPin);
 		} else {
-			newPin.position.x = this.circuit.size.x - newPin.position.x;
+			newPin.position.x = 1 - newPin.position.x;
 			this.circuit.outputPins.push(newPin);
 		}
 

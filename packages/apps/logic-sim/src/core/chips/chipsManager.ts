@@ -34,12 +34,15 @@ export class ChipsManager {
 			return;
 
 		virtualFile.read()?.then((content) => {
-			const data = JSON.parse(content as string) as CircuitJson;
+			if (!content)
+				return;
+
+			const data = JSON.parse(content) as CircuitJson;
 
 			circuit.color = data.color;
 			circuit.name = data.name;
 
-			const pins: { [id: number]: Pin } = {};
+			const pins: Record<number, Pin> = {};
 
 			// Load input pins
 			circuit.inputCount = data.inputPins?.length ?? 0;
@@ -93,7 +96,7 @@ export class ChipsManager {
 			data.wires?.forEach((wireData) => {
 				const inputPin = pins[wireData.inputId];
 				const outputPin = pins[wireData.outputId];
-				const anchorPoints = wireData.anchorPoints as Vector2[] ?? [];
+				const anchorPoints = wireData.anchorPoints.map(({ x, y }) => new Vector2(x, y)) ?? [];
 
 				const newWire = new Wire(circuit, wireData.color, inputPin, outputPin, anchorPoints);
 				inputPin?.addOutputWire(newWire);

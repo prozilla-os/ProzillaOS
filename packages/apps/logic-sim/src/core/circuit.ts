@@ -7,8 +7,8 @@ import { BACKGROUND, COLORS, CONTROLLER, CURSORS, ENABLE_COLOR_CACHING, FONT } f
 import { clamp } from "@prozilla-os/shared";
 
 export interface CircuitJson extends ChipJson {
-	wires: WireJson[];
-	chips: ChipJson[];
+	wires?: WireJson[];
+	chips?: ChipJson[];
 }
 
 export class Circuit extends Chip {
@@ -258,8 +258,8 @@ export class Circuit extends Chip {
 		});
 	}
 
-	toJson() {
-		const object = super.toJson() as CircuitJson;
+	toJson(): CircuitJson {
+		const object: CircuitJson = super.toJson();
 
 		if (this.wires.length > 0)
 			object.wires = this.wires.map((wire) => wire.toJson());
