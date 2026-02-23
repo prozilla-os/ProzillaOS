@@ -116,6 +116,8 @@ export class ControlledPin extends Pin {
 	draw(isPlacing: boolean) {
 		if (!this.isInput) {
 			this.position.x = (this.circuit.size.x - (CONTROLLER.handleTrackWidth + CONTROLLER.pinOffset + CONTROLLER.radius)) / this.circuit.size.x;
+		} else {
+			this.position.x = (CONTROLLER.handleTrackWidth + CONTROLLER.pinOffset + CONTROLLER.radius) / this.circuit.size.x;
 		}
 
 		this.drawConnector(isPlacing);

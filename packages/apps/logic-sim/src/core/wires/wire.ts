@@ -6,9 +6,9 @@ import { WIRE } from "../../constants/logicSim.const";
 
 export interface WireJson {
 	color: string;
-	inputId: number;
-	outputId: number;
-	anchorPoints: {
+	inputId?: number;
+	outputId?: number;
+	anchorPoints?: {
 		x: number;
 		y: number;
 	}[];
@@ -71,13 +71,14 @@ export class Wire {
 			color = `${this.color}-2`;
 		}
 
-		this.circuit.drawCurvedLine(this.circuit.getColor(color), positions, WIRE.width, WIRE.cornerRadius, WIRE.resolution);
+		const rawPositions = positions.map((position) => Vector2.multiply(position, this.circuit.size));
+		this.circuit.drawCurvedLine(this.circuit.getColor(color), rawPositions, WIRE.width, WIRE.cornerRadius, WIRE.resolution);
 	}
 
-	toJson() {
-		const object = {
+	toJson(): WireJson {
+		const object: WireJson = {
 			color: this.color,
-		} as WireJson;
+		};
 
 		if (this.inputPin != null)
 			object.inputId = this.inputPin.id;

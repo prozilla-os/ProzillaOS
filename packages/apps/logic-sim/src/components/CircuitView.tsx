@@ -44,6 +44,9 @@ export function CircuitView({ app }: CircuitViewProps) {
 				<ClickAction label="NOT gate" onTrigger={() => {
 					circuit.inputHandler.startChipPlacement(ChipsManager.CHIPS.not);
 				}}/>
+				<ClickAction label="OR gate" onTrigger={() => {
+					circuit.inputHandler.startChipPlacement(ChipsManager.CHIPS.or);
+				}}/>
 			</DropdownAction>
 			<DropdownAction label="Help" showOnHover={false}>
 				<ClickAction label="Digital Electronics Glossary" onTrigger={() => {

@@ -8,7 +8,7 @@ import { Vector2 } from "@prozilla-os/core";
 import { CONTROLLER, PIN, WIRE } from "../constants/logicSim.const";
 
 export class InputHandler {
-	circuit!: Circuit;
+	circuit: Circuit;
 	canvas!: HTMLCanvasElement;
 
 	mousePosition = Vector2.ZERO;
@@ -23,7 +23,7 @@ export class InputHandler {
 	placingPin!: ControlledPin | null;
 
 	constructor(circuit: Circuit) {
-		Object.assign(this, { circuit });
+		this.circuit = circuit;
 	}
 
 	setMousePosition(event: MouseEvent) {
@@ -273,7 +273,7 @@ export class InputHandler {
 	};
 
 	onMouseLeave = (_event: MouseEvent) => {
-		// this.cancelPinPlacement();
+		this.cancelPinPlacement();
 	};
 
 	startWirePlacement(pin: Pin) {
@@ -308,7 +308,7 @@ export class InputHandler {
 		let closestDistance: number | undefined;
 
 		anchorPoints.forEach((point) => {
-			const distance = Math.abs(this.mousePosition.x - point.x);
+			const distance = Math.abs(this.mousePosition.x - point.x) * this.circuit.size.x;
 
 			if (closestDistance == null || closestDistance > distance) {
 				closestPositionX = point.x;
@@ -345,7 +345,7 @@ export class InputHandler {
 		let closestDistance: number | undefined;
 
 		pins.forEach((pin) => {
-			const distance = Math.abs(this.mousePosition.y - pin.position.y);
+			const distance = Math.abs(this.mousePosition.y - pin.position.y) * this.circuit.size.y;
 
 			if (closestDistance == null || closestDistance > distance) {
 				closestPositionY = pin.position.y;
@@ -380,8 +380,8 @@ export class InputHandler {
 
 			if (previousAnchorPoint == null) return;
 	
-			const deltaX = Math.abs(this.mousePosition.x - previousAnchorPoint.x);
-			const deltaY = Math.abs(this.mousePosition.y - previousAnchorPoint.y);
+			const deltaX = Math.abs(this.mousePosition.x - previousAnchorPoint.x) * this.circuit.size.x;
+			const deltaY = Math.abs(this.mousePosition.y - previousAnchorPoint.y) * this.circuit.size.y;
 	
 			if (deltaX > deltaY) {
 				this.snapWireHorizontally(lastAnchorPoint, previousAnchorPoint);
@@ -498,6 +498,8 @@ export class InputHandler {
 	}
 
 	cancelPinPlacement() {
+		if (this.placingPin == null) return;
+
 		if (this.placingPin?.isInput) {
 		 	this.circuit.inputPins.pop();
 		} else {

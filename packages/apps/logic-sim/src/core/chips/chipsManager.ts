@@ -9,7 +9,7 @@ import { Vector2, VirtualFolder } from "@prozilla-os/core";
 export class ChipsManager {
 	static CHIPS: Record<string, Chip> = {
 		and: new Chip(null, "AND", "blue", true, 2, 1).setLogic((inputStates: State[]) => {
-			if (inputStates[0].value === 1 && inputStates[1].value === 1) {
+			if (inputStates[0].isHigh() && inputStates[1].isHigh()) {
 				return [State.HIGH];
 			} else {
 				return [State.LOW];
@@ -17,6 +17,13 @@ export class ChipsManager {
 		}),
 		not: new Chip(null, "NOT", "red", true, 1, 1).setLogic((inputStates: State[]) => {
 			return [State.invert(inputStates[0])];
+		}),
+		or: new Chip(null, "OR", "yellow", true, 2, 1).setLogic((inputStates: State[]) => {
+			if (inputStates[0].isHigh() || inputStates[1].isHigh()) {
+				return [State.HIGH];
+			} else {
+				return [State.LOW];
+			}
 		}),
 	};
 
@@ -48,7 +55,7 @@ export class ChipsManager {
 			circuit.inputCount = data.inputPins?.length ?? 0;
 			data.inputPins?.forEach((pinData) => {
 				const newPin = new ControlledPin(circuit, pinData.name, true, pinData.id);
-				newPin.position = pinData.position as Vector2;
+				newPin.position = new Vector2(pinData.position.x, pinData.position.y);
 
 				circuit.inputPins.push(newPin);
 				pins[pinData.id] = newPin;
@@ -58,7 +65,7 @@ export class ChipsManager {
 			circuit.outputCount = data.outputPins?.length ?? 0;
 			data.outputPins?.forEach((pinData) => {
 				const newPin = new ControlledPin(circuit, pinData.name, false, pinData.id);
-				newPin.position = pinData.position as Vector2;
+				newPin.position = new Vector2(pinData.position.x, pinData.position.y);
 
 				circuit.outputPins.push(newPin);
 				pins[pinData.id] = newPin;
@@ -67,7 +74,7 @@ export class ChipsManager {
 			// Load chips
 			data.chips?.forEach((chipData) => {
 				const newChip = new Chip(circuit, chipData.name, chipData.color, false, 0, 0);
-				newChip.position = chipData.position as Vector2;
+				newChip.position = new Vector2(chipData.position.x, chipData.position.y);
 
 				// Load input pins
 				newChip.inputCount = chipData.inputPins?.length ?? 0;
@@ -94,9 +101,9 @@ export class ChipsManager {
 
 			// Load wires
 			data.wires?.forEach((wireData) => {
-				const inputPin = pins[wireData.inputId];
-				const outputPin = pins[wireData.outputId];
-				const anchorPoints = wireData.anchorPoints.map(({ x, y }) => new Vector2(x, y)) ?? [];
+				const inputPin = wireData.inputId ? pins[wireData.inputId] : undefined;
+				const outputPin = wireData.outputId ? pins[wireData.outputId] : undefined;
+				const anchorPoints = wireData.anchorPoints?.map(({ x, y }) => new Vector2(x, y));
 
 				const newWire = new Wire(circuit, wireData.color, inputPin, outputPin, anchorPoints);
 				inputPin?.addOutputWire(newWire);
