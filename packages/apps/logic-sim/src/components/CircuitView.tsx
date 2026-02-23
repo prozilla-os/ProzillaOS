@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./CircuitView.module.css";
-import { App, ClickAction, DropdownAction, HeaderMenu, openUrl, useAppFolder } from "@prozilla-os/core";
+import { App, ClickAction, Divider, DropdownAction, HeaderMenu, openUrl, useAppFolder } from "@prozilla-os/core";
 import { Circuit } from "../core/circuit";
 import { ChipsManager } from "../core/chips/chipsManager";
 
@@ -44,8 +44,16 @@ export function CircuitView({ app }: CircuitViewProps) {
 				<ClickAction label="NOT gate" onTrigger={() => {
 					circuit.inputHandler.startChipPlacement(ChipsManager.CHIPS.not);
 				}}/>
+				<Divider/>
 				<ClickAction label="OR gate" onTrigger={() => {
 					circuit.inputHandler.startChipPlacement(ChipsManager.CHIPS.or);
+				}}/>
+				<Divider/>
+				<ClickAction label="HIGH" onTrigger={() => {
+					circuit.inputHandler.startChipPlacement(ChipsManager.CHIPS.high);
+				}}/>
+				<ClickAction label="LOW" onTrigger={() => {
+					circuit.inputHandler.startChipPlacement(ChipsManager.CHIPS.low);
 				}}/>
 			</DropdownAction>
 			<DropdownAction label="Help" showOnHover={false}>

@@ -25,6 +25,12 @@ export class ChipsManager {
 				return [State.LOW];
 			}
 		}),
+		high: new Chip(null, "HIGH", "green", true, 0, 1).setLogic((_inputStates: State[]) => {
+			return [State.HIGH];
+		}),
+		low: new Chip(null, "LOW", "purple", true, 0, 1).setLogic((_inputStates: State[]) => {
+			return [State.LOW];
+		}),
 	};
 
 	static saveCircuit(circuit: Circuit, virtualFolder: VirtualFolder) {
