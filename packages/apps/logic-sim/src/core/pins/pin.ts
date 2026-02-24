@@ -1,9 +1,9 @@
-import { Vector2 } from "@prozilla-os/core";
 import { Chip } from "../chips/chip";
 import { Circuit } from "../circuit";
 import { State } from "../_utils/state";
 import { Wire } from "../wires/wire";
 import { COLORS, CONTROLLER, CURSORS, PIN } from "../../constants/logicSim.const";
+import { Vector2 } from "@prozilla-os/shared";
 
 export interface PinJson {
 	name: string;
@@ -32,7 +32,7 @@ export class Pin {
 	}
 
 	getRawPosition() {
-		return Vector2.multiply(this.position, this.circuit.size);
+		return Vector2.product(this.position, this.circuit.size);
 	}
 
 	addOutputWire(wire: Wire) {

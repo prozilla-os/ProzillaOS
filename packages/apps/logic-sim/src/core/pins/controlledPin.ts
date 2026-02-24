@@ -1,4 +1,4 @@
-import { Vector2 } from "@prozilla-os/core";
+import { Vector2 } from "@prozilla-os/shared";
 import { Circuit } from "../circuit";
 import { Pin } from "./pin";
 import { COLORS, CONTROLLER, CURSORS } from "../../constants/logicSim.const";

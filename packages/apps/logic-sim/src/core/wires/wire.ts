@@ -1,4 +1,4 @@
-import { Vector2 } from "@prozilla-os/core";
+import { Vector2 } from "@prozilla-os/shared";
 import { Circuit } from "../circuit";
 import { Pin } from "../pins/pin";
 import { State } from "../_utils/state";
@@ -71,7 +71,7 @@ export class Wire {
 			color = `${this.color}-2`;
 		}
 
-		const rawPositions = positions.map((position) => Vector2.multiply(position, this.circuit.size));
+		const rawPositions = positions.map((position) => Vector2.product(position, this.circuit.size));
 		this.circuit.drawCurvedLine(this.circuit.getColor(color), rawPositions, WIRE.width, WIRE.cornerRadius, WIRE.resolution);
 	}
 

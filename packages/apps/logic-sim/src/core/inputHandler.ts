@@ -4,9 +4,10 @@ import { ControlledPin } from "./pins/controlledPin";
 import { Pin } from "./pins/pin";
 import { State } from "./_utils/state";
 import { Wire } from "./wires/wire";
-import { ActionsProps, Vector2 } from "@prozilla-os/core";
+import { ActionsProps } from "@prozilla-os/core";
 import { CONTROLLER, PIN, WIRE } from "../constants/logicSim.const";
 import { ChipContextMenu } from "../components/context-menu/ChipContextMenu";
+import { Vector2 } from "@prozilla-os/shared";
 
 export class InputHandler {
 	circuit: Circuit;

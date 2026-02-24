@@ -1,9 +1,8 @@
 import { Circuit } from "../circuit";
 import { Pin, PinJson } from "../pins/pin";
 import { State } from "../_utils/state";
-import { Vector2 } from "@prozilla-os/core";
 import { CHIP, COLORS, PIN } from "../../constants/logicSim.const";
-import { removeFromArray } from "@prozilla-os/shared";
+import { removeFromArray, Vector2 } from "@prozilla-os/shared";
 
 export interface ChipJson {
 	color: string;
@@ -125,7 +124,7 @@ export class Chip {
 
 	getBounds() {
 		return {
-			position: Vector2.multiply(this.position, this.circuit.size),
+			position: Vector2.product(this.position, this.circuit.size),
 			size: this.size,
 		};
 	}

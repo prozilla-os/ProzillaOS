@@ -4,7 +4,8 @@ import { Circuit, CircuitJson } from "../circuit";
 import { ControlledPin } from "../pins/controlledPin";
 import { Pin } from "../pins/pin";
 import { Wire } from "../wires/wire";
-import { Vector2, VirtualFolder } from "@prozilla-os/core";
+import { VirtualFolder } from "@prozilla-os/core";
+import { Vector2 } from "@prozilla-os/shared";
 
 export class ChipsManager {
 	static CHIPS: Record<string, Chip> = {

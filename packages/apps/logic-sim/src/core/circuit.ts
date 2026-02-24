@@ -1,10 +1,10 @@
-import { ActionsProps, Modal, Vector2 } from "@prozilla-os/core";
+import { ActionsProps, Modal } from "@prozilla-os/core";
 import { Chip, ChipJson } from "./chips/chip";
 import { ControlledPin } from "./pins/controlledPin";
 import { InputHandler } from "./inputHandler";
 import { Wire, WireJson } from "./wires/wire";
 import { BACKGROUND, COLORS, CONTROLLER, CURSORS, ENABLE_COLOR_CACHING, FONT } from "../constants/logicSim.const";
-import { clamp } from "@prozilla-os/shared";
+import { clamp, Vector2 } from "@prozilla-os/shared";
 
 export interface CircuitJson extends ChipJson {
 	wires?: WireJson[];
@@ -136,15 +136,15 @@ export class Circuit extends Chip {
 
 		for (let i = 1; i < positions.length - 1; i++) {
 			const targetPoint = positions[i];
-			const targetDir = Vector2.normalize(Vector2.subtract(positions[i], positions[i - 1]));
-			const distanceToTarget = Vector2.magnitude(Vector2.subtract(positions[i], positions[i - 1]));
+			const targetDir = Vector2.normalize(Vector2.difference(positions[i], positions[i - 1]));
+			const distanceToTarget = Vector2.difference(positions[i], positions[i - 1]).magnitude;
 			const distanceToCurveStart = Math.max(distanceToTarget - radius, distanceToTarget / 2);
 
-			const nextTargetDir = Vector2.normalize(Vector2.subtract(positions[i + 1], positions[i]));
-			const nextLineLength = Vector2.magnitude(Vector2.subtract(positions[i + 1], positions[i]));
+			const nextTargetDir = Vector2.normalize(Vector2.difference(positions[i + 1], positions[i]));
+			const nextLineLength = Vector2.difference(positions[i + 1], positions[i]).magnitude;
 
-			const curveStartPoint = Vector2.add(positions[i - 1], Vector2.scale(targetDir, distanceToCurveStart));
-			const curveEndPoint = Vector2.add(targetPoint, Vector2.scale(nextTargetDir, Math.min(radius, nextLineLength / 2)));
+			const curveStartPoint = Vector2.sum(positions[i - 1], Vector2.scale(targetDir, distanceToCurveStart));
+			const curveEndPoint = Vector2.sum(targetPoint, Vector2.scale(nextTargetDir, Math.min(radius, nextLineLength / 2)));
 
 			// Bezier
 			for (let j = 0; j < resolution; j++) {
@@ -153,7 +153,7 @@ export class Circuit extends Chip {
 				const b = Vector2.lerp(targetPoint, curveEndPoint, t);
 				const p = Vector2.lerp(a, b, t);
 
-				if (Vector2.sqrDistance(p, drawPoints[drawPoints.length - 1]) > 0.001) {
+				if (p.getDistanceSquared(drawPoints[drawPoints.length - 1]) > 0.001) {
 					drawPoints.push(p);
 				}
 			}
