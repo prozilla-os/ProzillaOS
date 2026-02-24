@@ -1,4 +1,4 @@
-import { Vector2 } from "@prozilla-os/core";
+import { ActionsProps, Modal, Vector2 } from "@prozilla-os/core";
 import { Chip, ChipJson } from "./chips/chip";
 import { ControlledPin } from "./pins/controlledPin";
 import { InputHandler } from "./inputHandler";
@@ -17,6 +17,7 @@ export class Circuit extends Chip {
 	context!: CanvasRenderingContext2D;
 	colors: { [key: string]: string } = {};
 	inputHandler: InputHandler;
+	openContextMenu?: (position: Vector2, Actions: React.FC<ActionsProps>) => Modal;
 
 	inputPins: ControlledPin[] = [];
 	outputPins: ControlledPin[] = [];

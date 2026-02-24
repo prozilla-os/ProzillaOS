@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./CircuitView.module.css";
-import { App, ClickAction, Divider, DropdownAction, HeaderMenu, openUrl, useAppFolder } from "@prozilla-os/core";
+import { App, ClickAction, Divider, DropdownAction, HeaderMenu, openUrl, useAppFolder, useManualContextMenu } from "@prozilla-os/core";
 import { Circuit } from "../core/circuit";
 import { ChipsManager } from "../core/chips/chipsManager";
 
@@ -10,19 +10,23 @@ interface CircuitViewProps {
 
 export function CircuitView({ app }: CircuitViewProps) {
 	const virtualFolder = useAppFolder(app);
-	const [circuit] = useState(new Circuit("Chip", "#000", 2, 1));
-	const canvasRef = useRef(null);
+	const circuitRef = useRef(new Circuit("Chip", "#000", 2, 1));
+	const canvasRef = useRef<HTMLCanvasElement | null>(null);
+	const { openContextMenu } = useManualContextMenu();
+
+	const circuit = circuitRef.current;
+	circuit.openContextMenu = openContextMenu;
 
 	useEffect(() => {
-		if (canvasRef.current == null && circuit.canvas != null)
+		if (canvasRef.current == null)
 			return;
 
-		circuit.init(canvasRef.current as unknown as HTMLCanvasElement);
+		circuit.init(canvasRef.current);
 
 		return () => {
 			circuit.cleanup();
 		};
-	}, [canvasRef, circuit]);
+	}, [canvasRef, circuitRef]);
 
 	return <>
 		<HeaderMenu>

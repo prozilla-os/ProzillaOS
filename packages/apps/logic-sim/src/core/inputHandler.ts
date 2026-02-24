@@ -4,8 +4,9 @@ import { ControlledPin } from "./pins/controlledPin";
 import { Pin } from "./pins/pin";
 import { State } from "./_utils/state";
 import { Wire } from "./wires/wire";
-import { Vector2 } from "@prozilla-os/core";
+import { ActionsProps, Vector2 } from "@prozilla-os/core";
 import { CONTROLLER, PIN, WIRE } from "../constants/logicSim.const";
+import { ChipContextMenu } from "../components/context-menu/ChipContextMenu";
 
 export class InputHandler {
 	circuit: Circuit;
@@ -162,15 +163,38 @@ export class InputHandler {
 		}
 	}
 
+	openContextMenu(event: MouseEvent, Actions: React.FC<ActionsProps>) {
+		event.stopPropagation();
+		const position = new Vector2(event.clientX, event.clientY);
+		this.circuit.openContextMenu?.(position, Actions);
+	}
+
+	openChipContextMenu(event: MouseEvent, chip: Chip) {
+		this.openContextMenu(event, (props) => ChipContextMenu({ chip, ...props }));
+	}
+
 	onMouseUp = (event: MouseEvent) => {
 		event.preventDefault();
 		this.setMousePosition(event);
 
 		if (event.button === 2) {
-			if (this.placingWire != null)
+			if (this.placingWire != null) {
 				this.cancelWirePlacement();
-			if (this.placingChip != null)
+			} else if (this.placingChip != null) {
 				this.cancelChipPlacement();
+			} else {
+				let eventComplete = false;
+
+				this.circuit.chips.forEach((chip) => {
+					if (this.circuit.isPointInsideRect(chip.getBounds(), this.rawMousePosition)) {
+						this.openChipContextMenu(event, chip);
+						eventComplete = true;
+					}
+				});
+
+				if (eventComplete)
+					return;
+			}
 		} else if (event.button === 0) {
 			let eventComplete = false;
 

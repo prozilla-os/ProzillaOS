@@ -3,6 +3,7 @@ import { Pin, PinJson } from "../pins/pin";
 import { State } from "../_utils/state";
 import { Vector2 } from "@prozilla-os/core";
 import { CHIP, COLORS, PIN } from "../../constants/logicSim.const";
+import { removeFromArray } from "@prozilla-os/shared";
 
 export interface ChipJson {
 	color: string;
@@ -33,8 +34,8 @@ export class Chip {
 	constructor(circuit: Circuit | null, name: string, color: string, isBlueprint: boolean, inputCount: number, outputCount: number) {
 		Object.assign(this, { circuit, name, color, isBlueprint, inputCount, outputCount });
 
-		if (this.circuit == null && !isBlueprint) {
-			this.circuit = this as unknown as Circuit;
+		if (this.circuit == null && !isBlueprint && this instanceof Circuit) {
+			this.circuit = this;
 			this.isCircuit = true;
 		}
 
@@ -122,25 +123,31 @@ export class Chip {
 		});
 	}
 
+	getBounds() {
+		return {
+			position: Vector2.multiply(this.position, this.circuit.size),
+			size: this.size,
+		};
+	}
+
 	draw(isPlacing: boolean) {
-		const positionX = this.position.x * this.circuit.size.x;
-		const positionY = this.position.y * this.circuit.size.y;
+		const { position, size } = this.getBounds();
 
 		this.circuit.drawRect(
 			this.circuit.getColor(this.color + "-1"),
-			positionX, positionY,
-			this.size.x, this.size.y
+			position.x, position.y,
+			size.x, size.y
 		);
 		this.circuit.drawRect(
 			this.circuit.getColor(this.color + "-0"),
-			positionX + CHIP.BorderWidth, positionY + CHIP.BorderWidth,
-			this.size.x - CHIP.BorderWidth * 2, this.size.y - CHIP.BorderWidth * 2
+			position.x + CHIP.BorderWidth, position.y + CHIP.BorderWidth,
+			size.x - CHIP.BorderWidth * 2, size.y - CHIP.BorderWidth * 2
 		);
 
 		this.circuit.drawText(
 			this.circuit.getColor(COLORS.chip.text),
 			"center",
-			positionX + this.size.x / 2, positionY + this.size.y / 2,
+			position.x + size.x / 2, position.y + size.y / 2,
 			CHIP.fontSize,
 			this.name
 		);
@@ -149,13 +156,18 @@ export class Chip {
 			this.circuit.setDrawingOpacity(0.25);
 			this.circuit.drawRect(
 				this.circuit.getColor(COLORS.chip.outline),
-				positionX - CHIP.placingOutline, positionY - CHIP.placingOutline,
-				this.size.x + CHIP.placingOutline * 2, this.size.y + CHIP.placingOutline * 2
+				position.x - CHIP.placingOutline, position.y - CHIP.placingOutline,
+				size.x + CHIP.placingOutline * 2, size.y + CHIP.placingOutline * 2
 			);
 			this.circuit.resetDrawingOpacity();
 		}
 
 		this.drawPins();
+	}
+
+	delete() {
+		// TO DO: Disconnect wires
+		removeFromArray(this, this.circuit.chips);
 	}
 
 	toJson(): ChipJson {
