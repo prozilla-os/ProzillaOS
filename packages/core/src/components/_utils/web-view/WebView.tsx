@@ -30,11 +30,11 @@ export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source
 		};
 	}, [focus, hovered]);
 
-	const onMouseOver = () => {
+	const onMouseEnter = () => {
 		setHovered(true);
 	};
 
-	const onMouseOut = () => {
+	const onMouseLeave = () => {
 		window.focus();
 		setHovered(false);
 	};
@@ -47,7 +47,7 @@ export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source
 	delete iframeProps.setIconUrl;
 	delete iframeProps.standalone;
 
-	return <div className={styles.WebView} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
+	return <div className={styles.WebView} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
 		<iframe
 			ref={ref}
 			src={source}
