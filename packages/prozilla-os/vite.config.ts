@@ -9,16 +9,6 @@ export default defineConfig({
 	plugins: [
 		react(),
 		cssInjectedByJs(),
-		dts({
-			include: ["src"],
-			outDirs: "./dist",
-			bundleTypes: {
-				bundledPackages: ["@prozilla-os/*"],
-			},
-			strictOutput: true,
-			pathsToAliases: false,
-			tsconfigPath: "tsconfig.build.json",
-		}),
 	],
 	build: {
 		lib: {

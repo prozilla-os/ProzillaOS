@@ -1,5 +1,6 @@
+import { Vector2 } from "@prozilla-os/shared";
 import styles from "../Settings.module.css";
-import { Button, useSystemManager, useVirtualRoot, useWindowsManager, utilStyles, Vector2 } from "@prozilla-os/core";
+import { Button, useSystemManager, useVirtualRoot, useWindowsManager, utilStyles } from "@prozilla-os/core";
 
 export function AboutSettings() {
 	const { systemName } = useSystemManager();

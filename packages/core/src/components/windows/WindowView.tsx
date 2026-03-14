@@ -4,7 +4,6 @@ import { faCircleRight, faExpand, faMinus, faWindowMaximize as fasWindowMaximize
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import Draggable from "react-draggable";
 import { CSSProperties, FC, memo, MouseEventHandler, useEffect, useRef, useState } from "react";
-import { Vector2 } from "../../features/math/vector2";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import utilStyles from "../../styles/utils.module.css";
 import { useContextMenu } from "../../hooks/modals/contextMenu";
@@ -24,6 +23,7 @@ import { WindowOptions } from "../../features/windows/windowsManager";
 import { ModalProps } from "../modals/ModalView";
 import { useClassNames, useSystemManager } from "../../hooks";
 import { VectorImage } from "../_utils/vector-image/VectorImage";
+import { Vector2 } from "@prozilla-os/shared";
 
 export interface WindowProps extends WindowOptions {
 	/**

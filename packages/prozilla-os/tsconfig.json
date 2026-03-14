@@ -10,9 +10,10 @@
 		"rootDir": "../",
 		"paths": {
 			"@prozilla-os/core": ["packages/core/src/main"],
+			"@prozilla-os/shared": ["packages/shared/src/main"],
 			"@prozilla-os/*": ["packages/apps/*/src/main"]
 		}
 	},
-	"include": ["src", "../core/src", "../apps/**/src", "vite.config.ts"],
+	"include": ["src", "../core/src", "../shared/src", "../apps/**/src", "vite.config.ts"],
 	"exclude": ["node_modules"]
 }

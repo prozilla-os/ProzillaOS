@@ -2,7 +2,8 @@ import { useCallback } from "react";
 import { DialogBox } from "../../components/modals/dialog-box/DialogBox";
 import { useWindowedModal } from "./windowedModal";
 import { ModalProps } from "../../components/modals/ModalView";
-import { ModalsConfig, Vector2 } from "../../features";
+import { ModalsConfig } from "../../features";
+import { Vector2 } from "@prozilla-os/shared";
 
 export interface AlertParams {
 	/**

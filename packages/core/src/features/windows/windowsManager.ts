@@ -1,6 +1,5 @@
-import { randomRange } from "@prozilla-os/shared";
+import { randomRange, Vector2 } from "@prozilla-os/shared";
 import { App, openUrl } from "../";
-import { Vector2 } from "../math/vector2";
 import { SystemManager } from "../system/systemManager";
 import { TrackingManager } from "../tracking/trackingManager";
 import { VirtualFile } from "../virtual-drive/file";

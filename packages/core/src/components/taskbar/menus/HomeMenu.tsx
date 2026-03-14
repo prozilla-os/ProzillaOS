@@ -5,10 +5,11 @@ import taskbarStyles from "../Taskbar.module.css";
 import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { ReactSVG } from "react-svg";
 import { useEffect, useState } from "react";
-import { AppsConfig, closeViewport, Vector2 } from "../../../features";
+import { AppsConfig, closeViewport } from "../../../features";
 import { useWindowsManager, useVirtualRoot, useKeyboardListener, useSystemManager, useClassNames } from "../../../hooks";
 import { utilStyles } from "../../../styles";
 import { VectorImage } from "../../_utils/vector-image/VectorImage";
+import { Vector2 } from "@prozilla-os/shared";
 
 interface HomeMenuProps {
 	active: boolean;

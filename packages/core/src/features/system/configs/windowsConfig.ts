@@ -1,4 +1,4 @@
-import { Vector2 } from "../../math/vector2";
+import { Vector2 } from "@prozilla-os/shared";
 
 export interface WindowsConfigOptions {
 	/**

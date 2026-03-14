@@ -46,7 +46,9 @@
 	},
 	"dependencies": {
 		"commander": "^12.1.0",
-		"pnpm": "^9.15.9"
+		"pnpm": "^9.15.9",
+		"shared": "link:../../../AppData/Local/pnpm/global/5/node_modules/@prozilla-os/shared",
+		"skins": "link:../../../AppData/Local/pnpm/global/5/node_modules/@prozilla-os/skins"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.29.8",

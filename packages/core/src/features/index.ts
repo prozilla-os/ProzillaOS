@@ -14,5 +14,3 @@ export * from "./windows/windowsManager";
 export * from "./z-index/zIndexGroup";
 export * from "./z-index/zIndexManager";
 export * from "./system/systemManager";
-
-export * from "./math/vector2";

@@ -13,7 +13,7 @@
 	"main": "dist/main.js",
 	"types": "dist/main.d.ts",
 	"scripts": {
-		"build": "tsc --project tsconfig.build.json && vite build"
+		"build": "vite build && vite-node scripts/generateTypeDeclaration"
 	},
 	"repository": {
 		"type": "git",
@@ -29,6 +29,8 @@
 		"@prozilla-os/file-explorer": "workspace:*",
 		"@prozilla-os/media-viewer": "workspace:*",
 		"@prozilla-os/settings": "workspace:*",
+		"@prozilla-os/shared": "workspace:*",
+		"@prozilla-os/skins": "workspace:*",
 		"@prozilla-os/terminal": "workspace:*",
 		"@prozilla-os/text-editor": "workspace:*"
 	},

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAlert } from "../../hooks/modals/alert";
-import { Vector2 } from "../../features/math/vector2";
 import { useSystemManager } from "../../hooks";
 import { App } from "../../features";
 import { FallbackProps } from "react-error-boundary";
+import { Vector2 } from "@prozilla-os/shared";
 
 export interface WindowFallbackViewProps extends FallbackProps {
 	error: unknown;

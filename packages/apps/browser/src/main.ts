@@ -1,5 +1,6 @@
-import { App, AppsConfig, Vector2 } from "@prozilla-os/core";
+import { App, AppsConfig } from "@prozilla-os/core";
 import { Browser, BrowserProps } from "./components/Browser";
+import { Vector2 } from "@prozilla-os/shared";
 
 const browser = new App<BrowserProps>("Browser", "browser", Browser, { size: new Vector2(700, 500) })
 	.setIconUrl("https://os.prozilla.dev/assets/apps/icons/browser.svg")
