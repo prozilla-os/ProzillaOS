@@ -34,7 +34,19 @@ export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source
 		setHovered(true);
 	};
 
-	const onMouseLeave = () => {
+	const onMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+		// In Firefox, entering an iframe triggers a mouseleave event because it's a different document.
+		// We verify if the mouse is still within the bounds of the WebView to prevent losing hover state.
+		const rect = e.currentTarget.getBoundingClientRect();
+		if (
+			e.clientX > rect.left &&
+			e.clientX < rect.right &&
+			e.clientY > rect.top &&
+			e.clientY < rect.bottom
+		) {
+			return;
+		}
+
 		window.focus();
 		setHovered(false);
 	};
