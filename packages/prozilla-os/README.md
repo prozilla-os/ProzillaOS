@@ -30,6 +30,7 @@ pnpm add prozilla-os
 `prozilla-os` combines the following packages into one:
 
 - [`@prozilla-os/core`][core] - Core functionality, React components and hooks
+- [`@prozilla-os/shared`][shared] - Common utility functions
 - [`@prozilla-os/file-explorer`][file-explorer] - File explorer app
 - [`@prozilla-os/terminal`][terminal] - Terminal/shell app
 - [`@prozilla-os/text-editor`][text-editor] - Text editor app
@@ -203,6 +204,7 @@ interface ProzillaOSProps {
 [discord]: https://discord.gg/JwbyQP4tdz
 [ko-fi]: https://ko-fi.com/prozilla
 [core]: https://www.npmjs.com/package/@prozilla-os/core
+[shared]: https://www.npmjs.com/package/@prozilla-os/shared
 [file-explorer]: https://www.npmjs.com/package/@prozilla-os/file-explorer
 [terminal]: https://www.npmjs.com/package/@prozilla-os/terminal
 [text-editor]: https://www.npmjs.com/package/@prozilla-os/text-editor

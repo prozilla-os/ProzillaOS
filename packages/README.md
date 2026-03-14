@@ -6,7 +6,7 @@ This is an overview of all packages related to ProzillaOS. Each package is publi
 
 This bundle lets you quickly get started with ProzillaOS without the hassle of installing all packages individually.
 
-- [`prozilla-os`](./prozilla-os/): A bundle containing `@prozilla-os/core` and all primary applications of ProzillaOS
+- [`prozilla-os`](./prozilla-os/): A bundle containing `@prozilla-os/core`, `@prozilla-os/shared` and all primary applications of ProzillaOS
 
 ## Libraries
 
