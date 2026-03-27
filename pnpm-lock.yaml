@@ -5,8 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  shared: link:../../../AppData/Local/pnpm/global/5/node_modules/@prozilla-os/shared
-  skins: link:../../../AppData/Local/pnpm/global/5/node_modules/@prozilla-os/skins
+  prozilla-os: workspace:*
+  '@prozilla-os/core': workspace:*
+  '@prozilla-os/shared': workspace:*
 
 importers:
 
@@ -18,12 +19,6 @@ importers:
       pnpm:
         specifier: ^9.15.9
         version: 9.15.9
-      shared:
-        specifier: link:../../../AppData/Local/pnpm/global/5/node_modules/@prozilla-os/shared
-        version: link:../../../AppData/Local/pnpm/global/5/node_modules/@prozilla-os/shared
-      skins:
-        specifier: link:../../../AppData/Local/pnpm/global/5/node_modules/@prozilla-os/skins
-        version: link:../../../AppData/Local/pnpm/global/5/node_modules/@prozilla-os/skins
     devDependencies:
       '@changesets/cli':
         specifier: ^2.29.8
@@ -101,8 +96,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/skins
       '@prozilla-os/wordle':
-        specifier: ^1.2.0
-        version: 1.2.0(react@18.3.1)
+        specifier: ^1.2.1
+        version: 1.2.1(react@18.3.1)
       '@taygotfound/melodix':
         specifier: latest
         version: 2.0.5
@@ -174,7 +169,7 @@ importers:
         specifier: ^0.4.7
         version: 0.4.26(eslint@9.39.2)
       gh-pages:
-        specifier: ^6.1.1
+        specifier: ^6.3.0
         version: 6.3.0
       stylelint:
         specifier: ^16.6.1
@@ -1782,8 +1777,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/wordle@1.2.0':
-    resolution: {integrity: sha512-qsErkev4tf0isJYOyYw46AbOf//KL5m4TVfNHVxaYokI/axZGWzN7+CnCvTnsHBhI8nu/M6t5Y7i/orR3gRSeg==}
+  '@prozilla-os/wordle@1.2.1':
+    resolution: {integrity: sha512-wLWhx1Ig8FMDCU1j03AavRXpy3VoUt/QVUR8R3t8eghycVUK2V2rvqsDemDBqtJcd4SBwOrwncx3aeRyZB9QUA==}
     peerDependencies:
       react: ^18.3.1
 
@@ -6067,7 +6062,7 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@prozilla-os/wordle@1.2.0(react@18.3.1)':
+  '@prozilla-os/wordle@1.2.1(react@18.3.1)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.7.2
       '@fortawesome/free-solid-svg-icons': 6.7.2

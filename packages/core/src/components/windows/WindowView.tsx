@@ -3,7 +3,7 @@ import styles from "./WindowView.module.css";
 import { faCircleRight, faExpand, faMinus, faWindowMaximize as fasWindowMaximize, faTimes, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import Draggable from "react-draggable";
-import { CSSProperties, FC, memo, MouseEventHandler, useEffect, useRef, useState } from "react";
+import { CSSProperties, FC, memo, MouseEventHandler, useCallback, useEffect, useRef, useState } from "react";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import utilStyles from "../../styles/utils.module.css";
 import { useContextMenu } from "../../hooks/modals/contextMenu";
@@ -31,8 +31,6 @@ export interface WindowProps extends WindowOptions {
 	 * @default false
 	 */
 	fullscreen?: boolean;
-	/** Function that handles interactions with the window. */
-	onInteract?: () => void;
 	/** Function that sets the title of the window. */
 	setTitle?: React.Dispatch<React.SetStateAction<string>>;
 	/** Function that sets the icon URL of the window. */
@@ -40,7 +38,7 @@ export interface WindowProps extends WindowOptions {
 	/** Function that closes the window. */
 	close?: (event?: Event) => void;
 	/** Function that brings the window in focus. */
-	focus?: (event: Event, force?: boolean) => void;
+	focus?: (event?: Event, force?: boolean) => void;
 	/** Whether the window is currently focused and should allow interactions. */
 	active?: boolean;
 	/** Whether to start the window in minimized mode. */
@@ -56,7 +54,7 @@ export interface WindowProps extends WindowOptions {
 /**
  * Component that renders the window for an application.
  */
-export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onInteract, options, active, fullscreen, minimized, toggleMinimized, index }) => {
+export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, options, active, fullscreen, minimized, toggleMinimized, index }) => {
 	const { systemName, windowsConfig, appsConfig } = useSystemManager();
 	const windowsManager = useWindowsManager();
 	const nodeRef = useRef(null);
@@ -127,14 +125,16 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 	if (app == null)
 		return;
 
-	const close: WindowProps["close"] = (event) => {
+	const close: WindowProps["close"] = useCallback(((event) => {
 		event?.preventDefault();
 		if (id != null) windowsManager?.close(id);
-	};
+	}) satisfies WindowProps["close"], [windowsManager, id]);
 
-	const focus: WindowProps["focus"] = (event, force = false) => {
+	const focus: WindowProps["focus"] = useCallback(((event, force = false) => {
+		if (id === undefined) return;
+
 		if (force) {
-			onInteract?.();
+			windowsManager?.focus(id);
 			return;
 		}
 
@@ -143,8 +143,8 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, onIn
 
 		const target = event?.target as HTMLElement;
 		if (event == null || target?.closest?.(".Handle") == null || target?.closest?.("button") == null)
-			onInteract?.();
-	};
+			windowsManager?.focus(id);
+	}) satisfies WindowProps["focus"], [windowsManager, id]);
 
 	const classNames = [styles["Window-container"]];
 	if (maximized)

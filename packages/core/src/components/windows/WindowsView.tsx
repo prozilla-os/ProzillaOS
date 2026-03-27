@@ -72,7 +72,6 @@ export const WindowsView: FC = memo(() => {
 			const index = sortedWindows.indexOf(window);
 			return <WindowView
 				key={id}
-				onInteract={() => { windowsManager?.focus(id as string); }}
 				active={index === sortedWindows.length - 1}
 				id={id}
 				app={app}
