@@ -25,6 +25,7 @@
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/shared": "workspace:*",
 		"@vitejs/plugin-react-swc": "^3.7.0",
+		"magic-string": "^0.30.21",
 		"vite": "^7.3.1",
 		"vite-plugin-css-injected-by-js": "^3.5.1",
 		"vite-plugin-dts": "^4.5.4",

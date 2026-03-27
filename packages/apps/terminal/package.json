@@ -43,7 +43,7 @@
 		"dist"
 	],
 	"sideEffects": [
-		"**/*.css"
+		"dist/main.js"
 	],
 	"publishConfig": {
 		"registry": "https://registry.npmjs.org/",

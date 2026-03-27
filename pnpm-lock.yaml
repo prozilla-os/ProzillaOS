@@ -8,6 +8,8 @@ overrides:
   prozilla-os: workspace:*
   '@prozilla-os/core': workspace:*
   '@prozilla-os/shared': workspace:*
+  '@prozilla-os/skins': workspace:*
+  '@prozilla-os/dev-tools': workspace:*
 
 importers:
 
@@ -752,6 +754,9 @@ importers:
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
         version: 3.11.0(vite@7.3.1(@types/node@20.19.30)(less@4.5.1)(yaml@2.8.2))
+      magic-string:
+        specifier: ^0.30.21
+        version: 0.30.21
       vite:
         specifier: ^7.3.1
         version: 7.3.1(@types/node@20.19.30)(less@4.5.1)(yaml@2.8.2)
