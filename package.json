@@ -18,6 +18,7 @@
 		"predeploy": "rimraf dist && pnpm run stage",
 		"deploy": "pnpm vite-node scripts/publishSite.ts",
 		"test": "pnpm -r test",
+		"clean": "rimraf \"**/node_modules\" \"**/dist\" --glob",
 		"demo:start": "pnpm --filter @prozilla-os/demo run start",
 		"demo:build": "pnpm --filter @prozilla-os/demo run build",
 		"demo:preview": "pnpm --filter @prozilla-os/demo run preview",
@@ -49,6 +50,7 @@
 		"pnpm": "^9.15.9"
 	},
 	"devDependencies": {
+		"@prozilla-os/dev-tools": "workspace:*",
 		"@changesets/cli": "^2.29.8",
 		"@eslint/js": "^9.39.2",
 		"@types/eslint": "^8.56.12",
