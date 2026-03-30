@@ -68,7 +68,7 @@ export default defineConfig(({ command }) => {
 			checker({
 				typescript: true,
 				eslint: {
-					lintCommand: "eslint -c ../eslint.config.js ../**/src/**/*",
+					lintCommand: "eslint -c ../eslint.config.js ..",
 					useFlatConfig: true,
 				},
 			}),
