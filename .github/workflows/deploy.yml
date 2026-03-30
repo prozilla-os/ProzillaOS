@@ -32,6 +32,11 @@ jobs:
       - name: Build packages
         run: pnpm run build
 
+      - name: Configure git identity
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+
       - name: Deploy site
         run: pnpm run deploy
         env:
