@@ -1,0 +1,1 @@
+import{N as Nl}from"../index.js";const evalCommand=new Nl().setRequireArgs(!0).setManual({purpose:"Evaluate and execute JavaScript code",usage:"eval [input]"}).setRequireArgs(!0).setExecute(function(args){if(args==null||args.length==0)return;const output=eval(args[0])??{blank:!0};return output});export{evalCommand as eval};

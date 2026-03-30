@@ -1,0 +1,1 @@
+import{N as i,n as u,g as l}from"../index.js";const f=new i().setRequireArgs(!0).setManual({purpose:"Remove a file"}).setExecute(function(n,s){const{currentDirectory:r}=s,e=n[0],{name:o,extension:a}=u.splitId(e),t=r.findFile(o,a);return t?(t.delete(),{blank:!0}):l(this.name,`${e}: No such file`)});export{f as rm};

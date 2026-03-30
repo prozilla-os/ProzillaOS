@@ -1,1 +1,0 @@
-import{E as e}from"../index.js";const n=new e().setManual({purpose:"Display path of the current directory"}).setExecute(function(o,r){const{currentDirectory:t}=r;return t.root?"/":t.absolutePath});export{n as pwd};
