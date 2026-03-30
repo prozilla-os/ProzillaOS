@@ -197,9 +197,45 @@ importers:
       '@commander-js/extra-typings':
         specifier: ^14.0.0
         version: 14.0.0(commander@14.0.2)
+      '@prozilla-os/app-center':
+        specifier: workspace:*
+        version: link:../packages/apps/app-center
+      '@prozilla-os/browser':
+        specifier: workspace:*
+        version: link:../packages/apps/browser
+      '@prozilla-os/calculator':
+        specifier: workspace:*
+        version: link:../packages/apps/calculator
+      '@prozilla-os/core':
+        specifier: workspace:*
+        version: link:../packages/core
+      '@prozilla-os/dev-tools':
+        specifier: workspace:*
+        version: link:../packages/dev-tools
+      '@prozilla-os/file-explorer':
+        specifier: workspace:*
+        version: link:../packages/apps/file-explorer
+      '@prozilla-os/logic-sim':
+        specifier: workspace:*
+        version: link:../packages/apps/logic-sim
+      '@prozilla-os/media-viewer':
+        specifier: workspace:*
+        version: link:../packages/apps/media-viewer
+      '@prozilla-os/settings':
+        specifier: workspace:*
+        version: link:../packages/apps/settings
       '@prozilla-os/shared':
         specifier: workspace:*
         version: link:../packages/shared
+      '@prozilla-os/skins':
+        specifier: workspace:*
+        version: link:../packages/skins
+      '@prozilla-os/terminal':
+        specifier: workspace:*
+        version: link:../packages/apps/terminal
+      '@prozilla-os/text-editor':
+        specifier: workspace:*
+        version: link:../packages/apps/text-editor
       '@types/node':
         specifier: ^20.19.30
         version: 20.19.30
