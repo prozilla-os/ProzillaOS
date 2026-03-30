@@ -18,7 +18,7 @@
 		"predeploy": "rimraf dist && pnpm run stage",
 		"deploy": "pnpm vite-node scripts/publishSite.ts",
 		"test": "pnpm -r test",
-		"clean": "rimraf \"**/node_modules\" \"**/dist\" --glob",
+		"clean": "rimraf \"./**/dist\" --glob",
 		"demo:start": "pnpm --filter @prozilla-os/demo run start",
 		"demo:build": "pnpm --filter @prozilla-os/demo run build",
 		"demo:preview": "pnpm --filter @prozilla-os/demo run preview",
