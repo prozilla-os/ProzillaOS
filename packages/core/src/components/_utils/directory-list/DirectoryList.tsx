@@ -3,10 +3,9 @@ import styles from "./DirectoryList.module.css";
 import { ImagePreview } from "./ImagePreview";
 import { VirtualFile } from "../../../features/virtual-drive/file";
 import { VirtualFolder } from "../../../features/virtual-drive/folder";
-import { Vector2 } from "../../../features";
 import { Interactable } from "../interactable/Interactable";
 import { useClassNames } from "../../../hooks/_utils/classNames";
-import { removeFromArray } from "@prozilla-os/shared";
+import { removeFromArray, Vector2 } from "@prozilla-os/shared";
 import { VirtualBase } from "../../../features/virtual-drive/virtualBase";
 
 export interface OnSelectionChangeParams {

@@ -80,5 +80,14 @@
 			"last 1 safari version"
 		]
 	},
-	"packageManager": "pnpm@10.29.3"
+	"packageManager": "pnpm@10.29.3",
+	"pnpm": {
+		"overrides": {
+			"prozilla-os": "workspace:*",
+			"@prozilla-os/core": "workspace:*",
+			"@prozilla-os/shared": "workspace:*",
+			"@prozilla-os/skins": "workspace:*",
+			"@prozilla-os/dev-tools": "workspace:*"
+		}
+	}
 }

@@ -1,7 +1,7 @@
 import { WindowProps } from "../../components";
-import { Vector2 } from "../";
 import { FC } from "react";
 import { APP_CATEGORIES } from "../../constants/apps.const";
+import { Vector2 } from "@prozilla-os/shared";
 
 const validIdRegex = /^[a-zA-Z0-9-]+$/;
 

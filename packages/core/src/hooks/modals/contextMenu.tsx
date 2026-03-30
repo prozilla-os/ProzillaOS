@@ -3,7 +3,7 @@ import { ActionsProps } from "../../components/actions/Actions";
 import { useModalsManager } from "./modalsManagerContext";
 import { Modal } from "../../features/modals/modal";
 import { ActionsManager } from "../../features/actions/actionsManager";
-import { Vector2 } from "../../features";
+import { Vector2 } from "@prozilla-os/shared";
 
 export interface UseContextMenuParams {
 	/** The component with the actions of the context menu. */

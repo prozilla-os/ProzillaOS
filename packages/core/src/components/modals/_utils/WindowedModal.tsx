@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useScreenDimensions } from "../../../hooks/_utils/screen";
-import { Vector2 } from "../../../features/math/vector2";
 import styles from "./WindowedModal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +7,7 @@ import Draggable from "react-draggable";
 import utilStyles from "../../../styles/utils.module.css";
 import { ModalProps } from "../ModalView";
 import { VectorImage } from "../../_utils/vector-image/VectorImage";
+import { Vector2 } from "@prozilla-os/shared";
 
 export function WindowedModal({ modal, params, children, ...props }: ModalProps) {
 	const nodeRef = useRef(null);

@@ -25,6 +25,7 @@
 		"@fortawesome/free-solid-svg-icons": "^7.1.0",
 		"@fortawesome/react-fontawesome": "^3.1.1",
 		"@prozilla-os/core": "workspace:*",
+		"@prozilla-os/shared": "workspace:*",
 		"@prozilla-os/skins": "workspace:*",
 		"markdown-to-jsx": "^7.4.7",
 		"react": "^18.3.1",

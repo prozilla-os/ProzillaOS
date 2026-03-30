@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { Vector2 } from "../math/vector2";
 import { ModalsManager } from "./modalsManager";
 import { ModalProps } from "../../components/modals/ModalView";
+import { Vector2 } from "@prozilla-os/shared";
 
 /**
  * Represents a modal window.

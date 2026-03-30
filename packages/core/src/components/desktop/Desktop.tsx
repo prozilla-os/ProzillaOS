@@ -10,14 +10,14 @@ import { RadioAction } from "../actions/actions/RadioAction";
 import { Divider } from "../actions/actions/Divider";
 import { Share } from "../modals/share/Share";
 import { ModalProps } from "../modals/ModalView";
-import { reloadViewport, ModalsManager, Vector2, AppsConfig, Settings } from "../../features";
+import { reloadViewport, ModalsManager, AppsConfig, Settings } from "../../features";
 import { VirtualFile } from "../../features/virtual-drive/file";
 import { VirtualFolder, VirtualFolderLink } from "../../features/virtual-drive/folder";
 import { useSettingsManager, useWindowsManager, useVirtualRoot, useWindowedModal, useContextMenu, useSystemManager } from "../../hooks";
 import { DirectoryList } from "../_utils";
 import { FileEventHandler, FolderEventHandler } from "../_utils/directory-list/DirectoryList";
 import { useClassNames } from "../../hooks";
-import { isValidInteger } from "@prozilla-os/shared";
+import { isValidInteger, Vector2 } from "@prozilla-os/shared";
 
 /**
  * Component that renders the wallpaper and desktop icons.

@@ -1,4 +1,4 @@
-import { FC, forwardRef, useEffect, useState } from "react";
+import { forwardRef, MouseEvent, useEffect, useState } from "react";
 import styles from "./WebView.module.css";
 import { WindowProps } from "../../windows/WindowView";
 
@@ -11,15 +11,14 @@ export interface WebViewProps extends WindowProps {
 /**
  * Component that renders an external application inside an iframe.
  */
-export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source, focus, ...props }: WebViewProps, ref) => {
+export const WebView = forwardRef<HTMLIFrameElement, WebViewProps>(({ source, focus, ...props }: WebViewProps, ref) => {
 	const [hovered, setHovered] = useState(false);
 
 	useEffect(() => {
 		window.focus();
-
 		const onBlur = (event: Event) => {
 			if (hovered) {
-				focus?.(event);
+				focus?.(event, true);
 			}
 		};
 
@@ -30,11 +29,11 @@ export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source
 		};
 	}, [focus, hovered]);
 
-	const onMouseOver = () => {
+	const onMouseOver = (_event: MouseEvent) => {
 		setHovered(true);
 	};
 
-	const onMouseOut = () => {
+	const onMouseOut = (_event: MouseEvent) => {
 		window.focus();
 		setHovered(false);
 	};
@@ -56,4 +55,4 @@ export const WebView: FC<WebViewProps> = forwardRef<HTMLIFrameElement>(({ source
 			{...iframeProps}
 		/>
 	</div>;
-}) as FC;
+});

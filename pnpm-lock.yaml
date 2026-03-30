@@ -4,6 +4,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  prozilla-os: workspace:*
+  '@prozilla-os/core': workspace:*
+  '@prozilla-os/shared': workspace:*
+  '@prozilla-os/skins': workspace:*
+  '@prozilla-os/dev-tools': workspace:*
+
 importers:
 
   .:
@@ -79,8 +86,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(@fortawesome/fontawesome-svg-core@7.1.0)(react@18.3.1)
       '@prozilla-os/ball-maze':
-        specifier: ^1.0.7
-        version: 1.0.7(react@18.3.1)
+        specifier: ^1.0.8
+        version: 1.0.8(react@18.3.1)
       '@prozilla-os/bliss-radio':
         specifier: latest
         version: 1.0.6
@@ -88,14 +95,14 @@ importers:
         specifier: workspace:*
         version: link:../packages/apps/logic-sim
       '@prozilla-os/minesweeper':
-        specifier: ^1.0.7
-        version: 1.0.7(react@18.3.1)
+        specifier: ^1.0.8
+        version: 1.0.8(react@18.3.1)
       '@prozilla-os/skins':
         specifier: workspace:*
         version: link:../packages/skins
       '@prozilla-os/wordle':
-        specifier: ^1.1.8
-        version: 1.1.8(react@18.3.1)
+        specifier: ^1.2.1
+        version: 1.2.1(react@18.3.1)
       '@taygotfound/melodix':
         specifier: latest
         version: 2.0.5
@@ -167,7 +174,7 @@ importers:
         specifier: ^0.4.7
         version: 0.4.26(eslint@9.39.2)
       gh-pages:
-        specifier: ^6.1.1
+        specifier: ^6.3.0
         version: 6.3.0
       stylelint:
         specifier: ^16.6.1
@@ -284,6 +291,9 @@ importers:
       '@prozilla-os/core':
         specifier: workspace:*
         version: link:../../core
+      '@prozilla-os/shared':
+        specifier: workspace:*
+        version: link:../../shared
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -318,6 +328,9 @@ importers:
       '@prozilla-os/core':
         specifier: workspace:*
         version: link:../../core
+      '@prozilla-os/shared':
+        specifier: workspace:*
+        version: link:../../shared
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -352,6 +365,9 @@ importers:
       '@prozilla-os/core':
         specifier: workspace:*
         version: link:../../core
+      '@prozilla-os/shared':
+        specifier: workspace:*
+        version: link:../../shared
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -395,6 +411,9 @@ importers:
       '@prozilla-os/core':
         specifier: workspace:*
         version: link:../../core
+      '@prozilla-os/shared':
+        specifier: workspace:*
+        version: link:../../shared
       '@prozilla-os/skins':
         specifier: workspace:*
         version: link:../../skins
@@ -469,6 +488,9 @@ importers:
       '@prozilla-os/core':
         specifier: workspace:*
         version: link:../../core
+      '@prozilla-os/shared':
+        specifier: workspace:*
+        version: link:../../shared
       '@prozilla-os/skins':
         specifier: workspace:*
         version: link:../../skins
@@ -610,6 +632,9 @@ importers:
       '@prozilla-os/core':
         specifier: workspace:*
         version: link:../../core
+      '@prozilla-os/shared':
+        specifier: workspace:*
+        version: link:../../shared
       '@prozilla-os/skins':
         specifier: workspace:*
         version: link:../../skins
@@ -729,6 +754,9 @@ importers:
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
         version: 3.11.0(vite@7.3.1(@types/node@20.19.30)(less@4.5.1)(yaml@2.8.2))
+      magic-string:
+        specifier: ^0.30.21
+        version: 0.30.21
       vite:
         specifier: ^7.3.1
         version: 7.3.1(@types/node@20.19.30)(less@4.5.1)(yaml@2.8.2)
@@ -778,6 +806,12 @@ importers:
       '@prozilla-os/settings':
         specifier: workspace:*
         version: link:../apps/settings
+      '@prozilla-os/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@prozilla-os/skins':
+        specifier: workspace:*
+        version: link:../skins
       '@prozilla-os/terminal':
         specifier: workspace:*
         version: link:../apps/terminal
@@ -1706,44 +1740,47 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@prozilla-os/ball-maze@1.0.7':
-    resolution: {integrity: sha512-PNgoq560biuTIsF2tPxn8Ue3Ytbp6iU0SSMdEQqW4Vq/w3kRAsajhf5+lBy/gCTw1TCHXZU/VNAZp1AmG526Jg==}
+  '@prozilla-os/ball-maze@1.0.8':
+    resolution: {integrity: sha512-qb6JxOvz/nqui2LOJyQaHEeFDMP1U8wX+jUweQrs+apanTZXvvuLI/YfBeWbZjRa9MEnjG8KfsL16uK8SpSQSA==}
     peerDependencies:
       react: ^18.3.1
 
   '@prozilla-os/bliss-radio@1.0.6':
     resolution: {integrity: sha512-kAbMW6I8bvmQ+iYNzzchcO6mY9QgnMeXPYHI5gobvDY+nn3xqKSVUsHytMAthH0t4OgcH30ygZ/Lu3rdNuUGtg==}
 
+  '@prozilla-os/core@1.3.14':
+    resolution: {integrity: sha512-v+t8tmgCJWvByKhy9MHEXekHnhjATCAek3i53S6rLUqyX2aPVpjqvGpuHGcA7hpFGOK8WJ1uad/Z/T8bCNhEng==}
+    peerDependencies:
+      react: ^18.3.1
+
   '@prozilla-os/core@1.3.2':
     resolution: {integrity: sha512-iVttf5uhD04kErj+l3Q4hm1TXR2oEqXdu5F0rJ52+mxAPqHDTTpZ9Yos0S5KNQ9dEoa9vlD5UHHzaA1vJRjvZQ==}
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/core@1.3.7':
-    resolution: {integrity: sha512-x3wnGyBxO6qCHMuRa4jzUZFmnKDD6tR0PPz/ZAo2cfnCZ1aerzncbiAFCg6JC4qMoBxPBykevWOVls+wgo8oHw==}
-    peerDependencies:
-      react: ^18.3.1
-
-  '@prozilla-os/minesweeper@1.0.7':
-    resolution: {integrity: sha512-yWeEP2rvbqXgic+J3mx/HM5GCc2EHKV4LsI3Q9p/NWbg2F/A35N9RtNAUCNQf2njfzNKH/OfVUuXP465id8p/Q==}
+  '@prozilla-os/minesweeper@1.0.8':
+    resolution: {integrity: sha512-gV5cb2JBL8yUZ1mMBHceJmFhYgnhHSOWfkklLvW+KUzOXX7A0Bv1Geyv7Ft9ZdarDdAnuw6KFV3ZEDGvdyr8+g==}
     peerDependencies:
       react: ^18.3.1
 
   '@prozilla-os/shared@1.2.0':
     resolution: {integrity: sha512-/DL6GFgge9dDKVG7bMhzvq6cbooaEJP2W3SuxALvfo8dI+7S4fyWLSQ2XcDXQv5d91eNEGR1ozYpTDAJRTIIOw==}
 
+  '@prozilla-os/shared@1.2.1':
+    resolution: {integrity: sha512-r4SemEkyuDvbMo/ruaVM8auzCCLEYx5VaXW0FjRi++yHeAzgATSUNFN9OF6gGBVUH0lZAUsqImBpDlHNeSYl2A==}
+
   '@prozilla-os/skins@1.1.2':
     resolution: {integrity: sha512-QdoS37ECd7lzAkc6gDA74H8rscEZuwSFTE5vn6rNQoMFiQ33B0LYe8+jlzQdS4cTKFvMV4IfrvRdhBAPnldN3Q==}
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/skins@1.1.6':
-    resolution: {integrity: sha512-bW8pd6KYb8pLLPII/Vp6nFln0EhsOrfETQ4tkmHVV8TZj6gyZMBJuFHnQ9kQPjFPj++HiMCebY8JLEqV15Z50g==}
+  '@prozilla-os/skins@1.1.9':
+    resolution: {integrity: sha512-hnurVWGFeO2r8Zz7A9M7a7bhg35E7g55VVM+O2rwjizg3ko0gKtYk63PZMjkP6SB9OV+7D7IrjftiEBnPcvKnA==}
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/wordle@1.1.8':
-    resolution: {integrity: sha512-9m4mZYfl+RQMe9EpN6RQJtsL2p2gwgoXfipsgJtIDXZdzZjaUrmH+KacsDdRDct0Xo1eS+DxQLo7lHTHI6MKew==}
+  '@prozilla-os/wordle@1.2.1':
+    resolution: {integrity: sha512-wLWhx1Ig8FMDCU1j03AavRXpy3VoUt/QVUR8R3t8eghycVUK2V2rvqsDemDBqtJcd4SBwOrwncx3aeRyZB9QUA==}
     peerDependencies:
       react: ^18.3.1
 
@@ -3953,8 +3990,8 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  needle@3.3.1:
-    resolution: {integrity: sha512-6k0YULvhpw+RoLNiQCRKOl09Rv1dPLr8hHnVjHqdolKwDrdNyk+Hmrthi4lIGPPz3r39dLx0hsF5s40sZ3Us4Q==}
+  needle@3.5.0:
+    resolution: {integrity: sha512-jaQyPKKk2YokHrEg+vFDYxXIHTCBgiZwSHOoVx/8V3GIBS8/VN6NdVRmg8q1ERtPkMvmOvebsgga4sAj5hls/w==}
     engines: {node: '>= 4.4.x'}
     hasBin: true
 
@@ -4372,8 +4409,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  sax@1.4.4:
-    resolution: {integrity: sha512-1n3r/tGXO6b6VXMdFT54SHzT9ytu9yr7TaELowdYpMqY/Ao7EnlQGmAQ1+RatX7Tkkdm6hONI2owqNx2aZj5Sw==}
+  sax@1.6.0:
+    resolution: {integrity: sha512-6R3J5M4AcbtLUdZmRv2SygeVaM7IhrLXu9BmnOGmmACak8fiUtOsYNWUS4uK7upbmHIBbLBeFeI//477BKLBzA==}
     engines: {node: '>=11.0.0'}
 
   scheduler@0.23.2:
@@ -5965,9 +6002,9 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prozilla-os/ball-maze@1.0.7(react@18.3.1)':
+  '@prozilla-os/ball-maze@1.0.8(react@18.3.1)':
     dependencies:
-      '@prozilla-os/core': 1.3.7(react@18.3.1)
+      '@prozilla-os/core': 1.3.14(react@18.3.1)
       react: 18.3.1
 
   '@prozilla-os/bliss-radio@1.0.6':
@@ -5978,6 +6015,21 @@ snapshots:
       '@prozilla-os/core': 1.3.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+
+  '@prozilla-os/core@1.3.14(react@18.3.1)':
+    dependencies:
+      '@fortawesome/fontawesome-svg-core': 6.7.2
+      '@fortawesome/free-regular-svg-icons': 6.7.2
+      '@fortawesome/free-solid-svg-icons': 6.7.2
+      '@fortawesome/react-fontawesome': 0.2.6(@fortawesome/fontawesome-svg-core@6.7.2)(react@18.3.1)
+      '@prozilla-os/shared': 1.2.1
+      '@prozilla-os/skins': 1.1.9(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-draggable: 4.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-error-boundary: 4.1.2(react@18.3.1)
+      react-ga4: 2.1.0
+      react-svg: 16.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   '@prozilla-os/core@1.3.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -5995,43 +6047,30 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@prozilla-os/core@1.3.7(react@18.3.1)':
+  '@prozilla-os/minesweeper@1.0.8(react@18.3.1)':
     dependencies:
-      '@fortawesome/fontawesome-svg-core': 6.7.2
-      '@fortawesome/free-regular-svg-icons': 6.7.2
-      '@fortawesome/free-solid-svg-icons': 6.7.2
-      '@fortawesome/react-fontawesome': 0.2.6(@fortawesome/fontawesome-svg-core@6.7.2)(react@18.3.1)
-      '@prozilla-os/shared': 1.2.0
-      '@prozilla-os/skins': 1.1.6(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-draggable: 4.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-error-boundary: 4.1.2(react@18.3.1)
-      react-ga4: 2.1.0
-      react-svg: 16.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-
-  '@prozilla-os/minesweeper@1.0.7(react@18.3.1)':
-    dependencies:
-      '@prozilla-os/core': 1.3.7(react@18.3.1)
+      '@prozilla-os/core': 1.3.14(react@18.3.1)
       react: 18.3.1
 
   '@prozilla-os/shared@1.2.0': {}
+
+  '@prozilla-os/shared@1.2.1': {}
 
   '@prozilla-os/skins@1.1.2(react@18.3.1)':
     dependencies:
       react: 18.3.1
 
-  '@prozilla-os/skins@1.1.6(react@18.3.1)':
+  '@prozilla-os/skins@1.1.9(react@18.3.1)':
     dependencies:
       react: 18.3.1
 
-  '@prozilla-os/wordle@1.1.8(react@18.3.1)':
+  '@prozilla-os/wordle@1.2.1(react@18.3.1)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.7.2
       '@fortawesome/free-solid-svg-icons': 6.7.2
       '@fortawesome/react-fontawesome': 0.2.6(@fortawesome/fontawesome-svg-core@6.7.2)(react@18.3.1)
-      '@prozilla-os/core': 1.3.7(react@18.3.1)
-      '@prozilla-os/shared': 1.2.0
+      '@prozilla-os/core': 1.3.14(react@18.3.1)
+      '@prozilla-os/shared': 1.2.1
       react: 18.3.1
 
   '@remix-run/router@1.23.2': {}
@@ -8233,7 +8272,7 @@ snapshots:
       image-size: 0.5.5
       make-dir: 2.1.0
       mime: 1.6.0
-      needle: 3.3.1
+      needle: 3.5.0
       source-map: 0.6.1
     optional: true
 
@@ -8424,10 +8463,10 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  needle@3.3.1:
+  needle@3.5.0:
     dependencies:
       iconv-lite: 0.6.3
-      sax: 1.4.4
+      sax: 1.6.0
     optional: true
 
   no-case@3.0.4:
@@ -8906,7 +8945,7 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sax@1.4.4:
+  sax@1.6.0:
     optional: true
 
   scheduler@0.23.2:

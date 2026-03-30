@@ -1,4 +1,4 @@
-import { Vector2 } from "@prozilla-os/core";
+import { Vector2 } from "@prozilla-os/shared";
 import { ANSI, randomFromArray, randomRange, removeFromArray } from "@prozilla-os/shared";
 import { Command } from "../command";
 import { Stream } from "../stream";

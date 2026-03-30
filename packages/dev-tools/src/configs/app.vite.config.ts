@@ -15,7 +15,7 @@ const logger = new Logger();
  * @returns The Vite configuration.
  * @see https://vitejs.dev/config/
  */
-export const appViteConfig = (basePath: string, entryPath: string): UserConfig => {
+export const appViteConfig = (basePath: string, entryPath: string, appClass?: string): UserConfig => {
 	let entryFile = resolve(basePath, entryPath);
 
 	// Normalize paths for Windows compatibility
@@ -29,6 +29,7 @@ export const appViteConfig = (basePath: string, entryPath: string): UserConfig =
 		plugins: [
 			appMetadataPlugin({
 				entryPath,
+				appClass,
 			}),
 			react(),
 			cssInjectedByJs(),

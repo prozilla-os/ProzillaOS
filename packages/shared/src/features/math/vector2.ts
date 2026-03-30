@@ -55,7 +55,7 @@ export class Vector2 {
 	getDistanceSquared(x: number, y?: number): number;
 	getDistanceSquared(vector2: Vector2): number;
 	getDistanceSquared(x: number | Vector2, y?: number): number {
-		const other = Vector2.#simplifyVectorArgs(x, y);
+		const other = Vector2.parseVector(x, y);
 		const deltaX = this.x - other.x;
 		const deltaY = this.y - other.y;
 		return deltaX * deltaX + deltaY * deltaY;
@@ -64,7 +64,7 @@ export class Vector2 {
 	getDistance(x: number, y?: number): number;
 	getDistance(vector2: Vector2): number;
 	getDistance(x: number | Vector2, y?: number): number {
-		const other = Vector2.#simplifyVectorArgs(x, y);
+		const other = Vector2.parseVector(x, y);
 		return Math.sqrt(this.getDistanceSquared(other.x, other.y));
 	}
 
@@ -72,7 +72,7 @@ export class Vector2 {
 	add(x: number, y?: number): this;
 	add(vector2: Vector2): this;
 	add(x: number | Vector2, y?: number): this {
-		const other = Vector2.#simplifyVectorArgs(x, y);
+		const other = Vector2.parseVector(x, y);
 		this.x += other.x;
 		this.y += other.y;
 		return this;
@@ -81,7 +81,7 @@ export class Vector2 {
 	subtract(x: number, y?: number): this;
 	subtract(vector2: Vector2): this;
 	subtract(x: number | Vector2, y?: number): this {
-		const other = Vector2.#simplifyVectorArgs(x, y);
+		const other = Vector2.parseVector(x, y);
 		this.x -= other.x;
 		this.y -= other.y;
 		return this;
@@ -90,7 +90,7 @@ export class Vector2 {
 	multiply(x: number, y?: number): this;
 	multiply(vector2: Vector2): this;
 	multiply(x: number | Vector2, y?: number): this {
-		const other = Vector2.#simplifyVectorArgs(x, y);
+		const other = Vector2.parseVector(x, y);
 		this.x *= other.x;
 		this.y *= other.y;
 		return this;
@@ -99,7 +99,7 @@ export class Vector2 {
 	divide(x: number, y?: number): this;
 	divide(vector2: Vector2): this;
 	divide(x: number | Vector2, y?: number): this {
-		const other = Vector2.#simplifyVectorArgs(x, y);
+		const other = Vector2.parseVector(x, y);
 		this.x /= other.x;
 		this.y /= other.y;
 		return this;
@@ -143,7 +143,7 @@ export class Vector2 {
 		return new Vector2(x, y);
 	}
 
-	static #simplifyVectorArgs(x: number | Vector2, y?: number): { x: number, y: number} {
+	static parseVector(x: number | Vector2, y?: number): { x: number, y: number} {
 		if (x instanceof Vector2) {
 			y = x.y;
 			x = x.x;

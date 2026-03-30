@@ -17,7 +17,7 @@ export class Circuit extends Chip {
 	context!: CanvasRenderingContext2D;
 	colors: { [key: string]: string } = {};
 	inputHandler: InputHandler;
-	openContextMenu?: (position: Vector2, Actions: React.FC<ActionsProps>) => Modal;
+	openContextMenu?: (position: Vector2, Actions: React.FC<ActionsProps>, params?: object) => Modal;
 
 	inputPins: ControlledPin[] = [];
 	outputPins: ControlledPin[] = [];
