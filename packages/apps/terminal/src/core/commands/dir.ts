@@ -1,11 +1,10 @@
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 
 export const dir = new Command()
 	.setManual({
 		purpose: "List all directories in the current directory",
 	})
-	.setExecute(function(_args, params) {
-		const { currentDirectory } = params as ExecuteParams;
+	.setExecute(function(_args, { currentDirectory }) {
 		const folderNames = currentDirectory.subFolders.map((folder) => folder.id);
 	
 		if (folderNames.length === 0)

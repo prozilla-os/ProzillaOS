@@ -8,8 +8,8 @@ export const whatis = new Command()
 	.setManual({
 		purpose: "Show information about a command",
 	})
-	.setExecute(function(this: Command, args) {
-		const commandName = (args as string[])[0].toLowerCase();
+	.setExecute(function(this: Command, args: string[]) {
+		const commandName = args[0].toLowerCase();
 		const command = CommandsManager.find(commandName);
 
 		if (!command)

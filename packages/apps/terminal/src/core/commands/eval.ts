@@ -7,7 +7,7 @@ const evalCommand = new Command()
 		usage: "eval [input]",
 	})
 	.setRequireArgs(true)
-	.setExecute(function(this: Command, args) {
+	.setExecute(function(args: string[]) {
 		if (args == null || args.length == 0)
 			return;
 		

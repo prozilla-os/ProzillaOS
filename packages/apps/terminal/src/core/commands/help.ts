@@ -4,7 +4,7 @@ import { Command } from "../command";
 import { CommandsManager } from "../commands";
 
 export const help = new Command()
-	.setExecute(function(this: Command, args) {
+	.setExecute(function(this: Command, args: string[]) {
 		if (args?.length === 0) {
 			return CommandsManager.COMMANDS.map((command) => {
 				if (command.manual?.purpose) {
@@ -15,7 +15,7 @@ export const help = new Command()
 			}).sort().join("\n");
 		}
 
-		const commandName = (args as string[])[0].toLowerCase();
+		const commandName = args[0].toLowerCase();
 		const command = CommandsManager.find(commandName);
 
 		if (!command)

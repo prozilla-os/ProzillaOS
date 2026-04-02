@@ -1,6 +1,6 @@
 import { ANSI } from "@prozilla-os/shared";
 import { formatError } from "../_utils/terminal.utils";
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 import { CommandsManager } from "../commands";
 
 const MARGIN = 5;
@@ -17,12 +17,10 @@ export const man = new Command()
 			"-k": "Search for manual page using regexp",
 		},
 	})
-	.setExecute(function(this: Command, args, params) {
-		const { options } = params as ExecuteParams;
-
+	.setExecute(function(this: Command, args, { options }) {
 		// Search function
 		if (options?.includes("k")) {
-			const commands = CommandsManager.search((args as string[])[0].toLowerCase());
+			const commands = CommandsManager.search(args[0].toLowerCase());
 			return commands.map((command) => {
 				if (command.manual?.purpose) {
 					return  `${command.name} - ${command.manual.purpose}`;
@@ -32,7 +30,7 @@ export const man = new Command()
 			}).sort().join("\n");
 		}
 
-		const commandName = (args as string[])[0].toLowerCase();
+		const commandName = (args)[0].toLowerCase();
 		const command = CommandsManager.find(commandName);
 
 		if (!command)

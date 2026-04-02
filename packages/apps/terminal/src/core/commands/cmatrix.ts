@@ -4,12 +4,10 @@ import { Command } from "../command";
 import { Stream } from "../stream";
 
 const ANIMATION_SPEED = 1.25;
-const SCREEN_WIDTH = 75;
-const SCREEN_HEIGHT = 20;
 const CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.*\\/()#@&$!?%°:<>[]";
 
 const PARTICLES = {
-	framesBetweenSpawn: 30,
+	spawnRate: 30,
 	fallSpeed: 1,
 	minSize: 5,
 	maxSize: 25,
@@ -20,11 +18,25 @@ type Particle = {
 	size: number;
 };
 
-function generateScreen(frame: number, screen: string[][], particles: Particle[]): string {
+function initializeScreen(size: Vector2) {
+	const screen: string[][] = [];
+	for (let y = 0; y < size.y; y++) {
+		const row: string[] = [];
+		for (let x = 0; x < size.x; x++) {
+			row.push(" ");
+		}
+		screen.push(row);
+	}
+	return screen;
+}
+
+function generateScreen(frame: number, screen: string[][], particles: Particle[], size: Vector2): string {
+	const framesBetweenSpawn = Math.round(5000 / (PARTICLES.spawnRate * size.x));
+
 	// Spawn new particles
-	if (frame % PARTICLES.framesBetweenSpawn) {
+	if (framesBetweenSpawn === 0 || frame % framesBetweenSpawn === 0) {
 		const newParticle: Particle = {
-			position: new Vector2(randomRange(0, SCREEN_WIDTH), SCREEN_HEIGHT).round(),
+			position: new Vector2(randomRange(0, size.x - 1), size.y).round(),
 			size: Math.round(randomRange(PARTICLES.minSize, PARTICLES.maxSize)),
 		};
 		particles.push(newParticle);
@@ -39,12 +51,12 @@ function generateScreen(frame: number, screen: string[][], particles: Particle[]
 			const positionX = particle.position.x;
 			const positionY = particle.position.y + i + particle.size;
 
-			if (positionY < SCREEN_HEIGHT && positionY >= 0)
+			if (positionY < size.y && positionY >= 0)
 				screen[positionY][positionX] = " ";
 		}
 
 		// Remove offscreen particles
-		if (particle.position.y + particle.size <= 0 || particle.position.x >= SCREEN_WIDTH)
+		if (particle.position.y + particle.size <= 0 || particle.position.x >= size.x)
 			return removeFromArray(particle, particles);
 
 		for (let i = 0; i < particle.size; i++) {
@@ -57,7 +69,7 @@ function generateScreen(frame: number, screen: string[][], particles: Particle[]
 			const positionX = particle.position.x;
 			const positionY = particle.position.y + i;
 
-			if (positionX < SCREEN_WIDTH && positionY < SCREEN_HEIGHT && positionY >= 0) {
+			if (positionX < size.x && positionY < size.y && positionY >= 0) {
 				screen[positionY][positionX] = color + character + ANSI.reset;
 			}
 		}
@@ -71,23 +83,20 @@ export const cmatrix = new Command()
 		purpose: "Show a scrolling 'Matrix' like screen",
 		usage: "cmatrix",
 	})
-	.setExecute(function() {
+	.setExecute(function(_args, { size }) {
 		const stream = new Stream();
 		const particles: Particle[] = [];
 
 		// Create screen
-		const screen: string[][] = [];
-		for (let y = 0; y < SCREEN_HEIGHT; y++) {
-			const row: string[] = [];
-			for (let x = 0; x < SCREEN_WIDTH; x++) {
-				row.push(" ");
-			}
-			screen.push(row);
-		}
+		let screen = initializeScreen(size);
 
 		let frame = 0;
 		const interval = setInterval(() => {
-			const text = generateScreen(frame, screen, particles);
+			if (screen.length != size.y || (screen.length != 0 ? screen[0].length : 0) != size.x) {
+				screen = initializeScreen(size);
+			}
+
+			const text = generateScreen(frame, screen, particles, size);
 			stream.send(text);
 			frame++;
 		}, 100 / ANIMATION_SPEED);

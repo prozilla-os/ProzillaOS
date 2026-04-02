@@ -2,13 +2,13 @@ import { MouseEventHandler, MutableRefObject, useEffect, useRef, useState } from
 import styles from "./Terminal.module.css";
 import { OutputLine } from "./OutputLine";
 import { InputLine } from "./InputLine";
-import { App, SettingsManager, useSettingsManager, useSystemManager, useVirtualRoot, VirtualFolder, WindowProps } from "@prozilla-os/core";
+import { useSettingsManager, useSystemManager, useVirtualRoot, VirtualFolder, WindowProps } from "@prozilla-os/core";
 import { HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../constants/terminal.const";
 import { Stream } from "../core/stream";
 import { CommandResponse } from "../core/command";
 import { formatError } from "../core/_utils/terminal.utils";
 import { CommandsManager } from "../core/commands";
-import { ANSI, clamp, removeFromArray } from "@prozilla-os/shared";
+import { Ansi, ANSI, clamp, removeFromArray, Vector2 } from "@prozilla-os/shared";
 
 export interface TerminalProps extends WindowProps {
 	path?: string;
@@ -32,13 +32,14 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	}]);
 	const virtualRoot = useVirtualRoot();
 	const [currentDirectory, setCurrentDirectory] = useState<VirtualFolder>(virtualRoot?.navigate(startPath ?? "~") as VirtualFolder);
-	const inputRef = useRef(null);
+	const inputRef = useRef<HTMLInputElement>(null);
 	const [historyIndex, setHistoryIndex] = useState(0);
 	const [stream, setStream] = useState<Stream | null>(null);
 	const [streamOutput, setStreamOutput] = useState<string | null>(null);
-	const ref = useRef(null);
+	const ref = useRef<HTMLDivElement>(null);
 	const [streamFocused, setStreamFocused] = useState(false);
 	const settingsManager = useSettingsManager();
+	const sizeRef = useRef(Vector2.ZERO);
 
 	useEffect(() => {
 		if (currentDirectory != null)
@@ -49,11 +50,12 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		if (!inputRef.current || !active)
 			return;
 
-		(inputRef.current as unknown as HTMLInputElement).focus();
+		inputRef.current.focus();
 	}, [inputRef, active]);
 
 	const scrollDown = () => {
-		(ref.current as unknown as HTMLDivElement).scrollTop = (ref.current as unknown as HTMLDivElement).scrollHeight;
+		if (ref.current)
+			ref.current.scrollTop = ref.current.scrollHeight;
 	};
 
 	useEffect(() => {
@@ -71,8 +73,33 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		scrollDown();
 	}, [inputValue]);
 
-	const prefix = `${ANSI.fg.cyan + USERNAME}@${HOSTNAME + ANSI.reset}:`
-		+ `${ANSI.fg.blue + ((currentDirectory?.root || currentDirectory == null) ? "/" : currentDirectory?.path) + ANSI.reset}$ `;
+	useEffect(() => {
+		if (!ref.current) return;
+
+		const measure = () => {
+			if (!ref.current) return;
+
+			const style = getComputedStyle(ref.current);
+			const fontSize = parseFloat(style.fontSize);
+			const charWidth = 0.585 * fontSize;
+			const charHeight = 1.25 * fontSize;
+			const { width, height } = ref.current.getBoundingClientRect();
+
+			sizeRef.current.set(
+				Math.ceil(width / charWidth),
+				Math.ceil(height / charHeight)
+			);
+		};
+
+		const observer = new ResizeObserver(measure);
+		observer.observe(ref.current);
+		measure();
+
+		return () => observer.disconnect();
+	}, [ref]);
+
+	const prefix = Ansi.cyan(`${USERNAME}@${HOSTNAME}`) + ":"
+		+ Ansi.blue(`${((currentDirectory?.root || currentDirectory == null) ? "/" : currentDirectory?.path)}`) + "$ ";
 
 	const updatedHistory = history;
 	const pushHistory = (entry: HistoryEntry) => {
@@ -100,7 +127,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		let lastOutput: CommandResponse | null = null;
 
 		stream.onAsync(Stream.SEND_EVENT, async (text) => {
-			let output: CommandResponse = text as CommandResponse;
+			let output: CommandResponse = text;
 
 			for (const pipe of pipes) {
 				if (output instanceof Stream)
@@ -110,7 +137,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 				output = await handleInput(output ? `${pipe} ${output as string}` : pipe);
 			}
 
-			if ((output as unknown) instanceof Stream) {
+			if (output instanceof Stream) {
 				stream.stop();
 				promptOutput(ANSI.fg.red + "Stream failed");
 				return;
@@ -214,9 +241,10 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 				exit,
 				inputs,
 				timestamp,
-				settingsManager: settingsManager as SettingsManager,
+				settingsManager: settingsManager!,
 				systemManager,
-				app: app as App,
+				app: app!,
+				size: sizeRef.current,
 			});
 
 			if (response == null)
@@ -354,7 +382,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 			onClick={(event) => {
 				if (window.getSelection()?.toString() === "") {
 					event.preventDefault();
-					(inputRef.current as HTMLInputElement | null)?.focus();
+					(inputRef.current)?.focus();
 				}
 			}}
 		>

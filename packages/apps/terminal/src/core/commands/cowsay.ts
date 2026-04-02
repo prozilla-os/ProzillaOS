@@ -1,5 +1,5 @@
 import { MAX_WIDTH } from "../../constants/terminal.const";
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 
 const COW = `
         \\   ^__^
@@ -15,8 +15,7 @@ export const cowsay = new Command()
 		usage: "cowsay text",
 		description: "Show ASCII art of a cow saying something.",
 	})
-	.setExecute(function(_args, params) {
-		const { rawInputValue } = params as ExecuteParams;
+	.setExecute(function(_args, { rawInputValue }) {
 
 		// Separate input value into lines
 		const segments = rawInputValue?.split(" ");

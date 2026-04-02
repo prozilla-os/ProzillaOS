@@ -1,6 +1,6 @@
 import { VirtualFile } from "@prozilla-os/core";
 import { formatError } from "../_utils/terminal.utils";
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 
 export const cat = new Command()
 	.setRequireArgs(true)
@@ -9,9 +9,8 @@ export const cat = new Command()
 		usage: "cat [options] [files]",
 		description: "Concetenate files to standard output.",
 	})
-	.setExecute(function(this: Command, args, params) {
-		const { currentDirectory, options } = params as ExecuteParams;
-		const fileId = (args as string[])[0];
+	.setExecute(function(this: Command, args, { currentDirectory, options }) {
+		const fileId = args[0];
 		const { name, extension } = VirtualFile.splitId(fileId);
 		const file = currentDirectory.findFile(name, extension);
 

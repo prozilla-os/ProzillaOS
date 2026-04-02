@@ -1,4 +1,4 @@
-import { App, SettingsManager, SystemManager, VirtualFolder, VirtualRoot } from "@prozilla-os/core";
+import { App, SettingsManager, SystemManager, Vector2, VirtualFolder, VirtualRoot } from "@prozilla-os/core";
 import { Stream } from "./stream";
 import { Dispatch, SetStateAction } from "react";
 import { HistoryEntry } from "../components/Terminal";
@@ -26,9 +26,14 @@ export type ExecuteParams = {
 	settingsManager: SettingsManager,
 	systemManager: SystemManager,
 	app: App,
+	readonly size: Vector2
 };
 
-type Execute = (args?: string[], params?: ExecuteParams) => CommandResponse | Promise<CommandResponse>;
+type Execute = (
+		((args: string[], params: ExecuteParams) => CommandResponse | Promise<CommandResponse>)
+		| ((args: string[]) => CommandResponse | Promise<CommandResponse>)
+		| (() => CommandResponse | Promise<CommandResponse>)
+	);
 
 type Manual = {
 	purpose?: string,

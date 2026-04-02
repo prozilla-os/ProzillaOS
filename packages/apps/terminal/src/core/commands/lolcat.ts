@@ -1,6 +1,6 @@
 import { ANSI } from "@prozilla-os/shared";
 import { removeAnsi } from "../_utils/terminal.utils";
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 
 const COLUMN_WIDTH = 5;
 const ROW_OFFSET = 2;
@@ -18,8 +18,7 @@ export const lolcat = new Command()
 	.setManual({
 		purpose: "Display text with a rainbow effect",
 	})
-	.setExecute(function(_args, params) {
-		const { rawInputValue, timestamp } = params as ExecuteParams;
+	.setExecute(function(_args, { rawInputValue, timestamp }) {
 		if (rawInputValue == null) return;
 		let rows = removeAnsi(rawInputValue).split("\n");
 		const offset = timestamp / 100;

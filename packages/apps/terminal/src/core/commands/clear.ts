@@ -1,11 +1,10 @@
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 
 export const clear = new Command()
 	.setManual({
 		purpose: "Clear terminal screen",
 	})
-	.setExecute(function(_args, params) {
-		const { pushHistory } = params as ExecuteParams;
+	.setExecute(function(_args, { pushHistory }) {
 		pushHistory?.({
 			clear: true,
 			isInput: false,

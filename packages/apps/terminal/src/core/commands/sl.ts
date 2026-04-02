@@ -1,5 +1,5 @@
 import { formatError } from "../_utils/terminal.utils";
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 import { Stream } from "../stream";
 
 const ANIMATION_SPEED = 1.25;
@@ -186,8 +186,7 @@ export const sl = new Command()
 		long: "wagons",
 		isInput: true,
 	})
-	.setExecute(function(this: Command, _args, params) {
-		const { inputs } = params as ExecuteParams;
+	.setExecute(function(this: Command, _args, { inputs }) {
 		let wagonCount = 1;
 
 		if (inputs?.w) {

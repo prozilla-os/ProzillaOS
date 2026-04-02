@@ -1,11 +1,10 @@
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 
 export const exit = new Command()
 	.setManual({
 		purpose: "Quit terminal interface",
 	})
-	.setExecute(function(_args, params) {
-		const { exit } = params as ExecuteParams;
+	.setExecute(function(_args, { exit }) {
 		exit?.();
 		return { blank: true };
 	});

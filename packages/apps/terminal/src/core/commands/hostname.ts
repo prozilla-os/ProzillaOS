@@ -1,10 +1,9 @@
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 
 export const hostname = new Command()
 	.setManual({
 		purpose: "Display the hostname",
 	})
-	.setExecute(function(_args, params) {
-		const { hostname } = params as ExecuteParams;
+	.setExecute(function(_args, { hostname }) {
 		return hostname;
 	});

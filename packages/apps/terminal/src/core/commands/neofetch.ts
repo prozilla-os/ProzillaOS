@@ -1,15 +1,14 @@
 import { SettingsManager } from "@prozilla-os/core";
 import { ANSI } from "@prozilla-os/shared";
 import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR } from "../../constants/terminal.const";
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 import { Theme } from "@prozilla-os/skins";
 
 export const neofetch = new Command()
 	.setManual({
 		purpose: "Fetch system information",
 	})
-	.setExecute(async function(_args, params) {
-		const { username, hostname, app, systemManager, settingsManager } = params as ExecuteParams;
+	.setExecute(async function(_args, { username, hostname, app, systemManager, settingsManager }) {
 		const leftColumn = ANSI_ASCII_LOGO.split("\n");
 		const rightColumnWidth = (username?.length ?? 0) + (hostname?.length ?? 0) + 1;
 

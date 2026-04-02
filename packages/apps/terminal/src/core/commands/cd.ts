@@ -1,6 +1,6 @@
 import { VirtualFile, VirtualFolder } from "@prozilla-os/core";
 import { formatError } from "../_utils/terminal.utils";
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 
 export const cd = new Command()
 	.setManual({
@@ -8,13 +8,12 @@ export const cd = new Command()
 		usage: "cd [PATH]",
 		description: "Change working directory to given path (the home directory by default).",
 	})
-	.setExecute(function(this: Command, args, params) {
-		const { currentDirectory, setCurrentDirectory } = params as ExecuteParams;
-		const path = (args as string[])[0] ?? "~";
+	.setExecute(function(this: Command, args, { currentDirectory, setCurrentDirectory }) {
+		const path = args[0] ?? "~";
 		let destination = currentDirectory.navigate(path);
 	
 		if (!destination)
-			return formatError(this.name, `${(args as string[])[0]}: No such file or directory`);
+			return formatError(this.name, `${(args)[0]}: No such file or directory`);
 
 		if (destination instanceof VirtualFile)
 			destination = destination.parent as VirtualFolder;

@@ -1,4 +1,4 @@
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 import { CommandsManager } from "../commands";
 
 export const compgen = new Command()
@@ -6,8 +6,7 @@ export const compgen = new Command()
 		purpose: "Display a list of all commands",
 	})
 	.setRequireOptions(true)
-	.setExecute(function(_args, params) {
-		const { options } = params as ExecuteParams;
+	.setExecute(function(_args, { options }) {
 		if (options?.includes("c")) {
 			return CommandsManager.COMMANDS.map((command) => command.name).sort().join("\n");
 		}

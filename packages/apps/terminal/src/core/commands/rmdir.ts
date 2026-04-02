@@ -1,14 +1,13 @@
 import { formatError } from "../_utils/terminal.utils";
-import { Command, ExecuteParams } from "../command";
+import { Command } from "../command";
 
 export const rmdir = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Remove a directory",
 	})
-	.setExecute(function(this: Command, args, params) {
-		const { currentDirectory } = params as ExecuteParams;
-		const folderName = (args as string[])[0];
+	.setExecute(function(this: Command, args, { currentDirectory }) {
+		const folderName = args[0];
 		const folder = currentDirectory.findSubFolder(folderName);
 	
 		if (!folder)
