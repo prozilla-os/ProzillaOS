@@ -1,3 +1,4 @@
+import { parseOptionalFloat } from "@prozilla-os/shared";
 import { formatError } from "../_utils/terminal.utils";
 import { Command } from "../command";
 import { Stream } from "../stream";
@@ -136,7 +137,7 @@ const EXTRA_WAGONS = [
 	],
 ];
 
-function generateLocomotive(frame: number, wagonCount = 1) {
+function generateLocomotive(frame: number, wagonCount = 1, start = 50) {
 	const smokeHeight = LOCOMOTIVE_SMOKE[0].length;
 	const locomotiveHeight = LOCOMOTIVE_TOP.length + LOCOMOTIVE_BOTTOM[0].length;
 	const wagonHeight = COAL_WAGON.length;
@@ -147,7 +148,7 @@ function generateLocomotive(frame: number, wagonCount = 1) {
 	const top = LOCOMOTIVE_TOP;
 	const bottom = LOCOMOTIVE_BOTTOM[frame % LOCOMOTIVE_BOTTOM.length];
 
-	const distance = 50 - frame;
+	const distance = start - frame;
 	const locomotive = smoke.concat(top, bottom).map((line, index) => {
 		if (index >= wagonStart && wagonCount > 0) {
 			for (let i = 0; i < wagonCount; i++) {
@@ -175,10 +176,10 @@ function generateLocomotive(frame: number, wagonCount = 1) {
 export const sl = new Command()
 	.setManual({
 		purpose: "Show animations aimed to correct users who accidentally enter sl instead of ls. SL stands for Steam Locomotive.",
-		usage: "sl\n"
-			+ "sl -w number",
+		usage: "sl [ -w ]",
 		options: {
 			"-w number": "Set the amount of wagons (defaults to 1)",
+			"-s speed": `Set the speed of the locomotive (Defaults to ${ANIMATION_SPEED})`,
 		},
 	})
 	.addOption({
@@ -186,7 +187,12 @@ export const sl = new Command()
 		long: "wagons",
 		isInput: true,
 	})
-	.setExecute(function(this: Command, _args, { inputs }) {
+	.addOption({
+		short: "s",
+		long: "speed",
+		isInput: true,
+	})
+	.setExecute(function(this: Command, _args, { inputs, size }) {
 		let wagonCount = 1;
 
 		if (inputs?.w) {
@@ -197,17 +203,19 @@ export const sl = new Command()
 			}
 		}
 
+		const delay = 100 / parseOptionalFloat(inputs?.s, ANIMATION_SPEED);
+
 		const stream = new Stream();
 
-		let frame = 0;
+		let frame = 0;		
 		const interval = setInterval(() => {
-			const text = generateLocomotive(frame, wagonCount);
+			const text = generateLocomotive(frame, wagonCount, size.x);
 			stream.send(text);
 			frame++;
 
 			if (text.trim().length === 0)
 				stream.stop();
-		}, 100 / ANIMATION_SPEED);
+		}, delay);
 
 		stream.on(Stream.STOP_EVENT, () => {
 			clearInterval(interval);

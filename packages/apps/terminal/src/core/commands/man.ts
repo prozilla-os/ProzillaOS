@@ -1,4 +1,4 @@
-import { ANSI } from "@prozilla-os/shared";
+import { Ansi, ANSI } from "@prozilla-os/shared";
 import { formatError } from "../_utils/terminal.utils";
 import { Command } from "../command";
 import { CommandsManager } from "../commands";
@@ -16,6 +16,10 @@ export const man = new Command()
 		options: {
 			"-k": "Search for manual page using regexp",
 		},
+	})
+	.addOption({
+		short: "k",
+		long: "apropos",
 	})
 	.setExecute(function(this: Command, args, { options }) {
 		// Search function
@@ -49,7 +53,7 @@ export const man = new Command()
 		const sections = [["NAME"]];
 
 		if (manual.purpose) {
-			sections[0].push(formatText(`${commandName} - ${ANSI.decoration.dim}${ANSI.fg.yellow}${manual.purpose}${ANSI.reset}`));
+			sections[0].push(formatText(`${commandName} - ${ANSI.decoration.dim}${Ansi.yellow(manual.purpose)}`));
 		} else {
 			sections[0].push(formatText(commandName));
 		}
@@ -72,13 +76,27 @@ export const man = new Command()
 			sections.push([
 				"OPTIONS",
 				formatText(Object.entries(manual.options).map(([key, value]) => {
-					return `${key} ${ANSI.decoration.dim}${ANSI.fg.yellow}${value}${ANSI.reset}`;
+					let rawOptionSyntax = key.split(" ");
+					const shortOption = rawOptionSyntax[0].slice(1);
+					rawOptionSyntax = rawOptionSyntax.slice(1);
+
+					let optionSyntax = "-" + shortOption;
+					const option = command.options.find((option) => option.short == shortOption);
+					if (option !== undefined) {
+						optionSyntax += ", --" + option.long;
+					}
+
+					if (rawOptionSyntax.length) {
+						optionSyntax += " " + Ansi.dim(rawOptionSyntax.join(" "));
+					}
+					
+					return `${optionSyntax} ${ANSI.decoration.dim}${Ansi.yellow(String(value))}`;
 				}).join("\n")),
 			]);
 		}
 
 		return sections.map((section) => {
-			section[0] = ANSI.fg.yellow + section[0] + ANSI.reset;
+			section[0] = Ansi.yellow(section[0]);
 			return section.join("\n");
 		}).join("\n\n");
 	});

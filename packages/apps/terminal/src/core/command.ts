@@ -88,7 +88,7 @@ export class Command {
 		return this;
 	}
 
-	addOption({ short, long, isInput }: Option): Command {
+	addOption({ short, long, isInput = false }: Omit<Option, "isInput"> & { isInput?: boolean }): Command {
 		this.options.push({ short, long, isInput });
 		return this;
 	}

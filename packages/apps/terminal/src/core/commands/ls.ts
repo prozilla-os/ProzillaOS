@@ -1,7 +1,7 @@
 import { VirtualFolder } from "@prozilla-os/core";
 import { formatError } from "../_utils/terminal.utils";
 import { Command } from "../command";
-import { ANSI } from "@prozilla-os/shared";
+import { Ansi } from "@prozilla-os/shared";
 
 export const ls = new Command()
 	.setManual({
@@ -19,7 +19,7 @@ export const ls = new Command()
 		if (!directory)
 			return formatError(this.name, `Cannot access '${(args)[0]}': No such file or directory`);
 	
-		const folderNames = directory.subFolders.map((folder) => `${ANSI.fg.blue}${folder.id}${ANSI.reset}`);
+		const folderNames = directory.subFolders.map((folder) => Ansi.blue(folder.id));
 		const fileNames = directory.files.map((file) => file.id);
 	
 		const contents = folderNames.concat(fileNames);
