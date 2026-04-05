@@ -2,7 +2,7 @@ import { Application, TypeDocOptions } from "typedoc";
 import type { PluginOptions } from "typedoc-plugin-markdown";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { formatPackageName, ORG, OUT_DIR, PACKAGE_PATHS, PACKAGE_PREFIX, PACKAGES_DIR } from "./packages.utils.mjs";
+import { formatPackageName, OUT_DIR, PACKAGE_PATHS, PACKAGE_PREFIX, PACKAGES_DIR } from "./packages.utils.mjs";
 import { Option, program } from "@commander-js/extra-typings";
 import { formatMemberPageTitle, formatModulePageTitle } from "./typedoc.utils";
 import { Logger } from "@prozilla-os/shared";

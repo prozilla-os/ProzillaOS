@@ -11,7 +11,9 @@ export default defineConfig(
 	globalIgnores([
 		"eslint.config.js",
 		"**/dist/**/*",
-		"**/node_modules/**/*"
+		"**/node_modules/**/*",
+		"**/vite.config.ts.timestamp-*.mjs",
+		"docs/.vitepress/cache/**/*"
 	]),
 	{
 		extends: [

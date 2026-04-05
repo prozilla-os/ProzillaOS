@@ -191,11 +191,13 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		const inputs: Record<string, string> = {};
 		args.filter((arg: string) => arg.startsWith("-")).forEach((option: string) => {
 			const addOption = (key: string) => {
+				const commandOption = command.getOption(key);
+				key = commandOption?.short ?? key;
+
 				if (options.includes(key))
 					return;
 
 				options.push(key);
-				const commandOption = command.getOption(options[options.length - 1]);
 
 				if (commandOption?.isInput) {
 					const optionInput = args[args.indexOf(option) + 1];

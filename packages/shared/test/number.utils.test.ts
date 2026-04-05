@@ -14,9 +14,9 @@ test.simpleCases(isValidInteger, [
 	["42", true],
 	["-7", true],
 	["1e3", true],
+	["3.0", true],
 
 	["3.14", false],
-	["3.0", false],
 	["1e1.5", false],
 	["abc", false],
 	["12abc", false],

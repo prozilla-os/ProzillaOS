@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
 import react from "@vitejs/plugin-react-swc";
-import dts from "unplugin-dts/vite";
 import cssInjectedByJs from "vite-plugin-css-injected-by-js";
 
 // https://vitejs.dev/config/

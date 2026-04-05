@@ -93,14 +93,7 @@ export class Command {
 		return this;
 	}
 
-	getOption(key: string): Option | null {
-		let matchingOption: Option | null = null;
-
-		this.options.forEach((option) => {
-			if (option.short === key || option.long === key)
-				matchingOption = option;
-		});
-
-		return matchingOption;
+	getOption(key: string): Option | undefined {
+		return this.options.find((option) => option.short === key || option.long === key);
 	}
 }

@@ -1,7 +1,7 @@
 // @ts-check
 import { Converter, ReflectionKind, CommentTag, Comment, PageKind, ParameterType } from "typedoc";
 import { MarkdownPageEvent } from "typedoc-plugin-markdown";
-import { formatPackageName, ORG, PACKAGE_PATHS, PACKAGE_PREFIX, packagePathToName } from "./packages.utils.mjs";
+import { formatPackageName, ORG, PACKAGE_PATHS, PACKAGE_PREFIX } from "./packages.utils.mjs";
 import { existsSync, readFileSync } from "node:fs";
 import { Logger, Markdown } from "@prozilla-os/shared";
 
