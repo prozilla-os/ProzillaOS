@@ -5,3 +5,4 @@ export * from "./outsideClick";
 export * from "./screen";
 export * from "./scrollWithShadows";
 export * from "./classNames";
+export * from "./lazyRef";

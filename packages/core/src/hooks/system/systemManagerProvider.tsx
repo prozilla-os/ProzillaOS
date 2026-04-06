@@ -1,6 +1,7 @@
 import { FC, ReactNode } from "react";
 import { SystemManagerContext } from "./systemManagerContext";
 import { SystemManager, SystemManagerParams } from "../../features/system/systemManager";
+import { useLazyRef } from "../_utils";
 
 export interface SystemManagerProviderProps {
 	systemName: SystemManagerParams["systemName"];
@@ -18,9 +19,9 @@ export interface SystemManagerProviderProps {
 
 export const SystemManagerProvider: FC<SystemManagerProviderProps> = (props) =>  {
 	const { children, ...systemManagerParams } = props;
-	const systemManager = new SystemManager(systemManagerParams);
+	const systemManagerRef = useLazyRef(() => new SystemManager(systemManagerParams));
 
-	return <SystemManagerContext.Provider value={systemManager}>
+	return <SystemManagerContext.Provider value={systemManagerRef.current}>
 		{children}
 	</SystemManagerContext.Provider>;
 };

@@ -1,4 +1,4 @@
-import { MouseEventHandler, MutableRefObject, useEffect, useRef, useState } from "react";
+import { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, MutableRefObject, useEffect, useRef, useState } from "react";
 import styles from "./Terminal.module.css";
 import { OutputLine } from "./OutputLine";
 import { InputLine } from "./InputLine";
@@ -118,7 +118,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		setStream(stream);
 		setStreamFocused(false);
 
-		const onKeyDown = (event: KeyboardEvent) => {
+		const onKeyDown = (event: globalThis.KeyboardEvent) => {
 			if (active && (event.ctrlKey || event.metaKey) && event.key === "c") {
 				stream.stop();
 			}
@@ -320,7 +320,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		setHistoryIndex(index);
 	};
 
-	const onKeyDown = (event: React.KeyboardEvent) => {
+	const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
 		const value = (event.target as HTMLInputElement).value;
 		const { key } = event;
 
@@ -338,8 +338,8 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		}
 	};
 
-	const onChange = (event: React.ChangeEvent) => {
-		const value = (event.target as HTMLInputElement).value;
+	const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+		const value = event.target.value;
 		return setInputValue(value);
 	};
 
@@ -357,7 +357,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		});
 	};
 
-	const onMouseDown = (event: MouseEvent) => {
+	const onMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
 		focus?.(event);
 
 		if (event.button === 2) {
@@ -371,7 +371,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		}
 	};
 
-	const onContextMenu = (event: Event) => {
+	const onContextMenu: MouseEventHandler<HTMLDivElement> = (event) => {
 		event.preventDefault();
 	};
 
@@ -379,12 +379,12 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		<div
 			ref={ref} 
 			className={styles.Terminal}
-			onMouseDown={onMouseDown as unknown as MouseEventHandler}
-			onContextMenu={onContextMenu as unknown as MouseEventHandler}
+			onMouseDown={onMouseDown}
+			onContextMenu={onContextMenu}
 			onClick={(event) => {
 				if (window.getSelection()?.toString() === "") {
 					event.preventDefault();
-					(inputRef.current)?.focus();
+					inputRef.current?.focus();
 				}
 			}}
 		>

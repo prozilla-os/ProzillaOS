@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import styles from "./CircuitView.module.css";
-import { App, ClickAction, Divider, DropdownAction, HeaderMenu, openUrl, useAppFolder, useManualContextMenu } from "@prozilla-os/core";
+import { App, ClickAction, Divider, DropdownAction, HeaderMenu, openUrl, useAppFolder, useLazyRef, useManualContextMenu } from "@prozilla-os/core";
 import { Circuit } from "../core/circuit";
 import { ChipsManager } from "../core/chips/chipsManager";
 
@@ -10,7 +10,7 @@ interface CircuitViewProps {
 
 export function CircuitView({ app }: CircuitViewProps) {
 	const virtualFolder = useAppFolder(app);
-	const circuitRef = useRef(new Circuit("Chip", "#000", 2, 1));
+	const circuitRef = useLazyRef(() => new Circuit("Chip", "#000", 2, 1));
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const { openContextMenu } = useManualContextMenu();
 

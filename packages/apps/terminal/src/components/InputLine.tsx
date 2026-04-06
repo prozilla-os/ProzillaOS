@@ -6,9 +6,9 @@ import { Ansi } from "./Ansi";
 interface InputLineProps {
 	value: string;
 	prefix: string;
-	onChange: (event: ChangeEvent) => void;
-	onKeyUp?: (event: KeyboardEvent) => void;
-	onKeyDown?: (event: KeyboardEvent) => void;
+	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+	onKeyUp?: (event: KeyboardEvent<HTMLInputElement>) => void;
+	onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
 	inputRef: MutableRefObject<HTMLInputElement>;
 }
 

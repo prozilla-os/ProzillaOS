@@ -36,9 +36,9 @@ export interface WindowProps extends WindowOptions {
 	/** Function that sets the icon URL of the window. */
 	setIconUrl?: React.Dispatch<React.SetStateAction<string>>;
 	/** Function that closes the window. */
-	close?: (event?: Event) => void;
+	close?: (event?: Event | React.UIEvent) => void;
 	/** Function that brings the window in focus. */
-	focus?: (event?: Event, force?: boolean) => void;
+	focus?: (event?: Event | React.UIEvent, force?: boolean) => void;
 	/** Whether the window is currently focused and should allow interactions. */
 	active?: boolean;
 	/** Whether to start the window in minimized mode. */
