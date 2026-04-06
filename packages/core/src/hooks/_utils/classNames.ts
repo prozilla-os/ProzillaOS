@@ -16,16 +16,18 @@ export function useStaticClassName(block?: string, element?: string, modifier?: 
 		if (block == null)
 			return null;
 
-		let className = "";
+		let className = `${NAME + BLOCK_PREFIX + block}`;
+		if (element != null)
+			className += ELEMENT_PREFIX + element;
 
-		if (modifier == null || typeof modifier == "string") {
-			className = NAME + BLOCK_PREFIX + block;
+		if (typeof modifier == "string") {
+			className += ` ${NAME + BLOCK_PREFIX + block}`;
 
 			if (element != null)
 				className += ELEMENT_PREFIX + element;
 			if (modifier != null)
 				className += MODIFIER_PREFIX + modifier;
-		} else {
+		} else if (modifier != null) {
 			modifier?.forEach((mod) => {
 				className += ` ${NAME + BLOCK_PREFIX + block}`;
 
@@ -34,11 +36,9 @@ export function useStaticClassName(block?: string, element?: string, modifier?: 
 				if (mod != null)
 					className += MODIFIER_PREFIX + mod;
 			});
-
-			className = className.trim();
 		}
 
-		return className;
+		return className.trim();
 	}, [block, element, modifier]);
 }
 

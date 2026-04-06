@@ -1,4 +1,4 @@
-import { ChangeEvent, CSSProperties, KeyboardEvent, MutableRefObject, useState } from "react";
+import { ChangeEvent, CSSProperties, KeyboardEvent, RefObject, useState } from "react";
 import styles from "./Terminal.module.css";
 import { Ansi } from "./Ansi";
 
@@ -9,7 +9,7 @@ interface InputLineProps {
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 	onKeyUp?: (event: KeyboardEvent<HTMLInputElement>) => void;
 	onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
-	inputRef: MutableRefObject<HTMLInputElement>;
+	inputRef: RefObject<HTMLInputElement>;
 }
 
 export function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown, inputRef }: InputLineProps) {

@@ -5,6 +5,7 @@ import { faCircleDot } from "@fortawesome/free-solid-svg-icons";
 import { ReactElement, useState } from "react";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { ActionProps } from "../Actions";
+import { useClassNames } from "../../../hooks";
 
 export interface RadioActionProps extends ActionProps {
 	options: {
@@ -17,13 +18,13 @@ export interface RadioActionProps extends ActionProps {
 export function RadioAction({ actionId, options, initialIndex, onTrigger }: RadioActionProps): ReactElement {
 	const [activeIndex, setActiveIndex] = useState(initialIndex ?? 0);
 
-	return (<div key={actionId}>
+	return <div key={actionId} className={useClassNames([], "Actions", "Radio")}>
 		{options.map(({ label, shortcut }, index) =>
 			<button key={label} className={styles.Button} tabIndex={0} onClick={(event) => {
 				setActiveIndex(index);
 				onTrigger?.(event as unknown as Event, index);
 			}}>
-				<span className={styles.Label}>
+				<span className={useClassNames([styles.Label], "Actions", "Label")}>
 					<div className={styles.Icon}>
 						{activeIndex === index
 							? <FontAwesomeIcon icon={faCircleDot}/>
@@ -35,5 +36,5 @@ export function RadioAction({ actionId, options, initialIndex, onTrigger }: Radi
 				{shortcut && <p className={styles.Shortcut}>{formatShortcut(shortcut)}</p>}
 			</button>
 		)}
-	</div>);
+	</div>;
 }

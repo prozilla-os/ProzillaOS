@@ -123,9 +123,14 @@ export const Taskbar = memo(() => {
 		updateShowSearch(true);
 	};
 
+	const modifiers: string[] = [];
+	if (showHome) {
+		modifiers.push("HomeActive");
+	}
+
 	return <div
 		style={{ "--taskbar-height": `${taskbarConfig.height}px`, zIndex } as CSSProperties}
-		className={useClassNames([styles.Taskbar], "Taskbar")}
+		className={useClassNames([styles.Taskbar], "Taskbar", undefined, modifiers)}
 		data-allow-context-menu={true}
 		onContextMenu={(event) => {
 			if ((event.target as HTMLElement).getAttribute("data-allow-context-menu"))

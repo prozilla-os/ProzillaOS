@@ -26,6 +26,13 @@
 
 	--body-font-family: "W95FA", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
 		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+	--ridge-width: 0.125rem;
+	--ridge-color-a: var(--white-0);
+	--ridge-color-b: var(--black-0);
+	--ridge-shadow: inset 0 var(--ridge-width) var(--ridge-color-a), 0 var(--ridge-width) var(--ridge-color-b);
+	--ridge-top-left: var(--ridge-width) solid var(--ridge-color-a);
+	--ridge-bottom-right: var(--ridge-width) ridge var(--ridge-color-b);
 }
 
 @font-face {
@@ -39,14 +46,69 @@ body {
 	-webkit-font-smoothing : none;
 }
 
+.ProzillaOS-Taskbar__HomeIcon > *,
+.ProzillaOS-Taskbar__Menu,
+.ProzillaOS-Actions--ContextMenu,
+.ProzillaOS-WindowHeader > button,
+.ProzillaOS-Actions__Content  { 
+	border-top: var(--ridge-top-left);
+	border-left: var(--ridge-top-left);
+	border-bottom: var(--ridge-bottom-right);
+	border-right: var(--ridge-bottom-right);
+	background-color: var(--background-color-4);
+}
+
+.ProzillaOS-Taskbar--HomeActive .ProzillaOS-Taskbar__HomeIcon > *,
+.ProzillaOS-WindowHeader > button:is(:hover, :focus-visible) {
+	border-top: var(--ridge-bottom-right);
+	border-left: var(--ridge-bottom-right);
+	border-bottom: var(--ridge-top-left);
+	border-right: var(--ridge-top-left);
+}
+
+.ProzillaOS-SearchMenu__AppButton > h2::first-letter,
+.ProzillaOS-Actions__Label > p::first-letter {
+	text-decoration: underline;
+}
+
 .ProzillaOS-Taskbar {
 	--taskbar-color: var(--background-color-4);
 	--taskbar-menu-color: var(--background-color-4);
 }
 
+.ProzillaOS-Taskbar::after {
+	box-shadow: var(--ridge-shadow);
+}
+
+.ProzillaOS-Taskbar__HomeIcon {
+	padding: 1rem;
+}
+
+.ProzillaOS-Taskbar__HomeIcon:is(:hover, :focus-visible) {
+	background: none !important;
+}
+
+.ProzillaOS-Taskbar__HomeIcon > * {
+	padding: 0.125rem;
+}
+
+.ProzillaOS-HomeMenu__Buttons {
+	background-color: var(--black-0);
+	top: var(--ridge-width);
+	left: var(--ridge-width);
+	bottom: var(--ridge-width);
+	height: calc(100% - var(--ridge-width) * 2);
+}
+
 .ProzillaOS-WindowHeader {
 	background-color: var(--white-4);
 	border: var(--border-width) solid var(--background-color-4);
+	padding-right: 0.25rem;
+}
+
+.ProzillaOS-WindowHeader > button {
+	height: calc(var(--header-height) - 0.25rem * 4);
+	padding: 0.25rem;
 }
 
 .ProzillaOS-DirectoryList__File,
@@ -57,4 +119,13 @@ body {
 .ProzillaOS-DirectoryList__File svg,
 .ProzillaOS-DirectoryList__Folder svg {
 	filter: none;
+}
+
+.ProzillaOS-Actions .ProzillaOS-Actions__Divider {
+	--height: 3px;
+	background-color: #fffd;
+	border-bottom: calc(var(--height) / 2) solid var(--foreground-color-2);
+	height: var(--height);
+	border-radius: 0;
+	width: 100%;
 }

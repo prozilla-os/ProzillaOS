@@ -4,6 +4,7 @@ import { faCaretRight, IconDefinition } from "@fortawesome/free-solid-svg-icons"
 import { ReactElement, useState } from "react";
 import { ActionProps } from "../Actions";
 import { OutsideClickListener } from "../../../hooks/_utils/outsideClick";
+import { useClassNames } from "../../../hooks";
 
 export interface DropdownActionProps extends ActionProps {
 	showOnHover?: boolean;
@@ -22,7 +23,7 @@ export function DropdownAction({ label, icon, children, showOnHover = true }: Dr
 	}}>
 		<div
 			key={label}
-			className={classNames.join(" ")}
+			className={useClassNames(classNames, "Actions", "Dropdown")}
 			tabIndex={0}
 			onMouseEnter={() => {
 				if (showOnHover)
@@ -37,12 +38,12 @@ export function DropdownAction({ label, icon, children, showOnHover = true }: Dr
 					setShowContent(!showContent);
 			}}
 		>
-			<span className={styles.Label}>
+			<span className={useClassNames([styles.Label], "Actions", "Label")}>
 				{icon && <div className={styles.Icon}><FontAwesomeIcon icon={icon as IconDefinition}/></div>}
 				<p>{label}</p>
 			</span>
 			<div className={styles.DropdownArrow}><FontAwesomeIcon icon={faCaretRight}/></div>
-			<div className={styles.DropdownContent}>
+			<div className={useClassNames([styles.DropdownContent], "Actions", "Content")}>
 				{children}
 			</div>
 		</div>

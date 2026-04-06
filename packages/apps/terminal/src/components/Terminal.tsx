@@ -1,4 +1,4 @@
-import { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, MutableRefObject, useEffect, useRef, useState } from "react";
+import { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react";
 import styles from "./Terminal.module.css";
 import { OutputLine } from "./OutputLine";
 import { InputLine } from "./InputLine";
@@ -396,7 +396,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 					prefix={prefix}
 					onKeyDown={onKeyDown}
 					onChange={onChange}
-					inputRef={inputRef as unknown as MutableRefObject<HTMLInputElement>}
+					inputRef={inputRef}
 				/>
 				: <OutputLine text={streamOutput ?? ""}/>
 			}

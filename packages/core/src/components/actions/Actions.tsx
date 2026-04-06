@@ -3,6 +3,7 @@ import { useShortcuts } from "../../hooks/_utils/keyboard";
 import styles from "./Actions.module.css";
 import { useScreenBounds } from "../../hooks/_utils/screen";
 import { ActionsManager } from "../../features/actions/actionsManager";
+import { useClassNames } from "../../hooks";
 
 export interface ActionProps {
 	/** ID of the action. */
@@ -115,7 +116,7 @@ export function Actions({ children, mode, className, onAnyTrigger, triggerParams
 	if (!initiated)
 		classNames.push(styles.Uninitiated);
 
-	return <div ref={ref as Ref<HTMLDivElement>} className={classNames.join(" ")}>
+	return <div ref={ref as Ref<HTMLDivElement>} className={useClassNames(classNames, "Actions", undefined, mode)}>
 		{iterateOverChildren(children)}
 	</div>;
 }

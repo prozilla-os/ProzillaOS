@@ -5,6 +5,7 @@ import { ReactElement, useState } from "react";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { ActionProps } from "../Actions";
+import { useClassNames } from "../../../hooks";
 
 export interface ToggleActionProps extends ActionProps {
 	initialValue: boolean;
@@ -13,11 +14,11 @@ export interface ToggleActionProps extends ActionProps {
 export function ToggleAction({ actionId, label, shortcut, initialValue, onTrigger }: ToggleActionProps): ReactElement {
 	const [active, setActive] = useState(initialValue ?? false);
 
-	return (<button key={actionId} className={styles.Button} tabIndex={0} onClick={(event) => {
+	return <button key={actionId} className={useClassNames([styles.Button], "Actions", "Toggle", active ? "Active" : undefined)} tabIndex={0} onClick={(event) => {
 		onTrigger?.(event as unknown as Event, !active);
 		setActive(!active);
 	}}>
-		<span className={styles.Label}>
+		<span className={useClassNames([styles.Label], "Actions", "Label")}>
 			<div className={styles.Icon}>
 				{active 
 					? <FontAwesomeIcon icon={faSquareCheck}/>
@@ -27,5 +28,5 @@ export function ToggleAction({ actionId, label, shortcut, initialValue, onTrigge
 			<p>{label}</p>
 		</span>
 		{shortcut && <p className={styles.Shortcut}>{formatShortcut(shortcut)}</p>}
-	</button>);
+	</button>;
 }

@@ -5,6 +5,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ActionProps } from "../Actions";
 import { formatShortcut } from "../../../features";
 import { ImagePreview } from "../../_utils/directory-list/ImagePreview";
+import { useClassNames } from "../../../hooks";
 
 export interface ClickActionProps extends ActionProps {
 	icon?: string | object;
@@ -15,8 +16,8 @@ export const ClickAction = memo(({ actionId, label, shortcut, disabled, onTrigge
 	if (disabled)
 		classNames.push(styles.Disabled);
 
-	return (<button key={actionId} className={classNames.join(" ")} tabIndex={0} disabled={disabled} onClick={onTrigger as unknown as MouseEventHandler}>
-		<span className={styles.Label}>
+	return <button key={actionId} className={useClassNames(classNames, "Actions", "Click")} tabIndex={0} disabled={disabled} onClick={onTrigger as unknown as MouseEventHandler}>
+		<span className={useClassNames([styles.Label], "Actions", "Label")}>
 			{icon && <div className={styles.Icon}>
 				{typeof icon == "string"
 					? <ImagePreview source={icon} className={styles.ImageIcon}/>
@@ -26,5 +27,5 @@ export const ClickAction = memo(({ actionId, label, shortcut, disabled, onTrigge
 			<p>{label}</p>
 		</span>
 		{shortcut && <p className={styles.Shortcut}>{formatShortcut(shortcut)}</p>}
-	</button>);
+	</button>;
 });
