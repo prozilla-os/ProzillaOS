@@ -1,5 +1,5 @@
-import { VirtualFile } from "@prozilla-os/core";
-import { formatError } from "../_utils/terminal.utils";
+import { VirtualFile } from "../../virtual-drive";
+import { formatError } from "../_utils/shell.utils";
 import { Command } from "../command";
 
 export const rm = new Command()

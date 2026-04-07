@@ -1,5 +1,5 @@
 import { parseOptionalFloat } from "@prozilla-os/shared";
-import { formatError } from "../_utils/terminal.utils";
+import { formatError } from "../_utils/shell.utils";
 import { Command } from "../command";
 import { Stream } from "../stream";
 

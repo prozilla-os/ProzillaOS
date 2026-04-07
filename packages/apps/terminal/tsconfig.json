@@ -13,6 +13,6 @@
 			"@prozilla-os/skins": ["./node_modules/@prozilla-os/skins/src/main"]
 		}
 	},
-	"include": ["src", "vite.config.ts"],
+	"include": ["src", "vite.config.ts", "../../core/src/features/shell/_utils"],
 	"exclude": ["node_modules"],
 }

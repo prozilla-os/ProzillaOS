@@ -1,8 +1,8 @@
-import { SettingsManager } from "@prozilla-os/core";
 import { ANSI } from "@prozilla-os/shared";
-import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR } from "../../constants/terminal.const";
+import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR } from "../../../constants/shell.const";
 import { Command } from "../command";
 import { Theme } from "@prozilla-os/skins";
+import { SettingsManager } from "../../settings/settingsManager";
 
 export const neofetch = new Command()
 	.setManual({

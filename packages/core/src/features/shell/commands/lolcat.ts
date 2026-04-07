@@ -1,5 +1,5 @@
 import { ANSI } from "@prozilla-os/shared";
-import { removeAnsi } from "../_utils/terminal.utils";
+import { removeAnsi } from "../_utils/shell.utils";
 import { Command } from "../command";
 
 const COLUMN_WIDTH = 5;

@@ -1,4 +1,4 @@
-import { formatError } from "../_utils/terminal.utils";
+import { formatError } from "../_utils/shell.utils";
 import { Command } from "../command";
 
 export const rmdir = new Command()

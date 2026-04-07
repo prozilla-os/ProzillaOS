@@ -1,4 +1,4 @@
-import { reloadViewport } from "@prozilla-os/core";
+import { reloadViewport } from "../../_utils";
 import { Command } from "../command";
 
 export const reboot = new Command()

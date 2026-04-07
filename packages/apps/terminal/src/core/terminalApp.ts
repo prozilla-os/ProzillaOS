@@ -1,7 +1,5 @@
-import { App, AppsConfig } from "@prozilla-os/core";
+import { App, AppsConfig, Command, CommandsManager } from "@prozilla-os/core";
 import { Terminal, TerminalProps } from "../components/Terminal";
-import { CommandsManager } from "./commands";
-import { Command } from "./command";
 
 export class TerminalApp extends App<TerminalProps> {
 

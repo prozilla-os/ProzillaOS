@@ -1,7 +1,9 @@
-import { App, SettingsManager, SystemManager, Vector2, VirtualFolder, VirtualRoot } from "@prozilla-os/core";
 import { Stream } from "./stream";
-import { Dispatch, SetStateAction } from "react";
-import { HistoryEntry } from "../components/Terminal";
+import { HistoryEntry } from "./shell";
+import { VirtualFolder, VirtualRoot } from "../virtual-drive";
+import { SettingsManager } from "../settings/settingsManager";
+import { SystemManager } from "../system/systemManager";
+import { App, Vector2 } from "../../main";
 
 type Option = {
 	long: string,
@@ -10,18 +12,19 @@ type Option = {
 };
 
 export type CommandResponse = string | { blank: boolean } | void | Stream;
-export type ExecuteParams = {
-	promptOutput?: (text: string) => void,
-	pushHistory?: (entry: HistoryEntry) => void,
-	virtualRoot?: VirtualRoot,
+export type ShellContext = {
+	promptOutput: (text: string) => void,
+	pushHistory: (entry: HistoryEntry) => void,
+	execute: (command: string) => Promise<CommandResponse>,
+	virtualRoot: VirtualRoot,
 	currentDirectory: VirtualFolder,
-	setCurrentDirectory?: Dispatch<SetStateAction<VirtualFolder>>,
-	username?: string,
-	hostname?: string,
-	rawInputValue?: string,
-	options?: string[],
-	exit?: () => void,
-	inputs?: Record<string, string>,
+	setCurrentDirectory: (directory: VirtualFolder) => void,
+	username: string,
+	hostname: string,
+	rawInputValue: string,
+	options: string[],
+	exit: () => void,
+	inputs: Record<string, string>,
 	timestamp: number,
 	settingsManager: SettingsManager,
 	systemManager: SystemManager,
@@ -30,7 +33,7 @@ export type ExecuteParams = {
 };
 
 type Execute = (
-		((args: string[], params: ExecuteParams) => CommandResponse | Promise<CommandResponse>)
+		((args: string[], params: ShellContext) => CommandResponse | Promise<CommandResponse>)
 		| ((args: string[]) => CommandResponse | Promise<CommandResponse>)
 		| (() => CommandResponse | Promise<CommandResponse>)
 	);

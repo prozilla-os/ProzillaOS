@@ -1,4 +1,4 @@
-import { MAX_WIDTH } from "../../constants/terminal.const";
+import { MAX_WIDTH } from "../../../constants/shell.const";
 import { Command } from "../command";
 
 const COW = `

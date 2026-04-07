@@ -1,5 +1,5 @@
-import { VirtualFolder } from "@prozilla-os/core";
-import { formatError } from "../_utils/terminal.utils";
+import { VirtualFolder } from "../../virtual-drive";
+import { formatError } from "../_utils/shell.utils";
 import { Command } from "../command";
 import { Ansi } from "@prozilla-os/shared";
 

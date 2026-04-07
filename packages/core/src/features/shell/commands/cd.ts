@@ -1,5 +1,5 @@
-import { VirtualFile, VirtualFolder } from "@prozilla-os/core";
-import { formatError } from "../_utils/terminal.utils";
+import { VirtualFile, VirtualFolder } from "../../virtual-drive";
+import { formatError } from "../_utils/shell.utils";
 import { Command } from "../command";
 
 export const cd = new Command()

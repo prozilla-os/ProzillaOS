@@ -1,5 +1,6 @@
 export * from "./system/configs";
 export * from "./virtual-drive";
+export * from "./shell";
 export * from "./_utils";
 
 export * from "./apps/app";
