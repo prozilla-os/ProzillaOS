@@ -14,7 +14,7 @@ export function useAppFolder(app?: App): VirtualFolder | null {
 		if (folder != null)
 			return;
 
-		const parentFolder = virtualRoot?.navigate("~/Apps") as VirtualFolder;
+		const parentFolder = virtualRoot?.navigateToFolder("~/Apps");
 
 		if (parentFolder == null) {
 			console.warn("Folder missing: '~/Apps'");

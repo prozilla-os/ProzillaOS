@@ -14,7 +14,7 @@ export class TrackingConfig {
 	googleAnalyticsMeasurementId: TrackingConfigOptions["GAMeasurementId"];
 
 	constructor(options: Partial<TrackingConfigOptions> = {}) {
-		const { enabled, GAMeasurementId } = options as TrackingConfigOptions;
+		const { enabled, GAMeasurementId } = options;
 		
 		this.enabled = enabled ?? true;
 		this.googleAnalyticsMeasurementId = GAMeasurementId ?? "G-ZFQRR9DP3C";

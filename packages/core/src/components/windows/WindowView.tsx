@@ -3,7 +3,7 @@ import styles from "./WindowView.module.css";
 import { faCircleRight, faExpand, faMinus, faWindowMaximize as fasWindowMaximize, faTimes, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useWindowsManager } from "../../hooks/windows/windowsManagerContext";
 import Draggable from "react-draggable";
-import { CSSProperties, FC, memo, MouseEventHandler, useCallback, useEffect, useRef, useState } from "react";
+import { FC, memo, MouseEventHandler, useCallback, useEffect, useRef, useState } from "react";
 import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import utilStyles from "../../styles/utils.module.css";
 import { useContextMenu } from "../../hooks/modals/contextMenu";
@@ -36,9 +36,9 @@ export interface WindowProps extends WindowOptions {
 	/** Function that sets the icon URL of the window. */
 	setIconUrl?: React.Dispatch<React.SetStateAction<string>>;
 	/** Function that closes the window. */
-	close?: (event?: Event | React.UIEvent) => void;
+	close?: (event?: Event | React.UIEvent<HTMLElement>) => void;
 	/** Function that brings the window in focus. */
-	focus?: (event?: Event | React.UIEvent, force?: boolean) => void;
+	focus?: (event?: Event | React.UIEvent<HTMLElement>, force?: boolean) => void;
 	/** Whether the window is currently focused and should allow interactions. */
 	active?: boolean;
 	/** Whether to start the window in minimized mode. */
@@ -64,7 +64,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, opti
 	const [maximized, setMaximized] = useState(fullscreen ?? false);
 	const [screenWidth, screenHeight] = useScreenDimensions();
 	const [title, setTitle] = useState(app?.name ?? "");
-	const [iconUrl, setIconUrl] = useState<string>(app ? appsConfig.getAppById(app?.id)?.iconUrl ?? "" : "");
+	const [iconUrl, setIconUrl] = useState<string>(app ? appsConfig.getAppById(app.id)?.iconUrl ?? "" : "");
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.WINDOWS, index: index ?? 0 });
 
 	const { onContextMenu, ShortcutsListener } = useContextMenu({ Actions: (props) =>
@@ -109,8 +109,8 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, opti
 
 	useEffect(() => {
 		const setViewportTitleAndIcon = () => {
-			if (title != null) setViewportTitle(`${title} | ${systemName}`);
-			if (iconUrl != null) setViewportIcon(iconUrl);
+			setViewportTitle(`${title} | ${systemName}`);
+			setViewportIcon(iconUrl);
 		};
 
 		if (active && !minimized) setViewportTitleAndIcon();
@@ -141,8 +141,8 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, opti
 		if (event?.defaultPrevented)
 			return;
 
-		const target = event?.target as HTMLElement;
-		if (event == null || target?.closest?.(".Handle") == null || target?.closest?.("button") == null)
+		const target = event?.target as HTMLElement | null;
+		if (event == null || target == null || target.closest(".Handle") == null || target.closest("button") == null)
 			windowsManager?.focus(id);
 	}) satisfies WindowProps["focus"], [windowsManager, id]);
 
@@ -152,7 +152,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, opti
 	if (minimized)
 		classNames.push(styles.Minimized);
 
-	return (<div style={{ zIndex, position: !maximized ? "relative" : null } as CSSProperties}>
+	return <div style={{ zIndex, position: !maximized ? "relative" : undefined }}>
 		<ShortcutsListener/>
 		<Draggable
 			key={id}
@@ -181,8 +181,8 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, opti
 				<div
 					className={styles["Window-inner"]}
 					style={{
-						width: (maximized || size == null) ? undefined : size.x,
-						height: (maximized || size == null) ? undefined : size.y,
+						width: maximized || size == null ? undefined : size.x,
+						height: maximized || size == null ? undefined : size.y,
 					}}
 				>
 					<div
@@ -243,5 +243,5 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, opti
 				</div>
 			</div>
 		</Draggable>
-	</div>);
+	</div>;
 });

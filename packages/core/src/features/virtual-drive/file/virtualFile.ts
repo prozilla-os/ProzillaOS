@@ -143,7 +143,7 @@ export class VirtualFile extends VirtualBase<VirtualFileEvents> {
 				const app = appsConfig.getAppById(VirtualFile.removeFileScheme(this.source));
 
 				if (app?.iconUrl != null)
-					return app?.iconUrl;
+					return app.iconUrl;
 			} else if (this.source.startsWith(FILE_SCHEMES.external) && skin.fileIcons.external != null) {
 				return skin.fileIcons.external;
 			}
@@ -231,7 +231,7 @@ export class VirtualFile extends VirtualBase<VirtualFileEvents> {
 		if (!this.canBeEdited || (this.editedByUser == null || !this.editedByUser))
 			return null;
 
-		const object = super.toJSON() as VirtualFileJson;
+		const object = super.toJSON() as VirtualFileJson | null;
 
 		if (object == null)
 			return null;

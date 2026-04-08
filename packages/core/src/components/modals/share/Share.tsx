@@ -163,6 +163,7 @@ export function Share({ modal, params, ...props }: ModalProps) {
 							}
 						</div>
 					</label> : null}
+					{/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
 					{APP_OPTIONS[appId]?.map(({ label, name }) =>
 						<Option key={name} name={name} label={label} setOption={setOption}/>
 					)}

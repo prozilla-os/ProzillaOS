@@ -58,7 +58,7 @@ export const WindowsView: FC = memo(() => {
 		const settings = settingsManager?.getSettings(Settings.APPS);
 		void settings?.get("startup", (value) => {
 			if (value !== "") {
-				startupAppNames = value?.split(",").concat(startupAppNames);
+				startupAppNames = value.split(",").concat(startupAppNames);
 				startupAppNames = removeDuplicatesFromArray(startupAppNames);
 			}
 
@@ -66,7 +66,7 @@ export const WindowsView: FC = memo(() => {
 		});
 	}, [settingsManager, windowsManager]);
 
-	return (<div className={useClassNames([], "WindowsView")}>
+	return <div className={useClassNames([], "WindowsView")}>
 		{windows?.map((window: WindowProps) => {
 			const { id, app, size, position, options, minimized, fullscreen } = window;
 			const index = sortedWindows.indexOf(window);
@@ -88,5 +88,5 @@ export const WindowsView: FC = memo(() => {
 				fullscreen={fullscreen}
 			/>;
 		})}
-	</div>);
+	</div>;
 });

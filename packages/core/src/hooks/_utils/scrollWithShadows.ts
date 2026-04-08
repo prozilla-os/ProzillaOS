@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect, useState } from "react";
+import { RefObject, UIEvent, useCallback, useEffect, useState } from "react";
 
 export interface UseScrollWithShadowParams<T extends HTMLElement = HTMLElement> {
 	ref?: RefObject<T | null>;
@@ -19,7 +19,7 @@ export interface UseScrollWithShadowParams<T extends HTMLElement = HTMLElement> 
 }
 
 // https://medium.com/dfind-consulting/react-scroll-hook-with-shadows-9ba2d47ae32
-export function useScrollWithShadow<T extends HTMLElement = HTMLElement>(params: UseScrollWithShadowParams<T>) {
+export function useScrollWithShadow<T extends HTMLElement = HTMLElement>(params?: UseScrollWithShadowParams<T>) {
 	const [initiated, setInitiated] = useState(false);
 	const [scrollStart, setScrollStart] = useState(0);
 	const [scrollLength, setScrollLength] = useState(0);
@@ -50,7 +50,7 @@ export function useScrollWithShadow<T extends HTMLElement = HTMLElement>(params:
 		},
 	} = params;
 
-	const updateValues = useCallback((element: T) => {
+	const updateValues = useCallback((element?: T) => {
 		if (!element)
 			return;
 
@@ -59,10 +59,8 @@ export function useScrollWithShadow<T extends HTMLElement = HTMLElement>(params:
 		setClientLength(horizontal ? element.clientWidth : element.clientHeight);
 	}, [horizontal]);
 
-	const onUpdate = (event: React.UIEvent<T, UIEvent> | { target: T | null }) => {
-		if (event.target) {
-			updateValues(event.target as T);
-		}
+	const onUpdate = (event: UIEvent<T> | { target: T | null }) => {
+		updateValues(event.target as T);
 	};
 
 	useEffect(() => {

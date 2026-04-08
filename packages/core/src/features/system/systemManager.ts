@@ -84,8 +84,8 @@ export class SystemManager {
 		const skin = this.skin;
 
 		if (skin.appIcons != null || skin.appNames != null) {
-			const appIcons = skin.appIcons as { [key: string]: string } ?? {};
-			const appNames = skin.appNames as { [key: string]: string } ?? {};
+			const appIcons = skin.appIcons ?? {};
+			const appNames = skin.appNames ?? {};
 
 			this.appsConfig.apps.forEach((app) => {
 				if (Object.keys(appIcons).includes(app.id))

@@ -5,7 +5,7 @@ import { useClassNames } from "../../../hooks";
 interface UtilMenuProps {
 	active: boolean;
 	setActive: Dispatch<SetStateAction<boolean>>;
-	className: string;
+	className?: string;
 	children: ReactNode;
 }
 
@@ -20,9 +20,9 @@ export function UtilMenu({ active, setActive: _setActive, className, children }:
 	if (active)
 		modifiers.push("Active");
 
-	return (<div className={classNames.join(" ")}>
+	return <div className={classNames.join(" ")}>
 		<div className={useClassNames([styles.UtilMenu], "Taskbar", "Menu", modifiers)}>
 			{children}
 		</div>
-	</div>);
+	</div>;
 }

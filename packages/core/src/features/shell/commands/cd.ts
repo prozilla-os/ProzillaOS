@@ -13,11 +13,11 @@ export const cd = new Command()
 		let destination = currentDirectory.navigate(path);
 	
 		if (!destination)
-			return formatError(this.name, `${(args)[0]}: No such file or directory`);
+			return formatError(this.name, `${args[0]}: No such file or directory`);
 
 		if (destination instanceof VirtualFile)
 			destination = destination.parent as VirtualFolder;
 	
-		setCurrentDirectory?.(destination);
+		setCurrentDirectory(destination);
 		return { blank: true };
 	});

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Chip } from "./chips/chip";
 import { Circuit } from "./circuit";
 import { ControlledPin } from "./pins/controlledPin";
@@ -91,7 +92,7 @@ export class InputHandler {
 			const top = pinPositionY - CONTROLLER.handleHeight / 2;
 			const bottom = pinPositionY + CONTROLLER.handleHeight / 2;
 
-			return (this.rawMousePosition.y > top && this.rawMousePosition.y < bottom);
+			return this.rawMousePosition.y > top && this.rawMousePosition.y < bottom;
 		};
 
 		if (this.placingPin != null) {
@@ -398,9 +399,9 @@ export class InputHandler {
 			if (anchorCount >= 2) {
 				previousAnchorPoint = this.placingWire?.anchorPoints[anchorCount - 2];
 			} else if (!this.placingWire?.placedBackwards) {
-				previousAnchorPoint = this.placingWire?.inputPin.position;
+				previousAnchorPoint = this.placingWire?.inputPin?.position;
 			} else {
-				previousAnchorPoint = this.placingWire?.outputPin.position;
+				previousAnchorPoint = this.placingWire?.outputPin?.position;
 			}
 
 			if (previousAnchorPoint == null) return;
@@ -442,8 +443,8 @@ export class InputHandler {
 
 		if (correctPlacement) {
 			this.placingWire.anchorPoints.pop();
-			this.placingWire.inputPin.addOutputWire(this.placingWire);
-			this.placingWire.inputPin.update();
+			this.placingWire.inputPin?.addOutputWire(this.placingWire);
+			this.placingWire.inputPin?.update();
 
 			this.placingWire = null;
 			this.isPlacing = false;
@@ -454,8 +455,8 @@ export class InputHandler {
 		const newChip = new Chip(this.circuit, chip.name, chip.color, false, chip.inputCount, chip.outputCount);
 		newChip.setLogic(chip.logic);
 		newChip.position = new Vector2(
-			this.mousePosition.x - (newChip.size.x / 2) / this.circuit.size.x,
-			this.mousePosition.y - (newChip.size.y / 2) / this.circuit.size.y
+			this.mousePosition.x - newChip.size.x / 2 / this.circuit.size.x,
+			this.mousePosition.y - newChip.size.y / 2 / this.circuit.size.y
 		);
 
 		this.placingChip = newChip;
@@ -465,8 +466,8 @@ export class InputHandler {
 
 	editChipPlacement(chip: Chip, index: number) {
 		this.placingOffset = new Vector2(
-			(chip.position.x + (chip.size.x / 2) / this.circuit.size.x) - this.mousePosition.x,
-			(chip.position.y + (chip.size.y / 2) / this.circuit.size.y) - this.mousePosition.y
+			chip.position.x + chip.size.x / 2 / this.circuit.size.x - this.mousePosition.x,
+			chip.position.y + chip.size.y / 2 / this.circuit.size.y - this.mousePosition.y
 		);
 		this.previousPlacement = chip.position.clone;
 		this.circuit.chips.push(this.circuit.chips.splice(index, 1)[0]);
@@ -477,8 +478,8 @@ export class InputHandler {
 
 	updateChipPlacement() {
 		if (this.placingChip == null) return;
-		this.placingChip.position.x = this.mousePosition.x - (this.placingChip.size.x / 2) / this.circuit.size.x + this.placingOffset.x;
-		this.placingChip.position.y = this.mousePosition.y - (this.placingChip.size.y / 2) / this.circuit.size.y + this.placingOffset.y;
+		this.placingChip.position.x = this.mousePosition.x - this.placingChip.size.x / 2 / this.circuit.size.x + this.placingOffset.x;
+		this.placingChip.position.y = this.mousePosition.y - this.placingChip.size.y / 2 / this.circuit.size.y + this.placingOffset.y;
 	}
 
 	cancelChipPlacement() {

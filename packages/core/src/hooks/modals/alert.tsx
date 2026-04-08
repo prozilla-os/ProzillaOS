@@ -10,7 +10,7 @@ export interface AlertParams {
 	 * The title of the alert.
 	 * @default "Alert"
 	 */
-	title: string;
+	title?: string;
 	/** The body of the alert. */
 	text: string;
 	/** The URL of the icon of the alert. */

@@ -19,7 +19,7 @@
 		"deploy": "pnpm vite-node scripts/publishSite.ts",
 		"pretest": "pnpm --filter @prozilla-os/dev-tools... run build",
 		"test": "pnpm -r test",
-		"lint": "pnpm eslint .",
+		"lint": "pnpm eslint . --fix",
 		"clean": "rimraf \"./packages/*/dist\" \"./packages/apps/*/dist\" \"./demo/dist\" \"./docs/dist\" \"./examples/*/dist\" \"./dist\" --glob",
 		"demo:start": "pnpm --filter @prozilla-os/demo run start",
 		"demo:build": "pnpm --filter @prozilla-os/demo run build",

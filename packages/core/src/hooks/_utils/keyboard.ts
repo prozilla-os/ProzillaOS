@@ -27,85 +27,77 @@ export function useKeyboardListener({ onKeyDown, onKeyUp }: UseKeyboardListenerP
 	}, [onKeyDown, onKeyUp]);
 }
 
-export interface UseShortcutsParams {
-	options: Record<string, Record<string, (event: KeyboardEvent) => void>> | Record<string, (event: KeyboardEvent) => void>;
-	shortcuts?: Record<string, Record<string, string[]>> | Record<string, string[]>;
-	useCategories?: boolean,
-}
+type ShortcutHandler = (event: KeyboardEvent) => void;
+
+type FlatOptions = Record<string, ShortcutHandler>;
+type CategorizedOptions = Record<string, Record<string, ShortcutHandler>>;
+
+type FlatShortcuts = Record<string, string[]>;
+type CategorizedShortcuts = Record<string, Record<string, string[]>>;
+
+export type UseShortcutsParams =
+    | { useCategories: true; options: CategorizedOptions; shortcuts?: CategorizedShortcuts }
+    | { useCategories?: false; options: FlatOptions; shortcuts?: FlatShortcuts };
 
 // TO DO: rewrite to use a global shortcuts manager instead, to allow certain shortcuts to be prioritized and prevent conflicts
 /**
  * Creates listeners for keyboard shortcuts.
  */
-export function useShortcuts({ options, shortcuts, useCategories = true }: UseShortcutsParams) {
+export function useShortcuts(params: UseShortcutsParams) {
 	const [activeKeys, setActiveKeys] = useState<string[]>([]);
 
 	const checkShortcuts = useCallback((event: KeyboardEvent, allowExecution = true) => {
-		if (!shortcuts)
-			return;
+		if (!params.shortcuts) return;
 
 		const keys = [...activeKeys];
 
-		const checkGroup = (group: Record<string, string[]>, category?: string) => {
+		const checkGroup = (group: FlatShortcuts, category?: string) => {
 			for (const [name, shortcut] of Object.entries(group)) {
-				let active = true;
-
-				shortcut.forEach((key) => {
-					if (!keys.includes(key) && event.key !== key)
-						return active = false;
-				});
-
-				if (!active)
-					continue;
+				const active = shortcut.every(
+					(key) => keys.includes(key) || event.key === key
+				);
+				if (!active) continue;
 
 				event.preventDefault();
 				event.stopPropagation();
 
-				if (!shortcut.includes(event.key) || !allowExecution)
-					continue;
+				if (!shortcut.includes(event.key) || !allowExecution) continue;
 
 				if (category != null) {
-					(options as Record<string, Record<string, (event: KeyboardEvent) => void>>)?.[category]?.[name]?.(event);
+					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+					(params.options as CategorizedOptions)[category]?.[name]?.(event);
 				} else {
-					(options as Record<string, (event: KeyboardEvent) => void>)?.[name]?.(event);
+					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+					(params.options as FlatOptions)[name]?.(event);
 				}
 			}
 		};
 
-		if (useCategories) {
-			for (const [category, group] of Object.entries(shortcuts)) {
-				checkGroup(group as Record<string, string[]>, category);
+		if (params.useCategories) {
+			for (const [category, group] of Object.entries(params.shortcuts)) {
+				checkGroup(group, category);
 			}
 		} else {
-			checkGroup(shortcuts as Record<string, string[]>);
+			checkGroup(params.shortcuts);
 		}
 
 		setActiveKeys(keys);
-	}, [activeKeys, options, shortcuts, useCategories]);
+	}, [activeKeys, params]);
 
 	useEffect(() => {
-		const onBlur = () => {
-			setActiveKeys([]);
-		};
-
+		const onBlur = () => setActiveKeys([]);
 		document.addEventListener("blur", onBlur);
-
-		return () => {
-			document.removeEventListener("blur", onBlur);
-		};
+		return () => document.removeEventListener("blur", onBlur);
 	}, []);
 
 	const onKeyDown = (event: KeyboardEvent) => {
 		const isRepeated = activeKeys.includes(event.key);
 		checkShortcuts(event, isRepeated);
-
-		if (!isRepeated)
-			setActiveKeys(activeKeys.concat([event.key]));
+		if (!isRepeated) setActiveKeys(activeKeys.concat([event.key]));
 	};
 
 	const onKeyUp = (event: KeyboardEvent) => {
 		checkShortcuts(event);
-
 		if (activeKeys.includes(event.key)) {
 			const keys = [...activeKeys];
 			removeFromArray(event.key, keys);

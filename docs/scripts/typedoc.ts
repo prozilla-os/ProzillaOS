@@ -45,7 +45,7 @@ program.command("run", { isDefault: true })
 	.option("-d --dry-run", "Does everything except actually generating documentation", false)
 	.action(async (options) => {
 		const packagesFilter = options.filter;
-		const concurrent = !options.sequential;
+		const concurrent = !options.sequential as boolean;
 		const dryRun = options.dryRun;
 
 		// Apply filter

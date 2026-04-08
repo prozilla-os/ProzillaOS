@@ -1,4 +1,3 @@
-import { CSSProperties } from "react";
 import styles from "./ProgressBar.module.css";
 import { useClassNames } from "../../../hooks";
 import { clamp } from "@prozilla-os/shared";
@@ -23,7 +22,7 @@ export function ProgressBar({ fillPercentage, fillColor, backgroundColor, align 
 		<div className={useClassNames([styles.ProgressBar, className], "ProgressBar")} style={{ backgroundColor: backgroundColor }}>
 			<div
 				className={`${styles.Fill} ${align}`}
-				style={{ backgroundColor: fillColor, "--fill": `${clamp(fillPercentage, 0.1, 100)}%` } as CSSProperties}
+				style={{ backgroundColor: fillColor, "--fill": `${clamp(fillPercentage, 0.1, 100)}%` }}
 			/>
 		</div>
 	);

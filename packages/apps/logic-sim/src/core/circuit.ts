@@ -74,11 +74,13 @@ export class Circuit extends Chip {
 	}
 
 	getColor(key: string) {
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (this.colors[key] != null)
 			return this.colors[key];
 
 		const color = getComputedStyle(this.canvas).getPropertyValue("--" + key);
 
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (ENABLE_COLOR_CACHING)
 			this.colors[key] = color;
 

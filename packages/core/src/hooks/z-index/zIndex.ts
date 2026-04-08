@@ -8,7 +8,7 @@ export interface UseZIndexParams {
 }
 
 export function useZIndex({ groupIndex, index }: UseZIndexParams) {
-	const initialIndex = (groupIndex * 10) + index;
+	const initialIndex = groupIndex * 10 + index;
 	const [zIndex, setZIndex] = useState(initialIndex);
 	const zIndexManager = useZIndexManager();
 

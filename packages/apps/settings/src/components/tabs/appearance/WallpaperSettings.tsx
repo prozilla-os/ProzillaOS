@@ -1,4 +1,4 @@
-import { Button, IMAGE_EXTENSIONS, SettingsManager, useStringSetting, useSystemManager, useVirtualRoot, useWindowedModal, utilStyles, VirtualFile, VirtualFolder } from "@prozilla-os/core";
+import { Button, IMAGE_EXTENSIONS, SettingsManager, useStringSetting, useSystemManager, useVirtualRoot, useWindowedModal, utilStyles, VirtualFile } from "@prozilla-os/core";
 import styles from "../../Settings.module.css";
 import { FileSelectorMode, fileExplorer } from "@prozilla-os/file-explorer";
 import { WALLPAPERS_PATH } from "../../../constants/settings.const";
@@ -31,7 +31,7 @@ export function WallpaperSettings() {
 			Browse
 		</Button>
 		<div className={`${styles.Input} ${styles.ImageSelectContainer}`}>
-			{(virtualRoot?.navigate(WALLPAPERS_PATH) as VirtualFolder)?.getFiles()?.map(({ id, source }) =>
+			{virtualRoot?.navigateToFolder(WALLPAPERS_PATH)?.getFiles().map(({ id, source }) =>
 				<label className={styles.ImageSelect} key={id}>
 					<input
 						type="radio"

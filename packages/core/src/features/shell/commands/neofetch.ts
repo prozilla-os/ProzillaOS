@@ -10,7 +10,7 @@ export const neofetch = new Command()
 	})
 	.setExecute(async function(_args, { username, hostname, app, systemManager, settingsManager }) {
 		const leftColumn = ANSI_ASCII_LOGO.split("\n");
-		const rightColumnWidth = (username?.length ?? 0) + (hostname?.length ?? 0) + 1;
+		const rightColumnWidth = username.length + hostname.length + 1;
 
 		const { value: themeIndex } = await settingsManager.getSettings(SettingsManager.VIRTUAL_PATHS.theme).get("theme");
 		let theme = Theme[Theme.Dark];

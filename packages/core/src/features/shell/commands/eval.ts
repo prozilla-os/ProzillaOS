@@ -8,10 +8,10 @@ const evalCommand = new Command()
 	})
 	.setRequireArgs(true)
 	.setExecute(function(args: string[]) {
-		if (args == null || args.length == 0)
+		if (args.length == 0)
 			return;
 		
-		const output = eval(args[0]) as CommandResponse ?? { blank: true };
+		const output = eval(args[0]) as CommandResponse;
 		return output;
 	});
 

@@ -95,7 +95,7 @@ export function load(app) {
  * @param {import("typedoc").DeclarationReflection} reflection 
  */
 function addReactGroups(reflection) {
-	if ((reflection.kind !== ReflectionKind.Function && reflection.kind !== ReflectionKind.Variable))
+	if (reflection.kind !== ReflectionKind.Function && reflection.kind !== ReflectionKind.Variable)
 		return;
 
 	const group = getGroup(reflection);
@@ -164,9 +164,6 @@ function addGroup(reflection, group) {
 		reflection.comment = new Comment();
 	
 	const { comment } = reflection;
-	if (!comment.blockTags) {
-		comment.blockTags = [];
-	}
 	
 	const hasGroup = comment.blockTags.some((tag) => tag.tag === "@group" );
 	if (!hasGroup) {

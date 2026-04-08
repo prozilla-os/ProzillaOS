@@ -16,10 +16,10 @@ export class VirtualFolderLink extends VirtualFolder {
 		this.linkedFolder = linkedFolder;
 	}
 
-	setLinkedFolder(folder: VirtualFolder): VirtualFolderLink {
+	setLinkedFolder(folder: VirtualFolder | null): VirtualFolderLink {
 		this.linkedFolder = folder;
 
-		if (folder) {
+		if (folder !== null) {
 			this.linkedPath = folder.path;
 			this.type = folder.type;
 		}
@@ -48,7 +48,7 @@ export class VirtualFolderLink extends VirtualFolder {
 
 		this.setLinkedPath(this.linkedPath);
 
-		return (this.linkedFolder != null);
+		return this.linkedFolder != null;
 	}
 
 	getIconUrl(): string {

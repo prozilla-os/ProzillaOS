@@ -8,11 +8,11 @@ import { ActionProps } from "../Actions";
 import { useClassNames } from "../../../hooks";
 
 export interface ToggleActionProps extends ActionProps {
-	initialValue: boolean;
+	initialValue?: boolean;
 }
 
-export function ToggleAction({ actionId, label, shortcut, initialValue, onTrigger }: ToggleActionProps): ReactElement {
-	const [active, setActive] = useState(initialValue ?? false);
+export function ToggleAction({ actionId, label, shortcut, initialValue = false, onTrigger }: ToggleActionProps): ReactElement {
+	const [active, setActive] = useState(initialValue);
 
 	return <button key={actionId} className={useClassNames([styles.Button], "Actions", "Toggle", active ? "Active" : undefined)} tabIndex={0} onClick={(event) => {
 		onTrigger?.(event as unknown as Event, !active);

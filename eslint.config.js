@@ -175,8 +175,10 @@ export default defineConfig(
 			"@typescript-eslint/unbound-method": ["error", {
 				ignoreStatic: true
 			}],
-			"@typescript-eslint/no-unnecessary-condition": "error",
-			"no-extra-parens": "error",
+			"@typescript-eslint/no-unnecessary-condition": ["warn", {
+				allowConstantLoopConditions: "only-allowed-literals"
+			}],
+			"no-extra-parens": "warn",
 		},
 	},
 	{

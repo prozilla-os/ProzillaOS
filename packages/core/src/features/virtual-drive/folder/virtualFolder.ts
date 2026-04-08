@@ -65,8 +65,8 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		let resultFile: VirtualFile | VirtualFileLink | null = null;
 
 		this.files.forEach((file) => {
-			const matchingName = (file.name === name || (file.alias && file.alias === name));
-			const matchingExtension = (extension == null || file.extension === extension);
+			const matchingName = file.name === name || file.alias && file.alias === name;
+			const matchingExtension = extension == null || file.extension === extension;
 			if (matchingName && matchingExtension) {
 				return resultFile = file;
 			}
@@ -85,7 +85,7 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		let resultFolder: VirtualFolder | VirtualFolderLink | null = null;
 
 		this.subFolders.forEach((folder) => {
-			if (folder.name === name || (folder.alias && folder.alias === name)) {
+			if (folder.name === name || folder.alias && folder.alias === name) {
 				return resultFolder = folder;
 			}
 		});
@@ -272,7 +272,7 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 	 */
 	navigate(relativePath: string): VirtualFile | VirtualFolder | null {
 		const segments = relativePath.split("/");
-		let currentDirectory: VirtualFile | VirtualFolder = this as VirtualFolder;
+		let currentDirectory: VirtualFile | VirtualFolder | null = this as VirtualFolder;
 
 		const getDirectory = (path: string, isStart: boolean) => {
 			if (isStart && path === "") {
@@ -282,37 +282,49 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 			} else if (path === ".") {
 				return this;
 			} else if (path === "..") {
-				return currentDirectory?.parent;
+				return currentDirectory?.parent as VirtualFolder | null;
+			} else if (currentDirectory?.isFolder()) {
+				return currentDirectory.findSubFolder(path);
 			} else {
-				return (currentDirectory as VirtualFolder)?.findSubFolder(path);
+				return null;
 			}
 		};
 
 		if (segments.length === 1) {
-			const directory = getDirectory(segments[0], true) as VirtualFile | VirtualFolder;
+			const directory = getDirectory(segments[0], true);
 			if (directory != null)
 				return directory;
 		}
 
 		for (let i = 0; i < segments.length - 1; i++) {
 			const segment = segments[i];
-			currentDirectory = getDirectory(segment, i === 0) as VirtualFile | VirtualFolder;
+			currentDirectory = getDirectory(segment, i === 0);
 		}
 
 		const lastSegment = segments[segments.length - 1];
 
 		if (lastSegment === "") {
 			return currentDirectory;
-		} else if (currentDirectory != null) {
-			const folder = (currentDirectory as VirtualFolder).findSubFolder(lastSegment) as VirtualFolder;
+		} else if (currentDirectory != null && currentDirectory.isFolder()) {
+			const folder = currentDirectory.findSubFolder(lastSegment);
 
 			if (folder != null) return folder;
 
 			const { name, extension } = VirtualFile.splitId(lastSegment);
-			return (currentDirectory as VirtualFolder).findFile(name, extension) as VirtualFile | VirtualFolder;
+			return currentDirectory.findFile(name, extension);
 		} else {
 			return null;
 		}
+	}
+
+	navigateToFolder(relativePath: string): VirtualFolder | null {
+		const target = this.navigate(relativePath);
+		return target !== null && target.isFolder() ? target : null;
+	}
+
+	navigateToFile(relativePath: string): VirtualFile | null {
+		const target = this.navigate(relativePath);
+		return target !== null && target.isFile() ? target : null;
 	}
 
 	/**
@@ -355,11 +367,11 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 	 */
 	getFiles(showHidden = false): VirtualFile[] {
 		if (this.isDeleted) return [];
-		if (showHidden) return this.files as VirtualFile[];
+		if (showHidden) return this.files;
 
 		return this.files.filter(({ name }) => 
 			!name.startsWith(".")
-		) as VirtualFile[];
+		);
 	}
 
 	/**
@@ -368,11 +380,11 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 	 */
 	getSubFolders(showHidden = false): VirtualFolder[] {
 		if (this.isDeleted) return [];
-		if (showHidden) return this.subFolders as VirtualFolder[];
+		if (showHidden) return this.subFolders;
 
 		return this.subFolders.filter(({ name }) => 
 			!name.startsWith(".")
-		) as VirtualFolder[];
+		);
 	}
 
 	/**
@@ -380,8 +392,8 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 	 * @param includeHidden - Whether to include hidden files and folders in the count.
 	 */
 	getItemCount(includeHidden = false): number {
-		const filesCount = this.getFiles(includeHidden)?.length ?? 0;
-		const foldersCount = this.getSubFolders(includeHidden)?.length ?? 0;
+		const filesCount = this.getFiles(includeHidden).length;
+		const foldersCount = this.getSubFolders(includeHidden).length;
 
 		return filesCount + foldersCount;
 	}
@@ -402,7 +414,7 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 	}
 
 	toJSON(): VirtualFolderJson | null {
-		const object = super.toJSON() as VirtualFolderJson;
+		const object = super.toJSON() as VirtualFolderJson | null;
 
 		if (object == null)
 			return null;

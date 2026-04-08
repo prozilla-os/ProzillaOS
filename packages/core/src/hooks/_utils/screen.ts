@@ -1,4 +1,4 @@
-import { Ref, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { useSystemManager } from "../system/systemManagerContext";
 
 /**
@@ -33,7 +33,7 @@ export function useScreenBounds({ avoidTaskbar = true }: {
 	avoidTaskbar: boolean;
 }): {
 	/** The React ref of the element. */
-	ref: Ref<HTMLElement>;
+	ref: MutableRefObject<HTMLElement | null>;
 	initiated: boolean;
 	/** Whether the element should align to the left (`true`) or right (`false`). */
 	alignLeft: boolean;
@@ -41,7 +41,7 @@ export function useScreenBounds({ avoidTaskbar = true }: {
 	alignTop: boolean;
 } {
 	const { taskbarConfig } = useSystemManager();
-	const ref = useRef(null);
+	const ref = useRef<HTMLElement | null>(null);
 	const [initiated, setInitiated] = useState(false);
 	const [alignLeft, setAlignLeft] = useState(false);
 	const [alignTop, setAlignTop] = useState(false);
@@ -51,15 +51,15 @@ export function useScreenBounds({ avoidTaskbar = true }: {
 		if (ref.current == null || screenWidth == null || screenHeight == null)
 			return;
 
-		const rect = (ref.current as HTMLElement).getBoundingClientRect();
+		const rect = ref.current.getBoundingClientRect();
 		const maxX = screenWidth;
 		let maxY = screenHeight;
 
 		if (avoidTaskbar)
 			maxY -= taskbarConfig.height;
 
-		const isOverflowingRight = (rect.x + rect.width > maxX);
-		const isOverflowingBottom = (rect.y + rect.height > maxY);
+		const isOverflowingRight = rect.x + rect.width > maxX;
+		const isOverflowingBottom = rect.y + rect.height > maxY;
 
 		if (isOverflowingRight)
 			setAlignLeft(true);

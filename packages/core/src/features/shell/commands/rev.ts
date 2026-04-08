@@ -5,5 +5,5 @@ export const rev = new Command()
 		purpose: "Display the reverse of a text",
 	})
 	.setExecute(function(_args, { rawInputValue }) {
-		return rawInputValue?.split("").reverse().join("");
+		return rawInputValue.split("").reverse().join("");
 	});

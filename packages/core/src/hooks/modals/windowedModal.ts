@@ -14,7 +14,7 @@ export interface OpenWindowedModalParams {
 	/** The title of the modal. */
 	title?: string;
 	/** The size of the modal. */
-	size: Vector2;
+	size?: Vector2;
 	/** The modal component. */
 	Modal: FC<ModalProps>;
 	single?: boolean;

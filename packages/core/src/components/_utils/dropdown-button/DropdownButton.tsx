@@ -7,7 +7,7 @@ export interface DropdownButtonProps {
 	/** The label of the button. */
 	label: string;
 	/** The options in the dropdown menu mapped to the function that handles their selection. */
-	options: Record<string, () => void>;
+	options?: Record<string, () => void>;
 	/** The keyboard shortcut for options in the dropdown menu. */
 	shortcuts: Record<string, string[]>;
 }
@@ -30,7 +30,7 @@ export function DropdownButton({ label, options, shortcuts }: DropdownButtonProp
 					{label}
 				</button>
 				{open && options
-					? (<div className={styles.Dropdown}>
+					? <div className={styles.Dropdown}>
 						{Object.entries(options).map(([label, callback]: [label: string, callback: () => void]) =>
 							<button key={label} tabIndex={tabIndex} onClick={() => {
 								setOpen(false);
@@ -43,7 +43,7 @@ export function DropdownButton({ label, options, shortcuts }: DropdownButtonProp
 								}
 							</button>
 						)}
-					</div>)
+					</div>
 					: null
 				}
 			</div>

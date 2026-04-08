@@ -97,7 +97,7 @@ export default defineConfig({
 		head.push(["meta", { name: "og:title", content: title }]);
 		head.push(["meta", { name: "twitter:title", content: title }]);
 
-		const description = pageData.frontmatter.description as string ?? DESCRIPTION;
+		const description = (pageData.frontmatter.description as string | null) ?? DESCRIPTION;
 		head.push(["meta", { name: "og:description", content: description }]);
 		head.push(["meta", { name: "twitter:description", content: description }]);
 
@@ -111,7 +111,7 @@ export default defineConfig({
 		const locale = LOCALE;
 		head.push(["meta", { name: "og:locale", content: locale }]);
 
-		const image = pageData.frontmatter.image as string ?? IMAGE;
+		const image = (pageData.frontmatter.image as string | null) ?? IMAGE;
 		head.push(["meta", { name: "og:image", content: image }]);
 		head.push(["meta", { name: "twitter:image", content: image }]);
 

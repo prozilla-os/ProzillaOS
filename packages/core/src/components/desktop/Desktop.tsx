@@ -153,11 +153,7 @@ export const Desktop = memo(() => {
 		const settings = settingsManager?.getSettings(Settings.DESKTOP);
 		void settings?.get("wallpaper", setWallpaper);
 		void settings?.get("show-icons", (value) => {
-			if (value != null) {
-				setShowIcons(value === "true");
-			} else {
-				setShowIcons(true);
-			}
+			setShowIcons(value === "true");
 		});
 		void settings?.get("icon-size", (value) => {
 			if (isValidInteger(value))
@@ -193,7 +189,7 @@ export const Desktop = memo(() => {
 				fileClassName={styles["Item"]}
 				folderClassName={styles["Item"]}
 				onOpenFile={(event, file) => {
-					(event).preventDefault();
+					event.preventDefault();
 
 					const options: Record<string, unknown> = {};
 					if (file.name === "Info.md")

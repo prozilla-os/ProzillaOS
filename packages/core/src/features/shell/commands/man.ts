@@ -23,7 +23,7 @@ export const man = new Command()
 	})
 	.setExecute(function(this: Command, args, { options }) {
 		// Search function
-		if (options?.includes("k")) {
+		if (options.includes("k")) {
 			const commands = CommandsManager.search(args[0].toLowerCase());
 			return commands.map((command) => {
 				if (command.manual?.purpose) {
@@ -34,7 +34,7 @@ export const man = new Command()
 			}).sort().join("\n");
 		}
 
-		const commandName = (args)[0].toLowerCase();
+		const commandName = args[0].toLowerCase();
 		const command = CommandsManager.find(commandName);
 
 		if (!command)

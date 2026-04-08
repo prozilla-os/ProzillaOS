@@ -132,7 +132,8 @@ export class VirtualBase<E extends VirtualBaseEvents = VirtualBaseEvents> extend
 		if (parent == null)
 			return;
 
-		parent.remove?.(this as never);
+		if (this.isFolder() || this.isFile())
+			parent.remove(this);
 		this.isDeleted = true;
 
 		this.confirmChanges(parent.getRoot());
@@ -146,10 +147,10 @@ export class VirtualBase<E extends VirtualBaseEvents = VirtualBaseEvents> extend
 			root = this.getRoot();
 		}
 
-		if (root?.loadedDefaultData)
+		if (root.loadedDefaultData)
 			this.editedByUser = true;
 
-		root?.saveData();
+		root.saveData();
 		this.emit(VirtualBase.UPDATE_EVENT);
 	}
 

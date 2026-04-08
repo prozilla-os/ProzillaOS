@@ -28,11 +28,11 @@ export function appMetadataPlugin({ entryPath, appClass = "App" }: AppMetadataPl
 			let packageJson: PackageJson | null = null;
 			try {
 				const packageJsonContent = readFileSync(packageJsonPath, "utf-8");
-				packageJson = JSON.parse(packageJsonContent) as PackageJson;
+				packageJson = JSON.parse(packageJsonContent) as PackageJson | null;
 			} catch (error) {
 				this.error(error as RollupError);
 			}
-			if (!packageJson) return null;
+			if (packageJson === null) return null;
 
 			const { name, version } = packageJson;
 			let { author = "Unknown" } = packageJson;

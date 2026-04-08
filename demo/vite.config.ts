@@ -21,8 +21,10 @@ const ENABLE_ALIASES = true;
 const USE_PACKAGE_BUILDS = false;
 
 function generateAliases() {
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (!ENABLE_ALIASES) return {};
 
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	const entryFile = USE_PACKAGE_BUILDS ? "dist/main.js" : "src/main.ts";
 
 	const localPackages = [

@@ -105,7 +105,5 @@ export const cmatrix = new Command()
 			clearInterval(interval);
 		});
 
-		stream.start();
-
-		return stream;
+		return stream.start();
 	});

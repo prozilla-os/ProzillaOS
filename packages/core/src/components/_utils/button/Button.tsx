@@ -22,7 +22,7 @@ export function Button({ className, href, children, icon, target, ...props }: Bu
 	if (href != null) {
 		classNames.push(styles.ButtonLink);
 
-		return (<a
+		return <a
 			{...props}
 			href={href}
 			target={target ?? "_blank"}
@@ -32,9 +32,9 @@ export function Button({ className, href, children, icon, target, ...props }: Bu
 		>
 			{children}
 			<FontAwesomeIcon icon={icon ?? faExternalLink}/>
-		</a>);
+		</a>;
 	} else {
-		return (<button
+		return <button
 			{...props}
 			tabIndex={0}
 			className={useClassNames(classNames, "Button")}
@@ -44,6 +44,6 @@ export function Button({ className, href, children, icon, target, ...props }: Bu
 				? <FontAwesomeIcon icon={icon}/>
 				: null
 			}
-		</button>);
+		</button>;
 	}
 }

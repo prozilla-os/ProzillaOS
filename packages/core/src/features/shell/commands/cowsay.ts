@@ -16,9 +16,8 @@ export const cowsay = new Command()
 		description: "Show ASCII art of a cow saying something.",
 	})
 	.setExecute(function(_args, { rawInputValue }) {
-
 		// Separate input value into lines
-		const segments = rawInputValue?.split(" ");
+		const segments = rawInputValue.split(" ");
 		const lines: string[] = [];
 		let currentLine = "";
 		let maxLineWidth = 0;
@@ -40,7 +39,7 @@ export const cowsay = new Command()
 			}
 		};
 
-		segments?.forEach((segment) => {
+		segments.forEach((segment) => {
 			// Add empty spaces preceding lines
 			if (segment === "") {
 				currentLine += " ";

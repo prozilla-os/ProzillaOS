@@ -47,7 +47,7 @@ export class ChipsManager {
 		if (virtualFile == null)
 			return;
 
-		virtualFile.read()?.then((content) => {
+		virtualFile.read().then((content) => {
 			if (!content)
 				return;
 
@@ -100,7 +100,7 @@ export class ChipsManager {
 				});
 
 				// Load logic
-				newChip.setLogic((ChipsManager.CHIPS[chipData.name]).logic);
+				newChip.setLogic(ChipsManager.CHIPS[chipData.name].logic);
 				newChip.update();
 
 				circuit.chips.push(newChip);

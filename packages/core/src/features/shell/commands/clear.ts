@@ -5,7 +5,7 @@ export const clear = new Command()
 		purpose: "Clear terminal screen",
 	})
 	.setExecute(function(_args, { pushHistory }) {
-		pushHistory?.({
+		pushHistory({
 			clear: true,
 			isInput: false,
 		});

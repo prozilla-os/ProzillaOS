@@ -218,18 +218,20 @@ function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, f
 			});
 		});
 
-		const html = bundle["index.html"];
-		if (html && html.type == "asset") {
-			const template = generateTemplate(html.source as string, extendedOptions);
+		if ("index.html" in bundle) {
+			const html = bundle["index.html"];
+			if (html.type == "asset") {
+				const template = generateTemplate(html.source as string, extendedOptions);
 
-			context.emitFile({
-				type: "asset",
-				fileName: "index.html",
-				source: template, 
-			});
+				context.emitFile({
+					type: "asset",
+					fileName: "index.html",
+					source: template, 
+				});
 	
-			generate404Page(context, template);
-			generateAppPages(context, template, extendedOptions);
+				generate404Page(context, template);
+				generateAppPages(context, template, extendedOptions);
+			}
 		}
 	
 		logger.success("Staging complete");

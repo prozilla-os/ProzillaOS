@@ -27,7 +27,7 @@ export function Volume({ hideUtilMenus, showUtilMenu }: VolumeProps) {
 		setShowMenu(show);
 	};
 
-	return (<OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
+	return <OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
 		<button title="Volume" className={useClassNames([], "Taskbar", "Indicator", "Volume")} tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
 			<FontAwesomeIcon icon={faVolumeHigh}/>
 		</button>
@@ -35,5 +35,5 @@ export function Volume({ hideUtilMenus, showUtilMenu }: VolumeProps) {
 			<FontAwesomeIcon icon={faVolumeHigh}/>
 			<p>100%</p>
 		</UtilMenu>
-	</OutsideClickListener>);
+	</OutsideClickListener>;
 }

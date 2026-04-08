@@ -26,7 +26,7 @@ export class WindowsConfig {
 	minScreenSize: WindowsConfigOptions["minScreenSize"];
 
 	constructor(options: Partial<WindowsConfigOptions> = {}) {
-		const { screenMargin, titleSeparator, minScreenSize } = options as WindowsConfigOptions;
+		const { screenMargin, titleSeparator, minScreenSize } = options;
 		
 		this.screenMargin = screenMargin ?? 32;
 		this.titleSeparator = titleSeparator ?? "-";

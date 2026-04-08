@@ -93,7 +93,7 @@ export function Battery({ hideUtilMenus, showUtilMenu }: BatteryProps) {
 		icon = faBatteryThreeQuarters;
 	}
 
-	return (<OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
+	return <OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
 		<button className={useClassNames([styles.Button], "Taskbar", "Indicator", "Battery")} title="Battery" tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
 			{!isCharging
 				? <FontAwesomeIcon className={styles["Charging-indicator"]} icon={faMinus}/>
@@ -111,5 +111,5 @@ export function Battery({ hideUtilMenus, showUtilMenu }: BatteryProps) {
 			</div>
 			<p>{Math.round(percentage)}%</p>
 		</UtilMenu>
-	</OutsideClickListener>);
+	</OutsideClickListener>;
 }

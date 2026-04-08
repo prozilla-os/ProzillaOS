@@ -56,7 +56,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 	const [selectedFolders, setSelectedFolders] = useState<string[]>([]);
 	const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
 
-	const ref = useRef(null);
+	const ref = useRef<HTMLDivElement>(null);
 	const [rectSelectStart, setRectSelectStart] = useState<Vector2 | null>(null);
 	const [rectSelectEnd, setRectSelectEnd] = useState<Vector2 | null>(null);
 
@@ -122,9 +122,6 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		};
 	}, [directory, showHidden]);
 
-	if (!directory)
-		return null;
-
 	const selectFolder = (folder: VirtualFolder, exclusive = false) => {
 		if (!allowMultiSelect)
 			exclusive = true;
@@ -164,7 +161,7 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 		if (ref.current == null || rectSelectStart == null || rectSelectEnd == null)
 			return { top: 0, left: 0, width: 0, height: 0 };
 
-		const containerRect = (ref.current as HTMLElement).getBoundingClientRect();
+		const containerRect = ref.current.getBoundingClientRect();
 
 		if (rectSelectStart.x < rectSelectEnd.x) {
 			x = rectSelectStart.x;
@@ -181,10 +178,8 @@ export function DirectoryList({ directory, showHidden = false, folderClassName, 
 			height = rectSelectStart.y - rectSelectEnd.y;
 		}
 
-		if (containerRect) {
-			x -= containerRect.x;
-			y -= containerRect.y;
-		}
+		x -= containerRect.x;
+		y -= containerRect.y;
 		
 
 		return { top: y, left: x, width, height };

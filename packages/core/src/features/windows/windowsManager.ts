@@ -81,7 +81,7 @@ export class WindowsManager {
 		);
 
 		if (options?.fullscreen) {
-			if (typeof(options.fullscreen) == "string") {
+			if (typeof options.fullscreen == "string") {
 				fullscreen = options.fullscreen.toLowerCase() === "true";
 			} else {
 				fullscreen = options.fullscreen;
@@ -141,7 +141,7 @@ export class WindowsManager {
 			return null;
 
 		const { appsConfig } = this.#systemManager;
-		const app = appsConfig.getAppByFileExtension(file?.extension);
+		const app = appsConfig.getAppByFileExtension(file.extension);
 		if (app != null) {
 			return this.open(app.id, { file, ...options });
 		} else {
@@ -182,7 +182,7 @@ export class WindowsManager {
 		}
 
 		Object.values(this.windows).forEach((window) => {
-			const isFocused = (window.id === windowId);
+			const isFocused = window.id === windowId;
 			window.isFocused = isFocused;
 
 			if (isFocused) {
@@ -280,7 +280,7 @@ export class WindowsManager {
 	}
 
 	startup(appIds: string[], options: Record<string, unknown>) {
-		if (appIds == null || this.startupComplete)
+		if (!appIds.length || this.startupComplete)
 			return;
 
 		appIds.forEach((appId) => {

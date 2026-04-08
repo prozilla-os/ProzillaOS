@@ -156,7 +156,7 @@ export function Calculator({ active }: WindowProps) {
 	if (operation != null)
 		calculation = `${firstNumber} ${operation} ${secondNumber != null ? secondNumber + " =" : ""}`;
 
-	return (<div className={styles.Calculator}>
+	return <div className={styles.Calculator}>
 		<div className={styles.Output}>
 			<p className={styles.Calculation}>{calculation}</p>
 			<p className={styles.Preview}>{input ?? firstNumber}</p>
@@ -192,5 +192,5 @@ export function Calculator({ active }: WindowProps) {
 				<Button className={styles.Button} onClick={() => { calculate(); }}>=</Button>
 			</div>
 		</div>
-	</div>);
+	</div>;
 }

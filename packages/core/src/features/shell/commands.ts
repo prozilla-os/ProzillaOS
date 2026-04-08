@@ -17,6 +17,7 @@ const loadCommands = () => {
 
 			const command = (commandModule as Record<string, Command>)[commandName];
 
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			if (command == null)
 				return;
 

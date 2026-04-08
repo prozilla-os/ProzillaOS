@@ -1,4 +1,4 @@
-import { ChangeEvent, CSSProperties, KeyboardEvent, RefObject, useState } from "react";
+import { ChangeEvent, KeyboardEvent, RefObject, useState } from "react";
 import styles from "./Terminal.module.css";
 import { Ansi } from "./Ansi";
 
@@ -23,7 +23,7 @@ export function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown, inputRe
 	return (
 		<span className={styles.Input}>
 			{prefix && <Ansi className={styles.Prefix} useClasses>{prefix}</Ansi>}
-			<span className={styles["Input-container"]} style={{ "--cursor-offset": cursorPosition } as CSSProperties}>
+			<span className={styles["Input-container"]} style={{ "--cursor-offset": cursorPosition }}>
 				<span aria-hidden="true">{value}</span>
 				<input
 					id="input"

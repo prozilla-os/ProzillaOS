@@ -1,12 +1,15 @@
 import { Command } from "../command";
 import { Stream } from "../stream";
-import { ANSI } from "@prozilla-os/shared";
+import { Ansi, ANSI, parseOptionalFloat } from "@prozilla-os/shared";
 
 export const watch = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Execute a program periodically, showing output fullscreen",
 		usage: "watch [-n <seconds>] <command>",
+		options: {
+			"-n seconds": "Set the interval (defaults to 2)",
+		},
 	})
 	.addOption({
 		long: "interval",
@@ -16,7 +19,7 @@ export const watch = new Command()
 	.setExecute(function(args, { inputs, execute }) {
 		const stream = new Stream();
         
-		const intervalSeconds = inputs.n && !isNaN(parseFloat(inputs.n)) ? parseFloat(inputs.n) : 2;
+		const intervalSeconds = parseOptionalFloat(inputs.n, 2);
 		const intervalMs = Math.max(0.1, intervalSeconds) * 1000;
         
 		const commandString = args.join(" ");
@@ -38,7 +41,7 @@ export const watch = new Command()
 					stream.send(header);
 				}
 			} catch (_error) {
-				stream.send(`${ANSI.fg.red}Command failed: ${commandString}${ANSI.reset}`);
+				stream.send(Ansi.red(`Command failed: ${commandString}`));
 			} finally {
 				isExecuting = false;
 			}

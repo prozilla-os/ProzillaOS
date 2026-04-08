@@ -32,7 +32,7 @@ export function isValidUrl(string: string): boolean {
 export function setViewportTitle(title: string) {
 	document.title = title;
 
-	document.querySelectorAll("meta[property='og:title'], meta[name='twitter:title']")?.forEach((element) => {
+	document.querySelectorAll("meta[property='og:title'], meta[name='twitter:title']").forEach((element) => {
 		element.setAttribute("content", title);
 	});
 }
@@ -72,7 +72,7 @@ export interface GenerateUrlParams {
 	standalone?: boolean;
 }
 
-export function generateUrl(options: GenerateUrlParams) {
+export function generateUrl(options?: GenerateUrlParams) {
 	let baseUrl = window.location.origin + "/";
 
 	if (!options || Object.keys(options).length === 0)
@@ -90,6 +90,7 @@ export function generateUrl(options: GenerateUrlParams) {
 			params.set("fullscreen", fullscreen.toString());
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (extraOptions && Object.keys(extraOptions).length > 0) {
 		Object.entries(extraOptions).forEach(([key, value]) => {
 			if (key && value)

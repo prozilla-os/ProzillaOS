@@ -25,16 +25,14 @@ export function useStaticClassName(block?: string, element?: string, modifier?: 
 
 			if (element != null)
 				className += ELEMENT_PREFIX + element;
-			if (modifier != null)
-				className += MODIFIER_PREFIX + modifier;
+			className += MODIFIER_PREFIX + modifier;
 		} else if (modifier != null) {
-			modifier?.forEach((mod) => {
+			modifier.forEach((mod) => {
 				className += ` ${NAME + BLOCK_PREFIX + block}`;
 
 				if (element != null)
 					className += ELEMENT_PREFIX + element;
-				if (mod != null)
-					className += MODIFIER_PREFIX + mod;
+				className += MODIFIER_PREFIX + mod;
 			});
 		}
 

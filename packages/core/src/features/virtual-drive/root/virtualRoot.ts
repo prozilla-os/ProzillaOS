@@ -229,7 +229,7 @@ export class VirtualRoot extends VirtualFolder<VirtualRootEvents> {
 	}
 
 	toJSON(): VirtualRootJson | null {
-		const object = super.toJSON() as VirtualRootJson;
+		const object = super.toJSON() as VirtualRootJson | null;
 
 		if (object == null)
 			return null;

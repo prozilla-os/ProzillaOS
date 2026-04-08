@@ -3,7 +3,8 @@ import { HistoryEntry } from "./shell";
 import { VirtualFolder, VirtualRoot } from "../virtual-drive";
 import { SettingsManager } from "../settings/settingsManager";
 import { SystemManager } from "../system/systemManager";
-import { App, Vector2 } from "../../main";
+import { App } from "../../main";
+import { Vector2 } from "@prozilla-os/shared";
 
 type Option = {
 	long: string,
@@ -28,7 +29,7 @@ export type ShellContext = {
 	timestamp: number,
 	settingsManager: SettingsManager,
 	systemManager: SystemManager,
-	app: App,
+	app?: App,
 	readonly size: Vector2
 };
 

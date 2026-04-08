@@ -17,13 +17,13 @@ export interface WireJson {
 export class Wire {
 	color!: string;
 	state = State.LOW;
-	inputPin!: Pin;
-	outputPin!: Pin;
-	anchorPoints!: Vector2[];
+	inputPin?: Pin;
+	outputPin?: Pin;
+	anchorPoints: Vector2[] = [];
 	circuit!: Circuit;
 	placedBackwards = false;
 
-	constructor(circuit: Circuit, color: string, inputPin?: Pin, outputPin?: Pin, anchorPoints?: Vector2[]) {
+	constructor(circuit: Circuit, color: string, inputPin?: Pin, outputPin?: Pin, anchorPoints: Vector2[] = []) {
 		Object.assign(this, { circuit, color, inputPin, outputPin, anchorPoints });
 	}
 
@@ -86,7 +86,7 @@ export class Wire {
 		if (this.outputPin != null)
 			object.outputId = this.outputPin.id;
 
-		if (this.anchorPoints != null)
+		if (this.anchorPoints.length)
 			object.anchorPoints = this.anchorPoints;
 
 		return object;

@@ -5,6 +5,6 @@ export const exit = new Command()
 		purpose: "Quit terminal interface",
 	})
 	.setExecute(function(_args, { exit }) {
-		exit?.();
+		exit();
 		return { blank: true };
 	});

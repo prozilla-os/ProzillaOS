@@ -51,8 +51,8 @@ export function useHistory<Type>(initialState: Type): {
 	const undo = () => updateStateIndex(1);
 	const redo = () => updateStateIndex(-1);
 
-	const undoAvailable = (stateIndex < history.length - 1);
-	const redoAvailable = (stateIndex >= 1);
+	const undoAvailable = stateIndex < history.length - 1;
+	const redoAvailable = stateIndex >= 1;
 
 	return { history, stateIndex, pushState, undo, redo, undoAvailable, redoAvailable };
 }

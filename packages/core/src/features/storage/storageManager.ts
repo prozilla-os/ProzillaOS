@@ -8,9 +8,6 @@ export class StorageManager {
 	static MAX_BYTES = 5_000_000;
 
 	static store(key: string, value: string) {
-		if (key == null || value == null)
-			return;
-
 		const exceededMaxStorage = this.getByteSize(value) > this.MAX_BYTES;
 
 		if (exceededMaxStorage)
@@ -20,9 +17,6 @@ export class StorageManager {
 	}
 
 	static load(key: string): string | null {
-		if (key == null)
-			return null;
-		
 		return localStorage.getItem(key);
 	}
 

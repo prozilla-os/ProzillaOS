@@ -195,7 +195,7 @@ export const sl = new Command()
 	.setExecute(function(this: Command, _args, { inputs, size }) {
 		let wagonCount = 1;
 
-		if (inputs?.w) {
+		if (inputs.w) {
 			wagonCount = parseInt(inputs.w);
 
 			if (!wagonCount || wagonCount < 0) {
@@ -203,7 +203,7 @@ export const sl = new Command()
 			}
 		}
 
-		const delay = 100 / parseOptionalFloat(inputs?.s, ANIMATION_SPEED);
+		const delay = 100 / parseOptionalFloat(inputs.s, ANIMATION_SPEED);
 
 		const stream = new Stream();
 

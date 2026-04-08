@@ -27,7 +27,7 @@ export function Network({ hideUtilMenus, showUtilMenu }: NetworkProps) {
 		setShowMenu(show);
 	};
 
-	return (<OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
+	return <OutsideClickListener onOutsideClick={() => { updateShowMenu(false); }}>
 		<button title="Network" className={useClassNames([], "Taskbar", "Indicator", "Network")} tabIndex={0} onClick={() => { updateShowMenu(!showMenu); }}>
 			<FontAwesomeIcon icon={faWifi}/>
 		</button>
@@ -35,5 +35,5 @@ export function Network({ hideUtilMenus, showUtilMenu }: NetworkProps) {
 			<FontAwesomeIcon icon={faWifi}/>
 			<p>Connected</p>
 		</UtilMenu>
-	</OutsideClickListener>);
+	</OutsideClickListener>;
 }

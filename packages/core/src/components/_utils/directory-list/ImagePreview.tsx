@@ -23,10 +23,10 @@ export function ImagePreview({ source, className, onError, ...props }: ImagePrev
 	if (className != null)
 		classNames.push(className);
 
-	return (<div className={classNames.join(" ")} {...props}>
+	return <div className={classNames.join(" ")} {...props}>
 		{loadingFailed
 			? <ReactSVG src={skin.fileIcons.generic}/>
 			: <VectorImage src={source} onError={onLoadingError}/>
 		}
-	</div>);
+	</div>;
 }

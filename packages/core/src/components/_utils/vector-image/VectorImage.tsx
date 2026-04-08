@@ -40,7 +40,7 @@ export function VectorImage({ className, src, ...props }: ImageProps) {
 					shapeRendering="crispEdges"
 					{...props}
 				>    
-					<g transform={`scale(${200 / (dimensions.x ?? 1)})`}>
+					<g transform={`scale(${200 / dimensions.x})`}>
 						<image width={dimensions.x} height={dimensions.y} href={src} style={{ imageRendering: "crisp-edges" }}/>
 					</g>
 				</svg>

@@ -48,7 +48,7 @@ export interface ActionsProps {
  * />
  */
 export function Actions({ children, mode, className, onAnyTrigger, triggerParams, avoidTaskbar = true }: ActionsProps): ReactElement {
-	const isListener = (mode === ActionsManager.MODES.shortcutsListener);
+	const isListener = mode === ActionsManager.MODES.shortcutsListener;
 
 	const { ref, initiated, alignLeft, alignTop } = useScreenBounds({ avoidTaskbar });
 

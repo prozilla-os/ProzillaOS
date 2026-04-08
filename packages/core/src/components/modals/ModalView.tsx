@@ -1,4 +1,4 @@
-import { CSSProperties, FC, KeyboardEvent, memo, ReactNode } from "react";
+import { FC, KeyboardEvent, memo, ReactNode } from "react";
 import { Modal } from "../../features/modals/modal";
 import { OutsideClickListener } from "../../hooks/_utils/outsideClick";
 import styles from "./ModalView.module.css";
@@ -42,17 +42,17 @@ export const ModalView: FC<ModalProps> = memo(({ modal }) => {
 
 	const Modal = modal.element;
 
-	const Container = () => (<div
+	const Container = () => <div
 		className={useClassNames([styles.ModalView], "ModalView")}
-		style={{ "--position-x": modal?.position.x, "--position-y": modal?.position.y } as CSSProperties}
+		style={{ "--position-x": modal.position.x, "--position-y": modal.position.y }}
 	>
-		<Modal modal={modal} {...modal?.props}/>
-	</div>);
+		<Modal modal={modal} {...modal.props}/>
+	</div>;
 
 	if (modal.dismissible) {
-		return (<OutsideClickListener onOutsideClick={() => { modal?.close(); }}>
+		return <OutsideClickListener onOutsideClick={() => { modal.close(); }}>
 			<Container/>
-		</OutsideClickListener>);
+		</OutsideClickListener>;
 	} else {
 		return <Container/>;
 	}

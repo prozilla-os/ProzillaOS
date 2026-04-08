@@ -43,9 +43,8 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	const state = useSnapshot(shell.state);
 
 	useEffect(() => {
-		if (state.currentDirectory != null)
-			setTitle?.(`${USERNAME}@${HOSTNAME}: ${state.currentDirectory.root ? "/" : state.currentDirectory.path}`);
-	}, [state.currentDirectory?.path, state.currentDirectory?.root, setTitle]);
+		setTitle?.(`${USERNAME}@${HOSTNAME}: ${state.currentDirectory.root ? "/" : state.currentDirectory.path}`);
+	}, [state.currentDirectory.path, state.currentDirectory.root, setTitle]);
 
 	useEffect(() => {
 		if (!inputRef.current || !active) return;
@@ -133,7 +132,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 
 		if (event.button === 2) {
 			event.preventDefault();
-			navigator.clipboard.readText?.().then((text) => {
+			navigator.clipboard.readText().then((text) => {
 				shell.setInputValue(state.inputValue + text);
 			}).catch((error) => {
 				console.error(error);

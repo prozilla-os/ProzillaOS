@@ -27,7 +27,7 @@ export function MarkdownLink({ href, children, windowsManager, currentFile, setC
 				}
 			} else {
 				openWindowedModal({
-					iconUrl: app?.iconUrl as string | undefined,
+					iconUrl: app.iconUrl as string | undefined,
 					title: "Failed to open link",
 					size: new Vector2(450, 150),
 					Modal: (props: ModalProps) =>

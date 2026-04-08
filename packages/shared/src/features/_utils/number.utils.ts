@@ -17,9 +17,9 @@ export function isValidNumber(input: number | string): boolean {
 }
 
 export function parseOptionalInteger(input?: string, defaultValue = 0) {
-	return (input !== undefined && isValidInteger(input)) ? Number(input) : defaultValue;
+	return input !== undefined && isValidInteger(input) ? Number(input) : defaultValue;
 }
 
 export function parseOptionalFloat(input?: string, defaultValue = 0) {
-	return (input !== undefined && isValidNumber(input)) ? parseFloat(input) : defaultValue;
+	return input !== undefined && isValidNumber(input) ? parseFloat(input) : defaultValue;
 }

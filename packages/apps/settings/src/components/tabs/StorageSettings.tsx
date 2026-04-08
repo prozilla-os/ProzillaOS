@@ -14,7 +14,7 @@ export function StorageTab() {
 	const storage = virtualRoot.storage;
 
 	const maxBytes = Storage.MAX_BYTES;
-	const usedBytes = storage.getItemByteSize(VirtualDriveStorage.KEY, virtualRoot?.toString() ?? "");
+	const usedBytes = storage.getItemByteSize(VirtualDriveStorage.KEY, virtualRoot.toString() ?? "");
 
 	const maxKB = Storage.byteToKilobyte(maxBytes);
 	const usedKB = Storage.byteToKilobyte(usedBytes);
@@ -33,7 +33,7 @@ export function StorageTab() {
 			<p className={styles.Label}>Manage data</p>
 			<Button
 				className={`${styles.Button} ${styles.ButtonDanger} ${utilStyles.TextBold}`}
-				onClick={() => { virtualRoot?.reset(); }}
+				onClick={() => { virtualRoot.reset(); }}
 			>
 				Reset
 			</Button>

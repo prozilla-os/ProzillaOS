@@ -23,7 +23,7 @@ export class ModalsConfig {
 	};
 
 	constructor(options: Partial<ModalsConfigOptions> = {}) {
-		const { defaultDialogSize, defaultFileSelectorSize } = options as ModalsConfigOptions;
+		const { defaultDialogSize, defaultFileSelectorSize } = options;
 		
 		this.defaultDialogSize = defaultDialogSize ?? new Vector2(400, 200);
 		this.defaultFileSelectorSize = defaultFileSelectorSize ?? new Vector2(700, 400);

@@ -10,14 +10,14 @@ export const ls = new Command()
 		description: "List information about directories or files (the current directory by default).",
 	})
 	.setExecute(function(this: Command, args, { currentDirectory }) {
-		let directory = currentDirectory;
+		let directory: VirtualFolder | null = currentDirectory;
 	
-		if (args != null && args.length > 0) {
-			directory = currentDirectory.navigate((args)[0]) as VirtualFolder;
+		if (args.length) {
+			directory = currentDirectory.navigateToFolder(args[0]);
 		}
 	
 		if (!directory)
-			return formatError(this.name, `Cannot access '${(args)[0]}': No such file or directory`);
+			return formatError(this.name, `Cannot access '${args[0]}': No such file or directory`);
 	
 		const folderNames = directory.subFolders.map((folder) => Ansi.blue(folder.id));
 		const fileNames = directory.files.map((file) => file.id);

@@ -15,7 +15,7 @@ export class Settings {
 	/**
 	 * The settings file.
 	 */
-	file: VirtualFile;
+	file: VirtualFile | null;
 	xmlDoc?: Document;
 	#virtualRoot?: VirtualRoot;
 
@@ -43,7 +43,7 @@ export class Settings {
 	constructor(virtualRoot: VirtualRoot, path: string) {
 		this.#virtualRoot = virtualRoot;
 		this.path = path;
-		this.file = this.#virtualRoot.navigate(this.path) as VirtualFile;
+		this.file = this.#virtualRoot.navigateToFile(this.path);
 
 		if (this.file == null) {
 			console.warn(`Unable to read settings from path: ${this.path}\nNo such file or directory.`);
@@ -92,7 +92,7 @@ export class Settings {
 		if (this.xmlDoc == null)
 			await this.read();
 
-		return (this.xmlDoc == null);
+		return this.xmlDoc == null;
 	}
 
 	/**
@@ -104,13 +104,13 @@ export class Settings {
 		if (await this.isMissingXmlDoc())
 			return { value: null };
 
-		let value = this.xmlDoc?.getElementsByTagName(key)?.[0]?.textContent as string | null;
+		let value = this.xmlDoc?.getElementsByTagName(key)[0]?.textContent as string | null;
 		let listener: SettingsListener | undefined;
 
 		if (callback) {
 			if (value != null) callback(value);
 
-			listener = this.file.on(VirtualFile.CONTENT_CHANGE_EVENT, () => {
+			listener = this.file?.on(VirtualFile.CONTENT_CHANGE_EVENT, () => {
 				void (async () => {
 					await this.read();
 					const newValue = (await this.get(key)).value;
@@ -130,7 +130,7 @@ export class Settings {
 		let result: { value: string | null, listener?: SettingsListener } = { value: null };
 		if (callback !== undefined) {
 			result = await this.get(key, (value) => {
-				callback?.(parser(value));
+				callback(parser(value));
 			});
 		} else {
 			result = await this.get(key);
@@ -181,6 +181,6 @@ export class Settings {
 	 * @param listener - The listener to remove.
 	 */
 	removeListener(listener: SettingsListener) {
-		this.file.off(VirtualFile.CONTENT_CHANGE_EVENT, listener);
+		this.file?.off(VirtualFile.CONTENT_CHANGE_EVENT, listener);
 	}
 }

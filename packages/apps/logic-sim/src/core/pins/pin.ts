@@ -53,7 +53,7 @@ export class Pin {
 		this.outputWires.forEach((wire) => {
 			wire.setState(this.state);
 		});
-		this.attachedChip?.update();
+		this.attachedChip.update();
 	}
 
 	get isPointingRight() {

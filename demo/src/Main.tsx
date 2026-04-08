@@ -9,6 +9,7 @@ export function Main(): ReactElement {
 	const skinRef = useLazyRef(() => {
 		const params = getViewportParams();
 
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (params.skin != null) {
 			switch (params.skin) {
 				case "mac":

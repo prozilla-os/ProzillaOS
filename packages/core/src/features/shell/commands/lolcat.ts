@@ -19,7 +19,6 @@ export const lolcat = new Command()
 		purpose: "Display text with a rainbow effect",
 	})
 	.setExecute(function(_args, { rawInputValue, timestamp }) {
-		if (rawInputValue == null) return;
 		let rows = removeAnsi(rawInputValue).split("\n");
 		const offset = timestamp / 100;
 
@@ -27,7 +26,7 @@ export const lolcat = new Command()
 			const columns: string[] = [];
 
 			const rowIndex = index + offset;
-			const rowOffset = COLUMN_WIDTH - ((ROW_OFFSET * rowIndex) % COLUMN_WIDTH);
+			const rowOffset = COLUMN_WIDTH - ROW_OFFSET * rowIndex % COLUMN_WIDTH;
 			let rainbowIndex = Math.floor(rowIndex / (COLUMN_WIDTH / ROW_OFFSET));
 
 			const addColumn = (start: number, end: number) => {

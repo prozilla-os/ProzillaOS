@@ -45,8 +45,8 @@ export function useContextMenu({ Actions }: UseContextMenuParams) {
 		event.preventDefault();
 		event.stopPropagation();
 
-		let positionX = event?.clientX ?? 0;
-		let positionY = event?.clientY ?? 0;
+		let positionX = event.clientX;
+		let positionY = event.clientY;
 
 		if (modalsManager?.containerRef?.current != null) {
 			const containerRect = modalsManager.containerRef.current.getBoundingClientRect();

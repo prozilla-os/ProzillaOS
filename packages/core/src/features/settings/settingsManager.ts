@@ -17,14 +17,10 @@ export class SettingsManager {
 	constructor(virtualRoot: VirtualRoot) {
 		this.#virtualRoot = virtualRoot;
 
-		if (this.#virtualRoot == null) {
-			throw new Error("SettingsManager is missing VirtualRoot"); // Why does this sound so sad :'(
-		} else {
-			const root = this.#virtualRoot;
-			Object.values(SettingsManager.VIRTUAL_PATHS).forEach((path) => {
-				this.#pathToSettings[path] = new Settings(root, path);
-			});
-		}
+		const root = this.#virtualRoot;
+		Object.values(SettingsManager.VIRTUAL_PATHS).forEach((path) => {
+			this.#pathToSettings[path] = new Settings(root, path);
+		});
 	}
 
 	getSettings(path: string): Settings {

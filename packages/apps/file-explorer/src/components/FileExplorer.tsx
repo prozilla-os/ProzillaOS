@@ -19,16 +19,16 @@ export interface FileExplorerProps extends WindowProps {
 }
 
 export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSelectionChange, onSelectionFinish }: FileExplorerProps) {
-	const isSelector = (Footer != null && selectorMode != null && selectorMode !== SELECTOR_MODE.NONE);
+	const isSelector = Footer != null && selectorMode != null && selectorMode !== SELECTOR_MODE.NONE;
 
 	const virtualRoot = useVirtualRoot();
 	const windowsManager = useWindowsManager();
 	const { windowsConfig } = useSystemManager();
 
-	const [currentDirectory, setCurrentDirectory] = useState<VirtualFolder>(virtualRoot?.navigate(startPath ?? "~") as VirtualFolder);
+	const [currentDirectory, setCurrentDirectory] = useState<VirtualFolder | null>(virtualRoot ? virtualRoot.navigateToFolder(startPath ?? "~") : null);
 	const [path, setPath] = useState<string>(currentDirectory?.path ?? "");
 	const [showHidden] = useState(true);
-	const { history, stateIndex, pushState, undo, redo, undoAvailable, redoAvailable } = useHistory<string>(currentDirectory.path);
+	const { history, stateIndex, pushState, undo, redo, undoAvailable, redoAvailable } = useHistory<string>(currentDirectory?.path ?? "");
 	const { alert } = useAlert();
 
 	const { openWindowedModal } = useWindowedModal();
@@ -36,13 +36,13 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 		<Actions {...props}>
 			<ClickAction label={!isSelector ? "Open" : "Select"} onTrigger={(_event, file) => {
 				if (isSelector) {
-					onSelectionChange?.({ files: [(file as VirtualFile).id], directory: currentDirectory });
+					onSelectionChange?.({ files: [(file as VirtualFile).id], directory: currentDirectory! });
 					onSelectionFinish?.();
 					return;
 				}
 				if (windowsManager != null)	(file as VirtualFile).open(windowsManager);
 			}}/>
-			{(props.triggerParams as VirtualFile)?.isDownloadable() && 
+			{(props.triggerParams as VirtualFile).isDownloadable() && 
 				<ClickAction label="Export" icon={faUpload} onTrigger={(_event, file) => {
 					(file as VirtualFile).download();
 				}}/>
@@ -83,13 +83,10 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 	// });
 
 	const changeDirectory = useCallback((path: string, absolute = false) => {
-		if (path == null)
-			return;
-
 		if (currentDirectory == null)
 			absolute = true;
 
-		const directory = absolute ? virtualRoot?.navigate(path) : currentDirectory.navigate(path);
+		const directory = absolute ? virtualRoot?.navigate(path) : currentDirectory?.navigate(path);
 
 		if (directory != null) {
 			setCurrentDirectory(directory as VirtualFolder);
@@ -154,14 +151,14 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 						</DialogBox>,
 				});
 				return;
+			} else if (directory.isFolder()) {
+				setCurrentDirectory(directory);
+				setPath(directory.root ? "/" : directory.path);
 			}
-
-			setCurrentDirectory(directory as VirtualFolder);
-			setPath(directory.root ? "/" : directory.path);
 		}
 	};
 
-	const itemCount = currentDirectory.getItemCount(showHidden);
+	const itemCount = currentDirectory?.getItemCount(showHidden) ?? 0;
 
 	return (
 		<div className={!isSelector ? styles.FileExplorer : `${styles.FileExplorer} ${styles.Selector}`}>
@@ -189,7 +186,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 					tabIndex={0}
 					className={styles.IconButton}
 					onClick={() => { changeDirectory(".."); }}
-					disabled={currentDirectory.isRoot != null && currentDirectory.isRoot}
+					disabled={currentDirectory?.isRoot != null && currentDirectory.isRoot}
 				>
 					<FontAwesomeIcon icon={faArrowUp}/>
 				</button>
@@ -215,7 +212,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 							
 						// }
 					}}
-					disabled={!currentDirectory.canBeEdited}
+					disabled={!currentDirectory?.canBeEdited}
 				>
 					<FontAwesomeIcon icon={faPlus}/>
 				</button>
@@ -229,7 +226,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 					onKeyDown={onKeyDown as unknown as KeyboardEventHandler}
 					placeholder="Enter a path..."
 				/>
-				<ImportButton directory={currentDirectory}/>
+				<ImportButton directory={currentDirectory!}/>
 				<button title="Search" tabIndex={0} className={styles.IconButton}>
 					<FontAwesomeIcon icon={faSearch}/>
 				</button>
@@ -245,7 +242,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 					<QuickAccessButton name={"Documents"} onClick={() => { changeDirectory("~/Documents"); }} icon={faFileLines}/>
 				</div>
 				<DirectoryList
-					directory={currentDirectory} 
+					directory={currentDirectory!} 
 					id="main"
 					className={styles.Main}
 					showHidden={showHidden}
@@ -254,7 +251,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 						if (isSelector)
 							return void onSelectionFinish?.();
 						const options: Record<string, string> = {};
-						if (file.extension === "md" || (file.extension != null && CODE_EXTENSIONS.includes(file.extension)))
+						if (file.extension === "md" || file.extension != null && CODE_EXTENSIONS.includes(file.extension))
 							options.mode = "view";
 						windowsManager?.openFile(file, options);
 					}}

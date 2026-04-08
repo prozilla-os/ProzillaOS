@@ -12,11 +12,11 @@ export interface RadioActionProps extends ActionProps {
 		label: string;
 		shortcut?: string[]
 	}[];
-	initialIndex: number;
+	initialIndex?: number;
 }
 
-export function RadioAction({ actionId, options, initialIndex, onTrigger }: RadioActionProps): ReactElement {
-	const [activeIndex, setActiveIndex] = useState(initialIndex ?? 0);
+export function RadioAction({ actionId, options, initialIndex = 0, onTrigger }: RadioActionProps): ReactElement {
+	const [activeIndex, setActiveIndex] = useState(initialIndex);
 
 	return <div key={actionId} className={useClassNames([], "Actions", "Radio")}>
 		{options.map(({ label, shortcut }, index) =>

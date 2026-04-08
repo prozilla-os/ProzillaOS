@@ -28,12 +28,12 @@ export class Chip {
 	outputCount = 0;
 	inputPins!: Pin[];
 	outputPins!: Pin[];
-	logic!: (inputStates: State[]) => State[];
+	logic?: (inputStates: State[]) => State[];
 
 	constructor(circuit: Circuit | null, name: string, color: string, isBlueprint: boolean, inputCount: number, outputCount: number) {
 		Object.assign(this, { circuit, name, color, isBlueprint, inputCount, outputCount });
 
-		if (this.circuit == null && !isBlueprint && this instanceof Circuit) {
+		if (circuit == null && !isBlueprint && this instanceof Circuit) {
 			this.circuit = this;
 			this.isCircuit = true;
 		}
@@ -42,7 +42,7 @@ export class Chip {
 			return;
 
 
-		if (this.circuit != null) {
+		if (circuit != null) {
 			const textRect = this.circuit.getTextRect(CHIP.fontSize, this.name);
 
 			const width = textRect.x + (CHIP.padding + CHIP.BorderWidth) * 2;
@@ -56,6 +56,7 @@ export class Chip {
 			const newPin = new Pin(this.circuit, "IN " + i, true, this);
 			this.inputPins.push(newPin);
 
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			if (this.isCircuit)
 				newPin.isControlled = true;
 		}
@@ -65,6 +66,7 @@ export class Chip {
 			const newPin = new Pin(this.circuit, "OUT " + i, false, this);
 			this.outputPins.push(newPin);
 
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			if (this.isCircuit)
 				newPin.isControlled = true;
 		}
@@ -76,7 +78,7 @@ export class Chip {
 		this.inputPins.concat(this.outputPins).forEach((pin) => { pin.circuit = circuit; });
 	}
 
-	setLogic(logic: (inputStates: State[]) => State[]) {
+	setLogic(logic?: (inputStates: State[]) => State[]) {
 		this.logic = logic;
 		return this;
 	}
@@ -87,6 +89,7 @@ export class Chip {
 
 		const inputStates: State[] = [];
 		for (let i = 0; i < this.inputCount; i++) {
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			const state = this.inputPins[i].state ?? State.LOW;
 			inputStates.push(state);
 		}

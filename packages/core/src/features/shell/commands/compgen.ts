@@ -7,7 +7,7 @@ export const compgen = new Command()
 	})
 	.setRequireOptions(true)
 	.setExecute(function(_args, { options }) {
-		if (options?.includes("c")) {
+		if (options.includes("c")) {
 			return CommandsManager.COMMANDS.map((command) => command.name).sort().join("\n");
 		}
 	});

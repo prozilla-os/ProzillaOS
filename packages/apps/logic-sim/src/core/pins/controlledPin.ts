@@ -14,7 +14,7 @@ export class ControlledPin extends Pin {
 
 		const rawPosition = this.getRawPosition();
 		let positionX = rawPosition.x;
-		const positionY = (rawPosition.y) - size.y / 2;
+		const positionY = rawPosition.y - size.y / 2;
 
 		if (this.isInput) {
 			positionX -= CONTROLLER.pinOffset + CONTROLLER.handleTrackWidth + CONTROLLER.handleHeight / 2;
@@ -100,6 +100,7 @@ export class ControlledPin extends Pin {
 		const positionX = this.isInput ? rawPosition.x - CONTROLLER.pinOffset : rawPosition.x;
 		const positionY = rawPosition.y;
 
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (isPlacing)
 			this.circuit.setDrawingOpacity(CONTROLLER.placingOpacity);
 
@@ -109,6 +110,7 @@ export class ControlledPin extends Pin {
 			CONTROLLER.pinOffset, CONTROLLER.connectorWidth
 		);
 
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (isPlacing)
 			this.circuit.resetDrawingOpacity();
 	}

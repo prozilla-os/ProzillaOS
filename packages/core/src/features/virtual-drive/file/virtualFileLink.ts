@@ -16,10 +16,10 @@ export class VirtualFileLink extends VirtualFile {
 		this.linkedFile = linkedFile;
 	}
 
-	setLinkedFile(file: VirtualFile): VirtualFileLink {
+	setLinkedFile(file: VirtualFile | null): VirtualFileLink {
 		this.linkedFile = file;
 
-		if (file) {
+		if (file !== null) {
 			this.linkedPath = file.path;
 			this.extension = file.extension;
 			this.content = file.content;
@@ -50,7 +50,7 @@ export class VirtualFileLink extends VirtualFile {
 
 		this.setLinkedPath(this.linkedPath);
 
-		return (this.linkedFile != null);
+		return this.linkedFile != null;
 	}
 
 	toJSON(): VirtualFileLinkJson | null {

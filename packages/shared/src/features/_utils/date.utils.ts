@@ -66,10 +66,10 @@ export function formatTime(time: number, maxLength: number = 3, allowAffixes: bo
 	}
 
 	for (let i = 0; i < maxLength; i++) {
-		const unit = units[i];
-
-		if (unit)
+		if (i < units.length) {
+			const unit = units[i];
 			result.push(`${unit.amount} ${unit.label}`);
+		}
 	}
 
 	if (result.length === 0) {

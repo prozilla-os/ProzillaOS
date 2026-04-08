@@ -55,7 +55,7 @@ export function Browser({ url: startUrl = HOME_URL, focus }: BrowserProps) {
 		}
 	};
 
-	return (<div className={styles.Browser}>
+	return <div className={styles.Browser}>
 		<div className={styles.Header}>
 			<div className={styles.NavBar}>
 				<button
@@ -107,5 +107,5 @@ export function Browser({ url: startUrl = HOME_URL, focus }: BrowserProps) {
 			</div>
 		</div>
 		<WebView ref={ref} source={url} title="Browser" focus={focus}/>
-	</div>);
+	</div>;
 }

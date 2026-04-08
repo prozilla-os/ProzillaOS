@@ -18,7 +18,7 @@ export class DesktopConfig {
 	defaultIconDirection: DesktopConfigOptions["defaultIconDirection"];
 
 	constructor(options: Partial<DesktopConfigOptions> = {}) {
-		const { defaultIconSize, defaultIconDirection } = options as DesktopConfigOptions;
+		const { defaultIconSize, defaultIconDirection } = options;
 
 		this.defaultIconSize = defaultIconSize ?? 1;
 		this.defaultIconDirection = defaultIconDirection ?? 0;

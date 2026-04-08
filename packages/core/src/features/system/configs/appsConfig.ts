@@ -22,7 +22,7 @@ export class AppsConfig {
 	};
 
 	constructor(options: Partial<AppsConfigOptions> = {}) {
-		const { apps } = options as AppsConfigOptions;
+		const { apps } = options;
 
 		if (apps != null) {
 			const appIds: string[] = [];
@@ -49,7 +49,7 @@ export class AppsConfig {
 		let resultApp: App | null = null;
 
 		this.apps.forEach((app: App) => {
-			const includeApp = app.isInstalled == null || app.isInstalled || includeUninstalled;
+			const includeApp = app.isInstalled || includeUninstalled;
 
 			if (resultApp == null && app.id === id && includeApp) {
 				resultApp = app;
@@ -67,12 +67,13 @@ export class AppsConfig {
 		let resultApp: App | null = null;
 
 		this.installedApps.forEach((app) => {
-			if (resultApp == null && app.associatedExtensions?.includes(fileExtension)) {
+			if (resultApp == null && app.associatedExtensions.includes(fileExtension)) {
 				resultApp = app;
 				return;
 			}
 		});
 
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		return resultApp ?? this.getAppByRole(AppsConfig.APP_ROLES.textEditor);
 	}
 

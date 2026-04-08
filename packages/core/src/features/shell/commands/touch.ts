@@ -13,8 +13,8 @@ export const touch = new Command()
 	.setExecute(function(this: Command, args, { currentDirectory }) {
 		const fileId = args[0];
 
-		if (fileId === "girls\\" && (args)[1] === "boo**")
-			return formatError((this).name, "Cannot touch 'girls boo**': Permission denied");
+		if (fileId === "girls\\" && args[1] === "boo**")
+			return formatError(this.name, "Cannot touch 'girls boo**': Permission denied");
 	
 		const { name, extension } = VirtualFile.splitId(fileId);
 	

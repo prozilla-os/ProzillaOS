@@ -172,9 +172,9 @@ export function TextEditor({ file, path, setTitle, setIconUrl, close, mode, app,
 			</DropdownAction>
 		</HeaderMenu>
 		{currentMode === "view"
-			? currentFile?.extension != null && CODE_EXTENSIONS.includes(currentFile?.extension)
+			? currentFile?.extension != null && CODE_EXTENSIONS.includes(currentFile.extension)
 				? <SyntaxHighlighter
-					language={EXTENSION_TO_LANGUAGE[currentFile?.extension] ?? currentFile?.extension}
+					language={EXTENSION_TO_LANGUAGE[currentFile.extension] ?? currentFile.extension}
 					className={styles.Code}
 					useInlineStyles={false}
 					showLineNumbers={true}

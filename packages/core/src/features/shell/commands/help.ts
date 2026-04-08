@@ -5,7 +5,7 @@ import { CommandsManager } from "../commands";
 
 export const help = new Command()
 	.setExecute(function(this: Command, args: string[]) {
-		if (args?.length === 0) {
+		if (args.length === 0) {
 			return CommandsManager.COMMANDS.map((command) => {
 				if (command.manual?.purpose) {
 					return  `${command.name} - ${ANSI.fg.green}${ANSI.decoration.dim}${command.manual.purpose}${ANSI.reset}`;

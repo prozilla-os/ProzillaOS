@@ -10,7 +10,7 @@ export class TaskbarConfig {
 	height: TaskbarConfigOptions["height"];
 
 	constructor(options: Partial<TaskbarConfigOptions> = {}) {
-		const { height } = options as TaskbarConfigOptions;
+		const { height } = options;
 		
 		this.height = height ?? 3 * 16;
 	}

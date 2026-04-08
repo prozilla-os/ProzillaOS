@@ -1,4 +1,4 @@
-import { CSSProperties, memo, MouseEvent, useEffect, useRef, useState } from "react";
+import { memo, MouseEvent, useEffect, useRef, useState } from "react";
 import styles from "./Taskbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -129,7 +129,7 @@ export const Taskbar = memo(() => {
 	}
 
 	return <div
-		style={{ "--taskbar-height": `${taskbarConfig.height}px`, zIndex } as CSSProperties}
+		style={{ "--taskbar-height": `${taskbarConfig.height}px`, zIndex }}
 		className={useClassNames([styles.Taskbar], "Taskbar", undefined, modifiers)}
 		data-allow-context-menu={true}
 		onContextMenu={(event) => {
@@ -185,14 +185,14 @@ export const Taskbar = memo(() => {
 					if (windows == null) return;
 
 					const isActive = windows.map((window) => window.app?.id).includes(app.id);
-					const shouldBeShown = (app.isPinned || isActive);
-					return (<AppButton
+					const shouldBeShown = app.isPinned || isActive;
+					return <AppButton
 						windowsManager={windowsManager}
 						app={app} 
 						key={app.id}
 						active={isActive}
 						visible={shouldBeShown}
-					/>);
+					/>;
 				})}
 			</div>
 		</div>

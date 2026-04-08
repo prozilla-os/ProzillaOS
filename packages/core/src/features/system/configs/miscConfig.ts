@@ -10,7 +10,7 @@ export class MiscConfig {
 	doubleClickDelay: MiscConfigOptions["doubleClickDelay"];
 
 	constructor(options: Partial<MiscConfigOptions> = {}) {
-		const { doubleClickDelay } = options as MiscConfigOptions;
+		const { doubleClickDelay } = options;
 		
 		this.doubleClickDelay = doubleClickDelay ?? 250;
 	}

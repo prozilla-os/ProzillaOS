@@ -36,7 +36,7 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	/**
 	 * Main component that renders this app inside a window.
 	 */
-	windowContent: FC<AppProps>;
+	windowContent: FC<AppProps> | null;
 
 	/**
 	 * Default options that get passed to the {@link App.windowContent} component.
