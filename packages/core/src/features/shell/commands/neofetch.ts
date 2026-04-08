@@ -2,7 +2,7 @@ import { ANSI } from "@prozilla-os/shared";
 import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR } from "../../../constants/shell.const";
 import { Command } from "../command";
 import { Theme } from "@prozilla-os/skins";
-import { SettingsManager } from "../../settings/settingsManager";
+import { Settings } from "../../settings/settings";
 
 export const neofetch = new Command()
 	.setManual({
@@ -12,7 +12,7 @@ export const neofetch = new Command()
 		const leftColumn = ANSI_ASCII_LOGO.split("\n");
 		const rightColumnWidth = username.length + hostname.length + 1;
 
-		const { value: themeIndex } = await settingsManager.getSettings(SettingsManager.VIRTUAL_PATHS.theme).get("theme");
+		const { value: themeIndex } = await settingsManager.getSettings(Settings.THEME).get("theme");
 		let theme = Theme[Theme.Dark];
 		if (themeIndex != null && parseInt(themeIndex)) {
 			theme = Theme[parseInt(themeIndex)];

@@ -2,6 +2,9 @@ import { VirtualRoot } from "../virtual-drive/root/virtualRoot";
 import { Settings } from "./settings";
 
 export class SettingsManager {
+	/**
+	 * @deprecated - Use constants from {@link Settings} instead.
+	 */
 	static VIRTUAL_PATHS: { [s: string]: string; } = {
 		desktop: "~/.config/desktop.xml",
 		taskbar: "~/.config/taskbar.xml",
