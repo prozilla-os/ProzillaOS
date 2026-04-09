@@ -1,7 +1,7 @@
 import { VirtualFolder } from "../../virtual-drive";
-import { formatError } from "../_utils/shell.utils";
+import { Shell } from "../shell";
 import { Command } from "../command";
-import { Ansi } from "@prozilla-os/shared";
+import { ANSI } from "@prozilla-os/shared";
 
 export const ls = new Command()
 	.setManual({
@@ -9,7 +9,7 @@ export const ls = new Command()
 		usage: "ls [options] [files]",
 		description: "List information about directories or files (the current directory by default).",
 	})
-	.setExecute(function(this: Command, args, { currentDirectory }) {
+	.setExecute(function(this: Command, args, { currentDirectory, stdout, stderr }) {
 		let directory: VirtualFolder | null = currentDirectory;
 	
 		if (args.length) {
@@ -17,15 +17,14 @@ export const ls = new Command()
 		}
 	
 		if (!directory)
-			return formatError(this.name, `Cannot access '${args[0]}': No such file or directory`);
+			return Shell.writeError(stderr, this.name, `Cannot access '${args[0]}': No such file or directory`);
 	
-		const folderNames = directory.subFolders.map((folder) => Ansi.blue(folder.id));
+		const folderNames = directory.subFolders.map((folder) => `${ANSI.fg.blue}${folder.id}${ANSI.reset}`);
 		const fileNames = directory.files.map((file) => file.id);
 	
 		const contents = folderNames.concat(fileNames);
 	
-		if (contents.length === 0)
-			return { blank: true };
-	
-		return contents.sort().join("  ");
+		if (contents.length > 0) {
+			stdout.write(contents.sort().join("  ") + "\n");
+		}
 	});

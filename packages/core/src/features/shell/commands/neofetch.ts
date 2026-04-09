@@ -8,11 +8,13 @@ export const neofetch = new Command()
 	.setManual({
 		purpose: "Fetch system information",
 	})
-	.setExecute(async function(_args, { username, hostname, app, systemManager, settingsManager }) {
+	.setExecute(async function(_arguments, { username, hostname, app, systemManager, settingsManager, stdout }) {
 		const leftColumn = ANSI_ASCII_LOGO.split("\n");
 		const rightColumnWidth = username.length + hostname.length + 1;
 
-		const { value: themeIndex } = await settingsManager.getSettings(Settings.THEME).get("theme");
+		const themeSetting = await settingsManager.getSettings(Settings.THEME).get("theme");
+		const themeIndex = themeSetting.value;
+		
 		let theme = Theme[Theme.Dark];
 		if (themeIndex != null && parseInt(themeIndex)) {
 			theme = Theme[parseInt(themeIndex)];
@@ -21,7 +23,7 @@ export const neofetch = new Command()
 		const userAgent = navigator.userAgent;
 
 		// Check for the browser name using regular expressions
-		let browserName: string;
+		let browserName;
 		if (userAgent.match(/Firefox\//)) {
 			browserName = "Mozilla Firefox";
 		} else if (userAgent.match(/Edg\//)) {
@@ -66,5 +68,5 @@ export const neofetch = new Command()
 			combined.push(line);
 		}
 
-		return combined.join("\n");
+		stdout.write(combined.join("\n") + "\n");
 	});

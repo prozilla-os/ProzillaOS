@@ -1,5 +1,4 @@
-import { VirtualFile, VirtualFolder } from "../../virtual-drive";
-import { formatError } from "../_utils/shell.utils";
+import { Shell } from "../shell";
 import { Command } from "../command";
 
 export const cd = new Command()
@@ -8,16 +7,20 @@ export const cd = new Command()
 		usage: "cd [PATH]",
 		description: "Change working directory to given path (the home directory by default).",
 	})
-	.setExecute(function(this: Command, args, { currentDirectory, setCurrentDirectory }) {
+	.setExecute(function(this: Command, args, { currentDirectory, setCurrentDirectory, stderr }) {
 		const path = args[0] ?? "~";
 		let destination = currentDirectory.navigate(path);
 	
 		if (!destination)
-			return formatError(this.name, `${args[0]}: No such file or directory`);
+			return Shell.writeError(stderr, this.name, `${path}: No such file or directory`);
 
-		if (destination instanceof VirtualFile)
-			destination = destination.parent as VirtualFolder;
+		if (destination.isFile()) {
+			if (destination.parent == null) {
+				return Shell.writeError(stderr, this.name, `${path}: Invalid path`);
+			} else {
+				destination = destination.parent;
+			}
+		}
 	
 		setCurrentDirectory(destination);
-		return { blank: true };
 	});

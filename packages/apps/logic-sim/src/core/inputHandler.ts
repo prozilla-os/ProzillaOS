@@ -527,7 +527,7 @@ export class InputHandler {
 		if (this.placingPin == null) return;
 
 		if (this.placingPin?.isInput) {
-		 	this.circuit.inputPins.pop();
+			this.circuit.inputPins.pop();
 		} else {
 			this.circuit.outputPins.pop();
 		}

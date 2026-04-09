@@ -58,6 +58,6 @@ export const fortune = new Command()
 	.setManual({
 		purpose: "Tell fortune",
 	})
-	.setExecute(function() {
-		return randomFromArray(FORTUNES);
+	.setExecute(function(_args, { stdout }) {
+		stdout.write(randomFromArray(FORTUNES));
 	});

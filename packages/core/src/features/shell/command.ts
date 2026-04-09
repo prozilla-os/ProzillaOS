@@ -1,50 +1,20 @@
-import { Stream } from "./stream";
-import { HistoryEntry } from "./shell";
-import { VirtualFolder, VirtualRoot } from "../virtual-drive";
-import { SettingsManager } from "../settings/settingsManager";
-import { SystemManager } from "../system/systemManager";
-import { App } from "../../main";
-import { Vector2 } from "@prozilla-os/shared";
+import { ShellContext } from "./shell";
 
-type Option = {
-	long: string,
-	short: string,
-	isInput: boolean
-};
+export interface Option {
+	long: string;
+	short: string;
+	isInput: boolean;
+}
 
-export type CommandResponse = string | { blank: boolean } | void | Stream;
-export type ShellContext = {
-	promptOutput: (text: string) => void,
-	pushHistory: (entry: HistoryEntry) => void,
-	execute: (command: string) => Promise<CommandResponse>,
-	virtualRoot: VirtualRoot,
-	currentDirectory: VirtualFolder,
-	setCurrentDirectory: (directory: VirtualFolder) => void,
-	username: string,
-	hostname: string,
-	rawInputValue: string,
-	options: string[],
-	exit: () => void,
-	inputs: Record<string, string>,
-	timestamp: number,
-	settingsManager: SettingsManager,
-	systemManager: SystemManager,
-	app?: App,
-	readonly size: Vector2
-};
+export interface Manual {
+	purpose?: string;
+	usage?: string;
+	description?: string;
+	options?: object;
+}
 
-type Execute = (
-		((args: string[], params: ShellContext) => CommandResponse | Promise<CommandResponse>)
-		| ((args: string[]) => CommandResponse | Promise<CommandResponse>)
-		| (() => CommandResponse | Promise<CommandResponse>)
-	);
-
-type Manual = {
-	purpose?: string,
-	usage?: string,
-	description?: string,
-	options?: object
-};
+export type CommandOutput = number | undefined | void;
+export type Execute = (args: string[], context: ShellContext) => Promise<CommandOutput> | CommandOutput;
 
 export class Command {
 	#name?: string;
@@ -59,16 +29,14 @@ export class Command {
 		this.#name = name;
 
 		if (name && !this.manual?.usage) {
-			if (!this.manual)
-				this.manual = {};
-
+			if (!this.manual) this.manual = {};
 			this.manual.usage = name;
 		}
 
 		return this;
 	}
 
-	get name() {
+	get name(): string {
 		return this.#name ?? "";
 	}
 

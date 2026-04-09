@@ -4,6 +4,6 @@ export const whoami = new Command()
 	.setManual({
 		purpose: "Display the username",
 	})
-	.setExecute((_args, { username }) => {
-		return username;
+	.setExecute(function (_args, { username, stdout })  {
+		stdout.write(username);
 	});

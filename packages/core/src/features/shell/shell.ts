@@ -1,10 +1,8 @@
-import { proxy, ref } from "valtio";
+import { proxy } from "valtio";
 import { Stream } from "./stream";
-import { CommandResponse } from "./command";
-import { formatError } from "./_utils/shell.utils";
 import { CommandsManager } from "./commands";
-import { Ansi, ANSI, clamp, removeFromArray, Vector2 } from "@prozilla-os/shared";
-import { HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../../constants/shell.const";
+import { Ansi, clamp, removeFromArray, Vector2 } from "@prozilla-os/shared";
+import { EXIT_CODE, HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../../constants/shell.const";
 import { App } from "../apps/app";
 import { VirtualFolder, VirtualRoot } from "../virtual-drive";
 import { SettingsManager } from "../settings/settingsManager";
@@ -18,29 +16,60 @@ export interface HistoryEntry {
 }
 
 export interface ShellConfig {
-    app?: App;
-    path?: string;
-    input?: string;
-    virtualRoot: VirtualRoot;
-    systemManager: SystemManager;
-    settingsManager: SettingsManager;
-    exit: () => void;
-    sizeRef: { current: Vector2 };
+	app?: App;
+	path?: string;
+	input?: string;
+	virtualRoot: VirtualRoot;
+	systemManager: SystemManager;
+	settingsManager: SettingsManager;
+	exit: () => void;
+	sizeRef: { current: Vector2 };
 }
 
 export interface ShellState {
 	history: HistoryEntry[];
 	inputValue: string;
 	historyIndex: number;
-	stream: Stream | null;
-	streamOutput: string | null;
 	currentDirectory: VirtualFolder;
 	prefix: string;
+	stream: Stream | null;
+	streamOutput: string | null;
 }
 
+export interface ProcessIO {
+	stdin: Stream;
+	stdout: Stream;
+	stderr: Stream;
+}
+
+export interface Process extends ProcessIO {
+	commandName: string;
+}
+
+export interface ShellContext extends ProcessIO {
+	out: (text: string) => void;
+	pushHistory: (entry: HistoryEntry) => void;
+	execute: (command: string, streams?: { stdout?: Stream, stderr?: Stream }) => Promise<number>;
+	virtualRoot: VirtualRoot;
+	currentDirectory: VirtualFolder;
+	setCurrentDirectory: (directory: VirtualFolder) => void;
+	username: string;
+	hostname: string;
+	rawInputValue: string;
+	options: string[];
+	exit: () => void;
+	inputs: Record<string, string>;
+	timestamp: number;
+	settingsManager: SettingsManager;
+	systemManager: SystemManager;
+	app?: App;
+	readonly size: Vector2;
+};
+
 export class Shell {
-	state: ShellState;
-	config: ShellConfig;
+	state;
+	config;
+	pipeline: Process[] = [];
 
 	constructor(config: ShellConfig) {
 		this.config = config;
@@ -51,20 +80,20 @@ export class Shell {
 			}],
 			inputValue: config.input ?? "",
 			historyIndex: 0,
-			stream: null,
-			streamOutput: null,
 			currentDirectory: config.virtualRoot.navigate(config.path ?? "~") as VirtualFolder,
 			prefix: "",
+			stream: null,
+			streamOutput: null,
 		});
 		this.updatePrefix();
 	}
 
-	private updatePrefix() {
+	updatePrefix() {
 		this.state.prefix = Ansi.cyan(`${USERNAME}@${HOSTNAME}`) + ":"
             + Ansi.blue(`${this.state.currentDirectory.root ? "/" : this.state.currentDirectory.path}`) + "$ ";
 	}
 
-	public setInputValue(value: string | ((prev: string) => string)) {
+	setInputValue(value: string | ((prev: string) => string)) {
 		if (typeof value === "function") {
 			this.state.inputValue = value(this.state.inputValue);
 		} else {
@@ -72,120 +101,142 @@ export class Shell {
 		}
 	}
 
-	public pushHistory(entry: HistoryEntry) {
+	pushHistory(entry: HistoryEntry) {
 		this.state.history.push(entry);
 	}
 
-	public promptOutput(text: string) {
-		this.pushHistory({ text, isInput: false });
+	out(text: string) {
+		if (this.state.stream) this.state.streamOutput = text;
+		else this.pushHistory({ text, isInput: false });
 	}
 
-	public connectStream(stream: Stream, pipes: string[]) {
-		this.state.stream = ref(stream);
+	async submitInput(value: string) {
+		this.state.inputValue = "";
+		this.state.historyIndex = 0;
+		return await this.execute(value);
+	}
 
-		const onKeyDown = (event: globalThis.KeyboardEvent) => {
-			if ((event.ctrlKey || event.metaKey) && event.key === "c") {
-				stream.stop();
-			}
-		};
-
-		let lastOutput: CommandResponse | null = null;
-
-		stream.onAsync(Stream.SEND_EVENT, async (text: string) => {
-			let output: CommandResponse = text;
-
-			for (const pipe of pipes) {
-				if (output instanceof Stream) continue;
-				output = await this.handleInput(output ? `${pipe} ${output as string}` : pipe);
-			}
-
-			if (output instanceof Stream) {
-				stream.stop();
-				this.promptOutput(ANSI.fg.red + "Stream failed");
-				return;
-			}
-
-			lastOutput = output;
-			this.state.streamOutput = output as string;
-		});
-
-		stream.on(Stream.STOP_EVENT, () => {
-			document.removeEventListener("keydown", onKeyDown);
-			this.promptOutput(lastOutput as string);
+	stop() {
+		if (this.state.stream) {
+			this.state.stream.stop();
 			this.state.stream = null;
 			this.state.streamOutput = null;
-		});
+		}
 
-		document.addEventListener("keydown", onKeyDown);
+		if (!this.pipeline.length)
+			return;
+
+		this.pipeline.forEach((proc) => {
+			proc.stdin.stop();
+			proc.stdout.stop();
+			proc.stderr.stop();
+		});
+		this.pipeline = [];
+		this.out("^C\n");
 	}
 
-	public async handleInput(value: string): Promise<CommandResponse> {
-		const rawInputValueStart = value.indexOf(" ") + 1;
-		const rawInputValue = rawInputValueStart <= 0 ? "" : value.substr(rawInputValueStart);
+	async execute(input: string, streams?: { stdout?: Stream, stderr?: Stream }) {
+		this.pushHistory({
+			text: this.state.prefix + input,
+			isInput: true,
+			value: input,
+		});
+
+		const commandStrings = input.split("|").map((s) => s.trim()).filter((s) => s !== "");
+    
+		if (commandStrings.length === 0) 
+			return EXIT_CODE.success;
+
+		this.pipeline = commandStrings.map((cmdStr) => ({
+			stdin: new Stream(),
+			stdout: new Stream(),
+			stderr: new Stream(),
+			commandName: cmdStr.split(" ")[0].toLowerCase(),
+		}));
+
+		this.pipeline.forEach((proc, i) => {
+			const isLast = i === this.pipeline.length - 1;
+
+			if (!isLast) {
+				proc.stdout.pipe(this.pipeline[i + 1].stdin);
+			} else {
+				if (streams?.stdout) proc.stdout.pipe(streams.stdout);
+				else proc.stdout.on(Stream.DATA_EVENT, (data) => this.out(data));
+			}
+
+			if (streams?.stderr) proc.stderr.pipe(streams.stderr);
+			else proc.stderr.on(Stream.DATA_EVENT, (data) => this.out(data));
+		});
+
+		const tasks = this.pipeline.map((process, i) => {
+			process.stdin.start();
+			process.stdout.start();
+			process.stderr.start();
+			return this.spawn(process, commandStrings[i]);
+		});
+
+		this.resetInput();
+    
+		const exitCodes = await Promise.all(tasks);
+		this.pipeline = [];
+
+		return exitCodes[exitCodes.length - 1] ?? EXIT_CODE.success;
+	}
+
+	async spawn(process: Process, rawLine: string) {
+		const { stdin, stdout, stderr, commandName } = process;
 		const timestamp = Date.now();
 
-		value = value.trim();
-		if (value === "") return;
+		const args = rawLine.match(/(?:[^\s"]+|"[^"]*")+/g);
+		if (!args)
+			return EXIT_CODE.generalError;
+		if (args[0].toLowerCase() === "sudo")
+			args.shift();
+		args.shift();
 
-		let args: string[] | null = value.match(/(?:[^\s"]+|"[^"]*")+/g);
-		if (args == null) return;
-		if (args[0].toLowerCase() === "sudo" && args.length >= 2) args.shift();
-
-		const commandName = args.shift()?.toLowerCase();
-		if (commandName == null) return;
 		const command = CommandsManager.find(commandName);
 
-		if (!command) return formatError(commandName, "Command not found");
-
-		args = args.map((arg) => {
-			if (arg.startsWith("\"") && arg.endsWith("\"")) return arg.slice(1, -1);
-			return arg;
-		});
+		if (!command)
+			return Shell.writeError(stderr, commandName, "Command not found", EXIT_CODE.commandNotFound);
 
 		const options: string[] = [];
 		const inputs: Record<string, string> = {};
-		args.filter((arg: string) => arg.startsWith("-")).forEach((option: string) => {
+		args.filter((arg) => arg.startsWith("-")).forEach((option) => {
 			const addOption = (key: string) => {
 				const commandOption = command.getOption(key);
 				key = commandOption?.short ?? key;
 
-				if (options.includes(key)) return;
+				if (options.includes(key))
+					return;
 
 				options.push(key);
 
 				if (commandOption?.isInput) {
-					const optionInput = args[args.indexOf(option) + 1];
-					inputs[commandOption.short] = optionInput;
-					removeFromArray(optionInput, args);
+					const index = args.indexOf(option);
+					const value = args[index + 1];
+					inputs[commandOption.short] = value;
+					removeFromArray(value, args);
 				}
 			};
 
 			if (option.startsWith("--")) {
-				const longOption = option.substring(2).toLowerCase();
-				addOption(longOption);
+				addOption(option.substring(2).toLowerCase());
 			} else {
-				const shortOptions = option.substring(1).split("");
-				shortOptions.forEach((shortOption: string) => {
-					addOption(shortOption);
-				});
+				option.substring(1).split("").forEach((s) => addOption(s));
 			}
-            
+
 			removeFromArray(option, args);
 		});
 
 		if (command.requireArgs && args.length === 0)
-			return formatError(commandName, `Incorrect usage: ${commandName} requires at least 1 argument`);
-
-		if (command.requireOptions && options.length === 0)
-			return formatError(commandName, `Incorrect usage: ${commandName} requires at least 1 option`);
-        
-		let response: CommandResponse | null = null;
+			return Shell.writeError(stderr, commandName, "Requires at least 1 argument");
 
 		try {
-			response = await command.execute(args, {
-				promptOutput: this.promptOutput.bind(this),
+			const exitCode = await command.execute(args, {
+				stdin, stdout, stderr,
+				out: this.out.bind(this),
 				pushHistory: this.pushHistory.bind(this),
-				execute: this.handleInput.bind(this),
+				execute: this.execute.bind(this),
 				virtualRoot: this.config.virtualRoot,
 				currentDirectory: this.state.currentDirectory,
 				setCurrentDirectory: (dir: VirtualFolder) => {
@@ -194,7 +245,7 @@ export class Shell {
 				},
 				username: USERNAME,
 				hostname: HOSTNAME,
-				rawInputValue,
+				rawInputValue: rawLine.substring(rawLine.indexOf(" ") + 1),
 				options,
 				exit: this.config.exit,
 				inputs,
@@ -205,64 +256,58 @@ export class Shell {
 				size: this.config.sizeRef.current,
 			});
 
-			if (response == null) return formatError(commandName, "Command failed");
-			if (!(response as { blank: boolean }).blank) return response;
+			return exitCode ?? EXIT_CODE.success;
 		} catch (error) {
 			console.error(error);
-			return formatError(commandName, "Command failed");
+			return Shell.writeError(stderr, commandName, "Command failed");
+		} finally {
+			stdout.stop();
+			stderr.stop();
 		}
 	}
 
-	public resetInput() {
+	resetInput() {
 		this.state.inputValue = "";
 		this.state.historyIndex = 0;
 	}
 
-	public async submitInput(value: string) {
-		this.pushHistory({
-			text: this.state.prefix + value,
-			isInput: true,
-			value,
-		});
-
-		let pipes = value.split(" | ");
-		const completedPipes: string[] = [];
-
-		let output: CommandResponse | null = null;
-		for (const pipe of pipes) {
-			if (output instanceof Stream) continue;
-			output = await this.handleInput(output ? `${pipe} ${output as string}` : pipe);
-			completedPipes.push(pipe);
-		}
-
-		this.resetInput();
-
-		pipes = pipes.filter((pipe) => !completedPipes.includes(pipe));
-
-		if (output) {
-			if (output instanceof Stream) {
-				this.connectStream(output, pipes);
-			} else {
-				this.promptOutput(`${output as string}\n`);
-			}
-		}
-	}
-
-	public updateHistoryIndex(delta: number) {
+	updateHistoryIndex(delta: number) {
 		const inputHistory = this.state.history.filter(({ isInput }) => isInput);
 		const index = clamp(this.state.historyIndex + delta, 0, inputHistory.length);
 
 		if (index === this.state.historyIndex) {
-			if (delta < 0) this.state.inputValue = "";
+			if (delta < 0)
+				this.state.inputValue = "";
 			return;
 		}
 
-		if (index === 0) {
-			this.state.inputValue = "";
-		} else {
-			this.state.inputValue = inputHistory[inputHistory.length - index].value ?? "";
-		}
-
+		this.state.inputValue = index === 0 ? "" : inputHistory[inputHistory.length - index].value ?? "";
 		this.state.historyIndex = index;
+	}
+
+	static writeError(stream: Stream, commandName: string, error: string, exitCode: number = EXIT_CODE.generalError) {
+		stream.write(Ansi.red(`${commandName}: ${error}`));
+		return exitCode;
+	}
+
+	static animate({ stdout, stdin }: Pick<ShellContext, "stdout" | "stdin">, getFrame: (frame: number) => string, delay: number) {
+		let frame = 0;
+
+		const interval = setInterval(() => {
+			const content = getFrame(frame);
+			stdout.write(content);
+			frame++;
+
+			if (content.trim().length === 0 && frame > 1) {
+				clearInterval(interval);
+				stdin.stop();
+			}
+		}, delay);
+
+		stdin.on(Stream.STOP_EVENT, () => {
+			clearInterval(interval);
+		});
+
+		return stdin.wait(EXIT_CODE.success);
 	}
 }

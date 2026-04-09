@@ -41,3 +41,13 @@ export const ANSI_ASCII_LOGO = `
   ...::---------------:.   
        .::---------::..    
           ....::...        `;
+
+export const EXIT_CODE = {
+	success: 0,
+	generalError: 1,
+	misuseOfBuiltins: 2,
+	commandNotExecutable: 126,
+	commandNotFound: 127,
+	invalidExitArgument: 128,
+	terminatedByCtrlC: 130,
+} as const;

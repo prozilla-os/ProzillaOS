@@ -176,7 +176,7 @@ function loadSourceTree(virtualRoot: VirtualRoot) {
 			}
 
 			const parentPath = folderPath.substring(0, lastSlashIndex);
-    		const folderName = folderPath.substring(lastSlashIndex + 1);
+			const folderName = folderPath.substring(lastSlashIndex + 1);
 
 			const parentFolder = virtualRoot.navigate(parentPath) as VirtualFolder;
 			parentFolder.createFolder(folderName);
@@ -205,7 +205,7 @@ function loadSourceTree(virtualRoot: VirtualRoot) {
 			}
 
 			const parentPath = filePath.substring(0, lastSlashIndex);
-    		const { name, extension } = VirtualFile.splitId(filePath.substring(lastSlashIndex + 1));
+			const { name, extension } = VirtualFile.splitId(filePath.substring(lastSlashIndex + 1));
 
 			const parentFolder = virtualRoot.navigate(parentPath) as VirtualFolder;
 			parentFolder.createFile(name, extension as string | undefined, callback);

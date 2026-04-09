@@ -4,6 +4,6 @@ export const rev = new Command()
 	.setManual({
 		purpose: "Display the reverse of a text",
 	})
-	.setExecute(function(_args, { rawInputValue }) {
-		return rawInputValue.split("").reverse().join("");
+	.setExecute(function(_args, { rawInputValue, stdout }) {
+		stdout.write(rawInputValue.split("").reverse().join(""));
 	});

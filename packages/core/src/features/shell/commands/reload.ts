@@ -7,5 +7,4 @@ export const reload = new Command()
 	})
 	.setExecute(function() {
 		CommandsManager.reload();
-		return { blank: true };
 	});

@@ -6,8 +6,8 @@ export const compgen = new Command()
 		purpose: "Display a list of all commands",
 	})
 	.setRequireOptions(true)
-	.setExecute(function(_args, { options }) {
+	.setExecute(function(_args, { options, stdout }) {
 		if (options.includes("c")) {
-			return CommandsManager.COMMANDS.map((command) => command.name).sort().join("\n");
+			stdout.write(CommandsManager.COMMANDS.map((command) => command.name).sort().join("\n"));
 		}
 	});

@@ -179,6 +179,10 @@ export default defineConfig(
 				allowConstantLoopConditions: "only-allowed-literals"
 			}],
 			"no-extra-parens": "warn",
+			"@typescript-eslint/no-base-to-string": ["error", {
+				checkUnknown: false
+			}],
+			"no-mixed-spaces-and-tabs": "error",
 		},
 	},
 	{

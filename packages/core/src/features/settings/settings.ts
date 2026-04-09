@@ -70,7 +70,7 @@ export class Settings {
 			return;
 
 		const parser = new DOMParser();
-    	const xmlDoc = parser.parseFromString(text, "text/xml");
+		const xmlDoc = parser.parseFromString(text, "text/xml");
 
 		this.xmlDoc = xmlDoc;
 	}

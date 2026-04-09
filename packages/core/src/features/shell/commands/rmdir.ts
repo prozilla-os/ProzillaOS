@@ -1,4 +1,4 @@
-import { formatError } from "../_utils/shell.utils";
+import { Shell } from "../shell";
 import { Command } from "../command";
 
 export const rmdir = new Command()
@@ -6,13 +6,13 @@ export const rmdir = new Command()
 	.setManual({
 		purpose: "Remove a directory",
 	})
-	.setExecute(function(this: Command, args, { currentDirectory }) {
+	.setExecute(function(this: Command, args, { currentDirectory, stderr }) {
 		const folderName = args[0];
 		const folder = currentDirectory.findSubFolder(folderName);
 	
-		if (!folder)
-			return formatError(this.name, `${folderName}: No such directory`);
+		if (!folder) {
+			return Shell.writeError(stderr, this.name, `${folderName}: No such directory`);
+		}
 		
 		folder.delete();
-		return { blank: true };
 	});

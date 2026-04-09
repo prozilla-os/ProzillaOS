@@ -1,32 +1,65 @@
+import { EXIT_CODE } from "../../../constants";
 import { VirtualFile } from "../../virtual-drive";
-import { formatError } from "../_utils/shell.utils";
 import { Command } from "../command";
+import { Shell } from "../shell";
+import { Stream } from "../stream";
 
 export const cat = new Command()
-	.setRequireArgs(true)
 	.setManual({
-		purpose: "Concetenate files and display on the terminal screen",
-		usage: "cat [options] [files]",
-		description: "Concetenate files to standard output.",
+		purpose: "Concatenate files and display on the terminal screen",
+		usage: "cat [OPTION]... [FILE]...",
+		description: "Concatenate FILE(s) to standard output. With no FILE, or when FILE is -, read standard input.",
+		options: {
+			"-e": "Display $ at end of each line",
+		},
 	})
-	.setExecute(function(this: Command, args, { currentDirectory, options }) {
-		const fileId = args[0];
-		const { name, extension } = VirtualFile.splitId(fileId);
-		const file = currentDirectory.findFile(name, extension);
+	.addOption({ short: "e", long: "show-ends", isInput: false })
+	.setExecute(async function(this: Command, args, { currentDirectory, options, stdout, stderr, stdin }) {
+		let exitCode: number = EXIT_CODE.success;
 
-		if (!file)
-			return formatError(this.name, `${fileId}: No such file`);
-
-		if (file.content) {
-			if (!options.includes("e")) {
-				return file.content;
-			} else {
-				// Append "$" at the end of every line
-				return file.content.split("\n").join("$\n") + "$";
+		// Helper to format and write content with options
+		const writeContent = (content: string) => {
+			let output = content;
+			if (options.includes("e")) {
+				output = output.split("\n").join("$\n") + "$";
 			}
-		} else if (file.source) {
-			return `Src: ${file.source}`;
-		} else {
-			return { blank: true };
+			stdout.write(output);
+		};
+
+		// Read from stdin
+		if (args.length === 0) {
+			stdin.on(Stream.DATA_EVENT, (data) => {
+				writeContent(data);
+			});
+			return stdin.wait(EXIT_CODE.success);
 		}
+
+		// Iterate through file arguments
+		for (const fileId of args) {
+			if (fileId === "-") {
+				const onData = (data: string) => writeContent(data);
+				stdin.on(Stream.DATA_EVENT, onData);
+    
+				await stdin.wait();
+    
+				stdin.off(Stream.DATA_EVENT, onData);
+				continue;
+			}
+
+			const { name, extension } = VirtualFile.splitId(fileId);
+			const file = currentDirectory.findFile(name, extension);
+
+			if (!file) {
+				exitCode = Shell.writeError(stderr, this.name, `${fileId}: No such file or directory`);
+				continue;
+			}
+
+			if (file.content) {
+				writeContent(file.content);
+			} else if (file.source) {
+				stdout.write(`Src: ${file.source}`);
+			}
+		}
+
+		return exitCode;
 	});

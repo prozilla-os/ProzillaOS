@@ -11,13 +11,6 @@ export interface TerminalProps extends WindowProps {
     input?: string;
 }
 
-export interface HistoryEntry {
-    text?: string;
-    isInput: boolean;
-    value?: string;
-    clear?: boolean;
-}
-
 export function Terminal({ app, path: startPath, input, setTitle, close: exit, active, focus }: TerminalProps) {
 	const systemManager = useSystemManager();
 	const settingsManager = useSettingsManager();
@@ -27,7 +20,6 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	const sizeRef = useRef(Vector2.ZERO);
 
 	const [inputKey, setInputKey] = useState(0);
-	const [streamFocused, setStreamFocused] = useState(false);
 
 	const shell = useMemo(() => new Shell({
 		app,
@@ -38,7 +30,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		settingsManager: settingsManager!,
 		exit: exit!,
 		sizeRef,
-	}), []);
+	}), [app, startPath, input, virtualRoot, systemManager, settingsManager, exit]);
 
 	const state = useSnapshot(shell.state);
 
@@ -49,22 +41,15 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	useEffect(() => {
 		if (!inputRef.current || !active) return;
 		inputRef.current.focus();
-	}, [inputRef, active]);
+	}, [active]);
 
 	const scrollDown = () => {
 		if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
 	};
 
 	useEffect(() => {
-		if (streamFocused || ref.current == null || state.streamOutput == null) return;
 		scrollDown();
-		setStreamFocused(true);
-	}, [streamFocused, state.streamOutput, ref]);
-
-	useEffect(() => {
-		if (ref.current == null || state.stream != null) return;
-		scrollDown();
-	}, [state.inputValue, state.stream]);
+	}, [state.history.length, state.inputValue, state.streamOutput]);
 
 	useEffect(() => {
 		if (!ref.current) return;
@@ -89,7 +74,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		measure();
 
 		return () => observer.disconnect();
-	}, [ref]);
+	}, []);
 
 	const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
 		const value = (event.target as HTMLInputElement).value;
@@ -98,15 +83,14 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		if (key === "Enter") {
 			void shell.submitInput(value);
 			setInputKey((previousKey) => previousKey + 1);
-			setStreamFocused(false);
 		} else if (key === "ArrowUp") {
 			event.preventDefault();
 			shell.updateHistoryIndex(1);
 		} else if (key === "ArrowDown") {
 			event.preventDefault();
 			shell.updateHistoryIndex(-1);
-		} else if (!state.stream && active && (event.ctrlKey || event.metaKey) && key === "c") {
-			shell.setInputValue((val) => val + "^C");
+		} else if (active && (event.ctrlKey || event.metaKey) && key === "c") {
+			shell.stop();
 		}
 	};
 
@@ -115,15 +99,16 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	};
 
 	const displayHistory = () => {
-		const visibleHistory = state.history.slice(-16);
 		let startIndex = 0;
+		for (let i = state.history.length - 1; i >= 0; i--) {
+			if (state.history[i].clear) {
+				startIndex = i + 1;
+				break;
+			}
+		}
 
-		visibleHistory.forEach((entry, index) => {
-			if (entry.clear) startIndex = index + 1;
-		});
-
-		return visibleHistory.slice(startIndex).map(({ text }, index) => {
-			return <OutputLine text={text} key={index}/>;
+		return state.history.slice(startIndex).map((entry, index) => {
+			return <OutputLine text={entry.text} key={index}/>;
 		});
 	};
 
@@ -144,31 +129,31 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		event.preventDefault();
 	};
 
-	return (
-		<div
-			ref={ref} 
-			className={styles.Terminal}
-			onMouseDown={onMouseDown}
-			onContextMenu={onContextMenu}
-			onClick={(event) => {
-				if (window.getSelection()?.toString() === "") {
-					event.preventDefault();
-					inputRef.current?.focus();
-				}
-			}}
-		>
-			{displayHistory()}
-			{!state.stream
-				? <InputLine
-					key={inputKey}
-					value={state.inputValue}
-					prefix={state.prefix}
-					onKeyDown={onKeyDown}
-					onChange={onChange}
-					inputRef={inputRef}
-				/>
-				: <OutputLine text={state.streamOutput ?? ""}/>
+	return <div
+		ref={ref} 
+		className={styles.Terminal}
+		onMouseDown={onMouseDown}
+		onContextMenu={onContextMenu}
+		onClick={(event) => {
+			if (window.getSelection()?.toString() === "") {
+				event.preventDefault();
+				inputRef.current?.focus();
 			}
+		}}
+	>
+		<div className={styles.History}>
+			{displayHistory()}
 		</div>
-	);
+		{!state.stream
+			? <InputLine
+				key={inputKey}
+				value={state.inputValue}
+				prefix={state.prefix}
+				onKeyDown={onKeyDown}
+				onChange={onChange}
+				inputRef={inputRef}
+			/>
+			: <OutputLine text={state.streamOutput ?? ""}/>
+		}
+	</div>;
 }

@@ -15,7 +15,7 @@ export const cowsay = new Command()
 		usage: "cowsay text",
 		description: "Show ASCII art of a cow saying something.",
 	})
-	.setExecute(function(_args, { rawInputValue }) {
+	.setExecute(function(_args, { rawInputValue, stdout }) {
 		// Separate input value into lines
 		const segments = rawInputValue.split(" ");
 		const lines: string[] = [];
@@ -102,5 +102,5 @@ export const cowsay = new Command()
 
 		speechBubble.push(` ${"-".repeat(maxLineWidth + 2)} `);
 
-		return speechBubble.join("\n") + COW;
+		stdout.write(speechBubble.join("\n") + COW);
 	});

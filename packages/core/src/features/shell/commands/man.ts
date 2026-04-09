@@ -1,5 +1,5 @@
 import { Ansi, ANSI } from "@prozilla-os/shared";
-import { formatError } from "../_utils/shell.utils";
+import { Shell } from "../shell";
 import { Command } from "../command";
 import { CommandsManager } from "../commands";
 
@@ -21,29 +21,32 @@ export const man = new Command()
 		short: "k",
 		long: "apropos",
 	})
-	.setExecute(function(this: Command, args, { options }) {
+	.setExecute(function(this: Command, args, { options, stdout, stderr }) {
 		// Search function
 		if (options.includes("k")) {
 			const commands = CommandsManager.search(args[0].toLowerCase());
-			return commands.map((command) => {
+			const output = commands.map((command) => {
 				if (command.manual?.purpose) {
-					return  `${command.name} - ${command.manual.purpose}`;
+					return `${command.name} - ${command.manual.purpose}`;
 				} else {
 					return command.name;
 				}
 			}).sort().join("\n");
+
+			stdout.write(output + "\n");
+			return;
 		}
 
 		const commandName = args[0].toLowerCase();
 		const command = CommandsManager.find(commandName);
 
 		if (!command)
-			return formatError(this.name, `${commandName}: Command not found`);
+			return Shell.writeError(stderr, this.name, `${commandName}: Command not found`);
 
 		const manual = command.manual;
 
 		if (!manual)
-			return formatError(this.name, `${commandName}: No manual found`);
+			return Shell.writeError(stderr, this.name, `${commandName}: No manual found`);
 
 		const formatText = (text: string) => {
 			const lines = text.split("\n").map((line) => " ".repeat(MARGIN) + line);
@@ -95,8 +98,10 @@ export const man = new Command()
 			]);
 		}
 
-		return sections.map((section) => {
+		const output = sections.map((section) => {
 			section[0] = Ansi.yellow(section[0]);
 			return section.join("\n");
 		}).join("\n\n");
+
+		stdout.write(output + "\n");
 	});

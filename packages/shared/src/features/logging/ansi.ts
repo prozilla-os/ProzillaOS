@@ -82,4 +82,9 @@ export class Ansi {
 		return code + text + ANSI.reset;
 	}
 
+	static strip(text: string) {
+		// eslint-disable-next-line no-control-regex
+		return  text.replace(/\u001b\[([0-9]+)m/gm, "");
+	}
+
 }

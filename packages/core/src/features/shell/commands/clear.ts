@@ -9,6 +9,4 @@ export const clear = new Command()
 			clear: true,
 			isInput: false,
 		});
-	
-		return { blank: true };
 	});

@@ -6,5 +6,4 @@ export const exit = new Command()
 	})
 	.setExecute(function(_args, { exit }) {
 		exit();
-		return { blank: true };
 	});

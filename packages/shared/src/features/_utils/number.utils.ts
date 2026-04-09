@@ -4,7 +4,7 @@
 export function isValidInteger(input: number | string): boolean {
 	if (typeof input === "number") return true;
 	if (input.trim() === "") return false;
-  	return Number.isInteger(Number(input));
+	return Number.isInteger(Number(input));
 }
 
 /**
@@ -13,7 +13,7 @@ export function isValidInteger(input: number | string): boolean {
 export function isValidNumber(input: number | string): boolean {
 	if (typeof input === "number") return true;
 	if (input.trim() === "") return false;
-  	return !isNaN(Number(input));
+	return !isNaN(Number(input));
 }
 
 export function parseOptionalInteger(input?: string, defaultValue = 0) {

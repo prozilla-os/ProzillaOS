@@ -9,8 +9,8 @@ export const mkdir = new Command()
 		const name = args[0];
 	
 		if (currentDirectory.findSubFolder(name))
-			return { blank: true };
+			return;
 	
 		currentDirectory.createFolder(name);
-		return { blank: true };
+		return;
 	});

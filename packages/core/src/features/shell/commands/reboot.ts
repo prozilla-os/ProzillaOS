@@ -7,5 +7,4 @@ export const reboot = new Command()
 	})
 	.setExecute(function() {
 		reloadViewport();
-		return { blank: true };
 	});

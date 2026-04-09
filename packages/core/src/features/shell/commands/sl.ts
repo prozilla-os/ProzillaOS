@@ -1,7 +1,6 @@
 import { parseOptionalFloat } from "@prozilla-os/shared";
-import { formatError } from "../_utils/shell.utils";
+import { Shell } from "../shell";
 import { Command } from "../command";
-import { Stream } from "../stream";
 
 const ANIMATION_SPEED = 1.25;
 
@@ -192,36 +191,21 @@ export const sl = new Command()
 		long: "speed",
 		isInput: true,
 	})
-	.setExecute(function(this: Command, _args, { inputs, size }) {
+	.setExecute(function(this: Command, _args, { inputs, size, stderr, stdout, stdin }) {
 		let wagonCount = 1;
 
 		if (inputs.w) {
 			wagonCount = parseInt(inputs.w);
 
 			if (!wagonCount || wagonCount < 0) {
-				return formatError(this.name, "Please specify a valid amount of wagons"); 
+				return Shell.writeError(stderr, this.name, "Please specify a valid amount of wagons"); 
 			}
 		}
 
-		const delay = 100 / parseOptionalFloat(inputs.s, ANIMATION_SPEED);
+		const speed = parseOptionalFloat(inputs.s, ANIMATION_SPEED);
+		const delay = 100 / speed;
 
-		const stream = new Stream();
-
-		let frame = 0;		
-		const interval = setInterval(() => {
-			const text = generateLocomotive(frame, wagonCount, size.x);
-			stream.send(text);
-			frame++;
-
-			if (text.trim().length === 0)
-				stream.stop();
+		return Shell.animate({ stdin, stdout }, (frame) => {
+			return generateLocomotive(frame, wagonCount, size.x);
 		}, delay);
-
-		stream.on(Stream.STOP_EVENT, () => {
-			clearInterval(interval);
-		});
-
-		stream.start();
-
-		return stream;
 	});

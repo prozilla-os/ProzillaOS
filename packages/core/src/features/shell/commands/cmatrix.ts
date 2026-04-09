@@ -1,7 +1,7 @@
 import { Vector2 } from "@prozilla-os/shared";
 import { ANSI, randomFromArray, randomRange, removeFromArray } from "@prozilla-os/shared";
 import { Command } from "../command";
-import { Stream } from "../stream";
+import { Shell } from "../shell";
 
 const ANIMATION_SPEED = 1.25;
 const CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.*\\/()#@&$!?%°:<>[]";
@@ -83,27 +83,20 @@ export const cmatrix = new Command()
 		purpose: "Show a scrolling 'Matrix' like screen",
 		usage: "cmatrix",
 	})
-	.setExecute(function(_args, { size }) {
-		const stream = new Stream();
+	.setExecute(function(this: Command, _arguments, { size, stdin, stdout }) {
 		const particles: Particle[] = [];
 
 		// Create screen
 		let screen = initializeScreen(size);
 
-		let frame = 0;
-		const interval = setInterval(() => {
-			if (screen.length != size.y || (screen.length != 0 ? screen[0].length : 0) != size.x) {
+		const delay = 100 / ANIMATION_SPEED;
+
+		return Shell.animate({ stdin, stdout }, (frame) => {
+			// Re-initialize if terminal size changes
+			if (screen.length !== size.y || (screen.length !== 0 ? screen[0].length : 0) !== size.x) {
 				screen = initializeScreen(size);
 			}
 
-			const text = generateScreen(frame, screen, particles, size);
-			stream.send(text);
-			frame++;
-		}, 100 / ANIMATION_SPEED);
-
-		stream.on(Stream.STOP_EVENT, () => {
-			clearInterval(interval);
-		});
-
-		return stream.start();
+			return generateScreen(frame, screen, particles, size);
+		}, delay);
 	});
