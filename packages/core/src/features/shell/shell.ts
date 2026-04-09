@@ -1,5 +1,5 @@
 import { proxy } from "valtio";
-import { Stream } from "./stream";
+import { Stream, StreamSignal } from "./stream";
 import { CommandsManager } from "./commands";
 import { Ansi, clamp, removeFromArray, Vector2 } from "@prozilla-os/shared";
 import { EXIT_CODE, HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../../constants/shell.const";
@@ -58,6 +58,7 @@ export interface ShellContext extends ProcessIO {
 	rawInputValue: string;
 	options: string[];
 	exit: () => void;
+	kill: (signal?: StreamSignal) => void;
 	inputs: Record<string, string>;
 	timestamp: number;
 	settingsManager: SettingsManager;
@@ -88,9 +89,35 @@ export class Shell {
 		this.updatePrefix();
 	}
 
+	kill(signal: StreamSignal = "SIGTERM"): void {
+		if (signal === "SIGKILL") {
+			this.config.exit();
+			return;
+		}
+
+		if (this.state.stream) {
+			this.state.stream.signal(signal);
+			this.state.stream = null;
+			this.state.streamOutput = null;
+		}
+
+		if (this.pipeline.length > 0) {
+			this.pipeline.forEach((process) => process.stdin.signal(signal));
+			this.pipeline = [];
+		}
+
+		if (signal === "SIGINT") {
+			this.out("^C\n");
+		}
+	}
+
+	interrupt(): void {
+		this.kill("SIGINT");
+	}
+
 	updatePrefix() {
 		this.state.prefix = Ansi.cyan(`${USERNAME}@${HOSTNAME}`) + ":"
-            + Ansi.blue(`${this.state.currentDirectory.root ? "/" : this.state.currentDirectory.path}`) + "$ ";
+			+ Ansi.blue(`${this.state.currentDirectory.root ? "/" : this.state.currentDirectory.path}`) + "$ ";
 	}
 
 	setInputValue(value: string | ((prev: string) => string)) {
@@ -106,33 +133,21 @@ export class Shell {
 	}
 
 	out(text: string) {
-		if (this.state.stream) this.state.streamOutput = text;
-		else this.pushHistory({ text, isInput: false });
+		if (text.includes("\x1b[2J") || text.includes("\x1b[H")) {
+			return this.pushHistory({ clear: true, isInput: false });
+		}
+
+		if (this.state.stream) {
+			this.state.streamOutput = text;
+		} else {
+			this.pushHistory({ text, isInput: false });
+		}
 	}
 
 	async submitInput(value: string) {
 		this.state.inputValue = "";
 		this.state.historyIndex = 0;
 		return await this.execute(value);
-	}
-
-	stop() {
-		if (this.state.stream) {
-			this.state.stream.stop();
-			this.state.stream = null;
-			this.state.streamOutput = null;
-		}
-
-		if (!this.pipeline.length)
-			return;
-
-		this.pipeline.forEach((proc) => {
-			proc.stdin.stop();
-			proc.stdout.stop();
-			proc.stderr.stop();
-		});
-		this.pipeline = [];
-		this.out("^C\n");
 	}
 
 	async execute(input: string, streams?: { stdout?: Stream, stderr?: Stream }) {
@@ -143,7 +158,6 @@ export class Shell {
 		});
 
 		const commandStrings = input.split("|").map((s) => s.trim()).filter((s) => s !== "");
-    
 		if (commandStrings.length === 0) 
 			return EXIT_CODE.success;
 
@@ -154,18 +168,22 @@ export class Shell {
 			commandName: cmdStr.split(" ")[0].toLowerCase(),
 		}));
 
-		this.pipeline.forEach((proc, i) => {
+		this.pipeline.forEach((process, i) => {
 			const isLast = i === this.pipeline.length - 1;
 
 			if (!isLast) {
-				proc.stdout.pipe(this.pipeline[i + 1].stdin);
+				process.stdout.pipe(this.pipeline[i + 1].stdin);
+			} else if (streams?.stdout) {
+				process.stdout.pipe(streams.stdout);
 			} else {
-				if (streams?.stdout) proc.stdout.pipe(streams.stdout);
-				else proc.stdout.on(Stream.DATA_EVENT, (data) => this.out(data));
+				process.stdout.on(Stream.DATA_EVENT, (data) => this.out(data));
 			}
 
-			if (streams?.stderr) proc.stderr.pipe(streams.stderr);
-			else proc.stderr.on(Stream.DATA_EVENT, (data) => this.out(data));
+			if (streams?.stderr) {
+				process.stderr.pipe(streams.stderr);
+			} else {
+				process.stderr.on(Stream.DATA_EVENT, (data) => this.out(data));
+			}
 		});
 
 		const tasks = this.pipeline.map((process, i) => {
@@ -176,7 +194,6 @@ export class Shell {
 		});
 
 		this.resetInput();
-    
 		const exitCodes = await Promise.all(tasks);
 		this.pipeline = [];
 
@@ -247,7 +264,8 @@ export class Shell {
 				hostname: HOSTNAME,
 				rawInputValue: rawLine.substring(rawLine.indexOf(" ") + 1),
 				options,
-				exit: this.config.exit,
+				exit: () => this.kill("SIGKILL"),
+				kill: this.kill.bind(this),
 				inputs,
 				timestamp,
 				settingsManager: this.config.settingsManager,
@@ -261,6 +279,7 @@ export class Shell {
 			console.error(error);
 			return Shell.writeError(stderr, commandName, "Command failed");
 		} finally {
+			stdin.stop();
 			stdout.stop();
 			stderr.stop();
 		}
@@ -304,9 +323,7 @@ export class Shell {
 			}
 		}, delay);
 
-		stdin.on(Stream.STOP_EVENT, () => {
-			clearInterval(interval);
-		});
+		stdin.on(Stream.STOP_EVENT, () => clearInterval(interval));
 
 		return stdin.wait(EXIT_CODE.success);
 	}

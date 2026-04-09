@@ -21,6 +21,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 
 	const [inputKey, setInputKey] = useState(0);
 
+	// TO DO: Extract as hook
 	const shell = useMemo(() => new Shell({
 		app,
 		path: startPath,
@@ -90,7 +91,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 			event.preventDefault();
 			shell.updateHistoryIndex(-1);
 		} else if (active && (event.ctrlKey || event.metaKey) && key === "c") {
-			shell.stop();
+			shell.interrupt();
 		}
 	};
 
