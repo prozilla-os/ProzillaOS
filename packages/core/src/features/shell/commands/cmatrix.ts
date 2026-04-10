@@ -91,12 +91,17 @@ export const cmatrix = new Command()
 
 		const delay = 100 / ANIMATION_SPEED;
 
-		return Shell.animate({ stdin, stdout }, (frame) => {
-			// Re-initialize if terminal size changes
-			if (screen.length !== size.y || (screen.length !== 0 ? screen[0].length : 0) !== size.x) {
-				screen = initializeScreen(size);
-			}
+		return Shell.animate({
+			stdin,
+			stdout,
+			delay,
+			render: (frame) => {
+				// Re-initialize if terminal size changes
+				if (screen.length !== size.y || (screen.length !== 0 ? screen[0].length : 0) !== size.x) {
+					screen = initializeScreen(size);
+				}
 
-			return generateScreen(frame, screen, particles, size);
-		}, delay);
+				return generateScreen(frame, screen, particles, size);
+			},
+		});
 	});

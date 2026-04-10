@@ -1,4 +1,4 @@
-import { proxy } from "valtio";
+import { proxy, ref } from "valtio";
 import { Stream, StreamSignal } from "./stream";
 import { CommandsManager } from "./commands";
 import { Ansi, clamp, removeFromArray, Vector2 } from "@prozilla-os/shared";
@@ -133,14 +133,19 @@ export class Shell {
 	}
 
 	out(text: string) {
-		if (text.includes("\x1b[2J") || text.includes("\x1b[H")) {
-			return this.pushHistory({ clear: true, isInput: false });
+		let remainingText = text;
+		if (remainingText.includes("\x1b[2J") || remainingText.includes("\x1b[H")) {
+			this.pushHistory({ clear: true, isInput: false });
+			// eslint-disable-next-line no-control-regex
+			remainingText = remainingText.replace(/\x1b\[2J|\x1b\[H/g, "");
 		}
 
+		if (remainingText === "") return;
+
 		if (this.state.stream) {
-			this.state.streamOutput = text;
+			this.state.streamOutput = remainingText;
 		} else {
-			this.pushHistory({ text, isInput: false });
+			this.pushHistory({ text: remainingText, isInput: false });
 		}
 	}
 
@@ -151,21 +156,23 @@ export class Shell {
 	}
 
 	async execute(input: string, streams?: { stdout?: Stream, stderr?: Stream }) {
-		this.pushHistory({
-			text: this.state.prefix + input,
-			isInput: true,
-			value: input,
-		});
+		const previousPipeline = this.pipeline;
+		const previousStream = this.state.stream;
 
-		const commandStrings = input.split("|").map((s) => s.trim()).filter((s) => s !== "");
-		if (commandStrings.length === 0) 
-			return EXIT_CODE.success;
+		if (!streams)
+			this.pushHistory({ text: this.state.prefix + input, isInput: true, value: input });
 
-		this.pipeline = commandStrings.map((cmdStr) => ({
+		const commandStrings = input.split("|")
+			.map((string) => string.trim())
+			.filter((string) => string !== "");
+
+		if (commandStrings.length === 0) return EXIT_CODE.success;
+
+		this.pipeline = commandStrings.map((commandString) => ({
 			stdin: new Stream(),
 			stdout: new Stream(),
 			stderr: new Stream(),
-			commandName: cmdStr.split(" ")[0].toLowerCase(),
+			commandName: commandString.split(" ")[0].toLowerCase(),
 		}));
 
 		this.pipeline.forEach((process, i) => {
@@ -186,6 +193,10 @@ export class Shell {
 			}
 		});
 
+		const lastProcess = this.pipeline[this.pipeline.length - 1];
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		if (lastProcess) this.state.stream = ref(lastProcess.stdin);
+
 		const tasks = this.pipeline.map((process, i) => {
 			process.stdin.start();
 			process.stdout.start();
@@ -193,9 +204,14 @@ export class Shell {
 			return this.spawn(process, commandStrings[i]);
 		});
 
-		this.resetInput();
+		if (!streams) this.resetInput();
+
 		const exitCodes = await Promise.all(tasks);
-		this.pipeline = [];
+
+		this.pipeline = previousPipeline;
+		this.state.stream = previousStream;
+
+		if (!previousStream) this.state.streamOutput = null;
 
 		return exitCodes[exitCodes.length - 1] ?? EXIT_CODE.success;
 	}
@@ -309,11 +325,16 @@ export class Shell {
 		return exitCode;
 	}
 
-	static animate({ stdout, stdin }: Pick<ShellContext, "stdout" | "stdin">, getFrame: (frame: number) => string, delay: number) {
+	static animate({ stdout, stdin, render, delay, clear = true }: Pick<ShellContext, "stdout" | "stdin"> & { render: (frame: number) => string, delay: number, clear?: boolean }) {
 		let frame = 0;
 
 		const interval = setInterval(() => {
-			const content = getFrame(frame);
+			let content = render(frame);
+
+			if (clear) {
+				content = "\x1b[2J\x1b[H" + content;
+			}
+
 			stdout.write(content);
 			frame++;
 
@@ -323,7 +344,9 @@ export class Shell {
 			}
 		}, delay);
 
-		stdin.on(Stream.STOP_EVENT, () => clearInterval(interval));
+		stdin.on(Stream.STOP_EVENT, () => {
+			clearInterval(interval);
+		});
 
 		return stdin.wait(EXIT_CODE.success);
 	}

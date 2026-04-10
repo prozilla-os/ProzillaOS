@@ -39,10 +39,16 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		setTitle?.(`${USERNAME}@${HOSTNAME}: ${state.currentDirectory.root ? "/" : state.currentDirectory.path}`);
 	}, [state.currentDirectory.path, state.currentDirectory.root, setTitle]);
 
+	// Handle initial focus and focus recovery after streaming
 	useEffect(() => {
-		if (!inputRef.current || !active) return;
-		inputRef.current.focus();
-	}, [active]);
+		if (!active) return;
+
+		if (state.stream) {
+			ref.current?.focus();
+		} else {
+			inputRef.current?.focus();
+		}
+	}, [active, state.stream]);
 
 	const scrollDown = () => {
 		if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
@@ -77,11 +83,18 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		return () => observer.disconnect();
 	}, []);
 
-	const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
-		const value = (event.target as HTMLInputElement).value;
+	const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
 		const { key } = event;
 
+		if ((event.ctrlKey || event.metaKey) && key === "c") {
+			shell.interrupt();
+			return;
+		}
+
+		if (state.stream) return;
+
 		if (key === "Enter") {
+			const value = (event.target as HTMLInputElement).value;
 			void shell.submitInput(value);
 			setInputKey((previousKey) => previousKey + 1);
 		} else if (key === "ArrowUp") {
@@ -90,8 +103,6 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		} else if (key === "ArrowDown") {
 			event.preventDefault();
 			shell.updateHistoryIndex(-1);
-		} else if (active && (event.ctrlKey || event.metaKey) && key === "c") {
-			shell.interrupt();
 		}
 	};
 
@@ -132,13 +143,19 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 
 	return <div
 		ref={ref} 
+		tabIndex={0}
 		className={styles.Terminal}
+		onKeyDown={onKeyDown}
 		onMouseDown={onMouseDown}
 		onContextMenu={onContextMenu}
 		onClick={(event) => {
 			if (window.getSelection()?.toString() === "") {
 				event.preventDefault();
-				inputRef.current?.focus();
+				if (state.stream) {
+					ref.current?.focus();
+				} else {
+					inputRef.current?.focus();
+				}
 			}
 		}}
 	>
@@ -150,7 +167,6 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 				key={inputKey}
 				value={state.inputValue}
 				prefix={state.prefix}
-				onKeyDown={onKeyDown}
 				onChange={onChange}
 				inputRef={inputRef}
 			/>

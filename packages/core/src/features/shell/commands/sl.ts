@@ -205,7 +205,10 @@ export const sl = new Command()
 		const speed = parseOptionalFloat(inputs.s, ANIMATION_SPEED);
 		const delay = 100 / speed;
 
-		return Shell.animate({ stdin, stdout }, (frame) => {
-			return generateLocomotive(frame, wagonCount, size.x);
-		}, delay);
+		return Shell.animate({
+			stdin,
+			stdout,
+			delay,
+			render: (frame) => generateLocomotive(frame, wagonCount, size.x),
+		});
 	});

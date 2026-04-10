@@ -22,28 +22,28 @@ export const watch = new Command()
 		const intervalMs = Math.max(0.1, intervalSeconds) * 1000;
 		
 		const commandString = args.join(" ");
-
 		let isExecuting = false;
+		let isStopping = false;
 
 		const tick = async () => {
-			if (isExecuting) return;
+			if (isExecuting || isStopping) return;
 			isExecuting = true;
 
-			// Create a temporary stream to capture the specific execution's output
-			const captureStream = new Stream();
+			const captureStream = new Stream().start();
 			let capturedOutput = "";
 
-			// Accumulate data from the command
 			captureStream.on(Stream.DATA_EVENT, (data) => {
 				capturedOutput += data;
 			});
 
 			try {
 				await execute(commandString, { stdout: captureStream });
-		
-				const header = Ansi.white(`Every ${intervalSeconds.toFixed(1)}s: ${commandString}\n\n`);
-		
-				stdout.write("\x1b[2J\x1b[H" + header + capturedOutput);
+				
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+				if (!isStopping) {
+					const header = Ansi.white(`Every ${intervalSeconds.toFixed(1)}s: ${commandString}\n\n`);
+					stdout.write("\x1b[2J\x1b[H" + header + capturedOutput);
+				}
 			} catch (error) {
 				console.error(error);
 				stdout.write(Ansi.red(`Command failed: ${commandString}\n`));
@@ -53,12 +53,14 @@ export const watch = new Command()
 			}
 		};
 
-		void tick();
 		const intervalId = setInterval(() => void tick(), intervalMs);
 
 		stdin.on(Stream.STOP_EVENT, () => {
+			isStopping = true;
 			clearInterval(intervalId);
 		});
+
+		void tick();
 
 		return stdin.wait(EXIT_CODE.success);
 	});
