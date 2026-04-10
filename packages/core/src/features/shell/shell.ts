@@ -1,7 +1,7 @@
 import { proxy, ref } from "valtio";
 import { Stream, StreamSignal } from "./stream";
 import { CommandsManager } from "./commands";
-import { Ansi, clamp, removeFromArray, Vector2 } from "@prozilla-os/shared";
+import { ANSI, Ansi, clamp, removeFromArray, Vector2 } from "@prozilla-os/shared";
 import { EXIT_CODE, HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../../constants/shell.const";
 import { App } from "../apps/app";
 import { VirtualFolder, VirtualRoot } from "../virtual-drive";
@@ -184,27 +184,23 @@ export class Shell {
 	out(text: string) {
 		let remainingText = text;
 
-		if (remainingText.includes("\x1b[?1049h")) {
+		if (remainingText.includes(ANSI.screen.enterAltBuffer)) {
 			this.state.isUsingAltScreen = true;
-			// eslint-disable-next-line no-control-regex
-			remainingText = remainingText.replace(/\x1b\[\?1049h/g, "");
+			remainingText = remainingText.replaceAll(ANSI.screen.enterAltBuffer, "");
 		}
 
-		if (remainingText.includes("\x1b[?1049l")) {
+		if (remainingText.includes(ANSI.screen.exitAltBuffer)) {
 			this.state.isUsingAltScreen = false;
 			this.state.ttyBuffer = null;
-			// eslint-disable-next-line no-control-regex
-			remainingText = remainingText.replace(/\x1b\[\?1049l/g, "");
+			remainingText = remainingText.replaceAll(ANSI.screen.exitAltBuffer, "");
 		}
 
-		if (remainingText.includes("\x1b[2J") || remainingText.includes("\x1b[H")) {
-			// Only push clear to history if we are not in the alternate screen
+		if (remainingText.includes(ANSI.screen.clear) || remainingText.includes(ANSI.screen.home)) {
 			if (!this.state.isUsingAltScreen) {
 				this.pushHistory({ clear: true, isInput: false });
 			}
 			this.state.ttyBuffer = null;
-			// eslint-disable-next-line no-control-regex
-			remainingText = remainingText.replace(/\x1b\[2J|\x1b\[H/g, "");
+			remainingText = remainingText.replaceAll(ANSI.screen.clear, "").replaceAll(ANSI.screen.home, "");
 		}
 
 		if (remainingText === "") return;
@@ -282,12 +278,13 @@ export class Shell {
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (lastProcess) this.state.stream = ref(lastProcess.stdin);
 
-		const tasks = this.pipeline.map((process, i) => {
+		const tasks = [...this.pipeline].reverse().map((process) => {
+			const i = this.pipeline.indexOf(process);
 			process.stdin.start();
 			process.stdout.start();
 			process.stderr.start();
 			return this.spawn(process, commandStrings[i]);
-		});
+		}).reverse();
 
 		const exitCodes = await Promise.all(tasks);
 
@@ -454,12 +451,11 @@ export class Shell {
 	}) {
 		let frame = 0;
 
-		// Enter Alternate Screen Buffer
-		stdout.write("\x1b[?1049h");
+		stdout.write(ANSI.screen.enterAltBuffer);
 
 		function stopAnimation(interval: ReturnType<typeof setInterval>) {
 			clearInterval(interval);
-			stdout.write("\x1b[?1049l");
+			stdout.write(ANSI.screen.exitAltBuffer);
 			stdin.stop();
 		}
 
@@ -467,8 +463,7 @@ export class Shell {
 			let content = render(frame);
 
 			if (clear) {
-				// Clear screen and home cursor
-				content = "\x1b[2J\x1b[H" + content;
+				content = ANSI.screen.clear + ANSI.screen.home + content;
 			}
 
 			stdout.write(content);

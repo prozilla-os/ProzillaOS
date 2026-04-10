@@ -1,7 +1,7 @@
 import { EXIT_CODE } from "../../../constants";
 import { Command } from "../command";
 import { Stream } from "../stream";
-import { Ansi, parseOptionalFloat } from "@prozilla-os/shared";
+import { ANSI, Ansi, parseOptionalFloat } from "@prozilla-os/shared";
 
 export const watch = new Command()
 	.setRequireArgs(true)
@@ -25,8 +25,7 @@ export const watch = new Command()
 		let isExecuting = false;
 		let isStopping = false;
 
-		// Enter Alternate Screen Buffer
-		stdout.write("\x1b[?1049h");
+		stdout.write(ANSI.screen.enterAltBuffer);
 
 		const tick = async () => {
 			if (isExecuting || isStopping) return;
@@ -45,7 +44,7 @@ export const watch = new Command()
 				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 				if (!isStopping) {
 					const header = Ansi.white(`Every ${intervalSeconds.toFixed(1)}s: ${commandString}\n\n`);
-					stdout.write("\x1b[2J\x1b[H" + header + capturedOutput);
+					stdout.write(ANSI.screen.clear + ANSI.screen.home + header + capturedOutput);
 				}
 			} catch (error) {
 				console.error(error);
@@ -61,8 +60,7 @@ export const watch = new Command()
 		stdin.on(Stream.STOP_EVENT, () => {
 			isStopping = true;
 			clearInterval(intervalId);
-			// Exit Alternate Screen Buffer
-			stdout.write("\x1b[?1049l");
+			stdout.write(ANSI.screen.exitAltBuffer);
 		});
 
 		void tick();

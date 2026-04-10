@@ -79,12 +79,23 @@ export class Ansi {
 	}
 
 	static #apply(text: string, code: string) {
+		text = text.replaceAll(ANSI.reset, ANSI.reset + code);
 		return code + text + ANSI.reset;
 	}
 
+	/**
+	 * Removes all ANSI escape sequences.
+	 */
 	static strip(text: string) {
 		// eslint-disable-next-line no-control-regex
-		return  text.replace(/\u001b\[([0-9]+)m/gm, "");
+		return text.replace(/\u001b\[[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, "");
 	}
 
+	/**
+	 * Removes ANSI escape sequences for colors and background colors (SGR).
+	 */
+	static stripColors(text: string) {
+		// eslint-disable-next-line no-control-regex
+		return text.replace(/\u001b\[[0-9;]*m/g, "");
+	}
 }
