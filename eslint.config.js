@@ -193,7 +193,9 @@ export default defineConfig(
 		rules: {
 			"jsdoc/require-description-complete-sentence": "warn",
 			"jsdoc/require-hyphen-before-param-description": "warn",
-			"jsdoc/check-param-names": "warn",
+			"jsdoc/check-param-names": ["warn", {
+				checkDestructured: false,
+			}],
 		}
 	}
 );

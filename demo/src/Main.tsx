@@ -2,11 +2,11 @@ import { ReactElement } from "react";
 import { defaultSkin } from "./config/skin.config";
 import { NAME, TAG_LINE } from "./config/branding.config";
 import { appsConfig } from "./config/apps.config";
-import { getViewportParams, ProzillaOS, Router, useLazyRef } from "prozilla-os";
+import { getViewportParams, ProzillaOS, Router, useSingleton } from "prozilla-os";
 import { macOsSkin, minimalSkin, pixelSkin, windows95Skin } from "@prozilla-os/skins";
 
 export function Main(): ReactElement {
-	const skinRef = useLazyRef(() => {
+	const skin = useSingleton(() => {
 		const params = getViewportParams();
 
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -29,7 +29,7 @@ export function Main(): ReactElement {
 	return <ProzillaOS
 		systemName={NAME}
 		tagLine={TAG_LINE}
-		skin={skinRef.current}
+		skin={skin}
 		config={{
 			apps: appsConfig,
 		}}

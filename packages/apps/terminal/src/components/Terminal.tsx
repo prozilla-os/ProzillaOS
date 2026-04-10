@@ -1,9 +1,8 @@
-import { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect, useMemo, useRef, useState } from "react";
-import { useSnapshot } from "valtio";
+import { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react";
 import styles from "./Terminal.module.css";
 import { OutputLine } from "./OutputLine";
 import { InputLine } from "./InputLine";
-import { HOSTNAME, Shell, USERNAME, useSettingsManager, useSystemManager, useVirtualRoot, WindowProps } from "@prozilla-os/core";
+import { HOSTNAME, USERNAME, useShell, WindowProps } from "@prozilla-os/core";
 import { Vector2 } from "@prozilla-os/shared";
 
 export interface TerminalProps extends WindowProps {
@@ -12,28 +11,17 @@ export interface TerminalProps extends WindowProps {
 }
 
 export function Terminal({ app, path: startPath, input, setTitle, close: exit, active, focus }: TerminalProps) {
-	const systemManager = useSystemManager();
-	const settingsManager = useSettingsManager();
-	const virtualRoot = useVirtualRoot();
 	const ref = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const sizeRef = useRef(Vector2.ZERO);
-
 	const [inputKey, setInputKey] = useState(0);
-
-	// TO DO: Extract as hook
-	const shell = useMemo(() => new Shell({
+	const [shell, state] = useShell({
 		app,
 		path: startPath,
 		input,
-		virtualRoot: virtualRoot!,
-		systemManager,
-		settingsManager: settingsManager!,
 		exit: exit!,
 		sizeRef,
-	}), [app, startPath, input, virtualRoot, systemManager, settingsManager, exit]);
-
-	const state = useSnapshot(shell.state);
+	});
 
 	useEffect(() => {
 		setTitle?.(`${USERNAME}@${HOSTNAME}: ${state.currentDirectory.root ? "/" : state.currentDirectory.path}`);

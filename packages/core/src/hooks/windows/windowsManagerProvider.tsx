@@ -4,7 +4,7 @@ import { WindowsProvider } from "./windowsProvider";
 import { WindowsManager } from "../../features";
 import { useSystemManager } from "../system/systemManagerContext";
 import { useTrackingManager } from "../tracking/trackingManagerContext";
-import { useLazyRef } from "../_utils";
+import { useSingleton } from "../_utils";
 
 export const WindowsManagerProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const systemManager = useSystemManager();
@@ -13,10 +13,10 @@ export const WindowsManagerProvider: FC<{ children: ReactNode }> = ({ children }
 	if (trackingManager == null)
 		throw new Error("WindowsManager is missing TrackingManager");
 
-	const windowsManagerRef = useLazyRef(() => new WindowsManager(systemManager, trackingManager));
+	const windowsManager = useSingleton(() => new WindowsManager(systemManager, trackingManager));
 
-	return <WindowsManagerContext.Provider value={windowsManagerRef.current}>
-		<WindowsProvider windowsManager={windowsManagerRef.current}>
+	return <WindowsManagerContext.Provider value={windowsManager}>
+		<WindowsProvider windowsManager={windowsManager}>
 			{children}
 		</WindowsProvider>
 	</WindowsManagerContext.Provider>;

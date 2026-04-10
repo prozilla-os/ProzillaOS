@@ -16,33 +16,48 @@ export interface HistoryEntry {
 }
 
 export interface ShellConfig {
+	/** The application that owns this shell. */
 	app?: App;
+	/** The initial working directory. */
 	path?: string;
+	/** The initial input. */
 	input?: string;
 	virtualRoot: VirtualRoot;
 	systemManager: SystemManager;
 	settingsManager: SettingsManager;
+	/** Function that closes this shell. */
 	exit: () => void;
+	/** Ref object with the size of the shell, measured in rows and columns. */
 	sizeRef: { current: Vector2 };
 }
 
 export interface ShellState {
+	/** The history of the shell. */
 	history: HistoryEntry[];
+	/** The current input value. */
 	inputValue: string;
+	/** The index of the selected history entry. */
 	historyIndex: number;
+	/** The working directory. */
 	currentDirectory: VirtualFolder;
 	prefix: string;
+	/** The active stream. */
 	stream: Stream | null;
+	/** The output of the active stream. */
 	streamOutput: string | null;
 }
 
 export interface ProcessIO {
+	/** Standard input stream. */
 	stdin: Stream;
+	/** Standard output stream. */
 	stdout: Stream;
+	/** Standard error stream. */
 	stderr: Stream;
 }
 
 export interface Process extends ProcessIO {
+	/** Name of the command that is being executed by this process. */
 	commandName: string;
 }
 
@@ -67,9 +82,12 @@ export interface ShellContext extends ProcessIO {
 	readonly size: Vector2;
 };
 
+/**
+ * Simulates a Unix-like shell.
+ */
 export class Shell {
-	state;
-	config;
+	state: ShellState;
+	config: ShellConfig;
 	pipeline: Process[] = [];
 
 	constructor(config: ShellConfig) {
@@ -89,6 +107,9 @@ export class Shell {
 		this.updatePrefix();
 	}
 
+	/**
+	 * Sends a signal to the shell.
+	 */
 	kill(signal: StreamSignal = "SIGTERM"): void {
 		if (signal === "SIGKILL") {
 			this.config.exit();
@@ -122,6 +143,9 @@ export class Shell {
 		}
 	}
 
+	/**
+	 * Sends the interrupt signal to the shell.
+	 */
 	interrupt(): void {
 		this.kill("SIGINT");
 	}
@@ -169,6 +193,12 @@ export class Shell {
 		return await this.execute(value);
 	}
 
+	/**
+	 * Parses and executes an input string.
+	 * @param input - The input string.
+	 * @param streams - Optional overrides for output Streams.
+	 * @returns The final exit code.
+	 */
 	async execute(input: string, streams?: { stdout?: Stream, stderr?: Stream }) {
 		const previousPipeline = this.pipeline;
 		const previousStream = this.state.stream;
@@ -233,8 +263,13 @@ export class Shell {
 		return exitCodes[exitCodes.length - 1] ?? EXIT_CODE.success;
 	}
 
-	async spawn(process: Process, rawLine: string) {
-		const { stdin, stdout, stderr, commandName } = process;
+	/**
+	 * Spawns a new process with input and output streams and runs it.
+	 * @param process - The process to spawn. 
+	 * @param rawLine - The raw input string.
+	 * @returns The exit code of the process.
+	 */
+	async spawn({ stdin, stdout, stderr, commandName }: Process, rawLine: string) {
 		const timestamp = Date.now();
 
 		const args = rawLine.match(/(?:[^\s"]+|"[^"]*")+/g);
@@ -245,7 +280,6 @@ export class Shell {
 		args.shift();
 
 		const command = CommandsManager.find(commandName);
-
 		if (!command)
 			return Shell.writeError(stderr, commandName, "Command not found", EXIT_CODE.commandNotFound);
 
@@ -337,12 +371,27 @@ export class Shell {
 		this.state.historyIndex = index;
 	}
 
+	/**
+	 * Writes an error message to the given stream and returns the exit code.
+	 * @param stream - The stream to write the error message to (usually `stderr`).
+	 * @param commandName - The name of the command that has caused the error.
+	 * @param error - The error message.
+	 * @param exitCode - The exit code.
+	 * @returns The exit code.
+	 */
 	static writeError(stream: Stream, commandName: string, error: string, exitCode: number = EXIT_CODE.generalError) {
 		stream.write(Ansi.red(`${commandName}: ${error}`));
 		return exitCode;
 	}
 
-	static animate({ stdout, stdin, render, delay, clear = true }: Pick<ShellContext, "stdout" | "stdin"> & { render: (frame: number) => string, delay: number, clear?: boolean }) {
+	static animate({ stdout, stdin, render, delay, clear = true }: Pick<ShellContext, "stdout" | "stdin"> & {
+		/** The function that renders each frame. */
+		render: (frame: number) => string,
+		/** The delay between each frame, in ms. */
+		delay: number,
+		/** Whether to clear the terminal before each frame. */
+		clear?: boolean
+	}) {
 		let frame = 0;
 
 		const interval = setInterval(() => {
