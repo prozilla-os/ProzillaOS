@@ -308,57 +308,57 @@ export class Shell {
 	async spawn({ stdin, stdout, stderr, commandName, args }: Process) {
 		const timestamp = Date.now();
 
-		if (args.length === 0) return EXIT_CODE.generalError;
-
-		const commandArgs = [...args];
-		if (commandArgs[0].toLowerCase() === "sudo") commandArgs.shift();
-		commandArgs.shift();
-
-		const command = CommandsManager.find(commandName);
-		if (!command)
-			return Shell.writeError(stderr, commandName, Shell.COMMAND_NOT_FOUND_ERROR, EXIT_CODE.commandNotFound);
-
-		const options: string[] = [];
-		const inputs: Record<string, string> = {};
-		
-		// Only treat as an option if it starts with "-" and is not quoted
-		commandArgs.filter((arg) => arg.startsWith("-") && !arg.startsWith("\"")).forEach((option) => {
-			const addOption = (key: string) => {
-				const commandOption = command.getOption(key);
-				key = commandOption?.short ?? key;
-
-				if (options.includes(key))
-					return;
-
-				options.push(key);
-
-				if (commandOption?.isInput) {
-					const index = commandArgs.indexOf(option);
-					const value = commandArgs[index + 1];
-					inputs[commandOption.short] = value;
-					removeFromArray(value, commandArgs);
-				}
-			};
-
-			if (option.startsWith("--")) {
-				addOption(option.substring(2).toLowerCase());
-			} else {
-				option.substring(1).split("").forEach((s) => addOption(s));
-			}
-
-			removeFromArray(option, commandArgs);
-		});
-
-		// Strip quotes from remaining arguments
-		const cleanArgs = commandArgs.map((arg) => arg.replace(/^"|"$/g, ""));
-		const isPiped = this.pipeline.findIndex((process) => process.stdin === stdin) > 0;
-
-		if (command.requireArgs && !cleanArgs.length && !isPiped)
-			return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_ARGS_ERROR}`]);
-		if (command.requireOptions && !options.length)
-			return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_OPTIONS_ERROR}`]);
-
 		try {
+			if (args.length === 0) return EXIT_CODE.generalError;
+
+			const commandArgs = [...args];
+			if (commandArgs[0].toLowerCase() === "sudo") commandArgs.shift();
+			commandArgs.shift();
+
+			const command = CommandsManager.find(commandName);
+			if (!command)
+				return Shell.writeError(stderr, commandName, Shell.COMMAND_NOT_FOUND_ERROR, EXIT_CODE.commandNotFound);
+
+			const options: string[] = [];
+			const inputs: Record<string, string> = {};
+			
+			// Only treat as an option if it starts with "-" and is not quoted
+			commandArgs.filter((arg) => arg.startsWith("-") && !arg.startsWith("\"")).forEach((option) => {
+				const addOption = (key: string) => {
+					const commandOption = command.getOption(key);
+					key = commandOption?.short ?? key;
+
+					if (options.includes(key))
+						return;
+
+					options.push(key);
+
+					if (commandOption?.isInput) {
+						const index = commandArgs.indexOf(option);
+						const value = commandArgs[index + 1];
+						inputs[commandOption.short] = value;
+						removeFromArray(value, commandArgs);
+					}
+				};
+
+				if (option.startsWith("--")) {
+					addOption(option.substring(2).toLowerCase());
+				} else {
+					option.substring(1).split("").forEach((s) => addOption(s));
+				}
+
+				removeFromArray(option, commandArgs);
+			});
+
+			// Strip quotes from remaining arguments
+			const cleanArgs = commandArgs.map((arg) => arg.replace(/^"|"$/g, ""));
+			const isPiped = this.pipeline.findIndex((process) => process.stdin === stdin) > 0;
+
+			if (command.requireArgs && !cleanArgs.length && !isPiped)
+				return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_ARGS_ERROR}`]);
+			if (command.requireOptions && !options.length)
+				return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_OPTIONS_ERROR}`]);
+
 			const exitCode = await command.execute(cleanArgs, {
 				stdin, stdout, stderr,
 				out: this.out.bind(this),
@@ -482,8 +482,8 @@ export class Shell {
 	}
 
 	/**
-     * Reads input from arguments or falls back to stdin.
-     */
+	 * Reads input from arguments or falls back to stdin.
+	 */
 	static async readInput(rawInputValue: string, stdin: Stream, callback: (data: string) => CommandOutput) {
 		if (rawInputValue.length > 0) {
 			return callback(rawInputValue);

@@ -1,6 +1,6 @@
 import { test as base, expect } from "vitest";
 import { extend } from "@prozilla-os/dev-tools";
-import { MockVirtualFile } from "./test.utils";
+import { MockVirtualFile } from "./virtualDrive.utils";
 
 const test = extend(base);
 

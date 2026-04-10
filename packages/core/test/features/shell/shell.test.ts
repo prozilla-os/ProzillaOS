@@ -1,0 +1,114 @@
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { CommandsManager, Shell, ShellConfig, Stream } from "../../../src/features";
+import { EXIT_CODE } from "../../../src/constants";
+import { MockSystemManager } from "../system/system.utils";
+import { MockVirtualRoot } from "../virtual-drive/virtualDrive.utils";
+import { MockSettingsManager } from "../settings/settings.utils";
+import { Vector2 } from "@prozilla-os/shared";
+
+describe("Shell", () => {
+	let shell: Shell;
+	let mockConfig: ShellConfig;
+
+	beforeEach(() => {
+		const mockSystemManager = new MockSystemManager();
+		const mockVirtualRoot = new MockVirtualRoot(mockSystemManager);
+		const mockSettingsManager = new MockSettingsManager(mockVirtualRoot);
+
+		mockConfig = {
+			systemManager: mockSystemManager,
+			virtualRoot: mockVirtualRoot,
+			settingsManager: mockSettingsManager,
+			exit: vi.fn(),
+			sizeRef: { current: new Vector2(80, 24) },
+		};
+		shell = new Shell(mockConfig);
+	});
+
+	it("should parse simple commands into arguments", () => {
+		const args = Shell.parseCommand("echo \"hello world\" --flag");
+		expect(args).toEqual(["echo", "\"hello world\"", "--flag"]);
+	});
+
+	it("should return success when executing an empty string", async () => {
+		const exitCode = await shell.execute("");
+		expect(exitCode).toBe(EXIT_CODE.success);
+	});
+
+	it("should handle piped commands by setting up a pipeline", async () => {
+		const spy = vi.spyOn(shell, "spawn").mockResolvedValue(EXIT_CODE.success);
+		
+		await shell.execute("fortune | cowsay");
+		expect(spy).toHaveBeenCalledTimes(2);
+
+		const firstCall = spy.mock.calls[0][0];
+		expect(firstCall.commandName).toBe("cowsay");
+
+		const secondCall = spy.mock.calls[1][0];
+		expect(secondCall.commandName).toBe("fortune");
+		
+		expect(shell.pipeline.length).toBe(0);
+	});
+
+	it("should update history index when navigating up and down", () => {
+		shell.pushHistory({ text: "cmd1", isInput: true, value: "cmd1" });
+		shell.pushHistory({ text: "cmd2", isInput: true, value: "cmd2" });
+
+		shell.updateHistoryIndex(1);
+		expect(shell.state.inputValue).toBe("cmd2");
+
+		shell.updateHistoryIndex(1);
+		expect(shell.state.inputValue).toBe("cmd1");
+
+		shell.updateHistoryIndex(-1);
+		expect(shell.state.inputValue).toBe("cmd2");
+	});
+
+	it("should reset input value after submission", async () => {
+		vi.spyOn(shell, "execute").mockResolvedValue(EXIT_CODE.success);
+		shell.setInputValue("test command");
+		await shell.submitInput("test command");
+		expect(shell.state.inputValue).toBe("");
+	});
+
+	it("readInput should prioritize rawInputValue over stdin", async () => {
+		const stdin = new Stream().start();
+		const callback = vi.fn().mockReturnValue(EXIT_CODE.success);
+		
+		const result = await Shell.readInput("direct input", stdin, callback);
+		
+		expect(callback).toHaveBeenCalledWith("direct input");
+		expect(result).toBe(EXIT_CODE.success);
+	});
+
+	it("readInput should wait for stdin if rawInputValue is empty", async () => {
+		const stdin = new Stream().start();
+		const callback = vi.fn().mockReturnValue(EXIT_CODE.success);
+		
+		const promise = Shell.readInput("", stdin, callback);
+		
+		stdin.write("piped data");
+		stdin.stop();
+		
+		const result = await promise;
+		expect(callback).toHaveBeenCalledWith("piped data");
+		expect(result).toBe(EXIT_CODE.success);
+	});
+
+	it("should return command not found error for invalid commands", async () => {
+		vi.spyOn(CommandsManager, "find").mockReturnValue(null);
+		const stderr = new Stream().start();
+		let errorOutput = "";
+		stderr.on(Stream.DATA_EVENT, (data) => errorOutput += data);
+
+		const process = { 
+			stdin: new Stream(), stdout: new Stream(), stderr, 
+			commandName: "invalid_cmd", args: ["invalid_cmd"], 
+		};
+
+		const exitCode = await shell.spawn(process);
+		
+		expect(exitCode).toBe(EXIT_CODE.commandNotFound);
+		expect(errorOutput).toContain(Shell.COMMAND_NOT_FOUND_ERROR);
+	});
+});

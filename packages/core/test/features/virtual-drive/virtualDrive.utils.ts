@@ -1,4 +1,4 @@
-import { VirtualBase, VirtualFile, VirtualFolder, VirtualRoot } from "../../../src/features";
+import { SystemManager, VirtualBase, VirtualFile, VirtualFolder, VirtualRoot } from "../../../src/features";
 
 export class MockVirtualFile extends VirtualFile {
 
@@ -22,4 +22,13 @@ export class MockVirtualFolder extends VirtualFolder {
 		this.editedByUser = true;
 		this.emit(VirtualBase.UPDATE_EVENT);
 	}
+}
+
+export class MockVirtualRoot extends VirtualRoot {
+
+	constructor(systemManager: SystemManager) {
+		super(systemManager);
+		this.init();
+	}
+
 }
