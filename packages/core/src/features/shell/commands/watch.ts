@@ -25,6 +25,9 @@ export const watch = new Command()
 		let isExecuting = false;
 		let isStopping = false;
 
+		// Enter Alternate Screen Buffer
+		stdout.write("\x1b[?1049h");
+
 		const tick = async () => {
 			if (isExecuting || isStopping) return;
 			isExecuting = true;
@@ -58,6 +61,8 @@ export const watch = new Command()
 		stdin.on(Stream.STOP_EVENT, () => {
 			isStopping = true;
 			clearInterval(intervalId);
+			// Exit Alternate Screen Buffer
+			stdout.write("\x1b[?1049l");
 		});
 
 		void tick();

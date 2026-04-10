@@ -44,7 +44,9 @@ export interface ShellState {
 	/** The active stream. */
 	stream: Stream | null;
 	/** The output of the active stream. */
-	streamOutput: string | null;
+	ttyBuffer: string | null;
+	/** Whether the shell is currently using the alternate screen. */
+	isUsingAltScreen: boolean;
 }
 
 export interface ProcessIO {
@@ -110,7 +112,8 @@ export class Shell {
 			currentDirectory: config.virtualRoot.navigate(config.path ?? "~") as VirtualFolder,
 			prefix: "",
 			stream: null,
-			streamOutput: null,
+			ttyBuffer: null,
+			isUsingAltScreen: false,
 		});
 		this.updatePrefix();
 	}
@@ -118,7 +121,7 @@ export class Shell {
 	/**
 	 * Sends a signal to the shell.
 	 */
-	kill(signal: StreamSignal = "SIGTERM"): void {
+	kill(signal: StreamSignal = "SIGTERM") {
 		if (signal === "SIGKILL") {
 			this.config.exit();
 			return;
@@ -128,12 +131,15 @@ export class Shell {
 		const hasActiveStream = this.state.stream != null;
 
 		if (hasActiveStream) {
-			if (this.state.streamOutput) {
-				this.pushHistory({ text: this.state.streamOutput, isInput: false });
+			// Commit buffer only if not in alt screen
+			if (this.state.ttyBuffer && !this.state.isUsingAltScreen) {
+				this.pushHistory({ text: this.state.ttyBuffer, isInput: false });
 			}
+			
 			this.state.stream?.signal(signal);
 			this.state.stream = null;
-			this.state.streamOutput = null;
+			this.state.ttyBuffer = null;
+			this.state.isUsingAltScreen = false;
 		}
 
 		if (this.pipeline.length > 0) {
@@ -154,7 +160,7 @@ export class Shell {
 	/**
 	 * Sends the interrupt signal to the shell.
 	 */
-	interrupt(): void {
+	interrupt() {
 		this.kill("SIGINT");
 	}
 
@@ -177,20 +183,37 @@ export class Shell {
 
 	out(text: string) {
 		let remainingText = text;
+
+		if (remainingText.includes("\x1b[?1049h")) {
+			this.state.isUsingAltScreen = true;
+			// eslint-disable-next-line no-control-regex
+			remainingText = remainingText.replace(/\x1b\[\?1049h/g, "");
+		}
+
+		if (remainingText.includes("\x1b[?1049l")) {
+			this.state.isUsingAltScreen = false;
+			this.state.ttyBuffer = null;
+			// eslint-disable-next-line no-control-regex
+			remainingText = remainingText.replace(/\x1b\[\?1049l/g, "");
+		}
+
 		if (remainingText.includes("\x1b[2J") || remainingText.includes("\x1b[H")) {
-			this.pushHistory({ clear: true, isInput: false });
-			this.state.streamOutput = null;
+			// Only push clear to history if we are not in the alternate screen
+			if (!this.state.isUsingAltScreen) {
+				this.pushHistory({ clear: true, isInput: false });
+			}
+			this.state.ttyBuffer = null;
 			// eslint-disable-next-line no-control-regex
 			remainingText = remainingText.replace(/\x1b\[2J|\x1b\[H/g, "");
 		}
 
 		if (remainingText === "") return;
 
-		if (this.state.stream) {
-			if (this.state.streamOutput) {
-				this.pushHistory({ text: this.state.streamOutput, isInput: false });
+		if (this.state.stream || this.state.isUsingAltScreen) {
+			if (this.state.ttyBuffer && !this.state.isUsingAltScreen) {
+				this.pushHistory({ text: this.state.ttyBuffer, isInput: false });
 			}
-			this.state.streamOutput = remainingText;
+			this.state.ttyBuffer = remainingText;
 		} else {
 			this.pushHistory({ text: remainingText, isInput: false });
 		}
@@ -268,15 +291,14 @@ export class Shell {
 
 		const exitCodes = await Promise.all(tasks);
 
-		if (!streams && this.state.streamOutput) {
-			this.pushHistory({ text: this.state.streamOutput, isInput: false });
-		}
+		if (!streams && this.state.ttyBuffer)
+			this.pushHistory({ text: this.state.ttyBuffer, isInput: false });
 
 		this.state.stream = null;
 		this.pipeline = previousPipeline;
 		this.state.stream = previousStream;
 
-		if (!previousStream) this.state.streamOutput = null;
+		if (!previousStream) this.state.ttyBuffer = null;
 
 		return exitCodes[exitCodes.length - 1] ?? EXIT_CODE.success;
 	}
@@ -432,10 +454,20 @@ export class Shell {
 	}) {
 		let frame = 0;
 
+		// Enter Alternate Screen Buffer
+		stdout.write("\x1b[?1049h");
+
+		function stopAnimation(interval: ReturnType<typeof setInterval>) {
+			clearInterval(interval);
+			stdout.write("\x1b[?1049l");
+			stdin.stop();
+		}
+
 		const interval = setInterval(() => {
 			let content = render(frame);
 
 			if (clear) {
+				// Clear screen and home cursor
 				content = "\x1b[2J\x1b[H" + content;
 			}
 
@@ -443,13 +475,12 @@ export class Shell {
 			frame++;
 
 			if (content.trim().length === 0 && frame > 1) {
-				clearInterval(interval);
-				stdin.stop();
+				stopAnimation(interval);
 			}
 		}, delay);
 
 		stdin.on(Stream.STOP_EVENT, () => {
-			clearInterval(interval);
+			stopAnimation(interval);
 		});
 
 		return stdin.wait(EXIT_CODE.success);

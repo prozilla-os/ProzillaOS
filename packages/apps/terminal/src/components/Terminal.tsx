@@ -6,8 +6,8 @@ import { HOSTNAME, USERNAME, useShell, WindowProps } from "@prozilla-os/core";
 import { Vector2 } from "@prozilla-os/shared";
 
 export interface TerminalProps extends WindowProps {
-    path?: string;
-    input?: string;
+	path?: string;
+	input?: string;
 }
 
 export function Terminal({ app, path: startPath, input, setTitle, close: exit, active, focus }: TerminalProps) {
@@ -44,7 +44,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 
 	useEffect(() => {
 		scrollDown();
-	}, [state.history.length, state.inputValue, state.streamOutput]);
+	}, [state.history.length, state.inputValue, state.ttyBuffer]);
 
 	useEffect(() => {
 		if (!ref.current) return;
@@ -99,7 +99,11 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		shell.setInputValue(event.target.value);
 	};
 
-	const displayHistory = () => {
+	const renderOutput = () => {
+		if (state.isUsingAltScreen) {
+			return state.ttyBuffer ? <OutputLine text={state.ttyBuffer}/> : null;
+		}
+
 		let startIndex = 0;
 		for (let i = state.history.length - 1; i >= 0; i--) {
 			if (state.history[i].clear) {
@@ -108,9 +112,12 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 			}
 		}
 
-		return state.history.slice(startIndex).map((entry, index) => {
-			return <OutputLine text={entry.text} key={index}/>;
-		});
+		return <>
+			{state.history.slice(startIndex).map((entry, index) => 
+				<OutputLine text={entry.text} key={index}/>
+			)}
+			{state.ttyBuffer && <OutputLine text={state.ttyBuffer}/>}
+		</>;
 	};
 
 	const onMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
@@ -149,17 +156,18 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		}}
 	>
 		<div className={styles.History}>
-			{displayHistory()}
+			{renderOutput()}
 		</div>
-		{!state.stream
-			? <InputLine
-				key={inputKey}
-				value={state.inputValue}
-				prefix={state.prefix}
-				onChange={onChange}
-				inputRef={inputRef}
-			/>
-			: <OutputLine text={state.streamOutput ?? ""}/>
-		}
+		{!state.isUsingAltScreen && (
+			!state.stream
+				? <InputLine
+					key={inputKey}
+					value={state.inputValue}
+					prefix={state.prefix}
+					onChange={onChange}
+					inputRef={inputRef}
+				/>
+				: null
+		)}
 	</div>;
 }
