@@ -92,6 +92,12 @@ export class Shell {
 	config: ShellConfig;
 	pipeline: Process[] = [];
 
+	static readonly COMMAND_NOT_FOUND_ERROR = "Command not found";
+	static readonly MISSING_ARGS_ERROR = "requires at least 1 argument";
+	static readonly MISSING_OPTIONS_ERROR = "requires at least 1 option";
+	static readonly COMMAND_FAILED_ERROR = "Command failed";
+	static readonly USAGE_ERROR = "Incorrect usage";
+
 	constructor(config: ShellConfig) {
 		this.config = config;
 		this.state = proxy<ShellState>({
@@ -291,7 +297,8 @@ export class Shell {
 		commandArgs.shift();
 
 		const command = CommandsManager.find(commandName);
-		if (!command) return Shell.writeError(stderr, commandName, "Command not found", EXIT_CODE.commandNotFound);
+		if (!command)
+			return Shell.writeError(stderr, commandName, Shell.COMMAND_NOT_FOUND_ERROR, EXIT_CODE.commandNotFound);
 
 		const options: string[] = [];
 		const inputs: Record<string, string> = {};
@@ -327,7 +334,10 @@ export class Shell {
 		// Strip quotes from remaining arguments
 		const cleanArgs = commandArgs.map((arg) => arg.replace(/^"|"$/g, ""));
 
-		if (command.requireArgs && cleanArgs.length === 0) return Shell.writeError(stderr, commandName, "Requires at least 1 argument");
+		if (command.requireArgs && !cleanArgs.length)
+			return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_ARGS_ERROR}`]);
+		if (command.requireOptions && !options.length)
+			return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_OPTIONS_ERROR}`]);
 
 		try {
 			const exitCode = await command.execute(cleanArgs, {
@@ -358,7 +368,7 @@ export class Shell {
 			return exitCode ?? EXIT_CODE.success;
 		} catch (error) {
 			console.error(error);
-			return Shell.writeError(stderr, commandName, "Command failed");
+			return Shell.writeError(stderr, commandName);
 		} finally {
 			stdin.stop();
 			stdout.stop();
@@ -397,8 +407,18 @@ export class Shell {
 	 * @param exitCode - The exit code.
 	 * @returns The exit code.
 	 */
-	static writeError(stream: Stream, commandName: string, error: string, exitCode: number = EXIT_CODE.generalError) {
-		stream.write(Ansi.red(`${commandName}: ${error}`));
+	static writeError(stream: Stream, commandName: string, error?: string, exitCode?: number): number
+	/**
+	 * Writes an error message to the given stream and returns the exit code.
+	 * @param stream - The stream to write the error message to (usually `stderr`).
+	 * @param commandName - The name of the command that has caused the error.
+	 * @param error - The error messages.
+	 * @param exitCode - The exit code.
+	 * @returns The exit code.
+	 */
+	static writeError(stream: Stream, commandName: string, error: string[], exitCode?: number): number
+	static writeError(stream: Stream, commandName: string, error: string | string[] = Shell.COMMAND_FAILED_ERROR, exitCode: number = EXIT_CODE.generalError): number {
+		stream.write(Ansi.red(`${commandName}: ${typeof error === "string" ? error : error.join(": ")}`));
 		return exitCode;
 	}
 
