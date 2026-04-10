@@ -38,6 +38,13 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		}
 	}, [active, state.stream]);
 
+	useEffect(() => {
+		if (inputRef.current && !state.stream) {
+			const length = state.inputValue.length;
+			inputRef.current.setSelectionRange(length, length);
+		}
+	}, [state.historyIndex]);
+
 	const scrollDown = () => {
 		if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
 	};
@@ -125,8 +132,22 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 
 		if (event.button === 2) {
 			event.preventDefault();
-			navigator.clipboard.readText().then((text) => {
-				shell.setInputValue(state.inputValue + text);
+			void navigator.clipboard.readText().then((text) => {
+				const input = inputRef.current;
+				if (!input) return;
+
+				const start = input.selectionStart ?? state.inputValue.length;
+				const end = input.selectionEnd ?? state.inputValue.length;
+				
+				const newValue = state.inputValue.substring(0, start) + text + state.inputValue.substring(end);
+				shell.setInputValue(newValue);
+
+				// Re-focus and position cursor after paste
+				const newPos = start + text.length;
+				setTimeout(() => {
+					input.focus();
+					input.setSelectionRange(newPos, newPos);
+				}, 0);
 			}).catch((error) => {
 				console.error(error);
 			});
