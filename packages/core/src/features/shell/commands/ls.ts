@@ -9,11 +9,11 @@ export const ls = new Command()
 		usage: "ls [options] [files]",
 		description: "List information about directories or files (the current directory by default).",
 	})
-	.setExecute(function(this: Command, args, { currentDirectory, stdout, stderr }) {
-		let directory: VirtualFolder | null = currentDirectory;
+	.setExecute(function(this: Command, args, { workingDirectory, stdout, stderr }) {
+		let directory: VirtualFolder | null = workingDirectory;
 	
 		if (args.length) {
-			directory = currentDirectory.navigateToFolder(args[0]);
+			directory = workingDirectory.navigateToFolder(args[0]);
 		}
 	
 		if (!directory)

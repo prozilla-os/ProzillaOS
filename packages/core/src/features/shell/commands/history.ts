@@ -1,18 +1,26 @@
-// import { Command, CommandResponse } from "../command";
+import { Command } from "../command";
+import { EXIT_CODE } from "../../../constants";
 
-// const historyCommand = new Command()
-// 	.setRequireArgs(true)
-// 	.setManual({
-// 		purpose: "Command Line history",
-// 		usage: "history",
-// 	})
-// 	.setRequireArgs(true)
-// 	.setExecute(function(this: Command, args, { history }) {
-// 		if (args == null || args.length == 0)
-// 			return;
-		
-// 		const output = eval(args[0]) as CommandResponse ?? { blank: true };
-// 		return output;
-// 	});
+export const history = new Command()
+	.setManual({
+		purpose: "Display the command history list with line numbers",
+		usage: "history",
+		description: "Display the list of commands typed since the shell session started.",
+	})
+	.setExecute(function(this: Command, _args, { stdout, shell }) {
+		const inputHistory = shell.state.history.filter(({ isInput }) => isInput);
 
-// export { historyCommand as eval };
+		if (inputHistory.length === 0) 
+			return EXIT_CODE.success;
+
+		const output = inputHistory
+			.map((entry, index) => {
+				const lineNumber = (index + 1).toString().padStart(5, " ");
+				return `${lineNumber}  ${entry.value}`;
+			})
+			.join("\n");
+
+		stdout.write(output + "\n");
+
+		return EXIT_CODE.success;
+	});

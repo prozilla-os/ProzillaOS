@@ -24,8 +24,8 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	});
 
 	useEffect(() => {
-		setTitle?.(`${USERNAME}@${HOSTNAME}: ${state.currentDirectory.root ? "/" : state.currentDirectory.path}`);
-	}, [state.currentDirectory.path, state.currentDirectory.root, setTitle]);
+		setTitle?.(`${USERNAME}@${HOSTNAME}: ${state.workingDirectory.root ? "/" : state.workingDirectory.path}`);
+	}, [state.workingDirectory.path, state.workingDirectory.root, setTitle]);
 
 	// Handle initial focus and focus recovery after streaming
 	useEffect(() => {

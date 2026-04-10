@@ -7,9 +7,9 @@ export const cd = new Command()
 		usage: "cd [PATH]",
 		description: "Change working directory to given path (the home directory by default).",
 	})
-	.setExecute(function(this: Command, args, { currentDirectory, setCurrentDirectory, stderr }) {
+	.setExecute(function(this: Command, args, { workingDirectory, shell, stderr }) {
 		const path = args[0] ?? "~";
-		let destination = currentDirectory.navigate(path);
+		let destination = workingDirectory.navigate(path);
 	
 		if (!destination)
 			return Shell.writeError(stderr, this.name, `${path}: No such file or directory`);
@@ -22,5 +22,5 @@ export const cd = new Command()
 			}
 		}
 	
-		setCurrentDirectory(destination);
+		shell.setWorkingDirectory(destination);
 	});

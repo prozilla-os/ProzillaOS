@@ -6,9 +6,9 @@ export const rmdir = new Command()
 	.setManual({
 		purpose: "Remove a directory",
 	})
-	.setExecute(function(this: Command, args, { currentDirectory, stderr }) {
+	.setExecute(function(this: Command, args, { workingDirectory, stderr }) {
 		const folderName = args[0];
-		const folder = currentDirectory.findSubFolder(folderName);
+		const folder = workingDirectory.findSubFolder(folderName);
 	
 		if (!folder) {
 			return Shell.writeError(stderr, this.name, `${folderName}: No such directory`);

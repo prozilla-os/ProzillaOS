@@ -39,8 +39,8 @@ export interface ShellState {
 	inputValue: string;
 	/** The index of the selected history entry. */
 	historyIndex: number;
-	/** The working directory. */
-	currentDirectory: VirtualFolder;
+	/** The current working directory. */
+	workingDirectory: VirtualFolder;
 	prefix: string;
 	/** The active stream. */
 	stream: Stream | null;
@@ -67,20 +67,16 @@ export interface Process extends ProcessIO {
 }
 
 export interface ShellContext extends ProcessIO {
-	out: (text: string) => void;
-	pushHistory: (entry: HistoryEntry) => void;
-	execute: (command: string, streams?: { stdout?: Stream, stderr?: Stream }) => Promise<number>;
-	virtualRoot: VirtualRoot;
-	currentDirectory: VirtualFolder;
-	setCurrentDirectory: (directory: VirtualFolder) => void;
+	shell: Shell;
+	workingDirectory: VirtualFolder;
 	username: string;
 	hostname: string;
 	rawInputValue: string;
 	options: string[];
 	exit: () => void;
-	kill: (signal?: StreamSignal) => void;
 	inputs: Record<string, string>;
 	timestamp: number;
+	virtualRoot: VirtualRoot;
 	settingsManager: SettingsManager;
 	systemManager: SystemManager;
 	app?: App;
@@ -101,6 +97,14 @@ export class Shell {
 	static readonly COMMAND_FAILED_ERROR = "Command failed";
 	static readonly USAGE_ERROR = "Incorrect usage";
 
+	static readonly SUDO_COMMAND = "sudo";
+	static readonly STRIP_ANSI_REGEX = new RegExp(
+		[ANSI.screen.enterAltBuffer, ANSI.screen.exitAltBuffer, ANSI.screen.clear, ANSI.screen.home]
+			.map((code) => code.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+			.join("|"),
+		"g"
+	);
+
 	constructor(config: ShellConfig) {
 		this.config = config;
 		this.state = proxy<ShellState>({
@@ -110,7 +114,7 @@ export class Shell {
 			}],
 			inputValue: config.input ?? "",
 			historyIndex: 0,
-			currentDirectory: config.virtualRoot.navigate(config.path ?? "~") as VirtualFolder,
+			workingDirectory: config.virtualRoot.navigateToFolder(config.path ?? "~") ?? config.virtualRoot,
 			prefix: "",
 			stream: null,
 			ttyBuffer: null,
@@ -167,7 +171,7 @@ export class Shell {
 
 	updatePrefix() {
 		this.state.prefix = Ansi.cyan(`${USERNAME}@${HOSTNAME}`) + ":"
-			+ Ansi.blue(`${this.state.currentDirectory.root ? "/" : this.state.currentDirectory.path}`) + "$ ";
+			+ Ansi.blue(`${this.state.workingDirectory.root ? "/" : this.state.workingDirectory.path}`) + "$ ";
 	}
 
 	setInputValue(value: string | ((prev: string) => string)) {
@@ -185,31 +189,28 @@ export class Shell {
 	out(text: string) {
 		let remainingText = text;
 
-		if (remainingText.includes(ANSI.screen.enterAltBuffer)) {
+		if (remainingText.includes(ANSI.screen.enterAltBuffer))
 			this.state.isUsingAltScreen = true;
-			remainingText = remainingText.replaceAll(ANSI.screen.enterAltBuffer, "");
-		}
 
 		if (remainingText.includes(ANSI.screen.exitAltBuffer)) {
 			this.state.isUsingAltScreen = false;
 			this.state.ttyBuffer = null;
-			remainingText = remainingText.replaceAll(ANSI.screen.exitAltBuffer, "");
 		}
 
 		if (remainingText.includes(ANSI.screen.clear) || remainingText.includes(ANSI.screen.home)) {
-			if (!this.state.isUsingAltScreen) {
+			if (!this.state.isUsingAltScreen)
 				this.pushHistory({ clear: true, isInput: false });
-			}
 			this.state.ttyBuffer = null;
-			remainingText = remainingText.replaceAll(ANSI.screen.clear, "").replaceAll(ANSI.screen.home, "");
 		}
 
-		if (remainingText === "") return;
+		remainingText = remainingText.replace(Shell.STRIP_ANSI_REGEX, "");
+
+		if (remainingText === "") 
+			return;
 
 		if (this.state.stream || this.state.isUsingAltScreen) {
-			if (this.state.ttyBuffer && !this.state.isUsingAltScreen) {
+			if (this.state.ttyBuffer && !this.state.isUsingAltScreen)
 				this.pushHistory({ text: this.state.ttyBuffer, isInput: false });
-			}
 			this.state.ttyBuffer = remainingText;
 		} else {
 			this.pushHistory({ text: remainingText, isInput: false });
@@ -244,7 +245,7 @@ export class Shell {
 			const args = Shell.parseCommand(commandString);
 			let commandName = args[0]?.toLowerCase() ?? "";
 
-			if (commandName === "sudo" && args.length > 1) {
+			if (commandName === Shell.SUDO_COMMAND && args.length > 1) {
 				commandName = args[1].toLowerCase();
 			}
 
@@ -291,11 +292,11 @@ export class Shell {
 		if (!streams && this.state.ttyBuffer)
 			this.pushHistory({ text: this.state.ttyBuffer, isInput: false });
 
-		this.state.stream = null;
 		this.pipeline = previousPipeline;
 		this.state.stream = previousStream;
 
-		if (!previousStream) this.state.ttyBuffer = null;
+		if (!previousStream) 
+			this.state.ttyBuffer = null;
 
 		return exitCodes[exitCodes.length - 1] ?? EXIT_CODE.success;
 	}
@@ -312,7 +313,7 @@ export class Shell {
 			if (args.length === 0) return EXIT_CODE.generalError;
 
 			const commandArgs = [...args];
-			if (commandArgs[0].toLowerCase() === "sudo") commandArgs.shift();
+			if (commandArgs[0].toLowerCase() === Shell.SUDO_COMMAND) commandArgs.shift();
 			commandArgs.shift();
 
 			const command = CommandsManager.find(commandName);
@@ -360,24 +361,19 @@ export class Shell {
 				return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_OPTIONS_ERROR}`]);
 
 			const exitCode = await command.execute(cleanArgs, {
-				stdin, stdout, stderr,
-				out: this.out.bind(this),
-				pushHistory: this.pushHistory.bind(this),
-				execute: this.execute.bind(this),
-				virtualRoot: this.config.virtualRoot,
-				currentDirectory: this.state.currentDirectory,
-				setCurrentDirectory: (dir: VirtualFolder) => {
-					this.state.currentDirectory = dir;
-					this.updatePrefix();
-				},
+				stdin,
+				stdout,
+				stderr,
+				shell: this,
+				workingDirectory: this.state.workingDirectory,
 				username: USERNAME,
 				hostname: HOSTNAME,
 				rawInputValue: cleanArgs.join(" "),
 				options,
 				exit: () => this.kill("SIGKILL"),
-				kill: this.kill.bind(this),
 				inputs,
 				timestamp,
+				virtualRoot: this.config.virtualRoot,
 				settingsManager: this.config.settingsManager,
 				systemManager: this.config.systemManager,
 				app: this.config.app!,
@@ -414,8 +410,13 @@ export class Shell {
 		this.state.historyIndex = index;
 	}
 
+	setWorkingDirectory(directory: VirtualFolder) {
+		this.state.workingDirectory = directory;
+		this.updatePrefix();
+	}
+
 	static parseCommand(input: string): string[] {
-		return input.match(/(?:[^\s"]+|"[^""]*")+/g) ?? [];
+		return input.match(/(?:[^\s"']+|"(?:[^"\\]|\\.)*"|'[^']*')+/g) ?? [];
 	}
 
 	/**
@@ -441,13 +442,15 @@ export class Shell {
 		return exitCode;
 	}
 
-	static animate({ stdout, stdin, render, delay, clear = true }: Pick<ShellContext, "stdout" | "stdin"> & {
+	static animate({ stdout, stdin, render, delay, clear = true, stopOnBlank = true }: Pick<ShellContext, "stdout" | "stdin"> & {
 		/** The function that renders each frame. */
 		render: (frame: number) => string,
 		/** The delay between each frame, in ms. */
 		delay: number,
 		/** Whether to clear the terminal before each frame. */
-		clear?: boolean
+		clear?: boolean,
+		/** Whether to stop the animation when the rendered frame is blank. */
+		stopOnBlank?: boolean,
 	}) {
 		let frame = 0;
 
@@ -460,7 +463,8 @@ export class Shell {
 		}
 
 		const interval = setInterval(() => {
-			let content = render(frame);
+			const rendered = render(frame);
+			let content = rendered;
 
 			if (clear) {
 				content = ANSI.screen.clear + ANSI.screen.home + content;
@@ -469,7 +473,7 @@ export class Shell {
 			stdout.write(content);
 			frame++;
 
-			if (content.trim().length === 0 && frame > 1) {
+			if (stopOnBlank && !rendered.trim().length && frame > 1) {
 				stopAnimation(interval);
 			}
 		}, delay);

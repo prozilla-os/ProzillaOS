@@ -4,8 +4,8 @@ export const clear = new Command()
 	.setManual({
 		purpose: "Clear terminal screen",
 	})
-	.setExecute(function(_args, { pushHistory }) {
-		pushHistory({
+	.setExecute(function(_args, { shell }) {
+		shell.pushHistory({
 			clear: true,
 			isInput: false,
 		});

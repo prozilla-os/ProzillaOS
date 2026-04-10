@@ -2,14 +2,16 @@ import { EXIT_CODE } from "../../../constants";
 import { Command } from "../command";
 import { Stream } from "../stream";
 import { ANSI, Ansi, parseOptionalFloat } from "@prozilla-os/shared";
+import { Shell } from "../shell";
 
 export const watch = new Command()
 	.setRequireArgs(true)
 	.setManual({
 		purpose: "Execute a program periodically, showing output fullscreen",
-		usage: "watch [-n <seconds>] <command>",
+		usage: "watch [-n <seconds>] [-t] <command>",
 		options: {
 			"-n seconds": "Set the interval (defaults to 2)",
+			"-t": "Turn off the header showing the interval and command name",
 		},
 	})
 	.addOption({
@@ -17,9 +19,15 @@ export const watch = new Command()
 		short: "n",
 		isInput: true,
 	})
-	.setExecute(function(args, { inputs, execute, stdout, stdin }) {
+	.addOption({
+		long: "no-title",
+		short: "t",
+		isInput: false,
+	})
+	.setExecute(function(this: Command, args, { inputs, options, shell, stdout, stdin, stderr }) {
 		const intervalSeconds = parseOptionalFloat(inputs.n, 2);
 		const intervalMs = Math.max(0.1, intervalSeconds) * 1000;
+		const hideHeader = options.includes("t");
 		
 		const commandString = args.join(" ");
 		let isExecuting = false;
@@ -39,16 +47,19 @@ export const watch = new Command()
 			});
 
 			try {
-				await execute(commandString, { stdout: captureStream });
+				await shell.execute(commandString, { stdout: captureStream });
 				
 				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 				if (!isStopping) {
-					const header = Ansi.white(`Every ${intervalSeconds.toFixed(1)}s: ${commandString}\n\n`);
+					const header = hideHeader 
+						? "" 
+						: Ansi.white(`Every ${intervalSeconds.toFixed(1)}s: ${commandString}\n\n`);
+					
 					stdout.write(ANSI.screen.clear + ANSI.screen.home + header + capturedOutput);
 				}
 			} catch (error) {
 				console.error(error);
-				stdout.write(Ansi.red(`Command failed: ${commandString}\n`));
+				Shell.writeError(stderr, this.name, [Shell.COMMAND_FAILED_ERROR, commandString]);
 			} finally {
 				isExecuting = false;
 				captureStream.stop();

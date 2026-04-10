@@ -5,12 +5,12 @@ export const mkdir = new Command()
 		purpose: "Create a directory",
 	})
 	.setRequireArgs(true)
-	.setExecute(function(args, { currentDirectory }) {
+	.setExecute(function(args, { workingDirectory }) {
 		const name = args[0];
 	
-		if (currentDirectory.findSubFolder(name))
+		if (workingDirectory.findSubFolder(name))
 			return;
 	
-		currentDirectory.createFolder(name);
+		workingDirectory.createFolder(name);
 		return;
 	});

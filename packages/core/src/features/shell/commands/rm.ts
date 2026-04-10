@@ -7,10 +7,10 @@ export const rm = new Command()
 	.setManual({
 		purpose: "Remove a file",
 	})
-	.setExecute(function(this: Command, args, { currentDirectory, stderr }) {
+	.setExecute(function(this: Command, args, { workingDirectory, stderr }) {
 		const fileId = args[0];
 		const { name, extension } = VirtualFile.splitId(fileId);
-		const file = currentDirectory.findFile(name, extension);
+		const file = workingDirectory.findFile(name, extension);
 	
 		if (!file) {
 			return Shell.writeError(stderr, this.name, `${fileId}: No such file`);

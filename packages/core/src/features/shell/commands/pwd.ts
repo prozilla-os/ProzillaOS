@@ -4,7 +4,7 @@ export const pwd = new Command()
 	.setManual({
 		purpose: "Display path of the current directory",
 	})
-	.setExecute(function(_arguments, { currentDirectory, stdout }) {
+	.setExecute(function(_arguments, { workingDirectory: currentDirectory, stdout }) {
 		let path = currentDirectory.absolutePath;
 
 		if (currentDirectory.root) {

@@ -14,7 +14,7 @@ export const cat = new Command()
 		},
 	})
 	.addOption({ short: "e", long: "show-ends", isInput: false })
-	.setExecute(async function(this: Command, args, { currentDirectory, options, stdout, stderr, stdin }) {
+	.setExecute(async function(this: Command, args, { workingDirectory, options, stdout, stderr, stdin }) {
 		let exitCode: number = EXIT_CODE.success;
 
 		// Helper to format and write content with options
@@ -47,7 +47,7 @@ export const cat = new Command()
 			}
 
 			const { name, extension } = VirtualFile.splitId(fileId);
-			const file = currentDirectory.findFile(name, extension);
+			const file = workingDirectory.findFile(name, extension);
 
 			if (!file) {
 				exitCode = Shell.writeError(stderr, this.name, `${fileId}: No such file or directory`);
