@@ -74,7 +74,8 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
 		const { key } = event;
 
-		if ((event.ctrlKey || event.metaKey) && key === "c") {
+		if ((event.ctrlKey || event.metaKey) && key === "c" && !event.shiftKey) {
+			event.preventDefault();
 			shell.interrupt();
 			return;
 		}

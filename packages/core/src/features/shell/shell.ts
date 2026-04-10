@@ -59,6 +59,8 @@ export interface ProcessIO {
 export interface Process extends ProcessIO {
 	/** Name of the command that is being executed by this process. */
 	commandName: string;
+	/** The parsed arguments for the command. */
+	args: string[];
 }
 
 export interface ShellContext extends ProcessIO {
@@ -152,7 +154,7 @@ export class Shell {
 
 	updatePrefix() {
 		this.state.prefix = Ansi.cyan(`${USERNAME}@${HOSTNAME}`) + ":"
-            + Ansi.blue(`${this.state.currentDirectory.root ? "/" : this.state.currentDirectory.path}`) + "$ ";
+			+ Ansi.blue(`${this.state.currentDirectory.root ? "/" : this.state.currentDirectory.path}`) + "$ ";
 	}
 
 	setInputValue(value: string | ((prev: string) => string)) {
@@ -206,18 +208,28 @@ export class Shell {
 		if (!streams)
 			this.pushHistory({ text: this.state.prefix + input, isInput: true, value: input });
 
-		const commandStrings = input.split("|")
-			.map((string) => string.trim())
-			.filter((string) => string !== "");
+		const commandStrings = input.match(/(?:[^|"]+|"[^"]*")+/g)
+			?.map((string) => string.trim())
+			.filter((string) => string !== "") ?? [];
 
 		if (commandStrings.length === 0) return EXIT_CODE.success;
 
-		this.pipeline = commandStrings.map((commandString) => ({
-			stdin: new Stream(),
-			stdout: new Stream(),
-			stderr: new Stream(),
-			commandName: commandString.split(" ")[0].toLowerCase(),
-		}));
+		this.pipeline = commandStrings.map((commandString) => {
+			const args = Shell.parseCommand(commandString);
+			let commandName = args[0]?.toLowerCase() ?? "";
+
+			if (commandName === "sudo" && args.length > 1) {
+				commandName = args[1].toLowerCase();
+			}
+
+			return {
+				stdin: new Stream(),
+				stdout: new Stream(),
+				stderr: new Stream(),
+				commandName,
+				args,
+			};
+		});
 
 		this.pipeline.forEach((process, i) => {
 			const isLast = i === this.pipeline.length - 1;
@@ -269,23 +281,23 @@ export class Shell {
 	 * @param rawLine - The raw input string.
 	 * @returns The exit code of the process.
 	 */
-	async spawn({ stdin, stdout, stderr, commandName }: Process, rawLine: string) {
+	async spawn({ stdin, stdout, stderr, commandName, args }: Process, rawLine: string) {
 		const timestamp = Date.now();
 
-		const args = rawLine.match(/(?:[^\s"]+|"[^"]*")+/g);
-		if (!args)
-			return EXIT_CODE.generalError;
-		if (args[0].toLowerCase() === "sudo")
-			args.shift();
-		args.shift();
+		if (args.length === 0) return EXIT_CODE.generalError;
+
+		const commandArgs = [...args];
+		if (commandArgs[0].toLowerCase() === "sudo") commandArgs.shift();
+		commandArgs.shift();
 
 		const command = CommandsManager.find(commandName);
-		if (!command)
-			return Shell.writeError(stderr, commandName, "Command not found", EXIT_CODE.commandNotFound);
+		if (!command) return Shell.writeError(stderr, commandName, "Command not found", EXIT_CODE.commandNotFound);
 
 		const options: string[] = [];
 		const inputs: Record<string, string> = {};
-		args.filter((arg) => arg.startsWith("-")).forEach((option) => {
+		
+		// Only treat as an option if it starts with "-" and is not quoted
+		commandArgs.filter((arg) => arg.startsWith("-") && !arg.startsWith("\"")).forEach((option) => {
 			const addOption = (key: string) => {
 				const commandOption = command.getOption(key);
 				key = commandOption?.short ?? key;
@@ -296,10 +308,10 @@ export class Shell {
 				options.push(key);
 
 				if (commandOption?.isInput) {
-					const index = args.indexOf(option);
-					const value = args[index + 1];
+					const index = commandArgs.indexOf(option);
+					const value = commandArgs[index + 1];
 					inputs[commandOption.short] = value;
-					removeFromArray(value, args);
+					removeFromArray(value, commandArgs);
 				}
 			};
 
@@ -309,14 +321,16 @@ export class Shell {
 				option.substring(1).split("").forEach((s) => addOption(s));
 			}
 
-			removeFromArray(option, args);
+			removeFromArray(option, commandArgs);
 		});
 
-		if (command.requireArgs && args.length === 0)
-			return Shell.writeError(stderr, commandName, "Requires at least 1 argument");
+		// Strip quotes from remaining arguments
+		const cleanArgs = commandArgs.map((arg) => arg.replace(/^"|"$/g, ""));
+
+		if (command.requireArgs && cleanArgs.length === 0) return Shell.writeError(stderr, commandName, "Requires at least 1 argument");
 
 		try {
-			const exitCode = await command.execute(args, {
+			const exitCode = await command.execute(cleanArgs, {
 				stdin, stdout, stderr,
 				out: this.out.bind(this),
 				pushHistory: this.pushHistory.bind(this),
@@ -369,6 +383,10 @@ export class Shell {
 
 		this.state.inputValue = index === 0 ? "" : inputHistory[inputHistory.length - index].value ?? "";
 		this.state.historyIndex = index;
+	}
+
+	static parseCommand(input: string): string[] {
+		return input.match(/(?:[^\s"]+|"[^""]*")+/g) ?? [];
 	}
 
 	/**
