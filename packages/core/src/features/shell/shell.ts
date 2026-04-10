@@ -7,6 +7,7 @@ import { App } from "../apps/app";
 import { VirtualFolder, VirtualRoot } from "../virtual-drive";
 import { SettingsManager } from "../settings/settingsManager";
 import { SystemManager } from "../system/systemManager";
+import { CommandOutput } from "./command";
 
 export interface HistoryEntry {
 	text?: string;
@@ -279,11 +280,10 @@ export class Shell {
 		if (lastProcess) this.state.stream = ref(lastProcess.stdin);
 
 		const tasks = [...this.pipeline].reverse().map((process) => {
-			const i = this.pipeline.indexOf(process);
 			process.stdin.start();
 			process.stdout.start();
 			process.stderr.start();
-			return this.spawn(process, commandStrings[i]);
+			return this.spawn(process);
 		}).reverse();
 
 		const exitCodes = await Promise.all(tasks);
@@ -303,10 +303,9 @@ export class Shell {
 	/**
 	 * Spawns a new process with input and output streams and runs it.
 	 * @param process - The process to spawn. 
-	 * @param rawLine - The raw input string.
 	 * @returns The exit code of the process.
 	 */
-	async spawn({ stdin, stdout, stderr, commandName, args }: Process, rawLine: string) {
+	async spawn({ stdin, stdout, stderr, commandName, args }: Process) {
 		const timestamp = Date.now();
 
 		if (args.length === 0) return EXIT_CODE.generalError;
@@ -352,8 +351,9 @@ export class Shell {
 
 		// Strip quotes from remaining arguments
 		const cleanArgs = commandArgs.map((arg) => arg.replace(/^"|"$/g, ""));
+		const isPiped = this.pipeline.findIndex((process) => process.stdin === stdin) > 0;
 
-		if (command.requireArgs && !cleanArgs.length)
+		if (command.requireArgs && !cleanArgs.length && !isPiped)
 			return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_ARGS_ERROR}`]);
 		if (command.requireOptions && !options.length)
 			return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_OPTIONS_ERROR}`]);
@@ -372,7 +372,7 @@ export class Shell {
 				},
 				username: USERNAME,
 				hostname: HOSTNAME,
-				rawInputValue: rawLine.substring(rawLine.indexOf(" ") + 1),
+				rawInputValue: cleanArgs.join(" "),
 				options,
 				exit: () => this.kill("SIGKILL"),
 				kill: this.kill.bind(this),
@@ -479,5 +479,23 @@ export class Shell {
 		});
 
 		return stdin.wait(EXIT_CODE.success);
+	}
+
+	/**
+     * Reads input from arguments or falls back to stdin.
+     */
+	static async readInput(rawInputValue: string, stdin: Stream, callback: (data: string) => CommandOutput) {
+		if (rawInputValue.length > 0) {
+			return callback(rawInputValue);
+		}
+
+		let buffer = "";
+		stdin.on(Stream.DATA_EVENT, (data) => {
+			buffer += data;
+		});
+
+		return stdin.wait().then(() => {
+			return buffer.length ? callback(buffer) : EXIT_CODE.success;
+		});
 	}
 }
