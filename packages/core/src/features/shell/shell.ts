@@ -95,8 +95,14 @@ export class Shell {
 			return;
 		}
 
-		if (this.state.stream) {
-			this.state.stream.signal(signal);
+		const isInterrupt = signal === "SIGINT";
+		const hasActiveStream = this.state.stream != null;
+
+		if (hasActiveStream) {
+			if (this.state.streamOutput) {
+				this.pushHistory({ text: this.state.streamOutput, isInput: false });
+			}
+			this.state.stream?.signal(signal);
 			this.state.stream = null;
 			this.state.streamOutput = null;
 		}
@@ -106,8 +112,13 @@ export class Shell {
 			this.pipeline = [];
 		}
 
-		if (signal === "SIGINT") {
-			this.out("^C\n");
+		if (isInterrupt && !hasActiveStream) {
+			this.pushHistory({
+				text: this.state.prefix + this.state.inputValue + "^C",
+				isInput: true,
+				value: this.state.inputValue,
+			});
+			this.resetInput();
 		}
 	}
 
@@ -117,7 +128,7 @@ export class Shell {
 
 	updatePrefix() {
 		this.state.prefix = Ansi.cyan(`${USERNAME}@${HOSTNAME}`) + ":"
-			+ Ansi.blue(`${this.state.currentDirectory.root ? "/" : this.state.currentDirectory.path}`) + "$ ";
+            + Ansi.blue(`${this.state.currentDirectory.root ? "/" : this.state.currentDirectory.path}`) + "$ ";
 	}
 
 	setInputValue(value: string | ((prev: string) => string)) {
@@ -136,6 +147,7 @@ export class Shell {
 		let remainingText = text;
 		if (remainingText.includes("\x1b[2J") || remainingText.includes("\x1b[H")) {
 			this.pushHistory({ clear: true, isInput: false });
+			this.state.streamOutput = null;
 			// eslint-disable-next-line no-control-regex
 			remainingText = remainingText.replace(/\x1b\[2J|\x1b\[H/g, "");
 		}
@@ -143,6 +155,9 @@ export class Shell {
 		if (remainingText === "") return;
 
 		if (this.state.stream) {
+			if (this.state.streamOutput) {
+				this.pushHistory({ text: this.state.streamOutput, isInput: false });
+			}
 			this.state.streamOutput = remainingText;
 		} else {
 			this.pushHistory({ text: remainingText, isInput: false });
@@ -150,8 +165,7 @@ export class Shell {
 	}
 
 	async submitInput(value: string) {
-		this.state.inputValue = "";
-		this.state.historyIndex = 0;
+		this.resetInput();
 		return await this.execute(value);
 	}
 
@@ -204,10 +218,13 @@ export class Shell {
 			return this.spawn(process, commandStrings[i]);
 		});
 
-		if (!streams) this.resetInput();
-
 		const exitCodes = await Promise.all(tasks);
 
+		if (!streams && this.state.streamOutput) {
+			this.pushHistory({ text: this.state.streamOutput, isInput: false });
+		}
+
+		this.state.stream = null;
 		this.pipeline = previousPipeline;
 		this.state.stream = previousStream;
 
