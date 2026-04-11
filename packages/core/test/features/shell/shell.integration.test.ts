@@ -26,14 +26,14 @@ describe("Shell Integration", () => {
 	});
 
 	it("executes echo and captures output in history", async () => {
-		await shell.submitInput("echo Hello World");
+		await shell.run("echo Hello World");
 
 		const lastEntry = shell.state.history[shell.state.history.length - 1];
 		expect(lastEntry.text).toBe("Hello World\n");
 	});
 
 	it("respects the -n flag in echo to omit newline", async () => {
-		await shell.submitInput("echo -n No Newline");
+		await shell.run("echo -n No Newline");
 
 		const lastEntry = shell.state.history[shell.state.history.length - 1];
 		expect(lastEntry.text).toBe("No Newline");
@@ -41,14 +41,14 @@ describe("Shell Integration", () => {
 
 	it("pipes output from echo to rev", async () => {
 		// This tests the logic: echo (stdout) -> rev (stdin) -> shell (out)
-		await shell.submitInput("echo -n hello | rev");
+		await shell.run("echo -n hello | rev");
 
 		const lastEntry = shell.state.history[shell.state.history.length - 1];
 		expect(lastEntry.text).toBe("olleh");
 	});
 
 	it("pipes multi-line output through cowsay", async () => {
-		await shell.submitInput("echo -n \"Hi\nCow\" | cowsay");
+		await shell.run("echo -n \"Hi\nCow\" | cowsay");
 
 		const lastEntry = shell.state.history[shell.state.history.length - 1];
         
@@ -61,14 +61,14 @@ describe("Shell Integration", () => {
 	});
 
 	it("handles complex pipelines with multiple stages", async () => {
-		await shell.submitInput("echo -n abc | rev | rev");
+		await shell.run("echo -n abc | rev | rev");
 
 		const lastEntry = shell.state.history[shell.state.history.length - 1];
 		expect(lastEntry.text).toBe("abc");
 	});
 
 	it("properly reports command not found in a pipeline and stops", async () => {
-		const exitCode = await shell.submitInput("fakecommand | rev");
+		const exitCode = await shell.run("fakecommand | rev");
 
 		expect(exitCode).toBe(EXIT_CODE.success);
         
@@ -77,7 +77,7 @@ describe("Shell Integration", () => {
 	});
 
 	it("handles quoted arguments with spaces in pipelines", async () => {
-		await shell.submitInput("echo -n \"spaced text\" | rev");
+		await shell.run("echo -n \"spaced text\" | rev");
 
 		const lastEntry = shell.state.history[shell.state.history.length - 1];
 		expect(lastEntry.text).toBe("txet decaps");

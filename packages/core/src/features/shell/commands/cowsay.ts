@@ -101,8 +101,8 @@ export const cowsay = new Command()
 		usage: "cowsay text",
 		description: "Show ASCII art of a cow saying something.",
 	})
-	.setExecute(function(_args, { rawInputValue, stdout, stdin }) {
-		return Shell.readInput(rawInputValue, stdin, (text) => {
+	.setExecute(function(_args, { rawLine, stdout, stdin }) {
+		return Shell.readInput(rawLine, stdin, (text) => {
 			stdout.write(renderCowsay(text));
 		});
 	});

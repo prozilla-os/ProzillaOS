@@ -7,6 +7,6 @@ export const clear = new Command()
 	.setExecute(function(_args, { shell }) {
 		shell.pushHistory({
 			clear: true,
-			isInput: false,
+			isCommand: false,
 		});
 	});

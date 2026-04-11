@@ -51,27 +51,27 @@ describe("Shell", () => {
 	});
 
 	it("should update history index when navigating up and down", () => {
-		shell.pushHistory({ text: "cmd1", isInput: true, value: "cmd1" });
-		shell.pushHistory({ text: "cmd2", isInput: true, value: "cmd2" });
+		shell.pushHistory({ text: "cmd1", isCommand: true, value: "cmd1" });
+		shell.pushHistory({ text: "cmd2", isCommand: true, value: "cmd2" });
 
-		shell.updateHistoryIndex(1);
-		expect(shell.state.inputValue).toBe("cmd2");
+		shell.historySearch(1);
+		expect(shell.state.line).toBe("cmd2");
 
-		shell.updateHistoryIndex(1);
-		expect(shell.state.inputValue).toBe("cmd1");
+		shell.historySearch(1);
+		expect(shell.state.line).toBe("cmd1");
 
-		shell.updateHistoryIndex(-1);
-		expect(shell.state.inputValue).toBe("cmd2");
+		shell.historySearch(-1);
+		expect(shell.state.line).toBe("cmd2");
 	});
 
 	it("should reset input value after submission", async () => {
 		vi.spyOn(shell, "execute").mockResolvedValue(EXIT_CODE.success);
-		shell.setInputValue("test command");
-		await shell.submitInput("test command");
-		expect(shell.state.inputValue).toBe("");
+		shell.setLine("test command");
+		await shell.run("test command");
+		expect(shell.state.line).toBe("");
 	});
 
-	it("readInput should prioritize rawInputValue over stdin", async () => {
+	it("readInput should prioritize rawLine over stdin", async () => {
 		const stdin = new Stream().start();
 		const callback = vi.fn().mockReturnValue(EXIT_CODE.success);
 		
@@ -81,7 +81,7 @@ describe("Shell", () => {
 		expect(result).toBe(EXIT_CODE.success);
 	});
 
-	it("readInput should wait for stdin if rawInputValue is empty", async () => {
+	it("readInput should wait for stdin if rawLine is empty", async () => {
 		const stdin = new Stream().start();
 		const callback = vi.fn().mockReturnValue(EXIT_CODE.success);
 		

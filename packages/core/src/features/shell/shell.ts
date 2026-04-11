@@ -11,7 +11,7 @@ import { CommandOutput } from "./command";
 
 export interface HistoryEntry {
 	text?: string;
-	isInput: boolean;
+	isCommand: boolean;
 	value?: string;
 	clear?: boolean;
 }
@@ -36,12 +36,12 @@ export interface ShellState {
 	/** The history of the shell. */
 	history: HistoryEntry[];
 	/** The current input value. */
-	inputValue: string;
+	line: string;
 	/** The index of the selected history entry. */
-	historyIndex: number;
+	historyOffset: number;
 	/** The current working directory. */
 	workingDirectory: VirtualFolder;
-	prefix: string;
+	prompt: string;
 	/** The active stream. */
 	stream: Stream | null;
 	/** The output of the active stream. */
@@ -71,7 +71,7 @@ export interface ShellContext extends ProcessIO {
 	workingDirectory: VirtualFolder;
 	username: string;
 	hostname: string;
-	rawInputValue: string;
+	rawLine: string;
 	options: string[];
 	exit: () => void;
 	inputs: Record<string, string>;
@@ -111,17 +111,17 @@ export class Shell {
 		this.state = proxy<ShellState>({
 			history: [{
 				text: config.app ? WELCOME_MESSAGE.replace("$APP_NAME", config.app.name) : WELCOME_MESSAGE,
-				isInput: false,
+				isCommand: false,
 			}],
-			inputValue: config.input ?? "",
-			historyIndex: 0,
+			line: config.input ?? "",
+			historyOffset: 0,
 			workingDirectory: config.virtualRoot.navigateToFolder(config.path ?? "~") ?? config.virtualRoot,
-			prefix: "",
+			prompt: "",
 			stream: null,
 			ttyBuffer: null,
 			isUsingAltScreen: false,
 		});
-		this.updatePrefix();
+		this.updatePrompt();
 	}
 
 	/**
@@ -139,7 +139,7 @@ export class Shell {
 		if (hasActiveStream) {
 			// Commit buffer only if not in alt screen
 			if (this.state.ttyBuffer && !this.state.isUsingAltScreen) {
-				this.pushHistory({ text: this.state.ttyBuffer, isInput: false });
+				this.pushHistory({ text: this.state.ttyBuffer, isCommand: false });
 			}
 			
 			this.state.stream?.signal(signal);
@@ -155,11 +155,11 @@ export class Shell {
 
 		if (isInterrupt && !hasActiveStream) {
 			this.pushHistory({
-				text: this.state.prefix + this.state.inputValue + "^C",
-				isInput: true,
-				value: this.state.inputValue,
+				text: this.state.prompt + this.state.line + "^C",
+				isCommand: true,
+				value: this.state.line,
 			});
-			this.resetInput();
+			this.clearLine();
 		}
 	}
 
@@ -170,24 +170,34 @@ export class Shell {
 		this.kill("SIGINT");
 	}
 
-	updatePrefix() {
-		this.state.prefix = Ansi.cyan(`${USERNAME}@${HOSTNAME}`) + ":"
+	/**
+	 * Refreshes the prompt.
+	 */
+	updatePrompt() {
+		this.state.prompt = Ansi.cyan(`${USERNAME}@${HOSTNAME}`) + ":"
 			+ Ansi.blue(`${this.state.workingDirectory.root ? "/" : this.state.workingDirectory.path}`) + "$ ";
 	}
 
-	setInputValue(value: string | ((prev: string) => string)) {
+	/**
+	 * Sets the current input value.
+	 */
+	setLine(value: string | ((prev: string) => string)) {
 		if (typeof value === "function") {
-			this.state.inputValue = value(this.state.inputValue);
+			this.state.line = value(this.state.line);
 		} else {
-			this.state.inputValue = value;
+			this.state.line = value;
 		}
 	}
 
+	/**
+	 * Adds a new entry to the history.
+	 * @param entry - The entry to add.
+	 */
 	pushHistory(entry: HistoryEntry) {
 		this.state.history.push(entry);
 	}
 
-	out(text: string) {
+	write(text: string) {
 		let remainingText = text;
 
 		if (remainingText.includes(ANSI.screen.enterAltBuffer))
@@ -200,7 +210,7 @@ export class Shell {
 
 		if (remainingText.includes(ANSI.screen.clear) || remainingText.includes(ANSI.screen.home)) {
 			if (!this.state.isUsingAltScreen)
-				this.pushHistory({ clear: true, isInput: false });
+				this.pushHistory({ clear: true, isCommand: false });
 			this.state.ttyBuffer = null;
 		}
 
@@ -211,16 +221,21 @@ export class Shell {
 
 		if (this.state.stream || this.state.isUsingAltScreen) {
 			if (this.state.ttyBuffer && !this.state.isUsingAltScreen)
-				this.pushHistory({ text: this.state.ttyBuffer, isInput: false });
+				this.pushHistory({ text: this.state.ttyBuffer, isCommand: false });
 			this.state.ttyBuffer = remainingText;
 		} else {
-			this.pushHistory({ text: remainingText, isInput: false });
+			this.pushHistory({ text: remainingText, isCommand: false });
 		}
 	}
 
-	async submitInput(value: string) {
-		this.resetInput();
-		return await this.execute(value);
+	/**
+	 * Clears the input value and parses and executes the given command.
+	 * @param input - The command to run.
+	 * @returns The final exit code.
+	 */
+	async run(input: string) {
+		this.clearLine();
+		return await this.execute(input);
 	}
 
 	/**
@@ -234,7 +249,7 @@ export class Shell {
 		const previousStream = this.state.stream;
 
 		if (!streams)
-			this.pushHistory({ text: this.state.prefix + input, isInput: true, value: input });
+			this.pushHistory({ text: this.state.prompt + input, isCommand: true, value: input });
 
 		const commandStrings = input.match(/(?:[^|"]+|"[^"]*")+/g)
 			?.map((string) => string.trim())
@@ -267,13 +282,13 @@ export class Shell {
 			} else if (streams?.stdout) {
 				process.stdout.pipe(streams.stdout);
 			} else {
-				process.stdout.on(Stream.DATA_EVENT, (data) => this.out(data));
+				process.stdout.on(Stream.DATA_EVENT, (data) => this.write(data));
 			}
 
 			if (streams?.stderr) {
 				process.stderr.pipe(streams.stderr);
 			} else {
-				process.stderr.on(Stream.DATA_EVENT, (data) => this.out(data));
+				process.stderr.on(Stream.DATA_EVENT, (data) => this.write(data));
 			}
 		});
 
@@ -291,7 +306,7 @@ export class Shell {
 		const exitCodes = await Promise.all(tasks);
 
 		if (!streams && this.state.ttyBuffer)
-			this.pushHistory({ text: this.state.ttyBuffer, isInput: false });
+			this.pushHistory({ text: this.state.ttyBuffer, isCommand: false });
 
 		this.pipeline = previousPipeline;
 		this.state.stream = previousStream;
@@ -369,7 +384,7 @@ export class Shell {
 				workingDirectory: this.state.workingDirectory,
 				username: USERNAME,
 				hostname: HOSTNAME,
-				rawInputValue: cleanArgs.join(" "),
+				rawLine: cleanArgs.join(" "),
 				options,
 				exit: () => this.kill("SIGKILL"),
 				inputs,
@@ -392,35 +407,42 @@ export class Shell {
 		}
 	}
 
-	resetInput() {
-		this.state.inputValue = "";
-		this.state.historyIndex = 0;
+	/**
+	 * Resets the current input value.
+	 */
+	clearLine() {
+		this.state.line = "";
+		this.state.historyOffset = 0;
 	}
 
-	updateHistoryIndex(delta: number) {
-		const inputHistory = this.state.history.filter(({ isInput }) => isInput);
-		const index = clamp(this.state.historyIndex + delta, 0, inputHistory.length);
+	/**
+	 * Replaces the current input value with a history entry based on a direction and the current offset.
+	 * @param direction - The direction to search in.
+	 */
+	historySearch(direction: number) {
+		const inputHistory = this.state.history.filter(({ isCommand: isInput }) => isInput);
+		const index = clamp(this.state.historyOffset + direction, 0, inputHistory.length);
 
-		if (index === this.state.historyIndex) {
-			if (delta < 0)
-				this.state.inputValue = "";
+		if (index === this.state.historyOffset) {
+			if (direction < 0)
+				this.state.line = "";
 			return;
 		}
 
-		this.state.inputValue = index === 0 ? "" : inputHistory[inputHistory.length - index].value ?? "";
-		this.state.historyIndex = index;
+		this.state.line = index === 0 ? "" : inputHistory[inputHistory.length - index].value ?? "";
+		this.state.historyOffset = index;
 	}
 
 	setWorkingDirectory(directory: VirtualFolder) {
 		this.state.workingDirectory = directory;
-		this.updatePrefix();
+		this.updatePrompt();
 	}
 
 	/**
 	 * Provides completions based on the current input value.
 	 */
 	getCompletions() {
-		const words = this.state.inputValue.split(" ");
+		const words = this.state.line.split(" ");
 		const lastWord = words[words.length - 1] ?? "";
 		const isFirstWord = words.length <= 1;
 
@@ -441,8 +463,8 @@ export class Shell {
 			if (directory) {
 				const entries = [...directory.getSubFolders(true), ...directory.getFiles(true)];
 				const pathCompletions = entries
-					.map((entry) => entry.name + (entry.isFolder() ? "/" : ""))
-					.filter((name) => name.startsWith(searchTerm));
+					.map((entry) => entry.id + (entry.isFolder() ? "/" : ""))
+					.filter((id) => id.startsWith(searchTerm));
             
 				completions = [...completions, ...pathCompletions];
 			}
@@ -458,7 +480,7 @@ export class Shell {
 		const completions = this.getCompletions();
 		if (!completions.length) return;
 
-		const parts = this.state.inputValue.split(" ");
+		const parts = this.state.line.split(" ");
 		const lastWord = parts.pop() ?? "";
 		const commonPrefix = getLongestCommonPrefix(completions);
 
@@ -469,7 +491,7 @@ export class Shell {
 		if (commonPrefix.length > searchTerm.length) {
 			pathParts.push(commonPrefix);
 			parts.push(pathParts.join("/"));
-			this.setInputValue(parts.join(" "));
+			this.setLine(parts.join(" "));
 			return;
 		}
 
@@ -477,16 +499,16 @@ export class Shell {
 		if (completions.length === 1) {
 			pathParts.push(completions[0]);
 			parts.push(pathParts.join("/"));
-			this.setInputValue(parts.join(" "));
+			this.setLine(parts.join(" "));
 		} else {
 			this.pushHistory({
-				text: this.state.prefix + this.state.inputValue,
-				isInput: true,
-				value: this.state.inputValue,
+				text: this.state.prompt + this.state.line,
+				isCommand: true,
+				value: this.state.line,
 			});
 			this.pushHistory({
 				text: completions.join("  "),
-				isInput: false,
+				isCommand: false,
 			});
 		}
 	}
@@ -564,9 +586,9 @@ export class Shell {
 	/**
 	 * Reads input from arguments or falls back to stdin.
 	 */
-	static async readInput(rawInputValue: string, stdin: Stream, callback: (data: string) => CommandOutput) {
-		if (rawInputValue.length > 0) {
-			return callback(rawInputValue);
+	static async readInput(rawLine: string, stdin: Stream, callback: (data: string) => CommandOutput) {
+		if (rawLine.length > 0) {
+			return callback(rawLine);
 		}
 
 		let buffer = "";

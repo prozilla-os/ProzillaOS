@@ -40,10 +40,10 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 
 	useEffect(() => {
 		if (inputRef.current && !state.stream) {
-			const length = state.inputValue.length;
+			const length = state.line.length;
 			inputRef.current.setSelectionRange(length, length);
 		}
-	}, [state.historyIndex]);
+	}, [state.historyOffset]);
 
 	const scrollDown = () => {
 		if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
@@ -51,7 +51,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 
 	useEffect(() => {
 		scrollDown();
-	}, [state.history.length, state.inputValue, state.ttyBuffer]);
+	}, [state.history.length, state.line, state.ttyBuffer]);
 
 	useEffect(() => {
 		if (!ref.current) return;
@@ -94,19 +94,19 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 			shell.autoComplete();
 		} else if (key === "Enter") {
 			const value = (event.target as HTMLInputElement).value;
-			void shell.submitInput(value);
+			void shell.run(value);
 			setInputKey((previousKey) => previousKey + 1);
 		} else if (key === "ArrowUp") {
 			event.preventDefault();
-			shell.updateHistoryIndex(1);
+			shell.historySearch(1);
 		} else if (key === "ArrowDown") {
 			event.preventDefault();
-			shell.updateHistoryIndex(-1);
+			shell.historySearch(-1);
 		}
 	};
 
 	const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-		shell.setInputValue(event.target.value);
+		shell.setLine(event.target.value);
 	};
 
 	const renderOutput = () => {
@@ -139,11 +139,12 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 				const input = inputRef.current;
 				if (!input) return;
 
-				const start = input.selectionStart ?? state.inputValue.length;
-				const end = input.selectionEnd ?? state.inputValue.length;
+				const start = input.selectionStart ?? state.line.length;
+				const end = input.selectionEnd ?? state.line.length;
 				
-				const newValue = state.inputValue.substring(0, start) + text + state.inputValue.substring(end);
-				shell.setInputValue(newValue);
+				shell.setLine((line) => {
+					return line.substring(0, start) + text + line.substring(end);
+				});
 
 				// Re-focus and position cursor after paste
 				const newPos = start + text.length;
@@ -186,8 +187,8 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 			!state.stream
 				? <InputLine
 					key={inputKey}
-					value={state.inputValue}
-					prefix={state.prefix}
+					value={state.line}
+					prefix={state.prompt}
 					onChange={onChange}
 					inputRef={inputRef}
 				/>
