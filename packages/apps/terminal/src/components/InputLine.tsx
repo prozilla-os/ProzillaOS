@@ -27,7 +27,6 @@ export function InputLine({ value, prefix, onChange, onKeyUp, onKeyDown, inputRe
 	}, [value, inputRef]);
 
 	const checkCursorPosition = () => {
-		console.log("Checking cursor position");
 		const selectionStart = inputRef.current?.selectionStart;
 		if (selectionStart != null) setCursorPosition(selectionStart);
 	};

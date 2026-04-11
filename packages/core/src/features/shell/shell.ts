@@ -1,7 +1,7 @@
 import { proxy, ref } from "valtio";
 import { Stream, StreamSignal } from "./stream";
 import { CommandsManager } from "./commands";
-import { ANSI, Ansi, clamp, removeFromArray, Vector2 } from "@prozilla-os/shared";
+import { ANSI, Ansi, clamp, getLongestCommonPrefix, removeFromArray, Vector2 } from "@prozilla-os/shared";
 import { EXIT_CODE, HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../../constants/shell.const";
 import { App } from "../apps/app";
 import { VirtualFolder, VirtualRoot } from "../virtual-drive";
@@ -414,6 +414,81 @@ export class Shell {
 	setWorkingDirectory(directory: VirtualFolder) {
 		this.state.workingDirectory = directory;
 		this.updatePrefix();
+	}
+
+	/**
+	 * Provides completions based on the current input value.
+	 */
+	getCompletions() {
+		const words = this.state.inputValue.split(" ");
+		const lastWord = words[words.length - 1] ?? "";
+		const isFirstWord = words.length <= 1;
+
+		let completions: string[] = [];
+
+		if (isFirstWord && !lastWord.includes("/")) {
+			completions = CommandsManager.COMMANDS
+				.filter((command) => command.name.startsWith(lastWord))
+				.map((command) => command.name);
+		}
+
+		if (!isFirstWord || lastWord.includes("/") || lastWord.startsWith(".")) {
+			const pathParts = lastWord.split("/");
+			const searchTerm = pathParts.pop() ?? "";
+			const path = pathParts.join("/") || (lastWord.startsWith("/") ? "/" : ".");
+
+			const directory = this.state.workingDirectory.navigateToFolder(path);
+			if (directory) {
+				const entries = [...directory.getSubFolders(true), ...directory.getFiles(true)];
+				const pathCompletions = entries
+					.map((entry) => entry.name + (entry.isFolder() ? "/" : ""))
+					.filter((name) => name.startsWith(searchTerm));
+            
+				completions = [...completions, ...pathCompletions];
+			}
+		}
+
+		return completions;
+	}
+
+	/**
+	 * Auto-completes the current input value or displays possible completions.
+	 */
+	autoComplete() {
+		const completions = this.getCompletions();
+		if (!completions.length) return;
+
+		const parts = this.state.inputValue.split(" ");
+		const lastWord = parts.pop() ?? "";
+		const commonPrefix = getLongestCommonPrefix(completions);
+
+		// If there's a common prefix longer than the current input, complete it
+		const pathParts = lastWord.split("/");
+		const searchTerm = pathParts.pop() ?? "";
+
+		if (commonPrefix.length > searchTerm.length) {
+			pathParts.push(commonPrefix);
+			parts.push(pathParts.join("/"));
+			this.setInputValue(parts.join(" "));
+			return;
+		}
+
+		// Otherwise, handle single match or multiple options
+		if (completions.length === 1) {
+			pathParts.push(completions[0]);
+			parts.push(pathParts.join("/"));
+			this.setInputValue(parts.join(" "));
+		} else {
+			this.pushHistory({
+				text: this.state.prefix + this.state.inputValue,
+				isInput: true,
+				value: this.state.inputValue,
+			});
+			this.pushHistory({
+				text: completions.join("  "),
+				isInput: false,
+			});
+		}
 	}
 
 	static parseCommand(input: string): string[] {

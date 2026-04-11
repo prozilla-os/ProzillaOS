@@ -89,7 +89,10 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 
 		if (state.stream) return;
 
-		if (key === "Enter") {
+		if (key === "Tab") {
+			event.preventDefault();
+			shell.autoComplete();
+		} else if (key === "Enter") {
 			const value = (event.target as HTMLInputElement).value;
 			void shell.submitInput(value);
 			setInputKey((previousKey) => previousKey + 1);
