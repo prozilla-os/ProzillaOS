@@ -15,7 +15,7 @@ export const help = new Command()
 				}
 			}).sort().join("\n");
 
-			stdout.write(output + "\n");
+			stdout.write(output);
 			return EXIT_CODE.success;
 		}
 
@@ -30,5 +30,5 @@ export const help = new Command()
 			return Shell.writeError(stderr, this.name, `${commandName}: No manual found`);
 		}
 
-		stdout.write(command.manual.purpose + "\n");
+		stdout.write(command.manual.purpose);
 	});

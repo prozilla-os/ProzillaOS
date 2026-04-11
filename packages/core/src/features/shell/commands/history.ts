@@ -20,7 +20,7 @@ export const history = new Command()
 			})
 			.join("\n");
 
-		stdout.write(output + "\n");
+		stdout.write(output);
 
 		return EXIT_CODE.success;
 	});

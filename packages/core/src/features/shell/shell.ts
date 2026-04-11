@@ -96,6 +96,7 @@ export class Shell {
 	static readonly MISSING_OPTIONS_ERROR = "requires at least 1 option";
 	static readonly COMMAND_FAILED_ERROR = "Command failed";
 	static readonly USAGE_ERROR = "Incorrect usage";
+	static readonly INVALID_PATH_ERROR = "No such file or directory";
 
 	static readonly SUDO_COMMAND = "sudo";
 	static readonly STRIP_ANSI_REGEX = new RegExp(

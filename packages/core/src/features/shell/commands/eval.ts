@@ -24,7 +24,7 @@ export const evalCommand = new Command()
 			const result = runner(context);
 
 			if (result !== undefined) {
-				stdout.write(String(result as unknown) + "\n");
+				stdout.write(String(result as unknown));
 			}
 
 			return EXIT_CODE.success;

@@ -1,5 +1,4 @@
 import { EXIT_CODE } from "../../../constants";
-import { VirtualFile } from "../../virtual-drive";
 import { Command } from "../command";
 import { Shell } from "../shell";
 import { Stream } from "../stream";
@@ -35,29 +34,30 @@ export const cat = new Command()
 		}
 
 		// Iterate through file arguments
-		for (const fileId of args) {
-			if (fileId === "-") {
+		for (const path of args) {
+			if (path === "-") {
 				const onData = (data: string) => writeContent(data);
 				stdin.on(Stream.DATA_EVENT, onData);
-    
 				await stdin.wait();
-    
 				stdin.off(Stream.DATA_EVENT, onData);
 				continue;
 			}
 
-			const { name, extension } = VirtualFile.splitId(fileId);
-			const file = workingDirectory.findFile(name, extension);
+			const target = workingDirectory.navigate(path);
 
-			if (!file) {
-				exitCode = Shell.writeError(stderr, this.name, `${fileId}: No such file or directory`);
+			if (!target) {
+				exitCode = Shell.writeError(stderr, this.name, `${path}: ${Shell.INVALID_PATH_ERROR}`);
 				continue;
 			}
 
-			if (file.content) {
-				writeContent(file.content);
-			} else if (file.source) {
-				stdout.write(`Src: ${file.source}`);
+			if (target.isFolder()) {
+				exitCode = Shell.writeError(stderr, this.name, `${path}: Is a directory`);
+				continue;
+			}
+
+			const content = await target.read();
+			if (content != null) {
+				writeContent(content);
 			}
 		}
 

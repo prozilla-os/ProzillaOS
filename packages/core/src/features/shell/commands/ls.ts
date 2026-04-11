@@ -25,6 +25,6 @@ export const ls = new Command()
 		const contents = folderNames.concat(fileNames);
 	
 		if (contents.length > 0) {
-			stdout.write(contents.sort().join("  ") + "\n");
+			stdout.write(contents.sort().join("  "));
 		}
 	});

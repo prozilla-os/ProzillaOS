@@ -11,5 +11,5 @@ export const pwd = new Command()
 			path = "/";
 		}
 
-		stdout.write(path + "\n");
+		stdout.write(path);
 	});
