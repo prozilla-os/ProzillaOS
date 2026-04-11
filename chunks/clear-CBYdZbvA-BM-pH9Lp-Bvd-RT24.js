@@ -1,1 +1,0 @@
-import{N as t}from"../index.js";const a=new t().setManual({purpose:"Clear terminal screen"}).setExecute(function(n,e){const{pushHistory:r}=e;return r?.({clear:!0,isInput:!1}),{blank:!0}});export{a as clear};
