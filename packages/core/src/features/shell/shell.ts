@@ -8,6 +8,7 @@ import { VirtualFolder, VirtualRoot } from "../virtual-drive";
 import { SettingsManager } from "../settings/settingsManager";
 import { SystemManager } from "../system/systemManager";
 import { CommandOutput } from "./command";
+import { ShellEnvironment } from "./shellEnvironment";
 
 export interface HistoryEntry {
 	text?: string;
@@ -30,6 +31,7 @@ export interface ShellConfig {
 	exit: () => void;
 	/** Ref object with the size of the shell, measured in rows and columns. */
 	sizeRef: { current: Vector2 };
+	env?: Record<string, string>;
 }
 
 export interface ShellState {
@@ -48,6 +50,7 @@ export interface ShellState {
 	ttyBuffer: string | null;
 	/** Whether the shell is currently using the alternate screen. */
 	isUsingAltScreen: boolean;
+	env: Record<string, string>;
 }
 
 export interface ProcessIO {
@@ -81,6 +84,7 @@ export interface ShellContext extends ProcessIO {
 	systemManager: SystemManager;
 	app?: App;
 	readonly size: Vector2;
+	env: ShellEnvironment;
 };
 
 /**
@@ -90,6 +94,7 @@ export class Shell {
 	state: ShellState;
 	config: ShellConfig;
 	pipeline: Process[] = [];
+	env: ShellEnvironment;
 
 	static readonly COMMAND_NOT_FOUND_ERROR = "Command not found";
 	static readonly MISSING_ARGS_ERROR = "requires at least 1 argument";
@@ -108,6 +113,16 @@ export class Shell {
 
 	constructor(config: ShellConfig) {
 		this.config = config;
+		const workingDirectory = config.virtualRoot.navigateToFolder(config.path ?? "~") ?? config.virtualRoot;
+		this.env = new ShellEnvironment({
+			USER: USERNAME,
+			HOSTNAME: HOSTNAME,
+			HOME: config.virtualRoot.navigateToFolder("~")?.absolutePath ?? "~",
+			PWD: workingDirectory.root ? "/" : workingDirectory.path,
+			OLDPWD: workingDirectory.root ? "/" : workingDirectory.path,
+			...config.env,
+		});
+
 		this.state = proxy<ShellState>({
 			history: [{
 				text: config.app ? WELCOME_MESSAGE.replace("$APP_NAME", config.app.name) : WELCOME_MESSAGE,
@@ -115,12 +130,14 @@ export class Shell {
 			}],
 			line: config.input ?? "",
 			historyOffset: 0,
-			workingDirectory: config.virtualRoot.navigateToFolder(config.path ?? "~") ?? config.virtualRoot,
+			workingDirectory: workingDirectory,
 			prompt: "",
 			stream: null,
 			ttyBuffer: null,
 			isUsingAltScreen: false,
+			env: this.env.allVariables,
 		});
+
 		this.updatePrompt();
 	}
 
@@ -174,19 +191,23 @@ export class Shell {
 	 * Refreshes the prompt.
 	 */
 	updatePrompt() {
-		this.state.prompt = Ansi.cyan(`${USERNAME}@${HOSTNAME}`) + ":"
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		const username = this.state.env.USER ?? USERNAME;
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		const hostname = this.state.env.HOSTNAME ?? HOSTNAME;
+		this.state.prompt = Ansi.cyan(`${username}@${hostname}`) + ":"
 			+ Ansi.blue(`${this.state.workingDirectory.root ? "/" : this.state.workingDirectory.path}`) + "$ ";
+	}
+
+	updateEnvironmentState() {
+		this.state.env = this.env.allVariables;
 	}
 
 	/**
 	 * Sets the current input value.
 	 */
 	setLine(value: string | ((prev: string) => string)) {
-		if (typeof value === "function") {
-			this.state.line = value(this.state.line);
-		} else {
-			this.state.line = value;
-		}
+		this.state.line = typeof value === "function" ? value(this.state.line) : value;
 	}
 
 	/**
@@ -251,6 +272,8 @@ export class Shell {
 		if (!streams)
 			this.pushHistory({ text: this.state.prompt + input, isCommand: true, value: input });
 
+		input = this.env.expand(input);
+
 		const commandStrings = input.match(/(?:[^|"]+|"[^"]*")+/g)
 			?.map((string) => string.trim())
 			.filter((string) => string !== "") ?? [];
@@ -304,6 +327,10 @@ export class Shell {
 		}).reverse();
 
 		const exitCodes = await Promise.all(tasks);
+		const finalExitCode = exitCodes[exitCodes.length - 1] ?? EXIT_CODE.success;
+
+		this.env.set("?", finalExitCode.toString());
+		this.updateEnvironmentState();
 
 		if (!streams && this.state.ttyBuffer)
 			this.pushHistory({ text: this.state.ttyBuffer, isCommand: false });
@@ -314,7 +341,7 @@ export class Shell {
 		if (!previousStream) 
 			this.state.ttyBuffer = null;
 
-		return exitCodes[exitCodes.length - 1] ?? EXIT_CODE.success;
+		return finalExitCode;
 	}
 
 	/**
@@ -327,6 +354,8 @@ export class Shell {
 
 		try {
 			if (args.length === 0) return EXIT_CODE.generalError;
+
+			if (this.env.parseAssignment(args[0])) return EXIT_CODE.success;
 
 			const commandArgs = [...args];
 			if (commandArgs[0].toLowerCase() === Shell.SUDO_COMMAND) commandArgs.shift();
@@ -369,6 +398,7 @@ export class Shell {
 
 			// Strip quotes from remaining arguments
 			const cleanArgs = commandArgs.map((arg) => arg.replace(/^"|"$/g, ""));
+			
 			const isPiped = this.pipeline.findIndex((process) => process.stdin === stdin) > 0;
 
 			if (command.requireArgs && !cleanArgs.length && !isPiped)
@@ -394,6 +424,7 @@ export class Shell {
 				systemManager: this.config.systemManager,
 				app: this.config.app!,
 				size: this.config.sizeRef.current,
+				env: this.env.fork(),
 			});
 
 			return exitCode ?? EXIT_CODE.success;
@@ -434,6 +465,14 @@ export class Shell {
 	}
 
 	setWorkingDirectory(directory: VirtualFolder) {
+		const path = directory.root ? "/" : directory.path;
+		const previousPath = this.env.get("PWD");
+        
+		if (previousPath !== path) {
+			this.env.set("OLDPWD", previousPath ?? path);
+			this.env.set("PWD", path);
+		}
+
 		this.state.workingDirectory = directory;
 		this.updatePrompt();
 	}
