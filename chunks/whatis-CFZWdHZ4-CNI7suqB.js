@@ -1,2 +1,0 @@
-import{I as s,H as i,V as e,n as u}from"../index.js";const f=new s().setRequireArgs(!0).setManual({purpose:"Show information about a command"}).setExecute(function(n,{stdout:a,stderr:t}){const r=n[0].toLowerCase(),o=i.find(r);if(!o)return e.writeError(t,this.name,`${r}: Command not found`);if(!o.manual?.purpose)return e.writeError(t,this.name,`${r}: No information found`);a.write(`${r} - ${u.green(o.manual.purpose)}
-`)});export{f as whatis};

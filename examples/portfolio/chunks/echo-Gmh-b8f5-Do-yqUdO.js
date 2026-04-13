@@ -1,2 +1,0 @@
-import{I as s}from"../index.js";const a=new s().setManual({purpose:"Display a line of text",usage:"echo [option] [string ...]",description:"Write arguments to the standard output.",options:{"-n":"Do not output the trailing newline"}}).addOption({short:"n",long:"no-newline",isInput:!1}).setExecute(function(t,{stdout:n,options:o}){const e=t.join(" "),i=o.includes("n")?"":`
-`;n.write(e+i)});export{a as echo};

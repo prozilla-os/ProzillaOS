@@ -1,1 +1,0 @@
-import{I as o}from"../index.js";const i=new o().setManual({purpose:"Create a directory"}).setRequireArgs(!0).setExecute(function(t,{workingDirectory:e}){const r=t[0];e.findSubFolder(r)||e.createFolder(r)});export{i as mkdir};
