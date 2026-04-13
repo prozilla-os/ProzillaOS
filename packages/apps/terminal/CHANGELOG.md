@@ -1,5 +1,20 @@
 # @prozilla-os/terminal
 
+## 1.1.23
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/shared@1.3.0
+  - @prozilla-os/core@2.0.1
+
+## 1.1.22
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@2.0.0
+
 ## 1.1.21
 
 ### Patch Changes

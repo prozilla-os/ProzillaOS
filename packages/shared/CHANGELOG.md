@@ -1,5 +1,11 @@
 # @prozilla-os/shared
 
+## 1.3.0
+
+### Minor Changes
+
+- Added Vector2 class, added logging utils
+
 ## 1.2.1
 
 ### Patch Changes

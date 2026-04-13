@@ -1,5 +1,18 @@
 # @prozilla-os/core
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/shared@1.3.0
+
+## 2.0.0
+
+### Major Changes
+
+- Added unix-like shell emulator, removed Vector2 class, added storage compression, fixed WebView focus handling
+
 ## 1.3.14
 
 ### Patch Changes

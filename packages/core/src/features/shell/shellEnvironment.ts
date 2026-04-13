@@ -8,8 +8,24 @@ export class ShellEnvironment {
 	parent: ShellEnvironment | null = null;
 	exportedKeys: Set<string> = new Set();
 
+	static readonly USER = "USER";
+	static readonly HOSTNAME = "HOSTNAME";
+	static readonly WORKING_DIRECTORY = "PWD";
+	static readonly PREVIOUS_WORKING_DIRECTORY = "OLDPWD";
+
+	static readonly EXIT_CODE = "?";
+	static readonly ARGUMENT_COUNT = "#";
+	static readonly PROCESS_ID = "$";
+
 	/** List of variables that should never be exported. */
-	static readonly INTERNAL_VARS = ["?", "#", "$", "!", "*", "@"];
+	static readonly INTERNAL_VARS = [
+		ShellEnvironment.EXIT_CODE,
+		ShellEnvironment.ARGUMENT_COUNT,
+		ShellEnvironment.PROCESS_ID,
+		"!",
+		"*",
+		"@",
+	];
 
 	constructor(initialVars: Record<string, string> = {}, parent: ShellEnvironment | null = null) {
 		this.store = proxy({

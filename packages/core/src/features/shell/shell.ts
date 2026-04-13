@@ -246,10 +246,10 @@ export class Shell {
 	 * Recalculates the prompt string based on the current user, hostname, and working directory.
 	 */
 	updatePrompt() {
-		const username = this.env.get("USER") ?? USERNAME;
-		const hostname = this.env.get("HOSTNAME") ?? HOSTNAME;
+		const username = this.env.get(ShellEnvironment.USER) ?? USERNAME;
+		const hostname = this.env.get(ShellEnvironment.HOSTNAME) ?? HOSTNAME;
 		this.state.prompt = Ansi.cyan(`${username}@${hostname}`) + ":"
-			+ Ansi.blue(`${this.state.workingDirectory.root ? "/" : this.state.workingDirectory.path}`) + "$ ";
+			+ Ansi.blue(this.env.get(ShellEnvironment.WORKING_DIRECTORY) ?? "") + "$ ";
 	}
 
 	/**
@@ -345,11 +345,11 @@ export class Shell {
 	 */
 	setWorkingDirectory(directory: VirtualFolder) {
 		const path = directory.root ? "/" : directory.path;
-		const previousPath = this.env.get("PWD");
+		const previousPath = this.env.get(ShellEnvironment.WORKING_DIRECTORY);
 		
 		if (previousPath !== path) {
-			this.env.set("OLDPWD", previousPath ?? path);
-			this.env.set("PWD", path);
+			this.env.set(ShellEnvironment.PREVIOUS_WORKING_DIRECTORY, previousPath ?? path);
+			this.env.set(ShellEnvironment.WORKING_DIRECTORY, path);
 		}
 
 		this.state.workingDirectory = directory;
