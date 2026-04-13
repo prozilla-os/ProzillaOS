@@ -1,8 +1,10 @@
+import { proxy } from "valtio";
+
 /**
  * Manages environment variabels for {@link Shell}.
  */
 export class ShellEnvironment {
-	variables: Record<string, string> = {};
+	store: Record<string, string> = {};
 	parent: ShellEnvironment | null = null;
 	exportedKeys: Set<string> = new Set();
 
@@ -10,14 +12,14 @@ export class ShellEnvironment {
 	static readonly INTERNAL_VARS = ["?", "#", "$", "!", "*", "@"];
 
 	constructor(initialVars: Record<string, string> = {}, parent: ShellEnvironment | null = null) {
-		this.variables = {
+		this.store = proxy({
 			"?": "0",
 			"$": Math.floor(Math.random() * 100000).toString(),
 			...initialVars,
-		};
+		});
 		this.parent = parent;
 		
-		Object.keys(this.variables).forEach((key) => {
+		Object.keys(this.store).forEach((key) => {
 			if (!ShellEnvironment.INTERNAL_VARS.includes(key)) {
 				this.exportedKeys.add(key);
 			}
@@ -26,13 +28,13 @@ export class ShellEnvironment {
 
 	get(key: string): string | undefined {
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (this.variables[key] !== undefined)
-			return this.variables[key];
+		if (this.store[key] !== undefined)
+			return this.store[key];
 		return this.parent?.get(key);
 	}
 
 	set(key: string, value: string, isExported: boolean = false) {
-		this.variables[key] = value;
+		this.store[key] = value;
 		if (isExported && !ShellEnvironment.INTERNAL_VARS.includes(key))
 			this.exportedKeys.add(key);
 	}
@@ -49,7 +51,7 @@ export class ShellEnvironment {
 	 * Replaces variable placeholders in a string with their corresponding values.
 	 */
 	expand(input: string) {
-		const variables = this.allVariables;
+		const variables = this.variables;
 		return input.replace(/\$(?:\{([a-zA-Z_][a-zA-Z0-9_]*)\}|([a-zA-Z_][a-zA-Z0-9_]*|[?$#!*]))/g, (_match, braced?: string, plain?: string) => {
 			const key = braced || plain;
 			if (!key) return "";
@@ -80,7 +82,7 @@ export class ShellEnvironment {
 		const currentExported: Record<string, string> = {};
 		
 		this.exportedKeys.forEach((key) => {
-			currentExported[key] = this.variables[key];
+			currentExported[key] = this.store[key];
 		});
 
 		return { ...parentVariables, ...currentExported };
@@ -89,8 +91,8 @@ export class ShellEnvironment {
 	/**
 	 * Returns all variables visible to this scope (including internal).
 	 */
-	get allVariables(): Record<string, string> {
-		return { ...this.parent?.allVariables, ...this.variables };
+	get variables(): Record<string, string> {
+		return { ...this.parent?.variables, ...this.store };
 	}
 
 	/**

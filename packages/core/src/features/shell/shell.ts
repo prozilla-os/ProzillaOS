@@ -11,90 +11,135 @@ import { ShellEnvironment } from "./shellEnvironment";
 import { ShellInterpreter } from "./shellInterpreter";
 import { CommandOutput } from "./command";
 
+/**
+ * Represents a single entry in the shell's output history.
+ */
 export interface HistoryEntry {
+	/** The text content to display. */
 	text?: string;
+	/** Whether this entry represents a user-inputted command. */
 	isCommand: boolean;
+	/** The raw string value of the command. */
 	value?: string;
+	/** If true, the terminal view should be cleared before rendering this entry. */
 	clear?: boolean;
 }
 
+/**
+ * Configuration options for initializing a new Shell instance.
+ */
 export interface ShellConfig {
-	/** The application that owns this shell. */
+	/** The application instance that owns and manages this shell. */
 	app?: App;
-	/** The initial working directory. */
+	/** The initial working directory path (e.g., "~" or "/bin"). */
 	path?: string;
-	/** The initial input. */
+	/** A string to pre-fill the shell input with. */
 	input?: string;
 	virtualRoot: VirtualRoot;
 	systemManager: SystemManager;
 	settingsManager: SettingsManager;
-	/** Function that closes this shell. */
+	/** Callback function to trigger when the shell process should be terminated. */
 	exit: () => void;
-	/** Ref object with the size of the shell, measured in rows and columns. */
+	/** A reactive reference containing the current terminal dimensions in rows and columns. */
 	sizeRef: { current: Vector2 };
+	/** Optional initial environment variables to populate the shell with. */
 	env?: Record<string, string>;
 }
 
+/**
+ * The internal reactive state of the shell.
+ */
 export interface ShellState {
-	/** The history of the shell. */
+	/** An array of all past outputs and commands displayed in the terminal. */
 	history: HistoryEntry[];
-	/** The current input value. */
+	/** The current, unsubmitted text in the input line. */
 	line: string;
-	/** The index of the selected history entry. */
+	/** Current position in the history search (0 is the current line). */
 	historyOffset: number;
-	/** The current working directory. */
+	/** The current directory the shell is operating within. */
 	workingDirectory: VirtualFolder;
+	/** The formatted prompt string (e.g., "user@host:~$ "). */
 	prompt: string;
-	/** The active stream. */
+	/** The current active input stream for a running process. */
 	stream: Stream | null;
-	/** The output of the active stream. */
+	/** Temporary storage for data written to the terminal while a stream is active. */
 	ttyBuffer: string | null;
-	/** Whether the shell is currently using the alternate screen. */
+	/** Indicates if a process has requested the Alternate Screen Buffer (e.g., a text editor). */
 	isUsingAltScreen: boolean;
+	/** A reactive view of the current environment variables. */
 	env: Record<string, string>;
 }
 
+/**
+ * Standard input, output, and error streams for a process.
+ */
 export interface ProcessIO {
-	/** Standard input stream. */
+	/** The stream used to receive input data. */
 	stdin: Stream;
-	/** Standard output stream. */
+	/** The stream used to output standard data. */
 	stdout: Stream;
-	/** Standard error stream. */
+	/** The stream used to output error messages. */
 	stderr: Stream;
 }
 
+/**
+ * Represents an active or pending process within the shell.
+ */
 export interface Process extends ProcessIO {
-	/** Name of the command that is being executed by this process. */
+	/** The executable name or alias being invoked. */
 	commandName: string;
-	/** The parsed arguments for the command. */
+	/** Array of string arguments passed to the command. */
 	args: string[];
 }
 
+/**
+ * The context object provided to command execution functions.
+ */
 export interface ShellContext extends ProcessIO {
+	/** Reference to the parent Shell instance. */
 	shell: Shell;
+	/** The directory where the command was executed. */
 	workingDirectory: VirtualFolder;
+	/** The name of the user executing the command. */
 	username: string;
+	/** The hostname of the virtual system. */
 	hostname: string;
+	/** The full, unparsed command line string (excluding pipes/redirects). */
 	rawLine: string;
+	/** Array of parsed flags in their short form (e.g., ["l", "a"]). */
 	options: string[];
+	/**
+	 * Function to kill the shell session.
+	 * @see {@link Shell.kill}
+	 */
 	exit: () => void;
+	/** Map of option keys in their short form to their provided values. */
 	inputs: Record<string, string>;
+	/** Millisecond timestamp of when the command was started. */
 	timestamp: number;
 	virtualRoot: VirtualRoot;
 	settingsManager: SettingsManager;
 	systemManager: SystemManager;
+	/** The owning application, if any. */
 	app?: App;
+	/** The current dimensions of the terminal window. */
 	readonly size: Vector2;
+	/** The scoped environment variables for this process. */
 	env: ShellEnvironment;
 }
 
 /**
- * Simulates a Unix-like shell.
+ * A Unix-like shell emulator that handles command parsing, environment management, 
+ * autocompletion, and process I/O.
  */
 export class Shell {
+	/** The reactive state of this shell. */
 	state: ShellState;
+	/** The configuration used to initialize this shell. */
 	config: ShellConfig;
+	/** The environment variable manager for this shell. */
 	env: ShellEnvironment;
+	/** The logic handler for parsing and executing command strings. */
 	interpreter: ShellInterpreter;
 
 	static readonly COMMAND_NOT_FOUND_ERROR = "Command not found";
@@ -105,6 +150,7 @@ export class Shell {
 	static readonly INVALID_PATH_ERROR = "No such file or directory";
 
 	static readonly SUDO_COMMAND = "sudo";
+	/** Regex used to strip specific ANSI escape codes from the TTY buffer. */
 	static readonly STRIP_ANSI_REGEX = new RegExp(
 		[ANSI.screen.enterAltBuffer, ANSI.screen.exitAltBuffer, ANSI.screen.clear, ANSI.screen.home]
 			.map((code) => code.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
@@ -115,7 +161,7 @@ export class Shell {
 	constructor(config: ShellConfig) {
 		this.config = config;
 		const workingDirectory = config.virtualRoot.navigateToFolder(config.path ?? "~") ?? config.virtualRoot;
-        
+			
 		this.env = new ShellEnvironment({
 			USER: USERNAME,
 			HOSTNAME: HOSTNAME,
@@ -137,7 +183,7 @@ export class Shell {
 			stream: null,
 			ttyBuffer: null,
 			isUsingAltScreen: false,
-			env: this.env.allVariables,
+			env: this.env.store,
 		});
 
 		this.interpreter = new ShellInterpreter(this);
@@ -145,9 +191,10 @@ export class Shell {
 	}
 
 	/**
-	 * Sends a signal to the shell.
+	 * Sends a signal to the shell or the currently active foreground process.
+	 * @param signal - The signal to send. Defaults to `"SIGTERM"`.
 	 */
-	kill(signal: StreamSignal = "SIGTERM") {
+	terminate(signal: StreamSignal = "SIGTERM") {
 		if (signal === "SIGKILL") {
 			this.config.exit();
 			return;
@@ -160,7 +207,7 @@ export class Shell {
 			// Commit buffer only if not in alt screen
 			if (this.state.ttyBuffer && !this.state.isUsingAltScreen)
 				this.pushHistory({ text: this.state.ttyBuffer, isCommand: false });
-            
+			
 			this.state.stream?.signal(signal);
 			this.state.stream = null;
 			this.state.ttyBuffer = null;
@@ -180,43 +227,51 @@ export class Shell {
 	}
 
 	/**
-	 * Sends the interrupt signal to the shell.
+	 * Convenience method to send the `SIGINT` (Interrupt) signal.
+	 * @see {@link Shell.terminate}
 	 */
 	interrupt() {
-		this.kill("SIGINT");
+		this.terminate("SIGINT");
 	}
 
 	/**
-	 * Refreshes the prompt.
+	 * Convenience method to send the `SIGKILL` (Kill) signal, closing the shell.
+	 * @see {@link Shell.terminate}
+	 */
+	kill() {
+		this.terminate("SIGKILL");
+	}
+
+	/**
+	 * Recalculates the prompt string based on the current user, hostname, and working directory.
 	 */
 	updatePrompt() {
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		const username = this.state.env.USER ?? USERNAME;
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		const hostname = this.state.env.HOSTNAME ?? HOSTNAME;
+		const username = this.env.get("USER") ?? USERNAME;
+		const hostname = this.env.get("HOSTNAME") ?? HOSTNAME;
 		this.state.prompt = Ansi.cyan(`${username}@${hostname}`) + ":"
 			+ Ansi.blue(`${this.state.workingDirectory.root ? "/" : this.state.workingDirectory.path}`) + "$ ";
 	}
 
-	updateEnvironmentState() {
-		this.state.env = this.env.allVariables;
-	}
-
 	/**
-	 * Sets the current input value.
+	 * Updates the text in the current input line.
+	 * @param value - The new string value or a function that receives the previous value.
 	 */
 	setLine(value: string | ((prev: string) => string)) {
 		this.state.line = typeof value === "function" ? value(this.state.line) : value;
 	}
 
 	/**
-	 * Adds a new entry to the history.
-	 * @param entry - The entry to add.
+	 * Appends a new entry to the terminal history.
+	 * @param entry - The history entry to add.
 	 */
 	pushHistory(entry: HistoryEntry) {
 		this.state.history.push(entry);
 	}
 
+	/**
+	 * Writes raw text to the shell, handling ANSI escape codes for screen clearing and alt buffers.
+	 * @param text - The string data to write to the TTY.
+	 */
 	write(text: string) {
 		let remainingText = text;
 
@@ -249,9 +304,9 @@ export class Shell {
 	}
 
 	/**
-	 * Clears the input value and parses and executes the given command.
-	 * @param input - The command to run.
-	 * @returns The final exit code.
+	 * Clears the current input line and executes the given command string.
+	 * @param input - The command string to execute.
+	 * @returns A promise that resolves with the final exit code of the execution.
 	 */
 	async run(input: string) {
 		this.clearLine();
@@ -259,7 +314,7 @@ export class Shell {
 	}
 
 	/**
-	 * Resets the current input value.
+	 * Clears the current input line and resets the history search offset.
 	 */
 	clearLine() {
 		this.state.line = "";
@@ -267,11 +322,11 @@ export class Shell {
 	}
 
 	/**
-	 * Replaces the current input value with a history entry based on a direction and the current offset.
-	 * @param direction - The direction to search in.
+	 * Navigates through command history.
+	 * @param direction - Positive to go back in time, negative to go forward.
 	 */
 	historySearch(direction: number) {
-		const inputHistory = this.state.history.filter(({ isCommand: isInput }) => isInput);
+		const inputHistory = this.state.history.filter(({ isCommand }) => isCommand);
 		const index = clamp(this.state.historyOffset + direction, 0, inputHistory.length);
 
 		if (index === this.state.historyOffset) {
@@ -284,10 +339,14 @@ export class Shell {
 		this.state.historyOffset = index;
 	}
 
+	/**
+	 * Changes the current working directory and updates `PWD`/`OLDPWD` environment variables.
+	 * @param directory - The virtual folder to switch to.
+	 */
 	setWorkingDirectory(directory: VirtualFolder) {
 		const path = directory.root ? "/" : directory.path;
 		const previousPath = this.env.get("PWD");
-        
+		
 		if (previousPath !== path) {
 			this.env.set("OLDPWD", previousPath ?? path);
 			this.env.set("PWD", path);
@@ -298,7 +357,8 @@ export class Shell {
 	}
 
 	/**
-	 * Provides completions based on the current input value.
+	 * Calculates possible completions for the current input based on commands and file paths.
+	 * @returns An array of string suggestions.
 	 */
 	getCompletions() {
 		const words = this.state.line.split(" ");
@@ -324,7 +384,7 @@ export class Shell {
 				const pathCompletions = entries
 					.map((entry) => entry.id + (entry.isFolder() ? "/" : ""))
 					.filter((id) => id.startsWith(searchTerm));
-            
+				
 				completions = [...completions, ...pathCompletions];
 			}
 		}
@@ -333,7 +393,8 @@ export class Shell {
 	}
 
 	/**
-	 * Auto-completes the current input value or displays possible completions.
+	 * Performs an auto-completion action. If one match is found, it completes the line. 
+	 * If multiple are found, it lists them in the history.
 	 */
 	autoComplete() {
 		const completions = this.getCompletions();
@@ -343,10 +404,10 @@ export class Shell {
 		const lastWord = parts.pop() ?? "";
 		const commonPrefix = getLongestCommonPrefix(completions);
 
-		// If there's a common prefix longer than the current input, complete it
 		const pathParts = lastWord.split("/");
 		const searchTerm = pathParts.pop() ?? "";
 
+		// If there's a common prefix longer than the current input, complete it
 		if (commonPrefix.length > searchTerm.length) {
 			pathParts.push(commonPrefix);
 			parts.push(pathParts.join("/"));
@@ -354,7 +415,7 @@ export class Shell {
 			return;
 		}
 
-		// Otherwise, handle single match or multiple options
+		// Handle single or multiple matches
 		if (completions.length === 1) {
 			pathParts.push(completions[0]);
 			parts.push(pathParts.join("/"));
@@ -373,28 +434,22 @@ export class Shell {
 	}
 
 	/**
-	 * Writes an error message to the given stream and returns the exit code.
-	 * @param stream - The stream to write the error message to (usually `stderr`).
-	 * @param commandName - The name of the command that has caused the error.
-	 * @param error - The error message.
-	 * @param exitCode - The exit code.
-	 * @returns The exit code.
+	 * Utility to write a formatted error message to a stream and return an exit code.
+	 * @param stream - The stream to receive the error output.
+	 * @param commandName - The name of the command reporting the error.
+	 * @param error - A single string or array of strings representing the error message.
+	 * @param exitCode - The numerical exit code to return.
+	 * @returns `exitCode`.
 	 */
-	static writeError(stream: Stream, commandName: string, error?: string, exitCode?: number): number
-	/**
-	 * Writes an error message to the given stream and returns the exit code.
-	 * @param stream - The stream to write the error message to (usually `stderr`).
-	 * @param commandName - The name of the command that has caused the error.
-	 * @param error - The error messages.
-	 * @param exitCode - The exit code.
-	 * @returns The exit code.
-	 */
-	static writeError(stream: Stream, commandName: string, error: string[], exitCode?: number): number
 	static writeError(stream: Stream, commandName: string, error: string | string[] = Shell.COMMAND_FAILED_ERROR, exitCode: number = EXIT_CODE.generalError): number {
 		stream.write(Ansi.red(`${commandName}: ${typeof error === "string" ? error : error.join(": ")}`));
 		return exitCode;
 	}
 
+	/**
+	 * Executes a frame-based animation in the terminal using the Alternate Screen Buffer.
+	 * @returns A promise that resolves when the animation is stopped.
+	 */
 	static animate({ stdout, stdin, render, delay, clear = true, stopOnBlank = true }: Pick<ShellContext, "stdout" | "stdin"> & {
 		/** The function that renders each frame. */
 		render: (frame: number) => string,
@@ -439,7 +494,11 @@ export class Shell {
 	}
 
 	/**
-	 * Reads input from arguments or falls back to stdin.
+	 * Reads input data. If `rawLine` is provided, it processes it immediately via the callback.
+	 * Otherwise, it waits for data from the `stdin` stream.
+	 * @param rawLine - The pre-provided input string.
+	 * @param stdin - The input stream to fall back on.
+	 * @param callback - Function to process the collected input data.
 	 */
 	static async readInput(rawLine: string, stdin: Stream, callback: (data: string) => CommandOutput) {
 		if (rawLine.length > 0) {

@@ -6,6 +6,10 @@ import { Stream, StreamSignal } from "./stream";
 import { CommandsManager } from "./commands";
 import { removeFromArray } from "@prozilla-os/shared";
 
+/**
+ * Handles the parsing, expansion, and execution of shell commands and scripts.
+ * Manages the process pipeline and stream redirection.
+ */
 export class ShellInterpreter {
 	private shell: Shell;
 	pipeline: Process[] = [];
@@ -14,6 +18,10 @@ export class ShellInterpreter {
 		this.shell = shell;
 	}
 
+	/**
+	 * Sends a termination signal to all processes currently in the pipeline.
+	 * @param signal - The signal to send.
+	 */
 	terminatePipeline(signal: StreamSignal) {
 		if (!this.pipeline.length) return;
 		this.pipeline.forEach((process) => process.stdin.signal(signal));
@@ -22,8 +30,8 @@ export class ShellInterpreter {
 
 	/**
 	 * Parses and executes a shell script.
-	 * @param script - The script to execute.
-	 * @returns The exit code of the last command executed.
+	 * @param script - The script content or a virtual file.
+	 * @returns The exit code of the last command executed in the script.
 	 */
 	async executeScript(script: string | VirtualFile) {
 		if (typeof script !== "string") {
@@ -48,10 +56,10 @@ export class ShellInterpreter {
 	}
 
 	/**
-	 * Parses and executes an input string.
-	 * @param input - The input string.
-	 * @param streams - Optional overrides for output Streams.
-	 * @returns The final exit code.
+	 * Parses and executes an input string, handling environment expansion and piping.
+	 * @param input - The raw command line string.
+	 * @param streams - Optional output streams to override default TTY behavior.
+	 * @returns A promise that resolves with the final exit code of the execution.
 	 */
 	async execute(input: string, streams?: { stdout?: Stream, stderr?: Stream }) {
 		const previousPipeline = this.pipeline;
@@ -62,6 +70,7 @@ export class ShellInterpreter {
 
 		input = this.shell.env.expand(input);
 
+		// Split by pipe operator while respecting quoted strings
 		const commandStrings = input.match(/(?:[^|"]+|"[^"]*")+/g)
 			?.map((string) => string.trim())
 			.filter((string) => string !== "") ?? [];
@@ -106,6 +115,7 @@ export class ShellInterpreter {
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (lastProcess) this.shell.state.stream = ref(lastProcess.stdin);
 
+		// Spawn processes in reverse to support piping stdin and reverse to make order of exit codes correct
 		const tasks = [...this.pipeline].reverse().map((process) => {
 			process.stdin.start();
 			process.stdout.start();
@@ -117,7 +127,6 @@ export class ShellInterpreter {
 		const finalExitCode = exitCodes[exitCodes.length - 1] ?? EXIT_CODE.success;
 
 		this.shell.env.set("?", finalExitCode.toString());
-		this.shell.updateEnvironmentState();
 
 		if (!streams && this.shell.state.ttyBuffer)
 			this.shell.pushHistory({ text: this.shell.state.ttyBuffer, isCommand: false });
@@ -132,9 +141,8 @@ export class ShellInterpreter {
 	}
 
 	/**
-	 * Spawns a new process with input and output streams and runs it.
-	 * @param process - The process to spawn. 
-	 * @returns The exit code of the process.
+	 * Resolves a command, parses flags/options, and executes the command logic.
+	 * @returns The resulting exit code from the command execution.
 	 */
 	async spawn({ stdin, stdout, stderr, commandName, args }: Process) {
 		const timestamp = Date.now();
@@ -154,7 +162,7 @@ export class ShellInterpreter {
 
 			const options: string[] = [];
 			const inputs: Record<string, string> = {};
-            
+			
 			// Only treat as an option if it starts with "-" and is not quoted
 			commandArgs.filter((arg) => arg.startsWith("-") && !arg.startsWith("\"")).forEach((option) => {
 				const addOption = (key: string) => {
@@ -201,7 +209,7 @@ export class ShellInterpreter {
 				hostname: this.shell.env.get("HOSTNAME") ?? HOSTNAME,
 				rawLine: cleanArgs.join(" "),
 				options,
-				exit: () => this.shell.kill("SIGKILL"),
+				exit: () => this.shell.kill(),
 				inputs,
 				timestamp,
 				virtualRoot: this.shell.config.virtualRoot,
@@ -223,6 +231,9 @@ export class ShellInterpreter {
 		}
 	}
 
+	/**
+	 * Splits a command string into an array of arguments, respecting single and double quotes.
+	 */
 	static parseCommand(input: string): string[] {
 		return input.match(/(?:[^\s"']+|"(?:[^"\\]|\\.)*"|'[^']*')+/g) ?? [];
 	}
