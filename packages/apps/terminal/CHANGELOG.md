@@ -1,5 +1,11 @@
 # @prozilla-os/terminal
 
+## 2.0.0
+
+### Major Changes
+
+- Implemented new shell from `@prozilla-os/core`
+
 ## 1.1.23
 
 ### Patch Changes

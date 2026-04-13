@@ -4,11 +4,11 @@ import { ShellContext } from "./shell";
  * Represents a command-line flag or parameter.
  */
 export interface Option {
-	/** The full name of the option (e.g., "all" for --all). */
+	/** The full name of the option (e.g., `"all"` for `--all`). */
 	long: string;
-	/** The single-character alias (e.g., "a" for -a). */
+	/** The single-character alias (e.g., `"a"` for `-a`). */
 	short: string;
-	/** If true, the shell expects a value to follow this option (e.g., --file <name>). */
+	/** If true, the shell expects a value to follow this option (e.g., `--file <name>`). */
 	isInput: boolean;
 }
 
@@ -18,7 +18,7 @@ export interface Option {
 export interface Manual {
 	/** A brief one-line summary of what the command does. */
 	purpose?: string;
-	/** A string representing the syntax (e.g., "ls [OPTION]... [FILE]..."). */
+	/** A string representing the syntax (e.g., `"ls [OPTION]... [FILE]..."`). */
 	usage?: string;
 	/** A detailed explanation of the command's behavior. */
 	description?: string;

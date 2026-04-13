@@ -1,5 +1,18 @@
 # prozilla-os
 
+## 2.0.0
+
+### Major Changes
+
+- Updated dependencies
+
+## 1.3.19
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/terminal@2.0.0
+
 ## 1.3.18
 
 ### Patch Changes
