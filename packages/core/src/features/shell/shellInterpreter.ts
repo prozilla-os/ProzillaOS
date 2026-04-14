@@ -5,6 +5,7 @@ import { Process, Shell } from "./shell";
 import { Stream, StreamSignal } from "./stream";
 import { CommandsManager } from "./commands";
 import { removeFromArray } from "@prozilla-os/shared";
+import { Command } from "./command";
 
 /**
  * Handles the parsing, expansion, and execution of shell commands and scripts.
@@ -34,51 +35,85 @@ export class ShellInterpreter {
 	 * @returns The exit code of the last command executed in the script.
 	 */
 	async executeScript(script: string | VirtualFile) {
-		if (typeof script !== "string") {
+		if (script instanceof VirtualFile) {
 			const content = await script.read();
 			if (!content)
 				return EXIT_CODE.commandNotExecutable;
 			script = content;
 		}
 
-		const lines = script.split("\n");
 		let lastExitCode: number = EXIT_CODE.success;
 
-		for (const line of lines) {
+		for (const line of script.split("\n")) {
 			const commandPart = line.split(/(?<!["'])\s#/)[0].trim();
-			if (!commandPart)
-				continue;
-
-			lastExitCode = await this.execute(commandPart);
+			if (commandPart)
+				lastExitCode = await this.execute(commandPart);
 		}
 
 		return lastExitCode;
 	}
 
 	/**
-	 * Parses and executes an input string, handling environment expansion and piping.
+	 * Parses and executes an input string, handling environment expansion, piping, and conditional chaining (`&&`, `||`).
 	 * @param input - The raw command line string.
 	 * @param streams - Optional output streams to override default TTY behavior.
 	 * @returns A promise that resolves with the final exit code of the execution.
 	 */
 	async execute(input: string, streams?: { stdout?: Stream, stderr?: Stream }) {
-		const previousPipeline = this.pipeline;
-		const previousStream = this.shell.state.stream;
-
 		if (!streams)
 			this.shell.pushHistory({ text: this.shell.state.prompt + input, isCommand: true, value: input });
 
 		input = this.shell.env.expand(input);
 
+		// Split by logical operators while respecting quotes
+		const segments = input.match(/(?:(?:"[^"]*"|'[^']*'|[^&|'"])+|&&|\|\|)/g) ?? [];
+		let lastExitCode: number = EXIT_CODE.success;
+		let operator: "&&" | "||" | null = null;
+
+		for (const segment of segments) {
+			const trimmed = segment.trim();
+			if (!trimmed) continue;
+
+			if (trimmed === "&&" || trimmed === "||") {
+				operator = trimmed;
+				continue;
+			}
+
+			if (operator === "&&" && lastExitCode !== EXIT_CODE.success) break;
+			if (operator === "||" && lastExitCode === EXIT_CODE.success) break;
+			operator = null;
+
+			lastExitCode = await this.executePipeline(trimmed, streams);
+		}
+
+		this.shell.env.set("?", lastExitCode.toString());
+
+		if (!streams) {
+			if (this.shell.state.ttyBuffer)
+				this.shell.pushHistory({ text: this.shell.state.ttyBuffer, isCommand: false });
+			this.shell.state.ttyBuffer = null;
+		}
+
+		return lastExitCode;
+	}
+
+	/**
+	 * Handles the execution of a single command or a pipeline of piped commands.
+	 */
+	async executePipeline(input: string, streams?: { stdout?: Stream, stderr?: Stream }) {
+		const previousPipeline = this.pipeline;
+		const previousStream = this.shell.state.stream;
+
 		// Split by pipe operator while respecting quoted strings
 		const commandStrings = input.match(/(?:[^|"]+|"[^"]*")+/g)
 			?.map((string) => string.trim())
-			.filter((string) => string !== "") ?? [];
+			.filter(Boolean) ?? [];
 
-		if (commandStrings.length === 0) return EXIT_CODE.success;
+		if (!commandStrings.length) return EXIT_CODE.success;
 
 		this.pipeline = commandStrings.map((commandString) => {
-			const args = ShellInterpreter.parseCommand(commandString);
+			const rawArgs = ShellInterpreter.parseCommand(commandString);
+			const args = rawArgs.flatMap((argument) => ShellInterpreter.expandBraces(argument));
 			let commandName = args[0]?.toLowerCase() ?? "";
 
 			if (commandName === Shell.SUDO_COMMAND && args.length > 1)
@@ -95,9 +130,10 @@ export class ShellInterpreter {
 
 		this.pipeline.forEach((process, i) => {
 			const isLast = i === this.pipeline.length - 1;
+			const nextStdin = !isLast ? this.pipeline[i + 1].stdin : null;
 
-			if (!isLast) {
-				process.stdout.pipe(this.pipeline[i + 1].stdin);
+			if (nextStdin) {
+				process.stdout.pipe(nextStdin);
 			} else if (streams?.stdout) {
 				process.stdout.pipe(streams.stdout);
 			} else {
@@ -111,8 +147,7 @@ export class ShellInterpreter {
 			}
 		});
 
-		const lastProcess = this.pipeline[this.pipeline.length - 1];
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		const lastProcess = this.pipeline.at(-1);
 		if (lastProcess) this.shell.state.stream = ref(lastProcess.stdin);
 
 		// Spawn processes in reverse to support piping stdin and reverse to make order of exit codes correct
@@ -124,20 +159,11 @@ export class ShellInterpreter {
 		}).reverse();
 
 		const exitCodes = await Promise.all(tasks);
-		const finalExitCode = exitCodes[exitCodes.length - 1] ?? EXIT_CODE.success;
-
-		this.shell.env.set("?", finalExitCode.toString());
-
-		if (!streams && this.shell.state.ttyBuffer)
-			this.shell.pushHistory({ text: this.shell.state.ttyBuffer, isCommand: false });
 
 		this.pipeline = previousPipeline;
 		this.shell.state.stream = previousStream;
 
-		if (!previousStream) 
-			this.shell.state.ttyBuffer = null;
-
-		return finalExitCode;
+		return exitCodes.at(-1) ?? EXIT_CODE.success;
 	}
 
 	/**
@@ -148,8 +174,7 @@ export class ShellInterpreter {
 		const timestamp = Date.now();
 
 		try {
-			if (args.length === 0) return EXIT_CODE.generalError;
-
+			if (!args.length) return EXIT_CODE.generalError;
 			if (this.shell.env.parseAssignment(args[0])) return EXIT_CODE.success;
 
 			const commandArgs = [...args];
@@ -160,39 +185,10 @@ export class ShellInterpreter {
 			if (!command)
 				return Shell.writeError(stderr, commandName, Shell.COMMAND_NOT_FOUND_ERROR, EXIT_CODE.commandNotFound);
 
-			const options: string[] = [];
-			const inputs: Record<string, string> = {};
-			
-			// Only treat as an option if it starts with "-" and is not quoted
-			commandArgs.filter((arg) => arg.startsWith("-") && !arg.startsWith("\"")).forEach((option) => {
-				const addOption = (key: string) => {
-					const commandOption = command.getOption(key);
-					key = commandOption?.short ?? key;
-
-					if (options.includes(key))
-						return;
-
-					options.push(key);
-
-					if (commandOption?.isInput) {
-						const index = commandArgs.indexOf(option);
-						const value = commandArgs[index + 1];
-						inputs[commandOption.short] = value;
-						removeFromArray(value, commandArgs);
-					}
-				};
-
-				if (option.startsWith("--")) {
-					addOption(option.substring(2).toLowerCase());
-				} else {
-					option.substring(1).split("").forEach((s) => addOption(s));
-				}
-
-				removeFromArray(option, commandArgs);
-			});
+			const { options, inputs } = this.parseOptions(command, commandArgs);
 
 			const cleanArgs = commandArgs.map((arg) => arg.replace(/^"|"$/g, ""));
-			const isPiped = this.pipeline.findIndex((process) => process.stdin === stdin) > 0;
+			const isPiped = this.pipeline.some((process, i) => i > 0 && process.stdin === stdin);
 
 			if (command.requireArgs && !cleanArgs.length && !isPiped)
 				return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_ARGS_ERROR}`]);
@@ -232,9 +228,86 @@ export class ShellInterpreter {
 	}
 
 	/**
+	 * Parses flags and options out of a mutable args array, returning the collected options and
+	 * input values. Flag args are removed from `commandArgs` in place as a side-effect.
+	 * @param command - The command, used to look up option definitions.
+	 * @param commandArgs - The mutable argument list to parse from. Modified in place.
+	 * @returns An object containing the parsed option keys and any input values keyed by the option's short name.
+	 */
+	parseOptions(command: Command, commandArgs: string[]) {
+		const options: string[] = [];
+		const inputs: Record<string, string> = {};
+
+		const flagArgs = commandArgs.filter((arg) => arg.startsWith("-") && !arg.startsWith("\""));
+
+		for (const flag of flagArgs) {
+			const keys = flag.startsWith("--")
+				? [flag.substring(2).toLowerCase()]
+				: flag.substring(1).split("");
+
+			for (const key of keys) {
+				const commandOption = command.getOption(key);
+				const optionKey = commandOption?.short ?? key;
+
+				if (options.includes(optionKey))
+					continue;
+				options.push(optionKey);
+
+				if (commandOption?.isInput) {
+					const index = commandArgs.indexOf(flag);
+					const value = commandArgs[index + 1];
+					inputs[commandOption.short] = value;
+					removeFromArray(value, commandArgs);
+				}
+			}
+
+			removeFromArray(flag, commandArgs);
+		}
+
+		return { options, inputs };
+	}
+
+	/**
 	 * Splits a command string into an array of arguments, respecting single and double quotes.
 	 */
-	static parseCommand(input: string): string[] {
+	static parseCommand(input: string) {
 		return input.match(/(?:[^\s"']+|"(?:[^"\\]|\\.)*"|'[^']*')+/g) ?? [];
+	}
+
+	/**
+	 * Expands braces in a shell argument (e.g., "file{1..3}.txt" or "img.{jpg,png}").
+	 * Supports nested expansion and numeric sequences.
+	 */
+	static expandBraces(argument: string): string[] {
+		if (argument.startsWith("'") || argument.startsWith("\"")) return [argument];
+
+		const braceMatch = argument.match(/\{([^{}]+)\}/);
+		if (!braceMatch) return [argument];
+
+		const [fullMatch, innerContent] = braceMatch;
+		const prefix = argument.slice(0, braceMatch.index);
+		const suffix = argument.slice((braceMatch.index ?? 0) + fullMatch.length);
+
+		const sequenceMatch = innerContent.match(/^(\d+)\.\.(\d+)$/);
+		if (sequenceMatch) {
+			const start = parseInt(sequenceMatch[1]);
+			const end = parseInt(sequenceMatch[2]);
+			const step = start <= end ? 1 : -1;
+			const expanded: string[] = [];
+
+			for (let i = start; i !== end + step; i += step) {
+				expanded.push(...this.expandBraces(`${prefix}${i}${suffix}`));
+			}
+
+			return expanded;
+		}
+
+		if (innerContent.includes(",")) {
+			return innerContent
+				.split(",")
+				.flatMap((part) => this.expandBraces(`${prefix}${part}${suffix}`));
+		}
+
+		return [argument];
 	}
 }

@@ -13,12 +13,12 @@ export const printenv = new Command()
 			args.forEach((arg) => {
 				const value = exportedVars[arg];
 				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-				if (value !== undefined) stdout.write(`${value}\n`);
+				if (value !== undefined) stdout.write(`${value}`);
 			});
 			return;
 		}
 
 		Object.entries(exportedVars).forEach(([key, value]) => {
-			stdout.write(`${key}=${value}\n`);
+			stdout.write(`${key}=${value}`);
 		});
 	});
