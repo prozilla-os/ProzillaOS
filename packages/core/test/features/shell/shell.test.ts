@@ -46,27 +46,29 @@ describe("Shell", () => {
 		expect(shell.state.line).toBe("");
 	});
 
-	it("readInput should prioritize rawLine over stdin", async () => {
-		const stdin = new Stream().start();
-		const callback = vi.fn().mockReturnValue(EXIT_CODE.success);
+	describe("readInput", () => {
+		it("should prioritize rawLine over stdin", async () => {
+			const stdin = new Stream().start();
+			const callback = vi.fn().mockReturnValue(EXIT_CODE.success);
         
-		const result = await Shell.readInput("direct input", stdin, callback);
+			const result = await Shell.readInput("direct input", stdin, callback);
         
-		expect(callback).toHaveBeenCalledWith("direct input");
-		expect(result).toBe(EXIT_CODE.success);
-	});
+			expect(callback).toHaveBeenCalledWith("direct input");
+			expect(result).toBe(EXIT_CODE.success);
+		});
 
-	it("readInput should wait for stdin if rawLine is empty", async () => {
-		const stdin = new Stream().start();
-		const callback = vi.fn().mockReturnValue(EXIT_CODE.success);
+		it("should wait for stdin if rawLine is empty", async () => {
+			const stdin = new Stream().start();
+			const callback = vi.fn().mockReturnValue(EXIT_CODE.success);
         
-		const promise = Shell.readInput("", stdin, callback);
+			const promise = Shell.readInput("", stdin, callback);
         
-		stdin.write("piped data");
-		stdin.stop();
+			stdin.write("piped data");
+			stdin.stop();
         
-		const result = await promise;
-		expect(callback).toHaveBeenCalledWith("piped data");
-		expect(result).toBe(EXIT_CODE.success);
+			const result = await promise;
+			expect(callback).toHaveBeenCalledWith("piped data");
+			expect(result).toBe(EXIT_CODE.success);
+		});
 	});
 });

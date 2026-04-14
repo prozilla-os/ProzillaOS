@@ -1,21 +1,20 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { Shell, ShellConfig } from "../../../src/features";
+import { Shell } from "../../../src/features";
 import { MockSystemManager } from "../system/system.utils";
 import { MockVirtualRoot } from "../virtual-drive/virtualDrive.utils";
 import { MockSettingsManager } from "../settings/settings.utils";
 import { Vector2 } from "@prozilla-os/shared";
 import { EXIT_CODE } from "../../../src/constants";
 
-describe("Shell Integration", () => {
+describe("Shell", () => {
 	let shell: Shell;
-	let mockConfig: ShellConfig;
 
 	beforeEach(() => {
 		const mockSystemManager = new MockSystemManager();
 		const mockVirtualRoot = new MockVirtualRoot(mockSystemManager);
 		const mockSettingsManager = new MockSettingsManager(mockVirtualRoot);
 
-		mockConfig = {
+		const mockConfig = {
 			systemManager: mockSystemManager,
 			virtualRoot: mockVirtualRoot,
 			settingsManager: mockSettingsManager,

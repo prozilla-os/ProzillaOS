@@ -301,9 +301,8 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 			currentDirectory = getDirectory(segment, i === 0);
 		}
 
-		const lastSegment = segments[segments.length - 1];
-
-		if (lastSegment === "") {
+		const lastSegment = segments.at(-1);
+		if (!lastSegment) {
 			return currentDirectory;
 		} else if (currentDirectory != null && currentDirectory.isFolder()) {
 			const folder = currentDirectory.findSubFolder(lastSegment);

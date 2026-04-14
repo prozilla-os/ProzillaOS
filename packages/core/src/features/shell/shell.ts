@@ -362,7 +362,7 @@ export class Shell {
 	 */
 	getCompletions() {
 		const words = this.state.line.split(" ");
-		const lastWord = words[words.length - 1] ?? "";
+		const lastWord = words.at(-1) ?? "";
 		const isFirstWord = words.length <= 1;
 
 		let completions: string[] = [];
