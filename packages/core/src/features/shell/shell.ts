@@ -1,4 +1,4 @@
-import { proxy } from "valtio";
+import { proxy, ref } from "valtio";
 import { Stream, StreamSignal } from "./stream";
 import { CommandsManager } from "./commands";
 import { ANSI, Ansi, clamp, getLongestCommonPrefix, Vector2 } from "@prozilla-os/shared";
@@ -178,7 +178,7 @@ export class Shell {
 			}],
 			line: config.input ?? "",
 			historyOffset: 0,
-			workingDirectory: workingDirectory,
+			workingDirectory: ref(workingDirectory),
 			prompt: "",
 			stream: null,
 			ttyBuffer: null,

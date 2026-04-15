@@ -1,6 +1,6 @@
 import { VirtualRoot } from "./root/virtualRoot";
-import { VirtualFile } from "./file";
-import { VirtualFolder } from "./folder";
+import { VirtualFile, VirtualFileLink } from "./file";
+import { VirtualFolder, VirtualFolderLink } from "./folder";
 import { EventEmitter } from "@prozilla-os/shared";
 
 export interface VirtualBaseJson {
@@ -220,6 +220,10 @@ export class VirtualBase<E extends VirtualBaseEvents = VirtualBaseEvents> extend
 	}
 
 	isFolder(): this is VirtualFolder {
+		return false;
+	}
+
+	isLink(): this is VirtualFileLink | VirtualFolderLink {
 		return false;
 	}
 

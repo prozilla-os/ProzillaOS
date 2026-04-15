@@ -9,8 +9,8 @@ describe("ShellParser", () => {
 			const block = ShellParser.parseScript(script);
 
 			expect(block).toHaveLength(2);
-			expect(block[0]).toEqual({ type: ShellParser.NODE_COMMAND, command: "echo hello" });
-			expect(block[1]).toEqual({ type: ShellParser.NODE_COMMAND, command: "ls -la" });
+			expect(block[0]).toEqual({ type: ShellParser.COMMAND, command: "echo hello" });
+			expect(block[1]).toEqual({ type: ShellParser.COMMAND, command: "ls -la" });
 		});
 
 		it("should parse an if-then-else structure", () => {
@@ -28,9 +28,9 @@ describe("ShellParser", () => {
 			if (node.type === "if") {
 				expect(node.condition).toBe("true");
 				expect(node.thenBranch).toHaveLength(1);
-				expect(node.thenBranch[0]).toEqual({ type: ShellParser.NODE_COMMAND, command: "echo \"yes\"" });
+				expect(node.thenBranch[0]).toEqual({ type: ShellParser.COMMAND, command: "echo \"yes\"" });
 				expect(node.elseBranch).toHaveLength(1);
-				expect(node.elseBranch[0]).toEqual({ type: ShellParser.NODE_COMMAND, command: "echo \"no\"" });
+				expect(node.elseBranch[0]).toEqual({ type: ShellParser.COMMAND, command: "echo \"no\"" });
 			} else {
 				throw new Error("Expected IfNode");
 			}
@@ -44,7 +44,7 @@ describe("ShellParser", () => {
 			if (node.type === "if") {
 				expect(node.elifBranches).toHaveLength(1);
 				expect(node.elifBranches[0].condition).toBe("c");
-				expect(node.elifBranches[0].thenBranch[0]).toEqual({ type: ShellParser.NODE_COMMAND, command: "d" });
+				expect(node.elifBranches[0].thenBranch[0]).toEqual({ type: ShellParser.COMMAND, command: "d" });
 			}
 		});
 
@@ -56,7 +56,7 @@ describe("ShellParser", () => {
 			if (node.type === "while") {
 				expect(node.condition).toBe("condition");
 				expect(node.body).toHaveLength(1);
-				expect(node.body[0]).toEqual({ type: ShellParser.NODE_COMMAND, command: "task" });
+				expect(node.body[0]).toEqual({ type: ShellParser.COMMAND, command: "task" });
 			}
 		});
 
@@ -69,7 +69,7 @@ describe("ShellParser", () => {
 				expect(node.variableName).toBe("i");
 				expect(node.items).toEqual(["1", "2", "3"]);
 				expect(node.body).toHaveLength(1);
-				expect(node.body[0]).toEqual({ type: ShellParser.NODE_COMMAND, command: "echo $i" });
+				expect(node.body[0]).toEqual({ type: ShellParser.COMMAND, command: "echo $i" });
 			}
 		});
 	});

@@ -29,8 +29,8 @@ export class ShellEnvironment {
 
 	constructor(initialVars: Record<string, string> = {}, parent: ShellEnvironment | null = null) {
 		this.store = proxy({
-			"?": "0",
-			"$": Math.floor(Math.random() * 100000).toString(),
+			[ShellEnvironment.EXIT_CODE]: "0",
+			[ShellEnvironment.PROCESS_ID]: Math.floor(Math.random() * 100000).toString(),
 			...initialVars,
 		});
 		this.parent = parent;

@@ -4,7 +4,7 @@ import { ShellParser } from "./shellParser";
  * Represents a basic shell command to be executed.
  */
 export interface CommandNode {
-	type: typeof ShellParser.NODE_COMMAND;
+	type: typeof ShellParser.COMMAND;
 	/** The raw command string including its arguments. */
 	command: string;
 }
@@ -13,7 +13,7 @@ export interface CommandNode {
  * Represents a conditional branching structure.
  */
 export interface IfNode {
-	type: typeof ShellParser.NODE_IF;
+	type: typeof ShellParser.IF;
 	/** The shell command or expression used as the truth condition. */
 	condition: string;
 	/** The block to execute if the primary condition is met. */
@@ -33,7 +33,7 @@ export interface IfNode {
  * Represents a 'while' loop structure.
  */
 export interface WhileNode {
-	type: typeof ShellParser.NODE_WHILE;
+	type: typeof ShellParser.WHILE;
 	/** The condition checked before each iteration. */
 	condition: string;
 	/** The nodes to be executed repeatedly while the condition remains successful. */
@@ -44,7 +44,7 @@ export interface WhileNode {
  * Represents a 'for' loop structure for iterating over a list of items.
  */
 export interface ForNode {
-	type: typeof ShellParser.NODE_FOR;
+	type: typeof ShellParser.FOR;
 	/** The name of the environment variable assigned to the current item. */
 	variableName: string;
 	/** The list of raw strings or patterns to iterate over. */
@@ -54,9 +54,20 @@ export interface ForNode {
 }
 
 /**
+ * Represents an assigment of an environment variable.
+ */
+export interface AssignmentNode {
+	type: typeof ShellParser.ASSIGNMENT;
+	/** The name of the environment variable to assign. */
+	name: string;
+	/** The value to assign to the variable. */
+	value: string;
+}
+
+/**
  * Represents a node in the shell's Abstract Syntax Tree (AST).
  */
-export type Node = CommandNode | IfNode | WhileNode | ForNode;
+export type Node = CommandNode | IfNode | WhileNode | ForNode | AssignmentNode;
 
 /**
  * A sequence of AST nodes representing a block of code.

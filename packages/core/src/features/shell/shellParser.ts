@@ -19,10 +19,11 @@ export class ShellParser {
 	static readonly KEYWORD_DONE = "done";
 	static readonly KEYWORD_IN = "in";
 
-	static readonly NODE_COMMAND = "command";
-	static readonly NODE_IF = "if";
-	static readonly NODE_WHILE = "while";
-	static readonly NODE_FOR = "for";
+	static readonly COMMAND = "command";
+	static readonly IF = "if";
+	static readonly WHILE = "while";
+	static readonly FOR = "for";
+	static readonly ASSIGNMENT = "assignment";
 
 	/**
 	 * High-level method to transform a raw script string into a structured AST.
@@ -138,9 +139,21 @@ export class ShellParser {
 				case "":
 					index++;
 					break;
-				default:
-					nodes.push({ type: this.NODE_COMMAND, command: line });
+				default: {
+					const isAssignment = /^[a-zA-Z_][a-zA-Z0-9_]*=/.test(line);
+
+					if (isAssignment) {
+						const [name, ...valueParts] = line.split("=");
+						nodes.push({ 
+							type: this.ASSIGNMENT, 
+							name: name.trim(), 
+							value: valueParts.join("=").trim(), 
+						});
+					} else {
+						nodes.push({ type: this.COMMAND, command: line });
+					}
 					index++;
+				}
 			}
 		}
 
@@ -198,7 +211,7 @@ export class ShellParser {
 
 		if (currentEndToken === this.KEYWORD_FI) index++;
 
-		const node: ShellAST.IfNode = { type: this.NODE_IF, condition, thenBranch, elifBranches, elseBranch };
+		const node: ShellAST.IfNode = { type: this.IF, condition, thenBranch, elifBranches, elseBranch };
 		return { node, nextIndex: index };
 	}
 
@@ -252,7 +265,7 @@ export class ShellParser {
 		if (result.endToken === this.KEYWORD_DONE)
 			index++;
 
-		const node: ShellAST.WhileNode = { type: this.NODE_WHILE, condition, body: result.nodes };
+		const node: ShellAST.WhileNode = { type: this.WHILE, condition, body: result.nodes };
 		return { node, nextIndex: index };
 	}
 
@@ -282,7 +295,7 @@ export class ShellParser {
 		if (result.endToken === this.KEYWORD_DONE)
 			index++;
 
-		const node: ShellAST.ForNode = { type: this.NODE_FOR, variableName, items, body: result.nodes };
+		const node: ShellAST.ForNode = { type: this.FOR, variableName, items, body: result.nodes };
 		return { node, nextIndex: index };
 	}
 

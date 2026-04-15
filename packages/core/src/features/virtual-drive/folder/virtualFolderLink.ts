@@ -74,6 +74,10 @@ export class VirtualFolderLink extends VirtualFolder {
 		return object;
 	}
 
+	isLink(): this is VirtualFolderLink {
+		return true;
+	}
+
 	// Point certain methods to linked folder
 
 	setAlias(...args: Parameters<VirtualFolder["setAlias"]>) {

@@ -1,8 +1,8 @@
 import { Theme } from "@prozilla-os/skins";
 import { FILE_SCHEMES } from "../../../constants/virtualDrive.const";
 import { SystemManager } from "../../system/systemManager";
-import { VirtualFile, VirtualFileLink } from "../file";
-import { VirtualFolder, VirtualFolderLink } from "../folder";
+import { VirtualFile } from "../file";
+import { VirtualFolder } from "../folder";
 import { VirtualRoot } from "./virtualRoot";
 
 /**
@@ -94,13 +94,17 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 			if (virtualDriveConfig.defaultData.includeDesktopFolder) {
 				userFolder.createFolder("Desktop", (desktopFolder) => {
 					desktopFolder.createFileLink("Info.md", (fileLink) => {
-						(fileLink as VirtualFileLink).setLinkedPath(linkedPaths.info);
+						if (fileLink.isLink())
+							fileLink.setLinkedPath(linkedPaths.info);
 					}).createFileLink("Prozilla.md", (fileLink) => {
-						(fileLink as VirtualFileLink).setLinkedPath(linkedPaths.links);
+						if (fileLink.isLink())
+							fileLink.setLinkedPath(linkedPaths.links);
 					}).createFolderLink("Pictures", (folderLink) => {
-						(folderLink as VirtualFolderLink).setLinkedPath(linkedPaths.images);
+						if (folderLink.isLink())
+							folderLink.setLinkedPath(linkedPaths.images);
 					}).createFolderLink("Documents", (folderLink) => {
-						(folderLink as VirtualFolderLink).setLinkedPath(linkedPaths.documents);
+						if (folderLink.isLink())
+							folderLink.setLinkedPath(linkedPaths.documents);
 					}).createFile("Documentation", undefined, (file) => {
 						file.setSource(FILE_SCHEMES.external + "https://os.prozilla.dev/docs/");
 					});
@@ -117,22 +121,26 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 				});
 			}
 
-			userFolder.createFolder("Videos", (videosFolder) => {
-				videosFolder.setIconUrl(skin.folderIcons.video ?? skin.folderIcons.generic)
-					.createFile("Weezer_Buddy-Holly", "yt", (file) => {
-						file.setSource("https://www.youtube.com/watch?v=kemivUKb4f4");
-					});
-			});
-
-			userFolder.createFolder("Audio", (folder) => {
-				folder.setIconUrl(skin.folderIcons.audio ?? skin.folderIcons.generic)
-					.createFile("Andrew-Applepie_Im-So", "ogg", (file) => {
-						file.setSource("/assets/audio/Andrew-Applepie_Im-So.ogg");
-					})
-					.createFile("Andrew-Applepie_Run-Part-2", "ogg", (file) => {
-						file.setSource("/assets/audio/Andrew-Applepie_Run-Part-2.ogg");
-					});
-			});
+			if (virtualDriveConfig.defaultData.includeVideoFolder) {
+				userFolder.createFolder("Videos", (videosFolder) => {
+					videosFolder.setIconUrl(skin.folderIcons.video ?? skin.folderIcons.generic)
+						.createFile("Weezer_Buddy-Holly", "yt", (file) => {
+							file.setSource("https://www.youtube.com/watch?v=kemivUKb4f4");
+						});
+				});
+			}
+			
+			if (virtualDriveConfig.defaultData.includeAudioFolder) {
+				userFolder.createFolder("Audio", (audioFolder) => {
+					audioFolder.setIconUrl(skin.folderIcons.audio ?? skin.folderIcons.generic)
+						.createFile("Andrew-Applepie_Im-So", "ogg", (file) => {
+							file.setSource("/assets/audio/Andrew-Applepie_Im-So.ogg");
+						})
+						.createFile("Andrew-Applepie_Run-Part-2", "ogg", (file) => {
+							file.setSource("/assets/audio/Andrew-Applepie_Run-Part-2.ogg");
+						});
+				});
+			}
 			
 			if (virtualDriveConfig.defaultData.includeAppsFolder) {
 				userFolder.createFolder("Apps", (appsFolder) => {
@@ -141,6 +149,14 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 							file.setSource(FILE_SCHEMES.app + app.id)
 								.setIconUrl(app.iconUrl);
 						});
+					});
+				});
+			}
+
+			if (virtualDriveConfig.defaultData.includeScriptsFolder) {
+				userFolder.createFolder("Scripts", (scriptsFolder) => {
+					scriptsFolder.createFile("fizzbuzz", "sh", (file) => {
+						file.setSource("/scripts/fizzbuzz.sh");
 					});
 				});
 			}

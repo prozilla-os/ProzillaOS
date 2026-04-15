@@ -65,6 +65,10 @@ export class VirtualFileLink extends VirtualFile {
 		return object;
 	}
 
+	isLink(): this is VirtualFileLink {
+		return true;
+	}
+
 	// Point certain methods to linked file
 
 	setAlias(...args: Parameters<VirtualFile["setAlias"]>) {

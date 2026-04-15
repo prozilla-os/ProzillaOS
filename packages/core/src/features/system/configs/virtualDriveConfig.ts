@@ -39,6 +39,18 @@ export interface VirtualDriveConfigOptions {
 		includePicturesFolder?: boolean;
 
 		/**
+		 * Include audio folder in default data.
+		 * @default true
+		 */
+		includeAudioFolder?: boolean;
+
+		/**
+		 * Include video folder in default data.
+		 * @default true
+		 */
+		includeVideoFolder?: boolean;
+
+		/**
 		 * Include documents folder in default data.
 		 * @default true
 		 */
@@ -61,6 +73,12 @@ export interface VirtualDriveConfigOptions {
 		 * @default true
 		 */
 		includeAppsFolder?: boolean;
+
+		/**
+		 * Include scripts folder in default data.
+		 * @default true
+		 */
+		includeScriptsFolder?: boolean;
 
 		loadData?: (virtualRoot: VirtualRoot) => void;
 	};
@@ -85,6 +103,9 @@ export class VirtualDriveConfig {
 			includeDesktopFolder: true,
 			includeSourceTree: true,
 			includeAppsFolder: true,
+			includeScriptsFolder: true,
+			includeAudioFolder: true,
+			includeVideoFolder: true,
 			...defaultData,
 		};
 	}

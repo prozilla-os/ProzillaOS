@@ -5,7 +5,7 @@ import { Process, Shell } from "./shell";
 import { Stream, StreamSignal } from "./stream";
 import { CommandsManager } from "./commands";
 import { ShellParser } from "./shellParser";
-import { ShellAST } from ".";
+import { ShellAST, ShellEnvironment } from ".";
 
 /**
  * Handles the parsing, expansion, and execution of shell commands and scripts.
@@ -34,9 +34,10 @@ export class ShellInterpreter {
 	/**
 	 * Parses and executes a shell script.
 	 * @param script - The script content or a virtual file.
+	 * @param streams - Optional output streams to override default TTY behavior.
 	 * @returns The exit code of the last command executed in the script.
 	 */
-	public async executeScript(script: string | VirtualFile) {
+	public async executeScript(script: string | VirtualFile, streams?: { stdout?: Stream, stderr?: Stream }) {
 		if (script instanceof VirtualFile) {
 			const content = await script.read();
 			
@@ -47,46 +48,53 @@ export class ShellInterpreter {
 		}
 
 		const block = ShellParser.parseScript(script);
-		return await this.executeBlock(block);
+		return await this.executeBlock(block, streams);
 	}
 
-	private async executeBlock(block: ShellAST.Block) {
+	private async executeBlock(block: ShellAST.Block, streams?: { stdout?: Stream, stderr?: Stream }) {
 		let lastExitCode: number = EXIT_CODE.success;
 
 		for (const node of block) {
-			if (node.type === ShellParser.NODE_COMMAND) {
-				lastExitCode = await this.execute(node.command);
-			} else if (node.type === ShellParser.NODE_IF) {
-				const conditionExitCode = await this.execute(node.condition);
+			if (node.type === ShellParser.COMMAND) {
+				lastExitCode = await this.execute(node.command, streams);
+			} else if (node.type === ShellParser.ASSIGNMENT) {
+				const expandedValue = this.shell.env.expand(node.value);
+				this.shell.env.set(node.name, expandedValue);
+				lastExitCode = EXIT_CODE.success;
+			} else if (node.type === ShellParser.IF) {
+				const conditionExitCode = await this.execute(node.condition, streams);
 
 				if (conditionExitCode === EXIT_CODE.success) {
-					lastExitCode = await this.executeBlock(node.thenBranch);
+					lastExitCode = await this.executeBlock(node.thenBranch, streams);
 				} else {
 					let elifMet = false;
 
 					for (const elif of node.elifBranches) {
-						const elifCode = await this.execute(elif.condition);
-						
+						const elifCode = await this.execute(elif.condition, streams);
+					
 						if (elifCode === EXIT_CODE.success) {
-							lastExitCode = await this.executeBlock(elif.thenBranch);
+							lastExitCode = await this.executeBlock(elif.thenBranch, streams);
 							elifMet = true;
 							break;
 						}
 					}
 
 					if (!elifMet && node.elseBranch.length > 0)
-						lastExitCode = await this.executeBlock(node.elseBranch);
+						lastExitCode = await this.executeBlock(node.elseBranch, streams);
 				}
-			} else if (node.type === ShellParser.NODE_WHILE) {
-				while (await this.execute(node.condition) === EXIT_CODE.success) {
-					lastExitCode = await this.executeBlock(node.body);
+			} else if (node.type === ShellParser.WHILE) {
+				while (await this.execute(node.condition, streams) === EXIT_CODE.success) {
+					lastExitCode = await this.executeBlock(node.body, streams);
 				}
 			} else {
-				const items = node.items.flatMap((item) => ShellParser.expandBraces(item));
+				const items = node.items.flatMap((item) => {
+					const expanded = this.shell.env.expand(item);
+					return ShellParser.expandBraces(expanded);
+				});
 
 				for (const item of items) {
 					this.shell.env.set(node.variableName, item);
-					lastExitCode = await this.executeBlock(node.body);
+					lastExitCode = await this.executeBlock(node.body, streams);
 				}
 			}
 		}
@@ -131,7 +139,7 @@ export class ShellInterpreter {
 			lastExitCode = await this.executePipeline(trimmed, streams);
 		}
 
-		this.shell.env.set("?", lastExitCode.toString());
+		this.shell.env.set(ShellEnvironment.EXIT_CODE, lastExitCode.toString());
 
 		if (!streams) {
 			if (this.shell.state.ttyBuffer)

@@ -6,14 +6,13 @@ export const sh = new Command()
 		purpose: "Execute a shell script",
 	})
 	.setRequireArgs(true)
-	.setExecute(async function(this: Command, args, { stderr, workingDirectory, shell }) {
+	.setExecute(async function(this: Command, args, { stdout, stderr, workingDirectory, shell }) {
 		const path = args[0];
 		const file = workingDirectory.navigateToFile(path);
 
 		if (!file) {
-			Shell.writeError(stderr, this.name, Shell.INVALID_PATH_ERROR);
-			return;
+			return Shell.writeError(stderr, this.name, Shell.INVALID_PATH_ERROR);
 		}
 
-		return await shell.interpreter.executeScript(file);
+		return await shell.interpreter.executeScript(file, { stdout, stderr });
 	});
