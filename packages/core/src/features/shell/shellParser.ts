@@ -66,14 +66,14 @@ export class ShellParser {
 				inDoubleQuote = !inDoubleQuote;
 				currentLine += char;
 			} else if (char === "#" && !inSingleQuote && !inDoubleQuote) {
-				if (currentLine.trim() === "" || currentLine.endsWith(" ")) {
+				const isLineComment = currentLine.trim() === "" || currentLine.endsWith(" ");
+				if (isLineComment) {
 					inComment = true;
 				} else {
 					currentLine += char;
 				}
 			} else if ((char === "\n" || char === ";") && !inSingleQuote && !inDoubleQuote) {
-				if (currentLine.trim())
-					lines.push(currentLine.trim());
+				if (currentLine.trim()) lines.push(currentLine.trim());
 				currentLine = "";
 			} else {
 				currentLine += char;
@@ -82,7 +82,6 @@ export class ShellParser {
 
 		if (currentLine.trim())
 			lines.push(currentLine.trim());
-
 		if (lines.length > 0 && lines[0].startsWith("#!"))
 			lines.shift();
 
@@ -108,31 +107,61 @@ export class ShellParser {
 			if (endTokens.includes(firstWord))
 				return { nodes, nextIndex: index, endToken: firstWord };
 
-			if (firstWord === this.KEYWORD_IF) {
-				const block = this.parseIf(lines, index);
-				nodes.push(block.node);
-				index = block.nextIndex;
-			} else if (firstWord === this.KEYWORD_WHILE) {
-				const block = this.parseWhile(lines, index);
-				nodes.push(block.node);
-				index = block.nextIndex;
-			} else if (firstWord === this.KEYWORD_FOR) {
-				const block = this.parseFor(lines, index);
-				nodes.push(block.node);
-				index = block.nextIndex;
-			} else if (firstWord === this.KEYWORD_THEN || firstWord === this.KEYWORD_DO || !firstWord) {
-				if (tokens.length > 1) {
-					lines[index] = line.substring(line.indexOf(tokens[1]));
-					continue;
+			switch (firstWord) {
+				case this.KEYWORD_IF: {
+					const block = this.parseIf(lines, index);
+					nodes.push(block.node);
+					index = block.nextIndex;
+					break;
 				}
-				index++;
-			} else {
-				nodes.push({ type: this.NODE_COMMAND, command: line });
-				index++;
+				case this.KEYWORD_WHILE: {
+					const block = this.parseWhile(lines, index);
+					nodes.push(block.node);
+					index = block.nextIndex;
+					break;
+				}
+				case this.KEYWORD_FOR: {
+					const block = this.parseFor(lines, index);
+					nodes.push(block.node);
+					index = block.nextIndex;
+					break;
+				}
+				case this.KEYWORD_THEN:
+				case this.KEYWORD_DO:
+					// Strip the keyword if it shares a line with the next command; otherwise skip it.
+					if (tokens.length > 1) {
+						lines[index] = line.substring(line.indexOf(tokens[1]));
+					} else {
+						index++;
+					}
+					break;
+				case "":
+					index++;
+					break;
+				default:
+					nodes.push({ type: this.NODE_COMMAND, command: line });
+					index++;
 			}
 		}
 
 		return { nodes, nextIndex: index };
+	}
+
+	/**
+	 * If `keyword` appears on `lines[index]` and has trailing content, rewrites the line to
+	 * start at that content and returns the same index (so it gets re-processed). Otherwise
+	 * advances past the keyword-only line and returns the incremented index.
+	 */
+	private static advancePastKeyword(lines: string[], index: number, keyword: string): number {
+		const tokens = this.parseCommand(lines[index]);
+		const keywordIndex = tokens.indexOf(keyword);
+
+		if (keywordIndex !== -1 && keywordIndex < tokens.length - 1) {
+			lines[index] = lines[index].substring(lines[index].indexOf(tokens[keywordIndex + 1]));
+			return index;
+		}
+
+		return index + 1;
 	}
 
 	/**
@@ -143,65 +172,68 @@ export class ShellParser {
 	 */
 	private static parseIf(lines: string[], startIndex: number) {
 		let index = startIndex;
-		const line = lines[index];
-		const tokens = this.parseCommand(line);
-		const condition = line.replace(/^if\s+/i, "").split(/;?\s+then(?:\s|$)/i)[0].trim();
-		
-		const thenIndex = tokens.indexOf(this.KEYWORD_THEN);
-		if (thenIndex !== -1 && thenIndex < tokens.length - 1) {
-			lines[index] = line.substring(line.indexOf(tokens[thenIndex + 1]));
-		} else {
-			index++;
-		}
+		const condition = lines[index].replace(/^if\s+/i, "").split(/;?\s+then(?:\s|$)/i)[0].trim();
+		index = this.advancePastKeyword(lines, index, this.KEYWORD_THEN);
 
 		const thenResult = this.parseStatements(lines, index, [this.KEYWORD_ELIF, this.KEYWORD_ELSE, this.KEYWORD_FI]);
 		const thenBranch = thenResult.nodes;
 		index = thenResult.nextIndex;
 		let currentEndToken = thenResult.endToken;
 
-		const elifBranches: { condition: string; thenBranch: ShellAST.Node[] }[] = [];
-		
+		const elifBranches: ShellAST.IfNode["elifBranches"] = [];
 		while (currentEndToken === this.KEYWORD_ELIF) {
-			const elifLine = lines[index];
-			const elifTokens = this.parseCommand(elifLine);
-			const elifCondition = elifLine.replace(/^elif\s+/i, "").split(/;?\s+then(?:\s|$)/i)[0].trim();
-			
-			const elifThenIndex = elifTokens.indexOf(this.KEYWORD_THEN);
-			if (elifThenIndex !== -1 && elifThenIndex < elifTokens.length - 1) {
-				lines[index] = elifLine.substring(elifLine.indexOf(elifTokens[elifThenIndex + 1]));
-			} else {
-				index++;
-			}
-
-			const elifResult = this.parseStatements(lines, index, [this.KEYWORD_ELIF, this.KEYWORD_ELSE, this.KEYWORD_FI]);
-			elifBranches.push({ condition: elifCondition, thenBranch: elifResult.nodes });
-			index = elifResult.nextIndex;
-			currentEndToken = elifResult.endToken;
+			const result = this.parseElifBranch(lines, index);
+			elifBranches.push(result.branch);
+			index = result.nextIndex;
+			currentEndToken = result.endToken;
 		}
 
-		let elseBranch: ShellAST.Node[] = [];
-		
+		let elseBranch: ShellAST.IfNode["elseBranch"] = [];
 		if (currentEndToken === this.KEYWORD_ELSE) {
-			const elseLine = lines[index];
-			const elseTokens = this.parseCommand(elseLine);
-			
-			if (elseTokens.length > 1) {
-				lines[index] = elseLine.substring(elseLine.indexOf(elseTokens[1]));
-			} else {
-				index++;
-			}
-
-			const elseResult = this.parseStatements(lines, index, [this.KEYWORD_FI]);
-			elseBranch = elseResult.nodes;
-			index = elseResult.nextIndex;
-			currentEndToken = elseResult.endToken;
+			const result = this.parseElseBranch(lines, index);
+			elseBranch = result.nodes;
+			index = result.nextIndex;
+			currentEndToken = result.endToken;
 		}
 
-		if (currentEndToken === this.KEYWORD_FI)
-			index++;
+		if (currentEndToken === this.KEYWORD_FI) index++;
 
 		const node: ShellAST.IfNode = { type: this.NODE_IF, condition, thenBranch, elifBranches, elseBranch };
 		return { node, nextIndex: index };
+	}
+
+	/**
+	 * Parses an `elif` branch, returning the branch data and the end token that stopped it.
+	 */
+	private static parseElifBranch(lines: string[], startIndex: number) {
+		let index = startIndex;
+		const condition = lines[index].replace(/^elif\s+/i, "").split(/;?\s+then(?:\s|$)/i)[0].trim();
+		index = this.advancePastKeyword(lines, index, this.KEYWORD_THEN);
+
+		const result = this.parseStatements(lines, index, [this.KEYWORD_ELIF, this.KEYWORD_ELSE, this.KEYWORD_FI]);
+		return {
+			branch: { condition, thenBranch: result.nodes },
+			nextIndex: result.nextIndex,
+			endToken: result.endToken,
+		};
+	}
+
+	/**
+	 * Parses an `else` branch of an `if` block, returning its body and the end token (`fi`).
+	 */
+	private static parseElseBranch(lines: string[], startIndex: number) {
+		let index = startIndex;
+		const tokens = this.parseCommand(lines[index]);
+
+		// Inline content after "else" on the same line.
+		if (tokens.length > 1) {
+			lines[index] = lines[index].substring(lines[index].indexOf(tokens[1]));
+		} else {
+			index++;
+		}
+
+		const result = this.parseStatements(lines, index, [this.KEYWORD_FI]);
+		return { nodes: result.nodes, nextIndex: result.nextIndex, endToken: result.endToken };
 	}
 
 	/**
@@ -212,20 +244,11 @@ export class ShellParser {
 	 */
 	private static parseWhile(lines: string[], startIndex: number) {
 		let index = startIndex;
-		const line = lines[index];
-		const tokens = this.parseCommand(line);
-		const condition = line.replace(/^while\s+/i, "").split(/;?\s+do(?:\s|$)/i)[0].trim();
-		
-		const doIndex = tokens.indexOf(this.KEYWORD_DO);
-		if (doIndex !== -1 && doIndex < tokens.length - 1) {
-			lines[index] = line.substring(line.indexOf(tokens[doIndex + 1]));
-		} else {
-			index++;
-		}
+		const condition = lines[index].replace(/^while\s+/i, "").split(/;?\s+do(?:\s|$)/i)[0].trim();
+		index = this.advancePastKeyword(lines, index, this.KEYWORD_DO);
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_DONE]);
 		index = result.nextIndex;
-
 		if (result.endToken === this.KEYWORD_DONE)
 			index++;
 
@@ -241,27 +264,21 @@ export class ShellParser {
 	 */
 	private static parseFor(lines: string[], startIndex: number) {
 		let index = startIndex;
-		const line = lines[index];
-		const tokens = this.parseCommand(line);
+		const tokens = this.parseCommand(lines[index]);
 		const variableName = tokens[1];
 		const inIndex = tokens.indexOf(this.KEYWORD_IN);
 		const doIndex = tokens.indexOf(this.KEYWORD_DO);
-		
-		let items: string[] = [];
-		const limit = doIndex !== -1 ? doIndex : tokens.length;
 
-		if (inIndex !== -1)
-			items = tokens.slice(inIndex + 1, limit).map((item) => item.replace(/;$/, ""));
-		
-		if (doIndex !== -1 && doIndex < tokens.length - 1) {
-			lines[index] = line.substring(line.indexOf(tokens[doIndex + 1]));
-		} else {
-			index++;
-		}
+		const itemLimit = doIndex !== -1 ? doIndex : tokens.length;
+		const items = inIndex !== -1
+			? tokens.slice(inIndex + 1, itemLimit)
+				.map((item) => item.replace(/;$/, ""))
+			: [];
+
+		index = this.advancePastKeyword(lines, index, this.KEYWORD_DO);
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_DONE]);
 		index = result.nextIndex;
-
 		if (result.endToken === this.KEYWORD_DONE)
 			index++;
 
@@ -279,7 +296,7 @@ export class ShellParser {
 	}
 
 	/**
-	 * Expands braces in a shell argument (e.g., "file{1..3}.txt" or "img.{jpg,png}").
+	 * Expands braces in a shell argument (e.g., `"file{1..3}.txt"` or `"img.{jpg,png}"`).
 	 * Supports nested expansion and numeric sequences.
 	 * @param input - The raw string.
 	 * @returns An array of strings with all permutations expanded.
@@ -289,7 +306,6 @@ export class ShellParser {
 			return [input];
 
 		const braceMatch = input.match(/\{([^{}]+)\}/);
-		
 		if (!braceMatch)
 			return [input];
 
