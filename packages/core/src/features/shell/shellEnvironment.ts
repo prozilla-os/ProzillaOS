@@ -66,12 +66,49 @@ export class ShellEnvironment {
 	/**
 	 * Replaces variable placeholders in a string with their corresponding values.
 	 */
-	expand(input: string) {
-		const variables = this.variables;
-		return input.replace(/\$(?:\{([a-zA-Z_][a-zA-Z0-9_]*)\}|([a-zA-Z_][a-zA-Z0-9_]*|[?$#!*]))/g, (_match, braced?: string, plain?: string) => {
-			const key = braced || plain;
-			if (!key) return "";
-			return variables[key] ?? "";
+	public expand(input: string): string {
+		const expansionPattern = /\${([^}]+)}|\$([a-zA-Z_][a-zA-Z0-9_]*|[0-9#?@*!$])/g;
+
+		return input.replace(expansionPattern, (match: string, curly: string | undefined, simple: string | undefined): string => {
+			const expression = curly ?? simple;
+			if (!expression) return match;
+
+			if (simple)
+				return this.get(simple) ?? "";
+
+			const operatorPattern = /^([^:-=?+]+)(?::([-=?+])(.*))?$/;
+			const operatorMatch = expression.match(operatorPattern);
+        
+			if (!operatorMatch)
+				return this.get(expression) ?? "";
+
+			const name = operatorMatch[1];
+			const operator = operatorMatch[2];
+			const argument = operatorMatch[3];
+
+			const currentValue = this.get(name);
+			const isUnsetOrNull = currentValue === undefined || currentValue === "";
+
+			switch (operator) {
+				case "-":
+					return isUnsetOrNull ? argument : currentValue;
+				case "=":
+					if (isUnsetOrNull) {
+						this.set(name, argument);
+						return argument;
+					}
+					return currentValue;
+				case "+":
+					return isUnsetOrNull ? "" : argument;
+				case "?":
+					if (isUnsetOrNull) {
+						const message = argument || "parameter null or not set";
+						throw new Error(`${name}: ${message}`);
+					}
+					return currentValue;
+				default:
+					return this.get(name) ?? "";
+			}
 		});
 	}
 

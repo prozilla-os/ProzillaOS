@@ -6,6 +6,7 @@ import { Stream, StreamSignal } from "./stream";
 import { CommandsManager } from "./commands";
 import { ShellParser } from "./shellParser";
 import { ShellAST, ShellEnvironment } from ".";
+import { ArithmeticParser } from "./arithmetic/arithmeticParser";
 
 /**
  * Handles the parsing, expansion, and execution of shell commands and scripts.
@@ -13,10 +14,12 @@ import { ShellAST, ShellEnvironment } from ".";
  */
 export class ShellInterpreter {
 	private shell: Shell;
+	private arithmetic: ArithmeticParser;
 	pipeline: Process[] = [];
 
 	constructor(shell: Shell) {
 		this.shell = shell;
+		this.arithmetic = new ArithmeticParser(this.shell.env);
 	}
 
 	/**
@@ -34,85 +37,143 @@ export class ShellInterpreter {
 	/**
 	 * Parses and executes a shell script.
 	 * @param script - The script content or a virtual file.
+	 * @param args - The arguments to execute the script with.
 	 * @param streams - Optional output streams to override default TTY behavior.
 	 * @returns The exit code of the last command executed in the script.
 	 */
-	public async executeScript(script: string | VirtualFile, streams?: { stdout?: Stream, stderr?: Stream }) {
-		if (script instanceof VirtualFile) {
+	public async executeScript(script: string | VirtualFile, args: string[] = [], streams?: { stdout?: Stream, stderr?: Stream }, env: ShellEnvironment = this.shell.env) {
+		let scriptName = "anonymous";
+		if (script instanceof VirtualFile) {			
 			const content = await script.read();
-			
 			if (!content)
 				return EXIT_CODE.commandNotExecutable;
 			
+			scriptName = script.name;
 			script = content;
 		}
 
+		env.set("0", scriptName);
+		env.set("#", args.length.toString());
+		
+		const joinedArgs = args.join(" ");
+		env.set("*", joinedArgs);
+		env.set("@", joinedArgs);
+
+		for (let i = 0; i < args.length; i++) {
+			const positionalIndex = i + 1;
+			env.set(positionalIndex.toString(), args[i]);
+		}
+
 		const block = ShellParser.parseScript(script);
-		return await this.executeBlock(block, streams);
+		return await this.executeBlock(block, streams, env);
 	}
 
-	private async executeBlock(block: ShellAST.Block, streams?: { stdout?: Stream, stderr?: Stream }) {
+	private async executeBlock(block: ShellAST.Block, streams?: { stdout?: Stream, stderr?: Stream }, env: ShellEnvironment = this.shell.env) {
 		let lastExitCode: number = EXIT_CODE.success;
 
 		for (const node of block) {
-			if (node.type === ShellParser.COMMAND) {
-				lastExitCode = await this.execute(node.command, streams);
-			} else if (node.type === ShellParser.ASSIGNMENT) {
-				const expandedValue = this.shell.env.expand(node.value);
-				this.shell.env.set(node.name, expandedValue);
-				lastExitCode = EXIT_CODE.success;
-			} else if (node.type === ShellParser.IF) {
-				const conditionExitCode = await this.execute(node.condition, streams);
+			switch (node.type) {
+				case ShellParser.COMMAND:
+					lastExitCode = await this.execute(node.command, streams, env);
+					break;
+				case ShellParser.ASSIGNMENT: {
+					const expandedValue = env.expand(node.value);
+					env.set(node.name, expandedValue);
+					lastExitCode = EXIT_CODE.success;
+					break;
+				}
+				case ShellParser.ARITHMETIC:
+					lastExitCode = this.evaluateArithmetic(node.expression, env);
+					break;
+				case ShellParser.IF: {
+					const ifBranch = node.ifBranch;
+					const conditionExitCode = await this.executeCondition(ifBranch.condition, streams, env);
 
-				if (conditionExitCode === EXIT_CODE.success) {
-					lastExitCode = await this.executeBlock(node.thenBranch, streams);
-				} else {
-					let elifMet = false;
+					if (conditionExitCode === EXIT_CODE.success) {
+						lastExitCode = await this.executeBlock(ifBranch.thenBranch, streams, env);
+					} else {
+						let elifMet = false;
 
-					for (const elif of node.elifBranches) {
-						const elifCode = await this.execute(elif.condition, streams);
-					
-						if (elifCode === EXIT_CODE.success) {
-							lastExitCode = await this.executeBlock(elif.thenBranch, streams);
-							elifMet = true;
-							break;
+						for (const elif of node.elifBranches) {
+							const elifCode = await this.executeCondition(elif.condition, streams, env);
+						
+							if (elifCode === EXIT_CODE.success) {
+								lastExitCode = await this.executeBlock(elif.thenBranch, streams, env);
+								elifMet = true;
+								break;
+							}
 						}
+
+						if (!elifMet && node.elseBranch.length > 0)
+							lastExitCode = await this.executeBlock(node.elseBranch, streams, env);
 					}
+					break;
+				}
+				case ShellParser.WHILE:
+					while (await this.executeCondition(node.condition, streams, env) === EXIT_CODE.success) {
+						lastExitCode = await this.executeBlock(node.body, streams, env);
+					}
+					break;
+				case ShellParser.FOR_IN: {
+					const items = node.items.flatMap((item) => {
+						const expanded = env.expand(item);
+						return ShellParser.expandBraces(expanded);
+					});
 
-					if (!elifMet && node.elseBranch.length > 0)
-						lastExitCode = await this.executeBlock(node.elseBranch, streams);
+					for (const item of items) {
+						env.set(node.variableName, item);
+						lastExitCode = await this.executeBlock(node.body, streams, env);
+					}
+					break;
 				}
-			} else if (node.type === ShellParser.WHILE) {
-				while (await this.execute(node.condition, streams) === EXIT_CODE.success) {
-					lastExitCode = await this.executeBlock(node.body, streams);
-				}
-			} else {
-				const items = node.items.flatMap((item) => {
-					const expanded = this.shell.env.expand(item);
-					return ShellParser.expandBraces(expanded);
-				});
+				case ShellParser.FOR_EXPRESSION:
+					this.evaluateArithmetic(node.setup.expression, env);
 
-				for (const item of items) {
-					this.shell.env.set(node.variableName, item);
-					lastExitCode = await this.executeBlock(node.body, streams);
-				}
+					while (this.evaluateArithmetic(node.condition.expression, env) === EXIT_CODE.success) {
+						lastExitCode = await this.executeBlock(node.body, streams, env);
+						this.evaluateArithmetic(node.step.expression, env);
+					}
+					break;
+				default:
+					throw new Error("Unknown node: " + JSON.stringify(node));
 			}
 		}
 
 		return lastExitCode;
 	}
 
+	private async executeCondition(condition: ShellAST.ConditionNode["condition"], streams?: { stdout?: Stream, stderr?: Stream }, env: ShellEnvironment = this.shell.env): Promise<number> {
+		return condition.type === ShellParser.ARITHMETIC
+			? this.evaluateArithmetic(condition.expression, env)
+			: await this.execute(condition.command, streams, env);
+	}
+
+	private evaluateArithmetic(expression: string, env: ShellEnvironment): number {
+		const trimmed = expression.trim();
+		if (!trimmed.length)
+			return EXIT_CODE.success;
+
+		try {
+			const result = new ArithmeticParser(env).evaluate(expression);
+			return result !== 0 ? EXIT_CODE.success : EXIT_CODE.generalError;
+		} catch (error) {
+			console.error(error);
+			return EXIT_CODE.generalError;
+		}
+	}
+
 	/**
 	 * Parses and executes an input string, handling environment expansion, piping, and conditional chaining (`&&`, `||`).
 	 * @param input - The raw command line string.
 	 * @param streams - Optional output streams to override default TTY behavior.
+	 * @param env - Optional environment to use.
 	 * @returns A promise that resolves with the final exit code of the execution.
 	 */
-	public async execute(input: string, streams?: { stdout?: Stream, stderr?: Stream }) {
+	public async execute(input: string, streams?: { stdout?: Stream, stderr?: Stream }, env: ShellEnvironment = this.shell.env) {
 		if (!streams)
 			this.shell.pushHistory({ text: this.shell.state.prompt + input, isCommand: true, value: input });
 
-		input = this.shell.env.expand(input);
+		input = env.expand(input);
 
 		// Split by logical operators while respecting quotes
 		const segments = input.match(/(?:(?:"[^"]*"|'[^']*'|[^&|'"]|\|(?![|])|&(?![&]))+|&&|\|\|)/g) ?? [];
@@ -129,17 +190,21 @@ export class ShellInterpreter {
 				continue;
 			}
 
-			if (operator === "&&" && lastExitCode !== EXIT_CODE.success)
-				break;
-			
-			if (operator === "||" && lastExitCode === EXIT_CODE.success)
+			if (operator === "&&" && lastExitCode !== EXIT_CODE.success
+				|| operator === "||" && lastExitCode === EXIT_CODE.success)
 				break;
 			
 			operator = null;
-			lastExitCode = await this.executePipeline(trimmed, streams);
+
+			const isArithmetic = trimmed.startsWith(ShellParser.ARITHMETIC_PREFIX_TOKEN) && trimmed.endsWith(ShellParser.ARITHMETIC_SUFFIX_TOKEN);
+			if (isArithmetic) {
+				lastExitCode = this.evaluateArithmetic(trimmed.substring(ShellParser.ARITHMETIC_PREFIX_TOKEN.length, trimmed.length - ShellParser.ARITHMETIC_SUFFIX_TOKEN.length), env);
+			} else {
+				lastExitCode = await this.executePipeline(trimmed, streams, env);
+			}
 		}
 
-		this.shell.env.set(ShellEnvironment.EXIT_CODE, lastExitCode.toString());
+		env.set(ShellEnvironment.EXIT_CODE, lastExitCode.toString());
 
 		if (!streams) {
 			if (this.shell.state.ttyBuffer)
@@ -153,7 +218,7 @@ export class ShellInterpreter {
 	/**
 	 * Handles the execution of a single command or a pipeline of piped commands.
 	 */
-	private async executePipeline(input: string, streams?: { stdout?: Stream, stderr?: Stream }) {
+	private async executePipeline(input: string, streams?: { stdout?: Stream, stderr?: Stream }, env: ShellEnvironment = this.shell.env) {
 		const previousPipeline = this.pipeline;
 		const previousStream = this.shell.state.stream;
 
@@ -167,7 +232,7 @@ export class ShellInterpreter {
 
 		this.pipeline = commandStrings.map((commandString) => {
 			const rawArgs = ShellParser.parseCommand(commandString);
-			const args = rawArgs.flatMap((argument) => ShellParser.expandBraces(argument));
+			const args = rawArgs.flatMap((argument) => env.expand(argument));
 			let commandName = args[0]?.toLowerCase() ?? "";
 
 			if (commandName === Shell.SUDO_COMMAND && args.length > 1)
@@ -183,22 +248,25 @@ export class ShellInterpreter {
 		});
 
 		this.pipeline.forEach((process, i) => {
+			const isFirst = i === 0;
 			const isLast = i === this.pipeline.length - 1;
-			const nextStdin = !isLast ? this.pipeline[i + 1].stdin : null;
+			const nextProcess = !isLast ? this.pipeline[i + 1] : null;
 
-			if (nextStdin) {
-				process.stdout.pipe(nextStdin);
-			} else if (streams?.stdout) {
-				process.stdout.pipe(streams.stdout);
+			process.stdout.start();
+			process.stderr.start();
+
+			if (isFirst)
+				process.stdin.start();
+
+			if (nextProcess) {
+				process.stdout.pipe(nextProcess.stdin);
 			} else {
-				process.stdout.on(Stream.DATA_EVENT, (data) => this.shell.write(data));
+				const targetStdout = streams?.stdout;
+				process.stdout.on(Stream.DATA_EVENT, (data) => targetStdout ? targetStdout.write(data) : this.shell.write(data));
 			}
 
-			if (streams?.stderr) {
-				process.stderr.pipe(streams.stderr);
-			} else {
-				process.stderr.on(Stream.DATA_EVENT, (data) => this.shell.write(data));
-			}
+			const targetStderr = streams?.stderr;
+			process.stderr.on(Stream.DATA_EVENT, (data) => targetStderr ? targetStderr.write(data) : this.shell.write(data));
 		});
 
 		const lastProcess = this.pipeline.at(-1);
@@ -206,12 +274,9 @@ export class ShellInterpreter {
 			this.shell.state.stream = ref(lastProcess.stdin);
 
 		// Spawn processes in reverse to support piping stdin and reverse to make order of exit codes correct
-		const tasks = [...this.pipeline].reverse().map((process) => {
-			process.stdin.start();
-			process.stdout.start();
-			process.stderr.start();
-			return this.spawn(process);
-		}).reverse();
+		const tasks = [...this.pipeline].reverse()
+			.map((process) => this.spawn(process, env))
+			.reverse();
 
 		const exitCodes = await Promise.all(tasks);
 
@@ -225,43 +290,44 @@ export class ShellInterpreter {
 	 * Resolves a command, parses flags/options, and executes the command logic.
 	 * @returns The resulting exit code from the command execution.
 	 */
-	private async spawn({ stdin, stdout, stderr, commandName, args }: Process) {
+	private async spawn(process: Process, env: ShellEnvironment): Promise<number> {
+		const { stdin, stdout, stderr, commandName, args } = process;
 		const timestamp = Date.now();
 
 		try {
 			if (!args.length)
 				return EXIT_CODE.generalError;
-			if (this.shell.env.parseAssignment(args[0]))
+			if (env.parseAssignment(args[0]))
 				return EXIT_CODE.success;
 
 			const commandArgs = [...args];
 			if (commandArgs[0].toLowerCase() === Shell.SUDO_COMMAND)
 				commandArgs.shift();
-
 			commandArgs.shift();
 
 			const command = CommandsManager.find(commandName);
-			
 			if (!command)
 				return Shell.writeError(stderr, commandName, Shell.COMMAND_NOT_FOUND_ERROR, EXIT_CODE.commandNotFound);
 
 			const { options, inputs } = ShellParser.parseOptions(command, commandArgs);
 			const cleanArgs = commandArgs.map((arg) => arg.replace(/^"|"$/g, ""));
-			const isPiped = this.pipeline.some((process, i) => i > 0 && process.stdin === stdin);
+			
+			const processIndex = this.pipeline.indexOf(process);
+			const isPiped = processIndex > 0;
 
 			if (command.requireArgs && !cleanArgs.length && !isPiped)
 				return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_ARGS_ERROR}`]);
 			if (command.requireOptions && !options.length)
 				return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_OPTIONS_ERROR}`]);
-
+			
 			const exitCode = await command.execute(cleanArgs, {
 				stdin,
 				stdout,
 				stderr,
 				shell: this.shell,
 				workingDirectory: this.shell.state.workingDirectory,
-				username: this.shell.env.get("USER") ?? USERNAME,
-				hostname: this.shell.env.get("HOSTNAME") ?? HOSTNAME,
+				username: env.get("USER") ?? USERNAME,
+				hostname: env.get("HOSTNAME") ?? HOSTNAME,
 				rawLine: cleanArgs.join(" "),
 				options,
 				exit: () => this.shell.kill(),
@@ -272,7 +338,7 @@ export class ShellInterpreter {
 				systemManager: this.shell.config.systemManager,
 				app: this.shell.config.app!,
 				size: this.shell.config.sizeRef.current,
-				env: this.shell.env.fork(),
+				env: env.fork(),
 			});
 
 			return exitCode ?? EXIT_CODE.success;
@@ -280,7 +346,6 @@ export class ShellInterpreter {
 			console.error(error);
 			return Shell.writeError(stderr, commandName);
 		} finally {
-			stdin.stop();
 			stdout.stop();
 			stderr.stop();
 		}

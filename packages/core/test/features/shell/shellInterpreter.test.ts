@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { CommandsManager, Shell, ShellConfig, ShellInterpreter, Stream, Command } from "../../../src/features";
+import { CommandsManager, Shell, ShellConfig, ShellInterpreter, Stream, Command, ShellEnvironment } from "../../../src/features";
 import { EXIT_CODE } from "../../../src/constants";
 import { MockSystemManager } from "../system/system.utils";
 import { MockVirtualRoot } from "../virtual-drive/virtualDrive.utils";
@@ -66,10 +66,12 @@ describe("ShellInterpreter", () => {
 	it("should execute if-then branches based on condition success", async () => {
 		const executeSpy = vi.spyOn(interpreter, "execute");
 
-		const script = "if success; then success; fi";
-		const exitCode = await interpreter.executeScript(script);
+		const env = new ShellEnvironment();
 
-		expect(executeSpy).toHaveBeenCalledWith("success");
+		const script = "if success; then success; fi";
+		const exitCode = await interpreter.executeScript(script, [], {}, env);
+
+		expect(executeSpy).toHaveBeenCalledWith("success", {}, env);
 		expect(exitCode).toBe(EXIT_CODE.success);
 	});
 

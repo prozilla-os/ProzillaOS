@@ -157,6 +157,8 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 				userFolder.createFolder("Scripts", (scriptsFolder) => {
 					scriptsFolder.createFile("fizzbuzz", "sh", (file) => {
 						file.setSource("/scripts/fizzbuzz.sh");
+					}).createFile("helloworld", "sh", (file) => {
+						file.setSource("/scripts/helloworld.sh");
 					});
 				});
 			}

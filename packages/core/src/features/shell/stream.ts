@@ -14,7 +14,8 @@ export interface StreamEvents<T = string> {
  * signaling, and piping between streams.
  */
 export class Stream<T = string> extends EventEmitter<StreamEvents<T>> {
-	enabled = false;
+	private writers = 0;
+	private isStopped = true;
 
 	static readonly DATA_EVENT = "data";
 	static readonly START_EVENT = "start";
@@ -25,10 +26,12 @@ export class Stream<T = string> extends EventEmitter<StreamEvents<T>> {
 	 * Activates the stream and notifies listeners.
 	 */
 	start(callback?: (stream: this) => void): this {
-		if (this.enabled) return this;
-		this.enabled = true;
-		callback?.(this);
-		this.emit(Stream.START_EVENT);
+		this.writers++;
+		if (this.isStopped) {
+			this.isStopped = false;
+			callback?.(this);
+			this.emit(Stream.START_EVENT);
+		}
 		return this;
 	}
 
@@ -36,9 +39,13 @@ export class Stream<T = string> extends EventEmitter<StreamEvents<T>> {
 	 * Deactivates the stream. Subsequent calls to {@link Stream.write} will be ignored.
 	 */
 	stop(): this {
-		if (!this.enabled) return this;
-		this.enabled = false;
-		this.emit(Stream.STOP_EVENT);
+		if (this.writers > 0)
+			this.writers--;
+
+		if (this.writers === 0 && !this.isStopped) {
+			this.isStopped = true;
+			this.emit(Stream.STOP_EVENT);
+		}
 		return this;
 	}
 
@@ -48,6 +55,7 @@ export class Stream<T = string> extends EventEmitter<StreamEvents<T>> {
 	signal(signal: StreamSignal): this {
 		this.emit(Stream.SIGNAL_EVENT, signal);
 		if (signal === "SIGINT" || signal === "SIGKILL" || signal === "SIGTERM") {
+			this.writers = 0;
 			this.stop();
 		}
 		return this;
@@ -57,8 +65,11 @@ export class Stream<T = string> extends EventEmitter<StreamEvents<T>> {
 	 * Broadcasts data to all listeners if the stream is enabled.
 	 */
 	write(data: T): this {
-		if (this.enabled)
+		if (!this.isStopped) {
 			this.emit(Stream.DATA_EVENT, data);
+		} else {
+			console.warn("Data dropped by stream: " + JSON.stringify(data));
+		}
 		return this;
 	}
 
@@ -68,9 +79,13 @@ export class Stream<T = string> extends EventEmitter<StreamEvents<T>> {
 	 * @returns The destination stream to allow for chainable piping.
 	 */
 	pipe(destination: Stream<T>): Stream<T> {
+		destination.start();
+
 		this.on(Stream.DATA_EVENT, (data) => destination.write(data));
-		this.on(Stream.STOP_EVENT, () => destination.stop());
 		this.on(Stream.SIGNAL_EVENT, (signal) => destination.signal(signal));
+		
+		this.on(Stream.STOP_EVENT, () => destination.stop());
+		
 		return destination;
 	}
 
@@ -85,9 +100,10 @@ export class Stream<T = string> extends EventEmitter<StreamEvents<T>> {
 	async wait<U>(value: U): Promise<U>;
 	async wait<U>(value?: U): Promise<U | void> {
 		return new Promise((resolve) => {
-			this.once(Stream.STOP_EVENT, () => {
-				resolve(value);
-			});
+			if (this.isStopped) {
+				return resolve(value);
+			}
+			this.once(Stream.STOP_EVENT, () => resolve(value));
 		});
 	}
 }

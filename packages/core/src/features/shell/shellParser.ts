@@ -19,11 +19,17 @@ export class ShellParser {
 	static readonly KEYWORD_DONE = "done";
 	static readonly KEYWORD_IN = "in";
 
+	static readonly ARITHMETIC_PREFIX_TOKEN = "((";
+	static readonly ARITHMETIC_SUFFIX_TOKEN = "))";
+
 	static readonly COMMAND = "command";
 	static readonly IF = "if";
+	static readonly CONDITIONAL_BLOCK = "conditionalBlock";
 	static readonly WHILE = "while";
-	static readonly FOR = "for";
+	static readonly FOR_IN = "forIn";
+	static readonly FOR_EXPRESSION = "forExpression";
 	static readonly ASSIGNMENT = "assignment";
+	static readonly ARITHMETIC = "arithmetic";
 
 	/**
 	 * High-level method to transform a raw script string into a structured AST.
@@ -46,6 +52,8 @@ export class ShellParser {
 		let inSingleQuote = false;
 		let inDoubleQuote = false;
 		let inComment = false;
+		let parenthesisDepth = 0;
+		let braceDepth = 0;
 
 		for (let i = 0; i < script.length; i++) {
 			const char = script[i];
@@ -62,19 +70,27 @@ export class ShellParser {
 
 			if (char === "'" && !inDoubleQuote) {
 				inSingleQuote = !inSingleQuote;
-				currentLine += char;
 			} else if (char === "\"" && !inSingleQuote) {
 				inDoubleQuote = !inDoubleQuote;
-				currentLine += char;
-			} else if (char === "#" && !inSingleQuote && !inDoubleQuote) {
-				const isLineComment = currentLine.trim() === "" || currentLine.endsWith(" ");
-				if (isLineComment) {
+			} else if (!inSingleQuote && !inDoubleQuote) {
+				if (char === "#" && (currentLine.trim() === "" || currentLine.endsWith(" "))) {
 					inComment = true;
-				} else {
-					currentLine += char;
+					continue;
 				}
-			} else if ((char === "\n" || char === ";") && !inSingleQuote && !inDoubleQuote) {
-				if (currentLine.trim()) lines.push(currentLine.trim());
+				if (char === "(")
+					parenthesisDepth++;
+				if (char === ")")
+					parenthesisDepth--;
+				
+				if (char === "{" && script[i - 1] === "$")
+					braceDepth++;
+				if (char === "}" && braceDepth > 0)
+					braceDepth--;
+			}
+
+			if ((char === "\n" || char === ";") && !inSingleQuote && !inDoubleQuote && parenthesisDepth === 0 && braceDepth === 0) {
+				if (currentLine.trim())
+					lines.push(currentLine.trim());
 				currentLine = "";
 			} else {
 				currentLine += char;
@@ -83,9 +99,6 @@ export class ShellParser {
 
 		if (currentLine.trim())
 			lines.push(currentLine.trim());
-		if (lines.length > 0 && lines[0].startsWith("#!"))
-			lines.shift();
-
 		return lines;
 	}
 
@@ -129,7 +142,6 @@ export class ShellParser {
 				}
 				case this.KEYWORD_THEN:
 				case this.KEYWORD_DO:
-					// Strip the keyword if it shares a line with the next command; otherwise skip it.
 					if (tokens.length > 1) {
 						lines[index] = line.substring(line.indexOf(tokens[1]));
 					} else {
@@ -140,15 +152,14 @@ export class ShellParser {
 					index++;
 					break;
 				default: {
-					const isAssignment = /^[a-zA-Z_][a-zA-Z0-9_]*=/.test(line);
+					const isArithmetic = line.startsWith(this.ARITHMETIC_PREFIX_TOKEN) && line.endsWith(this.ARITHMETIC_SUFFIX_TOKEN);
+					const isAssignment = /^[a-zA-Z_][a-zA-Z0-9_]*(\+|-|\*|\/|%)?=/.test(line);
 
-					if (isAssignment) {
-						const [name, ...valueParts] = line.split("=");
-						nodes.push({ 
-							type: this.ASSIGNMENT, 
-							name: name.trim(), 
-							value: valueParts.join("=").trim(), 
-						});
+					if (isArithmetic) {
+						const expressionLength = 2;
+						nodes.push(this.parseArithmetic(line.substring(expressionLength, line.length - expressionLength)));
+					} else if (isAssignment) {
+						nodes.push(this.parseAssignment(line));
 					} else {
 						nodes.push({ type: this.COMMAND, command: line });
 					}
@@ -185,15 +196,18 @@ export class ShellParser {
 	 */
 	private static parseIf(lines: string[], startIndex: number) {
 		let index = startIndex;
-		const condition = lines[index].replace(/^if\s+/i, "").split(/;?\s+then(?:\s|$)/i)[0].trim();
+		const rawCondition = lines[index].replace(/^if\s+/i, "").split(/;?\s+then(?:\s|$)/i)[0].trim();
+		const condition = this.resolveCondition(rawCondition);
+
 		index = this.advancePastKeyword(lines, index, this.KEYWORD_THEN);
 
 		const thenResult = this.parseStatements(lines, index, [this.KEYWORD_ELIF, this.KEYWORD_ELSE, this.KEYWORD_FI]);
-		const thenBranch = thenResult.nodes;
+		const ifBranch: ShellAST.ConditionalBlockNode = { type: this.CONDITIONAL_BLOCK, condition, thenBranch: thenResult.nodes };
+		
 		index = thenResult.nextIndex;
 		let currentEndToken = thenResult.endToken;
 
-		const elifBranches: ShellAST.IfNode["elifBranches"] = [];
+		const elifBranches: ShellAST.ConditionalBlockNode[] = [];
 		while (currentEndToken === this.KEYWORD_ELIF) {
 			const result = this.parseElifBranch(lines, index);
 			elifBranches.push(result.branch);
@@ -201,7 +215,7 @@ export class ShellParser {
 			currentEndToken = result.endToken;
 		}
 
-		let elseBranch: ShellAST.IfNode["elseBranch"] = [];
+		let elseBranch: ShellAST.Block = [];
 		if (currentEndToken === this.KEYWORD_ELSE) {
 			const result = this.parseElseBranch(lines, index);
 			elseBranch = result.nodes;
@@ -211,7 +225,7 @@ export class ShellParser {
 
 		if (currentEndToken === this.KEYWORD_FI) index++;
 
-		const node: ShellAST.IfNode = { type: this.IF, condition, thenBranch, elifBranches, elseBranch };
+		const node: ShellAST.IfNode = { type: this.IF, ifBranch, elifBranches, elseBranch };
 		return { node, nextIndex: index };
 	}
 
@@ -220,12 +234,20 @@ export class ShellParser {
 	 */
 	private static parseElifBranch(lines: string[], startIndex: number) {
 		let index = startIndex;
-		const condition = lines[index].replace(/^elif\s+/i, "").split(/;?\s+then(?:\s|$)/i)[0].trim();
+		const rawCondition = lines[index].replace(/^elif\s+/i, "").split(/;?\s+then(?:\s|$)/i)[0].trim();
+		const condition = this.resolveCondition(rawCondition);
+
 		index = this.advancePastKeyword(lines, index, this.KEYWORD_THEN);
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_ELIF, this.KEYWORD_ELSE, this.KEYWORD_FI]);
+		const branch: ShellAST.ConditionalBlockNode = {
+			type: this.CONDITIONAL_BLOCK,
+			condition,
+			thenBranch: result.nodes,
+		};
+
 		return {
-			branch: { condition, thenBranch: result.nodes },
+			branch,
 			nextIndex: result.nextIndex,
 			endToken: result.endToken,
 		};
@@ -238,7 +260,6 @@ export class ShellParser {
 		let index = startIndex;
 		const tokens = this.parseCommand(lines[index]);
 
-		// Inline content after "else" on the same line.
 		if (tokens.length > 1) {
 			lines[index] = lines[index].substring(lines[index].indexOf(tokens[1]));
 		} else {
@@ -257,13 +278,14 @@ export class ShellParser {
 	 */
 	private static parseWhile(lines: string[], startIndex: number) {
 		let index = startIndex;
-		const condition = lines[index].replace(/^while\s+/i, "").split(/;?\s+do(?:\s|$)/i)[0].trim();
+		const rawCondition = lines[index].replace(/^while\s+/i, "").split(/;?\s+do(?:\s|$)/i)[0].trim();
+		const condition = this.resolveCondition(rawCondition);
+
 		index = this.advancePastKeyword(lines, index, this.KEYWORD_DO);
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_DONE]);
 		index = result.nextIndex;
-		if (result.endToken === this.KEYWORD_DONE)
-			index++;
+		if (result.endToken === this.KEYWORD_DONE) index++;
 
 		const node: ShellAST.WhileNode = { type: this.WHILE, condition, body: result.nodes };
 		return { node, nextIndex: index };
@@ -276,6 +298,46 @@ export class ShellParser {
 	 * @returns The generated {@link ShellAST.ForNode} and next index.
 	 */
 	private static parseFor(lines: string[], startIndex: number) {
+		const line = lines[startIndex];
+		return /for\s*\(\(/.test(line)
+			? this.parseForExpression(lines, startIndex)
+			: this.parseForIn(lines, startIndex);
+	}
+
+	private static parseForExpression(lines: string[], startIndex: number) {
+		let index = startIndex;
+		const line = lines[index];
+
+		const match = line.match(/for\s*\(\(\s*(.*?)\s*\)\)/);
+		if (!match)
+			throw new Error(`Invalid arithmetic for loop syntax at: ${line}`);
+
+		const parts = match[1].split(";").map((p) => p.trim()).filter(Boolean);
+        
+		const setup = this.parseArithmetic(parts[0] || "0");
+		const condition = this.parseArithmetic(parts[1] || "1");
+		const step = this.parseArithmetic(parts[2] || "0");
+
+		index = this.advancePastKeyword(lines, index, this.KEYWORD_DO);
+
+		const result = this.parseStatements(lines, index, [this.KEYWORD_DONE]);
+		index = result.nextIndex;
+        
+		if (result.endToken === this.KEYWORD_DONE)
+			index++;
+
+		const node: ShellAST.ForExpressionNode = { 
+			type: this.FOR_EXPRESSION, 
+			setup, 
+			condition, 
+			step, 
+			body: result.nodes, 
+		};
+
+		return { node, nextIndex: index };
+	}
+
+	private static parseForIn(lines: string[], startIndex: number) {
 		let index = startIndex;
 		const tokens = this.parseCommand(lines[index]);
 		const variableName = tokens[1];
@@ -284,19 +346,68 @@ export class ShellParser {
 
 		const itemLimit = doIndex !== -1 ? doIndex : tokens.length;
 		const items = inIndex !== -1
-			? tokens.slice(inIndex + 1, itemLimit)
-				.map((item) => item.replace(/;$/, ""))
+			? tokens.slice(inIndex + 1, itemLimit).map((item) => item.replace(/;$/, ""))
 			: [];
 
 		index = this.advancePastKeyword(lines, index, this.KEYWORD_DO);
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_DONE]);
 		index = result.nextIndex;
+		
 		if (result.endToken === this.KEYWORD_DONE)
 			index++;
 
-		const node: ShellAST.ForNode = { type: this.FOR, variableName, items, body: result.nodes };
+		const node: ShellAST.ForInNode = { 
+			type: this.FOR_IN, 
+			variableName, 
+			items, 
+			body: result.nodes, 
+		};
+
 		return { node, nextIndex: index };
+	}
+
+	private static parseAssignment(line: string): ShellAST.AssignmentNode {
+		const assignmentIndex = line.indexOf("=");
+		let name = line.substring(0, assignmentIndex).trim();
+		const rawValue = line.substring(assignmentIndex + 1).trim();
+
+		const operatorMatch = name.match(/(\+|-|\*|\/|%)$/);
+		if (operatorMatch) {
+			const operator = operatorMatch[0];
+			name = name.slice(0, -1).trim();
+            
+			return {
+				type: this.ASSIGNMENT,
+				name,
+				value: `\${${name}}${operator}${rawValue}`,
+			};
+		}
+        
+		return {
+			type: this.ASSIGNMENT,
+			name,
+			value: rawValue,
+		};
+	}
+	
+	private static parseArithmetic(expression: string): ShellAST.ArithmeticNode {
+		return { 
+			type: this.ARITHMETIC, 
+			expression: expression.trim(), 
+		};
+	}
+
+	/**
+	 * Converts a raw string condition into a CommandNode or ArithmeticNode.
+	 */
+	private static resolveCondition(rawCondition: string): ShellAST.CommandNode | ShellAST.ArithmeticNode {
+		const trimmed = rawCondition.trim();
+		if (trimmed.startsWith(this.ARITHMETIC_PREFIX_TOKEN) && trimmed.endsWith(this.ARITHMETIC_SUFFIX_TOKEN)) {
+			const expression = trimmed.substring(2, trimmed.length - 2).trim();
+			return this.parseArithmetic(expression || "0");
+		}
+		return { type: this.COMMAND, command: rawCondition };
 	}
 
 	/**

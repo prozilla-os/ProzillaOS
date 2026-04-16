@@ -16,7 +16,7 @@ for ((i=1; i<=COUNT; i++)); do
 		OUTPUT+="Buzz"
 	fi
 
-	if [ -z "$OUTPUT" ]; then
+	if [[ -z "$OUTPUT" ]]; then
 		echo $i
 	else
 		echo "$OUTPUT"

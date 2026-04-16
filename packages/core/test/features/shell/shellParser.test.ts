@@ -25,10 +25,10 @@ describe("ShellParser", () => {
 
 			expect(nodes).toHaveLength(1);
 			const node = nodes[0];
-			if (node.type === "if") {
-				expect(node.condition).toBe("true");
-				expect(node.thenBranch).toHaveLength(1);
-				expect(node.thenBranch[0]).toEqual({ type: ShellParser.COMMAND, command: "echo \"yes\"" });
+			if (node.type === ShellParser.IF) {
+				expect(node.ifBranch.condition).toEqual({ type: ShellParser.COMMAND, command: "true" });
+				expect(node.ifBranch.thenBranch).toHaveLength(1);
+				expect(node.ifBranch.thenBranch[0]).toEqual({ type: ShellParser.COMMAND, command: "echo \"yes\"" });
 				expect(node.elseBranch).toHaveLength(1);
 				expect(node.elseBranch[0]).toEqual({ type: ShellParser.COMMAND, command: "echo \"no\"" });
 			} else {
@@ -41,9 +41,9 @@ describe("ShellParser", () => {
 			const nodes = ShellParser.parseScript(script);
 
 			const node = nodes[0];
-			if (node.type === "if") {
+			if (node.type === ShellParser.IF) {
 				expect(node.elifBranches).toHaveLength(1);
-				expect(node.elifBranches[0].condition).toBe("c");
+				expect(node.elifBranches[0].condition).toEqual({ type: ShellParser.COMMAND, command: "c" });
 				expect(node.elifBranches[0].thenBranch[0]).toEqual({ type: ShellParser.COMMAND, command: "d" });
 			}
 		});
@@ -53,8 +53,8 @@ describe("ShellParser", () => {
 			const nodes = ShellParser.parseScript(script);
 
 			const node = nodes[0];
-			if (node.type === "while") {
-				expect(node.condition).toBe("condition");
+			if (node.type === ShellParser.WHILE) {
+				expect(node.condition).toEqual({ type: ShellParser.COMMAND, command: "condition" });
 				expect(node.body).toHaveLength(1);
 				expect(node.body[0]).toEqual({ type: ShellParser.COMMAND, command: "task" });
 			}
@@ -65,11 +65,24 @@ describe("ShellParser", () => {
 			const nodes = ShellParser.parseScript(script);
 
 			const node = nodes[0];
-			if (node.type === "for") {
+			if (node.type === ShellParser.FOR_IN) {
 				expect(node.variableName).toBe("i");
 				expect(node.items).toEqual(["1", "2", "3"]);
 				expect(node.body).toHaveLength(1);
 				expect(node.body[0]).toEqual({ type: ShellParser.COMMAND, command: "echo $i" });
+			}
+		});
+
+		it("should parse an arithmetic for loop", () => {
+			const script = "for ((i=0; i<3; i++)); do echo $i; done";
+			const nodes = ShellParser.parseScript(script);
+
+			const node = nodes[0];
+			if (node.type === ShellParser.FOR_EXPRESSION) {
+				expect(node.setup.expression).toBe("i=0");
+				expect(node.condition.expression).toBe("i<3");
+				expect(node.step.expression).toBe("i++");
+				expect(node.body).toHaveLength(1);
 			}
 		});
 	});

@@ -49,6 +49,7 @@
 	},
 	"dependencies": {
 		"commander": "^12.1.0",
+		"expr-eval": "^2.0.2",
 		"pnpm": "^9.15.9"
 	},
 	"devDependencies": {
