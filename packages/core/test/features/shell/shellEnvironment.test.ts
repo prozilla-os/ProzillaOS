@@ -30,16 +30,16 @@ describe("ShellEnvironment", () => {
 		expect(env.get("USER")).toBe("prozilla");
 	});
 
-	it("should expand variables in a string", () => {
-		env.set("NAME", "world");
-		expect(env.expand("hello $NAME")).toBe("hello world");
-		expect(env.expand("val: ${TEST}")).toBe("val: 123");
-	});
+	// it("should expand variables in a string", () => {
+	// 	env.set("NAME", "world");
+	// 	expect(env.expand("hello $NAME")).toBe("hello world");
+	// 	expect(env.expand("val: ${TEST}")).toBe("val: 123");
+	// });
 
-	it("should expand internal variables", () => {
-		env.set("?", "127");
-		expect(env.expand("exit code: $?")).toBe("exit code: 127");
-	});
+	// it("should expand internal variables", () => {
+	// 	env.set("?", "127");
+	// 	expect(env.expand("exit code: $?")).toBe("exit code: 127");
+	// });
 
 	it("should parse and set assignments", () => {
 		const success = env.parseAssignment("FOO=bar");

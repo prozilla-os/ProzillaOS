@@ -23,6 +23,8 @@ export class ShellParser {
 	static readonly ARITHMETIC_SUFFIX_TOKEN = "))";
 
 	static readonly COMMAND = "command";
+	static readonly LOGICAL = "logical";
+	static readonly PIPELINE = "pipeline";
 	static readonly IF = "if";
 	static readonly CONDITIONAL_BLOCK = "conditionalBlock";
 	static readonly WHILE = "while";
@@ -30,6 +32,9 @@ export class ShellParser {
 	static readonly FOR_EXPRESSION = "forExpression";
 	static readonly ASSIGNMENT = "assignment";
 	static readonly ARITHMETIC = "arithmetic";
+	static readonly PARAMETER_EXPANSION = "parameterExpansion";
+	static readonly ARITHMETIC_EXPANSION = "arithmeticExpansion";
+	static readonly COMMAND_SUBSTITUTION = "commandSubstitution";
 
 	/**
 	 * High-level method to transform a raw script string into a structured AST.
@@ -102,6 +107,10 @@ export class ShellParser {
 		return lines;
 	}
 
+	private static getTokens(input: string): string[] {
+		return input.match(/(?:[^\s"']+|"(?:[^"\\]|\\.)*"|'[^']*')+/g) ?? [];
+	}
+
 	/**
 	 * Iteratively parses lines into AST nodes until an end token is reached or lines run out.
 	 * @param lines - The array of tokenized lines.
@@ -115,7 +124,7 @@ export class ShellParser {
 
 		while (index < lines.length) {
 			const line = lines[index];
-			const tokens = this.parseCommand(line);
+			const tokens = this.getTokens(line);
 			const firstWord = tokens[0] ?? "";
 
 			if (endTokens.includes(firstWord))
@@ -141,27 +150,30 @@ export class ShellParser {
 					break;
 				}
 				case this.KEYWORD_THEN:
-				case this.KEYWORD_DO:
+				case this.KEYWORD_DO: {
 					if (tokens.length > 1) {
 						lines[index] = line.substring(line.indexOf(tokens[1]));
 					} else {
 						index++;
 					}
 					break;
-				case "":
+				}
+				case "": {
 					index++;
 					break;
+				}
 				default: {
 					const isArithmetic = line.startsWith(this.ARITHMETIC_PREFIX_TOKEN) && line.endsWith(this.ARITHMETIC_SUFFIX_TOKEN);
 					const isAssignment = /^[a-zA-Z_][a-zA-Z0-9_]*(\+|-|\*|\/|%)?=/.test(line);
 
 					if (isArithmetic) {
-						const expressionLength = 2;
-						nodes.push(this.parseArithmetic(line.substring(expressionLength, line.length - expressionLength)));
+						const prefixLength = this.ARITHMETIC_PREFIX_TOKEN.length;
+						const suffixLength = this.ARITHMETIC_SUFFIX_TOKEN.length;
+						nodes.push(this.parseArithmetic(line.substring(prefixLength, line.length - suffixLength)));
 					} else if (isAssignment) {
 						nodes.push(this.parseAssignment(line));
 					} else {
-						nodes.push({ type: this.COMMAND, command: line });
+						nodes.push(this.parseCommand(line));
 					}
 					index++;
 				}
@@ -176,8 +188,8 @@ export class ShellParser {
 	 * start at that content and returns the same index (so it gets re-processed). Otherwise
 	 * advances past the keyword-only line and returns the incremented index.
 	 */
-	private static advancePastKeyword(lines: string[], index: number, keyword: string): number {
-		const tokens = this.parseCommand(lines[index]);
+	private static advancePastKeyword(lines: string[], index: number, keyword: string) {
+		const tokens = this.getTokens(lines[index]);
 		const keywordIndex = tokens.indexOf(keyword);
 
 		if (keywordIndex !== -1 && keywordIndex < tokens.length - 1) {
@@ -223,7 +235,8 @@ export class ShellParser {
 			currentEndToken = result.endToken;
 		}
 
-		if (currentEndToken === this.KEYWORD_FI) index++;
+		if (currentEndToken === this.KEYWORD_FI)
+			index++;
 
 		const node: ShellAST.IfNode = { type: this.IF, ifBranch, elifBranches, elseBranch };
 		return { node, nextIndex: index };
@@ -258,7 +271,7 @@ export class ShellParser {
 	 */
 	private static parseElseBranch(lines: string[], startIndex: number) {
 		let index = startIndex;
-		const tokens = this.parseCommand(lines[index]);
+		const tokens = this.getTokens(lines[index]);
 
 		if (tokens.length > 1) {
 			lines[index] = lines[index].substring(lines[index].indexOf(tokens[1]));
@@ -285,7 +298,8 @@ export class ShellParser {
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_DONE]);
 		index = result.nextIndex;
-		if (result.endToken === this.KEYWORD_DONE) index++;
+		if (result.endToken === this.KEYWORD_DONE)
+			index++;
 
 		const node: ShellAST.WhileNode = { type: this.WHILE, condition, body: result.nodes };
 		return { node, nextIndex: index };
@@ -304,6 +318,9 @@ export class ShellParser {
 			: this.parseForIn(lines, startIndex);
 	}
 
+	/**
+	 * Converts an array of lines into a {@link ShellAST.ForExpressionNode}.
+	 */
 	private static parseForExpression(lines: string[], startIndex: number) {
 		let index = startIndex;
 		const line = lines[index];
@@ -313,7 +330,7 @@ export class ShellParser {
 			throw new Error(`Invalid arithmetic for loop syntax at: ${line}`);
 
 		const parts = match[1].split(";").map((p) => p.trim()).filter(Boolean);
-        
+		
 		const setup = this.parseArithmetic(parts[0] || "0");
 		const condition = this.parseArithmetic(parts[1] || "1");
 		const step = this.parseArithmetic(parts[2] || "0");
@@ -322,7 +339,7 @@ export class ShellParser {
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_DONE]);
 		index = result.nextIndex;
-        
+		
 		if (result.endToken === this.KEYWORD_DONE)
 			index++;
 
@@ -337,16 +354,19 @@ export class ShellParser {
 		return { node, nextIndex: index };
 	}
 
+	/**
+	 * Converts an array of lines into a {@link ShellAST.ForInNode}.
+	 */
 	private static parseForIn(lines: string[], startIndex: number) {
 		let index = startIndex;
-		const tokens = this.parseCommand(lines[index]);
+		const tokens = this.getTokens(lines[index]);
 		const variableName = tokens[1];
 		const inIndex = tokens.indexOf(this.KEYWORD_IN);
 		const doIndex = tokens.indexOf(this.KEYWORD_DO);
 
 		const itemLimit = doIndex !== -1 ? doIndex : tokens.length;
 		const items = inIndex !== -1
-			? tokens.slice(inIndex + 1, itemLimit).map((item) => item.replace(/;$/, ""))
+			? tokens.slice(inIndex + 1, itemLimit).map((item) => this.parseArgument(item.replace(/;$/, "")))
 			: [];
 
 		index = this.advancePastKeyword(lines, index, this.KEYWORD_DO);
@@ -367,6 +387,9 @@ export class ShellParser {
 		return { node, nextIndex: index };
 	}
 
+	/**
+	 * Converts a line into an {@link ShellAST.AssignmentNode}.
+	 */
 	private static parseAssignment(line: string): ShellAST.AssignmentNode {
 		const assignmentIndex = line.indexOf("=");
 		let name = line.substring(0, assignmentIndex).trim();
@@ -376,21 +399,32 @@ export class ShellParser {
 		if (operatorMatch) {
 			const operator = operatorMatch[0];
 			name = name.slice(0, -1).trim();
-            
-			return {
-				type: this.ASSIGNMENT,
-				name,
-				value: `\${${name}}${operator}${rawValue}`,
-			};
+
+			if (operator === "+") {
+				return {
+					type: this.ASSIGNMENT,
+					name,
+					value: this.parseArgument(`\${${name}}${rawValue}`),
+				};
+			} else {
+				return {
+					type: this.ASSIGNMENT,
+					name,
+					value: this.parseArgument(`$((\${${name}}${operator}${rawValue}))`),
+				};
+			}
 		}
-        
+
 		return {
 			type: this.ASSIGNMENT,
 			name,
-			value: rawValue,
+			value: this.parseArgument(rawValue),
 		};
 	}
 	
+	/**
+	 * Converts an expression string into an {@link ShellAST.ArithmeticNode}.
+	 */
 	private static parseArithmetic(expression: string): ShellAST.ArithmeticNode {
 		return { 
 			type: this.ARITHMETIC, 
@@ -399,24 +433,250 @@ export class ShellParser {
 	}
 
 	/**
-	 * Converts a raw string condition into a CommandNode or ArithmeticNode.
+	 * Converts a condition string into an {@link ShellAST.ExecutableNode}.
 	 */
-	private static resolveCondition(rawCondition: string): ShellAST.CommandNode | ShellAST.ArithmeticNode {
+	private static resolveCondition(rawCondition: string): ShellAST.ExecutableNode {
 		const trimmed = rawCondition.trim();
 		if (trimmed.startsWith(this.ARITHMETIC_PREFIX_TOKEN) && trimmed.endsWith(this.ARITHMETIC_SUFFIX_TOKEN)) {
-			const expression = trimmed.substring(2, trimmed.length - 2).trim();
+			const prefixLength = this.ARITHMETIC_PREFIX_TOKEN.length;
+			const suffixLength = this.ARITHMETIC_SUFFIX_TOKEN.length;
+			const expression = trimmed.substring(prefixLength, trimmed.length - suffixLength).trim();
 			return this.parseArithmetic(expression || "0");
 		}
-		return { type: this.COMMAND, command: rawCondition };
+		return this.parseCommand(rawCondition);
+	}
+
+	private static splitByOperators(input: string, operators: string[]) {
+		let inSingleQuote = false;
+		let inDoubleQuote = false;
+		let depth = 0;
+
+		for (let i = input.length - 1; i >= 0; i--) {
+			const char = input[i];
+		
+			if (char === "'" && !inDoubleQuote) {
+				inSingleQuote = !inSingleQuote;
+			} else if (char === "\"" && !inSingleQuote) {
+				inDoubleQuote = !inDoubleQuote;
+			} else if (!inSingleQuote && !inDoubleQuote) {
+				if (char === ")" || char === "}") depth++;
+				if (char === "(" || char === "{") depth--;
+
+				if (depth === 0) {
+					for (const op of operators) {
+						const opLen = op.length;
+						if (input.substring(i - opLen + 1, i + 1) === op) {
+							return {
+								left: input.substring(0, i - opLen + 1).trim(),
+								operator: op,
+								right: input.substring(i + 1).trim(),
+							};
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
-	 * Splits a command string into an array of arguments, respecting single and double quotes.
-	 * @param input - The raw command line string.
-	 * @returns An array of string tokens/arguments.
+	 * Converts an input string into a {@link ShellAST.ExecutableNode}.
 	 */
-	public static parseCommand(input: string): string[] {
-		return input.match(/(?:[^\s"']+|"(?:[^"\\]|\\.)*"|'[^']*')+/g) ?? [];
+	private static parseCommand(input: string): ShellAST.ExecutableNode {
+		return this.parseLogical(input);
+	}
+
+	/**
+	 * Converts an input string into a {@link ShellAST.ExecutableNode},
+	 * that might contain logical operators.
+	 */
+	private static parseLogical(input: string): ShellAST.ExecutableNode {
+		const split = this.splitByOperators(input, ["&&", "||"]);
+		if (split) {
+			return {
+				type: this.LOGICAL,
+				left: this.parseLogical(split.left),
+				operator: split.operator as "&&" | "||",
+				right: this.parseLogical(split.right),
+			} satisfies ShellAST.LogicalNode;
+		}
+		return this.parsePipeline(input);
+	}
+
+	/**
+	 * Converts an input string into a {@link ShellAST.ExecutableNode},
+	 * that might contain pipes.
+	 */
+	private static parsePipeline(input: string): ShellAST.ExecutableNode {
+		const split = this.splitByOperators(input, ["|"]);
+		if (split) {
+			const leftNode = this.parsePipeline(split.left);
+			const rightNode = this.parseSimpleCommand(split.right);
+		
+			const commands: ShellAST.ExecutableNode[] = leftNode.type === this.PIPELINE 
+				? [...leftNode.commands, rightNode]
+				: [leftNode, rightNode];
+		
+			return { type: this.PIPELINE, commands } satisfies ShellAST.PipelineNode;
+		}
+		return this.parseSimpleCommand(input);
+	}
+
+	/**
+	 * Converts an input string into a {@link ShellAST.CommandNode}.
+	 */
+	private static parseSimpleCommand(input: string): ShellAST.CommandNode {
+		const tokens = this.getTokens(input);
+		const args: ShellAST.Argument[] = tokens.map((token) => this.parseArgument(token));
+
+		return {
+			type: this.COMMAND,
+			args,
+		};
+	}
+
+	/**
+	 * Converts an input string into a {@link ShellAST.ParameterExpansionNode}.
+	 */
+	private static parseParameterExpansion(input: string, startIndex: number) {
+		const nextChar = input[startIndex + 1];
+
+		if (nextChar === "{") {
+			const closingIndex = input.indexOf("}", startIndex);
+			if (closingIndex !== -1) {
+				const content = input.substring(startIndex + 2, closingIndex);
+				const operatorPattern = /^([^:-=?+]+)(?::([-=?+])(.*))?$/;
+				const match = content.match(operatorPattern);
+
+				if (match) {
+					const name = match[1];
+					const operator = match[2] as "-" | "=" | "+" | "?" | undefined;
+					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+					const rawArgument = match[3] ?? "";
+
+					const node: ShellAST.ParameterExpansionNode = {
+						type: this.PARAMETER_EXPANSION,
+						name: name,
+						operator: operator,
+						argument: operator ? this.parseArgument(rawArgument) : undefined,
+					};
+					return { node, nextIndex: closingIndex + 1 };
+				}
+
+				const node: ShellAST.ParameterExpansionNode = {
+					type: this.PARAMETER_EXPANSION,
+					name: content,
+				};
+				return { node, nextIndex: closingIndex + 1 };
+			}
+		} else {
+			let j = startIndex + 1;
+			while (j < input.length && /[a-zA-Z0-9_]/.test(input[j])) {
+				j++;
+			}
+			const node: ShellAST.ParameterExpansionNode = {
+				type: this.PARAMETER_EXPANSION,
+				name: input.substring(startIndex + 1, j),
+			};
+			return { node, nextIndex: j };
+		}
+
+		const fallbackNode: ShellAST.ParameterExpansionNode = {
+			type: this.PARAMETER_EXPANSION,
+			name: "",
+		};
+		return { node: fallbackNode, nextIndex: startIndex + 1 };
+	}
+
+	/**
+	 * Converts an input string into an {@link ShellAST.ArithmeticExpansionNode}.
+	 */
+	private static parseArithmeticExpansion(input: string, startIndex: number) {
+		let depth = 2;
+		const prefixLength = 3;
+		let j = startIndex + prefixLength;
+		
+		while (j < input.length && depth > 0) {
+			if (input[j] === "(") depth++;
+			if (input[j] === ")") depth--;
+			j++;
+		}
+		
+		const suffixLength = 2;
+		const content = input.substring(startIndex + prefixLength, j - suffixLength);
+		const node: ShellAST.ArithmeticExpansionNode = {
+			type: this.ARITHMETIC_EXPANSION,
+			content: this.parseArithmetic(content),
+		};
+		
+		return { node, nextIndex: j };
+	}
+
+	/**
+	 * Converts an input string into a {@link ShellAST.CommandSubstitutionNode}.
+	 */
+	private static parseCommandSubstitution(input: string, startIndex: number) {
+		let depth = 1;
+		const prefixLength = 2;
+		let j = startIndex + prefixLength;
+	
+		while (j < input.length && depth > 0) {
+			if (input[j] === "(") depth++;
+			if (input[j] === ")") depth--;
+			j++;
+		}
+	
+		const suffixLength = 1;
+		const contentString = input.substring(startIndex + prefixLength, j - suffixLength);
+	
+		const node: ShellAST.CommandSubstitutionNode = {
+			type: this.COMMAND_SUBSTITUTION,
+			content: this.parseScript(contentString),
+		};
+	
+		return { node, nextIndex: j };
+	}
+
+	/**
+	 * Converts an input string into an {@link ShellAST.Argument}.
+	 */
+	private static parseArgument(input: string): ShellAST.Argument {
+		const parts: ShellAST.Argument = [];
+		let i = 0;
+
+		while (i < input.length) {
+			const char = input[i];
+
+			if (char === "$" && i + 1 < input.length) {
+				const nextChar = input[i + 1];
+
+				if (nextChar === "(") {
+					const { node, nextIndex } = input[i + 2] === "("
+						? this.parseArithmeticExpansion(input, i)
+						: this.parseCommandSubstitution(input, i);
+						
+					parts.push(node);
+					i = nextIndex;
+					continue;
+				}
+
+				if (nextChar === "{" || /[a-zA-Z_]/.test(nextChar)) {
+					const { node, nextIndex } = this.parseParameterExpansion(input, i);
+					parts.push(node);
+					i = nextIndex;
+					continue;
+				}
+			}
+
+			let textEnd = input.indexOf("$", i + 1);
+			if (textEnd === -1)
+				textEnd = input.length;
+				
+			parts.push(input.substring(i, textEnd));
+			i = textEnd;
+		}
+
+		return parts;
 	}
 
 	/**
@@ -470,32 +730,40 @@ export class ShellParser {
 	public static parseOptions(command: Command, commandArgs: string[]) {
 		const options: string[] = [];
 		const inputs: Record<string, string> = {};
-		const flagArgs = commandArgs.filter((arg) => arg.startsWith("-") && !arg.startsWith("\""));
 
-		for (const flag of flagArgs) {
-			const keys = flag.startsWith("--")
-				? [flag.substring(2).toLowerCase()]
-				: flag.substring(1).split("");
+		for (const flag of commandArgs.filter((arg) => arg.startsWith("-") && !arg.startsWith("\""))) {
+			const isLongFlag = flag.startsWith("--");
+			const keys = isLongFlag ? [flag.slice(2).toLowerCase()] : flag.slice(1).split("");
+
+			const unknownKeys: string[] = [];
+			let anyKnown = false;
 
 			for (const key of keys) {
-				const commandOption = command.getOption(key);
-				const optionKey = commandOption?.short ?? key;
-
-				if (options.includes(optionKey))
+				const option = command.getOption(key);
+				if (!option) {
+					unknownKeys.push(key);
 					continue;
-
-				options.push(optionKey);
-
-				if (commandOption?.isInput) {
+				}
+				anyKnown = true;
+				const optionKey = option.short;
+				if (!options.includes(optionKey))
+					options.push(optionKey);
+				if (option.isInput) {
 					const index = commandArgs.indexOf(flag);
 					const value = commandArgs[index + 1];
-					inputs[commandOption.short] = value;
+					inputs[option.short] = value;
 					removeFromArray(value, commandArgs);
-					removeFromArray(flag, commandArgs);
 				}
 			}
 
-			removeFromArray(flag, commandArgs);
+			if (!anyKnown)
+				continue;
+
+			const index = commandArgs.indexOf(flag);
+			if (!unknownKeys.length)
+				removeFromArray(flag, commandArgs);
+			else
+				commandArgs[index] = (isLongFlag ? "--" : "-") + unknownKeys.join("");
 		}
 
 		return { options, inputs };

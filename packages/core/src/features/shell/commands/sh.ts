@@ -13,5 +13,5 @@ export const sh = new Command()
 		if (!file)
 			return Shell.writeError(stderr, this.name, Shell.INVALID_PATH_ERROR);
 
-		return await shell.interpreter.executeScript(file, [], { stdout, stderr });
+		return await shell.interpreter.execute(file, [], { stdout, stderr });
 	});

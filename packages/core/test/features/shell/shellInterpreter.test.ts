@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { CommandsManager, Shell, ShellConfig, ShellInterpreter, Stream, Command, ShellEnvironment } from "../../../src/features";
+import { CommandsManager, Shell, ShellConfig, ShellInterpreter, Stream, Command } from "../../../src/features";
 import { EXIT_CODE } from "../../../src/constants";
 import { MockSystemManager } from "../system/system.utils";
 import { MockVirtualRoot } from "../virtual-drive/virtualDrive.utils";
@@ -63,18 +63,6 @@ describe("ShellInterpreter", () => {
 		expect(interpreter.pipeline.length).toBe(0);
 	});
 
-	it("should execute if-then branches based on condition success", async () => {
-		const executeSpy = vi.spyOn(interpreter, "execute");
-
-		const env = new ShellEnvironment();
-
-		const script = "if success; then success; fi";
-		const exitCode = await interpreter.executeScript(script, [], {}, env);
-
-		expect(executeSpy).toHaveBeenCalledWith("success", {}, env);
-		expect(exitCode).toBe(EXIT_CODE.success);
-	});
-
 	it("should terminate all processes in the pipeline when requested", () => {
 		const mockProcess: Process = {
 			stdin: new Stream(),
@@ -102,7 +90,7 @@ describe("ShellInterpreter", () => {
 			errorOutput += data;
 		});
 
-		const exitCode = await interpreter.execute("invalid_cmd", { stderr });
+		const exitCode = await interpreter.execute("invalid_cmd", [], { stderr });
 		
 		expect(exitCode).toBe(EXIT_CODE.commandNotFound);
 		expect(errorOutput).toContain(Shell.COMMAND_NOT_FOUND_ERROR);

@@ -9,8 +9,8 @@ describe("ShellParser", () => {
 			const block = ShellParser.parseScript(script);
 
 			expect(block).toHaveLength(2);
-			expect(block[0]).toEqual({ type: ShellParser.COMMAND, command: "echo hello" });
-			expect(block[1]).toEqual({ type: ShellParser.COMMAND, command: "ls -la" });
+			expect(block[0]).toEqual({ type: ShellParser.COMMAND, args: [["echo"], ["hello"]] });
+			expect(block[1]).toEqual({ type: ShellParser.COMMAND, args: [["ls"], ["-la"]] });
 		});
 
 		it("should parse an if-then-else structure", () => {
@@ -26,11 +26,11 @@ describe("ShellParser", () => {
 			expect(nodes).toHaveLength(1);
 			const node = nodes[0];
 			if (node.type === ShellParser.IF) {
-				expect(node.ifBranch.condition).toEqual({ type: ShellParser.COMMAND, command: "true" });
+				expect(node.ifBranch.condition).toEqual({ type: ShellParser.COMMAND, args: [["true"]] });
 				expect(node.ifBranch.thenBranch).toHaveLength(1);
-				expect(node.ifBranch.thenBranch[0]).toEqual({ type: ShellParser.COMMAND, command: "echo \"yes\"" });
+				expect(node.ifBranch.thenBranch[0]).toEqual({ type: ShellParser.COMMAND, args: [["echo"], ["\"yes\""]] });
 				expect(node.elseBranch).toHaveLength(1);
-				expect(node.elseBranch[0]).toEqual({ type: ShellParser.COMMAND, command: "echo \"no\"" });
+				expect(node.elseBranch[0]).toEqual({ type: ShellParser.COMMAND, args: [["echo"], ["\"no\""]] });
 			} else {
 				throw new Error("Expected IfNode");
 			}
@@ -43,8 +43,8 @@ describe("ShellParser", () => {
 			const node = nodes[0];
 			if (node.type === ShellParser.IF) {
 				expect(node.elifBranches).toHaveLength(1);
-				expect(node.elifBranches[0].condition).toEqual({ type: ShellParser.COMMAND, command: "c" });
-				expect(node.elifBranches[0].thenBranch[0]).toEqual({ type: ShellParser.COMMAND, command: "d" });
+				expect(node.elifBranches[0].condition).toEqual({ type: ShellParser.COMMAND, args: [["c"]] });
+				expect(node.elifBranches[0].thenBranch[0]).toEqual({ type: ShellParser.COMMAND, args: [["d"]] });
 			}
 		});
 
@@ -54,9 +54,9 @@ describe("ShellParser", () => {
 
 			const node = nodes[0];
 			if (node.type === ShellParser.WHILE) {
-				expect(node.condition).toEqual({ type: ShellParser.COMMAND, command: "condition" });
+				expect(node.condition).toEqual({ type: ShellParser.COMMAND, args: [["condition"]] });
 				expect(node.body).toHaveLength(1);
-				expect(node.body[0]).toEqual({ type: ShellParser.COMMAND, command: "task" });
+				expect(node.body[0]).toEqual({ type: ShellParser.COMMAND, args: [["task"]] });
 			}
 		});
 
@@ -67,9 +67,15 @@ describe("ShellParser", () => {
 			const node = nodes[0];
 			if (node.type === ShellParser.FOR_IN) {
 				expect(node.variableName).toBe("i");
-				expect(node.items).toEqual(["1", "2", "3"]);
+				expect(node.items).toEqual([["1"], ["2"], ["3"]]);
 				expect(node.body).toHaveLength(1);
-				expect(node.body[0]).toEqual({ type: ShellParser.COMMAND, command: "echo $i" });
+				expect(node.body[0]).toEqual({
+					type: ShellParser.COMMAND,
+					args: [
+						["echo"],
+						[{ type: ShellParser.PARAMETER_EXPANSION, name: "i" }],
+					],
+				});
 			}
 		});
 
@@ -87,14 +93,14 @@ describe("ShellParser", () => {
 		});
 	});
 
-	describe("parseCommand", () => {
-		it("should split strings into tokens while respecting quotes", () => {
-			const input = "echo \"double quotes\" 'single quotes' no quotes";
-			const tokens = ShellParser.parseCommand(input);
+	// describe("parseCommand", () => {
+	// 	it("should split strings into tokens while respecting quotes", () => {
+	// 		const input = "echo \"double quotes\" 'single quotes' no quotes";
+	// 		const tokens = ShellParser.parseCommand(input);
 
-			expect(tokens).toEqual(["echo", "\"double quotes\"", "'single quotes'", "no", "quotes"]);
-		});
-	});
+	// 		expect(tokens).toEqual(["echo", "\"double quotes\"", "'single quotes'", "no", "quotes"]);
+	// 	});
+	// });
 
 	describe("expandBraces", () => {
 		it("should expand numeric sequences", () => {

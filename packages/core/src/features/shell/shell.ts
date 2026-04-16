@@ -310,6 +310,7 @@ export class Shell {
 	 */
 	async run(input: string) {
 		this.clearLine();
+		this.pushHistory({ text: this.state.prompt + input, isCommand: true, value: input });
 		return await this.interpreter.execute(input);
 	}
 

@@ -36,20 +36,20 @@ export class ShellInterpreter {
 
 	/**
 	 * Parses and executes a shell script.
-	 * @param script - The script content or a virtual file.
+	 * @param input - The script content or a virtual file.
 	 * @param args - The arguments to execute the script with.
 	 * @param streams - Optional output streams to override default TTY behavior.
 	 * @returns The exit code of the last command executed in the script.
 	 */
-	public async executeScript(script: string | VirtualFile, args: string[] = [], streams?: { stdout?: Stream, stderr?: Stream }, env: ShellEnvironment = this.shell.env) {
+	public async execute(input: string | VirtualFile, args: string[] = [], streams?: { stdout?: Stream, stderr?: Stream }, env = this.shell.env) {
 		let scriptName = "anonymous";
-		if (script instanceof VirtualFile) {			
-			const content = await script.read();
+		if (input instanceof VirtualFile) {         
+			const content = await input.read();
 			if (!content)
 				return EXIT_CODE.commandNotExecutable;
 			
-			scriptName = script.name;
-			script = content;
+			scriptName = input.name;
+			input = content;
 		}
 
 		env.set("0", scriptName);
@@ -64,88 +64,272 @@ export class ShellInterpreter {
 			env.set(positionalIndex.toString(), args[i]);
 		}
 
-		const block = ShellParser.parseScript(script);
+		const block = ShellParser.parseScript(input);
+		// console.log(block);
 		return await this.executeBlock(block, streams, env);
 	}
 
-	private async executeBlock(block: ShellAST.Block, streams?: { stdout?: Stream, stderr?: Stream }, env: ShellEnvironment = this.shell.env) {
+	/**
+	 * Executes a block of nodes, passing along stream overrides.
+	 */
+	private async executeBlock(block: ShellAST.Block, streams?: { stdin?: Stream, stdout?: Stream, stderr?: Stream }, env = this.shell.env) {
 		let lastExitCode: number = EXIT_CODE.success;
 
 		for (const node of block) {
-			switch (node.type) {
-				case ShellParser.COMMAND:
-					lastExitCode = await this.execute(node.command, streams, env);
-					break;
-				case ShellParser.ASSIGNMENT: {
-					const expandedValue = env.expand(node.value);
-					env.set(node.name, expandedValue);
-					lastExitCode = EXIT_CODE.success;
-					break;
-				}
-				case ShellParser.ARITHMETIC:
-					lastExitCode = this.evaluateArithmetic(node.expression, env);
-					break;
-				case ShellParser.IF: {
-					const ifBranch = node.ifBranch;
-					const conditionExitCode = await this.executeCondition(ifBranch.condition, streams, env);
+			lastExitCode = await this.executeNode(node, streams, env);
+		}
 
-					if (conditionExitCode === EXIT_CODE.success) {
-						lastExitCode = await this.executeBlock(ifBranch.thenBranch, streams, env);
-					} else {
-						let elifMet = false;
+		env.set(ShellEnvironment.EXIT_CODE, lastExitCode.toString());
 
-						for (const elif of node.elifBranches) {
-							const elifCode = await this.executeCondition(elif.condition, streams, env);
-						
-							if (elifCode === EXIT_CODE.success) {
-								lastExitCode = await this.executeBlock(elif.thenBranch, streams, env);
-								elifMet = true;
-								break;
-							}
-						}
-
-						if (!elifMet && node.elseBranch.length > 0)
-							lastExitCode = await this.executeBlock(node.elseBranch, streams, env);
-					}
-					break;
-				}
-				case ShellParser.WHILE:
-					while (await this.executeCondition(node.condition, streams, env) === EXIT_CODE.success) {
-						lastExitCode = await this.executeBlock(node.body, streams, env);
-					}
-					break;
-				case ShellParser.FOR_IN: {
-					const items = node.items.flatMap((item) => {
-						const expanded = env.expand(item);
-						return ShellParser.expandBraces(expanded);
-					});
-
-					for (const item of items) {
-						env.set(node.variableName, item);
-						lastExitCode = await this.executeBlock(node.body, streams, env);
-					}
-					break;
-				}
-				case ShellParser.FOR_EXPRESSION:
-					this.evaluateArithmetic(node.setup.expression, env);
-
-					while (this.evaluateArithmetic(node.condition.expression, env) === EXIT_CODE.success) {
-						lastExitCode = await this.executeBlock(node.body, streams, env);
-						this.evaluateArithmetic(node.step.expression, env);
-					}
-					break;
-				default:
-					throw new Error("Unknown node: " + JSON.stringify(node));
+		if (!streams) {
+			if (this.shell.state.ttyBuffer) {
+				this.shell.pushHistory({ text: this.shell.state.ttyBuffer, isCommand: false });
 			}
+			this.shell.state.ttyBuffer = null;
 		}
 
 		return lastExitCode;
 	}
 
-	private async executeCondition(condition: ShellAST.ConditionNode["condition"], streams?: { stdout?: Stream, stderr?: Stream }, env: ShellEnvironment = this.shell.env): Promise<number> {
-		return condition.type === ShellParser.ARITHMETIC
-			? this.evaluateArithmetic(condition.expression, env)
-			: await this.execute(condition.command, streams, env);
+	/**
+	 * Dispatches an AST node to its specific execution logic.
+	 */
+	private async executeNode(node: ShellAST.Node, streams?: { stdin?: Stream, stdout?: Stream, stderr?: Stream }, env = this.shell.env): Promise<number> {
+		switch (node.type) {
+			case ShellParser.COMMAND:
+				return await this.executeCommands([node], streams, env);
+			case ShellParser.PIPELINE:
+				return await this.executeCommands(node.commands, streams, env);
+			case ShellParser.LOGICAL: {
+				const logicalNode = node;
+				let exitCode = await this.executeNode(logicalNode.left, streams, env);
+				
+				if (logicalNode.operator === "&&" && exitCode === EXIT_CODE.success) {
+					exitCode = await this.executeNode(logicalNode.right, streams, env);
+				} else if (logicalNode.operator === "||" && exitCode !== EXIT_CODE.success) {
+					exitCode = await this.executeNode(logicalNode.right, streams, env);
+				}
+				
+				return exitCode;
+			}
+			case ShellParser.ASSIGNMENT: {
+				const assignmentNode = node;
+				const expandedValue = await this.resolveExpansions(assignmentNode.value, env);
+				env.set(assignmentNode.name, expandedValue);
+				return EXIT_CODE.success;
+			}
+			case ShellParser.ARITHMETIC:
+				return this.evaluateArithmetic(node.expression, env);
+			case ShellParser.IF: {
+				const ifNode = node;
+				const conditionExitCode = await this.executeNode(ifNode.ifBranch.condition, streams, env);
+
+				if (conditionExitCode === EXIT_CODE.success) {
+					return await this.executeBlock(ifNode.ifBranch.thenBranch, streams, env);
+				} else {
+					let elifMet = false;
+					for (const elif of ifNode.elifBranches) {
+						const elifCode = await this.executeNode(elif.condition, streams, env);
+						if (elifCode === EXIT_CODE.success) {
+							elifMet = true;
+							return await this.executeBlock(elif.thenBranch, streams, env);
+						}
+					}
+					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+					if (!elifMet && ifNode.elseBranch.length)
+						return await this.executeBlock(ifNode.elseBranch, streams, env);
+				}
+				return EXIT_CODE.success;
+			}
+			case ShellParser.WHILE: {
+				const whileNode = node;
+				let lastExitCode: number = EXIT_CODE.success;
+				while (await this.executeNode(whileNode.condition, streams, env) === EXIT_CODE.success) {
+					lastExitCode = await this.executeBlock(whileNode.body, streams, env);
+				}
+				return lastExitCode;
+			}
+			case ShellParser.FOR_IN: {
+				const forInNode = node;
+				let lastExitCode: number = EXIT_CODE.success;
+				const items: string[] = [];
+
+				for (const argument of forInNode.items) {
+					const expandedString = await this.resolveExpansions(argument, env);
+					items.push(...ShellParser.expandBraces(expandedString));
+				}
+
+				for (const item of items) {
+					env.set(forInNode.variableName, item);
+					lastExitCode = await this.executeBlock(forInNode.body, streams, env);
+				}
+
+				return lastExitCode;
+			}
+			case ShellParser.FOR_EXPRESSION: {
+				const forExprNode = node;
+				let lastExitCode: number = EXIT_CODE.success;
+				this.evaluateArithmetic(forExprNode.setup.expression, env);
+				while (this.evaluateArithmetic(forExprNode.condition.expression, env) === EXIT_CODE.success) {
+					lastExitCode = await this.executeBlock(forExprNode.body, streams, env);
+					this.evaluateArithmetic(forExprNode.step.expression, env);
+				}
+				return lastExitCode;
+			}
+			default:
+				throw new Error("Unknown node: " + JSON.stringify(node));
+		}
+	}
+
+	/**
+	 * Handles the piping logic for any list of executable nodes.
+	 */
+	private async executeCommands(nodes: ShellAST.ExecutableNode[], streams?: { stdin?: Stream, stdout?: Stream, stderr?: Stream }, env = this.shell.env) {
+		const previousPipeline = this.pipeline;
+		const previousStream = this.shell.state.stream;
+
+		if (!nodes.length)
+			return EXIT_CODE.success;
+
+		const pipelineProcesses: Process[] = [];
+		const tasks: Promise<number>[] = [];
+
+		for (const node of nodes) {
+			const proc: Process = {
+				stdin: new Stream(),
+				stdout: new Stream(),
+				stderr: new Stream(),
+				commandName: node.type === ShellParser.COMMAND ? "" : `<${node.type}>`,
+				args: [],
+			};
+
+			if (node.type === ShellParser.COMMAND) {
+				const commandNode = node;
+				for (const argParts of commandNode.args) {
+					proc.args.push(await this.resolveExpansions(argParts, env));
+				}
+				proc.commandName = proc.args[0]?.toLowerCase() ?? "";
+				if (proc.commandName === Shell.SUDO_COMMAND && proc.args.length > 1) {
+					proc.commandName = proc.args[1].toLowerCase();
+				}
+			}
+
+			pipelineProcesses.push(proc);
+		}
+
+		this.pipeline = pipelineProcesses;
+
+		pipelineProcesses.forEach((process, i) => {
+			const isFirst = i === 0;
+			const isLast = i === pipelineProcesses.length - 1;
+			const nextProcess = !isLast ? pipelineProcesses[i + 1] : null;
+
+			process.stdout.start();
+			process.stderr.start();
+
+			if (isFirst) {
+				if (streams?.stdin) {
+					streams.stdin.pipe(process.stdin);
+				}
+				process.stdin.start();
+			}
+
+			if (nextProcess) {
+				process.stdout.pipe(nextProcess.stdin);
+			} else {
+				const targetStdout = streams?.stdout;
+				process.stdout.on(Stream.DATA_EVENT, (data) => targetStdout ? targetStdout.write(data) : this.shell.write(data));
+			}
+
+			const targetStderr = streams?.stderr;
+			process.stderr.on(Stream.DATA_EVENT, (data) => targetStderr ? targetStderr.write(data) : this.shell.write(data));
+		});
+
+		const lastProcess = pipelineProcesses.at(-1);
+		if (lastProcess)
+			this.shell.state.stream = ref(lastProcess.stdin);
+
+		for (let i = nodes.length - 1; i >= 0; i--) {
+			const node = nodes[i];
+			const proc = pipelineProcesses[i];
+			
+			if (node.type === ShellParser.COMMAND) {
+				tasks.unshift(this.spawn(proc, env));
+			} else {
+				tasks.unshift(this.executeNode(node, {
+					stdin: proc.stdin,
+					stdout: proc.stdout,
+					stderr: proc.stderr,
+				}, env));
+			}
+		}
+
+		const exitCodes = await Promise.all(tasks);
+
+		this.pipeline = previousPipeline;
+		this.shell.state.stream = previousStream;
+
+		return exitCodes.at(-1) ?? EXIT_CODE.success;
+	}
+
+	private async resolveExpansions(parts: (string | ShellAST.ExpansionNode)[], env: ShellEnvironment): Promise<string> {
+		let result = "";
+
+		for (const part of parts) {
+			if (typeof part === "string") {
+				result += part;
+				continue;
+			}
+
+			switch (part.type) {
+				case ShellParser.PARAMETER_EXPANSION: {
+					let expandedDefault = "";
+					if (part.argument)
+						expandedDefault = await this.resolveExpansions(part.argument, env);
+
+					result += env.expand(part, expandedDefault);
+					break;
+				}
+				case ShellParser.ARITHMETIC_EXPANSION: {
+					result += this.evaluateArithmetic(part.content.expression, env).toString();
+					break;
+				}
+				case ShellParser.COMMAND_SUBSTITUTION: {
+					const captureStream = new Stream();
+					let output = "";
+					captureStream.on("data", (data: string) => output += data);
+
+					captureStream.start();
+					await this.executeBlock(part.content, { stdout: captureStream }, env);
+					captureStream.stop();
+
+					result += output.trim();
+					break;
+				}
+			}
+		}
+
+		return this.removeQuotes(result);
+	}
+
+	private removeQuotes(input: string): string {
+		let result = "";
+		let inSingleQuote = false;
+		let inDoubleQuote = false;
+
+		for (let i = 0; i < input.length; i++) {
+			const character = input[i];
+
+			if (character === "'" && !inDoubleQuote) {
+				inSingleQuote = !inSingleQuote;
+			} else if (character === "\"" && !inSingleQuote) {
+				inDoubleQuote = !inDoubleQuote;
+			} else {
+				result += character;
+			}
+		}
+
+		return result;
 	}
 
 	private evaluateArithmetic(expression: string, env: ShellEnvironment): number {
@@ -163,130 +347,6 @@ export class ShellInterpreter {
 	}
 
 	/**
-	 * Parses and executes an input string, handling environment expansion, piping, and conditional chaining (`&&`, `||`).
-	 * @param input - The raw command line string.
-	 * @param streams - Optional output streams to override default TTY behavior.
-	 * @param env - Optional environment to use.
-	 * @returns A promise that resolves with the final exit code of the execution.
-	 */
-	public async execute(input: string, streams?: { stdout?: Stream, stderr?: Stream }, env: ShellEnvironment = this.shell.env) {
-		if (!streams)
-			this.shell.pushHistory({ text: this.shell.state.prompt + input, isCommand: true, value: input });
-
-		input = env.expand(input);
-
-		// Split by logical operators while respecting quotes
-		const segments = input.match(/(?:(?:"[^"]*"|'[^']*'|[^&|'"]|\|(?![|])|&(?![&]))+|&&|\|\|)/g) ?? [];
-		let lastExitCode: number = EXIT_CODE.success;
-		let operator: "&&" | "||" | null = null;
-
-		for (const segment of segments) {
-			const trimmed = segment.trim();
-			if (!trimmed)
-				continue;
-
-			if (trimmed === "&&" || trimmed === "||") {
-				operator = trimmed;
-				continue;
-			}
-
-			if (operator === "&&" && lastExitCode !== EXIT_CODE.success
-				|| operator === "||" && lastExitCode === EXIT_CODE.success)
-				break;
-			
-			operator = null;
-
-			const isArithmetic = trimmed.startsWith(ShellParser.ARITHMETIC_PREFIX_TOKEN) && trimmed.endsWith(ShellParser.ARITHMETIC_SUFFIX_TOKEN);
-			if (isArithmetic) {
-				lastExitCode = this.evaluateArithmetic(trimmed.substring(ShellParser.ARITHMETIC_PREFIX_TOKEN.length, trimmed.length - ShellParser.ARITHMETIC_SUFFIX_TOKEN.length), env);
-			} else {
-				lastExitCode = await this.executePipeline(trimmed, streams, env);
-			}
-		}
-
-		env.set(ShellEnvironment.EXIT_CODE, lastExitCode.toString());
-
-		if (!streams) {
-			if (this.shell.state.ttyBuffer)
-				this.shell.pushHistory({ text: this.shell.state.ttyBuffer, isCommand: false });
-			this.shell.state.ttyBuffer = null;
-		}
-
-		return lastExitCode;
-	}
-
-	/**
-	 * Handles the execution of a single command or a pipeline of piped commands.
-	 */
-	private async executePipeline(input: string, streams?: { stdout?: Stream, stderr?: Stream }, env: ShellEnvironment = this.shell.env) {
-		const previousPipeline = this.pipeline;
-		const previousStream = this.shell.state.stream;
-
-		// Split by pipe operator while respecting quoted strings
-		const commandStrings = input.match(/(?:[^|"]+|"[^"]*")+/g)
-			?.map((string) => string.trim())
-			.filter(Boolean) ?? [];
-
-		if (!commandStrings.length)
-			return EXIT_CODE.success;
-
-		this.pipeline = commandStrings.map((commandString) => {
-			const rawArgs = ShellParser.parseCommand(commandString);
-			const args = rawArgs.flatMap((argument) => env.expand(argument));
-			let commandName = args[0]?.toLowerCase() ?? "";
-
-			if (commandName === Shell.SUDO_COMMAND && args.length > 1)
-				commandName = args[1].toLowerCase();
-
-			return {
-				stdin: new Stream(),
-				stdout: new Stream(),
-				stderr: new Stream(),
-				commandName,
-				args,
-			};
-		});
-
-		this.pipeline.forEach((process, i) => {
-			const isFirst = i === 0;
-			const isLast = i === this.pipeline.length - 1;
-			const nextProcess = !isLast ? this.pipeline[i + 1] : null;
-
-			process.stdout.start();
-			process.stderr.start();
-
-			if (isFirst)
-				process.stdin.start();
-
-			if (nextProcess) {
-				process.stdout.pipe(nextProcess.stdin);
-			} else {
-				const targetStdout = streams?.stdout;
-				process.stdout.on(Stream.DATA_EVENT, (data) => targetStdout ? targetStdout.write(data) : this.shell.write(data));
-			}
-
-			const targetStderr = streams?.stderr;
-			process.stderr.on(Stream.DATA_EVENT, (data) => targetStderr ? targetStderr.write(data) : this.shell.write(data));
-		});
-
-		const lastProcess = this.pipeline.at(-1);
-		if (lastProcess)
-			this.shell.state.stream = ref(lastProcess.stdin);
-
-		// Spawn processes in reverse to support piping stdin and reverse to make order of exit codes correct
-		const tasks = [...this.pipeline].reverse()
-			.map((process) => this.spawn(process, env))
-			.reverse();
-
-		const exitCodes = await Promise.all(tasks);
-
-		this.pipeline = previousPipeline;
-		this.shell.state.stream = previousStream;
-
-		return exitCodes.at(-1) ?? EXIT_CODE.success;
-	}
-
-	/**
 	 * Resolves a command, parses flags/options, and executes the command logic.
 	 * @returns The resulting exit code from the command execution.
 	 */
@@ -297,8 +357,6 @@ export class ShellInterpreter {
 		try {
 			if (!args.length)
 				return EXIT_CODE.generalError;
-			if (env.parseAssignment(args[0]))
-				return EXIT_CODE.success;
 
 			const commandArgs = [...args];
 			if (commandArgs[0].toLowerCase() === Shell.SUDO_COMMAND)
@@ -310,17 +368,16 @@ export class ShellInterpreter {
 				return Shell.writeError(stderr, commandName, Shell.COMMAND_NOT_FOUND_ERROR, EXIT_CODE.commandNotFound);
 
 			const { options, inputs } = ShellParser.parseOptions(command, commandArgs);
-			const cleanArgs = commandArgs.map((arg) => arg.replace(/^"|"$/g, ""));
 			
 			const processIndex = this.pipeline.indexOf(process);
 			const isPiped = processIndex > 0;
 
-			if (command.requireArgs && !cleanArgs.length && !isPiped)
+			if (command.requireArgs && !commandArgs.length && !isPiped)
 				return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_ARGS_ERROR}`]);
 			if (command.requireOptions && !options.length)
 				return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_OPTIONS_ERROR}`]);
 			
-			const exitCode = await command.execute(cleanArgs, {
+			const exitCode = await command.execute(commandArgs, {
 				stdin,
 				stdout,
 				stderr,
@@ -328,7 +385,7 @@ export class ShellInterpreter {
 				workingDirectory: this.shell.state.workingDirectory,
 				username: env.get("USER") ?? USERNAME,
 				hostname: env.get("HOSTNAME") ?? HOSTNAME,
-				rawLine: cleanArgs.join(" "),
+				rawLine: commandArgs.join(" "),
 				options,
 				exit: () => this.shell.kill(),
 				inputs,

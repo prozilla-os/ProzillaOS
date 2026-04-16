@@ -1,4 +1,5 @@
 import { proxy } from "valtio";
+import { ShellAST } from ".";
 
 /**
  * Manages environment variabels for {@link Shell}.
@@ -56,60 +57,48 @@ export class ShellEnvironment {
 	}
 
 	/**
-     * Marks an existing variable as exported.
-     */
+	 * Marks an existing variable as exported.
+	 */
 	export(key: string) {
 		if (!ShellEnvironment.INTERNAL_VARS.includes(key))
 			this.exportedKeys.add(key);
 	}
 
 	/**
-	 * Replaces variable placeholders in a string with their corresponding values.
+	 * Replaces variable placeholders in a string with their corresponding values based on a pre-parsed node.
+	 * The expandedArgument must be pre-resolved by the interpreter to handle nested expansions.
 	 */
-	public expand(input: string): string {
-		const expansionPattern = /\${([^}]+)}|\$([a-zA-Z_][a-zA-Z0-9_]*|[0-9#?@*!$])/g;
+	public expand(node: ShellAST.ParameterExpansionNode, expandedArgument = ""): string {
+		const name = node.name;
+		const operator = node.operator;
 
-		return input.replace(expansionPattern, (match: string, curly: string | undefined, simple: string | undefined): string => {
-			const expression = curly ?? simple;
-			if (!expression) return match;
+		const currentValue = this.get(name);
+		const isUnsetOrNull = currentValue === undefined || currentValue === "";
 
-			if (simple)
-				return this.get(simple) ?? "";
+		if (!operator) return currentValue ?? "";
 
-			const operatorPattern = /^([^:-=?+]+)(?::([-=?+])(.*))?$/;
-			const operatorMatch = expression.match(operatorPattern);
-        
-			if (!operatorMatch)
-				return this.get(expression) ?? "";
-
-			const name = operatorMatch[1];
-			const operator = operatorMatch[2];
-			const argument = operatorMatch[3];
-
-			const currentValue = this.get(name);
-			const isUnsetOrNull = currentValue === undefined || currentValue === "";
-
-			switch (operator) {
-				case "-":
-					return isUnsetOrNull ? argument : currentValue;
-				case "=":
-					if (isUnsetOrNull) {
-						this.set(name, argument);
-						return argument;
-					}
-					return currentValue;
-				case "+":
-					return isUnsetOrNull ? "" : argument;
-				case "?":
-					if (isUnsetOrNull) {
-						const message = argument || "parameter null or not set";
-						throw new Error(`${name}: ${message}`);
-					}
-					return currentValue;
-				default:
-					return this.get(name) ?? "";
-			}
-		});
+		switch (operator) {
+			case "-":
+				if (isUnsetOrNull) return expandedArgument;
+				return currentValue;
+			case "=":
+				if (isUnsetOrNull) {
+					this.set(name, expandedArgument);
+					return expandedArgument;
+				}
+				return currentValue;
+			case "+":
+				if (isUnsetOrNull) return "";
+				return expandedArgument;
+			case "?":
+				if (isUnsetOrNull) {
+					const message = expandedArgument || "parameter null or not set";
+					throw new Error(`${name}: ${message}`);
+				}
+				return currentValue;
+			default:
+				return this.get(name) ?? "";
+		}
 	}
 
 	/**
