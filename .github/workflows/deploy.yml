@@ -17,10 +17,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Fetch latest tag
+        id: get_tag
+        run: |
+          git fetch --tags
+          LATEST_TAG=$(git tag -l "v*" --sort=-v:refname | head -n 1)
+          echo "tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+          echo "Found tag: $LATEST_TAG"
+
       - name: Checkout latest release
         uses: actions/checkout@v4
         with:
-          ref: v*
+          ref: ${{ steps.get_tag.outputs.tag }}
           path: latest-release
 
       - name: Set up pnpm

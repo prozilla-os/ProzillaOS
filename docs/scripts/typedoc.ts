@@ -2,7 +2,7 @@ import { Application, TypeDocOptions } from "typedoc";
 import type { PluginOptions } from "typedoc-plugin-markdown";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { formatPackageName, OUT_DIR, PACKAGE_PATHS, PACKAGE_PREFIX, PACKAGES_DIR } from "./packages.utils.mjs";
+import { formatPackageName, OUT_DIR, PACKAGE_PATHS, PACKAGE_PREFIX, packagePathToName, PACKAGES_DIR } from "./packages.utils.mjs";
 import { Option, program } from "@commander-js/extra-typings";
 import { formatMemberPageTitle, formatModulePageTitle } from "./typedoc.utils";
 import { Logger } from "@prozilla-os/shared";
@@ -32,6 +32,24 @@ const DEFAULT_OPTIONS: TypeDocOptions & PluginOptions = {
 		includeGroups: true,
 	},
 };
+
+const RELEASE_PATH = process.env.RELEASE_PATH?.trim();
+
+const SOURCE_BASE = RELEASE_PATH 
+	? resolve(RELEASE_PATH, "packages") 
+	: resolve(__dirname, PACKAGES_DIR);
+
+const COMPILER_PATHS: Record<string, string[]> = {
+	"*": ["node_modules/*"],
+};
+
+PACKAGE_PATHS.forEach((path) => {
+	const name = packagePathToName(path);
+	COMPILER_PATHS[name] = [`packages/${path}`];
+	COMPILER_PATHS[`${name}/*`] = [`packages/${path}/*`];
+});
+
+const WORKSPACE_ROOT = resolve(__dirname, "../../").replaceAll("\\", "/");
 
 const logger = new Logger();
 
@@ -83,12 +101,6 @@ program.command("run", { isDefault: true })
 		logger.success("Generated all docs");
 	});
 
-const RELEASE_PATH = process.env.RELEASE_PATH?.trim();
-
-const SOURCE_BASE = RELEASE_PATH 
-	? resolve(RELEASE_PATH, "packages") 
-	: resolve(__dirname, PACKAGES_DIR);
-
 async function generateDocs(path: string, dryRun: boolean) {
 	const packageDir = resolve(SOURCE_BASE, path);
 	const entryPoint = resolve(packageDir, "src/main.ts").replaceAll("\\", "/");
@@ -105,6 +117,13 @@ async function generateDocs(path: string, dryRun: boolean) {
 		tsconfig: tsConfig,
 		out: outDir,
 		navigationJson,
+		compilerOptions: {
+			moduleResolution: "node",
+			baseUrl: WORKSPACE_ROOT,
+			paths: COMPILER_PATHS,
+			skipLibCheck: true,
+			jsx: "react-jsx",
+		},
 	};
 
 	const packageName = formatPackageName(path);
