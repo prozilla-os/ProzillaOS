@@ -1,5 +1,20 @@
 # prozilla-os
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@2.0.2
+  - @prozilla-os/app-center@1.0.15
+  - @prozilla-os/browser@1.1.22
+  - @prozilla-os/calculator@1.1.22
+  - @prozilla-os/file-explorer@1.1.22
+  - @prozilla-os/media-viewer@1.1.22
+  - @prozilla-os/settings@1.1.23
+  - @prozilla-os/terminal@2.0.1
+  - @prozilla-os/text-editor@1.1.22
+
 ## 2.0.0
 
 ### Major Changes

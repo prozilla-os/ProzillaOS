@@ -1,5 +1,13 @@
 # @prozilla-os/settings
 
+## 1.1.23
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@2.0.2
+  - @prozilla-os/file-explorer@1.1.22
+
 ## 1.1.22
 
 ### Patch Changes
