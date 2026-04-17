@@ -1,0 +1,2 @@
+import{G as r,T as l,l as e,O as c}from"../index.js";const u=new r().setManual({purpose:"Display the command history list with line numbers",usage:"history",description:"Display the list of commands typed since the shell session started."}).setExecute(function(h,{stdout:n,shell:i}){const t=i.state.history.filter(({flags:s})=>s&l.Command);if(t.length===0)return e.success;const o=t.map((s,a)=>`${(a+1).toString().padStart(5," ")}  ${s.input}`).join(`
+`);return c.printLn(n,o),e.success});export{u as history};

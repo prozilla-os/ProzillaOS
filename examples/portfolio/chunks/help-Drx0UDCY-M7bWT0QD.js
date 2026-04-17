@@ -1,2 +1,0 @@
-import{B as p,H as u,h as a,$,a as i}from"../index.js";const c=new p().setExecute(function(o,{stdout:t,stderr:s}){if(o.length===0){const m=u.COMMANDS.map(r=>r.manual?.purpose?`${r.name} - ${a.fg.green}${a.decoration.dim}${r.manual.purpose}${a.reset}`:r.name).sort().join(`
-`);return t.write(m),$.success}const e=o[0].toLowerCase(),n=u.find(e);if(!n)return i.writeError(s,this.name,`${e}: Command not found`);if(!n.manual?.purpose)return i.writeError(s,this.name,`${e}: No manual found`);t.write(n.manual.purpose)});export{c as help};
