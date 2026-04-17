@@ -1,4 +1,4 @@
-import { App, AppsConfig, Command, CommandsManager } from "@prozilla-os/core";
+import { App, AppsConfig, Command, ExecutableResolver } from "@prozilla-os/core";
 import { Terminal, TerminalProps } from "../components/Terminal";
 
 export class TerminalApp extends App<TerminalProps> {
@@ -17,7 +17,7 @@ export class TerminalApp extends App<TerminalProps> {
 
 
 	addCommand(command: Command) {
-		CommandsManager.addCommand(command);
+		ExecutableResolver.builtins.push(command);
 		return this;
 	}
 

@@ -1,4 +1,5 @@
 import { Command } from "../command";
+import { Shell } from "../shell";
 
 export const dir = new Command()
 	.setManual({
@@ -10,5 +11,5 @@ export const dir = new Command()
 		if (folderNames.length === 0)
 			return;
 	
-		stdout.write(folderNames.sort((nameA, nameB) => nameA.localeCompare(nameB)).join(" "));
+		Shell.printLn(stdout, folderNames.sort((nameA, nameB) => nameA.localeCompare(nameB)).join(" "));
 	});

@@ -22,7 +22,7 @@ export const cat = new Command()
 			if (options.includes("e")) {
 				output = output.split("\n").join("$\n") + "$";
 			}
-			stdout.write(output);
+			Shell.printLn(stdout, output);
 		};
 
 		// Read from stdin

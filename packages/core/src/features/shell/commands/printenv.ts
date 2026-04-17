@@ -1,4 +1,5 @@
 import { Command } from "../command";
+import { Shell } from "../shell";
 
 export const printenv = new Command()
 	.setManual({
@@ -13,12 +14,13 @@ export const printenv = new Command()
 			args.forEach((arg) => {
 				const value = exportedVars[arg];
 				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-				if (value !== undefined) stdout.write(`${value}`);
+				if (value !== undefined)
+					Shell.printLn(stdout, `${value}`);
 			});
 			return;
 		}
 
 		Object.entries(exportedVars).forEach(([key, value]) => {
-			stdout.write(`${key}=${value}`);
+			Shell.printLn(stdout, `${key}=${value}`);
 		});
 	});

@@ -11,10 +11,8 @@ export const ls = new Command()
 	})
 	.setExecute(function(this: Command, args, { workingDirectory, stdout, stderr }) {
 		let directory: VirtualFolder | null = workingDirectory;
-	
-		if (args.length) {
+		if (args.length)
 			directory = workingDirectory.navigateToFolder(args[0]);
-		}
 	
 		if (!directory)
 			return Shell.writeError(stderr, this.name, `Cannot access '${args[0]}': No such file or directory`);
@@ -24,7 +22,6 @@ export const ls = new Command()
 	
 		const contents = folderNames.concat(fileNames);
 	
-		if (contents.length > 0) {
-			stdout.write(contents.sort().join("  "));
-		}
+		if (contents.length)
+			Shell.printLn(stdout, contents.sort().join("  "));
 	});

@@ -640,7 +640,7 @@ export class ShellParser {
 	/**
 	 * Converts an input string into an {@link ShellAST.Argument}.
 	 */
-	private static parseArgument(input: string): ShellAST.Argument {
+	public static parseArgument(input: string): ShellAST.Argument {
 		const parts: ShellAST.Argument = [];
 		let i = 0;
 

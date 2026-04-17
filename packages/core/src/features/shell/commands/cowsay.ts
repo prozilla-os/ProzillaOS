@@ -103,6 +103,6 @@ export const cowsay = new Command()
 	})
 	.setExecute(function(_args, { rawLine, stdout, stdin }) {
 		return Shell.readInput(rawLine, stdin, (text) => {
-			stdout.write(renderCowsay(text));
+			Shell.printLn(stdout, renderCowsay(text));
 		});
 	});

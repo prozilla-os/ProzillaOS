@@ -10,11 +10,10 @@ export const rm = new Command()
 	.setExecute(function(this: Command, args, { workingDirectory, stderr }) {
 		const fileId = args[0];
 		const { name, extension } = VirtualFile.splitId(fileId);
+		
 		const file = workingDirectory.findFile(name, extension);
-	
-		if (!file) {
+		if (!file)
 			return Shell.writeError(stderr, this.name, `${fileId}: No such file`);
-		}
 		
 		file.delete();
 	});

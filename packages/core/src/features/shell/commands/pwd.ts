@@ -1,4 +1,5 @@
 import { Command } from "../command";
+import { Shell } from "../shell";
 
 export const pwd = new Command()
 	.setManual({
@@ -11,5 +12,5 @@ export const pwd = new Command()
 			path = "/";
 		}
 
-		stdout.write(path);
+		Shell.printLn(stdout, path);
 	});

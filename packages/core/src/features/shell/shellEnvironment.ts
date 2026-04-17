@@ -13,6 +13,8 @@ export class ShellEnvironment {
 	static readonly HOSTNAME = "HOSTNAME";
 	static readonly WORKING_DIRECTORY = "PWD";
 	static readonly PREVIOUS_WORKING_DIRECTORY = "OLDPWD";
+	static readonly HOME = "HOME";
+	static readonly PROMPT = "PS1";
 
 	static readonly EXIT_CODE = "?";
 	static readonly ARGUMENT_COUNT = "#";

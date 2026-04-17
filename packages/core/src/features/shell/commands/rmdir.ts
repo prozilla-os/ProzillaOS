@@ -8,11 +8,10 @@ export const rmdir = new Command()
 	})
 	.setExecute(function(this: Command, args, { workingDirectory, stderr }) {
 		const folderName = args[0];
+		
 		const folder = workingDirectory.findSubFolder(folderName);
-	
-		if (!folder) {
+		if (!folder)
 			return Shell.writeError(stderr, this.name, `${folderName}: No such directory`);
-		}
 		
 		folder.delete();
 	});

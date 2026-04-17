@@ -2,8 +2,8 @@ import { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect,
 import styles from "./Terminal.module.css";
 import { OutputLine } from "./OutputLine";
 import { InputLine } from "./InputLine";
-import { HOSTNAME, USERNAME, useShell, WindowProps } from "@prozilla-os/core";
-import { Vector2 } from "@prozilla-os/shared";
+import { HistoryFlags, useShell, WindowProps } from "@prozilla-os/core";
+import { Ansi, Vector2 } from "@prozilla-os/shared";
 
 export interface TerminalProps extends WindowProps {
 	path?: string;
@@ -24,8 +24,8 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	});
 
 	useEffect(() => {
-		setTitle?.(`${USERNAME}@${HOSTNAME}: ${state.workingDirectory.root ? "/" : state.workingDirectory.path}`);
-	}, [state.workingDirectory.path, state.workingDirectory.root, setTitle]);
+		setTitle?.(Ansi.strip(state.prompt).trim());
+	}, [state.prompt, setTitle]);
 
 	// Handle initial focus and focus recovery after streaming
 	useEffect(() => {
@@ -116,18 +116,15 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 
 		let startIndex = 0;
 		for (let i = state.history.length - 1; i >= 0; i--) {
-			if (state.history[i].clear) {
+			if ((state.history[i].flags & HistoryFlags.Clear) !== 0) {
 				startIndex = i + 1;
 				break;
 			}
 		}
 
-		return <>
-			{state.history.slice(startIndex).map((entry, index) => 
-				<OutputLine text={entry.text} key={index}/>
-			)}
-			{state.ttyBuffer && <OutputLine text={state.ttyBuffer}/>}
-		</>;
+		return state.history.slice(startIndex).map((entry, index) => 
+			<OutputLine text={entry.displayText} key={index}/>
+		);
 	};
 
 	const onMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
@@ -146,7 +143,6 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 					return line.substring(0, start) + text + line.substring(end);
 				});
 
-				// Re-focus and position cursor after paste
 				const newPos = start + text.length;
 				setTimeout(() => {
 					input.focus();
@@ -188,11 +184,11 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 				? <InputLine
 					key={inputKey}
 					value={state.line}
-					prefix={state.prompt}
+					prefix={(state.ttyBuffer ?? "") + state.prompt}
 					onChange={onChange}
 					inputRef={inputRef}
 				/>
-				: null
+				: state.ttyBuffer && <OutputLine text={state.ttyBuffer}/>
 		)}
 	</div>;
 }

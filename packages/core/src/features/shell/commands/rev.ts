@@ -7,6 +7,11 @@ export const rev = new Command()
 	})
 	.setExecute(function(_args, { rawLine, stdin, stdout }) {
 		return Shell.readInput(rawLine, stdin, (text) => {
-			stdout.write(text.split("").reverse().join(""));
+			const reversed = text
+				.split("\n")
+				.map((line) => line.split("").reverse().join(""))
+				.join("\n");
+                
+			stdout.write(reversed);
 		});
 	});

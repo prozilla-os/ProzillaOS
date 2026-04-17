@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { Shell, ShellConfig, Stream } from "../../../src/features";
+import { HistoryFlags, Shell, ShellConfig, Stream } from "../../../src/features";
 import { EXIT_CODE } from "../../../src/constants";
 import { MockSystemManager } from "../system/system.utils";
 import { MockVirtualRoot } from "../virtual-drive/virtualDrive.utils";
@@ -26,8 +26,8 @@ describe("Shell", () => {
 	});
 
 	it("should update history index when navigating up and down", () => {
-		shell.pushHistory({ text: "cmd1", isCommand: true, value: "cmd1" });
-		shell.pushHistory({ text: "cmd2", isCommand: true, value: "cmd2" });
+		shell.pushHistory({ displayText: "cmd1", flags: HistoryFlags.Command, input: "cmd1" });
+		shell.pushHistory({ displayText: "cmd2", flags: HistoryFlags.Command, input: "cmd2" });
 
 		shell.historySearch(1);
 		expect(shell.state.line).toBe("cmd2");

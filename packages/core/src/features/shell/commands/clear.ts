@@ -1,4 +1,5 @@
 import { Command } from "../command";
+import { HistoryFlags } from "../shell";
 
 export const clear = new Command()
 	.setManual({
@@ -6,7 +7,6 @@ export const clear = new Command()
 	})
 	.setExecute(function(_args, { shell }) {
 		shell.pushHistory({
-			clear: true,
-			isCommand: false,
+			flags: HistoryFlags.Clear,
 		});
 	});

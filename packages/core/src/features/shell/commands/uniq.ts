@@ -37,7 +37,7 @@ export const uniq = new Command()
 				if (onlyUnique && isDuplicate) return;
 
 				const prefix = showCount ? `${lineCount.toString().padStart(7, " ")} ` : "";
-				stdout.write(prefix + line);
+				Shell.printLn(stdout, prefix + line);
 			};
 
 			for (const line of lines) {
@@ -67,7 +67,8 @@ export const uniq = new Command()
 				return Shell.writeError(stderr, this.name, `${path}: Is a directory`);
 
 			const content = await target.read();
-			if (content != null) processUniq(content);
+			if (content != null)
+				processUniq(content);
 			return EXIT_CODE.success;
 		}
 

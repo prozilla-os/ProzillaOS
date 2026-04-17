@@ -1,5 +1,6 @@
 import { Command } from "../command";
-import { CommandsManager } from "../commands";
+import { ExecutableResolver } from "../executableResolver";
+import { Shell } from "../shell";
 
 export const compgen = new Command()
 	.setManual({
@@ -8,6 +9,6 @@ export const compgen = new Command()
 	.setRequireOptions(true)
 	.setExecute(function(_args, { options, stdout }) {
 		if (options.includes("c")) {
-			stdout.write(CommandsManager.COMMANDS.map((command) => command.name).sort().join("\n"));
+			Shell.printLn(stdout, ExecutableResolver.builtins.map((command) => command.name).sort().join("\n"));
 		}
 	});

@@ -1,4 +1,5 @@
 import { Command } from "../command";
+import { Shell } from "../shell";
 
 export const date = new Command()
 	.setManual({
@@ -46,5 +47,5 @@ export const date = new Command()
 			result = result.replaceAll(key, value);
 		}
 
-		stdout.write(result);
+		Shell.printLn(stdout, result);
 	});

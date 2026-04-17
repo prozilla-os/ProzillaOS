@@ -3,6 +3,7 @@ import { ANSI_ASCII_LOGO, ANSI_LOGO_COLOR } from "../../../constants/shell.const
 import { Command } from "../command";
 import { Theme } from "@prozilla-os/skins";
 import { Settings } from "../../settings/settings";
+import { Shell } from "../shell";
 
 export const neofetch = new Command()
 	.setManual({
@@ -68,5 +69,5 @@ export const neofetch = new Command()
 			combined.push(line);
 		}
 
-		stdout.write(combined.join("\n") + "\n");
+		Shell.printLn(stdout, combined.join("\n"));
 	});

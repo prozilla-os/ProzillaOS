@@ -1,9 +1,10 @@
 import { Command } from "../command";
+import { Shell } from "../shell";
 
 export const uptime = new Command()
 	.setManual({
 		purpose: "Display the current uptime of the system",
 	})
 	.setExecute(function(_args, { systemManager, stdout }) {
-		stdout.write(`Uptime: ${systemManager.getUptime(2)}`);
+		Shell.printLn(stdout, `Uptime: ${systemManager.getUptime(2)}`);
 	});

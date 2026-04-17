@@ -1,7 +1,7 @@
 import { Ansi, ANSI } from "@prozilla-os/shared";
 import { Shell } from "../shell";
 import { Command } from "../command";
-import { CommandsManager } from "../commands";
+import { ExecutableResolver } from "../executableResolver";
 
 const MARGIN = 5;
 
@@ -24,7 +24,7 @@ export const man = new Command()
 	.setExecute(function(this: Command, args, { options, stdout, stderr }) {
 		// Search function
 		if (options.includes("k")) {
-			const commands = CommandsManager.search(args[0].toLowerCase());
+			const commands = ExecutableResolver.builtins.filter((builtin) => builtin.name.match(args[0].toLowerCase()));
 			const output = commands.map((command) => {
 				if (command.manual?.purpose) {
 					return `${command.name} - ${command.manual.purpose}`;
@@ -33,12 +33,12 @@ export const man = new Command()
 				}
 			}).sort().join("\n");
 
-			stdout.write(output + "\n");
+			Shell.printLn(stdout, output);
 			return;
 		}
 
 		const commandName = args[0].toLowerCase();
-		const command = CommandsManager.find(commandName);
+		const command = ExecutableResolver.getBuiltin(commandName);
 
 		if (!command)
 			return Shell.writeError(stderr, this.name, `${commandName}: Command not found`);
@@ -103,5 +103,5 @@ export const man = new Command()
 			return section.join("\n");
 		}).join("\n\n");
 
-		stdout.write(output + "\n");
+		Shell.printLn(stdout, output);
 	});

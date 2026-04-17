@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { CommandsManager, Shell, ShellConfig, ShellInterpreter, Stream, Command } from "../../../src/features";
+import { Shell, ShellConfig, ShellInterpreter, Stream, Command, ExecutableResolver, ExecutableResolutionResult, ShellEnvironment } from "../../../src/features";
 import { EXIT_CODE } from "../../../src/constants";
 import { MockSystemManager } from "../system/system.utils";
 import { MockVirtualRoot } from "../virtual-drive/virtualDrive.utils";
@@ -36,10 +36,10 @@ describe("ShellInterpreter", () => {
 			.setName("fail")
 			.setExecute(() => EXIT_CODE.generalError);
 
-		vi.spyOn(CommandsManager, "find").mockImplementation((name: string): Command | null => {
-			if (name === "success" || name === "true" || name === "echo") return successCommand;
-			if (name === "fail") return failCommand;
-			return null;
+		vi.spyOn(ExecutableResolver, "resolve").mockImplementation((name: string): ExecutableResolutionResult => {
+			if (name === "success" || name === "true" || name === "echo") return { executable: successCommand };
+			if (name === "fail") return { executable: failCommand };
+			return { executable: null, error: ExecutableResolver.NOT_FOUND_ERROR };
 		});
 	});
 
@@ -70,6 +70,7 @@ describe("ShellInterpreter", () => {
 			stderr: new Stream(),
 			commandName: "test",
 			args: ["test"],
+			env: new ShellEnvironment(),
 		};
 		
 		const signalSpy = vi.spyOn(mockProcess.stdin, "signal");
@@ -82,7 +83,7 @@ describe("ShellInterpreter", () => {
 	});
 
 	it("should return command not found error for invalid commands", async () => {
-		vi.spyOn(CommandsManager, "find").mockReturnValue(null);
+		vi.spyOn(ExecutableResolver, "resolve").mockReturnValue({ executable: null, error: ExecutableResolver.NOT_FOUND_ERROR });
 		const stderr = new Stream().start();
 		let errorOutput = "";
 		
@@ -93,6 +94,6 @@ describe("ShellInterpreter", () => {
 		const exitCode = await interpreter.execute("invalid_cmd", [], { stderr });
 		
 		expect(exitCode).toBe(EXIT_CODE.commandNotFound);
-		expect(errorOutput).toContain(Shell.COMMAND_NOT_FOUND_ERROR);
+		expect(errorOutput).toContain(ExecutableResolver.NOT_FOUND_ERROR);
 	});
 });

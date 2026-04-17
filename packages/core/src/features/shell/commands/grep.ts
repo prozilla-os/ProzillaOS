@@ -32,7 +32,7 @@ export const grep = new Command()
 					let prefix = "";
 					if (origin && fileNames.length > 1) prefix += `${origin}:`;
 					if (options.includes("n")) prefix += `${index + 1}:`;
-					stdout.write(prefix + line);
+					Shell.printLn(stdout, prefix + line);
 				}
 			});
 		};

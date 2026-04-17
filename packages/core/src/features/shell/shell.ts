@@ -1,6 +1,6 @@
 import { proxy, ref } from "valtio";
 import { Stream, StreamSignal } from "./stream";
-import { CommandsManager } from "./commands";
+import { ExecutableResolver } from "./executableResolver";
 import { ANSI, Ansi, clamp, getLongestCommonPrefix, Vector2 } from "@prozilla-os/shared";
 import { EXIT_CODE, HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../../constants/shell.const";
 import { App } from "../apps/app";
@@ -11,18 +11,21 @@ import { ShellEnvironment } from "./shellEnvironment";
 import { ShellInterpreter } from "./shellInterpreter";
 import { CommandOutput } from "./command";
 
+export enum HistoryFlags {
+	None = 0,
+	Command = 1 << 0,
+	Clear = 1 << 1,
+}
+
 /**
  * Represents a single entry in the shell's output history.
  */
 export interface HistoryEntry {
-	/** The text content to display. */
-	text?: string;
-	/** Whether this entry represents a user-inputted command. */
-	isCommand: boolean;
-	/** The raw string value of the command. */
-	value?: string;
-	/** If true, the terminal view should be cleared before rendering this entry. */
-	clear?: boolean;
+	/** The text content to display in the terminal. */
+	displayText?: string;
+	/** The raw input string of the command in this entry. */
+	input?: string;
+	flags: HistoryFlags;
 }
 
 /**
@@ -80,6 +83,8 @@ export interface ProcessIO {
 	stdout: Stream;
 	/** The stream used to output error messages. */
 	stderr: Stream;
+	/** The environment the process may read from or write to. */
+    env: ShellEnvironment; 
 }
 
 /**
@@ -142,7 +147,6 @@ export class Shell {
 	/** The logic handler for parsing and executing command strings. */
 	interpreter: ShellInterpreter;
 
-	static readonly COMMAND_NOT_FOUND_ERROR = "Command not found";
 	static readonly MISSING_ARGS_ERROR = "requires at least 1 argument";
 	static readonly MISSING_OPTIONS_ERROR = "requires at least 1 option";
 	static readonly COMMAND_FAILED_ERROR = "Command failed";
@@ -163,18 +167,19 @@ export class Shell {
 		const workingDirectory = config.virtualRoot.navigateToFolder(config.path ?? "~") ?? config.virtualRoot;
 			
 		this.env = new ShellEnvironment({
-			USER: USERNAME,
-			HOSTNAME: HOSTNAME,
-			HOME: config.virtualRoot.navigateToFolder("~")?.absolutePath ?? "~",
-			PWD: workingDirectory.root ? "/" : workingDirectory.path,
-			OLDPWD: workingDirectory.root ? "/" : workingDirectory.path,
+			[ShellEnvironment.USER]: USERNAME,
+			[ShellEnvironment.HOSTNAME]: HOSTNAME,
+			[ShellEnvironment.PROMPT]: `${Ansi.cyan("\\u@\\h")}:${Ansi.blue("\\w")}$ `,
+			[ShellEnvironment.HOME]: config.virtualRoot.navigateToFolder("~")?.absolutePath ?? "~",
+			[ShellEnvironment.WORKING_DIRECTORY]: workingDirectory.root ? "/" : workingDirectory.path,
+			[ShellEnvironment.PREVIOUS_WORKING_DIRECTORY]: workingDirectory.root ? "/" : workingDirectory.path,
 			...config.env,
 		});
 
 		this.state = proxy<ShellState>({
 			history: [{
-				text: config.app ? WELCOME_MESSAGE.replace("$APP_NAME", config.app.name) : WELCOME_MESSAGE,
-				isCommand: false,
+				displayText: config.app ? WELCOME_MESSAGE.replace("$APP_NAME", config.app.name) : WELCOME_MESSAGE,
+				flags: HistoryFlags.None,
 			}],
 			line: config.input ?? "",
 			historyOffset: 0,
@@ -187,14 +192,14 @@ export class Shell {
 		});
 
 		this.interpreter = new ShellInterpreter(this);
-		this.updatePrompt();
+		void this.updatePrompt();
 	}
 
 	/**
 	 * Sends a signal to the shell or the currently active foreground process.
 	 * @param signal - The signal to send. Defaults to `"SIGTERM"`.
 	 */
-	terminate(signal: StreamSignal = "SIGTERM") {
+	public terminate(signal: StreamSignal = "SIGTERM") {
 		if (signal === "SIGKILL") {
 			this.config.exit();
 			return;
@@ -204,9 +209,10 @@ export class Shell {
 		const hasActiveStream = this.state.stream != null;
 
 		if (hasActiveStream) {
-			// Commit buffer only if not in alt screen
-			if (this.state.ttyBuffer && !this.state.isUsingAltScreen)
-				this.pushHistory({ text: this.state.ttyBuffer, isCommand: false });
+			const output = (this.state.ttyBuffer ?? "") + (isInterrupt ? "^C" : "");
+			if (output && !this.state.isUsingAltScreen) {
+				this.pushHistory({ displayText: output, flags: HistoryFlags.None });
+			}
 			
 			this.state.stream?.signal(signal);
 			this.state.stream = null;
@@ -218,9 +224,9 @@ export class Shell {
 
 		if (isInterrupt && !hasActiveStream) {
 			this.pushHistory({
-				text: this.state.prompt + this.state.line + "^C",
-				isCommand: true,
-				value: this.state.line,
+				displayText: this.state.prompt + this.state.line + "^C",
+				flags: HistoryFlags.Command,
+				input: this.state.line,
 			});
 			this.clearLine();
 		}
@@ -230,7 +236,7 @@ export class Shell {
 	 * Convenience method to send the `SIGINT` (Interrupt) signal.
 	 * @see {@link Shell.terminate}
 	 */
-	interrupt() {
+	public interrupt() {
 		this.terminate("SIGINT");
 	}
 
@@ -238,25 +244,23 @@ export class Shell {
 	 * Convenience method to send the `SIGKILL` (Kill) signal, closing the shell.
 	 * @see {@link Shell.terminate}
 	 */
-	kill() {
+	public kill() {
 		this.terminate("SIGKILL");
 	}
 
 	/**
-	 * Recalculates the prompt string based on the current user, hostname, and working directory.
+	 * Refreshes the prompt string based on the current user, hostname, and working directory.
 	 */
-	updatePrompt() {
-		const username = this.env.get(ShellEnvironment.USER) ?? USERNAME;
-		const hostname = this.env.get(ShellEnvironment.HOSTNAME) ?? HOSTNAME;
-		this.state.prompt = Ansi.cyan(`${username}@${hostname}`) + ":"
-			+ Ansi.blue(this.env.get(ShellEnvironment.WORKING_DIRECTORY) ?? "") + "$ ";
+	public async updatePrompt() {
+		const prompt = this.env.get(ShellEnvironment.PROMPT) ?? "\\u@\\h:\\w$ ";
+		this.state.prompt = await this.interpreter.evaluatePrompt(prompt, this.env);
 	}
 
 	/**
 	 * Updates the text in the current input line.
 	 * @param value - The new string value or a function that receives the previous value.
 	 */
-	setLine(value: string | ((prev: string) => string)) {
+	public setLine(value: string | ((prev: string) => string)) {
 		this.state.line = typeof value === "function" ? value(this.state.line) : value;
 	}
 
@@ -264,7 +268,7 @@ export class Shell {
 	 * Appends a new entry to the terminal history.
 	 * @param entry - The history entry to add.
 	 */
-	pushHistory(entry: HistoryEntry) {
+	public pushHistory(entry: HistoryEntry) {
 		this.state.history.push(entry);
 	}
 
@@ -272,52 +276,67 @@ export class Shell {
 	 * Writes raw text to the shell, handling ANSI escape codes for screen clearing and alt buffers.
 	 * @param text - The string data to write to the TTY.
 	 */
-	write(text: string) {
-		let remainingText = text;
-
-		if (remainingText.includes(ANSI.screen.enterAltBuffer))
+	public write(text: string) {
+		if (text.includes(ANSI.screen.enterAltBuffer)) {
 			this.state.isUsingAltScreen = true;
+			this.state.ttyBuffer = null;
+		}
 
-		if (remainingText.includes(ANSI.screen.exitAltBuffer)) {
+		if (text.includes(ANSI.screen.clear) || text.includes(ANSI.screen.home)) {
+			if (!this.state.isUsingAltScreen) {
+				this.pushHistory({ flags: HistoryFlags.Clear });
+			}
+			this.state.ttyBuffer = null;
+		}
+
+		if (text.includes(ANSI.screen.exitAltBuffer)) {
 			this.state.isUsingAltScreen = false;
 			this.state.ttyBuffer = null;
 		}
 
-		if (remainingText.includes(ANSI.screen.clear) || remainingText.includes(ANSI.screen.home)) {
-			if (!this.state.isUsingAltScreen)
-				this.pushHistory({ clear: true, isCommand: false });
-			this.state.ttyBuffer = null;
-		}
-
-		remainingText = remainingText.replace(Shell.STRIP_ANSI_REGEX, "");
-
-		if (remainingText === "") 
+		const remainingText = text.replace(Shell.STRIP_ANSI_REGEX, "");
+		if (remainingText === "")
 			return;
 
-		if (this.state.stream || this.state.isUsingAltScreen) {
-			if (this.state.ttyBuffer && !this.state.isUsingAltScreen)
-				this.pushHistory({ text: this.state.ttyBuffer, isCommand: false });
-			this.state.ttyBuffer = remainingText;
-		} else {
-			this.pushHistory({ text: remainingText, isCommand: false });
+		this.state.ttyBuffer = (this.state.ttyBuffer ?? "") + remainingText;
+
+		if (!this.state.isUsingAltScreen && this.state.ttyBuffer.includes("\n")) {
+			const lines = this.state.ttyBuffer.split("\n");
+			const lastLine = lines.pop() ?? "";
+
+			for (const line of lines) {
+				this.pushHistory({ displayText: line, flags: HistoryFlags.None });
+			}
+
+			this.state.ttyBuffer = lastLine;
 		}
 	}
 
 	/**
-	 * Clears the current input line and executes the given command string.
+	 * Submits the current input line and executes the given command string.
 	 * @param input - The command string to execute.
 	 * @returns A promise that resolves with the final exit code of the execution.
 	 */
-	async run(input: string) {
+	public async run(input: string) {
+		const prefix = this.state.ttyBuffer ?? "";
+		this.state.ttyBuffer = null;
 		this.clearLine();
-		this.pushHistory({ text: this.state.prompt + input, isCommand: true, value: input });
-		return await this.interpreter.execute(input);
+		
+		this.pushHistory({ 
+			displayText: prefix + this.state.prompt + input, 
+			flags: HistoryFlags.Command, 
+			input: input, 
+		});
+		
+		const exitCode = await this.interpreter.execute(input);
+		await this.updatePrompt();
+		return exitCode;
 	}
 
 	/**
 	 * Clears the current input line and resets the history search offset.
 	 */
-	clearLine() {
+	public clearLine() {
 		this.state.line = "";
 		this.state.historyOffset = 0;
 	}
@@ -326,8 +345,8 @@ export class Shell {
 	 * Navigates through command history.
 	 * @param direction - Positive to go back in time, negative to go forward.
 	 */
-	historySearch(direction: number) {
-		const inputHistory = this.state.history.filter(({ isCommand }) => isCommand);
+	public historySearch(direction: number) {
+		const inputHistory = this.state.history.filter(({ flags }) => (flags & HistoryFlags.Command) !== 0);
 		const index = clamp(this.state.historyOffset + direction, 0, inputHistory.length);
 
 		if (index === this.state.historyOffset) {
@@ -336,7 +355,7 @@ export class Shell {
 			return;
 		}
 
-		this.state.line = index === 0 ? "" : inputHistory[inputHistory.length - index].value ?? "";
+		this.state.line = index === 0 ? "" : inputHistory[inputHistory.length - index].input ?? "";
 		this.state.historyOffset = index;
 	}
 
@@ -344,7 +363,7 @@ export class Shell {
 	 * Changes the current working directory and updates `PWD`/`OLDPWD` environment variables.
 	 * @param directory - The virtual folder to switch to.
 	 */
-	setWorkingDirectory(directory: VirtualFolder) {
+	public setWorkingDirectory(directory: VirtualFolder) {
 		const path = directory.root ? "/" : directory.path;
 		const previousPath = this.env.get(ShellEnvironment.WORKING_DIRECTORY);
 		
@@ -354,14 +373,13 @@ export class Shell {
 		}
 
 		this.state.workingDirectory = directory;
-		this.updatePrompt();
 	}
 
 	/**
 	 * Calculates possible completions for the current input based on commands and file paths.
 	 * @returns An array of string suggestions.
 	 */
-	getCompletions() {
+	public getCompletions() {
 		const words = this.state.line.split(" ");
 		const lastWord = words.at(-1) ?? "";
 		const isFirstWord = words.length <= 1;
@@ -369,7 +387,7 @@ export class Shell {
 		let completions: string[] = [];
 
 		if (isFirstWord && !lastWord.includes("/")) {
-			completions = CommandsManager.COMMANDS
+			completions = ExecutableResolver.builtins
 				.filter((command) => command.name.startsWith(lastWord))
 				.map((command) => command.name);
 		}
@@ -397,9 +415,10 @@ export class Shell {
 	 * Performs an auto-completion action. If one match is found, it completes the line. 
 	 * If multiple are found, it lists them in the history.
 	 */
-	autoComplete() {
+	public autoComplete() {
 		const completions = this.getCompletions();
-		if (!completions.length) return;
+		if (!completions.length)
+			return;
 
 		const parts = this.state.line.split(" ");
 		const lastWord = parts.pop() ?? "";
@@ -423,13 +442,13 @@ export class Shell {
 			this.setLine(parts.join(" "));
 		} else {
 			this.pushHistory({
-				text: this.state.prompt + this.state.line,
-				isCommand: true,
-				value: this.state.line,
+				displayText: this.state.prompt + this.state.line,
+				flags: HistoryFlags.Command,
+				input: this.state.line,
 			});
 			this.pushHistory({
-				text: completions.join("  "),
-				isCommand: false,
+				displayText: completions.join("  "),
+				flags: HistoryFlags.None,
 			});
 		}
 	}
@@ -442,8 +461,8 @@ export class Shell {
 	 * @param exitCode - The numerical exit code to return.
 	 * @returns `exitCode`.
 	 */
-	static writeError(stream: Stream, commandName: string, error: string | string[] = Shell.COMMAND_FAILED_ERROR, exitCode: number = EXIT_CODE.generalError): number {
-		stream.write(Ansi.red(`${commandName}: ${typeof error === "string" ? error : error.join(": ")}`));
+	public static writeError(stream: Stream, commandName: string, error: string | string[] = Shell.COMMAND_FAILED_ERROR, exitCode: number = EXIT_CODE.generalError): number {
+		Shell.printLn(stream, Ansi.red(`${commandName}: ${typeof error === "string" ? error : error.join(": ")}`));
 		return exitCode;
 	}
 
@@ -451,7 +470,7 @@ export class Shell {
 	 * Executes a frame-based animation in the terminal using the Alternate Screen Buffer.
 	 * @returns A promise that resolves when the animation is stopped.
 	 */
-	static animate({ stdout, stdin, render, delay, clear = true, stopOnBlank = true }: Pick<ShellContext, "stdout" | "stdin"> & {
+	public static animate({ stdout, stdin, render, delay, clear = true, stopOnBlank = true }: Pick<ShellContext, "stdout" | "stdin"> & {
 		/** The function that renders each frame. */
 		render: (frame: number) => string,
 		/** The delay between each frame, in ms. */
@@ -501,7 +520,7 @@ export class Shell {
 	 * @param stdin - The input stream to fall back on.
 	 * @param callback - Function to process the collected input data.
 	 */
-	static async readInput(rawLine: string, stdin: Stream, callback: (data: string) => CommandOutput) {
+	public static async readInput(rawLine: string, stdin: Stream, callback: (data: string) => CommandOutput) {
 		if (rawLine.length > 0) {
 			return callback(rawLine);
 		}
@@ -514,5 +533,14 @@ export class Shell {
 		return stdin.wait().then(() => {
 			return buffer.length ? callback(buffer) : EXIT_CODE.success;
 		});
+	}
+
+	/**
+	 * Utility function that writes `text` followed by a newline (`"\n"`) to `stream`.
+	 * @param stream - The stream to write to.
+	 * @param text - The text to write.
+	 */
+	public static printLn(stream: Stream, text = "") {
+		stream.write(text + "\n");
 	}
 }
