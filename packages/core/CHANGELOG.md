@@ -1,5 +1,11 @@
 # @prozilla-os/core
 
+## 2.0.2
+
+### Patch Changes
+
+- Fixed tsdoc comments
+
 ## 2.0.1
 
 ### Patch Changes
