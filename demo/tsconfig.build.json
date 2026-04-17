@@ -1,9 +1,13 @@
 {
-	"extends": "./tsconfig.json",
-	"compilerOptions": {
-		"paths": {
-			"prozilla-os": ["packages/prozilla-os/dist/main",],
-			"@prozilla-os/*": ["packages/*/dist/main", "packages/apps/*/dist/main"],
-		},
-	},
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "paths": {
+            "prozilla-os": ["packages/prozilla-os/dist/main.d.ts"],
+            "@prozilla-os/core": ["packages/core/dist/main.d.ts"],
+            "@prozilla-os/shared": ["packages/shared/dist/main.d.ts"],
+            "@prozilla-os/skins": ["packages/skins/dist/main.d.ts"],
+            "@prozilla-os/dev-tools": ["packages/dev-tools/dist/main.d.ts"],
+            "@prozilla-os/*": ["packages/apps/*/dist/main.d.ts"]
+        }
+    }
 }

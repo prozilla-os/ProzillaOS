@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { ShellParser } from "../../../src/features/shell/shellParser";
 import { Command } from "../../../src/features/shell/command";
+import { ShellAST } from "../../../src/features";
 
 describe("ShellParser", () => {
 	describe("parseScript", () => {
@@ -9,8 +10,8 @@ describe("ShellParser", () => {
 			const block = ShellParser.parseScript(script);
 
 			expect(block).toHaveLength(2);
-			expect(block[0]).toEqual({ type: ShellParser.COMMAND, args: [["echo"], ["hello"]] });
-			expect(block[1]).toEqual({ type: ShellParser.COMMAND, args: [["ls"], ["-la"]] });
+			expect(block[0]).toEqual({ type: ShellAST.NodeType.Command, args: [["echo"], ["hello"]] });
+			expect(block[1]).toEqual({ type: ShellAST.NodeType.Command, args: [["ls"], ["-la"]] });
 		});
 
 		it("should parse an if-then-else structure", () => {
@@ -25,12 +26,12 @@ describe("ShellParser", () => {
 
 			expect(nodes).toHaveLength(1);
 			const node = nodes[0];
-			if (node.type === ShellParser.IF) {
-				expect(node.ifBranch.condition).toEqual({ type: ShellParser.COMMAND, args: [["true"]] });
+			if (node.type === ShellAST.NodeType.If) {
+				expect(node.ifBranch.condition).toEqual({ type: ShellAST.NodeType.Command, args: [["true"]] });
 				expect(node.ifBranch.thenBranch).toHaveLength(1);
-				expect(node.ifBranch.thenBranch[0]).toEqual({ type: ShellParser.COMMAND, args: [["echo"], ["\"yes\""]] });
+				expect(node.ifBranch.thenBranch[0]).toEqual({ type: ShellAST.NodeType.Command, args: [["echo"], ["\"yes\""]] });
 				expect(node.elseBranch).toHaveLength(1);
-				expect(node.elseBranch[0]).toEqual({ type: ShellParser.COMMAND, args: [["echo"], ["\"no\""]] });
+				expect(node.elseBranch[0]).toEqual({ type: ShellAST.NodeType.Command, args: [["echo"], ["\"no\""]] });
 			} else {
 				throw new Error("Expected IfNode");
 			}
@@ -41,10 +42,10 @@ describe("ShellParser", () => {
 			const nodes = ShellParser.parseScript(script);
 
 			const node = nodes[0];
-			if (node.type === ShellParser.IF) {
+			if (node.type === ShellAST.NodeType.If) {
 				expect(node.elifBranches).toHaveLength(1);
-				expect(node.elifBranches[0].condition).toEqual({ type: ShellParser.COMMAND, args: [["c"]] });
-				expect(node.elifBranches[0].thenBranch[0]).toEqual({ type: ShellParser.COMMAND, args: [["d"]] });
+				expect(node.elifBranches[0].condition).toEqual({ type: ShellAST.NodeType.Command, args: [["c"]] });
+				expect(node.elifBranches[0].thenBranch[0]).toEqual({ type: ShellAST.NodeType.Command, args: [["d"]] });
 			}
 		});
 
@@ -53,10 +54,10 @@ describe("ShellParser", () => {
 			const nodes = ShellParser.parseScript(script);
 
 			const node = nodes[0];
-			if (node.type === ShellParser.WHILE) {
-				expect(node.condition).toEqual({ type: ShellParser.COMMAND, args: [["condition"]] });
+			if (node.type === ShellAST.NodeType.While) {
+				expect(node.condition).toEqual({ type: ShellAST.NodeType.Command, args: [["condition"]] });
 				expect(node.body).toHaveLength(1);
-				expect(node.body[0]).toEqual({ type: ShellParser.COMMAND, args: [["task"]] });
+				expect(node.body[0]).toEqual({ type: ShellAST.NodeType.Command, args: [["task"]] });
 			}
 		});
 
@@ -65,15 +66,15 @@ describe("ShellParser", () => {
 			const nodes = ShellParser.parseScript(script);
 
 			const node = nodes[0];
-			if (node.type === ShellParser.FOR_IN) {
+			if (node.type === ShellAST.NodeType.ForIn) {
 				expect(node.variableName).toBe("i");
 				expect(node.items).toEqual([["1"], ["2"], ["3"]]);
 				expect(node.body).toHaveLength(1);
 				expect(node.body[0]).toEqual({
-					type: ShellParser.COMMAND,
+					type: ShellAST.NodeType.Command,
 					args: [
 						["echo"],
-						[{ type: ShellParser.PARAMETER_EXPANSION, name: "i" }],
+						[{ type: ShellAST.NodeType.ParameterExpansion, name: "i" }],
 					],
 				});
 			}
@@ -84,7 +85,7 @@ describe("ShellParser", () => {
 			const nodes = ShellParser.parseScript(script);
 
 			const node = nodes[0];
-			if (node.type === ShellParser.FOR_EXPRESSION) {
+			if (node.type === ShellAST.NodeType.ForExpression) {
 				expect(node.setup.expression).toBe("i=0");
 				expect(node.condition.expression).toBe("i<3");
 				expect(node.step.expression).toBe("i++");

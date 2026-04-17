@@ -32,7 +32,6 @@ export class ExecutableResolver {
 	}
 
 	private static resolvePath(path: string, workingDirectory: VirtualFolder): ExecutableResolutionResult {
-		console.log(workingDirectory.path, path);
 		const target = workingDirectory.navigate(path);
 		if (!target)
 			return { executable: null, error: this.NOT_FOUND_ERROR };

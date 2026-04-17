@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { REPO } from "../src/config/deploy.config";
-import { name } from "../package.json";
+import { name } from "../package.json" with { type: "json" };
 import { Logger } from "@prozilla-os/shared";
 
 const API_URL = "https://api.github.com/";

@@ -22,20 +22,6 @@ export class ShellParser {
 	static readonly ARITHMETIC_PREFIX_TOKEN = "((";
 	static readonly ARITHMETIC_SUFFIX_TOKEN = "))";
 
-	static readonly COMMAND = "command";
-	static readonly LOGICAL = "logical";
-	static readonly PIPELINE = "pipeline";
-	static readonly IF = "if";
-	static readonly CONDITIONAL_BLOCK = "conditionalBlock";
-	static readonly WHILE = "while";
-	static readonly FOR_IN = "forIn";
-	static readonly FOR_EXPRESSION = "forExpression";
-	static readonly ASSIGNMENT = "assignment";
-	static readonly ARITHMETIC = "arithmetic";
-	static readonly PARAMETER_EXPANSION = "parameterExpansion";
-	static readonly ARITHMETIC_EXPANSION = "arithmeticExpansion";
-	static readonly COMMAND_SUBSTITUTION = "commandSubstitution";
-
 	/**
 	 * High-level method to transform a raw script string into a structured AST.
 	 * @param script - The raw shell script string.
@@ -214,7 +200,7 @@ export class ShellParser {
 		index = this.advancePastKeyword(lines, index, this.KEYWORD_THEN);
 
 		const thenResult = this.parseStatements(lines, index, [this.KEYWORD_ELIF, this.KEYWORD_ELSE, this.KEYWORD_FI]);
-		const ifBranch: ShellAST.ConditionalBlockNode = { type: this.CONDITIONAL_BLOCK, condition, thenBranch: thenResult.nodes };
+		const ifBranch: ShellAST.ConditionalBlockNode = { type: ShellAST.NodeType.ConditionalBlock, condition, thenBranch: thenResult.nodes };
 		
 		index = thenResult.nextIndex;
 		let currentEndToken = thenResult.endToken;
@@ -238,7 +224,7 @@ export class ShellParser {
 		if (currentEndToken === this.KEYWORD_FI)
 			index++;
 
-		const node: ShellAST.IfNode = { type: this.IF, ifBranch, elifBranches, elseBranch };
+		const node: ShellAST.IfNode = { type: ShellAST.NodeType.If, ifBranch, elifBranches, elseBranch };
 		return { node, nextIndex: index };
 	}
 
@@ -254,7 +240,7 @@ export class ShellParser {
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_ELIF, this.KEYWORD_ELSE, this.KEYWORD_FI]);
 		const branch: ShellAST.ConditionalBlockNode = {
-			type: this.CONDITIONAL_BLOCK,
+			type: ShellAST.NodeType.ConditionalBlock,
 			condition,
 			thenBranch: result.nodes,
 		};
@@ -301,7 +287,7 @@ export class ShellParser {
 		if (result.endToken === this.KEYWORD_DONE)
 			index++;
 
-		const node: ShellAST.WhileNode = { type: this.WHILE, condition, body: result.nodes };
+		const node: ShellAST.WhileNode = { type: ShellAST.NodeType.While, condition, body: result.nodes };
 		return { node, nextIndex: index };
 	}
 
@@ -344,7 +330,7 @@ export class ShellParser {
 			index++;
 
 		const node: ShellAST.ForExpressionNode = { 
-			type: this.FOR_EXPRESSION, 
+			type: ShellAST.NodeType.ForExpression, 
 			setup, 
 			condition, 
 			step, 
@@ -378,7 +364,7 @@ export class ShellParser {
 			index++;
 
 		const node: ShellAST.ForInNode = { 
-			type: this.FOR_IN, 
+			type: ShellAST.NodeType.ForIn, 
 			variableName, 
 			items, 
 			body: result.nodes, 
@@ -402,13 +388,13 @@ export class ShellParser {
 
 			if (operator === "+") {
 				return {
-					type: this.ASSIGNMENT,
+					type: ShellAST.NodeType.Assignment,
 					name,
 					value: this.parseArgument(`\${${name}}${rawValue}`),
 				};
 			} else {
 				return {
-					type: this.ASSIGNMENT,
+					type: ShellAST.NodeType.Assignment,
 					name,
 					value: this.parseArgument(`$((\${${name}}${operator}${rawValue}))`),
 				};
@@ -416,7 +402,7 @@ export class ShellParser {
 		}
 
 		return {
-			type: this.ASSIGNMENT,
+			type: ShellAST.NodeType.Assignment,
 			name,
 			value: this.parseArgument(rawValue),
 		};
@@ -427,7 +413,7 @@ export class ShellParser {
 	 */
 	private static parseArithmetic(expression: string): ShellAST.ArithmeticNode {
 		return { 
-			type: this.ARITHMETIC, 
+			type: ShellAST.NodeType.Arithmetic, 
 			expression: expression.trim(), 
 		};
 	}
@@ -494,7 +480,7 @@ export class ShellParser {
 		const split = this.splitByOperators(input, ["&&", "||"]);
 		if (split) {
 			return {
-				type: this.LOGICAL,
+				type: ShellAST.NodeType.Logical,
 				left: this.parseLogical(split.left),
 				operator: split.operator as "&&" | "||",
 				right: this.parseLogical(split.right),
@@ -513,11 +499,11 @@ export class ShellParser {
 			const leftNode = this.parsePipeline(split.left);
 			const rightNode = this.parseSimpleCommand(split.right);
 		
-			const commands: ShellAST.ExecutableNode[] = leftNode.type === this.PIPELINE 
+			const commands: ShellAST.ExecutableNode[] = leftNode.type === ShellAST.NodeType.Pipeline 
 				? [...leftNode.commands, rightNode]
 				: [leftNode, rightNode];
 		
-			return { type: this.PIPELINE, commands } satisfies ShellAST.PipelineNode;
+			return { type: ShellAST.NodeType.Pipeline, commands } satisfies ShellAST.PipelineNode;
 		}
 		return this.parseSimpleCommand(input);
 	}
@@ -530,7 +516,7 @@ export class ShellParser {
 		const args: ShellAST.Argument[] = tokens.map((token) => this.parseArgument(token));
 
 		return {
-			type: this.COMMAND,
+			type: ShellAST.NodeType.Command,
 			args,
 		};
 	}
@@ -555,7 +541,7 @@ export class ShellParser {
 					const rawArgument = match[3] ?? "";
 
 					const node: ShellAST.ParameterExpansionNode = {
-						type: this.PARAMETER_EXPANSION,
+						type: ShellAST.NodeType.ParameterExpansion,
 						name: name,
 						operator: operator,
 						argument: operator ? this.parseArgument(rawArgument) : undefined,
@@ -564,7 +550,7 @@ export class ShellParser {
 				}
 
 				const node: ShellAST.ParameterExpansionNode = {
-					type: this.PARAMETER_EXPANSION,
+					type: ShellAST.NodeType.ParameterExpansion,
 					name: content,
 				};
 				return { node, nextIndex: closingIndex + 1 };
@@ -575,14 +561,14 @@ export class ShellParser {
 				j++;
 			}
 			const node: ShellAST.ParameterExpansionNode = {
-				type: this.PARAMETER_EXPANSION,
+				type: ShellAST.NodeType.ParameterExpansion,
 				name: input.substring(startIndex + 1, j),
 			};
 			return { node, nextIndex: j };
 		}
 
 		const fallbackNode: ShellAST.ParameterExpansionNode = {
-			type: this.PARAMETER_EXPANSION,
+			type: ShellAST.NodeType.ParameterExpansion,
 			name: "",
 		};
 		return { node: fallbackNode, nextIndex: startIndex + 1 };
@@ -605,7 +591,7 @@ export class ShellParser {
 		const suffixLength = 2;
 		const content = input.substring(startIndex + prefixLength, j - suffixLength);
 		const node: ShellAST.ArithmeticExpansionNode = {
-			type: this.ARITHMETIC_EXPANSION,
+			type: ShellAST.NodeType.ArithmeticExpansion,
 			content: this.parseArithmetic(content),
 		};
 		
@@ -630,7 +616,7 @@ export class ShellParser {
 		const contentString = input.substring(startIndex + prefixLength, j - suffixLength);
 	
 		const node: ShellAST.CommandSubstitutionNode = {
-			type: this.COMMAND_SUBSTITUTION,
+			type: ShellAST.NodeType.CommandSubstitution,
 			content: this.parseScript(contentString),
 		};
 	

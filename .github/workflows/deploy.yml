@@ -20,10 +20,11 @@ jobs:
       - name: Fetch latest tag
         id: get_tag
         run: |
-          git fetch --tags
-          LATEST_TAG=$(git tag -l "v*" --sort=-v:refname | head -n 1)
+          LATEST_TAG=$(gh release view --json tagName --template '{{.tagName}}' || git tag -l "v*" --sort=-v:refname | head -n 1)
           echo "tag=$LATEST_TAG" >> $GITHUB_OUTPUT
           echo "Found tag: $LATEST_TAG"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout latest release
         uses: actions/checkout@v4
@@ -40,8 +41,14 @@ jobs:
           node-version: 20
           cache: pnpm
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Install release dependencies
+        run: cd latest-release && pnpm install --frozen-lockfile
+
+      - name: Build release packages
+        run: cd latest-release && pnpm run packages:build
 
       - name: Build packages
         run: pnpm run build

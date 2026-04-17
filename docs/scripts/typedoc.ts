@@ -39,17 +39,19 @@ const SOURCE_BASE = RELEASE_PATH
 	? resolve(RELEASE_PATH, "packages") 
 	: resolve(__dirname, PACKAGES_DIR);
 
+const COMPILER_BASE = RELEASE_PATH ? resolve(RELEASE_PATH) : resolve(__dirname, "../../");
+
 const COMPILER_PATHS: Record<string, string[]> = {
-	"*": ["node_modules/*"],
+	"*": [resolve(COMPILER_BASE, "node_modules/*").replaceAll("\\", "/")],
 };
 
 PACKAGE_PATHS.forEach((path) => {
 	const name = packagePathToName(path);
-	COMPILER_PATHS[name] = [`packages/${path}`];
-	COMPILER_PATHS[`${name}/*`] = [`packages/${path}/*`];
+	// Point to the source files in the release directory
+	const absolutePkgPath = resolve(SOURCE_BASE, path, "src/main.ts").replaceAll("\\", "/");
+	COMPILER_PATHS[name] = [absolutePkgPath];
+	COMPILER_PATHS[`${name}/*`] = [resolve(SOURCE_BASE, path, "src/*").replaceAll("\\", "/")];
 });
-
-const WORKSPACE_ROOT = resolve(__dirname, "../../").replaceAll("\\", "/");
 
 const logger = new Logger();
 
@@ -104,26 +106,16 @@ program.command("run", { isDefault: true })
 async function generateDocs(path: string, dryRun: boolean) {
 	const packageDir = resolve(SOURCE_BASE, path);
 	const entryPoint = resolve(packageDir, "src/main.ts").replaceAll("\\", "/");
-    
-	const tsConfig = resolve(SOURCE_BASE, path, "tsconfig.json");
-
 	const outDir = OUT_DIR + path;
-	const navigationJson = `${outDir}/nav.json`;
+	const tsConfig = resolve(packageDir, "tsconfig.json");
 
-	const options: TypeDocOptions & PluginOptions & { path: string } = {
+	const options = {
 		...DEFAULT_OPTIONS,
 		path,
 		entryPoints: [entryPoint],
 		tsconfig: tsConfig,
 		out: outDir,
-		navigationJson,
-		compilerOptions: {
-			moduleResolution: "node",
-			baseUrl: WORKSPACE_ROOT,
-			paths: COMPILER_PATHS,
-			skipLibCheck: true,
-			jsx: "react-jsx",
-		},
+		navigationJson: `${outDir}/nav.json`,
 	};
 
 	const packageName = formatPackageName(path);

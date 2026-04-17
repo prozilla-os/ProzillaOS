@@ -4,8 +4,10 @@ import { VirtualFile } from "../virtual-drive";
 import { Process, ProcessIO, Shell } from "./shell";
 import { Stream, StreamSignal } from "./stream";
 import { ShellParser } from "./shellParser";
-import { ExecutableResolver, ShellAST, ShellEnvironment } from ".";
 import { ArithmeticParser } from "./arithmetic/arithmeticParser";
+import { ShellEnvironment } from "./shellEnvironment";
+import { ExecutableResolver } from "./executableResolver";
+import { ShellAST } from ".";
 
 /**
  * Handles the parsing, expansion, and execution of shell commands and scripts.
@@ -104,11 +106,11 @@ export class ShellInterpreter {
 	private async executeNode(node: ShellAST.Node, io?: Partial<ProcessIO>): Promise<number> {
 		const env = io?.env ?? this.shell.env;
 		switch (node.type) {
-			case ShellParser.COMMAND:
+			case ShellAST.NodeType.Command:
 				return await this.executeCommands([node], io);
-			case ShellParser.PIPELINE:
+			case ShellAST.NodeType.Pipeline:
 				return await this.executeCommands(node.commands, io);
-			case ShellParser.LOGICAL: {
+			case ShellAST.NodeType.Logical: {
 				const logicalNode = node;
 				let exitCode = await this.executeNode(logicalNode.left, io);
 				
@@ -120,15 +122,15 @@ export class ShellInterpreter {
 				
 				return exitCode;
 			}
-			case ShellParser.ASSIGNMENT: {
+			case ShellAST.NodeType.Assignment: {
 				const assignmentNode = node;
 				const expandedValue = await this.evaluateArgument(assignmentNode.value, env);
 				env.set(assignmentNode.name, expandedValue);
 				return EXIT_CODE.success;
 			}
-			case ShellParser.ARITHMETIC:
+			case ShellAST.NodeType.Arithmetic:
 				return this.evaluateArithmetic(node.expression, env);
-			case ShellParser.IF: {
+			case ShellAST.NodeType.If: {
 				const ifNode = node;
 				const conditionExitCode = await this.executeNode(ifNode.ifBranch.condition, io);
 
@@ -149,7 +151,7 @@ export class ShellInterpreter {
 				}
 				return EXIT_CODE.success;
 			}
-			case ShellParser.WHILE: {
+			case ShellAST.NodeType.While: {
 				const whileNode = node;
 				let lastExitCode: number = EXIT_CODE.success;
 				while (await this.executeNode(whileNode.condition, io) === EXIT_CODE.success) {
@@ -157,7 +159,7 @@ export class ShellInterpreter {
 				}
 				return lastExitCode;
 			}
-			case ShellParser.FOR_IN: {
+			case ShellAST.NodeType.ForIn: {
 				const forInNode = node;
 				let lastExitCode: number = EXIT_CODE.success;
 				const items: string[] = [];
@@ -174,7 +176,7 @@ export class ShellInterpreter {
 
 				return lastExitCode;
 			}
-			case ShellParser.FOR_EXPRESSION: {
+			case ShellAST.NodeType.ForExpression: {
 				const forExprNode = node;
 				let lastExitCode: number = EXIT_CODE.success;
 				this.evaluateArithmetic(forExprNode.setup.expression, env);
@@ -208,12 +210,12 @@ export class ShellInterpreter {
 				stdin: new Stream(),
 				stdout: new Stream(),
 				stderr: new Stream(),
-				commandName: node.type === ShellParser.COMMAND ? "" : `<${node.type}>`,
+				commandName: node.type === ShellAST.NodeType.Command ? "" : `<${node.type}>`,
 				args: [],
 				env,
 			};
 
-			if (node.type === ShellParser.COMMAND) {
+			if (node.type === ShellAST.NodeType.Command) {
 				const commandNode = node;
 				for (const argParts of commandNode.args) {
 					process.args.push(await this.evaluateArgument(argParts, env));
@@ -263,7 +265,7 @@ export class ShellInterpreter {
 			const node = nodes[i];
 			const process = pipelineProcesses[i];
 			
-			if (node.type === ShellParser.COMMAND) {
+			if (node.type === ShellAST.NodeType.Command) {
 				tasks.unshift(this.spawn(process));
 			} else {
 				tasks.unshift(this.executeNode(node, {
@@ -293,7 +295,7 @@ export class ShellInterpreter {
 			}
 
 			switch (part.type) {
-				case ShellParser.PARAMETER_EXPANSION: {
+				case ShellAST.NodeType.ParameterExpansion: {
 					let expandedDefault = "";
 					if (part.argument)
 						expandedDefault = await this.evaluateArgument(part.argument, env);
@@ -301,11 +303,11 @@ export class ShellInterpreter {
 					result += env.expand(part, expandedDefault);
 					break;
 				}
-				case ShellParser.ARITHMETIC_EXPANSION: {
+				case ShellAST.NodeType.ArithmeticExpansion: {
 					result += this.evaluateArithmetic(part.content.expression, env).toString();
 					break;
 				}
-				case ShellParser.COMMAND_SUBSTITUTION: {
+				case ShellAST.NodeType.CommandSubstitution: {
 					const captureStream = new Stream();
 					let output = "";
 					captureStream.on("data", (data: string) => output += data);
