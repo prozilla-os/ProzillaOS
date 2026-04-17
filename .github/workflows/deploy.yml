@@ -14,6 +14,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout latest release
+        uses: actions/checkout@v4
+        with:
+          ref: v*
+          path: latest-release
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
@@ -29,6 +37,8 @@ jobs:
 
       - name: Build packages
         run: pnpm run build
+        env:
+          RELEASE_PATH: ${{ github.workspace }}/latest-release
 
       - name: Configure git
         run: |

@@ -83,10 +83,17 @@ program.command("run", { isDefault: true })
 		logger.success("Generated all docs");
 	});
 
+const RELEASE_PATH = process.env.RELEASE_PATH?.trim();
+
+const SOURCE_BASE = RELEASE_PATH 
+	? resolve(RELEASE_PATH, "packages") 
+	: resolve(__dirname, PACKAGES_DIR);
+
 async function generateDocs(path: string, dryRun: boolean) {
-	const packageDir = PACKAGES_DIR + path;
-	const entryPoint = `${packageDir}/src/main.ts`;
-	const tsConfig = `${packageDir}/tsconfig.json`;
+	const packageDir = resolve(SOURCE_BASE, path);
+	const entryPoint = resolve(packageDir, "src/main.ts").replaceAll("\\", "/");
+    
+	const tsConfig = resolve(SOURCE_BASE, path, "tsconfig.json");
 
 	const outDir = OUT_DIR + path;
 	const navigationJson = `${outDir}/nav.json`;
@@ -101,7 +108,7 @@ async function generateDocs(path: string, dryRun: boolean) {
 	};
 
 	const packageName = formatPackageName(path);
-	logger.pending(`Generating docs for: ${packageName}`);
+	logger.pending(`Generating docs for: ${packageName} (Source: ${packageDir})`);
 
 	const onComplete = () => {
 		logger.success(`Generated docs for: ${packageName}`);
