@@ -1,42 +1,66 @@
-import { ANSI } from "@prozilla-os/shared";
+import { ANSI, parseOptionalFloat, parseOptionalInteger } from "@prozilla-os/shared";
 import { Command } from "../command";
 import { Shell } from "../shell";
 
 const FIRE_CHARS = " .:-=+*#%@".split("");
 const MAX_HEAT_LEVELS = 256 * 5;
-
-const COLOR_INTENSITY_MODIFIER = 1.5;
-const WHITE_HEAT_THRESHOLD = COLOR_INTENSITY_MODIFIER * 60;
-const YELLOW_HEAT_THRESHOLD = COLOR_INTENSITY_MODIFIER * 25;
-const RED_HEAT_THRESHOLD = COLOR_INTENSITY_MODIFIER * 8;
+const WHITE_THRESHOLD = 60;
+const YELLOW_THRESHOLD = 25;
+const RED_THRESHOLD = 8;
 
 const CENTER_CONCENTRATION_BIAS = 12;
-const MAX_INITIAL_HEAT = 255;
-const HEIGHT_COOLING_FACTOR = 1200;
-const HEAT_DISSIPATION_RATE = 5;
 const VERTICAL_HEAT_LOSS = 1;
 const FLICKER_SPEED = 3;
 const NOISE_VARIATION_RANGE = 6;
 const NOISE_VARIATION_OFFSET = 2;
 
+const ANIMATION_SPEED_DEFAULT = 60 / 50;
+const INTENSITY_DEFAULT = 1 / 1.5;
+const COOLING_FACTOR_DEFAULT = 1200;
+const DISSIPATION_RATE_DEFAULT = 5;
+const MAX_HEAT_DEFAULT = 255;
+
 export const afire = new Command()
 	.setManual({
 		purpose: "Display burning ASCII art flames",
+		usage: "afire [-s <speed>] [-i <float>] [-c <int>] [-d <int>] [-h <int>]",
+		options: {
+			"-s speed": `Speed of the animation (Defaults to ${ANIMATION_SPEED_DEFAULT})`,
+			"-i float": `Color intensity modifier (defaults to ${INTENSITY_DEFAULT})`,
+			"-c int": `Height cooling factor (defaults to ${COOLING_FACTOR_DEFAULT})`,
+			"-d int": `Heat dissipation rate (defaults to ${DISSIPATION_RATE_DEFAULT})`,
+			"-h int": `Maximum heat source (defaults to ${MAX_HEAT_DEFAULT})`,
+		},
 	})
-	.setExecute(function(this: Command, _args, { size, stdin, stdout }) {
-		const width = size.x;
-		const visibleHeight = size.y;
-		const bufferHeight = visibleHeight + 4;
+	.addOption({ short: "s", long: "speed", isInput: true })
+	.addOption({ short: "i", long: "intensity", isInput: true })
+	.addOption({ short: "c", long: "cooling", isInput: true })
+	.addOption({ short: "d", long: "dissipation", isInput: true })
+	.addOption({ short: "h", long: "heat", isInput: true })
+	.setExecute(function(this: Command, _args, { size, stdin, stdout, inputs }) {
+		const animationDelay = 60 / parseOptionalInteger(inputs.s, ANIMATION_SPEED_DEFAULT);
+		const colorThreshold = 1 / parseOptionalFloat(inputs.i, INTENSITY_DEFAULT);
+		const coolingFactor = parseOptionalInteger(inputs.c, COOLING_FACTOR_DEFAULT);
+		const dissipationRate = parseOptionalInteger(inputs.d, DISSIPATION_RATE_DEFAULT);
+		const maxHeat = parseOptionalInteger(inputs.h, MAX_HEAT_DEFAULT);
+
+		const whiteThreshold = colorThreshold * WHITE_THRESHOLD;
+		const yellowThreshold = colorThreshold * YELLOW_THRESHOLD;
+		const redThreshold = colorThreshold * RED_THRESHOLD;
+
+		let width = size.x;
+		let visibleHeight = size.y;
+		let bufferHeight = visibleHeight + 4;
 		
 		let bitmap = new Uint8Array(width * bufferHeight);
 		const heatLookupTable = new Uint32Array(MAX_HEAT_LEVELS);
 		let flickerTimer = 0;
 
 		const generateHeatTable = () => {
-			const heightCoolingThreshold = Math.max(1, Math.floor(HEIGHT_COOLING_FACTOR / visibleHeight));
+			const heightCoolingThreshold = Math.max(1, Math.floor(coolingFactor / visibleHeight));
 			for (let i = 0; i < MAX_HEAT_LEVELS; i++) {
 				if (i > heightCoolingThreshold) {
-					heatLookupTable[i] = Math.floor((i - heightCoolingThreshold) / HEAT_DISSIPATION_RATE);
+					heatLookupTable[i] = Math.floor((i - heightCoolingThreshold) / dissipationRate);
 				} else {
 					heatLookupTable[i] = 0;
 				}
@@ -67,7 +91,7 @@ export const afire = new Command()
 			const sourceBaseIndex = width * visibleHeight;
 
 			for (let x = 0; x < width; x++, leftEdgeWeight += CENTER_CONCENTRATION_BIAS, rightEdgeWeight -= CENTER_CONCENTRATION_BIAS) {
-				let currentHeat = Math.floor(Math.random() * Math.min(leftEdgeWeight, rightEdgeWeight, MAX_INITIAL_HEAT));
+				let currentHeat = Math.floor(Math.random() * Math.min(leftEdgeWeight, rightEdgeWeight, maxHeat));
 				let clusterSize = Math.floor(Math.random() * NOISE_VARIATION_RANGE);
 
 				while (x < width && clusterSize !== 0) {
@@ -99,10 +123,13 @@ export const afire = new Command()
 		return Shell.animate({
 			stdin,
 			stdout,
-			delay: 50,
+			delay: animationDelay,
 			useAltBuffer: true,
 			render: () => {
-				if (bitmap.length !== width * bufferHeight) {
+				if (width !== size.x || visibleHeight !== size.y) {
+					width = size.x;
+					visibleHeight = size.y;
+					bufferHeight = visibleHeight + 4;
 					bitmap = new Uint8Array(width * bufferHeight);
 					generateHeatTable();
 				}
@@ -121,11 +148,11 @@ export const afire = new Command()
 							const char = FIRE_CHARS[Math.min(charIndex, FIRE_CHARS.length - 1)] || " ";
 							
 							let color = ANSI.fg.red + ANSI.decoration.dim;
-							if (heat > WHITE_HEAT_THRESHOLD) {
+							if (heat > whiteThreshold) {
 								color = ANSI.fg.white;
-							} else if (heat > YELLOW_HEAT_THRESHOLD) {
+							} else if (heat > yellowThreshold) {
 								color = ANSI.fg.yellow;
-							} else if (heat > RED_HEAT_THRESHOLD) {
+							} else if (heat > redThreshold) {
 								color = ANSI.fg.red;
 							}
 

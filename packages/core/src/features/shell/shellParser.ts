@@ -432,7 +432,7 @@ export class ShellParser {
 		return this.parseCommand(rawCondition);
 	}
 
-	private static splitByOperators(input: string, operators: string[]) {
+	private static splitByOperators<Operator extends string = string>(input: string, operators: Operator[]) {
 		let inSingleQuote = false;
 		let inDoubleQuote = false;
 		let depth = 0;
@@ -449,12 +449,11 @@ export class ShellParser {
 				if (char === "(" || char === "{") depth--;
 
 				if (depth === 0) {
-					for (const op of operators) {
-						const opLen = op.length;
-						if (input.substring(i - opLen + 1, i + 1) === op) {
+					for (const operator of operators) {
+						if (input.substring(i - operator.length + 1, i + 1) === operator) {
 							return {
-								left: input.substring(0, i - opLen + 1).trim(),
-								operator: op,
+								left: input.substring(0, i - operator.length + 1).trim(),
+								operator,
 								right: input.substring(i + 1).trim(),
 							};
 						}
@@ -482,7 +481,7 @@ export class ShellParser {
 			return {
 				type: ShellAST.NodeType.Logical,
 				left: this.parseLogical(split.left),
-				operator: split.operator as "&&" | "||",
+				operator: split.operator,
 				right: this.parseLogical(split.right),
 			} satisfies ShellAST.LogicalNode;
 		}
@@ -557,9 +556,15 @@ export class ShellParser {
 			}
 		} else {
 			let j = startIndex + 1;
-			while (j < input.length && /[a-zA-Z0-9_]/.test(input[j])) {
+			const firstChar = input[j];
+
+			if (/[0-9?#$!*@-]/.test(firstChar))
 				j++;
+			else {
+				while (j < input.length && /[a-zA-Z0-9_]/.test(input[j]))
+					j++;
 			}
+
 			const node: ShellAST.ParameterExpansionNode = {
 				type: ShellAST.NodeType.ParameterExpansion,
 				name: input.substring(startIndex + 1, j),
@@ -646,7 +651,7 @@ export class ShellParser {
 					continue;
 				}
 
-				if (nextChar === "{" || /[a-zA-Z_]/.test(nextChar)) {
+				if (nextChar === "{" || /[a-zA-Z_0-9?#$!*@-]/.test(nextChar)) {
 					const { node, nextIndex } = this.parseParameterExpansion(input, i);
 					parts.push(node);
 					i = nextIndex;

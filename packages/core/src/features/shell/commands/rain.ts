@@ -1,10 +1,11 @@
-import { Vector2, ANSI, randomRange, removeFromArray } from "@prozilla-os/shared";
+import { Vector2, ANSI, randomRange, removeFromArray, parseOptionalFloat } from "@prozilla-os/shared";
 import { Command } from "../command";
 import { Shell } from "../shell";
 
-const ANIMATION_SPEED = 1.25;
+const ANIMATION_SPEED = 2;
 const DROP_CHAR = "|";
 const SPLASH_SEQUENCE = [".", "v", "V", "w", "W", "v", "."];
+const MAX_LENGTH = 2;
 
 const PARTICLES = {
 	spawnRate: 40,
@@ -15,6 +16,8 @@ type RainParticle = {
 	position: Vector2;
 	isSplashing: boolean;
 	splashFrame: number;
+	inBackground: boolean;
+	length: number;
 };
 
 function initializeScreen(size: Vector2): string[][] {
@@ -31,21 +34,27 @@ function generateScreen(frame: number, screen: string[][], particles: RainPartic
 			position: new Vector2(randomRange(0, size.x - 1), size.y - 1).round(),
 			isSplashing: false,
 			splashFrame: 0,
+			inBackground : Math.random() > 0.5,
+			length: Math.round(randomRange(1, MAX_LENGTH)),
 		});
 	}
 
 	particles.forEach((particle) => {
-		if (particle.position.y >= 0 && particle.position.y < size.y)
-			screen[particle.position.y][particle.position.x] = " ";
+		for (let i = 0; i < PARTICLES.fallSpeed; i++) {
+			const y = particle.position.y + particle.length + i - 1;
+			if (y < screen.length)
+				screen[y][particle.position.x] = " ";
+		}
 
 		if (particle.isSplashing) {
 			if (particle.splashFrame >= SPLASH_SEQUENCE.length) {
+				screen[0][particle.position.x] = " ";
 				removeFromArray(particle, particles);
 				return;
 			}
 			
 			const splashChar = SPLASH_SEQUENCE[particle.splashFrame];
-			const color = particle.splashFrame > SPLASH_SEQUENCE.length / 2 
+			const color = particle.inBackground || particle.splashFrame > SPLASH_SEQUENCE.length / 2
 				? ANSI.fg.cyan + ANSI.decoration.dim 
 				: ANSI.fg.cyan;
 
@@ -59,7 +68,8 @@ function generateScreen(frame: number, screen: string[][], particles: RainPartic
 				particle.isSplashing = true;
 				particle.splashFrame = 0;
 			} else if (particle.position.y < size.y) {
-				screen[particle.position.y][particle.position.x] = ANSI.fg.blue + DROP_CHAR + ANSI.reset;
+				const color = particle.inBackground ? ANSI.fg.blue + ANSI.decoration.dim : ANSI.fg.blue;
+				screen[particle.position.y][particle.position.x] = color + DROP_CHAR + ANSI.reset;
 			} else {
 				removeFromArray(particle, particles);
 			}
@@ -72,11 +82,16 @@ function generateScreen(frame: number, screen: string[][], particles: RainPartic
 export const rain = new Command()
 	.setManual({
 		purpose: "Show an animated rain effect with splashes",
+		usage: "rain [-s <speed>]",
+		options: {
+			"-s speed": `Speed of the animation (Defaults to ${ANIMATION_SPEED})`,
+		},
 	})
-	.setExecute(function(this: Command, _arguments, { size, stdin, stdout }) {
+	.addOption({ short: "s", long: "speed", isInput: true })
+	.setExecute(function(this: Command, _arguments, { size, stdin, stdout, inputs }) {
 		const particles: RainParticle[] = [];
 		let screen = initializeScreen(size);
-		const delay = 60 / ANIMATION_SPEED;
+		const delay = 60 / parseOptionalFloat(inputs.s, ANIMATION_SPEED);
 
 		return Shell.animate({
 			stdin,

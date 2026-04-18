@@ -49,36 +49,22 @@ export class ShellInterpreter {
 	/**
 	 * Parses and executes a shell script.
 	 * @param input - The script content or a virtual file.
-	 * @param args - The arguments to execute the script with.
 	 * @param io - Optional output streams to override default TTY behavior.
 	 * @returns The exit code of the last command executed in the script.
 	 */
-	public async execute(input: string | VirtualFile, args: string[] = [], io?: Partial<ProcessIO>) {
-		let scriptName = "anonymous";
+	public async execute(input: string | VirtualFile, io?: Partial<ProcessIO>) {
 		if (input instanceof VirtualFile) {         
 			const content = await input.read();
 			if (!content)
 				return EXIT_CODE.commandNotExecutable;
 			
-			scriptName = input.name;
 			input = content;
-		}
-
-		const env = io?.env ?? this.shell.env;
-		env.set("0", scriptName);
-		env.set("#", args.length.toString());
-		
-		const joinedArgs = args.join(" ");
-		env.set("*", joinedArgs);
-		env.set("@", joinedArgs);
-
-		for (let i = 0; i < args.length; i++) {
-			const positionalIndex = i + 1;
-			env.set(positionalIndex.toString(), args[i]);
 		}
 
 		const block = ShellParser.parseScript(input);
 		// console.log(block);
+
+		const env = io?.env ?? this.shell.env;
 		return await this.executeBlock(block, {
 			...io,
 			env,
@@ -89,79 +75,82 @@ export class ShellInterpreter {
 	 * Executes a block of nodes, passing along stream overrides.
 	 */
 	private async executeBlock(block: ShellAST.Block, io?: Partial<ProcessIO>) {
-		let lastExitCode: number = EXIT_CODE.success;
+		let exitCode: number = EXIT_CODE.success;
 		for (const node of block) {
-			lastExitCode = await this.executeNode(node, io);
+			exitCode = await this.executeNode(node, io);
 		}
-
-		const env = io?.env ?? this.shell.env;
-		env.set(ShellEnvironment.EXIT_CODE, lastExitCode.toString());
-
-		return lastExitCode;
+		return exitCode;
 	}
 
 	/**
 	 * Dispatches an AST node to its specific execution logic.
 	 */
 	private async executeNode(node: ShellAST.Node, io?: Partial<ProcessIO>): Promise<number> {
+		let exitCode: number = EXIT_CODE.success;
 		const env = io?.env ?? this.shell.env;
 		switch (node.type) {
 			case ShellAST.NodeType.Command:
-				return await this.executeCommands([node], io);
+				exitCode = await this.executeCommands([node], io);
+				break;
 			case ShellAST.NodeType.Pipeline:
-				return await this.executeCommands(node.commands, io);
+				exitCode = await this.executeCommands(node.commands, io);
+				break;
 			case ShellAST.NodeType.Logical: {
 				const logicalNode = node;
-				let exitCode = await this.executeNode(logicalNode.left, io);
+				exitCode = await this.executeNode(logicalNode.left, io);
 				
 				if (logicalNode.operator === "&&" && exitCode === EXIT_CODE.success) {
 					exitCode = await this.executeNode(logicalNode.right, io);
 				} else if (logicalNode.operator === "||" && exitCode !== EXIT_CODE.success) {
 					exitCode = await this.executeNode(logicalNode.right, io);
 				}
-				
-				return exitCode;
+				break;
 			}
 			case ShellAST.NodeType.Assignment: {
 				const assignmentNode = node;
 				const expandedValue = await this.evaluateArgument(assignmentNode.value, env);
 				env.set(assignmentNode.name, expandedValue);
-				return EXIT_CODE.success;
+				exitCode = EXIT_CODE.success;
+				break;
 			}
 			case ShellAST.NodeType.Arithmetic:
-				return this.evaluateArithmetic(node.expression, env);
+				exitCode = this.evaluateArithmetic(node.expression, env);
+				break;
 			case ShellAST.NodeType.If: {
 				const ifNode = node;
-				const conditionExitCode = await this.executeNode(ifNode.ifBranch.condition, io);
+				const conditionCode = await this.executeNode(ifNode.ifBranch.condition, io);
 
-				if (conditionExitCode === EXIT_CODE.success) {
-					return await this.executeBlock(ifNode.ifBranch.thenBranch, io);
+				if (conditionCode === EXIT_CODE.success) {
+					exitCode = await this.executeBlock(ifNode.ifBranch.thenBranch, io);
 				} else {
 					let elifMet = false;
 					for (const elif of ifNode.elifBranches) {
-						const elifCode = await this.executeNode(elif.condition, io);
-						if (elifCode === EXIT_CODE.success) {
+						const elifConditionCode = await this.executeNode(elif.condition, io);
+						if (elifConditionCode === EXIT_CODE.success) {
 							elifMet = true;
-							return await this.executeBlock(elif.thenBranch, io);
+							exitCode = await this.executeBlock(elif.thenBranch, io);
+							break;
 						}
 					}
-					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-					if (!elifMet && ifNode.elseBranch.length)
-						return await this.executeBlock(ifNode.elseBranch, io);
+					if (!elifMet) {
+						if (ifNode.elseBranch.length) {
+							exitCode = await this.executeBlock(ifNode.elseBranch, io);
+						} else {
+							exitCode = EXIT_CODE.success;
+						}
+					}
 				}
-				return EXIT_CODE.success;
+				break;
 			}
 			case ShellAST.NodeType.While: {
 				const whileNode = node;
-				let lastExitCode: number = EXIT_CODE.success;
-				while (await this.executeNode(whileNode.condition, io) === EXIT_CODE.success) {
-					lastExitCode = await this.executeBlock(whileNode.body, io);
+				while ((exitCode = await this.executeNode(whileNode.condition, io)) === EXIT_CODE.success) {
+					exitCode = await this.executeBlock(whileNode.body, io);
 				}
-				return lastExitCode;
+				break;
 			}
 			case ShellAST.NodeType.ForIn: {
 				const forInNode = node;
-				let lastExitCode: number = EXIT_CODE.success;
 				const items: string[] = [];
 
 				for (const argument of forInNode.items) {
@@ -171,24 +160,26 @@ export class ShellInterpreter {
 
 				for (const item of items) {
 					env.set(forInNode.variableName, item);
-					lastExitCode = await this.executeBlock(forInNode.body, io);
+					exitCode = await this.executeBlock(forInNode.body, io);
 				}
 
-				return lastExitCode;
+				break;
 			}
 			case ShellAST.NodeType.ForExpression: {
 				const forExprNode = node;
-				let lastExitCode: number = EXIT_CODE.success;
-				this.evaluateArithmetic(forExprNode.setup.expression, env);
-				while (this.evaluateArithmetic(forExprNode.condition.expression, env) === EXIT_CODE.success) {
-					lastExitCode = await this.executeBlock(forExprNode.body, io);
-					this.evaluateArithmetic(forExprNode.step.expression, env);
+				exitCode = this.evaluateArithmetic(forExprNode.setup.expression, env);
+				while ((exitCode = this.evaluateArithmetic(forExprNode.condition.expression, env)) === EXIT_CODE.success) {
+					exitCode = await this.executeBlock(forExprNode.body, io);
+					exitCode = this.evaluateArithmetic(forExprNode.step.expression, env);
 				}
-				return lastExitCode;
+				break;
 			}
 			default:
 				throw new Error("Unknown node: " + JSON.stringify(node));
 		}
+
+		env.set(ShellEnvironment.EXIT_CODE, exitCode.toString());
+		return exitCode;
 	}
 
 	/**
@@ -348,7 +339,7 @@ export class ShellInterpreter {
 	public evaluateArithmetic(expression: string, env: ShellEnvironment): number {
 		const trimmed = expression.trim();
 		if (!trimmed.length)
-			return EXIT_CODE.success;
+			return EXIT_CODE.generalError;
 
 		try {
 			const result = new ArithmeticParser(env).evaluate(expression);
@@ -364,7 +355,7 @@ export class ShellInterpreter {
 	 * @returns The resulting exit code from the command execution.
 	 */
 	private async spawn(process: Process): Promise<number> {
-		const { stdin, stdout, stderr, commandName, args, env } = process;
+		const { stdin, stdout, stderr, commandName, args, env: parentEnv } = process;
 		const timestamp = Date.now();
 
 		try {
@@ -374,12 +365,25 @@ export class ShellInterpreter {
 			const commandArgs = [...args];
 			commandArgs.shift();
 
-			const result = ExecutableResolver.resolve(commandName, env, this.shell.state.workingDirectory);
+			const result = await ExecutableResolver.resolve(commandName, parentEnv, this.shell.state.workingDirectory);
 			if (!result.executable)
 				return Shell.writeError(stderr, commandName, result.error, EXIT_CODE.commandNotFound);
 
+			const env = parentEnv.fork();
+			env.set("0", commandName);
+			env.set("#", commandArgs.length.toString());
+			
+			const joinedArgs = commandArgs.join(" ");
+			env.set("*", joinedArgs);
+			env.set("@", joinedArgs);
+
+			for (let i = 0; i < commandArgs.length; i++) {
+				const positionalIndex = i + 1;
+				env.set(positionalIndex.toString(), commandArgs[i]);
+			}
+
 			if (result.executable instanceof VirtualFile)
-				return await this.execute(result.executable, commandArgs, { stdin, stdout, stderr, env });
+				return await this.execute(result.executable, { stdin, stdout, stderr, env });
 
 			const command = result.executable;
 			const { options, inputs } = ShellParser.parseOptions(command, commandArgs);
@@ -400,7 +404,7 @@ export class ShellInterpreter {
 				workingDirectory: this.shell.state.workingDirectory,
 				username: env.get("USER") ?? USERNAME,
 				hostname: env.get("HOSTNAME") ?? HOSTNAME,
-				rawLine: commandArgs.join(" "),
+				rawLine: joinedArgs,
 				options,
 				exit: () => this.shell.kill(),
 				inputs,
@@ -410,7 +414,7 @@ export class ShellInterpreter {
 				systemManager: this.shell.config.systemManager,
 				app: this.shell.config.app!,
 				size: this.shell.config.sizeRef.current,
-				env: env.fork(),
+				env,
 			});
 
 			return exitCode ?? EXIT_CODE.success;

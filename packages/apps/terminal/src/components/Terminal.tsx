@@ -8,13 +8,15 @@ import { Ansi, Vector2 } from "@prozilla-os/shared";
 export interface TerminalProps extends WindowProps {
 	path?: string;
 	input?: string;
+	autoSubmit?: boolean;
 }
 
-export function Terminal({ app, path: startPath, input, setTitle, close: exit, active, focus }: TerminalProps) {
+export function Terminal({ app, path: startPath, input, setTitle, close: exit, active, focus, autoSubmit }: TerminalProps) {
 	const ref = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const sizeRef = useRef(Vector2.ZERO);
 	const [inputKey, setInputKey] = useState(0);
+	const [hasAutoSubmitted, setHasAutoSubmitted] = useState(false);
 	const [shell, state] = useShell({
 		app,
 		path: startPath,
@@ -22,6 +24,16 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		exit: exit!,
 		sizeRef,
 	});
+
+	useEffect(() => {
+		if (autoSubmit && input && state.prompt && !hasAutoSubmitted) {
+			setHasAutoSubmitted(true);
+			if (window.confirm(`Do you want to run the following command?\n\n${input}`)) {
+				void shell.run(input);
+				setInputKey((previousKey) => previousKey + 1);
+			}
+		}
+	}, [autoSubmit, input, hasAutoSubmitted, state.prompt, shell]);
 
 	useEffect(() => {
 		setTitle?.(Ansi.strip(state.prompt).trim());

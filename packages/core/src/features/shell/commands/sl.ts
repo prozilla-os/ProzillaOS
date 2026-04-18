@@ -175,7 +175,7 @@ function generateLocomotive(frame: number, wagonCount = 1, start = 50) {
 export const sl = new Command()
 	.setManual({
 		purpose: "Show animations aimed to correct users who accidentally enter sl instead of ls. SL stands for Steam Locomotive.",
-		usage: "sl [ -w ]",
+		usage: "sl [-w <number>] [-s <speed>]",
 		options: {
 			"-w number": "Set the amount of wagons (defaults to 1)",
 			"-s speed": `Set the speed of the locomotive (Defaults to ${ANIMATION_SPEED})`,

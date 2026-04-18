@@ -15,6 +15,7 @@ export enum NodeType {
 }
 
 export interface BaseNode {
+	/** The type of this node. */
 	type: NodeType;
 }
 
@@ -28,6 +29,7 @@ export interface BaseConditionNode extends BaseNode {
  */
 export interface ConditionalBlockNode extends BaseConditionNode {
 	type: NodeType.ConditionalBlock;
+	/** The block to execute if the condition returns {@link EXIT_CODE.success}. */
 	thenBranch: Block;
 }
 
@@ -36,16 +38,22 @@ export interface ConditionalBlockNode extends BaseConditionNode {
  */
 export type Argument = (string | ExpansionNode)[];
 
+/**
+ * Represents a parameter expansion (e.g., `${HOME}`).
+ */
 export interface ParameterExpansionNode extends BaseNode {
 	type: NodeType.ParameterExpansion;
-	/** The name of the variable (e.g., 'HOME' in ${HOME}). */
+	/** The name of the variable (e.g., `"HOME"` in `${HOME}`). */
 	name: string;
-	/** The expansion operator (e.g., '-', '=', '+', '?'). */
+	/** The expansion operator. */
 	operator?: "-" | "=" | "+" | "?";
 	/** The optional argument following the operator, which may contain further expansions. */
 	argument?: Argument;
 }
 
+/**
+ * Represents an arithmetic expansion (e.g., `$(( i++ ))`).
+ */
 export interface ArithmeticExpansionNode extends BaseNode {
 	type: NodeType.ArithmeticExpansion;
 	content: ArithmeticNode;
@@ -132,10 +140,16 @@ export interface ForInNode extends BaseLoopNode {
 	items: Argument[];
 }
 
+/**
+ * A C-style `for` loop structure with a setup, condition and step.
+ */
 export interface ForExpressionNode extends BaseLoopNode {
 	type: NodeType.ForExpression;
+	/** The node to execute before the loop. */
 	setup: ArithmeticNode;
+	/** The condition that determines whether the loop should continue. */
 	condition: ArithmeticNode;
+	/** The node to execute after each iteration of the loop. */
 	step: ArithmeticNode;
 }
 
@@ -146,8 +160,8 @@ export interface AssignmentNode extends BaseNode {
 	type: NodeType.Assignment;
 	/** The name of the environment variable to assign. */
 	name: string;
-	/** The value to assign to the variable, decomposed for expansion. */
-	value: (string | ExpansionNode)[];
+	/** The value to assign to the variable. */
+	value: Argument;
 }
 
 export interface ArithmeticNode extends BaseNode {

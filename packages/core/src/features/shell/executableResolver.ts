@@ -18,14 +18,23 @@ export type ExecutableResolutionResult =
 
 export class ExecutableResolver {
 	static builtins: Command[] = [];
+	private static loadingTask: Promise<void> | null = null;
 
 	static readonly NOT_FOUND_ERROR = "Command not found";
 	static readonly IS_DIRECTORY_ERROR = "Is a directory";
 
-	public static resolve(name: string, env: ShellEnvironment, workingDirectory: VirtualFolder): ExecutableResolutionResult {
-		if (name.includes("/")) {
+	/**
+	 * Finds the executable with the given name.
+	 * @param name - The name of the executable.
+	 * @param env - The environment to read the path variable from.
+	 * @param workingDirectory - The directory to search in.
+	 */
+	public static async resolve(name: string, env: ShellEnvironment, workingDirectory: VirtualFolder): Promise<ExecutableResolutionResult> {
+		if (this.loadingTask)
+			await this.loadingTask;
+
+		if (name.includes("/"))
 			return this.resolvePath(name, workingDirectory);
-		}
 
 		const builtin = this.getBuiltin(name);
 		return builtin ? { executable: builtin } : this.resolveFromPathVariable(name, env, workingDirectory);
@@ -57,29 +66,42 @@ export class ExecutableResolver {
 		return { executable: null, error: this.NOT_FOUND_ERROR };
 	}
 
+	/**
+	 * Finds the builtin command with the given name.
+	 * @param name - The name of the builtin.
+	 * @returns The builtin with the given name, or `null` if there is none.
+	 */
 	public static getBuiltin(name: string): Command | null {
 		return this.builtins.find((command) => command.name === name) ?? null;
 	}
 
-	public static loadBuiltins() {
+	/**
+	 * Loads all builtins.
+	 * @returns A promise that resolves when all builtins have finished loading.
+	 */
+	public static async loadBuiltins() {
 		this.builtins = [];
 
-		for (const path in modules) {
-			void modules[path]().then((commandModule) => {
-				const commandName = Object.keys(commandModule as Record<string, Command>)[0];
+		const promises = Object.entries(modules).map(async ([_path, loadModule]) => {
+			const commandModule = await loadModule();
+			const commandName = Object.keys(commandModule as Record<string, Command>)[0];
+			const command = (commandModule as Record<string, Command>)[commandName];
 
-				const command = (commandModule as Record<string, Command>)[commandName];
-				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-				if (command == null)
-					return;
-
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			if (command !== undefined) {
 				if (!command.name)
 					command.setName(commandName.toLowerCase());
 
 				this.builtins.push(command);
-			});
-		}
+			}
+		});
+
+		this.loadingTask = Promise.all(promises).then(() => {
+			this.loadingTask = null;
+		});
+
+		return this.loadingTask;
 	}
 }
 
-ExecutableResolver.loadBuiltins();
+void ExecutableResolver.loadBuiltins();
