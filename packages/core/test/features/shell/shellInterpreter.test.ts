@@ -36,7 +36,8 @@ describe("ShellInterpreter", () => {
 			.setName("fail")
 			.setExecute(() => EXIT_CODE.generalError);
 
-		vi.spyOn(ExecutableResolver, "resolve").mockImplementation((name: string): ExecutableResolutionResult => {
+		// eslint-disable-next-line @typescript-eslint/require-await
+		vi.spyOn(ExecutableResolver, "resolve").mockImplementation(async (name: string): Promise<ExecutableResolutionResult> => {
 			if (name === "success" || name === "true" || name === "echo") return { executable: successCommand };
 			if (name === "fail") return { executable: failCommand };
 			return { executable: null, error: ExecutableResolver.NOT_FOUND_ERROR };
@@ -83,7 +84,7 @@ describe("ShellInterpreter", () => {
 	});
 
 	it("should return command not found error for invalid commands", async () => {
-		vi.spyOn(ExecutableResolver, "resolve").mockReturnValue({ executable: null, error: ExecutableResolver.NOT_FOUND_ERROR });
+		vi.spyOn(ExecutableResolver, "resolve").mockResolvedValue({ executable: null, error: ExecutableResolver.NOT_FOUND_ERROR });
 		const stderr = new Stream().start();
 		let errorOutput = "";
 		
@@ -91,7 +92,7 @@ describe("ShellInterpreter", () => {
 			errorOutput += data;
 		});
 
-		const exitCode = await interpreter.execute("invalid_cmd", [], { stderr });
+		const exitCode = await interpreter.execute("invalid_cmd", { stderr });
 		
 		expect(exitCode).toBe(EXIT_CODE.commandNotFound);
 		expect(errorOutput).toContain(ExecutableResolver.NOT_FOUND_ERROR);

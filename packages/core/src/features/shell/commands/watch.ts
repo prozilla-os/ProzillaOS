@@ -47,7 +47,7 @@ export const watch = new Command()
 			});
 
 			try {
-				await shell.interpreter.execute(commandString, [], { stdout: captureStream });
+				await shell.interpreter.execute(commandString, { stdout: captureStream });
 				
 				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 				if (!isStopping) {
