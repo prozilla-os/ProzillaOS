@@ -2,8 +2,9 @@ import { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect,
 import styles from "./Terminal.module.css";
 import { OutputLine } from "./OutputLine";
 import { InputLine } from "./InputLine";
-import { HistoryFlags, useShell, WindowProps } from "@prozilla-os/core";
+import { Button, HistoryFlags, useShell, utilStyles, WindowProps } from "@prozilla-os/core";
 import { Ansi, Vector2 } from "@prozilla-os/shared";
+import { faStop } from "@fortawesome/free-solid-svg-icons";
 
 export interface TerminalProps extends WindowProps {
 	path?: string;
@@ -202,5 +203,15 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 				/>
 				: state.ttyBuffer && <OutputLine text={state.ttyBuffer}/>
 		)}
+		{state.stream && 
+			<Button
+				className={`${styles.InterruptButton} ${utilStyles.TextBold}`} 
+				onClick={() => shell.interrupt()}
+				title="Interrupt (Ctrl+C)"
+				icon={faStop}
+			>
+				Stop
+			</Button>
+		}
 	</div>;
 }

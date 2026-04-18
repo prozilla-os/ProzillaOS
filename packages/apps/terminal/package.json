@@ -22,6 +22,11 @@
 	},
 	"license": "MIT",
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^7.1.0",
+		"@fortawesome/free-brands-svg-icons": "^7.2.0",
+		"@fortawesome/free-regular-svg-icons": "^7.1.0",
+		"@fortawesome/free-solid-svg-icons": "^7.1.0",
+		"@fortawesome/react-fontawesome": "^3.3.0",
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/shared": "workspace:*",
 		"@prozilla-os/skins": "workspace:*",

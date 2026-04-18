@@ -96,6 +96,37 @@
     cursor: text;
 }
 
+.InterruptButton {
+	--text-color: var(--black-1);
+	--normal-color: var(--red-0);
+	--hover-color: var(--red-1);
+
+	display: none;
+	gap: 0.5rem;
+	flex-direction: row-reverse;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
+	padding: 0.5rem 1rem;
+	border-radius: var(--border-radius-1);
+}
+
+.InterruptButton > svg {
+	margin: 0;
+}
+
+.InterruptButton * {
+	color: inherit;
+}
+
+@media (pointer: coarse) {
+	.InterruptButton {
+		display: flex;
+	}
+}
+
 .ansi-black-fg { color: var(--black-2); }
 .ansi-red-fg { color: var(--red-0); }
 .ansi-green-fg { color: var(--green-0); }

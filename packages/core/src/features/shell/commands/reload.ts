@@ -5,6 +5,6 @@ export const reload = new Command()
 	.setManual({
 		purpose: "Reload the terminal",
 	})
-	.setExecute(function() {
-		ExecutableResolver.loadBuiltins();
+	.setExecute(async function() {
+		await ExecutableResolver.loadBuiltins();
 	});
