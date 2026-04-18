@@ -4,7 +4,7 @@ import { EXIT_CODE } from "../../../src/constants";
 import { MockSystemManager } from "../system/system.utils";
 import { MockVirtualRoot } from "../virtual-drive/virtualDrive.utils";
 import { MockSettingsManager } from "../settings/settings.utils";
-import { Vector2 } from "@prozilla-os/shared";
+import { Result, Vector2 } from "@prozilla-os/shared";
 import { Process } from "../../../src/features/shell/shell";
 
 describe("ShellInterpreter", () => {
@@ -38,9 +38,9 @@ describe("ShellInterpreter", () => {
 
 		// eslint-disable-next-line @typescript-eslint/require-await
 		vi.spyOn(ExecutableResolver, "resolve").mockImplementation(async (name: string): Promise<ExecutableResolutionResult> => {
-			if (name === "success" || name === "true" || name === "echo") return { executable: successCommand };
-			if (name === "fail") return { executable: failCommand };
-			return { executable: null, error: ExecutableResolver.NOT_FOUND_ERROR };
+			if (name === "success" || name === "true" || name === "echo") return Result.ok(successCommand);
+			if (name === "fail") return Result.ok(failCommand);
+			return Result.error(ExecutableResolver.NOT_FOUND_ERROR);
 		});
 	});
 
@@ -84,7 +84,7 @@ describe("ShellInterpreter", () => {
 	});
 
 	it("should return command not found error for invalid commands", async () => {
-		vi.spyOn(ExecutableResolver, "resolve").mockResolvedValue({ executable: null, error: ExecutableResolver.NOT_FOUND_ERROR });
+		vi.spyOn(ExecutableResolver, "resolve").mockResolvedValue(Result.error(ExecutableResolver.NOT_FOUND_ERROR));
 		const stderr = new Stream().start();
 		let errorOutput = "";
 		

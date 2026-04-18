@@ -366,7 +366,7 @@ export class ShellInterpreter {
 			commandArgs.shift();
 
 			const result = await ExecutableResolver.resolve(commandName, parentEnv, this.shell.state.workingDirectory);
-			if (!result.executable)
+			if (result.isError())
 				return Shell.writeError(stderr, commandName, result.error, EXIT_CODE.commandNotFound);
 
 			const env = parentEnv.fork();
@@ -382,10 +382,10 @@ export class ShellInterpreter {
 				env.set(positionalIndex.toString(), commandArgs[i]);
 			}
 
-			if (result.executable instanceof VirtualFile)
-				return await this.execute(result.executable, { stdin, stdout, stderr, env });
+			if (result.value instanceof VirtualFile)
+				return await this.execute(result.value, { stdin, stdout, stderr, env });
 
-			const command = result.executable;
+			const command = result.value;
 			const { options, inputs } = ShellParser.parseOptions(command, commandArgs);
 			
 			const processIndex = this.pipeline.indexOf(process);

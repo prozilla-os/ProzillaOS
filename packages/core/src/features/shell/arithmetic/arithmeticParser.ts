@@ -31,7 +31,8 @@ export class ArithmeticParser {
 	}
 
 	private match(value: string): boolean {
-		if (this.peek()?.value !== value) return false;
+		if (this.peek()?.value !== value)
+			return false;
 		this.position++;
 		return true;
 	}

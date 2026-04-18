@@ -37,7 +37,7 @@ const RELEASE_PATH = process.env.RELEASE_PATH?.trim();
 
 const SOURCE_BASE = RELEASE_PATH 
 	? resolve(RELEASE_PATH, "packages") 
-	: resolve(__dirname, PACKAGES_DIR);
+	: resolve(__dirname, "../", PACKAGES_DIR);
 
 const COMPILER_BASE = RELEASE_PATH ? resolve(RELEASE_PATH) : resolve(__dirname, "../../");
 
