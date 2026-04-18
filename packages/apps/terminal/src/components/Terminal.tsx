@@ -1,4 +1,4 @@
-import { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react";
+import { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./Terminal.module.css";
 import { OutputLine } from "./OutputLine";
 import { InputLine } from "./InputLine";
@@ -109,7 +109,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		shell.setLine(event.target.value);
 	};
 
-	const renderOutput = () => {
+	const renderedOutput = useMemo(() => {
 		if (state.isUsingAltScreen) {
 			return state.ttyBuffer ? <OutputLine text={state.ttyBuffer}/> : null;
 		}
@@ -125,7 +125,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		return state.history.slice(startIndex).map((entry, index) => 
 			<OutputLine text={entry.displayText} key={index}/>
 		);
-	};
+	}, [state.history, state.isUsingAltScreen, state.ttyBuffer]);
 
 	const onMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
 		focus?.(event);
@@ -177,7 +177,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		}}
 	>
 		<div className={styles.History}>
-			{renderOutput()}
+			{renderedOutput}
 		</div>
 		{!state.isUsingAltScreen && (
 			!state.stream

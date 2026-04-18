@@ -1,4 +1,4 @@
-import { FC, forwardRef } from "react";
+import { FC, forwardRef, memo } from "react";
 import { Ansi } from "./Ansi";
 import styles from "./Terminal.module.css";
 
@@ -6,7 +6,7 @@ interface OutputLineProps {
 	text?: string;
 }
 
-export const OutputLine: FC<OutputLineProps> = forwardRef<HTMLDivElement>(({ text }: OutputLineProps, ref) => {
+export const OutputLine: FC<OutputLineProps> = memo(forwardRef<HTMLDivElement>(({ text }: OutputLineProps, ref) => {
 	const lines = text?.split("\n");
 
 	return <div ref={ref}>
@@ -14,4 +14,4 @@ export const OutputLine: FC<OutputLineProps> = forwardRef<HTMLDivElement>(({ tex
 			<Ansi key={index} className={styles.Output} useClasses>{line === "" ? " " : line}</Ansi>
 		)}
 	</div>;
-}) as FC;
+}) as FC<OutputLineProps>);

@@ -467,10 +467,34 @@ export class Shell {
 	}
 
 	/**
+	 * Executes a task repeatedly and writes its output to `stdout`.
+	 * @returns A promise that resolves when the loop is finished.
+	 */
+	public static async loop({ stdout, stdin, task, delay = 0, maxIterations }: Pick<ProcessIO, "stdout" | "stdin"> & {
+		task: () => string,
+		delay?: number,
+		maxIterations?: number,
+	}) {
+		return await this.animate({
+			stdout,
+			stdin,
+			render: (iterations) => {
+				if (maxIterations !== undefined && iterations >= maxIterations)
+					stdin.stop();
+				return task();
+			},
+			delay,
+			clear: false,
+			stopOnBlank: false,
+			useAltBuffer: false,
+		});
+	}
+
+	/**
 	 * Executes a frame-based animation in the terminal using the Alternate Screen Buffer.
 	 * @returns A promise that resolves when the animation is stopped.
 	 */
-	public static animate({ stdout, stdin, render, delay, clear = true, stopOnBlank = true }: Pick<ShellContext, "stdout" | "stdin"> & {
+	public static async animate({ stdout, stdin, render, delay, clear = true, stopOnBlank = true, useAltBuffer = true }: Pick<ProcessIO, "stdout" | "stdin"> & {
 		/** The function that renders each frame. */
 		render: (frame: number) => string,
 		/** The delay between each frame, in ms. */
@@ -479,38 +503,41 @@ export class Shell {
 		clear?: boolean,
 		/** Whether to stop the animation when the rendered frame is blank. */
 		stopOnBlank?: boolean,
+		/** Whether to use the alt buffer while rendering this animation. */
+		useAltBuffer?: boolean,
 	}) {
 		let frame = 0;
 
-		stdout.write(ANSI.screen.enterAltBuffer);
+		if (useAltBuffer)
+			stdout.write(ANSI.screen.enterAltBuffer);
 
-		function stopAnimation(interval: ReturnType<typeof setInterval>) {
+		function stopAnimation(interval: ReturnType<typeof setInterval>, stopStream = true) {
 			clearInterval(interval);
-			stdout.write(ANSI.screen.exitAltBuffer);
-			stdin.stop();
+			if (useAltBuffer)
+				stdout.write(ANSI.screen.exitAltBuffer);
+			if (stopStream)
+				stdin.stop();
 		}
 
 		const interval = setInterval(() => {
 			const rendered = render(frame);
 			let content = rendered;
 
-			if (clear) {
+			if (clear)
 				content = ANSI.screen.clear + ANSI.screen.home + content;
-			}
 
 			stdout.write(content);
 			frame++;
 
-			if (stopOnBlank && !rendered.trim().length && frame > 1) {
+			if (stopOnBlank && !rendered.trim().length && frame > 1)
 				stopAnimation(interval);
-			}
 		}, delay);
 
 		stdin.on(Stream.STOP_EVENT, () => {
-			stopAnimation(interval);
+			stopAnimation(interval, false);
 		});
 
-		return stdin.wait(EXIT_CODE.success);
+		return await stdin.wait(EXIT_CODE.success);
 	}
 
 	/**
