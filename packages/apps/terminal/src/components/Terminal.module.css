@@ -97,10 +97,6 @@
 }
 
 .InterruptButton {
-	--text-color: var(--black-1);
-	--normal-color: var(--red-0);
-	--hover-color: var(--red-1);
-
 	display: none;
 	gap: 0.5rem;
 	flex-direction: row-reverse;
@@ -114,7 +110,8 @@
 }
 
 .InterruptButton > svg {
-	margin: 0;
+	margin: 0 !important;
+	width: auto;
 }
 
 .InterruptButton * {
