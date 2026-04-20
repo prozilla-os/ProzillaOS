@@ -1,0 +1,1 @@
+import{q as e,y as s}from"../index.js";const n=new e().setName("true").setManual({purpose:"Do nothing, successfully",usage:"true [ignored command line arguments]",description:"Exit with a status code indicating success."}).setExecute(function(){return s.success});export{n as trueCommand};
