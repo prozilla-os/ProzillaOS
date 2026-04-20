@@ -1,6 +1,7 @@
 import { EXIT_CODE } from "../../../constants";
 import { Command } from "../command";
 import { Shell } from "../shell";
+import { Stream } from "../stream";
 
 export const head = new Command()
 	.setManual({
@@ -35,10 +36,11 @@ export const head = new Command()
 
 		for (const path of args) {
 			if (path === "-") {
-				return Shell.readInput("", stdin, (data) => {
-					writeHead(data);
-					return EXIT_CODE.success;
-				});
+				const onData = (data: string) => writeHead(data);
+				stdin.on(Stream.DATA_EVENT, onData);
+				await stdin.wait();
+				stdin.off(Stream.DATA_EVENT, onData);
+				continue;
 			}
 
 			const target = workingDirectory.navigate(path);

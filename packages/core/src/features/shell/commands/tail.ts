@@ -1,6 +1,7 @@
 import { EXIT_CODE } from "../../../constants";
 import { Command } from "../command";
 import { Shell } from "../shell";
+import { Stream } from "../stream";
 
 export const tail = new Command()
 	.setManual({
@@ -20,8 +21,7 @@ export const tail = new Command()
 
 		const writeTail = (content: string) => {
 			const lines = content.split("\n");
-			const selected = count >= 0 ? lines.slice(-count) : lines.slice(-count);
-			Shell.printLn(stdout, selected.join("\n"));
+			Shell.printLn(stdout, lines.slice(-count).join("\n"));
 		};
 
 		if (args.length === 0) {
@@ -35,10 +35,11 @@ export const tail = new Command()
 
 		for (const path of args) {
 			if (path === "-") {
-				return Shell.readInput("", stdin, (data) => {
-					writeTail(data);
-					return EXIT_CODE.success;
-				});
+				const onData = (data: string) => writeTail(data);
+				stdin.on(Stream.DATA_EVENT, onData);
+				await stdin.wait();
+				stdin.off(Stream.DATA_EVENT, onData);
+				continue;
 			}
 
 			const target = workingDirectory.navigate(path);
