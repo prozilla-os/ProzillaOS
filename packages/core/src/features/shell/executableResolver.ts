@@ -41,28 +41,31 @@ export class ExecutableResolver {
 		);
 	}
 
+	/**
+	 * Resolves a specific path to a {@link VirtualFile}.
+	 * @param path - The path to navigate to.
+	 * @param workingDirectory - The directory to start the navigation from.
+	 * @returns The resolved file or a failure if this is a directory or does not exist.
+	 */
 	private static resolvePath(path: string, workingDirectory: VirtualFolder): ExecutableResolutionResult {
 		return Result.nonNullOr(workingDirectory.navigate(path), this.NOT_FOUND_ERROR)
-			.flatMap((target) => 
-				target.isFile() ? Result.ok(target) : Result.error(this.IS_DIRECTORY_ERROR)
-			);
+			.filter((target) => target.isFile(), () => this.IS_DIRECTORY_ERROR);
 	}
 
+	/**
+	 * Attempts to resolve an executable by searching through the directories defined in the PATH variable.
+	 * @param name - The name of the executable.
+	 * @param env - The environment containing the PATH variable.
+	 * @param workingDirectory - The directory to use for path resolution.
+	 * @returns The first matching executable found in the PATH.
+	 */
 	private static resolveFromPathVariable(name: string, env: ShellEnvironment, workingDirectory: VirtualFolder): ExecutableResolutionResult {
-		const pathString = env.get("PATH");
-		if (!pathString)
-			return Result.error(this.NOT_FOUND_ERROR);
-
-		const directories = pathString.split(":");
-		for (const dir of directories) {
-			const fullPath = `${dir}/${name}`;
-
-			const result = this.resolvePath(fullPath, workingDirectory);
-			if (result.isOk())
-				return result;
-		}
-
-		return Result.error(this.NOT_FOUND_ERROR);
+		return Result.nonNullOr(env.get("PATH"), this.NOT_FOUND_ERROR)
+			.next((pathString) => Result.any(
+				pathString.split(":"),
+				(directory) => this.resolvePath(`${directory}/${name}`, workingDirectory),
+				Result.error(this.NOT_FOUND_ERROR)
+			));
 	}
 
 	/**
@@ -83,8 +86,9 @@ export class ExecutableResolver {
 
 		const promises = Object.entries(modules).map(async ([_path, loadModule]) => {
 			const commandModule = await loadModule();
-			const commandName = Object.keys(commandModule as Record<string, Command>)[0];
-			const command = (commandModule as Record<string, Command>)[commandName];
+			const commandEntries = commandModule as Record<string, Command>;
+			const commandName = Object.keys(commandEntries)[0];
+			const command = commandEntries[commandName];
 
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			if (command !== undefined) {

@@ -8,6 +8,7 @@ import { ArithmeticParser } from "./arithmetic/arithmeticParser";
 import { ShellEnvironment } from "./shellEnvironment";
 import { ExecutableResolver } from "./executableResolver";
 import { ShellAST } from ".";
+import { Result } from "@prozilla-os/shared";
 
 /**
  * Handles the parsing, expansion, and execution of shell commands and scripts.
@@ -336,18 +337,22 @@ export class ShellInterpreter {
 		return result;
 	}
 
+	/**
+	 * Evaluates an arithmetic expression using an {@link ArithmeticParser} and returns an exit code.
+	 * @param expression - The string representing the arithmetic operation.
+	 * @param env - The {@link ShellEnvironment} used for variable resolution within this instance.
+	 * @returns `EXIT_CODE.success` if the {@link ArithmeticParserResult} is successful and non-zero, 
+	 * or `EXIT_CODE.generalError` otherwise.
+	 */
 	public evaluateArithmetic(expression: string, env: ShellEnvironment): number {
-		const trimmed = expression.trim();
-		if (!trimmed.length)
-			return EXIT_CODE.generalError;
-
-		try {
-			const result = new ArithmeticParser(env).evaluate(expression);
-			return result !== 0 ? EXIT_CODE.success : EXIT_CODE.generalError;
-		} catch (error) {
-			console.error(error);
-			return EXIT_CODE.generalError;
-		}
+		return Result.ok(expression.trim())
+			.filter((expression) => expression.length !== 0, () => "Empty expression")
+			.next((expression) => new ArithmeticParser(env).evaluate(expression))
+			.filter((result) => result !== 0, () => "Expression evaluated to zero")
+			.match(() => EXIT_CODE.success, (error) => {
+				console.error(error);
+				return EXIT_CODE.generalError;
+			});
 	}
 
 	/**
