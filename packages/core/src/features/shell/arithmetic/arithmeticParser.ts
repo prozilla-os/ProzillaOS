@@ -144,7 +144,7 @@ export class ArithmeticParser {
 		apply: (left: number, operator: string, right: number) => number
 	): ArithmeticParserResult {
 		return parser().next((initialLeft) => {
-			return Result.loop(
+			return Result.repeat(
 				initialLeft,
 				() => {
 					const operatorToken = this.peek();

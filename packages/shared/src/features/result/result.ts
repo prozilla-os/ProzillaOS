@@ -1,3 +1,13 @@
+/**
+ * Represents either a success or a failure.
+ * 
+ * Can be used as the return value of a function instead of throwing errors.
+ * This improves type-safety and helps you control the flow of your function.
+ * 
+ * This is inspired by [neverthrow by supermacro](https://github.com/supermacro/neverthrow).
+ * 
+ * A success can be created using {@link Result.ok} and a failure using {@link Result.error}.
+ */
 export type Result<T, E> = Result.Success<T, E> | Result.Failure<T, E>;
 
 export abstract class BaseResult<V, E> {
@@ -30,13 +40,13 @@ export abstract class BaseResult<V, E> {
 
 	/**
 	 * Chains a new {@link Result}-returning operation to this result if this is a {@link Result.Success}.
-	 * If this result is a {@link Result.Failure}, the callback is skipped and the error is preserved.
+	 * Does nothing if this result is a {@link Result.Failure}.
 	 */
 	public abstract next<W, F>(callback: (value: V) => Result<W, F>): Result<W, E | F>;
 
 	/**
 	 * Provides a recovery path for this result if this is a {@link Result.Failure} by returning a new {@link Result}.
-	 * If this result is a {@link Result.Success}, the callback is skipped.
+	 * Does nothing if this result is a {@link Result.Success}.
 	 */
 	public abstract orElse<W, F>(callback: (error: E) => Result<W, F>): Result<V | W, F | E>;
 
@@ -70,8 +80,9 @@ export abstract class BaseResult<V, E> {
 	}
 
 	/**
-	 * Validates the value of this {@link Result.Success} against a predicate. 
+	 * Validates the value of this result against a predicate. 
 	 * Converts to {@link Result.Failure} if the predicate returns `false`.
+	 * Does nothing if this result is already a {@link Result.Failure}.
 	 */
 	public abstract filter<U extends V, F>(predicate: (value: V) => value is U, createError: (value: V) => F): Result<U, E | F>;
 	public abstract filter<F>(predicate: (value: V) => boolean, createError: (value: V) => F): Result<V, E | F>;
@@ -81,6 +92,9 @@ export abstract class BaseResult<V, E> {
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Result {
 
+	/**
+	 * Represents the result of a successful operation.
+	 */
 	export class Success<V, E> extends BaseResult<V, E> {
 
 		constructor(readonly value: V) {
@@ -123,6 +137,9 @@ export namespace Result {
 
 	}
 
+	/**
+	 * Represents the result of a failed operation.
+	 */
 	export class Failure<V, E> extends BaseResult<V, E> {
 
 		constructor(readonly error: E) {
@@ -191,20 +208,6 @@ export namespace Result {
 	}
 
 	/**
-	 * Collapses an array of {@link Result}s into a single {@link Result} containing an array of values.
-	 * Returns the first {@link Result.Failure} encountered.
-	 */
-	export function combine<V, E>(results: Result<V, E>[]): Result<V[], E> {
-		const values: V[] = [];
-		for (const result of results) {
-			if (result.isError())
-				return error(result.error);
-			values.push(result.value);
-		}
-		return ok(values);
-	}
-
-	/**
 	 * Converts a nullable value into a {@link Result}.
 	 * Returns {@link Result.Failure} if the value is `null` or `undefined`.
 	 */
@@ -222,7 +225,7 @@ export namespace Result {
 	/**
 	 * Repeatedly executes a {@link Result}-returning body while a condition is met.
 	 */
-	export function loop<V, E>(initialValue: V, condition: (value: V) => boolean, body: (value: V) => Result<V, E>): Result<V, E> {
+	export function repeat<V, E>(initialValue: V, condition: (value: V) => boolean, body: (value: V) => Result<V, E>): Result<V, E> {
 		let currentValue = initialValue;
 		while (condition(currentValue)) {
 			const result = body(currentValue);
@@ -249,9 +252,24 @@ export namespace Result {
 	}
 
 	/**
+	 * Collapses an array of {@link Result}s into a single {@link Result} containing an array of values.
+	 * Returns the first {@link Result.Failure} encountered.
+	 * Similar to {@link Promise.all}, but for synchronous {@link Result} collections.
+	 */
+	export function all<V, E>(results: Result<V, E>[]): Result<V[], E> {
+		const values: V[] = [];
+		for (const result of results) {
+			if (result.isError())
+				return error(result.error);
+			values.push(result.value);
+		}
+		return ok(values);
+	}
+
+	/**
 	 * Returns the first {@link Result.Success} produced by the callback for any item 
 	 * in the collection. If no success is found, it returns the provided default error {@link Result}.
-	 * Similar to `Promise.any`, but for synchronous {@link Result} collections.
+	 * Similar to {@link Promise.any}, but for synchronous {@link Result} collections.
 	 */
 	export function any<T, V, E>(items: T[], callback: (item: T) => Result<V, E>, fallback: Result<V, E>): Result<V, E> {
 		for (const item of items) {
