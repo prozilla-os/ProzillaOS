@@ -353,8 +353,7 @@ export class ShellInterpreter {
 		return Result.ok(expression.trim())
 			.filter((expression) => expression.length !== 0, () => "Empty expression")
 			.next((expression) => new ArithmeticParser(env).evaluate(expression))
-			.filter((result) => result !== 0, () => "Expression evaluated to zero")
-			.match(() => EXIT_CODE.success, (error) => {
+			.match((result) => result !== 0 ? EXIT_CODE.success : EXIT_CODE.generalError, (error) => {
 				console.error(error);
 				return EXIT_CODE.generalError;
 			});
