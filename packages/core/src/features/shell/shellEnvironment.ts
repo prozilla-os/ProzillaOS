@@ -5,9 +5,9 @@ import { ShellAST } from ".";
  * Manages environment variabels for {@link Shell}.
  */
 export class ShellEnvironment {
-	store: Record<string, string> = {};
-	parent: ShellEnvironment | null = null;
-	exportedKeys: Set<string> = new Set();
+	public store: Record<string, string> = {};
+	private parent: ShellEnvironment | null = null;
+	private exportedKeys: Set<string> = new Set();
 
 	static readonly USER = "USER";
 	static readonly HOSTNAME = "HOSTNAME";
@@ -20,7 +20,7 @@ export class ShellEnvironment {
 	static readonly ARGUMENT_COUNT = "#";
 	static readonly PROCESS_ID = "$";
 
-	/** List of variables that should never be exported. */
+	/** Array of variables that should never be exported. */
 	static readonly INTERNAL_VARS = [
 		ShellEnvironment.EXIT_CODE,
 		ShellEnvironment.ARGUMENT_COUNT,
@@ -45,14 +45,14 @@ export class ShellEnvironment {
 		});
 	}
 
-	get(key: string): string | undefined {
+	public get(key: string): string | undefined {
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (this.store[key] !== undefined)
 			return this.store[key];
 		return this.parent?.get(key);
 	}
 
-	set(key: string, value: string, isExported: boolean = false) {
+	public set(key: string, value: string, isExported: boolean = false) {
 		this.store[key] = value;
 		if (isExported && !ShellEnvironment.INTERNAL_VARS.includes(key))
 			this.exportedKeys.add(key);
@@ -61,7 +61,7 @@ export class ShellEnvironment {
 	/**
 	 * Marks an existing variable as exported.
 	 */
-	export(key: string) {
+	public export(key: string) {
 		if (!ShellEnvironment.INTERNAL_VARS.includes(key))
 			this.exportedKeys.add(key);
 	}
@@ -107,7 +107,7 @@ export class ShellEnvironment {
 	 * Parses an assignment string (e.g., KEY=VALUE) and updates the environment.
 	 * @returns `true` if the string was a valid assignment.
 	 */
-	parseAssignment(input: string) {
+	public parseAssignment(input: string) {
 		const match = input.match(/^([a-zA-Z_][a-zA-Z0-9_]*)=(.*)$/);
 		if (match) {
 			const key = match[1];
@@ -118,10 +118,19 @@ export class ShellEnvironment {
 		return false;
 	}
 
+	public setCommandArguments(commandName: string, args: string[]) {
+		const joined = args.join(" ");
+		this.set("0", commandName);
+		this.set("#", args.length.toString());
+		this.set("*", joined);
+		this.set("@", joined);
+		args.forEach((arg, i) => this.set((i + 1).toString(), arg));
+	}
+
 	/**
 	 * Returns only variables that are marked for export.
 	 */
-	get exportedVariables(): Record<string, string> {
+	public get exportedVariables(): Record<string, string> {
 		const parentVariables = this.parent?.exportedVariables ?? {};
 		const currentExported: Record<string, string> = {};
 		
@@ -135,14 +144,14 @@ export class ShellEnvironment {
 	/**
 	 * Returns all variables visible to this scope (including internal).
 	 */
-	get variables(): Record<string, string> {
+	public get variables(): Record<string, string> {
 		return { ...this.parent?.variables, ...this.store };
 	}
 
 	/**
 	 * Creates a child scope for subshells or command execution.
 	 */
-	fork() {
+	public fork() {
 		return new ShellEnvironment({}, this);
 	}
 }

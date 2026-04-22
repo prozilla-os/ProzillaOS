@@ -267,38 +267,45 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		return this;
 	}
 
+	create(relativePath: string) {
+		return this.navigate(relativePath, true);
+	}
+
 	/**
 	 * Returns the file or folder at a relative path or null if it doesn't exist.
 	 */
-	navigate(relativePath: string): VirtualFile | VirtualFolder | null {
+	navigate(relativePath: string, createIfMissing: boolean = false): VirtualFile | VirtualFolder | null {
 		const segments = relativePath.split("/");
 		let currentDirectory: VirtualFile | VirtualFolder | null = this as VirtualFolder;
 
-		const getDirectory = (path: string, isStart: boolean) => {
-			if (isStart && path === "") {
+		const getDirectory = (name: string, isFirst: boolean, isLast: boolean) => {
+			if (isFirst && name === "") {
 				return this.getRoot();
-			} else if (isStart && Object.keys(this.getRoot().shortcuts).includes(path)) {
-				return this.getRoot().shortcuts[path];
-			} else if (path === ".") {
+			} else if (isFirst && Object.keys(this.getRoot().shortcuts).includes(name)) {
+				return this.getRoot().shortcuts[name];
+			} else if (name === ".") {
 				return this;
-			} else if (path === "..") {
+			} else if (name === "..") {
 				return currentDirectory?.parent as VirtualFolder | null;
 			} else if (currentDirectory?.isFolder()) {
-				return currentDirectory.findSubFolder(path);
+				let subFolder = currentDirectory.findSubFolder(name);
+				if (subFolder == null && createIfMissing && !isLast)
+					currentDirectory.createFolder(name, (newFolder) => subFolder = newFolder);
+				return subFolder;
 			} else {
 				return null;
 			}
 		};
 
 		if (segments.length === 1) {
-			const directory = getDirectory(segments[0], true);
+			const directory = getDirectory(segments[0], true, true);
 			if (directory != null)
 				return directory;
 		}
 
 		for (let i = 0; i < segments.length - 1; i++) {
 			const segment = segments[i];
-			currentDirectory = getDirectory(segment, i === 0);
+			currentDirectory = getDirectory(segment, i === 0, false);
 		}
 
 		const lastSegment = segments.at(-1);
@@ -310,7 +317,10 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 			if (folder != null) return folder;
 
 			const { name, extension } = VirtualFile.splitId(lastSegment);
-			return currentDirectory.findFile(name, extension);
+			let file = currentDirectory.findFile(name, extension);
+			if (file == null && createIfMissing)
+				currentDirectory.createFile(name, extension!, (newFile) => file = newFile);
+			return file;
 		} else {
 			return null;
 		}

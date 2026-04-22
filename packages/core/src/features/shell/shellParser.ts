@@ -221,10 +221,15 @@ export class ShellParser {
 			currentEndToken = result.endToken;
 		}
 
-		if (currentEndToken === this.KEYWORD_FI)
-			index++;
-
 		const node: ShellAST.IfNode = { type: ShellAST.NodeType.If, ifBranch, elifBranches, elseBranch };
+
+		if (currentEndToken === this.KEYWORD_FI) {
+			const { redirections } = this.parseRedirections(this.getTokens(lines[index]).slice(1));
+			if (redirections.length)
+				node.redirections = redirections;
+			index++;
+		}
+
 		return { node, nextIndex: index };
 	}
 
@@ -284,10 +289,16 @@ export class ShellParser {
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_DONE]);
 		index = result.nextIndex;
-		if (result.endToken === this.KEYWORD_DONE)
-			index++;
 
 		const node: ShellAST.WhileNode = { type: ShellAST.NodeType.While, condition, body: result.nodes };
+
+		if (result.endToken === this.KEYWORD_DONE) {
+			const { redirections } = this.parseRedirections(this.getTokens(lines[index]).slice(1));
+			if (redirections.length)
+				node.redirections = redirections;
+			index++;
+		}
+
 		return { node, nextIndex: index };
 	}
 
@@ -325,9 +336,6 @@ export class ShellParser {
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_DONE]);
 		index = result.nextIndex;
-		
-		if (result.endToken === this.KEYWORD_DONE)
-			index++;
 
 		const node: ShellAST.ForExpressionNode = { 
 			type: ShellAST.NodeType.ForExpression, 
@@ -336,6 +344,13 @@ export class ShellParser {
 			step, 
 			body: result.nodes, 
 		};
+
+		if (result.endToken === this.KEYWORD_DONE) {
+			const { redirections } = this.parseRedirections(this.getTokens(lines[index]).slice(1));
+			if (redirections.length)
+				node.redirections = redirections;
+			index++;
+		}
 
 		return { node, nextIndex: index };
 	}
@@ -359,9 +374,6 @@ export class ShellParser {
 
 		const result = this.parseStatements(lines, index, [this.KEYWORD_DONE]);
 		index = result.nextIndex;
-		
-		if (result.endToken === this.KEYWORD_DONE)
-			index++;
 
 		const node: ShellAST.ForInNode = { 
 			type: ShellAST.NodeType.ForIn, 
@@ -370,7 +382,47 @@ export class ShellParser {
 			body: result.nodes, 
 		};
 
+		if (result.endToken === this.KEYWORD_DONE) {
+			const { redirections } = this.parseRedirections(this.getTokens(lines[index]).slice(1));
+			if (redirections.length)
+				node.redirections = redirections;
+			index++;
+		}
+
 		return { node, nextIndex: index };
+	}
+
+	/**
+	 * Extracts redirection nodes from a sequence of tokens, returning the remaining 
+	 * arguments and the extracted redirections.
+	 */
+	private static parseRedirections(tokens: string[]) {
+		const args: string[] = [];
+		const redirections: ShellAST.RedirectionNode[] = [];
+
+		for (let i = 0; i < tokens.length; i++) {
+			const token = tokens[i];
+			const match = token.match(/^(\d+)?(>>|>|<|>&|<&)$/);
+
+			if (match) {
+				const fileDescriptor = match[1] ? parseInt(match[1]) : match[2].includes("<") ? 0 : 1;
+				const operator = match[2] as ">" | ">>" | "<" | "<&" | ">&";
+				const targetToken = tokens[++i];
+
+				if (targetToken) {
+					redirections.push({
+						type: ShellAST.NodeType.Redirection,
+						fileDescriptor,
+						operator,
+						target: this.parseArgument(targetToken),
+					});
+				}
+			} else {
+				args.push(token);
+			}
+		}
+
+		return { args, redirections };
 	}
 
 	/**
@@ -512,12 +564,17 @@ export class ShellParser {
 	 */
 	private static parseSimpleCommand(input: string): ShellAST.CommandNode {
 		const tokens = this.getTokens(input);
-		const args: ShellAST.Argument[] = tokens.map((token) => this.parseArgument(token));
+		const { args, redirections } = this.parseRedirections(tokens);
 
-		return {
+		const node: ShellAST.CommandNode = {
 			type: ShellAST.NodeType.Command,
-			args,
+			args: args.map((token) => this.parseArgument(token)),
 		};
+
+		if (redirections.length)
+			node.redirections = redirections;
+
+		return node;
 	}
 
 	/**

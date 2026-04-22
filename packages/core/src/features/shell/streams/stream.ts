@@ -13,11 +13,11 @@ export interface StreamEvents<T = string> {
 	error: [StreamError];
 }
 
-export interface ReadableStream<T = string> {
+export interface InputStream<T = string> {
 	read(): Promise<Result<T | null, StreamError>>;
 }
 
-export interface WritableStream<T = string> {
+export interface OutputStream<T = string> {
 	write(data: T): Promise<Result<void, StreamError>>;
 }
 
@@ -25,7 +25,7 @@ export interface WritableStream<T = string> {
  * A communication channel for process I/O, supporting event-based data transmission,
  * signaling, and piping between streams.
  */
-export class Stream<T = string> extends EventEmitter<StreamEvents<T>> implements ReadableStream<T>, WritableStream<T> {
+export class Stream<T = string> extends EventEmitter<StreamEvents<T>> implements InputStream<T>, OutputStream<T> {
 	private isClosed = false;
 	private readonly buffer: T[] = [];
 	private readonly pendingReads: { resolve: (value: Result<T | null, StreamError>) => void }[] = [];
@@ -39,7 +39,7 @@ export class Stream<T = string> extends EventEmitter<StreamEvents<T>> implements
 	static readonly INTERRUPTED = "interrupted";
 	static readonly CLOSED = "closed";
 
-	static readonly TERMINATING_SIGNALS: StreamSignal[] = ["SIGINT", "SIGKILL", "SIGTERM", "SIGHUP", "SIGQUIT", "SIGPIPE"];
+	private static readonly TERMINATING_SIGNALS: StreamSignal[] = ["SIGINT", "SIGKILL", "SIGTERM", "SIGHUP", "SIGQUIT", "SIGPIPE"];
 
 	/**
 	 * Closes the stream (EOF). Subsequent calls to write will be rejected.
@@ -129,7 +129,7 @@ export class Stream<T = string> extends EventEmitter<StreamEvents<T>> implements
 	 * @param destination - The stream that will receive the forwarded data.
 	 * @returns The destination stream to allow for chainable piping.
 	 */
-	pipe(destination: Stream<T>): Stream<T> {
+	pipe(destination: Stream<T>) {
 		this.on(Stream.DATA_EVENT, (data) => void destination.write(data));
 		this.on(Stream.SIGNAL_EVENT, (signal) => destination.signal(signal));
 		this.on(Stream.END_EVENT, () => destination.end());
@@ -158,7 +158,7 @@ export class Stream<T = string> extends EventEmitter<StreamEvents<T>> implements
 	/**
 	 * Iterates over a readable string stream and yields each line.
 	 */
-	public static async* readLines(stream: ReadableStream<string>): AsyncGenerator<Result<string, StreamError>> {
+	public static async* readLines(stream: InputStream): AsyncGenerator<Result<string, StreamError>> {
 		let buffer = "";
 
 		while (true) {

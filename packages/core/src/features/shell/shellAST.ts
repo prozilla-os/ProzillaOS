@@ -12,6 +12,7 @@ export enum NodeType {
 	ParameterExpansion = "parameterExpansion",
 	ArithmeticExpansion = "arithmeticExpansion",
 	CommandSubstitution = "commandSubstitution",
+	Redirection = "redirection",
 }
 
 export interface BaseNode {
@@ -19,8 +20,19 @@ export interface BaseNode {
 	type: NodeType;
 }
 
+/**
+ * An abstract node that uses a condition.
+ */
 export interface BaseConditionNode extends BaseNode {
 	condition: ExecutableNode;
+}
+
+/**
+ * An abstract node that can handle I/O redirections.
+ */
+export interface BaseRedirectionNode extends BaseNode {
+	/** An optional list of redirections to apply to this execution unit. */
+	redirections?: RedirectionNode[];
 }
 
 /**
@@ -71,9 +83,22 @@ export interface CommandSubstitutionNode extends BaseNode {
 export type ExpansionNode = ParameterExpansionNode | ArithmeticExpansionNode | CommandSubstitutionNode;
 
 /**
+ * Represents a file descriptor redirection.
+ */
+export interface RedirectionNode extends BaseNode {
+	type: NodeType.Redirection;
+	/** The file descriptor to redirect (e.g., 0 for stdin, 1 for stdout, 2 for stderr). */
+	fileDescriptor: number;
+	/** The redirection operator. */
+	operator: ">" | ">>" | "<" | "<&" | ">&";
+	/** The target of the redirection, usually a file path or another file descriptor. */
+	target: Argument;
+}
+
+/**
  * Represents a basic shell command to be executed.
  */
-export interface CommandNode extends BaseNode {
+export interface CommandNode extends BaseRedirectionNode {
 	type: NodeType.Command;
 	/** The individual arguments of the command, each potentially containing expansions. */
 	args: Argument[];
@@ -82,7 +107,7 @@ export interface CommandNode extends BaseNode {
 /**
  * Represents logical execution flow (`&&` or `||`).
  */
-export interface LogicalNode extends BaseNode {
+export interface LogicalNode extends BaseRedirectionNode {
 	type: NodeType.Logical;
 	left: ExecutableNode;
 	operator: "&&" | "||";
@@ -92,7 +117,7 @@ export interface LogicalNode extends BaseNode {
 /**
  * Represents a sequence of commands where the output of one is piped to the next.
  */
-export interface PipelineNode extends BaseNode {
+export interface PipelineNode extends BaseRedirectionNode {
 	type: NodeType.Pipeline;
 	/**
 	 * A list of executable nodes where the `stdout` of one 
@@ -104,7 +129,7 @@ export interface PipelineNode extends BaseNode {
 /**
  * Represents a conditional branching structure.
  */
-export interface IfNode extends BaseNode {
+export interface IfNode extends BaseRedirectionNode {
 	type: NodeType.If;
 	/** The primary conditional branch. */
 	ifBranch: ConditionalBlockNode;
@@ -117,7 +142,7 @@ export interface IfNode extends BaseNode {
 /**
  * Represents a node that repeatedly executes a block of code.
  */
-export interface BaseLoopNode extends BaseNode {
+export interface BaseLoopNode extends BaseRedirectionNode {
 	/** The block to execute for every iteration. */
 	body: Block;
 }

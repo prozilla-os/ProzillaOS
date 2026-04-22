@@ -7,7 +7,7 @@ import { ShellParser } from "./shellParser";
 import { ArithmeticParser } from "./arithmetic/arithmeticParser";
 import { ShellEnvironment } from "./shellEnvironment";
 import { ExecutableResolver } from "./executableResolver";
-import { ShellAST } from ".";
+import { FileInputStream, FileOutputStream, ShellAST } from ".";
 import { Result } from "@prozilla-os/shared";
 
 /**
@@ -22,9 +22,9 @@ export class ShellInterpreter {
 		u: (env) => env.get(ShellEnvironment.USER) ?? USERNAME,
 		h: (env) => env.get(ShellEnvironment.HOSTNAME) ?? HOSTNAME,
 		w: (env) => {
-			const pwd = env.get(ShellEnvironment.WORKING_DIRECTORY) ?? "/";
+			const path = env.get(ShellEnvironment.WORKING_DIRECTORY) ?? "/";
 			const home = env.get(ShellEnvironment.HOME) ?? "~";
-			return pwd.startsWith(home) ? pwd.replace(home, "~") : pwd;
+			return path.startsWith(home) ? path.replace(home, "~") : path;
 		},
 		W: (env) => (env.get(ShellEnvironment.WORKING_DIRECTORY) ?? "/").split("/").pop() || "/",
 		"$": (env) => env.get(ShellEnvironment.USER) === "root" ? "#" : "$",
@@ -54,7 +54,7 @@ export class ShellInterpreter {
 	 * @returns The exit code of the last command executed in the script.
 	 */
 	public async execute(input: string | VirtualFile, io?: Partial<ProcessIO>) {
-		if (input instanceof VirtualFile) {         
+		if (input instanceof VirtualFile) {
 			const content = await input.read();
 			if (!content)
 				return EXIT_CODE.commandNotExecutable;
@@ -66,10 +66,7 @@ export class ShellInterpreter {
 		// console.log(block);
 
 		const env = io?.env ?? this.shell.env;
-		return await this.executeBlock(block, {
-			...io,
-			env,
-		});
+		return await this.executeBlock(block, { ...io, env });
 	}
 
 	/**
@@ -89,6 +86,7 @@ export class ShellInterpreter {
 	private async executeNode(node: ShellAST.Node, io?: Partial<ProcessIO>): Promise<number> {
 		let exitCode: number = EXIT_CODE.success;
 		const env = io?.env ?? this.shell.env;
+
 		switch (node.type) {
 			case ShellAST.NodeType.Command:
 				exitCode = await this.executeCommands([node], io);
@@ -96,85 +94,27 @@ export class ShellInterpreter {
 			case ShellAST.NodeType.Pipeline:
 				exitCode = await this.executeCommands(node.commands, io);
 				break;
-			case ShellAST.NodeType.Logical: {
-				const logicalNode = node;
-				exitCode = await this.executeNode(logicalNode.left, io);
-				
-				if (logicalNode.operator === "&&" && exitCode === EXIT_CODE.success) {
-					exitCode = await this.executeNode(logicalNode.right, io);
-				} else if (logicalNode.operator === "||" && exitCode !== EXIT_CODE.success) {
-					exitCode = await this.executeNode(logicalNode.right, io);
-				}
+			case ShellAST.NodeType.Logical:
+				exitCode = await this.executeLogicalNode(node, io);
 				break;
-			}
-			case ShellAST.NodeType.Assignment: {
-				const assignmentNode = node;
-				const expandedValue = await this.evaluateArgument(assignmentNode.value, env);
-				env.set(assignmentNode.name, expandedValue);
-				exitCode = EXIT_CODE.success;
+			case ShellAST.NodeType.Assignment:
+				exitCode = await this.executeAssignmentNode(node, env);
 				break;
-			}
 			case ShellAST.NodeType.Arithmetic:
 				exitCode = this.evaluateArithmetic(node.expression, env);
 				break;
-			case ShellAST.NodeType.If: {
-				const ifNode = node;
-				const conditionCode = await this.executeNode(ifNode.ifBranch.condition, io);
-
-				if (conditionCode === EXIT_CODE.success) {
-					exitCode = await this.executeBlock(ifNode.ifBranch.thenBranch, io);
-				} else {
-					let elifMet = false;
-					for (const elif of ifNode.elifBranches) {
-						const elifConditionCode = await this.executeNode(elif.condition, io);
-						if (elifConditionCode === EXIT_CODE.success) {
-							elifMet = true;
-							exitCode = await this.executeBlock(elif.thenBranch, io);
-							break;
-						}
-					}
-					if (!elifMet) {
-						if (ifNode.elseBranch.length) {
-							exitCode = await this.executeBlock(ifNode.elseBranch, io);
-						} else {
-							exitCode = EXIT_CODE.success;
-						}
-					}
-				}
+			case ShellAST.NodeType.If:
+				exitCode = await this.executeIfNode(node, io);
 				break;
-			}
-			case ShellAST.NodeType.While: {
-				const whileNode = node;
-				while ((exitCode = await this.executeNode(whileNode.condition, io)) === EXIT_CODE.success) {
-					exitCode = await this.executeBlock(whileNode.body, io);
-				}
+			case ShellAST.NodeType.While:
+				exitCode = await this.executeWhileNode(node, io);
 				break;
-			}
-			case ShellAST.NodeType.ForIn: {
-				const forInNode = node;
-				const items: string[] = [];
-
-				for (const argument of forInNode.items) {
-					const expandedString = await this.evaluateArgument(argument, env);
-					items.push(...ShellParser.expandBraces(expandedString));
-				}
-
-				for (const item of items) {
-					env.set(forInNode.variableName, item);
-					exitCode = await this.executeBlock(forInNode.body, io);
-				}
-
+			case ShellAST.NodeType.ForIn:
+				exitCode = await this.executeForInNode(node, env, io);
 				break;
-			}
-			case ShellAST.NodeType.ForExpression: {
-				const forExprNode = node;
-				exitCode = this.evaluateArithmetic(forExprNode.setup.expression, env);
-				while ((exitCode = this.evaluateArithmetic(forExprNode.condition.expression, env)) === EXIT_CODE.success) {
-					exitCode = await this.executeBlock(forExprNode.body, io);
-					exitCode = this.evaluateArithmetic(forExprNode.step.expression, env);
-				}
+			case ShellAST.NodeType.ForExpression:
+				exitCode = await this.executeForExpressionNode(node, env, io);
 				break;
-			}
 			default:
 				throw new Error("Unknown node: " + JSON.stringify(node));
 		}
@@ -183,162 +123,196 @@ export class ShellInterpreter {
 		return exitCode;
 	}
 
+	private async executeLogicalNode(node: ShellAST.LogicalNode, io?: Partial<ProcessIO>): Promise<number> {
+		let exitCode = await this.executeNode(node.left, io);
+		const isAndSuccess = node.operator === "&&" && exitCode === EXIT_CODE.success;
+		const isOrFailure = node.operator === "||" && exitCode !== EXIT_CODE.success;
+
+		if (isAndSuccess || isOrFailure) {
+			exitCode = await this.executeNode(node.right, io);
+		}
+		return exitCode;
+	}
+
+	private async executeAssignmentNode(node: ShellAST.AssignmentNode, env: ShellEnvironment): Promise<number> {
+		const expandedValue = await this.evaluateArgument(node.value, env);
+		env.set(node.name, expandedValue);
+		return EXIT_CODE.success;
+	}
+
+	private async executeIfNode(node: ShellAST.IfNode, io?: Partial<ProcessIO>): Promise<number> {
+		const conditionCode = await this.executeNode(node.ifBranch.condition, io);
+
+		if (conditionCode === EXIT_CODE.success) {
+			return await this.executeBlock(node.ifBranch.thenBranch, io);
+		}
+
+		for (const elif of node.elifBranches) {
+			if (await this.executeNode(elif.condition, io) === EXIT_CODE.success) {
+				return await this.executeBlock(elif.thenBranch, io);
+			}
+		}
+
+		if (node.elseBranch.length) {
+			return await this.executeBlock(node.elseBranch, io);
+		}
+
+		return EXIT_CODE.success;
+	}
+
+	private async executeWhileNode(node: ShellAST.WhileNode, io?: Partial<ProcessIO>): Promise<number> {
+		let exitCode: number = EXIT_CODE.success;
+		while ((exitCode = await this.executeNode(node.condition, io)) === EXIT_CODE.success) {
+			exitCode = await this.executeBlock(node.body, io);
+		}
+		return exitCode;
+	}
+
+	private async executeForInNode(node: ShellAST.ForInNode, env: ShellEnvironment, io?: Partial<ProcessIO>): Promise<number> {
+		let exitCode: number = EXIT_CODE.success;
+		const items: string[] = [];
+
+		for (const argument of node.items) {
+			const expanded = await this.evaluateArgument(argument, env);
+			items.push(...ShellParser.expandBraces(expanded));
+		}
+
+		for (const item of items) {
+			env.set(node.variableName, item);
+			exitCode = await this.executeBlock(node.body, io);
+		}
+		return exitCode;
+	}
+
+	private async executeForExpressionNode(node: ShellAST.ForExpressionNode, env: ShellEnvironment, io?: Partial<ProcessIO>): Promise<number> {
+		let exitCode = this.evaluateArithmetic(node.setup.expression, env);
+		while (this.evaluateArithmetic(node.condition.expression, env) === EXIT_CODE.success) {
+			exitCode = await this.executeBlock(node.body, io);
+			exitCode = this.evaluateArithmetic(node.step.expression, env);
+		}
+		return exitCode;
+	}
+
 	/**
 	 * Handles the piping logic for any list of executable nodes.
 	 */
-	private async executeCommands(nodes: ShellAST.ExecutableNode[], io?: Partial<ProcessIO>) {
-		const previousPipeline = this.pipeline;
-		const previousStream = this.shell.state.stream;
-
+	private async executeCommands(nodes: ShellAST.ExecutableNode[], io?: Partial<ProcessIO>): Promise<number> {
 		if (!nodes.length)
 			return EXIT_CODE.success;
 
-		const pipelineProcesses: Process[] = [];
-		const tasks: Promise<number>[] = [];
+		const previousPipeline = this.pipeline;
+		const previousStream = this.shell.state.stream;
 		const env = io?.env ?? this.shell.env;
 
-		for (const node of nodes) {
-			const process: Process = {
-				stdin: new Stream(),
-				stdout: new Stream(),
-				stderr: new Stream(),
-				commandName: node.type === ShellAST.NodeType.Command ? "" : `<${node.type}>`,
-				args: [],
-				env,
-			};
-
-			if (node.type === ShellAST.NodeType.Command) {
-				const commandNode = node;
-				for (const argParts of commandNode.args) {
-					process.args.push(await this.evaluateArgument(argParts, env));
-				}
-				process.commandName = process.args[0] ?? "";
-				if (process.commandName === Shell.SUDO_COMMAND && process.args.length > 1) {
-					process.commandName = process.args[1];
-				}
-			}
-
-			pipelineProcesses.push(process);
-		}
-
+		const pipelineProcesses = await this.createPipeline(nodes, env);
 		this.pipeline = pipelineProcesses;
 
-		pipelineProcesses.forEach((process, i) => {
-			const isFirst = i === 0;
-			const isLast = i === pipelineProcesses.length - 1;
-			const nextProcess = !isLast ? pipelineProcesses[i + 1] : null;
-
-			if (isFirst && io?.stdin) {
-				io.stdin.pipe(process.stdin);
-			}
-
-			if (nextProcess) {
-				process.stdout.pipe(nextProcess.stdin);
-			} else {
-				const targetStdout = io?.stdout;
-				process.stdout.on(Stream.DATA_EVENT, (data) => {
-					if (targetStdout) {
-						void targetStdout.write(data);
-					} else {
-						void this.shell.write(data);
-					}
-				});
-			}
-
-			const targetStderr = io?.stderr;
-			process.stderr.on(Stream.DATA_EVENT, (data) => {
-				if (targetStderr) {
-					void targetStderr.write(data);
-				} else {
-					void this.shell.write(data);
-				}
-			});
-		});
+		this.linkStreams(pipelineProcesses, io);
 
 		const lastProcess = pipelineProcesses.at(-1);
 		if (lastProcess)
 			this.shell.state.stream = ref(lastProcess.stdin);
 
-		for (let i = nodes.length - 1; i >= 0; i--) {
+		const tasks = pipelineProcesses.map((process, i) => {
 			const node = nodes[i];
-			const process = pipelineProcesses[i];
-			
-			if (node.type === ShellAST.NodeType.Command) {
-				tasks.unshift(this.spawn(process));
-			} else {
-				tasks.unshift(this.executeNode(node, {
+			return node.type === ShellAST.NodeType.Command 
+				? this.spawn(process, node.redirections) 
+				: this.executeNode(node, {
 					stdin: process.stdin,
 					stdout: process.stdout,
 					stderr: process.stderr,
 					env: process.env,
-				}));
-			}
-		}
+				});
+		});
 
 		const exitCodes = await Promise.all(tasks);
-
 		this.pipeline = previousPipeline;
 		this.shell.state.stream = previousStream;
 
 		return exitCodes.at(-1) ?? EXIT_CODE.success;
 	}
 
+	private async createPipeline(nodes: ShellAST.ExecutableNode[], env: ShellEnvironment): Promise<Process[]> {
+		const processes: Process[] = [];
+		for (const node of nodes) {
+			const process: Process = { stdin: new Stream(), stdout: new Stream(), stderr: new Stream(), commandName: "", args: [], env };
+			if (node.type === ShellAST.NodeType.Command) {
+				for (const argumentParts of node.args) {
+					process.args.push(await this.evaluateArgument(argumentParts, env));
+				}
+				process.commandName = process.args[0] ?? "";
+				if (process.commandName === Shell.SUDO_COMMAND && process.args.length > 1)
+					process.commandName = process.args[1];
+			} else {
+				process.commandName = `<${node.type}>`;
+			}
+			processes.push(process);
+		}
+		return processes;
+	}
+
+	private linkStreams(processes: Process[], io?: Partial<ProcessIO>) {
+		processes.forEach((process, i) => {
+			const next = processes[i + 1];
+			if (i === 0 && io?.stdin)
+				io.stdin.pipe(process.stdin);
+
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			if (next) {
+				process.stdout.pipe(next.stdin);
+			} else {
+				process.stdout.on(Stream.DATA_EVENT, (data) => void (io?.stdout ? io.stdout.write(data) : this.shell.write(data)));
+			}
+			process.stderr.on(Stream.DATA_EVENT, (data) => void (io?.stderr ? io.stderr.write(data) : this.shell.write(data)));
+		});
+	}
+
 	private async evaluateArgument(parts: ShellAST.Argument, env: ShellEnvironment): Promise<string> {
 		let result = "";
-
 		for (const part of parts) {
 			if (typeof part === "string") {
 				result += part;
 				continue;
 			}
-
 			switch (part.type) {
 				case ShellAST.NodeType.ParameterExpansion: {
-					let expandedDefault = "";
-					if (part.argument)
-						expandedDefault = await this.evaluateArgument(part.argument, env);
-
-					result += env.expand(part, expandedDefault);
+					const defaultValue = part.argument ? await this.evaluateArgument(part.argument, env) : "";
+					result += env.expand(part, defaultValue);
 					break;
 				}
-				case ShellAST.NodeType.ArithmeticExpansion: {
+				case ShellAST.NodeType.ArithmeticExpansion:
 					result += this.evaluateArithmetic(part.content.expression, env).toString();
 					break;
-				}
-				case ShellAST.NodeType.CommandSubstitution: {
-					const captureStream = new Stream();
-					let output = "";
-					captureStream.on(Stream.DATA_EVENT, (data: string) => output += data);
-
-					await this.executeBlock(part.content, { stdout: captureStream, env });
-					captureStream.end();
-
-					result += output.trim();
+				case ShellAST.NodeType.CommandSubstitution:
+					result += await this.captureCommandOutput(part.content, env);
 					break;
-				}
 			}
 		}
-
 		return this.removeQuotes(result);
+	}
+
+	private async captureCommandOutput(block: ShellAST.Block, env: ShellEnvironment): Promise<string> {
+		const outputStream = new Stream();
+		let output = "";
+		outputStream.on(Stream.DATA_EVENT, (data: string) => output += data);
+		await this.executeBlock(block, { stdout: outputStream, env });
+		outputStream.end();
+		return output.trim();
 	}
 
 	private removeQuotes(input: string): string {
 		let result = "";
-		let inSingleQuote = false;
-		let inDoubleQuote = false;
-
-		for (let i = 0; i < input.length; i++) {
-			const character = input[i];
-
-			if (character === "'" && !inDoubleQuote) {
-				inSingleQuote = !inSingleQuote;
-			} else if (character === "\"" && !inSingleQuote) {
-				inDoubleQuote = !inDoubleQuote;
+		let inSingle = false;
+		let inDouble = false;
+		for (const char of input) {
+			if (char === "'" && !inDouble) {
+				inSingle = !inSingle;
+			} else if (char === "\"" && !inSingle) {
+				inDouble = !inDouble;
 			} else {
-				result += character;
+				result += char;
 			}
 		}
-
 		return result;
 	}
 
@@ -359,46 +333,83 @@ export class ShellInterpreter {
 			});
 	}
 
+	private async executeRedirections(redirections: ShellAST.RedirectionNode[], io: ProcessIO) {
+		const streamMap: Record<number, Stream> = { 0: io.stdin, 1: io.stdout, 2: io.stderr };
+
+		for (const redirection of redirections) {
+			const targetPath = await this.evaluateArgument(redirection.target, io.env);
+			const descriptor = redirection.fileDescriptor;
+
+			if (redirection.operator === ">&" || redirection.operator === "<&") {
+				const targetDescriptor = parseInt(targetPath);
+				const sourceStream = streamMap[descriptor];
+				const targetStream = streamMap[targetDescriptor];
+			
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+				if (sourceStream && targetStream)
+					targetStream.pipe(sourceStream);
+				continue;
+			}
+
+			const isOutput = redirection.operator === ">" || redirection.operator === ">>";
+			const target = this.shell.state.workingDirectory.navigate(targetPath, isOutput);
+
+			if (!target || !target.isFile())
+				continue;
+
+			if (redirection.operator === "<" && descriptor === 0) {
+				io.stdin = new FileInputStream(target);
+			} else if (isOutput) {
+				const stream = new FileOutputStream(target);
+
+				if (redirection.operator === ">>") {
+					const content = await target.read();
+					if (content != null)
+						await stream.write(content);
+				}
+			
+				if (descriptor === 1) {
+					io.stdout = stream;
+				} else if (descriptor === 2) {
+					io.stderr = stream;
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+				} else if (streamMap[descriptor]) {
+					streamMap[descriptor] = stream;
+				}
+			}
+		}
+	}
+
 	/**
 	 * Resolves a command, parses flags/options, and executes the command logic.
 	 * @returns The resulting exit code from the command execution.
 	 */
-	private async spawn(process: Process): Promise<number> {
+	private async spawn(process: Process, redirections: ShellAST.RedirectionNode[] = []): Promise<number> {
 		const { stdin, stdout, stderr, commandName, args, env: parentEnv } = process;
+		const io: ProcessIO = { stdin, stdout, stderr, env: parentEnv };
+		
 		const timestamp = Date.now();
 
 		try {
 			if (!args.length)
 				return EXIT_CODE.generalError;
 
-			const commandArgs = [...args];
-			commandArgs.shift();
-
 			const result = await ExecutableResolver.resolve(commandName, parentEnv, this.shell.state.workingDirectory);
 			if (result.isError())
 				return Shell.writeError(stderr, commandName, result.error, EXIT_CODE.commandNotFound);
 
-			const env = parentEnv.fork();
-			env.set("0", commandName);
-			env.set("#", commandArgs.length.toString());
-			
-			const joinedArgs = commandArgs.join(" ");
-			env.set("*", joinedArgs);
-			env.set("@", joinedArgs);
+			const commandArgs = args.slice(1);
+			io.env = parentEnv.fork();
+			io.env.setCommandArguments(commandName, commandArgs);
 
-			for (let i = 0; i < commandArgs.length; i++) {
-				const positionalIndex = i + 1;
-				env.set(positionalIndex.toString(), commandArgs[i]);
-			}
+			await this.executeRedirections(redirections, io);
 
 			if (result.value instanceof VirtualFile)
-				return await this.execute(result.value, { stdin, stdout, stderr, env });
+				return await this.execute(result.value, io);
 
 			const command = result.value;
 			const { options, inputs } = ShellParser.parseOptions(command, commandArgs);
-			
-			const processIndex = this.pipeline.indexOf(process);
-			const isPiped = processIndex > 0;
+			const isPiped = this.pipeline.indexOf(process) > 0;
 
 			if (command.requireArgs && !commandArgs.length && !isPiped)
 				return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_ARGS_ERROR}`]);
@@ -406,14 +417,14 @@ export class ShellInterpreter {
 				return Shell.writeError(stderr, commandName, [Shell.USAGE_ERROR, `${commandName} ${Shell.MISSING_OPTIONS_ERROR}`]);
 			
 			const exitCode = await command.execute(commandArgs, {
-				stdin,
-				stdout,
-				stderr,
+				stdin: io.stdin,
+				stdout: io.stdout,
+				stderr: io.stderr,
 				shell: this.shell,
 				workingDirectory: this.shell.state.workingDirectory,
-				username: env.get("USER") ?? USERNAME,
-				hostname: env.get("HOSTNAME") ?? HOSTNAME,
-				rawLine: joinedArgs,
+				username: io.env.get("USER") ?? USERNAME,
+				hostname: io.env.get("HOSTNAME") ?? HOSTNAME,
+				rawLine: commandArgs.join(" "),
 				options,
 				exit: () => this.shell.kill(),
 				inputs,
@@ -423,7 +434,7 @@ export class ShellInterpreter {
 				systemManager: this.shell.config.systemManager,
 				app: this.shell.config.app!,
 				size: this.shell.config.sizeRef.current,
-				env,
+				env: io.env,
 			});
 
 			return exitCode ?? EXIT_CODE.success;
@@ -431,8 +442,8 @@ export class ShellInterpreter {
 			console.error(error);
 			return Shell.writeError(stderr, commandName);
 		} finally {
-			stdout.end();
-			stderr.end();
+			io.stdout.end();
+			io.stderr.end();
 		}
 	}
 
