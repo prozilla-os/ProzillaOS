@@ -8,7 +8,7 @@ export const history = new Command()
 		usage: "history",
 		description: "Display the list of commands typed since the shell session started.",
 	})
-	.setExecute(function(this: Command, _args, { stdout, shell }) {
+	.setExecute(async function(this: Command, _args, { stdout, shell }) {
 		const inputHistory = shell.state.history.filter(({ flags }) => flags & HistoryFlags.Command);
 
 		if (inputHistory.length === 0) 
@@ -21,7 +21,7 @@ export const history = new Command()
 			})
 			.join("\n");
 
-		Shell.printLn(stdout, output);
+		await Shell.printLn(stdout, output);
 
 		return EXIT_CODE.success;
 	});

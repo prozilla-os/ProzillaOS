@@ -23,8 +23,8 @@ export const grep = new Command()
 		const [pattern, ...fileNames] = args;
 		const regex = new RegExp(pattern, options.includes("i") ? "i" : "");
 
-		const search = (text: string, origin?: string) => {
-			text.split("\n").forEach((line, index) => {
+		const search = async (text: string, origin?: string) => {
+			await Promise.all(text.split("\n").map(async (line, index) => {
 				const match = regex.test(line);
 				const shouldMatch = options.includes("v") ? !match : match;
 
@@ -32,28 +32,28 @@ export const grep = new Command()
 					let prefix = "";
 					if (origin && fileNames.length > 1) prefix += `${origin}:`;
 					if (options.includes("n")) prefix += `${index + 1}:`;
-					Shell.printLn(stdout, prefix + line);
+					await Shell.printLn(stdout, prefix + line);
 				}
-			});
+			}));
 		};
 
 		if (fileNames.length > 0) {
 			for (const name of fileNames) {
 				const file = workingDirectory.navigateToFile(name);
 				if (!file) {
-					Shell.writeError(stderr, this.name, `${name}: No such file`);
+					await Shell.writeError(stderr, this.name, `${name}: No such file`);
 					continue;
 				}
                 
 				const text = await file.read();
 				if (text != null)
-					search(text, name);
+					await search(text, name);
 			}
 			return EXIT_CODE.success;
 		}
 
-		return Shell.readInput("", stdin, (data) => {
-			search(data);
+		return Shell.readInput("", stdin, async (data) => {
+			await search(data);
 			return EXIT_CODE.success;
 		});
 	});

@@ -2,7 +2,7 @@ import { parseOptionalInteger } from "@prozilla-os/shared";
 import { EXIT_CODE } from "../../../constants";
 import { Command } from "../command";
 import { Shell } from "../shell";
-import { Stream } from "../stream";
+import { Stream } from "../streams/stream";
 
 export const head = new Command()
 	.setManual({
@@ -17,10 +17,10 @@ export const head = new Command()
 	.setExecute(async function(this: Command, args, { workingDirectory, inputs, stdout, stderr, stdin }) {
 		const count = parseOptionalInteger(inputs.n, 10);
 
-		function writeHead(content: string) {
+		async function writeHead(content: string) {
 			const lines = content.split("\n");
 			const selected = count >= 0 ? lines.slice(0, count) : lines.slice(0, Math.max(lines.length + count, 0));
-			Shell.printLn(stdout, selected.join("\n"));
+			await Shell.printLn(stdout, selected.join("\n"));
 		}
 
 		async function readStdin() {
@@ -29,7 +29,7 @@ export const head = new Command()
 				buffer += data;
 			});
 			await stdin.wait();
-			writeHead(buffer);
+			await writeHead(buffer);
 		}
 
 		if (!args.length)
@@ -46,21 +46,21 @@ export const head = new Command()
 			const target = workingDirectory.navigate(path);
 
 			if (!target) {
-				exitCode = Shell.writeError(stderr, this.name, [path, Shell.INVALID_PATH_ERROR]);
+				exitCode = await Shell.writeError(stderr, this.name, [path, Shell.INVALID_PATH_ERROR]);
 				continue;
 			}
 
 			if (target.isFolder()) {
-				exitCode = Shell.writeError(stderr, this.name, [path, "Is a directory"]);
+				exitCode = await Shell.writeError(stderr, this.name, [path, "Is a directory"]);
 				continue;
 			}
 
 			if (args.length > 1)
-				Shell.printLn(stdout, `==> ${path} <==`);
+				await Shell.printLn(stdout, `==> ${path} <==`);
 
 			const content = await target.read();
 			if (content != null)
-				writeHead(content);
+				await writeHead(content);
 		}
 
 		return exitCode;

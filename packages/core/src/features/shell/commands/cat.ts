@@ -1,7 +1,7 @@
 import { EXIT_CODE } from "../../../constants";
 import { Command } from "../command";
 import { Shell } from "../shell";
-import { Stream } from "../stream";
+import { Stream } from "../streams/stream";
 
 export const cat = new Command()
 	.setManual({
@@ -17,18 +17,18 @@ export const cat = new Command()
 		let exitCode: number = EXIT_CODE.success;
 
 		// Helper to format and write content with options
-		const writeContent = (content: string) => {
+		const writeContent = async (content: string) => {
 			let output = content;
 			if (options.includes("e")) {
 				output = output.split("\n").join("$\n") + "$";
 			}
-			Shell.printLn(stdout, output);
+			await Shell.printLn(stdout, output);
 		};
 
 		// Read from stdin
 		if (args.length === 0) {
 			stdin.on(Stream.DATA_EVENT, (data) => {
-				writeContent(data);
+				void writeContent(data);
 			});
 			return stdin.wait(EXIT_CODE.success);
 		}
@@ -36,7 +36,7 @@ export const cat = new Command()
 		// Iterate through file arguments
 		for (const path of args) {
 			if (path === "-") {
-				const onData = (data: string) => writeContent(data);
+				const onData = (data: string) => void writeContent(data);
 				stdin.on(Stream.DATA_EVENT, onData);
 				await stdin.wait();
 				stdin.off(Stream.DATA_EVENT, onData);
@@ -46,18 +46,18 @@ export const cat = new Command()
 			const target = workingDirectory.navigate(path);
 
 			if (!target) {
-				exitCode = Shell.writeError(stderr, this.name, `${path}: ${Shell.INVALID_PATH_ERROR}`);
+				exitCode = await Shell.writeError(stderr, this.name, `${path}: ${Shell.INVALID_PATH_ERROR}`);
 				continue;
 			}
 
 			if (target.isFolder()) {
-				exitCode = Shell.writeError(stderr, this.name, `${path}: Is a directory`);
+				exitCode = await Shell.writeError(stderr, this.name, `${path}: Is a directory`);
 				continue;
 			}
 
 			const content = await target.read();
 			if (content != null) {
-				writeContent(content);
+				await writeContent(content);
 			}
 		}
 

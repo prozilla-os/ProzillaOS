@@ -48,7 +48,7 @@ describe("Shell", () => {
 
 	describe("readInput", () => {
 		it("should prioritize rawLine over stdin", async () => {
-			const stdin = new Stream().start();
+			const stdin = new Stream();
 			const callback = vi.fn().mockReturnValue(EXIT_CODE.success);
         
 			const result = await Shell.readInput("direct input", stdin, callback);
@@ -58,13 +58,13 @@ describe("Shell", () => {
 		});
 
 		it("should wait for stdin if rawLine is empty", async () => {
-			const stdin = new Stream().start();
+			const stdin = new Stream();
 			const callback = vi.fn().mockReturnValue(EXIT_CODE.success);
         
 			const promise = Shell.readInput("", stdin, callback);
         
-			stdin.write("piped data");
-			stdin.stop();
+			await stdin.write("piped data");
+			stdin.end();
         
 			const result = await promise;
 			expect(callback).toHaveBeenCalledWith("piped data");

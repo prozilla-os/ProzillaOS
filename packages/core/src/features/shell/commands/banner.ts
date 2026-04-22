@@ -340,7 +340,7 @@ export const banner = new Command()
 		usage: "banner [STRING]...",
 		description: "Prints the ASCII art representation of the provided text.",
 	})
-	.setExecute(function(this: Command, args, { stdout }) {
+	.setExecute(async function(this: Command, args, { stdout }) {
 		if (!args.length)
 			return EXIT_CODE.success;
 
@@ -354,6 +354,6 @@ export const banner = new Command()
 			}
 		}
 
-		Shell.printLn(stdout, rows.join("\n"));
+		await Shell.printLn(stdout, rows.join("\n"));
 		return EXIT_CODE.success;
 	});

@@ -11,13 +11,13 @@ export const date = new Command()
 		},
 	})
 	.addOption({ short: "u", long: "utc" })
-	.setExecute(function(this: Command, args, { stdout, options }) {
+	.setExecute(async function(this: Command, args, { stdout, options }) {
 		const now = new Date();
 		const isUtc = options.includes("u");
 		const formatArgument = args.find((arg) => arg.startsWith("+"));
 
 		if (!formatArgument) {
-			stdout.write(isUtc ? now.toUTCString() : now.toString());
+			await stdout.write(isUtc ? now.toUTCString() : now.toString());
 			return;
 		}
 
@@ -47,5 +47,5 @@ export const date = new Command()
 			result = result.replaceAll(key, value);
 		}
 
-		Shell.printLn(stdout, result);
+		await Shell.printLn(stdout, result);
 	});

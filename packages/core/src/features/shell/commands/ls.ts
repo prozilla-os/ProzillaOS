@@ -9,7 +9,7 @@ export const ls = new Command()
 		usage: "ls [options] [files]",
 		description: "List information about directories or files (the current directory by default).",
 	})
-	.setExecute(function(this: Command, args, { workingDirectory, stdout, stderr }) {
+	.setExecute(async function(this: Command, args, { workingDirectory, stdout, stderr }) {
 		let directory: VirtualFolder | null = workingDirectory;
 		if (args.length)
 			directory = workingDirectory.navigateToFolder(args[0]);
@@ -23,5 +23,5 @@ export const ls = new Command()
 		const contents = folderNames.concat(fileNames);
 	
 		if (contents.length)
-			Shell.printLn(stdout, contents.sort().join("  "));
+			await Shell.printLn(stdout, contents.sort().join("  "));
 	});

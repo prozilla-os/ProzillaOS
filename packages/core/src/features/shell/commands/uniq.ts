@@ -19,7 +19,7 @@ export const uniq = new Command()
 	.addOption({ short: "u", long: "unique" })
 	.addOption({ short: "i", long: "ignore-case" })
 	.setExecute(async function(this: Command, args, { stdout, stderr, stdin, workingDirectory, options }) {
-		const processUniq = (text: string) => {
+		const processUniq = async (text: string) => {
 			if (!text.length) return;
 
 			const lines = text.split("\n");
@@ -31,13 +31,13 @@ export const uniq = new Command()
 			let currentLine = lines[0];
 			let count = 0;
 
-			const outputLine = (line: string, lineCount: number) => {
+			const outputLine = async (line: string, lineCount: number) => {
 				const isDuplicate = lineCount > 1;
 				if (onlyDuplicates && !isDuplicate) return;
 				if (onlyUnique && isDuplicate) return;
 
 				const prefix = showCount ? `${lineCount.toString().padStart(7, " ")} ` : "";
-				Shell.printLn(stdout, prefix + line);
+				await Shell.printLn(stdout, prefix + line);
 			};
 
 			for (const line of lines) {
@@ -47,13 +47,13 @@ export const uniq = new Command()
 				if (a === b) {
 					count++;
 				} else {
-					outputLine(currentLine, count);
+					await outputLine(currentLine, count);
 					currentLine = line;
 					count = 1;
 				}
 			}
 
-			outputLine(currentLine, count);
+			await outputLine(currentLine, count);
 		};
 
 		const path = args[0];
@@ -68,12 +68,12 @@ export const uniq = new Command()
 
 			const content = await target.read();
 			if (content != null)
-				processUniq(content);
+				await processUniq(content);
 			return EXIT_CODE.success;
 		}
 
-		return Shell.readInput("", stdin, (data) => {
-			processUniq(data);
+		return await Shell.readInput("", stdin, async (data) => {
+			await processUniq(data);
 			return EXIT_CODE.success;
 		});
 	});

@@ -1,6 +1,6 @@
 import { EXIT_CODE } from "../../../constants";
 import { Command } from "../command";
-import { Stream } from "../stream";
+import { Stream } from "../streams/stream";
 import { ANSI, Ansi, parseOptionalFloat } from "@prozilla-os/shared";
 import { Shell } from "../shell";
 
@@ -24,7 +24,7 @@ export const watch = new Command()
 		short: "t",
 		isInput: false,
 	})
-	.setExecute(function(this: Command, args, { inputs, options, shell, stdout, stdin, stderr }) {
+	.setExecute(async function(this: Command, args, { inputs, options, shell, stdout, stdin, stderr }) {
 		const intervalSeconds = parseOptionalFloat(inputs.n, 2);
 		const intervalMs = Math.max(0.1, intervalSeconds) * 1000;
 		const hideHeader = options.includes("t");
@@ -33,13 +33,13 @@ export const watch = new Command()
 		let isExecuting = false;
 		let isStopping = false;
 
-		stdout.write(ANSI.screen.enterAltBuffer);
+		await stdout.write(ANSI.screen.enterAltBuffer);
 
 		const tick = async () => {
 			if (isExecuting || isStopping) return;
 			isExecuting = true;
 
-			const captureStream = new Stream().start();
+			const captureStream = new Stream();
 			let capturedOutput = "";
 
 			captureStream.on(Stream.DATA_EVENT, (data) => {
@@ -55,23 +55,23 @@ export const watch = new Command()
 						? "" 
 						: Ansi.white(`Every ${intervalSeconds.toFixed(1)}s: ${commandString}\n\n`);
 					
-					stdout.write(ANSI.screen.clear + ANSI.screen.home + header + capturedOutput);
+					await stdout.write(ANSI.screen.clear + ANSI.screen.home + header + capturedOutput);
 				}
 			} catch (error) {
 				console.error(error);
-				Shell.writeError(stderr, this.name, [Shell.COMMAND_FAILED_ERROR, commandString]);
+				await Shell.writeError(stderr, this.name, [Shell.COMMAND_FAILED_ERROR, commandString]);
 			} finally {
 				isExecuting = false;
-				captureStream.stop();
+				captureStream.end();
 			}
 		};
 
 		const intervalId = setInterval(() => void tick(), intervalMs);
 
-		stdin.on(Stream.STOP_EVENT, () => {
+		stdin.on(Stream.END_EVENT, () => {
 			isStopping = true;
 			clearInterval(intervalId);
-			stdout.write(ANSI.screen.exitAltBuffer);
+			void stdout.write(ANSI.screen.exitAltBuffer);
 		});
 
 		void tick();

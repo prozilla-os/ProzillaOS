@@ -10,9 +10,9 @@ export const echo = new Command()
 		},
 	})
 	.addOption({ short: "n", long: "no-newline", isInput: false })
-	.setExecute(function(this: Command, args, { stdout, options }) {
+	.setExecute(async function(this: Command, args, { stdout, options }) {
 		const output = args.join(" ");
 		const ending = options.includes("n") ? "" : "\n";
 
-		stdout.write(output + ending);
+		await stdout.write(output + ending);
 	});

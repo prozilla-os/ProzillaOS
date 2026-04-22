@@ -58,6 +58,6 @@ export const fortune = new Command()
 	.setManual({
 		purpose: "Tell fortune",
 	})
-	.setExecute(function(_args, { stdout }) {
-		stdout.write(randomFromArray(FORTUNES));
+	.setExecute(async function(_args, { stdout }) {
+		await stdout.write(randomFromArray(FORTUNES));
 	});

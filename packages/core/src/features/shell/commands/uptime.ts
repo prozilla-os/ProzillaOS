@@ -5,6 +5,6 @@ export const uptime = new Command()
 	.setManual({
 		purpose: "Display the current uptime of the system",
 	})
-	.setExecute(function(_args, { systemManager, stdout }) {
-		Shell.printLn(stdout, `Uptime: ${systemManager.getUptime(2)}`);
+	.setExecute(async function(_args, { systemManager, stdout }) {
+		await Shell.printLn(stdout, `Uptime: ${systemManager.getUptime(2)}`);
 	});

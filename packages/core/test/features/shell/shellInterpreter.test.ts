@@ -85,7 +85,7 @@ describe("ShellInterpreter", () => {
 
 	it("should return command not found error for invalid commands", async () => {
 		vi.spyOn(ExecutableResolver, "resolve").mockResolvedValue(Result.error(ExecutableResolver.NOT_FOUND_ERROR));
-		const stderr = new Stream().start();
+		const stderr = new Stream();
 		let errorOutput = "";
 		
 		stderr.on(Stream.DATA_EVENT, function(this: void, data: string) {

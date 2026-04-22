@@ -21,7 +21,7 @@ export const man = new Command()
 		short: "k",
 		long: "apropos",
 	})
-	.setExecute(function(this: Command, args, { options, stdout, stderr }) {
+	.setExecute(async function(this: Command, args, { options, stdout, stderr }) {
 		// Search function
 		if (options.includes("k")) {
 			const commands = ExecutableResolver.builtins.filter((builtin) => builtin.name.match(args[0].toLowerCase()));
@@ -33,7 +33,7 @@ export const man = new Command()
 				}
 			}).sort().join("\n");
 
-			Shell.printLn(stdout, output);
+			await Shell.printLn(stdout, output);
 			return;
 		}
 
@@ -103,5 +103,5 @@ export const man = new Command()
 			return section.join("\n");
 		}).join("\n\n");
 
-		Shell.printLn(stdout, output);
+		await Shell.printLn(stdout, output);
 	});

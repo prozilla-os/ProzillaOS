@@ -2,7 +2,7 @@ import { ref } from "valtio";
 import { EXIT_CODE, HOSTNAME, USERNAME } from "../../constants";
 import { VirtualFile } from "../virtual-drive";
 import { Process, ProcessIO, Shell } from "./shell";
-import { Stream, StreamSignal } from "./stream";
+import { Stream, StreamSignal } from "./streams/stream";
 import { ShellParser } from "./shellParser";
 import { ArithmeticParser } from "./arithmetic/arithmeticParser";
 import { ShellEnvironment } from "./shellEnvironment";
@@ -228,25 +228,31 @@ export class ShellInterpreter {
 			const isLast = i === pipelineProcesses.length - 1;
 			const nextProcess = !isLast ? pipelineProcesses[i + 1] : null;
 
-			process.stdout.start();
-			process.stderr.start();
-
-			if (isFirst) {
-				if (io?.stdin) {
-					io.stdin.pipe(process.stdin);
-				}
-				process.stdin.start();
+			if (isFirst && io?.stdin) {
+				io.stdin.pipe(process.stdin);
 			}
 
 			if (nextProcess) {
 				process.stdout.pipe(nextProcess.stdin);
 			} else {
 				const targetStdout = io?.stdout;
-				process.stdout.on(Stream.DATA_EVENT, (data) => targetStdout ? targetStdout.write(data) : this.shell.write(data));
+				process.stdout.on(Stream.DATA_EVENT, (data) => {
+					if (targetStdout) {
+						void targetStdout.write(data);
+					} else {
+						void this.shell.write(data);
+					}
+				});
 			}
 
 			const targetStderr = io?.stderr;
-			process.stderr.on(Stream.DATA_EVENT, (data) => targetStderr ? targetStderr.write(data) : this.shell.write(data));
+			process.stderr.on(Stream.DATA_EVENT, (data) => {
+				if (targetStderr) {
+					void targetStderr.write(data);
+				} else {
+					void this.shell.write(data);
+				}
+			});
 		});
 
 		const lastProcess = pipelineProcesses.at(-1);
@@ -302,11 +308,10 @@ export class ShellInterpreter {
 				case ShellAST.NodeType.CommandSubstitution: {
 					const captureStream = new Stream();
 					let output = "";
-					captureStream.on("data", (data: string) => output += data);
+					captureStream.on(Stream.DATA_EVENT, (data: string) => output += data);
 
-					captureStream.start();
 					await this.executeBlock(part.content, { stdout: captureStream, env });
-					captureStream.stop();
+					captureStream.end();
 
 					result += output.trim();
 					break;
@@ -427,8 +432,8 @@ export class ShellInterpreter {
 			console.error(error);
 			return Shell.writeError(stderr, commandName);
 		} finally {
-			stdout.stop();
-			stderr.stop();
+			stdout.end();
+			stderr.end();
 		}
 	}
 

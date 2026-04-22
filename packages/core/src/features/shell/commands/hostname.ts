@@ -5,6 +5,6 @@ export const hostname = new Command()
 	.setManual({
 		purpose: "Display the hostname",
 	})
-	.setExecute(function(_args, { hostname, stdout }) {
-		Shell.printLn(stdout, hostname);
+	.setExecute(async function(_args, { hostname, stdout }) {
+		await Shell.printLn(stdout, hostname);
 	});

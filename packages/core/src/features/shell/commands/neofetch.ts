@@ -69,5 +69,5 @@ export const neofetch = new Command()
 			combined.push(line);
 		}
 
-		Shell.printLn(stdout, combined.join("\n"));
+		await Shell.printLn(stdout, combined.join("\n"));
 	});

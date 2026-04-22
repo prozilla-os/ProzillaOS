@@ -1,5 +1,5 @@
 import { proxy, ref } from "valtio";
-import { Stream, StreamSignal } from "./stream";
+import { Stream, StreamSignal } from "./streams/stream";
 import { ExecutableResolver } from "./executableResolver";
 import { ANSI, Ansi, clamp, getLongestCommonPrefix, Vector2 } from "@prozilla-os/shared";
 import { EXIT_CODE, HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../../constants/shell.const";
@@ -84,7 +84,7 @@ export interface ProcessIO {
 	/** The stream used to output error messages. */
 	stderr: Stream;
 	/** The environment the process may read from or write to. */
-    env: ShellEnvironment; 
+	env: ShellEnvironment; 
 }
 
 /**
@@ -133,6 +133,10 @@ export interface ShellContext extends ProcessIO {
 	env: ShellEnvironment;
 }
 
+/**
+ * A Unix-like shell emulator that handles command parsing, environment management, 
+ * autocompletion, and process I/O.
+ */
 /**
  * A Unix-like shell emulator that handles command parsing, environment management, 
  * autocompletion, and process I/O.
@@ -215,6 +219,7 @@ export class Shell {
 			}
 			
 			this.state.stream?.signal(signal);
+			this.state.stream?.end();
 			this.state.stream = null;
 			this.state.ttyBuffer = null;
 			this.state.isUsingAltScreen = false;
@@ -461,8 +466,8 @@ export class Shell {
 	 * @param exitCode - The numerical exit code to return.
 	 * @returns `exitCode`.
 	 */
-	public static writeError(stream: Stream, commandName: string, error: string | string[] = Shell.COMMAND_FAILED_ERROR, exitCode: number = EXIT_CODE.generalError): number {
-		Shell.printLn(stream, Ansi.red(`${commandName}: ${typeof error === "string" ? error : error.join(": ")}`));
+	public static async writeError(stream: Stream, commandName: string, error: string | string[] = Shell.COMMAND_FAILED_ERROR, exitCode: number = EXIT_CODE.generalError) {
+		await Shell.printLn(stream, Ansi.red(`${commandName}: ${typeof error === "string" ? error : error.join(": ")}`));
 		return exitCode;
 	}
 
@@ -480,7 +485,7 @@ export class Shell {
 			stdin,
 			render: (iterations) => {
 				if (maxIterations !== undefined && iterations >= maxIterations)
-					stdin.stop();
+					stdin.end();
 				return task();
 			},
 			delay,
@@ -509,14 +514,13 @@ export class Shell {
 		let frame = 0;
 
 		if (useAltBuffer)
-			stdout.write(ANSI.screen.enterAltBuffer);
+			await stdout.write(ANSI.screen.enterAltBuffer);
 
-		function stopAnimation(interval: ReturnType<typeof setInterval>, stopStream = true) {
+		async function stopAnimation(interval: ReturnType<typeof setInterval>) {
 			clearInterval(interval);
 			if (useAltBuffer)
-				stdout.write(ANSI.screen.exitAltBuffer);
-			if (stopStream)
-				stdin.stop();
+				await stdout.write(ANSI.screen.exitAltBuffer);
+			stdin.end();
 		}
 
 		const interval = setInterval(() => {
@@ -526,15 +530,16 @@ export class Shell {
 			if (clear)
 				content = ANSI.screen.clear + ANSI.screen.home + content;
 
-			stdout.write(content);
-			frame++;
+			void stdout.write(content).then(() => {
+				frame++;
 
-			if (stopOnBlank && !rendered.trim().length && frame > 1)
-				stopAnimation(interval);
+				if (stopOnBlank && !rendered.trim().length && frame > 1)
+					void stopAnimation(interval);
+			});
 		}, delay);
 
-		stdin.on(Stream.STOP_EVENT, () => {
-			stopAnimation(interval, false);
+		stdin.on(Stream.END_EVENT, () => {
+			void stopAnimation(interval);
 		});
 
 		return await stdin.wait(EXIT_CODE.success);
@@ -547,9 +552,9 @@ export class Shell {
 	 * @param stdin - The input stream to fall back on.
 	 * @param callback - Function to process the collected input data.
 	 */
-	public static async readInput(rawLine: string, stdin: Stream, callback: (data: string) => CommandOutput) {
+	public static async readInput(rawLine: string, stdin: Stream, callback: (data: string) => Promise<CommandOutput> | CommandOutput) {
 		if (rawLine.length > 0) {
-			return callback(rawLine);
+			return await callback(rawLine);
 		}
 
 		let buffer = "";
@@ -557,8 +562,8 @@ export class Shell {
 			buffer += data;
 		});
 
-		return stdin.wait().then(() => {
-			return buffer.length ? callback(buffer) : EXIT_CODE.success;
+		return await stdin.wait().then(async () => {
+			return buffer.length ? await callback(buffer) : EXIT_CODE.success;
 		});
 	}
 
@@ -567,7 +572,7 @@ export class Shell {
 	 * @param stream - The stream to write to.
 	 * @param text - The text to write.
 	 */
-	public static printLn(stream: Stream, text = "") {
-		stream.write(text + "\n");
+	public static async printLn(stream: Stream, text = "") {
+		await stream.write(text + "\n");
 	}
 }

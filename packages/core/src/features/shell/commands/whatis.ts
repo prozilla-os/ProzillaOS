@@ -8,7 +8,7 @@ export const whatis = new Command()
 	.setManual({
 		purpose: "Show information about a command",
 	})
-	.setExecute(function(this: Command, args: string[], { stdout, stderr }) {
+	.setExecute(async function(this: Command, args: string[], { stdout, stderr }) {
 		const commandName = args[0].toLowerCase();
 		const command = ExecutableResolver.getBuiltin(commandName);
 
@@ -18,5 +18,5 @@ export const whatis = new Command()
 		if (!command.manual?.purpose)
 			return Shell.writeError(stderr, this.name, `${commandName}: No information found`);
 
-		Shell.printLn(stdout, `${commandName} - ${Ansi.green(command.manual.purpose)}\n`);
+		await Shell.printLn(stdout, `${commandName} - ${Ansi.green(command.manual.purpose)}\n`);
 	});

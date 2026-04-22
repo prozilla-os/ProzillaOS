@@ -7,8 +7,8 @@ export const compgen = new Command()
 		purpose: "Display a list of all commands",
 	})
 	.setRequireOptions(true)
-	.setExecute(function(_args, { options, stdout }) {
+	.setExecute(async function(_args, { options, stdout }) {
 		if (options.includes("c")) {
-			Shell.printLn(stdout, ExecutableResolver.builtins.map((command) => command.name).sort().join("\n"));
+			await Shell.printLn(stdout, ExecutableResolver.builtins.map((command) => command.name).sort().join("\n"));
 		}
 	});

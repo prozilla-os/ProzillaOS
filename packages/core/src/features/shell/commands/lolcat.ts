@@ -1,6 +1,6 @@
 import { ANSI, parseOptionalFloat } from "@prozilla-os/shared";
 import { Command } from "../command";
-import { Stream } from "../stream";
+import { Stream } from "../streams/stream";
 import { EXIT_CODE } from "../../../constants";
 
 const RAINBOW = [
@@ -44,7 +44,7 @@ export const lolcat = new Command()
 
 		let lineIndex = 0;
 
-		const processText = (text: string) => {
+		const processText = async (text: string) => {
 			let output = "";
 			let i = 0;
 			let colIndex = 0;
@@ -90,11 +90,11 @@ export const lolcat = new Command()
 				i++;
 			}
 
-			stdout.write(output);
+			await stdout.write(output);
 		};
 
 		stdin.on(Stream.DATA_EVENT, (data) => {
-			processText(data);
+			void processText(data);
 		});
 
 		return stdin.wait(EXIT_CODE.success);

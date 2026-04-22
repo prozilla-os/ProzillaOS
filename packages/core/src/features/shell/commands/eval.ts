@@ -9,7 +9,7 @@ export const evalCommand = new Command()
 		usage: "eval [input]",
 		description: "Executes JavaScript code with access to the shell.",
 	})
-	.setExecute(function(this: Command, args, context) {
+	.setExecute(async function(this: Command, args, context) {
 		const { stdout, stderr } = context;
 		const code = args.join(" ");
 
@@ -24,7 +24,7 @@ export const evalCommand = new Command()
 			const result = runner(context);
 
 			if (result !== undefined) {
-				stdout.write(String(result as unknown));
+				await stdout.write(String(result as unknown));
 			}
 
 			return EXIT_CODE.success;
