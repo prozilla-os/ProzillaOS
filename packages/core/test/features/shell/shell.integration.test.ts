@@ -27,7 +27,6 @@ describe("Shell", () => {
 	it("executes echo and captures output in history", async () => {
 		await shell.run("echo Hello World");
 
-		// The output is pushed after the command entry
 		const output = shell.state.history.at(-1);
 		expect(output?.displayText).toBe("Hello World");
 	});
@@ -35,19 +34,13 @@ describe("Shell", () => {
 	it("respects the -n flag in echo to omit newline", async () => {
 		await shell.run("echo -n No Newline");
 
-		// Without a newline, echo's output stays in ttyBuffer and is NOT in history
-		// It will be prepended to the NEXT command's prompt
 		expect(shell.state.ttyBuffer).toBe("No Newline");
 	});
 
 	it("pipes output from echo to rev", async () => {
 		await shell.run("echo hello | rev");
 
-		// If rev doesn't output a newline, it stays in the ttyBuffer
-		// If it does, it's the last history entry
 		const output = shell.state.history.at(-1);
-        
-		// Adjust based on whether your rev implementation appends a \n
 		if (shell.state.ttyBuffer === "olleh") {
 			expect(shell.state.ttyBuffer).toBe("olleh");
 		} else {
@@ -58,8 +51,6 @@ describe("Shell", () => {
 	it("properly reports command not found in a pipeline and stops", async () => {
 		const exitCode = await shell.run("fakecommand | rev");
 
-		// ShellInterpreter likely returns success even if a pipe stage fails 
-		// depending on your implementation of exit codes in pipelines
 		expect(exitCode).toBe(EXIT_CODE.success);
         
 		const historyTexts = shell.state.history.map((entry) => entry.displayText);
@@ -69,8 +60,6 @@ describe("Shell", () => {
 	it("handles complex pipelines with multiple stages", async () => {
 		await shell.run("echo abc | rev | rev");
 
-		// "abc" is piped through rev twice -> "cba" -> "abc"
-		// If echo adds a newline, the final output will be pushed to history
 		const output = shell.state.history.at(-1);
 		expect(output?.displayText).toBe("abc");
 	});

@@ -1,5 +1,6 @@
 import { randomFromArray } from "@prozilla-os/shared";
 import { Command } from "../command";
+import { Shell } from "../shell";
 
 /**
  * @see [Source](https://github.com/shlomif/fortune-mod/blob/master/fortune-mod/datfiles/fortunes)
@@ -59,5 +60,5 @@ export const fortune = new Command()
 		purpose: "Tell fortune",
 	})
 	.setExecute(async function(_args, { stdout }) {
-		await stdout.write(randomFromArray(FORTUNES));
+		await Shell.printLn(stdout, randomFromArray(FORTUNES));
 	});

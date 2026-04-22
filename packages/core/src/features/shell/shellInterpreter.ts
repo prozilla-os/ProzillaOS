@@ -213,17 +213,22 @@ export class ShellInterpreter {
 		if (lastProcess)
 			this.shell.state.stream = ref(lastProcess.stdin);
 
-		const tasks = pipelineProcesses.map((process, i) => {
+		const tasks: Promise<number>[] = [];
+		for (let i = nodes.length - 1; i >= 0; i--) {
 			const node = nodes[i];
-			return node.type === ShellAST.NodeType.Command 
-				? this.spawn(process, node.redirections) 
-				: this.executeNode(node, {
+			const process = pipelineProcesses[i];
+
+			if (node.type === ShellAST.NodeType.Command) {
+				tasks.unshift(this.spawn(process, node.redirections));
+			} else {
+				tasks.unshift(this.executeNode(node, {
 					stdin: process.stdin,
 					stdout: process.stdout,
 					stderr: process.stderr,
 					env: process.env,
-				});
-		});
+				}));
+			}
+		}
 
 		const exitCodes = await Promise.all(tasks);
 		this.pipeline = previousPipeline;
@@ -254,16 +259,24 @@ export class ShellInterpreter {
 	private linkStreams(processes: Process[], io?: Partial<ProcessIO>) {
 		processes.forEach((process, i) => {
 			const next = processes[i + 1];
+		
 			if (i === 0 && io?.stdin)
 				io.stdin.pipe(process.stdin);
 
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			if (next) {
 				process.stdout.pipe(next.stdin);
+			} else if (io?.stdout) {
+				process.stdout.pipe(io.stdout);
 			} else {
-				process.stdout.on(Stream.DATA_EVENT, (data) => void (io?.stdout ? io.stdout.write(data) : this.shell.write(data)));
+				process.stdout.on(Stream.DATA_EVENT, (data) => this.shell.write(data));
 			}
-			process.stderr.on(Stream.DATA_EVENT, (data) => void (io?.stderr ? io.stderr.write(data) : this.shell.write(data)));
+		
+			if (io?.stderr) {
+				process.stderr.pipe(io.stderr);
+			} else {
+				process.stderr.on(Stream.DATA_EVENT, (data) => this.shell.write(data));
+			}
 		});
 	}
 

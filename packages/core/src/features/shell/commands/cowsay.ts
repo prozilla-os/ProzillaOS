@@ -11,7 +11,7 @@ const COW = `
 
 function renderCowsay(text: string): string {
 	// Separate input value into lines
-	const segments = text.split(" ");
+	const segments = text.trim().split(/\s/);
 	const lines: string[] = [];
 	let currentLine = "";
 	let maxLineWidth = 0;
