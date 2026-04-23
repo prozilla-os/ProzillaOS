@@ -193,6 +193,8 @@ export interface ArithmeticNode extends BaseNode {
 	type: NodeType.Arithmetic;
 	/** The math expression. */
 	expression: string;
+	/** Whether this node is used as a condition. */
+	isCondition: boolean;
 }
 
 /**

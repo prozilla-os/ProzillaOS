@@ -28,73 +28,80 @@ export class ShellParser {
 	 * @returns An array of AST nodes representing the script execution flow.
 	 */
 	public static parseScript(script: string) {
-		const lines = this.tokenizeScript(script);
+		const lines = this.tokenize(script, { splitOnWhitespace: false, handleComments: true });
 		return this.parseStatements(lines, 0, []).nodes;
 	}
 
+	private static tokenizeLine(input: string): string[] {
+		return this.tokenize(input, { splitOnWhitespace: true });
+	}
+
 	/**
-	 * Breaks a script into individual lines/commands, handling quotes, comments, and semicolons.
-	 * @param script - The script content to tokenize.
-	 * @returns An array of sanitized command strings.
+	 * Splits an input string into tokens.
+	 * @param input - The raw string to tokenize.
+	 * @returns An array of trimmed, non-empty token strings.
 	 */
-	private static tokenizeScript(script: string) {
-		const lines: string[] = [];
-		let currentLine = "";
+	private static tokenize(input: string, { splitOnWhitespace, handleComments = false }: { splitOnWhitespace: boolean; handleComments?: boolean }): string[] {
+		const tokens: string[] = [];
+		let current = "";
 		let inSingleQuote = false;
 		let inDoubleQuote = false;
 		let inComment = false;
 		let parenthesisDepth = 0;
 		let braceDepth = 0;
+		let backtickDepth = 0;
 
-		for (let i = 0; i < script.length; i++) {
-			const char = script[i];
+		const flush = () => {
+			if (current.trim())
+				tokens.push(current.trim());
+			current = "";
+		};
+
+		for (let i = 0; i < input.length; i++) {
+			const char = input[i];
 
 			if (inComment) {
 				if (char === "\n") {
 					inComment = false;
-					if (currentLine.trim())
-						lines.push(currentLine.trim());
-					currentLine = "";
+					flush();
 				}
 				continue;
 			}
 
-			if (char === "'" && !inDoubleQuote) {
+			if (char === "'" && !inDoubleQuote && backtickDepth === 0) {
 				inSingleQuote = !inSingleQuote;
-			} else if (char === "\"" && !inSingleQuote) {
+			} else if (char === "\"" && !inSingleQuote && backtickDepth === 0) {
 				inDoubleQuote = !inDoubleQuote;
-			} else if (!inSingleQuote && !inDoubleQuote) {
-				if (char === "#" && (currentLine.trim() === "" || currentLine.endsWith(" "))) {
+			} else if (char === "`" && !inSingleQuote) {
+				backtickDepth += backtickDepth > 0 ? -1 : 1;
+			} else if (!inSingleQuote && !inDoubleQuote && backtickDepth === 0) {
+				if (handleComments && char === "#" && (current.trim() === "" || current.endsWith(" "))) {
 					inComment = true;
 					continue;
 				}
+
 				if (char === "(")
 					parenthesisDepth++;
 				if (char === ")")
 					parenthesisDepth--;
-				
-				if (char === "{" && script[i - 1] === "$")
+				if (char === "{" && input[i - 1] === "$")
 					braceDepth++;
 				if (char === "}" && braceDepth > 0)
 					braceDepth--;
 			}
 
-			if ((char === "\n" || char === ";") && !inSingleQuote && !inDoubleQuote && parenthesisDepth === 0 && braceDepth === 0) {
-				if (currentLine.trim())
-					lines.push(currentLine.trim());
-				currentLine = "";
+			const isOutside = !inSingleQuote && !inDoubleQuote && backtickDepth === 0 && parenthesisDepth === 0 && braceDepth === 0;
+			const isSplitChar = splitOnWhitespace ? char.trim() === "" : char === "\n" || char === ";";
+
+			if (isOutside && isSplitChar) {
+				flush();
 			} else {
-				currentLine += char;
+				current += char;
 			}
 		}
 
-		if (currentLine.trim())
-			lines.push(currentLine.trim());
-		return lines;
-	}
-
-	private static getTokens(input: string): string[] {
-		return input.match(/(?:[^\s"']+|"(?:[^"\\]|\\.)*"|'[^']*')+/g) ?? [];
+		flush();
+		return tokens;
 	}
 
 	/**
@@ -110,7 +117,7 @@ export class ShellParser {
 
 		while (index < lines.length) {
 			const line = lines[index];
-			const tokens = this.getTokens(line);
+			const tokens = this.tokenizeLine(line);
 			const firstWord = tokens[0] ?? "";
 
 			if (endTokens.includes(firstWord))
@@ -155,7 +162,7 @@ export class ShellParser {
 					if (isArithmetic) {
 						const prefixLength = this.ARITHMETIC_PREFIX_TOKEN.length;
 						const suffixLength = this.ARITHMETIC_SUFFIX_TOKEN.length;
-						nodes.push(this.parseArithmetic(line.substring(prefixLength, line.length - suffixLength)));
+						nodes.push(this.parseArithmetic(line.substring(prefixLength, line.length - suffixLength), false));
 					} else if (isAssignment) {
 						nodes.push(this.parseAssignment(line));
 					} else {
@@ -175,7 +182,7 @@ export class ShellParser {
 	 * advances past the keyword-only line and returns the incremented index.
 	 */
 	private static advancePastKeyword(lines: string[], index: number, keyword: string) {
-		const tokens = this.getTokens(lines[index]);
+		const tokens = this.tokenizeLine(lines[index]);
 		const keywordIndex = tokens.indexOf(keyword);
 
 		if (keywordIndex !== -1 && keywordIndex < tokens.length - 1) {
@@ -224,7 +231,7 @@ export class ShellParser {
 		const node: ShellAST.IfNode = { type: ShellAST.NodeType.If, ifBranch, elifBranches, elseBranch };
 
 		if (currentEndToken === this.KEYWORD_FI) {
-			const { redirections } = this.parseRedirections(this.getTokens(lines[index]).slice(1));
+			const { redirections } = this.parseRedirections(this.tokenizeLine(lines[index]).slice(1));
 			if (redirections.length)
 				node.redirections = redirections;
 			index++;
@@ -262,7 +269,7 @@ export class ShellParser {
 	 */
 	private static parseElseBranch(lines: string[], startIndex: number) {
 		let index = startIndex;
-		const tokens = this.getTokens(lines[index]);
+		const tokens = this.tokenizeLine(lines[index]);
 
 		if (tokens.length > 1) {
 			lines[index] = lines[index].substring(lines[index].indexOf(tokens[1]));
@@ -293,7 +300,7 @@ export class ShellParser {
 		const node: ShellAST.WhileNode = { type: ShellAST.NodeType.While, condition, body: result.nodes };
 
 		if (result.endToken === this.KEYWORD_DONE) {
-			const { redirections } = this.parseRedirections(this.getTokens(lines[index]).slice(1));
+			const { redirections } = this.parseRedirections(this.tokenizeLine(lines[index]).slice(1));
 			if (redirections.length)
 				node.redirections = redirections;
 			index++;
@@ -328,9 +335,9 @@ export class ShellParser {
 
 		const parts = match[1].split(";").map((p) => p.trim()).filter(Boolean);
 		
-		const setup = this.parseArithmetic(parts[0] || "0");
-		const condition = this.parseArithmetic(parts[1] || "1");
-		const step = this.parseArithmetic(parts[2] || "0");
+		const setup = this.parseArithmetic(parts[0] || "0", true);
+		const condition = this.parseArithmetic(parts[1] || "1", true);
+		const step = this.parseArithmetic(parts[2] || "0", true);
 
 		index = this.advancePastKeyword(lines, index, this.KEYWORD_DO);
 
@@ -346,7 +353,7 @@ export class ShellParser {
 		};
 
 		if (result.endToken === this.KEYWORD_DONE) {
-			const { redirections } = this.parseRedirections(this.getTokens(lines[index]).slice(1));
+			const { redirections } = this.parseRedirections(this.tokenizeLine(lines[index]).slice(1));
 			if (redirections.length)
 				node.redirections = redirections;
 			index++;
@@ -360,7 +367,7 @@ export class ShellParser {
 	 */
 	private static parseForIn(lines: string[], startIndex: number) {
 		let index = startIndex;
-		const tokens = this.getTokens(lines[index]);
+		const tokens = this.tokenizeLine(lines[index]);
 		const variableName = tokens[1];
 		const inIndex = tokens.indexOf(this.KEYWORD_IN);
 		const doIndex = tokens.indexOf(this.KEYWORD_DO);
@@ -383,7 +390,7 @@ export class ShellParser {
 		};
 
 		if (result.endToken === this.KEYWORD_DONE) {
-			const { redirections } = this.parseRedirections(this.getTokens(lines[index]).slice(1));
+			const { redirections } = this.parseRedirections(this.tokenizeLine(lines[index]).slice(1));
 			if (redirections.length)
 				node.redirections = redirections;
 			index++;
@@ -463,10 +470,11 @@ export class ShellParser {
 	/**
 	 * Converts an expression string into an {@link ShellAST.ArithmeticNode}.
 	 */
-	private static parseArithmetic(expression: string): ShellAST.ArithmeticNode {
+	private static parseArithmetic(expression: string, isCondition: boolean): ShellAST.ArithmeticNode {
 		return { 
-			type: ShellAST.NodeType.Arithmetic, 
-			expression: expression.trim(), 
+			type: ShellAST.NodeType.Arithmetic,
+			expression: expression.trim(),
+			isCondition,
 		};
 	}
 
@@ -479,7 +487,7 @@ export class ShellParser {
 			const prefixLength = this.ARITHMETIC_PREFIX_TOKEN.length;
 			const suffixLength = this.ARITHMETIC_SUFFIX_TOKEN.length;
 			const expression = trimmed.substring(prefixLength, trimmed.length - suffixLength).trim();
-			return this.parseArithmetic(expression || "0");
+			return this.parseArithmetic(expression || "0", true);
 		}
 		return this.parseCommand(rawCondition);
 	}
@@ -563,7 +571,7 @@ export class ShellParser {
 	 * Converts an input string into a {@link ShellAST.CommandNode}.
 	 */
 	private static parseSimpleCommand(input: string): ShellAST.CommandNode {
-		const tokens = this.getTokens(input);
+		const tokens = this.tokenizeLine(input);
 		const { args, redirections } = this.parseRedirections(tokens);
 
 		const node: ShellAST.CommandNode = {
@@ -654,7 +662,7 @@ export class ShellParser {
 		const content = input.substring(startIndex + prefixLength, j - suffixLength);
 		const node: ShellAST.ArithmeticExpansionNode = {
 			type: ShellAST.NodeType.ArithmeticExpansion,
-			content: this.parseArithmetic(content),
+			content: this.parseArithmetic(content, false),
 		};
 		
 		return { node, nextIndex: j };
@@ -664,24 +672,25 @@ export class ShellParser {
 	 * Converts an input string into a {@link ShellAST.CommandSubstitutionNode}.
 	 */
 	private static parseCommandSubstitution(input: string, startIndex: number) {
+		const isBacktick = input[startIndex] === "`";
+		const prefixLength = isBacktick ? 1 : 2;
 		let depth = 1;
-		const prefixLength = 2;
 		let j = startIndex + prefixLength;
-	
+
 		while (j < input.length && depth > 0) {
-			if (input[j] === "(") depth++;
-			if (input[j] === ")") depth--;
+			if (isBacktick) {
+				if (input[j] === "`") depth--;
+			} else {
+				if (input[j] === "(") depth++;
+				if (input[j] === ")") depth--;
+			}
 			j++;
 		}
-	
-		const suffixLength = 1;
-		const contentString = input.substring(startIndex + prefixLength, j - suffixLength);
-	
+
 		const node: ShellAST.CommandSubstitutionNode = {
 			type: ShellAST.NodeType.CommandSubstitution,
-			content: this.parseScript(contentString),
+			content: this.parseScript(input.substring(startIndex + prefixLength, j - 1)),
 		};
-	
 		return { node, nextIndex: j };
 	}
 
@@ -714,6 +723,11 @@ export class ShellParser {
 					i = nextIndex;
 					continue;
 				}
+			} else if (char === "`") {
+				const { node, nextIndex } = this.parseCommandSubstitution(input, i);
+				parts.push(node);
+				i = nextIndex;
+				continue;
 			}
 
 			let textEnd = input.indexOf("$", i + 1);

@@ -19,16 +19,16 @@ export class ShellInterpreter {
 	pipeline: Process[] = [];
 
 	private static readonly PROMPT_ESCAPES: Record<string, (env: ShellEnvironment) => string> = {
-		u: (env) => env.get(ShellEnvironment.USER) ?? USERNAME,
-		h: (env) => env.get(ShellEnvironment.HOSTNAME) ?? HOSTNAME,
-		w: (env) => {
+		"u": (env) => env.get(ShellEnvironment.USER) ?? USERNAME,
+		"h": (env) => env.get(ShellEnvironment.HOSTNAME) ?? HOSTNAME,
+		"w": (env) => {
 			const path = env.get(ShellEnvironment.WORKING_DIRECTORY) ?? "/";
 			const home = env.get(ShellEnvironment.HOME) ?? "~";
 			return path.startsWith(home) ? path.replace(home, "~") : path;
 		},
-		W: (env) => (env.get(ShellEnvironment.WORKING_DIRECTORY) ?? "/").split("/").pop() || "/",
+		"W": (env) => (env.get(ShellEnvironment.WORKING_DIRECTORY) ?? "/").split("/").pop() || "/",
 		"$": (env) => env.get(ShellEnvironment.USER) === "root" ? "#" : "$",
-		n: () => "\n",
+		"n": () => "\n",
 	};
 
 	constructor(shell: Shell) {
@@ -63,7 +63,7 @@ export class ShellInterpreter {
 		}
 
 		const block = ShellParser.parseScript(input);
-		// console.log(block);
+		console.log(block);
 
 		const env = io?.env ?? this.shell.env;
 		return await this.executeBlock(block, { ...io, env });
@@ -101,7 +101,7 @@ export class ShellInterpreter {
 				exitCode = await this.executeAssignmentNode(node, env);
 				break;
 			case ShellAST.NodeType.Arithmetic:
-				exitCode = this.evaluateArithmetic(node.expression, env);
+				exitCode = this.evaluateArithmetic(node, env);
 				break;
 			case ShellAST.NodeType.If:
 				exitCode = await this.executeIfNode(node, io);
@@ -185,10 +185,10 @@ export class ShellInterpreter {
 	}
 
 	private async executeForExpressionNode(node: ShellAST.ForExpressionNode, env: ShellEnvironment, io?: Partial<ProcessIO>): Promise<number> {
-		let exitCode = this.evaluateArithmetic(node.setup.expression, env);
-		while (this.evaluateArithmetic(node.condition.expression, env) === EXIT_CODE.success) {
+		let exitCode = this.evaluateArithmetic(node.setup, env);
+		while (this.evaluateArithmetic(node.condition, env) === EXIT_CODE.success) {
 			exitCode = await this.executeBlock(node.body, io);
-			exitCode = this.evaluateArithmetic(node.step.expression, env);
+			exitCode = this.evaluateArithmetic(node.step, env);
 		}
 		return exitCode;
 	}
@@ -267,13 +267,13 @@ export class ShellInterpreter {
 			if (next) {
 				process.stdout.pipe(next.stdin);
 			} else if (io?.stdout) {
-				process.stdout.pipe(io.stdout);
+				process.stdout.pipe(io.stdout, false);
 			} else {
 				process.stdout.on(Stream.DATA_EVENT, (data) => this.shell.write(data));
 			}
 		
 			if (io?.stderr) {
-				process.stderr.pipe(io.stderr);
+				process.stderr.pipe(io.stderr, false);
 			} else {
 				process.stderr.on(Stream.DATA_EVENT, (data) => this.shell.write(data));
 			}
@@ -294,7 +294,7 @@ export class ShellInterpreter {
 					break;
 				}
 				case ShellAST.NodeType.ArithmeticExpansion:
-					result += this.evaluateArithmetic(part.content.expression, env).toString();
+					result += this.evaluateArithmetic(part.content, env).toString();
 					break;
 				case ShellAST.NodeType.CommandSubstitution:
 					result += await this.captureCommandOutput(part.content, env);
@@ -331,16 +331,16 @@ export class ShellInterpreter {
 
 	/**
 	 * Evaluates an arithmetic expression using an {@link ArithmeticParser} and returns an exit code.
-	 * @param expression - The string representing the arithmetic operation.
+	 * @param node - The arithmetic operation.
 	 * @param env - The {@link ShellEnvironment} used for variable resolution within this instance.
 	 * @returns `EXIT_CODE.success` if the {@link ArithmeticParserResult} is successful and non-zero, 
 	 * or `EXIT_CODE.generalError` otherwise.
 	 */
-	public evaluateArithmetic(expression: string, env: ShellEnvironment): number {
-		return Result.ok(expression.trim())
+	public evaluateArithmetic(node: ShellAST.ArithmeticNode,  env: ShellEnvironment): number {
+		return Result.ok(node.expression.trim())
 			.filter((expression) => expression.length !== 0, () => "Empty expression")
 			.next((expression) => new ArithmeticParser(env).evaluate(expression))
-			.match((result) => result !== 0 ? EXIT_CODE.success : EXIT_CODE.generalError, (error) => {
+			.match((result) => node.isCondition ? result !== 0 ? EXIT_CODE.success : EXIT_CODE.generalError : result, (error) => {
 				console.error(error);
 				return EXIT_CODE.generalError;
 			});
@@ -455,8 +455,13 @@ export class ShellInterpreter {
 			console.error(error);
 			return Shell.writeError(stderr, commandName);
 		} finally {
-			io.stdout.end();
-			io.stderr.end();
+			stdout.end();
+			stderr.end();
+
+			if (io.stdout !== stdout)
+				io.stdout.end();
+			if (io.stderr !== stderr)
+				io.stderr.end();
 		}
 	}
 
