@@ -49,5 +49,5 @@ export const EXIT_CODE = {
 	commandNotExecutable: 126,
 	commandNotFound: 127,
 	invalidExitArgument: 128,
-	terminatedByCtrlC: 130,
+	interrupted: 130,
 } as const;

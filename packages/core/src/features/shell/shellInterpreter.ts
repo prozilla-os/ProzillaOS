@@ -76,6 +76,9 @@ export class ShellInterpreter {
 		let exitCode: number = EXIT_CODE.success;
 		for (const node of block) {
 			exitCode = await this.executeNode(node, io);
+
+			if (exitCode === EXIT_CODE.interrupted)
+				break;
 		}
 		return exitCode;
 	}
@@ -162,7 +165,7 @@ export class ShellInterpreter {
 
 	private async executeWhileNode(node: ShellAST.WhileNode, io?: Partial<ProcessIO>): Promise<number> {
 		let exitCode: number = EXIT_CODE.success;
-		while ((exitCode = await this.executeNode(node.condition, io)) === EXIT_CODE.success) {
+		while (exitCode !== EXIT_CODE.interrupted && (exitCode = await this.executeNode(node.condition, io)) === EXIT_CODE.success) {
 			exitCode = await this.executeBlock(node.body, io);
 		}
 		return exitCode;
@@ -180,6 +183,8 @@ export class ShellInterpreter {
 		for (const item of items) {
 			env.set(node.variableName, item);
 			exitCode = await this.executeBlock(node.body, io);
+			if (exitCode === EXIT_CODE.interrupted)
+				break;
 		}
 		return exitCode;
 	}
@@ -188,6 +193,8 @@ export class ShellInterpreter {
 		let exitCode = this.evaluateArithmetic(node.setup, env);
 		while (this.evaluateArithmetic(node.condition, env) === EXIT_CODE.success) {
 			exitCode = await this.executeBlock(node.body, io);
+			if (exitCode === EXIT_CODE.interrupted)
+				break;
 			exitCode = this.evaluateArithmetic(node.step, env);
 		}
 		return exitCode;
@@ -213,6 +220,16 @@ export class ShellInterpreter {
 		if (lastProcess)
 			this.shell.state.stream = ref(lastProcess.stdin);
 
+		let interrupted = false;
+		const handleInterrupt = (signal: StreamSignal) => {
+			if (signal === "SIGINT")
+				interrupted = true;
+		};
+
+		pipelineProcesses.forEach((process) => {
+			process.stdin.on(Stream.SIGNAL_EVENT, handleInterrupt);
+		});
+
 		const tasks: Promise<number>[] = [];
 		for (let i = nodes.length - 1; i >= 0; i--) {
 			const node = nodes[i];
@@ -233,6 +250,10 @@ export class ShellInterpreter {
 		const exitCodes = await Promise.all(tasks);
 		this.pipeline = previousPipeline;
 		this.shell.state.stream = previousStream;
+
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		if (interrupted)
+			return EXIT_CODE.interrupted;
 
 		return exitCodes.at(-1) ?? EXIT_CODE.success;
 	}
