@@ -1,0 +1,1 @@
+import{K as r,_ as f}from"../index.js";const i={s:1e3,m:1e3*60,h:1e3*60*60,d:1e3*60*60*24},u=new r().setManual({purpose:"Delay for a specified amount of time",usage:"sleep NUMBER[SUFFIX]..."}).setExecute(function(s){let t=0;for(const e of s){const o=e.at(-1),n=f(e.slice(0,-1)),a=o?i[o]:0;t+=n*a}return new Promise(e=>{setTimeout(()=>{e()},t)})});export{u as sleep};

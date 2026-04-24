@@ -1,0 +1,5 @@
+import{K as E,u as n,G as h,q as w}from"../index.js";const y=new E().setManual({purpose:"Concatenate files and display on the terminal screen",usage:"cat [OPTION]... [FILE]...",description:"Concatenate FILE(s) to standard output. With no FILE, or when FILE is -, read standard input.",options:{"-e":"Display $ at end of each line"}}).addOption({short:"e",long:"show-ends",isInput:!1}).setExecute(async function(r,{workingDirectory:f,options:p,stdout:s,stderr:c,stdin:i,shell:u}){let o=h.success;const d=async(e,a=!1)=>{let t=e;p.includes("e")&&(t=t.split(`
+`).join(`$
+`),a&&!t.endsWith("$")&&(t+="$")),a?await s.write(t+`
+`):await n.printLn(s,t)},l=async()=>{u.setRawMode(!0);let e="";const a=t=>{s.write(t),t===`
+`?(d(e,!0),e=""):e+=t};i.on(w.DATA_EVENT,a),await i.wait(),i.off(w.DATA_EVENT,a),u.setRawMode(!1)};if(!r.length){await l();return}for(const e of r){if(e==="-"){await l();continue}const a=f.navigate(e);if(!a){o=await n.writeError(c,this.name,`${e}: ${n.INVALID_PATH_ERROR}`);continue}if(a.isFolder()){o=await n.writeError(c,this.name,`${e}: Is a directory`);continue}const t=await a.read();t!=null&&await d(t)}return o});export{y as cat};

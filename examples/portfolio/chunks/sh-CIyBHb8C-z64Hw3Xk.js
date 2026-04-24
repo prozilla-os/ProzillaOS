@@ -1,1 +1,0 @@
-import{K as u,A as r}from"../index.js";const l=new u().setManual({purpose:"Execute a shell script"}).setRequireArgs(!0).setExecute(async function(s,{stdout:o,stderr:e,workingDirectory:a,shell:i}){const n=s[0],t=a.navigateToFile(n);return t?await i.interpreter.execute(t,{stdout:o,stderr:e}):r.writeError(e,this.name,r.INVALID_PATH_ERROR)});export{l as sh};
