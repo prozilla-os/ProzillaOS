@@ -40,6 +40,27 @@ export const ANSI = {
 		home: "\u001b[H",
 	},
 	/**
+     * Terminal input.
+     */
+	input: {
+		/** Move cursor up. */
+		arrowUp: "\u001b[A",
+		/** Move cursor down. */
+		arrowDown: "\u001b[B",
+		/** Move cursor right. */
+		arrowRight: "\u001b[C",
+		/** Move cursor left. */
+		arrowLeft: "\u001b[D",
+		/** Horizontal tab. */
+		tab: "\t",
+		/** Line feed (newline). */
+		enter: "\n",
+		/** Backspace. */
+		backspace: "\b",
+		/** Escape character. */
+		escape: "\u001b",
+	},
+	/**
 	 * Decorations.
 	 */
 	decoration: {

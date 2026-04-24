@@ -17,7 +17,7 @@ export const neofetch = new Command()
 		const themeIndex = themeSetting.value;
 		
 		let theme = Theme[Theme.Dark];
-		if (themeIndex != null && parseInt(themeIndex)) {
+		if (themeIndex != null && !isNaN(parseInt(themeIndex))) {
 			theme = Theme[parseInt(themeIndex)];
 		}
 
@@ -55,15 +55,30 @@ export const neofetch = new Command()
 			Object.values(ANSI.fg).map((colorCode) => colorCode + "███").join("") + ANSI.reset,
 		];
 
-		const combined = [];
-		for (let i = 1; i < leftColumn.length; i++) {
-			let line = `${ANSI_LOGO_COLOR + leftColumn[i] + ANSI.reset}  `;
+		const leftHeight = leftColumn.length;
+		const rightHeight = rightColumn.length;
+		const maxHeight = Math.max(leftHeight, rightHeight);
 
-			if (i <= rightColumn.length) {
-				line += rightColumn[i - 1];
+		const leftOffset = Math.floor((maxHeight - leftHeight) / 2);
+		const rightOffset = Math.floor((maxHeight - rightHeight) / 2);
+
+		const logoWidth = Math.max(...leftColumn.map((line) => line.length));
+
+		const combined = [];
+		for (let i = 0; i < maxHeight; i++) {
+			let line = "";
+
+			const leftIndex = i - leftOffset;
+			if (leftIndex >= 0 && leftIndex < leftHeight) {
+				const logoLine = leftColumn[leftIndex];
+				line += `${ANSI_LOGO_COLOR + logoLine + ANSI.reset}${" ".repeat(logoWidth - logoLine.length + 2)}`;
 			} else {
-				// This fixes a weird display bug on Safari mobile
-				line += " ".repeat(rightColumnWidth);
+				line += " ".repeat(logoWidth + 2);
+			}
+
+			const rightIndex = i - rightOffset;
+			if (rightIndex >= 0 && rightIndex < rightHeight) {
+				line += rightColumn[rightIndex];
 			}
 
 			combined.push(line);

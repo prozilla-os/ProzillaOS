@@ -1,7 +1,8 @@
 import React from "react";
 import { Container, createRoot } from "react-dom/client";
-import { ASCII_LOGO, NAME } from "./config/branding.config";
+import { NAME } from "./config/branding.config";
 import { Main } from "./Main";
+import { ASCII_LOGO } from "prozilla-os";
 
 // Render app
 const root = createRoot(document.getElementById("root") as Container);

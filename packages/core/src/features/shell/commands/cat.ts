@@ -13,33 +13,55 @@ export const cat = new Command()
 		},
 	})
 	.addOption({ short: "e", long: "show-ends", isInput: false })
-	.setExecute(async function(this: Command, args, { workingDirectory, options, stdout, stderr, stdin }) {
+	.setExecute(async function(this: Command, args, { workingDirectory, options, stdout, stderr, stdin, shell }) {
 		let exitCode: number = EXIT_CODE.success;
 
-		// Helper to format and write content with options
-		const writeContent = async (content: string) => {
+		// Helper to format and write content based on provided options
+		const writeContent = async (content: string, isLine = false) => {
 			let output = content;
 			if (options.includes("e")) {
-				output = output.split("\n").join("$\n") + "$";
+				const lines = output.split("\n");
+				output = lines.join("$\n");
+				if (isLine && !output.endsWith("$"))
+					output += "$";
 			}
-			await Shell.printLn(stdout, output);
+
+			if (isLine) {
+				await stdout.write(output + "\n");
+			} else {
+				await Shell.printLn(stdout, output);
+			}
 		};
 
-		// Read from stdin
-		if (args.length === 0) {
-			stdin.on(Stream.DATA_EVENT, (data) => {
-				void writeContent(data);
-			});
-			return stdin.wait(EXIT_CODE.success);
+		const readFromStdin = async () => {
+			shell.setRawMode(true);
+			let buffer = "";
+
+			const onData = (data: string) => {
+				void stdout.write(data);
+
+				if (data === "\n") {
+					void writeContent(buffer, true);
+					buffer = "";
+				} else {
+					buffer += data;
+				}
+			};
+
+			stdin.on(Stream.DATA_EVENT, onData);
+			await stdin.wait();
+			stdin.off(Stream.DATA_EVENT, onData);
+			shell.setRawMode(false);
+		};
+
+		if (!args.length) {
+			await readFromStdin();
+			return;
 		}
 
-		// Iterate through file arguments
 		for (const path of args) {
 			if (path === "-") {
-				const onData = (data: string) => void writeContent(data);
-				stdin.on(Stream.DATA_EVENT, onData);
-				await stdin.wait();
-				stdin.off(Stream.DATA_EVENT, onData);
+				await readFromStdin();
 				continue;
 			}
 
@@ -56,9 +78,8 @@ export const cat = new Command()
 			}
 
 			const content = await target.read();
-			if (content != null) {
+			if (content != null)
 				await writeContent(content);
-			}
 		}
 
 		return exitCode;

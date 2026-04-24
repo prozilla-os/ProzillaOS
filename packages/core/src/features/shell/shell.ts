@@ -10,6 +10,7 @@ import { SystemManager } from "../system/systemManager";
 import { ShellEnvironment } from "./shellEnvironment";
 import { ShellInterpreter } from "./shellInterpreter";
 import { CommandOutput } from "./command";
+import { KeyboardEvent } from "react";
 
 export enum HistoryFlags {
 	None = 0,
@@ -71,6 +72,8 @@ export interface ShellState {
 	isUsingAltScreen: boolean;
 	/** A reactive view of the current environment variables. */
 	env: Record<string, string>;
+	/** Indicates whether the shell is currently in raw mode, forwarding all keystrokes directly to the active stream. */
+    isRawMode: boolean;
 }
 
 /**
@@ -159,12 +162,23 @@ export class Shell {
 
 	static readonly SUDO_COMMAND = "sudo";
 	/** Regex used to strip specific ANSI escape codes from the TTY buffer. */
-	static readonly STRIP_ANSI_REGEX = new RegExp(
+	private static readonly STRIP_ANSI_REGEX = new RegExp(
 		[ANSI.screen.enterAltBuffer, ANSI.screen.exitAltBuffer, ANSI.screen.clear, ANSI.screen.home]
 			.map((code) => code.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
 			.join("|"),
 		"g"
 	);
+
+	private static readonly KEY_TO_ANSI: Record<string, string> = {
+		"Enter": ANSI.input.enter,
+		"Tab": ANSI.input.tab,
+		"Backspace": ANSI.input.backspace,
+		"ArrowUp": ANSI.input.arrowUp,
+		"ArrowDown": ANSI.input.arrowDown,
+		"ArrowRight": ANSI.input.arrowRight,
+		"ArrowLeft": ANSI.input.arrowLeft,
+		"Escape": ANSI.input.escape,
+	};
 
 	constructor(config: ShellConfig) {
 		this.config = config;
@@ -193,10 +207,53 @@ export class Shell {
 			ttyBuffer: null,
 			isUsingAltScreen: false,
 			env: this.env.store,
+			isRawMode: false,
 		});
 
 		this.interpreter = new ShellInterpreter(this);
 		void this.updatePrompt();
+	}
+
+	public async handleKeyDown(event: KeyboardEvent) {
+		const { key } = event;
+
+		if ((event.ctrlKey || event.metaKey) && key === "c" && !event.shiftKey) {
+			event.preventDefault();
+			this.interrupt();
+			return;
+		}
+
+		if (this.state.stream) {
+			if (this.state.isRawMode) {
+				event.preventDefault();
+				const data = Shell.KEY_TO_ANSI[key] ?? (key.length === 1 ? key : "");
+				if (data)
+					await this.state.stream.write(data);
+			}
+			
+			return;
+		}
+
+		if (key === "Tab") {
+			event.preventDefault();
+			this.autoComplete();
+		} else if (key === "Enter") {
+			await this.run(this.state.line);
+		} else if (key === "ArrowUp") {
+			event.preventDefault();
+			this.historySearch(1);
+		} else if (key === "ArrowDown") {
+			event.preventDefault();
+			this.historySearch(-1);
+		}
+	}
+
+	/**
+     * Toggles raw mode, which forwards all keystrokes directly to the active stream.
+     * @param rawMode - Whether to enable raw mode.
+     */
+	public setRawMode(rawMode: boolean) {
+		this.state.isRawMode = rawMode;
 	}
 
 	/**
@@ -214,15 +271,16 @@ export class Shell {
 
 		if (hasActiveStream) {
 			const output = (this.state.ttyBuffer ?? "") + (isInterrupt ? "^C" : "");
-			if (output && !this.state.isUsingAltScreen) {
+            
+			if (output && !this.state.isUsingAltScreen)
 				this.pushHistory({ displayText: output, flags: HistoryFlags.None });
-			}
-			
+            
 			this.state.stream?.signal(signal);
 			this.state.stream?.end();
 			this.state.stream = null;
 			this.state.ttyBuffer = null;
 			this.state.isUsingAltScreen = false;
+			this.state.isRawMode = false;
 		}
 
 		this.interpreter.terminatePipeline(signal);

@@ -8,39 +8,33 @@ export const WELCOME_MESSAGE = `${ANSI.fg.cyan + ANSI.decoration.dim}$APP_NAME -
 	+ `\n${ANSI.decoration.dim}Type 'help' for a list of commands.${ANSI.reset}\n`;
 
 export const ASCII_LOGO = `
-              :.           
-             -==.          
-           .=====:         
-   ---::..:=======-.       
-   :===+=----------::..    
-    =+=---------------:..  
-    --------------------:. 
-.:-+=----*###*--*####=---. 
-:==+----#%+-+%#-##%*+----:.
-  .=----#%+-+%#-*+-%#+---:.
-   ==----*###*--*###*----. 
-  ==+-------------------:. 
-  ...::---------------:.   
-       .::---------::..    
-          ....::...        `;
+           *                 
+         ****                
+    **** *****               
+    **: @@@@@@       @@@@@@@ 
+  ** @@@@@@@@@@@@  @@@@@@@@@%
+:**+@@@@@    +@@@@ @@@@   :  
+  : @@@*       @@@ %@@@@@@@  
+ ** @@@@       @@@   *@@@@@@@
+:***#@@@@     @@@@  @    @@@@
+   **=@@@@@@@@@@% @@@@@@@@@@@
+   **- :@@@@@@:    :@@@@@@@: 
+                             `;
 
 export const ANSI_LOGO_COLOR = ANSI.fg.cyan;
 export const ANSI_ASCII_LOGO = `
-              :.           
-             -==.          
-           .=====:         
-   ---::..:=======-.       
-   :===+=----------::..    
-    =+=---------------:..  
-    --------------------:. 
-.:-+=----${ANSI.fg.white}*###*${ANSI_LOGO_COLOR}--${ANSI.fg.white}*####=${ANSI_LOGO_COLOR}---. 
-:==+----${ANSI.fg.white}#%+${ANSI_LOGO_COLOR}-${ANSI.fg.white}+%#${ANSI_LOGO_COLOR}-${ANSI.fg.white}##%*+${ANSI_LOGO_COLOR}----:.
-  .=----${ANSI.fg.white}#%+${ANSI_LOGO_COLOR}-${ANSI.fg.white}+%#${ANSI_LOGO_COLOR}-${ANSI.fg.white}*+${ANSI_LOGO_COLOR}-${ANSI.fg.white}%#+${ANSI_LOGO_COLOR}---:.
-   ==----${ANSI.fg.white}*###*${ANSI_LOGO_COLOR}--${ANSI.fg.white}*###*${ANSI_LOGO_COLOR}----. 
-  ==+-------------------:. 
-  ...::---------------:.   
-       .::---------::..    
-          ....::...        `;
+           *                 
+         ****                
+    **** *****               
+    **: @@@@@@       @@@@@@@ 
+  ** @@@@@@@@@@@@  @@@@@@@@@%
+:**+@@@@@    +@@@@ @@@@   :  
+  : @@@*       @@@ %@@@@@@@  
+ ** @@@@       @@@   *@@@@@@@
+:***#@@@@     @@@@  @    @@@@
+   **=@@@@@@@@@@% @@@@@@@@@@@
+   **- :@@@@@@:    :@@@@@@@: 
+                             `;
 
 export const EXIT_CODE = {
 	success: 0,

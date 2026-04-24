@@ -33,10 +33,12 @@ export const watch = new Command()
 		let isExecuting = false;
 		let isStopping = false;
 
+		shell.setRawMode(true);
 		await stdout.write(ANSI.screen.enterAltBuffer);
 
 		const tick = async () => {
-			if (isExecuting || isStopping) return;
+			if (isExecuting || isStopping)
+				return;
 			isExecuting = true;
 
 			const captureStream = new Stream();
@@ -51,9 +53,7 @@ export const watch = new Command()
 				
 				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 				if (!isStopping) {
-					const header = hideHeader 
-						? "" 
-						: Ansi.white(`Every ${intervalSeconds.toFixed(1)}s: ${commandString}\n\n`);
+					const header = hideHeader ? "" : Ansi.white(`Every ${intervalSeconds.toFixed(1)}s: ${commandString}\n\n`);
 					
 					await stdout.write(ANSI.screen.clear + ANSI.screen.home + header + capturedOutput);
 				}
@@ -68,10 +68,21 @@ export const watch = new Command()
 
 		const intervalId = setInterval(() => void tick(), intervalMs);
 
+		// Listen for 'q' to exit raw mode
+		const onData = (data: string) => {
+			if (data === "q") {
+				stdin.end();
+			}
+		};
+
+		stdin.on(Stream.DATA_EVENT, onData);
+
 		stdin.on(Stream.END_EVENT, () => {
 			isStopping = true;
 			clearInterval(intervalId);
+			stdin.off(Stream.DATA_EVENT, onData);
 			void stdout.write(ANSI.screen.exitAltBuffer);
+			shell.setRawMode(false);
 		});
 
 		void tick();

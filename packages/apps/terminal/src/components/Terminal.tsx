@@ -92,30 +92,10 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	}, []);
 
 	const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
-		const { key } = event;
+		void shell.handleKeyDown(event);
 
-		if ((event.ctrlKey || event.metaKey) && key === "c" && !event.shiftKey) {
-			event.preventDefault();
-			shell.interrupt();
-			return;
-		}
-
-		if (state.stream) return;
-
-		if (key === "Tab") {
-			event.preventDefault();
-			shell.autoComplete();
-		} else if (key === "Enter") {
-			const value = (event.target as HTMLInputElement).value;
-			void shell.run(value);
+		if (event.key === "Enter" && !state.stream)
 			setInputKey((previousKey) => previousKey + 1);
-		} else if (key === "ArrowUp") {
-			event.preventDefault();
-			shell.historySearch(1);
-		} else if (key === "ArrowDown") {
-			event.preventDefault();
-			shell.historySearch(-1);
-		}
 	};
 
 	const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
