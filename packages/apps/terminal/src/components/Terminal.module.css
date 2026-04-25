@@ -1,99 +1,120 @@
 .Terminal {
-    --char-width: 0.585rem;
+	--char-width: 0.585rem;
+	--char-height: 1.25rem;
 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0.5rem;
-    overflow: auto;
-    height: 100%;
-    cursor: text;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0.5rem;
+	overflow: auto;
+	height: 100%;
+	cursor: text;
+	box-sizing: border-box; 
 }
 
 .Terminal * {
-    font-family: var(--mono-font-family);
-    letter-spacing: -0.03em;
+	font-family: var(--mono-font-family);
+	letter-spacing: -0.03em;
 }
 
 .Terminal p, .Terminal pre {
-    margin: 0;
-    height: 1.25rem;
-    line-height: inherit;
-    font-size: inherit;
-    letter-spacing: inherit;
+	margin: 0;
+	height: var(--char-height);
+	line-height: var(--char-height);
+	font-size: 1rem;
+	letter-spacing: inherit;
+}
+
+.VirtualCursor {
+	position: absolute;
+	margin-left: 0.5rem;
+	margin-top: 0.5rem;
+	
+	width: var(--char-width);
+	height: var(--char-height);
+	
+	background-color: var(--foreground-color-0);
+	mix-blend-mode: difference; 
+	pointer-events: none;
+	z-index: 10;
+	animation: blink 1000ms step-end infinite;
+}
+
+.History {
+	width: 100%;
 }
 
 .Prefix {
-    display: flex;
-    width: max-content;
-    white-space: nowrap;
+	display: flex;
+	width: max-content;
+	white-space: nowrap;
 }
 
 .Input, .Output {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    line-height: 1.25rem;
-    font-size: 1rem;
-    text-align: start;
-    white-space: pre;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	line-height: var(--char-height);
+	font-size: 1rem;
+	text-align: start;
+	white-space: pre;
 }
 
 .Input {
-    height: 1.25rem;
+	height: var(--char-height);
 }
 
 .Input-container {
-    --cursor-width: var(--char-width);
-    --cursor-offset: 0;
+	--cursor-width: var(--char-width);
+	--cursor-offset: 0;
 
-    position: relative;
-    height: 100%;
-    width: fit-content;
-    /* margin-left: var(--char-width); */
+	position: relative;
+	height: 100%;
+	width: fit-content;
 }
 
 .Input-container::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: calc(var(--cursor-offset) * var(--char-width) * 0.9746124950079872);
-    width: var(--cursor-width);
-    height: 100%;
-    background-color: var(--foreground-color-0);
-    animation: blink 1000ms step-end infinite;
+	content: "";
+	position: absolute;
+	top: 0;
+	left: calc(var(--cursor-offset) * var(--char-width));
+	width: var(--cursor-width);
+	height: 100%;
+	background-color: var(--foreground-color-0);
+	animation: blink 1000ms step-end infinite;
 }
 
 .Input-container input {
-    color: transparent;
-    position: absolute;
-    left: 0;
-    width: 100%;
-    padding: 0;
-    background: none;
-    border: none;
-    outline: none;
-    font-size: inherit;
-    caret-color: transparent;
+	color: transparent;
+	position: absolute;
+	left: 0;
+	width: 100%;
+	padding: 0;
+	background: none;
+	border: none;
+	outline: none;
+	font-size: inherit;
+	caret-color: transparent;
 }
 
 @keyframes blink {
-    from, to {
-        background-color: transparent;
-    }
-    50% {
-        background-color: var(--foreground-color-0);
-    }
+	from, to {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
 }
 
 .Input label {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    cursor: text;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	cursor: text;
 }
 
 .InterruptButton {

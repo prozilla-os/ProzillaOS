@@ -16,6 +16,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	const ref = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const sizeRef = useRef(Vector2.ZERO);
+	const [charSize, setCharSize] = useState(Vector2.ZERO);
 	const [inputKey, setInputKey] = useState(0);
 	const [hasAutoSubmitted, setHasAutoSubmitted] = useState(false);
 	const [shell, state] = useShell({
@@ -40,9 +41,9 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		setTitle?.(Ansi.strip(state.prompt).trim());
 	}, [state.prompt, setTitle]);
 
-	// Handle initial focus and focus recovery after streaming
 	useEffect(() => {
-		if (!active) return;
+		if (!active)
+			return;
 
 		if (state.stream) {
 			ref.current?.focus();
@@ -67,20 +68,39 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	}, [state.history.length, state.line, state.ttyBuffer]);
 
 	useEffect(() => {
-		if (!ref.current) return;
+		if (!ref.current)
+			return;
 
 		const measure = () => {
-			if (!ref.current) return;
+			if (!ref.current)
+				return;
+
+			const span = document.createElement("span");
+			span.innerText = "M".repeat(100);
+			span.style.position = "absolute";
+			span.style.visibility = "hidden";
+			span.style.whiteSpace = "pre";
+			span.style.fontFamily = "var(--mono-font-family)";
+			span.style.letterSpacing = "-0.03em";
+
+			ref.current.appendChild(span);
+			const spanRect = span.getBoundingClientRect();
+			ref.current.removeChild(span);
 
 			const style = getComputedStyle(ref.current);
-			const fontSize = parseFloat(style.fontSize);
-			const charWidth = 0.585 * fontSize;
-			const charHeight = 1.25 * fontSize;
-			const { width, height } = ref.current.getBoundingClientRect();
+			const charWidth = spanRect.width / 100;
+			const charHeight = spanRect.height || parseFloat(style.lineHeight);
+
+			const horizontalPadding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+			const verticalPadding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+			const terminalRect = ref.current.getBoundingClientRect();
+
+			if (charWidth > 0 && charHeight > 0)
+				setCharSize(new Vector2(charWidth, charHeight));
 
 			sizeRef.current.set(
-				Math.ceil(width / charWidth),
-				Math.ceil(height / charHeight)
+				Math.floor((terminalRect.width - horizontalPadding) / charWidth),
+				Math.floor((terminalRect.height - verticalPadding) / charHeight)
 			);
 		};
 
@@ -103,9 +123,8 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	};
 
 	const renderedOutput = useMemo(() => {
-		if (state.isUsingAltScreen) {
+		if (state.isUsingAltScreen)
 			return state.ttyBuffer ? <OutputLine text={state.ttyBuffer}/> : null;
-		}
 
 		let startIndex = 0;
 		for (let i = state.history.length - 1; i >= 0; i--) {
@@ -151,15 +170,36 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		event.preventDefault();
 	};
 
+	const terminalStyle = useMemo(() => {
+		if (charSize.x === 0 || charSize.y === 0)
+			return {};
+
+		return {
+			"--char-width": `${charSize.x}px`,
+			"--char-height": `${charSize.y}px`,
+		};
+	}, [charSize]);
+
+	const cursorStyle = useMemo(() => {
+		if (!state.isRawMode || charSize.x === 0 || charSize.y === 0)
+			return {};
+
+		return {
+			left: state.cursorPosition.x * charSize.x,
+			top: state.cursorPosition.y * charSize.y,
+		};
+	}, [state.cursorPosition, state.isRawMode, charSize]);
+
 	return <div
 		ref={ref} 
 		tabIndex={0}
 		className={styles.Terminal}
+		style={terminalStyle}
 		onKeyDown={onKeyDown}
 		onMouseDown={onMouseDown}
 		onContextMenu={onContextMenu}
 		onClick={(event) => {
-			if (window.getSelection()?.toString() === "") {
+			if (!window.getSelection()?.toString().length) {
 				event.preventDefault();
 				if (state.stream) {
 					ref.current?.focus();
@@ -171,27 +211,23 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	>
 		<div className={styles.History}>
 			{renderedOutput}
+			{state.isRawMode && <div className={styles.VirtualCursor} style={cursorStyle}/>}
 		</div>
-		{!state.isUsingAltScreen && (
-			!state.stream
-				? <InputLine
-					key={inputKey}
-					value={state.line}
-					prefix={(state.ttyBuffer ?? "") + state.prompt}
-					onChange={onChange}
-					inputRef={inputRef}
-				/>
-				: state.ttyBuffer && <OutputLine text={state.ttyBuffer}/>
-		)}
-		{state.stream && 
-			<Button
-				className={`${styles.InterruptButton} ${utilStyles.TextBold}`} 
-				onClick={() => shell.interrupt()}
-				title="Interrupt (Ctrl+C)"
-				icon={faStop}
-			>
-				Stop
-			</Button>
-		}
+		{!state.isUsingAltScreen && !state.stream && <InputLine
+			key={inputKey}
+			value={state.line}
+			prefix={(state.ttyBuffer ?? "") + state.prompt}
+			onChange={onChange}
+			inputRef={inputRef}
+		/>}
+		{!state.isUsingAltScreen && state.stream && state.ttyBuffer && <OutputLine text={state.ttyBuffer}/>}
+		{state.stream && <Button
+			className={`${styles.InterruptButton} ${utilStyles.TextBold}`} 
+			onClick={() => shell.interrupt()}
+			title="Interrupt (Ctrl+C)"
+			icon={faStop}
+		>
+			Stop
+		</Button>}
 	</div>;
 }

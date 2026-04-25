@@ -17,7 +17,7 @@ export const date = new Command()
 		const formatArgument = args.find((arg) => arg.startsWith("+"));
 
 		if (!formatArgument) {
-			await stdout.write(isUtc ? now.toUTCString() : now.toString());
+			await Shell.printLn(stdout, isUtc ? now.toUTCString() : now.toString());
 			return;
 		}
 

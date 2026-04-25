@@ -1,3 +1,4 @@
+// Reference: https://gist.github.com/ConnerWill/d4b6c776b509add763e17f9f113fd25b
 /**
  * ANSI escape codes.
  * 
@@ -40,8 +41,15 @@ export const ANSI = {
 		home: "\u001b[H",
 	},
 	/**
-     * Terminal input.
-     */
+	 * Cursor controls.
+	 */
+	cursor: {
+		/** Changes the position of the cursor. */
+		position: (row: number, column: number) => `\x1b[${row};${column}H`,
+	},
+	/**
+	 * Terminal input.
+	 */
 	input: {
 		/** Move cursor up. */
 		arrowUp: "\u001b[A",
@@ -51,14 +59,13 @@ export const ANSI = {
 		arrowRight: "\u001b[C",
 		/** Move cursor left. */
 		arrowLeft: "\u001b[D",
-		/** Horizontal tab. */
-		tab: "\t",
-		/** Line feed (newline). */
-		enter: "\n",
-		/** Backspace. */
+		horizontalTab: "\t",
+		lineFeed: "\n",
+		carriageReturn: "\r",
 		backspace: "\b",
-		/** Escape character. */
+		delete: "\x7f",
 		escape: "\u001b",
+		ctrlC: "\u0003",
 	},
 	/**
 	 * Decorations.

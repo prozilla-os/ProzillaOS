@@ -74,6 +74,8 @@ export interface ShellState {
 	env: Record<string, string>;
 	/** Indicates whether the shell is currently in raw mode, forwarding all keystrokes directly to the active stream. */
     isRawMode: boolean;
+	/** The position of the cursor in raw mode. */
+	cursorPosition: Vector2;
 }
 
 /**
@@ -168,10 +170,12 @@ export class Shell {
 			.join("|"),
 		"g"
 	);
+	// eslint-disable-next-line no-control-regex
+	private static readonly CURSOR_REGEX = /\x1b\[(\d+);(\d+)H/g;
 
 	private static readonly KEY_TO_ANSI: Record<string, string> = {
-		"Enter": ANSI.input.enter,
-		"Tab": ANSI.input.tab,
+		"Enter": ANSI.input.lineFeed,
+		"Tab": ANSI.input.horizontalTab,
 		"Backspace": ANSI.input.backspace,
 		"ArrowUp": ANSI.input.arrowUp,
 		"ArrowDown": ANSI.input.arrowDown,
@@ -208,6 +212,7 @@ export class Shell {
 			isUsingAltScreen: false,
 			env: this.env.store,
 			isRawMode: false,
+			cursorPosition: Vector2.ZERO,
 		});
 
 		this.interpreter = new ShellInterpreter(this);
@@ -357,8 +362,16 @@ export class Shell {
 			this.state.ttyBuffer = null;
 		}
 
-		const remainingText = text.replace(Shell.STRIP_ANSI_REGEX, "");
-		if (remainingText === "")
+		let match;
+		while ((match = Shell.CURSOR_REGEX.exec(text)) !== null) {
+			const row = parseInt(match[1]) - 1;
+			const col = parseInt(match[2]) - 1;
+			this.state.cursorPosition = new Vector2(col, row);
+		}
+
+		const remainingText = text.replace(Shell.STRIP_ANSI_REGEX, "")
+			.replace(Shell.CURSOR_REGEX, "");
+		if (!remainingText.length)
 			return;
 
 		this.state.ttyBuffer = (this.state.ttyBuffer ?? "") + remainingText;
