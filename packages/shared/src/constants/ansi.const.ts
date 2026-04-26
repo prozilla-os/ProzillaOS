@@ -72,6 +72,8 @@ export const ANSI = {
 		backspace: "\b",
 		delete: "\x7f",
 		escape: "\u001b",
+		pageUp: "\u001b[5~",
+		pageDown: "\u001b[6~",
 		ctrlA: "\u0001",
 		ctrlB: "\u0002",
 		ctrlC: "\u0003",

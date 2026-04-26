@@ -1,60 +1,19 @@
 import { Command } from "../command";
 import { Ansi, ANSI } from "@prozilla-os/shared";
-import { TUIApp } from "../tui/tuiApp";
+import { TerminalUIApp } from "../terminal-ui/terminalUIApp";
 import { Shell, ShellContext } from "../shell";
+import { TextEditorApp } from "../terminal-ui/textEditorApp";
 
 enum NanoMode {
 	Editor
 }
 
-class NanoApp extends TUIApp<NanoMode> {
-	private lines = [""];
-	private columnIndex = 0;
-	private rowIndex = 0;
-	private statusMessage = "";
-	private fileName: string;
-	private args: string[];
-
+class NanoApp extends TextEditorApp<NanoMode> {
 	constructor(context: ShellContext, args: string[]) {
-		super(context, NanoMode.Editor);
-		this.args = args;
-		this.fileName = args[0] ?? "New File";
-
-		this.on(TUIApp.RENDER_EVENT, async () => {
-			await this.render();
-		});
-		this.on(TUIApp.INPUT_EVENT, async (data) => {
-			await this.handleInput(data);
-		});
+		super(context, NanoMode.Editor, { args });
 	}
 
-	/**
-	 * Loads the file content into the editor buffer if a path was provided.
-	 */
-	public async init() {
-		if (!this.args.length) {
-			return null;
-		}
-
-		const targetFile = this.context.workingDirectory.navigate(this.fileName);
-		if (!targetFile)
-			return null;
-
-		if (targetFile.isFolder())
-			return `${this.fileName}: Is a directory`;
-
-		const content = await targetFile.read();
-		if (content) {
-			this.lines = content.split("\n");
-			if (!this.lines.length) {
-				this.lines = [""];
-			}
-		}
-
-		return null;
-	}
-
-	private async render() {
+	protected override async render() {
 		const terminalHeight = this.size.y;
 		const mainViewHeight = terminalHeight - 4;
 		let view = ANSI.screen.home + ANSI.screen.clear;
@@ -86,7 +45,7 @@ class NanoApp extends TUIApp<NanoMode> {
 		await this.stdout.write(view + cursorPosition);
 	}
 
-	private async handleInput(data: string) {
+	protected override async handleInput(data: string) {
 		this.statusMessage = "";
 		const currentLine = this.lines[this.rowIndex];
 
@@ -106,7 +65,7 @@ class NanoApp extends TUIApp<NanoMode> {
 				break;
 			case ANSI.input.backspace:
 			case ANSI.input.delete:
-				this.processDeletion(currentLine);
+				this.deleteCharacter(currentLine);
 				break;
 			case ANSI.input.arrowUp:
 				this.rowIndex = Math.max(0, this.rowIndex - 1);
@@ -130,41 +89,20 @@ class NanoApp extends TUIApp<NanoMode> {
 				break;
 		}
 
-		await this.emitAsync(TUIApp.RENDER_EVENT);
+		await this.emitAsync(TerminalUIApp.RENDER_EVENT);
 	}
 
-	private processDeletion(currentLine: string) {
-		if (this.columnIndex > 0) {
-			this.lines[this.rowIndex] = currentLine.slice(0, this.columnIndex - 1) + currentLine.slice(this.columnIndex);
-			this.columnIndex--;
-		} else if (this.rowIndex > 0) {
-			const previousLineLength = this.lines[this.rowIndex - 1].length;
-			this.lines[this.rowIndex - 1] += currentLine;
-			this.lines.splice(this.rowIndex, 1);
-			this.rowIndex--;
-			this.columnIndex = previousLineLength;
-		}
-	}
-
-	private saveFile() {
+	protected override saveFile() {
 		if (!this.args.length) {
 			this.statusMessage = "File Name to Write: " + this.fileName;
-			return;
+			return false;
 		}
 
-		const targetFile = this.context.workingDirectory.navigate(this.fileName) 
-			?? this.context.workingDirectory.create(this.fileName);
+		const saved = super.saveFile();
+		if (saved)
+			this.statusMessage = `[ Wrote ${this.lines.length} lines ]`;
 
-		if (targetFile) {
-			if (targetFile.isFolder()) {
-				this.statusMessage = "Cannot write to directory";
-			} else {
-				targetFile.setContent(this.lines.join("\n"));
-				this.statusMessage = `[ Wrote ${this.lines.length} lines ]`;
-			}
-		} else {
-			this.statusMessage = "Error saving file";
-		}
+		return saved;
 	}
 }
 
@@ -177,9 +115,9 @@ export const nano = new Command()
 	.setExecute(async function(this: Command, args, context) {
 		const app = new NanoApp(context, args);
 		
-		const error = await app.init();
-		if (error)
-			return await Shell.writeError(context.stderr, this.name, error);
+		const result = await app.init();
+		if (result.isError())
+			return await Shell.writeError(context.stderr, this.name, result.error);
 
 		return await app.run();
 	});
