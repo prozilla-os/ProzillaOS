@@ -73,7 +73,7 @@ export interface ShellState {
 	/** A reactive view of the current environment variables. */
 	env: Record<string, string>;
 	/** Indicates whether the shell is currently in raw mode, forwarding all keystrokes directly to the active stream. */
-    isRawMode: boolean;
+	isRawMode: boolean;
 	/** The position of the cursor in raw mode. */
 	cursorPosition: Vector2;
 }
@@ -177,11 +177,38 @@ export class Shell {
 		"Enter": ANSI.input.lineFeed,
 		"Tab": ANSI.input.horizontalTab,
 		"Backspace": ANSI.input.backspace,
+		"Delete": ANSI.input.delete,
 		"ArrowUp": ANSI.input.arrowUp,
 		"ArrowDown": ANSI.input.arrowDown,
 		"ArrowRight": ANSI.input.arrowRight,
 		"ArrowLeft": ANSI.input.arrowLeft,
 		"Escape": ANSI.input.escape,
+		"Control+a": ANSI.input.ctrlA,
+		"Control+b": ANSI.input.ctrlB,
+		"Control+c": ANSI.input.ctrlC,
+		"Control+d": ANSI.input.ctrlD,
+		"Control+e": ANSI.input.ctrlE,
+		"Control+f": ANSI.input.ctrlF,
+		"Control+g": ANSI.input.ctrlG,
+		"Control+h": ANSI.input.ctrlH,
+		"Control+i": ANSI.input.ctrlI,
+		"Control+j": ANSI.input.ctrlJ,
+		"Control+k": ANSI.input.ctrlK,
+		"Control+l": ANSI.input.ctrlL,
+		"Control+m": ANSI.input.ctrlM,
+		"Control+n": ANSI.input.ctrlN,
+		"Control+o": ANSI.input.ctrlO,
+		"Control+p": ANSI.input.ctrlP,
+		"Control+q": ANSI.input.ctrlQ,
+		"Control+r": ANSI.input.ctrlR,
+		"Control+s": ANSI.input.ctrlS,
+		"Control+t": ANSI.input.ctrlT,
+		"Control+u": ANSI.input.ctrlU,
+		"Control+v": ANSI.input.ctrlV,
+		"Control+w": ANSI.input.ctrlW,
+		"Control+x": ANSI.input.ctrlX,
+		"Control+y": ANSI.input.ctrlY,
+		"Control+z": ANSI.input.ctrlZ,
 	};
 
 	constructor(config: ShellConfig) {
@@ -220,9 +247,10 @@ export class Shell {
 	}
 
 	public async handleKeyDown(event: KeyboardEvent) {
-		const { key } = event;
+		const { key, ctrlKey, metaKey, shiftKey } = event;
+		const isControlPressed = ctrlKey || metaKey;
 
-		if ((event.ctrlKey || event.metaKey) && key === "c" && !event.shiftKey) {
+		if (isControlPressed && key === "c" && !shiftKey) {
 			event.preventDefault();
 			this.interrupt();
 			return;
@@ -231,7 +259,8 @@ export class Shell {
 		if (this.state.stream) {
 			if (this.state.isRawMode) {
 				event.preventDefault();
-				const data = Shell.KEY_TO_ANSI[key] ?? (key.length === 1 ? key : "");
+				const lookupKey = isControlPressed ? `Control+${key.toLowerCase()}` : key;
+				const data = Shell.KEY_TO_ANSI[lookupKey] ?? (key.length === 1 ? key : "");
 				if (data)
 					await this.state.stream.write(data);
 			}
@@ -254,9 +283,9 @@ export class Shell {
 	}
 
 	/**
-     * Toggles raw mode, which forwards all keystrokes directly to the active stream.
-     * @param rawMode - Whether to enable raw mode.
-     */
+	 * Toggles raw mode, which forwards all keystrokes directly to the active stream.
+	 * @param rawMode - Whether to enable raw mode.
+	 */
 	public setRawMode(rawMode: boolean) {
 		this.state.isRawMode = rawMode;
 	}
@@ -276,10 +305,10 @@ export class Shell {
 
 		if (hasActiveStream) {
 			const output = (this.state.ttyBuffer ?? "") + (isInterrupt ? "^C" : "");
-            
+			
 			if (output && !this.state.isUsingAltScreen)
 				this.pushHistory({ displayText: output, flags: HistoryFlags.None });
-            
+			
 			this.state.stream?.signal(signal);
 			this.state.stream?.end();
 			this.state.stream = null;
@@ -530,6 +559,81 @@ export class Shell {
 	}
 
 	/**
+	 * Sets the shell to raw mode, listens for input on stdin.
+	 * @param stdin - The standard input stream.
+	 * @param onData - The callback to handle incoming data chunks.
+	 */
+	public async readRawInput(stdin: Stream, onData: (data: string) => void | Promise<void>) {
+		this.setRawMode(true);
+
+		const handleData = (data: string) => {
+			void onData(data);
+		};
+
+		stdin.on(Stream.DATA_EVENT, handleData);
+		await stdin.wait();
+		stdin.off(Stream.DATA_EVENT, handleData);
+		
+		this.setRawMode(false);
+	}
+
+	/**
+	 * Processes a list of paths, falling back to standard input if the list is empty or contains "-".
+	 * @param params.paths - The list of file paths or "-" for stdin.
+	 * @param params.workingDirectory - The directory to resolve paths against.
+	 * @param params.commandName - The name of the command invoking this utility.
+	 * @param params.onContent - Callback for file content.
+	 * @param params.onStdinData - Callback for standard input data.
+	 */
+	public async readFiles({
+		paths,
+		workingDirectory,
+		stdin,
+		stderr,
+		commandName,
+		onContent,
+		onStdinData,
+	}: {
+		paths: string[],
+		workingDirectory: VirtualFolder,
+		commandName: string,
+		onContent: (content: string) => void | Promise<void>,
+		onStdinData: (data: string) => void | Promise<void>
+	} & Pick<ProcessIO, "stdin" | "stderr">) {
+		let exitCode: number = EXIT_CODE.success;
+
+		if (!paths.length) {
+			await this.readRawInput(stdin, onStdinData);
+			return exitCode;
+		}
+
+		for (const path of paths) {
+			if (path === "-") {
+				await this.readRawInput(stdin, onStdinData);
+				continue;
+			}
+
+			const target = workingDirectory.navigate(path);
+
+			if (!target) {
+				exitCode = await Shell.writeError(stderr, commandName, `${path}: ${Shell.INVALID_PATH_ERROR}`);
+				continue;
+			}
+
+			if (target.isFolder()) {
+				exitCode = await Shell.writeError(stderr, commandName, `${path}: Is a directory`);
+				continue;
+			}
+
+			const content = await target.read();
+			if (content != null)
+				await onContent(content);
+		}
+
+		return exitCode;
+	}
+
+	/**
 	 * Utility to write a formatted error message to a stream and return an exit code.
 	 * @param stream - The stream to receive the error output.
 	 * @param commandName - The name of the command reporting the error.
@@ -538,7 +642,7 @@ export class Shell {
 	 * @returns `exitCode`.
 	 */
 	public static async writeError(stream: Stream, commandName: string, error: string | string[] = Shell.COMMAND_FAILED_ERROR, exitCode: number = EXIT_CODE.generalError) {
-		await Shell.printLn(stream, Ansi.red(`${commandName}: ${typeof error === "string" ? error : error.join(": ")}`));
+		await this.printLn(stream, Ansi.red(`${commandName}: ${typeof error === "string" ? error : error.join(": ")}`));
 		return exitCode;
 	}
 
@@ -624,9 +728,8 @@ export class Shell {
 	 * @param callback - Function to process the collected input data.
 	 */
 	public static async readInput(rawLine: string, stdin: Stream, callback: (data: string) => Promise<CommandOutput> | CommandOutput) {
-		if (rawLine.length > 0) {
+		if (rawLine.length)
 			return await callback(rawLine);
-		}
 
 		let buffer = "";
 		stdin.on(Stream.DATA_EVENT, (data) => {

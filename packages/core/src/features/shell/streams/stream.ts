@@ -130,11 +130,18 @@ export class Stream<T = string> extends EventEmitter<StreamEvents<T>> implements
 	 * @returns The destination stream to allow for chainable piping.
 	 */
 	pipe(destination: Stream<T>, propagateEnd = true) {
-		this.on(Stream.DATA_EVENT, (data) => void destination.write(data));
-		this.on(Stream.SIGNAL_EVENT, (signal) => destination.signal(signal));
+		this.on(Stream.DATA_EVENT, async (data) => {
+			await destination.write(data);
+		});
+		this.on(Stream.SIGNAL_EVENT, (signal) => {
+			destination.signal(signal);
+		});
 
-		if (propagateEnd)
-			this.on(Stream.END_EVENT, () => destination.end());
+		if (propagateEnd) {
+			this.on(Stream.END_EVENT, () => {
+				destination.end();
+			});
+		}
 		
 		return destination;
 	}

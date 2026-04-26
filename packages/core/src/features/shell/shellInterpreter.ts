@@ -328,7 +328,9 @@ export class ShellInterpreter {
 	private async captureCommandOutput(block: ShellAST.Block, env: ShellEnvironment): Promise<string> {
 		const outputStream = new Stream();
 		let output = "";
-		outputStream.on(Stream.DATA_EVENT, (data: string) => output += data);
+		outputStream.on(Stream.DATA_EVENT, (data: string) => {
+			output += data;
+		});
 		await this.executeBlock(block, { stdout: outputStream, env });
 		outputStream.end();
 		return output.trim();

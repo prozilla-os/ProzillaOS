@@ -1,207 +1,243 @@
-import { EXIT_CODE } from "../../../constants";
 import { Command } from "../command";
-import { Stream, StreamError } from "../streams/stream";
-import { Ansi, ANSI, Result } from "@prozilla-os/shared";
-import { Shell } from "../shell";
+import { Ansi, ANSI } from "@prozilla-os/shared";
+import { Shell, ShellContext } from "../shell";
+import { TUIApp } from "../tui/tuiApp";
 
-export const vi = new Command()
-	.setManual({
-		purpose: "Edit a file using the vi text editor",
-		usage: "vi [FILE]",
-		description: "A visual text editor based on vi.",
-	})
-	.setExecute(async function(this: Command, args, { workingDirectory, shell, stdout, stdin, stderr, size }) {
-		let lines: string[] = [""];
-		let columnIndex = 0;
-		let rowIndex = 0;
-		let editorMode: "COMMAND" | "INSERT" | "COMMAND_LINE" = "COMMAND";
-		let statusMessage = "";
-		let commandBuffer = "";
-		let renderPromise: Promise<Result<void, StreamError>> | null = null;
-		const fileName = args[0] ?? "[No Name]";
+enum ViMode {
+	Command,
+	Insert,
+	CommandLine
+}
 
-		const terminalHeight = size.y; 
+class ViApp extends TUIApp<ViMode> {
+	private lines: string[] = [""];
+	private columnIndex = 0;
+	private rowIndex = 0;
+	private statusMessage = "";
+	private commandBuffer = "";
+	private fileName: string;
+	private args: string[];
+
+	constructor(context: ShellContext, args: string[]) {
+		super(context, ViMode.Command);
+		this.args = args;
+		this.fileName = args[0] ?? "[No Name]";
+
+		this.on(TUIApp.RENDER_EVENT, async () => {
+			await this.render();
+		});
+		this.on(TUIApp.INPUT_EVENT, async (data) => {
+			await this.handleInput(data);
+		});
+	}
+
+	public async init() {
+		if (!this.args.length)
+			return null;
+
+		const targetFile = this.context.workingDirectory.navigate(this.fileName);
+		if (!targetFile)
+			return null;
+
+		if (targetFile.isFolder())
+			return `${this.fileName}: Is a directory`;
+
+		const content = await targetFile.read();
+		if (content != null) {
+			this.lines = content.split("\n");
+			if (!this.lines.length)
+				this.lines = [""];
+		}
+
+		return null;
+	}
+
+	private async render() {
+		const terminalHeight = this.size.y;
 		const mainViewHeight = terminalHeight - 1;
+		let view = ANSI.screen.home + ANSI.screen.clear;
 
-		if (args.length) {
-			const targetFile = workingDirectory.navigate(fileName);
-			if (targetFile) {
-				if (targetFile.isFolder())
-					return await Shell.writeError(stderr, this.name, `${fileName}: Is a directory`);
-
-				const content = await targetFile.read();
-				if (content != null) {
-					lines = content.split(ANSI.input.lineFeed);
-					if (!lines.length)
-						lines = [""];
-				}
+		for (let index = 0; index < mainViewHeight; index++) {
+			if (index < this.lines.length) {
+				view += this.lines[index] + "\n";
+			} else {
+				view += Ansi.blue("~") + "\n";
 			}
 		}
 
-		shell.setRawMode(true);
-		await stdout.write(ANSI.screen.enterAltBuffer);
+		const statusBarRow = terminalHeight;
+		view += ANSI.cursor.position(statusBarRow, 1);
 
-		const render = async () => {
-			let view = ANSI.screen.home + ANSI.screen.clear;
+		if (this.mode === ViMode.Insert) {
+			view += Ansi.bold("-- INSERT --");
+		} else if (this.mode === ViMode.CommandLine) {
+			view += ":" + this.commandBuffer;
+		} else {
+			const message = this.statusMessage.length ? ` ${this.statusMessage}` : "";
+			view += `"${this.fileName}" ${this.lines.length}L${message}`;
+		}
 
-			for (let index = 0; index < mainViewHeight; index++) {
-				if (index < lines.length) {
-					view += lines[index] + ANSI.input.lineFeed;
-				} else {
-					view += Ansi.blue("~") + ANSI.input.lineFeed;
-				}
-			}
+		let cursorRow = this.rowIndex + 1;
+		let cursorColumn = this.columnIndex + 1;
 
-			const statusBarRow = terminalHeight;
-			view += ANSI.cursor.position(statusBarRow, 1);
-			
-			if (editorMode === "INSERT") {
-				view += Ansi.bold("-- INSERT --");
-			} else if (editorMode === "COMMAND_LINE") {
-				view += ":" + commandBuffer;
+		if (this.mode === ViMode.CommandLine) {
+			cursorRow = statusBarRow;
+			cursorColumn = this.commandBuffer.length + 2;
+		}
+
+		const cursorPosition = ANSI.cursor.position(cursorRow, cursorColumn);
+		await this.stdout.write(view + cursorPosition);
+	}
+
+	private async handleInput(data: string) {
+		this.statusMessage = "";
+
+		switch (this.mode) {
+			case ViMode.Command:
+				await this.handleCommandMode(data);
+				break;
+			case ViMode.CommandLine:
+				await this.handleCommandLineMode(data);
+				break;
+			case ViMode.Insert:
+				await this.handleInsertMode(data);
+				break;
+		}
+
+		await this.emitAsync(TUIApp.RENDER_EVENT);
+	}
+
+	private async handleCommandMode(data: string) {
+		switch (data) {
+			case ":":
+				this.commandBuffer = "";
+				await this.setMode(ViMode.CommandLine);
+				break;
+			case "i":
+				await this.setMode(ViMode.Insert);
+				break;
+			case "h":
+				this.columnIndex = Math.max(0, this.columnIndex - 1);
+				break;
+			case "j":
+				this.rowIndex = Math.min(this.lines.length - 1, this.rowIndex + 1);
+				this.columnIndex = Math.min(this.columnIndex, this.lines[this.rowIndex].length);
+				break;
+			case "k":
+				this.rowIndex = Math.max(0, this.rowIndex - 1);
+				this.columnIndex = Math.min(this.columnIndex, this.lines[this.rowIndex].length);
+				break;
+			case "l":
+				this.columnIndex = Math.min(this.lines[this.rowIndex].length, this.columnIndex + 1);
+				break;
+			case ANSI.input.ctrlC:
+				this.exit();
+				break;
+		}
+	}
+
+	private async handleCommandLineMode(data: string) {
+		if (data === ANSI.input.escape) {
+			this.commandBuffer = "";
+			await this.setMode(ViMode.Command);
+		} else if (data === ANSI.input.carriageReturn || data === ANSI.input.lineFeed) {
+			await this.executeCommand();
+		} else if (data === ANSI.input.backspace || data === ANSI.input.delete) {
+			if (!this.commandBuffer.length) {
+				await this.setMode(ViMode.Command);
 			} else {
-				const message = statusMessage.length ? ` ${statusMessage}` : "";
-				view += `"${fileName}" ${lines.length}L${message}`;
+				this.commandBuffer = this.commandBuffer.slice(0, -1);
 			}
+		} else {
+			this.commandBuffer += data;
+		}
+	}
 
-			let cursorRow = rowIndex + 1;
-			let cursorColumn = columnIndex + 1;
+	private async handleInsertMode(data: string) {
+		const currentLine = this.lines[this.rowIndex];
 
-			if (editorMode === "COMMAND_LINE") {
-				cursorRow = statusBarRow;
-				cursorColumn = commandBuffer.length + 2;
-			}
+		if (data === ANSI.input.escape) {
+			await this.setMode(ViMode.Command);
+		} else if (data === ANSI.input.carriageReturn || data === ANSI.input.lineFeed) {
+			this.lines[this.rowIndex] = currentLine.slice(0, this.columnIndex);
+			this.lines.splice(this.rowIndex + 1, 0, currentLine.slice(this.columnIndex));
+			this.rowIndex++;
+			this.columnIndex = 0;
+		} else if (data === ANSI.input.backspace || data === ANSI.input.delete) {
+			this.processDeletion(currentLine);
+		} else if (data.length === 1 && data.charCodeAt(0) >= 32) {
+			this.lines[this.rowIndex] = currentLine.slice(0, this.columnIndex) + data + currentLine.slice(this.columnIndex);
+			this.columnIndex++;
+		}
+	}
 
-			const cursorPosition = ANSI.cursor.position(cursorRow, cursorColumn);
-			renderPromise = stdout.write(view + cursorPosition);
-			await renderPromise;
-		};
+	private async executeCommand() {
+		const command = this.commandBuffer.trim();
+		const shouldSave = command.includes("w") || command === "x";
+		const shouldQuit = command.includes("q") || command === "x";
 
-		const saveFile = () => {
-			if (!args.length) {
-				statusMessage = "No file name";
-				void render();
-				return;
-			}
+		if (shouldSave)
+			this.saveFile();
 
-			const targetFile = workingDirectory.navigate(fileName) ?? workingDirectory.create(fileName);
+		if (shouldQuit) {
+			this.exit();
+			return;
+		}
 
-			if (targetFile) {
-				if (targetFile.isFolder()) {
-					statusMessage = "Cannot write to directory";
-				} else {
-					targetFile.setContent(lines.join("\n"));
-					statusMessage = "written";
-				}
+		if (!shouldSave && command.length)
+			this.statusMessage = `Not an editor command: ${command}`;
+
+		this.commandBuffer = "";
+		await this.setMode(ViMode.Command);
+	}
+
+	private processDeletion(currentLine: string) {
+		if (this.columnIndex > 0) {
+			this.lines[this.rowIndex] = currentLine.slice(0, this.columnIndex - 1) + currentLine.slice(this.columnIndex);
+			this.columnIndex--;
+		} else if (this.rowIndex > 0) {
+			const previousLineLength = this.lines[this.rowIndex - 1].length;
+			this.lines[this.rowIndex - 1] += currentLine;
+			this.lines.splice(this.rowIndex, 1);
+			this.rowIndex--;
+			this.columnIndex = previousLineLength;
+		}
+	}
+
+	private saveFile() {
+		if (!this.args.length || this.fileName === "[No Name]") {
+			this.statusMessage = "No file name";
+			return;
+		}
+
+		const targetFile = this.context.workingDirectory.navigate(this.fileName) 
+			?? this.context.workingDirectory.create(this.fileName);
+
+		if (targetFile) {
+			if (targetFile.isFolder()) {
+				this.statusMessage = "Cannot write to directory";
 			} else {
-				statusMessage = "Error saving file";
+				targetFile.setContent(this.lines.join("\n"));
+				this.statusMessage = "written";
 			}
-			
-			void render();
-		};
+		} else {
+			this.statusMessage = "Error saving file";
+		}
+	}
+}
 
-		const executeCommand = () => {
-			const command = commandBuffer.trim();
-			const shouldSave = command.includes("w") || command === "x";
-			const shouldQuit = command.includes("q") || command === "x";
+export const vi = new Command()
+	.setManual({
+		purpose: "Vi IMproved, a programmers text editor ",
+		usage: "vi [FILE]",
+		description: "Vim is a text editor that is upwards compatible to Vi. It can be used to edit all kinds of plain text. It is especially useful for editing programs.",
+	})
+	.setExecute(async function(this: Command, args, context) {
+		const app = new ViApp(context, args);
+		
+		const error = await app.init();
+		if (error)
+			return await Shell.writeError(context.stderr, this.name, error);
 
-			if (shouldSave)
-				saveFile();
-
-			if (shouldQuit)
-				stdin.end();
-
-			if (!shouldSave && !shouldQuit && command.length)
-				statusMessage = `Not an editor command: ${command}`;
-
-			commandBuffer = "";
-			editorMode = "COMMAND";
-		};
-
-		const onData = (data: string) => {
-			statusMessage = "";
-
-			if (editorMode === "COMMAND") {
-				switch (data) {
-					case ":":
-						editorMode = "COMMAND_LINE";
-						commandBuffer = "";
-						break;
-					case "i":
-						editorMode = "INSERT";
-						break;
-					case "h":
-						columnIndex = Math.max(0, columnIndex - 1);
-						break;
-					case "j":
-						rowIndex = Math.min(lines.length - 1, rowIndex + 1);
-						break;
-					case "k":
-						rowIndex = Math.max(0, rowIndex - 1);
-						break;
-					case "l":
-						columnIndex = Math.min(lines[rowIndex].length, columnIndex + 1);
-						break;
-					case ANSI.input.ctrlC:
-						stdin.end();
-						break;
-				}
-			} else if (editorMode === "COMMAND_LINE") {
-				if (data === ANSI.input.escape) {
-					editorMode = "COMMAND";
-					commandBuffer = "";
-				} else if (data === ANSI.input.carriageReturn || data === ANSI.input.lineFeed) {
-					executeCommand();
-				} else if (data === ANSI.input.backspace || data === ANSI.input.delete) {
-					if (!commandBuffer.length) {
-						editorMode = "COMMAND";
-					} else {
-						commandBuffer = commandBuffer.slice(0, -1);
-					}
-				} else {
-					commandBuffer += data;
-				}
-			} else {
-				const currentLine = lines[rowIndex];
-				
-				if (data === ANSI.input.escape) {
-					editorMode = "COMMAND";
-				} else if (data === ANSI.input.carriageReturn || data === ANSI.input.lineFeed) {
-					lines[rowIndex] = currentLine.slice(0, columnIndex);
-					lines.splice(rowIndex + 1, 0, currentLine.slice(columnIndex));
-					rowIndex++;
-					columnIndex = 0;
-				} else if (data === ANSI.input.backspace || data === ANSI.input.delete) {
-					if (columnIndex > 0) {
-						lines[rowIndex] = currentLine.slice(0, columnIndex - 1) + currentLine.slice(columnIndex);
-						columnIndex--;
-					} else if (rowIndex > 0) {
-						const previousLineLength = lines[rowIndex - 1].length;
-						lines[rowIndex - 1] += currentLine;
-						lines.splice(rowIndex, 1);
-						rowIndex--;
-						columnIndex = previousLineLength;
-					}
-				} else {
-					lines[rowIndex] = currentLine.slice(0, columnIndex) + data + currentLine.slice(columnIndex);
-					columnIndex++;
-				}
-			}
-			void render();
-		};
-
-		const onEnd = async () => {
-			stdin.off(Stream.DATA_EVENT, onData);
-			if (renderPromise)
-				await renderPromise;
-			await stdout.write(ANSI.screen.exitAltBuffer);
-			shell.setRawMode(false);
-			shell.interrupt();
-		};
-
-		stdin.on(Stream.DATA_EVENT, onData);
-		stdin.once(Stream.END_EVENT, () => void onEnd());
-		await render();
-
-		return stdin.wait(EXIT_CODE.success);
+		return await app.run();
 	});

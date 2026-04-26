@@ -38,6 +38,7 @@ export const ANSI = {
 		enterAltBuffer: "\u001b[?1049h",
 		exitAltBuffer: "\u001b[?1049l",
 		clear: "\u001b[2J",
+		clearLine: "\u001b[2K",
 		home: "\u001b[H",
 	},
 	/**
@@ -46,6 +47,10 @@ export const ANSI = {
 	cursor: {
 		/** Changes the position of the cursor. */
 		position: (row: number, column: number) => `\x1b[${row};${column}H`,
+		hide: "\u001b[?25l",
+		show: "\u001b[?25h",
+		save: "\u001b[s",
+		restore: "\u001b[u",
 	},
 	/**
 	 * Terminal input.
@@ -61,11 +66,38 @@ export const ANSI = {
 		arrowLeft: "\u001b[D",
 		horizontalTab: "\t",
 		lineFeed: "\n",
+		verticalTab: "\v",
+		formFeed: "\f",
 		carriageReturn: "\r",
 		backspace: "\b",
 		delete: "\x7f",
 		escape: "\u001b",
+		ctrlA: "\u0001",
+		ctrlB: "\u0002",
 		ctrlC: "\u0003",
+		ctrlD: "\u0004",
+		ctrlE: "\u0005",
+		ctrlF: "\u0006",
+		ctrlG: "\u0007",
+		ctrlH: "\u0008",
+		ctrlI: "\u0009",
+		ctrlJ: "\u000a",
+		ctrlK: "\u000b",
+		ctrlL: "\u000c",
+		ctrlM: "\u000d",
+		ctrlN: "\u000e",
+		ctrlO: "\u000f",
+		ctrlP: "\u0010",
+		ctrlQ: "\u0011",
+		ctrlR: "\u0012",
+		ctrlS: "\u0013",
+		ctrlT: "\u0014",
+		ctrlU: "\u0015",
+		ctrlV: "\u0016",
+		ctrlW: "\u0017",
+		ctrlX: "\u0018",
+		ctrlY: "\u0019",
+		ctrlZ: "\u001a",
 	},
 	/**
 	 * Decorations.
@@ -73,7 +105,11 @@ export const ANSI = {
 	decoration: {
 		dim: "\u001b[2m",
 		bold: "\u001b[1m",
+		italic: "\u001b[3m",
 		underline: "\u001b[4m",
+		blink: "\u001b[5m",
+		invert: "\u001b[7m",
+		strike: "\u001b[9m",
 	},
 	reset: "\u001b[0m",
-};
+} as const;

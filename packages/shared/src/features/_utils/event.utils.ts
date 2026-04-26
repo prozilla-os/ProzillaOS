@@ -5,21 +5,13 @@ import { removeFromArray } from "./array.utils";
  * @typeParam T - A record of all events.
  * @typeParam K - The event this function handles.
  */
-export type Listener<T extends Record<keyof T, unknown[]>, K extends keyof T> = (...args: T[K]) => void;
-
-/**
- * A function that handles an event asynchronously.
- * @typeParam T - A record of all events.
- * @typeParam K - The event this function handles.
- */
-export type AsyncListener<T extends Record<keyof T, unknown[]>, K extends keyof T> = (...args: T[K]) => Promise<void>;
+export type Listener<T extends Record<keyof T, unknown[]>, K extends keyof T> = (...args: T[K]) => void | Promise<void>;
 
 /**
  * A simple event emitter.
  * @typeParam T - A record of all events.
  */
 export class EventEmitter<T extends Record<keyof T, unknown[]>> {
-
 	#listeners: {
 		[K in keyof T]?: Listener<T, K>[];
 	} = {};
@@ -30,7 +22,7 @@ export class EventEmitter<T extends Record<keyof T, unknown[]>> {
 	 * @param listener - The function to call when the event is emitted.
 	 * @returns The listener.
 	 */
-	on<K extends keyof T>(event: K, listener: Listener<T, K>) {
+	public on<K extends keyof T>(event: K, listener: Listener<T, K>) {
 		if (this.#listeners[event] === undefined) {
 			this.#listeners[event] = [listener];
 		} else {
@@ -45,55 +37,53 @@ export class EventEmitter<T extends Record<keyof T, unknown[]>> {
 	 * @param listener - The function to call once the event is emitted.
 	 * @returns The wrapped listener.
 	 */
-	once<K extends keyof T>(event: K, listener: Listener<T, K>) {
-		const wrapper = this.on(event, (...args) => {
+	public once<K extends keyof T>(event: K, listener: Listener<T, K>) {
+		const wrapper: Listener<T, K> = (...args) => {
 			this.off(event, wrapper);
-			listener(...args);
-		});
-		return wrapper;
+			return listener(...args);
+		};
+		return this.on(event, wrapper);
 	}
 
-	/**
-	 * Starts listening to an event.
-	 * @param event - The event to listen to.
-	 * @param listener - The function to call when the event is emitted.
-	 * @returns The wrapped listener. 
-	 */
-	onAsync<K extends keyof T>(event: K, listener: AsyncListener<T, K>, onRejected?: Parameters<Promise<void>["catch"]>[0]) {
-		return this.on(event, (...args) => {
-			void listener(...args).catch((reason) => {
-				if (onRejected) {
-					onRejected(reason);
-				} else {
-					console.error(reason);
-				}
-			});
-		});
-	}
-	
 	/**
 	 * Removes an event listener.
 	 * @param event - The event to remove the listener from.
 	 * @param listener - The listener to remove.
 	 */
-	off<K extends keyof T>(event: K, listener: Listener<T, K>) {
-		if (this.#listeners[event] === undefined) {
+	public off<K extends keyof T>(event: K, listener: Listener<T, K>): void {
+		const listeners = this.#listeners[event];
+		if (listeners === undefined)
 			return;
-		}
-		removeFromArray(listener, this.#listeners[event]);
+		
+		removeFromArray(listener, listeners);
 	}
-	
+
 	/**
 	 * Emits an event to all its listeners.
 	 * @param event - The event to emit.
 	 * @param args - The arguments to pass to the listeners.
 	 */
-	emit<K extends keyof T>(event: K, ...args: T[K]) {
-		if (this.#listeners[event] === undefined) {
+	public emit<K extends keyof T>(event: K, ...args: T[K]): void {
+		const listeners = this.#listeners[event];
+		if (listeners === undefined)
 			return;
+
+		for (const listener of listeners) {
+			void listener(...args);
 		}
-		for (const listener of this.#listeners[event]) {
-			listener(...args);
-		}	
+	}
+
+	/**
+	 * Emits an event and waits for all listeners to resolve.
+	 * @param event - The event to emit.
+	 * @param args - The arguments to pass to the listeners.
+	 */
+	public async emitAsync<K extends keyof T>(event: K, ...args: T[K]): Promise<void> {
+		const listeners = this.#listeners[event];
+		if (listeners === undefined)
+			return;
+
+		const promises = listeners.map((listener) => listener(...args));
+		await Promise.all(promises);
 	}
 }
