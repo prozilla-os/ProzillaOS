@@ -394,8 +394,8 @@ export class Shell {
 		let match;
 		while ((match = Shell.CURSOR_REGEX.exec(text)) !== null) {
 			const row = parseInt(match[1]) - 1;
-			const col = parseInt(match[2]) - 1;
-			this.state.cursorPosition = new Vector2(col, row);
+			const column = parseInt(match[2]) - 1;
+			this.state.cursorPosition = new Vector2(column, row);
 		}
 
 		const remainingText = text.replace(Shell.STRIP_ANSI_REGEX, "")

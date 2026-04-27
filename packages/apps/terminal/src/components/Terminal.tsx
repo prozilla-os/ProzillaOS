@@ -2,7 +2,7 @@ import { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect,
 import styles from "./Terminal.module.css";
 import { OutputLine } from "./OutputLine";
 import { InputLine } from "./InputLine";
-import { Button, HistoryFlags, useShell, utilStyles, WindowProps } from "@prozilla-os/core";
+import { Button, HistoryFlags, useShell, utilStyles, WindowProps, useFontMetrics } from "@prozilla-os/core";
 import { Ansi, Vector2 } from "@prozilla-os/shared";
 import { faStop } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,7 +16,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	const ref = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const sizeRef = useRef(Vector2.ZERO);
-	const [charSize, setCharSize] = useState(Vector2.ZERO);
+	const { charSize, containerSize, Sentinel } = useFontMetrics({ containerRef: ref });
 	const [inputKey, setInputKey] = useState(0);
 	const [hasAutoSubmitted, setHasAutoSubmitted] = useState(false);
 	const [shell, state] = useShell({
@@ -60,7 +60,8 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	}, [state.historyOffset]);
 
 	const scrollDown = () => {
-		if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
+		if (ref.current)
+			ref.current.scrollTop = ref.current.scrollHeight;
 	};
 
 	useEffect(() => {
@@ -68,48 +69,8 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	}, [state.history.length, state.line, state.ttyBuffer]);
 
 	useEffect(() => {
-		if (!ref.current)
-			return;
-
-		const measure = () => {
-			if (!ref.current)
-				return;
-
-			const span = document.createElement("span");
-			span.innerText = "M".repeat(100);
-			span.style.position = "absolute";
-			span.style.visibility = "hidden";
-			span.style.whiteSpace = "pre";
-			span.style.fontFamily = "var(--mono-font-family)";
-			span.style.letterSpacing = "-0.03em";
-
-			ref.current.appendChild(span);
-			const spanRect = span.getBoundingClientRect();
-			ref.current.removeChild(span);
-
-			const style = getComputedStyle(ref.current);
-			const charWidth = spanRect.width / 100;
-			const charHeight = spanRect.height || parseFloat(style.lineHeight);
-
-			const horizontalPadding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-			const verticalPadding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
-			const terminalRect = ref.current.getBoundingClientRect();
-
-			if (charWidth > 0 && charHeight > 0)
-				setCharSize(new Vector2(charWidth, charHeight));
-
-			sizeRef.current.set(
-				Math.floor((terminalRect.width - horizontalPadding) / charWidth),
-				Math.floor((terminalRect.height - verticalPadding) / charHeight)
-			);
-		};
-
-		const observer = new ResizeObserver(measure);
-		observer.observe(ref.current);
-		measure();
-
-		return () => observer.disconnect();
-	}, []);
+		sizeRef.current.set(containerSize.x, containerSize.y);
+	}, [containerSize]);
 
 	const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
 		void shell.handleKeyDown(event);
@@ -146,7 +107,8 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 			event.preventDefault();
 			void navigator.clipboard.readText().then((text) => {
 				const input = inputRef.current;
-				if (!input) return;
+				if (!input)
+					return;
 
 				const start = input.selectionStart ?? state.line.length;
 				const end = input.selectionEnd ?? state.line.length;
@@ -209,6 +171,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 			}
 		}}
 	>
+		<Sentinel/>
 		<div className={styles.History}>
 			{renderedOutput}
 			{state.isRawMode && <div className={styles.VirtualCursor} style={cursorStyle}/>}

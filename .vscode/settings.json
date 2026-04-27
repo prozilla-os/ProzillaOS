@@ -13,4 +13,9 @@
 	},
 	"typescript.preferences.importModuleSpecifier": "relative",
 	"javascript.preferences.importModuleSpecifier": "relative",
+    "search.exclude": {
+        "**/dist/**": true,
+        "**/node_modules/**": true
+    },
+	"search.useIgnoreFiles": true,
 }
