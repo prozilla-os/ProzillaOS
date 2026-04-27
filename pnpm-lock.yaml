@@ -325,6 +325,58 @@ importers:
         specifier: ^4.2.0
         version: 4.5.0(rollup@4.57.1)(typescript@5.9.3)(vite@7.3.1(@types/node@25.1.0)(less@4.5.1)(lightningcss@1.32.0)(yaml@2.8.2))
 
+  examples/terminal:
+    dependencies:
+      '@prozilla-os/skins':
+        specifier: workspace:*
+        version: link:../../packages/skins
+      prozilla-os:
+        specifier: workspace:*
+        version: link:../../packages/prozilla-os
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      react-svg:
+        specifier: ^16.1.34
+        version: 16.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.5.0
+        version: 9.39.2
+      '@types/react':
+        specifier: ^18.3.27
+        version: 18.3.27
+      '@types/react-dom':
+        specifier: ^18.2.22
+        version: 18.3.7(@types/react@18.3.27)
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.7.0
+        version: 3.11.0(vite@7.3.1(@types/node@25.1.0)(less@4.5.1)(lightningcss@1.32.0)(yaml@2.8.2))
+      eslint:
+        specifier: ^9.39.2
+        version: 9.39.2
+      eslint-plugin-react:
+        specifier: ^7.34.2
+        version: 7.37.5(eslint@9.39.2)
+      eslint-plugin-react-refresh:
+        specifier: ^0.4.6
+        version: 0.4.26(eslint@9.39.2)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.9.3
+      typescript-eslint:
+        specifier: ^8.54.0
+        version: 8.54.0(eslint@9.39.2)(typescript@5.9.3)
+      vite:
+        specifier: ^7.3.1
+        version: 7.3.1(@types/node@25.1.0)(less@4.5.1)(lightningcss@1.32.0)(yaml@2.8.2)
+      vite-plugin-svgr:
+        specifier: ^4.2.0
+        version: 4.5.0(rollup@4.57.1)(typescript@5.9.3)(vite@7.3.1(@types/node@25.1.0)(less@4.5.1)(lightningcss@1.32.0)(yaml@2.8.2))
+
   packages/apps/app-center:
     dependencies:
       '@prozilla-os/core':

@@ -4,3 +4,4 @@ This is a list of example projects that demonstrate the features and use cases o
 
 - [ProzillaOS boilerplate](https://github.com/prozilla-os/ProzillaOS-boilerplate)
 - [Portfolio](./portfolio)
+- [Terminal](./terminal)
