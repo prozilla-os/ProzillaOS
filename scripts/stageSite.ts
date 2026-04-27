@@ -6,6 +6,7 @@ import { Logger } from "../packages/shared/src/features";
 
 const EXAMPLES = [
 	"portfolio",
+	"terminal",
 ];
 
 const PACKAGES = [
