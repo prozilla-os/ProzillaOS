@@ -642,7 +642,7 @@ export class Shell {
 	 * @returns `exitCode`.
 	 */
 	public static async writeError(stream: Stream, commandName: string, error: string | string[] = Shell.COMMAND_FAILED_ERROR, exitCode: number = EXIT_CODE.generalError) {
-		await this.printLn(stream, Ansi.red(`${commandName}: ${typeof error === "string" ? error : error.join(": ")}`));
+		await Shell.printLn(stream, Ansi.red(`${commandName}: ${typeof error === "string" ? error : error.join(": ")}`));
 		return exitCode;
 	}
 
@@ -655,7 +655,7 @@ export class Shell {
 		delay?: number,
 		maxIterations?: number,
 	}) {
-		return await this.animate({
+		return await Shell.animate({
 			stdout,
 			stdin,
 			render: (iterations) => {
