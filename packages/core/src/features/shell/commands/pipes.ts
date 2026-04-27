@@ -15,18 +15,18 @@ const DIRECTIONS = [
 ];
 
 const PIPE_CHARS: Record<string, string> = {
-	"1,0|1,0": "-", 
-	"-1,0|-1,0": "-",
-	"0,1|0,1": "|", 
-	"0,-1|0,-1": "|",
-	"0,1|1,0": "+",  
-	"0,1|-1,0": "+",
-	"0,-1|1,0": "+", 
-	"0,-1|-1,0": "+",
-	"1,0|0,1": "+",  
-	"1,0|0,-1": "+", 
-	"-1,0|0,1": "+", 
-	"-1,0|0,-1": "+", 
+	"1,0|1,0": "━", 
+	"-1,0|-1,0": "━",
+	"0,1|0,1": "┃", 
+	"0,-1|0,-1": "┃",
+	"0,1|1,0": "┏", 
+	"0,1|-1,0": "┓",
+	"0,-1|1,0": "┗",
+	"0,-1|-1,0": "┛",
+	"1,0|0,1": "┛", 
+	"1,0|0,-1": "┓",
+	"-1,0|0,1": "┗",
+	"-1,0|0,-1": "┏",
 };
 
 type Segment = {
@@ -83,7 +83,7 @@ function updatePipes(pipes: Pipe[], size: Vector2, delay: number, spawnRate: num
 			}
 
 			const key = `${oldDirection.x},${oldDirection.y}|${pipe.direction.x},${pipe.direction.y}`;
-			const char = PIPE_CHARS[key] ?? (pipe.direction.x !== 0 ? "-" : "|");
+			const char = PIPE_CHARS[key] ?? (pipe.direction.x !== 0 ? "━" : "┃");
 			
 			pipe.segments.push({ position: new Vector2(pipe.position.x, pipe.position.y), char });
 			occupied.add(`${pipe.position.x},${pipe.position.y}`);
