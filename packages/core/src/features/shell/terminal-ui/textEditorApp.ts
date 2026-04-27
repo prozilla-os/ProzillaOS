@@ -8,7 +8,7 @@ export interface TextEditorAppOptions extends TerminalUIAppOptions {
 }
 
 export abstract class TextEditorApp<M> extends TerminalUIApp<M> {
-	protected lines: string[] = [];
+	protected lines = [""];
 	protected columnIndex = 0;
 	protected rowIndex = 0;
 	protected statusMessage = "";

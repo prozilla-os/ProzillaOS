@@ -106,6 +106,19 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 		if (event.button === 2) {
 			event.preventDefault();
 			void navigator.clipboard.readText().then((text) => {
+				if (state.isRawMode) {
+					for (const char of text) {
+						void shell.handleKeyDown({
+							key: char,
+							ctrlKey: event.ctrlKey,
+							metaKey: event.metaKey,
+							shiftKey: event.shiftKey,
+							preventDefault: event.preventDefault.bind(event),
+						});
+					}
+					return;
+				}
+				
 				const input = inputRef.current;
 				if (!input)
 					return;

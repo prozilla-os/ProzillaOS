@@ -246,8 +246,8 @@ export class Shell {
 		void this.updatePrompt();
 	}
 
-	public async handleKeyDown(event: KeyboardEvent) {
-		const { key, ctrlKey, metaKey, shiftKey } = event;
+	public async handleKeyDown(event: Pick<KeyboardEvent, "key" | "preventDefault"> & Partial<Pick<KeyboardEvent, "ctrlKey" | "metaKey" | "shiftKey">>) {
+		const { key, ctrlKey = false, metaKey = false, shiftKey = false } = event;
 		const isControlPressed = ctrlKey || metaKey;
 
 		if (isControlPressed && key === "c" && !shiftKey) {
