@@ -16,7 +16,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 	const ref = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const sizeRef = useRef(Vector2.ZERO);
-	const { charSize, containerSize, Sentinel } = useFontMetrics({ containerRef: ref });
+	const { charSize, containerSize, sentinel } = useFontMetrics({ containerRef: ref });
 	const [inputKey, setInputKey] = useState(0);
 	const [hasAutoSubmitted, setHasAutoSubmitted] = useState(false);
 	const [shell, state] = useShell({
@@ -184,7 +184,7 @@ export function Terminal({ app, path: startPath, input, setTitle, close: exit, a
 			}
 		}}
 	>
-		<Sentinel/>
+		{sentinel}
 		<div className={styles.History}>
 			{renderedOutput}
 			{state.isRawMode && <div className={styles.VirtualCursor} style={cursorStyle}/>}

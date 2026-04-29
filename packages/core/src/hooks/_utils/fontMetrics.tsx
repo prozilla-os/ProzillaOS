@@ -5,15 +5,10 @@ export interface FontMetricsParams {
 	/** A reactive reference to the container element. */
 	containerRef: RefObject<HTMLDivElement | null>;
 	/**
-	 * The character to use for doing measurements with.
-	 * @default "M"
+	 * The string to use for character measurements.
+	 * @default "M".repeat(100)
 	 */
-	char?: string;
-	/**
-	 * The amount of characters to use for measurements.
-	 * @default 100
-	 */
-	charCount?: number;
+	testString?: string;
 }
 
 export interface FontMetrics {
@@ -22,7 +17,7 @@ export interface FontMetrics {
 	/** The dimensions of the container, in rows and columns. */
 	containerSize: Vector2;
 	/** The element to attach to the container, used for doing measurements. */
-	Sentinel: () => ReactElement;
+	sentinel: ReactElement;
 }
 
 /**
@@ -31,80 +26,96 @@ export interface FontMetrics {
  */
 export function useFontMetrics({
 	containerRef,
-	char = "M",
-	charCount = 100,
+	testString = "M".repeat(100),
 }: FontMetricsParams): FontMetrics {
 	const sentinelRef = useRef<HTMLSpanElement>(null);
 	const [charSize, setCharSize] = useState(Vector2.ZERO);
 	const [containerSize, setContainerSize] = useState(Vector2.ZERO);
 
 	useEffect(() => {
-		const container = containerRef.current;
-		const sentinel = sentinelRef.current;
-		if (!container || !sentinel)
-			return;
+		let animationFrameId: number;
 
 		const measure = () => {
-			requestAnimationFrame(() => {
-				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			animationFrameId = requestAnimationFrame(() => {
+				const container = containerRef.current;
+				const sentinel = sentinelRef.current;
+
 				if (!container || !sentinel)
 					return;
 
-				const containerStyle = getComputedStyle(container);
 				const sentinelRect = sentinel.getBoundingClientRect();
-
 				if (!sentinelRect.width || !sentinelRect.height)
 					return;
 
-				const charWidth = sentinelRect.width / charCount;
-				const charHeight = sentinelRect.height;
+				const containerRect = container.getBoundingClientRect();
+				const scaleX = container.offsetWidth > 0 ? containerRect.width / container.offsetWidth : 1;
+				const scaleY = container.offsetHeight > 0 ? containerRect.height / container.offsetHeight : 1;
 
+				const charWidth = sentinelRect.width / scaleX / testString.length;
+				const charHeight = sentinelRect.height / scaleY;
+
+				if (charWidth <= 0 || charHeight <= 0)
+					return;
+
+				const containerStyle = getComputedStyle(container);
 				const horizontalPadding = parseFloat(containerStyle.paddingLeft) + parseFloat(containerStyle.paddingRight);
 				const verticalPadding = parseFloat(containerStyle.paddingTop) + parseFloat(containerStyle.paddingBottom);
-				const containerRect = container.getBoundingClientRect();
 
-				const columns = Math.floor((containerRect.width - horizontalPadding) / charWidth);
-				const rows = Math.floor((containerRect.height - verticalPadding) / charHeight);
+				const contentWidth = container.clientWidth - horizontalPadding;
+				const contentHeight = container.clientHeight - verticalPadding;
 
-				if (charWidth > 0 && charHeight > 0)
-					setCharSize(new Vector2(charWidth, charHeight));
+				const columns = Math.floor(contentWidth / charWidth);
+				const rows = Math.floor(contentHeight / charHeight);
+
+				setCharSize(new Vector2(charWidth, charHeight));
 				setContainerSize(new Vector2(columns, rows));
 			});
 		};
+
+		const container = containerRef.current;
+		const sentinel = sentinelRef.current;
+
+		if (!container || !sentinel)
+			return;
 
 		const observer = new ResizeObserver(measure);
 		observer.observe(container);
 		observer.observe(sentinel);
 
+		container.addEventListener("transitionend", measure);
+		container.addEventListener("animationend", measure);
+
 		const style = getComputedStyle(container);
-		void document.fonts.load(`${style.fontSize} ${style.fontFamily}`).then(measure);
+		void document.fonts.load(`${style.fontSize} ${style.fontFamily}`).then(measure).catch(() => null);
 		document.fonts.addEventListener("loadingdone", measure);
 
 		measure();
 
 		return () => {
+			cancelAnimationFrame(animationFrameId);
 			observer.disconnect();
+			container.removeEventListener("transitionend", measure);
+			container.removeEventListener("animationend", measure);
 			document.fonts.removeEventListener("loadingdone", measure);
 		};
-	}, [containerRef, charCount]);
+	}, [containerRef, testString]);
 
-	const Sentinel = useMemo(() => {
-		return () => 
-			<span
-				ref={sentinelRef}
-				aria-hidden="true"
-				style={{
-					position: "absolute",
-					pointerEvents: "none",
-					visibility: "hidden",
-					whiteSpace: "pre",
-					left: 0,
-					top: 0,
-				}}
-			>
-				{char.repeat(charCount)}
-			</span>;
-	}, [char, charCount]);
+	const sentinel = useMemo(() => {
+		return <span
+			ref={sentinelRef}
+			aria-hidden="true"
+			style={{
+				position: "absolute",
+				pointerEvents: "none",
+				visibility: "hidden",
+				whiteSpace: "pre",
+				left: 0,
+				top: 0,
+			}}
+		>
+			{testString}
+		</span>;
+	}, [testString]);
 
-	return { charSize, containerSize, Sentinel };
+	return { charSize, containerSize, sentinel };
 }
