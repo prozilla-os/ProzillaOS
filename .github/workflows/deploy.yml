@@ -12,54 +12,65 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout latest repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          path: latest
 
-      - name: Fetch latest tag
+      - name: Fetch stable tag
         id: get_tag
         run: |
-          LATEST_TAG=$(gh release view --json tagName --template '{{.tagName}}' || git tag -l "v*" --sort=-v:refname | head -n 1)
-          echo "tag=$LATEST_TAG" >> $GITHUB_OUTPUT
-          echo "Found tag: $LATEST_TAG"
+          cd latest
+          STABLE_TAG=$(gh release view --json tagName --template '{{.tagName}}' || git tag -l "v*" --sort=-v:refname | head -n 1)
+          echo "tag=$STABLE_TAG" >> $GITHUB_OUTPUT
+          echo "Found stable tag: $STABLE_TAG"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout latest release
+      - name: Checkout stable release
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.get_tag.outputs.tag }}
-          path: latest-release
+          path: stable
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
+          cache-dependency-path: |
+            latest/pnpm-lock.yaml
+            stable/pnpm-lock.yaml
 
-      - name: Install root dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Build stable packages
+        run: |
+          cd stable
+          pnpm install --frozen-lockfile
+          pnpm run packages:build
 
-      - name: Install release dependencies
-        run: cd latest-release && pnpm install --frozen-lockfile
-
-      - name: Build release packages
-        run: cd latest-release && pnpm run packages:build
-
-      - name: Build packages
-        run: pnpm run build
+      - name: Build latest site
+        run: |
+          cd latest
+          echo "node-linker=hoisted" > .npmrc
+          pnpm install
+          pnpm run build
         env:
-          RELEASE_PATH: ${{ github.workspace }}/latest-release
+          RELEASE_PATH: ${{ github.workspace }}/stable
 
       - name: Configure git
         run: |
+          cd latest
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
       - name: Deploy site
-        run: pnpm run deploy
+        run: |
+          cd latest
+          pnpm run deploy
