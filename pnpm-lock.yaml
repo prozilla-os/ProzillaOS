@@ -104,8 +104,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/skins
       '@prozilla-os/wordle':
-        specifier: ^1.2.1
-        version: 1.2.1(react@18.3.1)
+        specifier: ^1.2.2
+        version: 1.2.2(react@18.3.1)
       '@taygotfound/melodix':
         specifier: latest
         version: 2.0.5
@@ -1924,8 +1924,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/wordle@1.2.1':
-    resolution: {integrity: sha512-wLWhx1Ig8FMDCU1j03AavRXpy3VoUt/QVUR8R3t8eghycVUK2V2rvqsDemDBqtJcd4SBwOrwncx3aeRyZB9QUA==}
+  '@prozilla-os/wordle@1.2.2':
+    resolution: {integrity: sha512-jbUs5TTGesDoctrBQmno0nkZsu9h2KW2clrqJci7BRr8ADWkbZMll/vgAxck+ciR7OCkJtx0p5bd5dz6AXg4gQ==}
     peerDependencies:
       react: ^18.3.1
 
@@ -3591,6 +3591,10 @@ packages:
 
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
+    engines: {node: '>= 0.4'}
+
+  hasown@2.0.3:
+    resolution: {integrity: sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg==}
     engines: {node: '>= 0.4'}
 
   hast-util-parse-selector@2.2.5:
@@ -6371,13 +6375,13 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@prozilla-os/wordle@1.2.1(react@18.3.1)':
+  '@prozilla-os/wordle@1.2.2(react@18.3.1)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.7.2
       '@fortawesome/free-solid-svg-icons': 6.7.2
       '@fortawesome/react-fontawesome': 0.2.6(@fortawesome/fontawesome-svg-core@6.7.2)(react@18.3.1)
-      '@prozilla-os/core': 1.3.14(react@18.3.1)
-      '@prozilla-os/shared': 1.2.1
+      '@prozilla-os/core': link:packages/core
+      '@prozilla-os/shared': link:packages/shared
       react: 18.3.1
 
   '@remix-run/router@1.23.2': {}
@@ -8080,7 +8084,7 @@ snapshots:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       es-set-tostringtag: 2.1.0
-      hasown: 2.0.2
+      hasown: 2.0.3
       mime-types: 2.1.35
     optional: true
 
@@ -8247,6 +8251,11 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
+
+  hasown@2.0.3:
+    dependencies:
+      function-bind: 1.1.2
+    optional: true
 
   hast-util-parse-selector@2.2.5: {}
 

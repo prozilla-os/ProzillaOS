@@ -30,7 +30,7 @@
 		"@prozilla-os/logic-sim": "workspace:*",
 		"@prozilla-os/minesweeper": "^1.0.8",
 		"@prozilla-os/skins": "workspace:*",
-		"@prozilla-os/wordle": "^1.2.1",
+		"@prozilla-os/wordle": "^1.2.2",
 		"@taygotfound/melodix": "latest",
 		"prozilla-os": "workspace:*",
 		"react": "^18.3.1",
