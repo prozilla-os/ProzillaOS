@@ -24,18 +24,18 @@
 	"dependencies": {
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/shared": "workspace:*",
-		"@vitejs/plugin-react-swc": "^3.7.0",
+		"@vitejs/plugin-react-swc": "^3.11.0",
 		"magic-string": "^0.30.21",
-		"vite": "^7.3.1",
-		"vite-plugin-css-injected-by-js": "^3.5.1",
+		"vite": "^7.3.2",
+		"vite-plugin-css-injected-by-js": "^3.5.2",
 		"vite-plugin-dts": "^4.5.4",
-		"vitest": "^4.0.18"
+		"vitest": "^4.1.5"
 	},
 	"devDependencies": {
-		"@types/node": "^20.14.5",
-		"@types/react": "^18.3.27",
-		"rollup": "^4.57.1",
-		"typescript": "^5.5.4"
+		"@types/node": "^20.19.39",
+		"@types/react": "^18.3.28",
+		"rollup": "^4.60.3",
+		"typescript": "^5.9.3"
 	},
 	"files": [
 		"dist"

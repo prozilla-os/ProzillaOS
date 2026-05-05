@@ -23,19 +23,19 @@
 		"prozilla-os": "workspace:*",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
-		"react-svg": "^16.1.34"
+		"react-svg": "^16.4.2"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.5.0",
-		"@types/react": "^18.3.27",
-		"@types/react-dom": "^18.2.22",
-		"@vitejs/plugin-react-swc": "^3.7.0",
-		"eslint": "^9.39.2",
-		"eslint-plugin-react": "^7.34.2",
-		"eslint-plugin-react-refresh": "^0.4.6",
-		"typescript": "^5.2.2",
-		"typescript-eslint": "^8.54.0",
-		"vite": "^7.3.1",
-		"vite-plugin-svgr": "^4.2.0"
+		"@eslint/js": "^9.39.4",
+		"@types/react": "^18.3.28",
+		"@types/react-dom": "^18.3.7",
+		"@vitejs/plugin-react-swc": "^3.11.0",
+		"eslint": "^9.39.4",
+		"eslint-plugin-react": "^7.37.5",
+		"eslint-plugin-react-refresh": "^0.4.26",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.59.2",
+		"vite": "^7.3.2",
+		"vite-plugin-svgr": "^4.5.0"
 	}
 }

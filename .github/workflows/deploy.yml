@@ -57,8 +57,8 @@ jobs:
       - name: Build latest site
         run: |
           cd latest
-          echo "node-linker=hoisted" > .npmrc
-          pnpm install
+          echo "shamefully-hoist=true" > .npmrc
+          pnpm install --no-frozen-lockfile
           pnpm run build
         env:
           RELEASE_PATH: ${{ github.workspace }}/stable
