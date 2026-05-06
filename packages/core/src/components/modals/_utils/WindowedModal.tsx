@@ -55,7 +55,7 @@ export function WindowedModal({ modal, params, children, ...props }: ModalProps)
 			<div className={`${styles.Header} Window-handle`}>
 				<VectorImage
 					className={styles["Window-icon"]}
-					src={params?.iconUrl as string}
+					src={params?.iconUrl}
 				/>
 				<p className={utilStyles.TextSemibold}>{params?.title as string}</p>
 				<button aria-label="Close" className={`${styles["Header-button"]} ${styles["Exit-button"]}`} tabIndex={0}

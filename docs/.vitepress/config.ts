@@ -45,7 +45,7 @@ export default defineConfig({
 		sidebar: Object.assign(
 			{},
 			{
-				"/": NAVIGATION as DefaultTheme.SidebarItem[],
+				"/": NAVIGATION satisfies DefaultTheme.SidebarItem[],
 				...packageSidebars(PACKAGES),
 			}
 		),

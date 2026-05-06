@@ -24,7 +24,8 @@ export const evalCommand = new Command()
 			const result = runner(context);
 
 			if (result !== undefined) {
-				await stdout.write(String(result as unknown));
+				// eslint-disable-next-line @typescript-eslint/no-base-to-string
+				await stdout.write(String(result));
 			}
 
 			return EXIT_CODE.success;

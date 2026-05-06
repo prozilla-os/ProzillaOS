@@ -176,7 +176,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, opti
 			<div
 				className={useClassNames(classNames, "WindowView")}
 				ref={nodeRef}
-				onClick={focus as unknown as MouseEventHandler}
+				onClick={focus}
 			>
 				<div
 					className={styles["Window-inner"]}
@@ -190,7 +190,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, opti
 						onContextMenu={onContextMenu as unknown as MouseEventHandler}
 						onDoubleClick={(event) => {
 							setMaximized(!maximized);
-							focus(event as unknown as Event, true);
+							focus(event, true);
 						}}
 					>
 						<VectorImage
@@ -209,7 +209,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, opti
 								onClick={(event) => {
 									event.preventDefault();
 									setMaximized(!maximized);
-									focus(event as unknown as Event, true);
+									focus(event, true);
 								}}
 							>
 								<FontAwesomeIcon icon={maximized ? fasWindowMaximize : faWindowMaximize}/>
@@ -217,7 +217,7 @@ export const WindowView: FC<WindowProps> = memo(({ id, app, size, position, opti
 							: null
 						}
 						<button aria-label="Close" className={`${styles["Header-button"]} ${styles["Exit-button"]}`} tabIndex={0} id="close-window"
-							onClick={close as unknown as MouseEventHandler}>
+							onClick={close}>
 							<FontAwesomeIcon icon={faXmark}/>
 						</button>
 					</div>

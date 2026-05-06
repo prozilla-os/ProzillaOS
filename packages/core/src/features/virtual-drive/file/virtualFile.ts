@@ -114,7 +114,7 @@ export class VirtualFile extends VirtualBase<VirtualFileEvents> {
 		).catch((error) => {
 			console.error(`Error while reading file with ID: ${this.id}\n`, error);
 			return null;
-		}) as string;
+		});
 	}
 
 	isFile(): this is VirtualFile {
@@ -231,7 +231,7 @@ export class VirtualFile extends VirtualBase<VirtualFileEvents> {
 		if (!this.canBeEdited || (this.editedByUser == null || !this.editedByUser))
 			return null;
 
-		const object = super.toJSON() as VirtualFileJson | null;
+		const object: VirtualFileJson | null = super.toJSON();
 
 		if (object == null)
 			return null;

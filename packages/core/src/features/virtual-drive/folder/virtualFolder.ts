@@ -192,7 +192,7 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 			newFolder = new VirtualFolder(name);
 			this.addFolder(newFolder, false);
 		}
-		callback?.(newFolder as VirtualFolder);
+		callback?.(newFolder);
 		
 		newFolder.confirmChanges();
 		return this;
@@ -276,7 +276,7 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 	 */
 	navigate(relativePath: string, createIfMissing: boolean = false): VirtualFile | VirtualFolder | null {
 		const segments = relativePath.split("/");
-		let currentDirectory: VirtualFile | VirtualFolder | null = this as VirtualFolder;
+		let currentDirectory: VirtualFile | VirtualFolder | null = this satisfies VirtualFolder;
 
 		const getDirectory = (name: string, isFirst: boolean, isLast: boolean) => {
 			if (isFirst && name === "") {
@@ -423,7 +423,7 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 	}
 
 	toJSON(): VirtualFolderJson | null {
-		const object = super.toJSON() as VirtualFolderJson | null;
+		const object: VirtualFolderJson | null = super.toJSON();
 
 		if (object == null)
 			return null;
