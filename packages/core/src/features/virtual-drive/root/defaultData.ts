@@ -212,7 +212,7 @@ function loadSourceTree(virtualRoot: VirtualRoot) {
 				if (virtualPath.startsWith("/public/")) {
 					virtualFile.setSource(virtualPath.replace(/^\/public\//, "/"));
 				} else {
-					virtualFile.setSource(`https://raw.githubusercontent.com/Prozilla/ProzillaOS/main${virtualPath}`);
+					virtualFile.setSource(`https://raw.githubusercontent.com/prozilla-os/ProzillaOS/main${virtualPath}`);
 				}
 			};
 
