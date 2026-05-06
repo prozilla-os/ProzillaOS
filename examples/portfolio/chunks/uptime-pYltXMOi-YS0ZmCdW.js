@@ -1,1 +1,0 @@
-import{X as s,U as a}from"../index.js";const p=new s().setManual({purpose:"Display the current uptime of the system"}).setExecute(async function(n,{systemManager:t,stdout:e}){await a.printLn(e,`Uptime: ${t.getUptime(2)}`)});export{p as uptime};

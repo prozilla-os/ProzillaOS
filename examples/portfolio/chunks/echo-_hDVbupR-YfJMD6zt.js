@@ -1,0 +1,2 @@
+import{s as i}from"../index.js";const u=new i().setManual({purpose:"Display a line of text",usage:"echo [option] [string ...]",description:"Write arguments to the standard output.",options:{"-n":"Do not output the trailing newline"}}).addOption({short:"n",long:"no-newline",isInput:!1}).setExecute(async function(t,{stdout:n,options:o}){const e=t.join(" "),s=o.includes("n")?"":`
+`;await n.write(e+s)});export{u as echo};

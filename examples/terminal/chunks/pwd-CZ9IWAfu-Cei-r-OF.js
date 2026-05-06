@@ -1,0 +1,1 @@
+import{s as r,B as s}from"../index.js";const i=new r().setManual({purpose:"Display path of the current directory"}).setExecute(async function(a,{workingDirectory:t,stdout:o}){let e=t.absolutePath;t.root&&(e="/"),await s.printLn(o,e)});export{i as pwd};
