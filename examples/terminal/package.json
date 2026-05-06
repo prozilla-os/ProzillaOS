@@ -10,7 +10,7 @@
 	"type": "module",
 	"scripts": {
 		"start": "vite",
-		"build": "tsc && vite build",
+		"build": "pnpm tsc && vite build",
 		"preview": "vite preview"
 	},
 	"repository": {
@@ -23,7 +23,7 @@
 		"prozilla-os": "workspace:*",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
-		"react-svg": "^16.4.2"
+		"react-svg": "^17.2.4"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.4",

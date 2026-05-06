@@ -4,7 +4,3 @@ packages:
   - demo
   - docs
   - examples/*
-
-overrides:
-  shared: link:../../../AppData/Local/pnpm/global/5/node_modules/@prozilla-os/shared
-  skins: link:../../../AppData/Local/pnpm/global/5/node_modules/@prozilla-os/skins

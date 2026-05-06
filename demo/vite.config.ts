@@ -1,10 +1,9 @@
-import { defineConfig, UserConfig } from "vite";
+import { defineConfig, PluginOption, UserConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import checker from "vite-plugin-checker";
 import { BUILD_DIR, DOMAIN } from "./src/config/deploy.config";
 import { resolve } from "path";
 import { stageSitePlugin } from "@prozilla-os/dev-tools";
-import { appsConfig } from "./src/config/apps.config";
 import { NAME, TAG_LINE } from "./src/config/branding.config";
 import { defaultSkin } from "./src/config/skin.config";
 
@@ -59,9 +58,11 @@ function generateAliases() {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
-	const devMode = command == "serve";
+export default defineConfig(async ({ command }): Promise<UserConfig> => {
+	const devMode = command == "serve" || process.env.VITE_NODE == "true";
 	const aliases = generateAliases();
+
+	const { appsConfig } = await import("./src/config/apps.config");
 
 	return {
 		base: "/",
@@ -73,7 +74,7 @@ export default defineConfig(({ command }) => {
 					lintCommand: "eslint -c ../eslint.config.js ..",
 					useFlatConfig: true,
 				},
-			}),
+			}) as PluginOption,
 		],
 		build: {
 			outDir: BUILD_DIR,
@@ -98,6 +99,9 @@ export default defineConfig(({ command }) => {
 		resolve: {
 			alias: devMode ? aliases : {},
 		},
+		ssr: {
+			noExternal: ["@prozilla-os/wordle"],
+		},
 		server: {
 			port: 3000,
 		},
@@ -107,5 +111,5 @@ export default defineConfig(({ command }) => {
 		optimizeDeps: {
 			exclude: devMode ? Object.keys(aliases) : [],
 		},
-	} as UserConfig;
+	};
 });

@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout latest repository
+      - name: Checkout latest version
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -42,7 +42,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
           cache-dependency-path: |
             latest/pnpm-lock.yaml
@@ -54,11 +54,10 @@ jobs:
           pnpm install --frozen-lockfile
           pnpm run packages:build
 
-      - name: Build latest site
+      - name: Build latest packages
         run: |
           cd latest
-          echo "shamefully-hoist=true" > .npmrc
-          pnpm install --no-frozen-lockfile
+          pnpm install --frozen-lockfile
           pnpm run build
         env:
           RELEASE_PATH: ${{ github.workspace }}/stable

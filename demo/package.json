@@ -12,7 +12,7 @@
 	"scripts": {
 		"start": "vite",
 		"prebuild": "pnpm run fetch",
-		"build": "tsc --project tsconfig.build.json && vite build",
+		"build": "pnpm tsc --project tsconfig.build.json && vite build",
 		"preview": "vite preview --port 8080",
 		"fetch": "vite-node scripts/fetchRepository"
 	},
@@ -36,13 +36,14 @@
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"react-router-dom": "^6.30.3",
-		"react-svg": "^16.4.2",
+		"react-svg": "^17.2.4",
 		"react-tabs": "^6.1.1",
 		"vite": "^7.3.2",
 		"vite-plugin-svgr": "^4.5.0"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.4",
+		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/dev-tools": "workspace:*",
 		"@prozilla-os/shared": "workspace:*",
 		"@types/eslint": "^8.56.12",

@@ -35,7 +35,7 @@
 		"react-draggable": "^4.5.0",
 		"react-error-boundary": "^4.1.2",
 		"react-ga4": "^2.1.0",
-		"react-svg": "^16.4.2",
+		"react-svg": "^17.2.4",
 		"valtio": "^2.3.2"
 	},
 	"devDependencies": {
