@@ -32,7 +32,10 @@
 		
 		/* Type Checking */
 		"strict": true,
-		"noImplicitOverride": false // TO DO: Slowly apply to all packages, then enable globally
+		"noImplicitOverride": false, // TO DO: Slowly apply to all packages, then enable globally
+
+		/* Completeness */
+		"skipLibCheck": true,
 	},
 	"include": [
 		"packages/**/*",

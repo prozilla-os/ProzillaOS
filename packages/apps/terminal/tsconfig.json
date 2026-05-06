@@ -7,12 +7,13 @@
 		"declaration": true,
 		"emitDeclarationOnly": true,
 		"noEmit": false,
+		"rootDir": "../../",
 		"paths": {
-			"@prozilla-os/core": ["./node_modules/@prozilla-os/core/src/main"],
-			"@prozilla-os/shared": ["./node_modules/@prozilla-os/shared/src/main"],
+			"@prozilla-os/core": ["packages/core/src/main"],
+			"@prozilla-os/shared": ["packages/shared/src/main"],
 			"@prozilla-os/skins": ["./node_modules/@prozilla-os/skins/src/main"]
 		}
 	},
-	"include": ["src", "vite.config.ts"],
+	"include": ["src", "vite.config.ts", "../../core/src", "../../shared/src"],
 	"exclude": ["node_modules"]
 }
