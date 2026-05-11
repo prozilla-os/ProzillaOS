@@ -110,8 +110,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/skins
       '@prozilla-os/wordle':
-        specifier: ^1.2.3
-        version: 1.2.3(react@18.3.1)
+        specifier: ^1.2.4
+        version: 1.2.4(react@18.3.1)
       '@taygotfound/melodix':
         specifier: latest
         version: 2.0.5
@@ -1897,8 +1897,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@prozilla-os/wordle@1.2.3':
-    resolution: {integrity: sha512-bY6S6w+NsDrwnjm+2NJ5j0nSaPScemmXcjl6Bu20FFi0pR+2HZYgDpKdA8s4PhydiJnK+SVQ/4vgZdLDgNgdeg==}
+  '@prozilla-os/wordle@1.2.4':
+    resolution: {integrity: sha512-4ppsUE4mL0T4vkEpaLIEm64S7A6Z/UI9wkCWpZSTLMNQXk9byPBbLYYNL7Xexrkin4r7SRaqLlqu4qnmnmCnkw==}
     peerDependencies:
       react: ^18.3.1
 
@@ -6174,7 +6174,7 @@ snapshots:
       '@prozilla-os/core': link:packages/core
       react: 18.3.1
 
-  '@prozilla-os/wordle@1.2.3(react@18.3.1)':
+  '@prozilla-os/wordle@1.2.4(react@18.3.1)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 6.7.2
       '@fortawesome/free-solid-svg-icons': 6.7.2
