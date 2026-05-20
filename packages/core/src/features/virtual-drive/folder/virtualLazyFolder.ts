@@ -18,7 +18,7 @@ export class VirtualLazyFolder<E extends VirtualBaseEvents = VirtualBaseEvents> 
 		return Promise.resolve();
 	}
 
-	async loadContent(): Promise<void> {
+	loadContent(): Promise<void> {
 		if (this.hasPopulated) {
 			return this.content
 		}
