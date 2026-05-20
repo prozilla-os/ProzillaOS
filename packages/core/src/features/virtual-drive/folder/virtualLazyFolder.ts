@@ -4,6 +4,7 @@ import { VirtualFolder } from "./virtualFolder";
 
 export class VirtualLazyFolder<E extends VirtualBaseEvents = VirtualBaseEvents> extends VirtualFolder<E> {
 	private hasPopulated = false;
+	private content: Promise<void> = Promise.resolve()
 
 	constructor(name: string, type?: number) {
 		super(name, type);
@@ -17,24 +18,26 @@ export class VirtualLazyFolder<E extends VirtualBaseEvents = VirtualBaseEvents> 
 		return Promise.resolve();
 	}
 
-	private triggerPopulate() {
-		if (this.hasPopulated)
-			return;
+	async loadContent(): Promise<void> {
+		if (this.hasPopulated) {
+			return this.content
+		}
 
-		this.hasPopulated = true;
-		
-		this.onPopulate().then(() => {
+		this.hasPopulated = true
+		this.content = this.onPopulate().then(() => {
 			this.emit(VirtualBase.UPDATE_EVENT);
 		});
+
+		return this.content
 	}
 
 	getFiles(showHidden = false): VirtualFile[] {
-		this.triggerPopulate();
+		this.loadContent();
 		return super.getFiles(showHidden);
 	}
 
 	getSubFolders(showHidden = false): VirtualFolder[] {
-		this.triggerPopulate();
+		this.loadContent();
 		return super.getSubFolders(showHidden);
 	}
 }
