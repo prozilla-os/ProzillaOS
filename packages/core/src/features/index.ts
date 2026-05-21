@@ -4,6 +4,7 @@ export * from "./shell";
 export * from "./_utils";
 
 export * from "./apps/app";
+export * from "./apps/appLoader";
 export * from "./modals/modal";
 export * from "./modals/modalsManager";
 export * from "./settings/settings";

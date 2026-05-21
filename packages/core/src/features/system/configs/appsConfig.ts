@@ -1,6 +1,12 @@
 import { APP_CATEGORIES } from "../../../constants/apps.const";
 import { App } from "../../";
+import { loadApp, type LoadAppOptions } from "../../apps/appLoader";
 import { WindowProps } from "../../../components";
+import { EventEmitter } from "@prozilla-os/shared";
+
+export interface AppsConfigEvents {
+	appsChange: [];
+}
 
 export interface AppsConfigOptions {
 	/**
@@ -9,8 +15,44 @@ export interface AppsConfigOptions {
 	apps: App<WindowProps>[];
 }
 
-export class AppsConfig {
+export class AppsConfig extends EventEmitter<AppsConfigEvents> {
 	apps: AppsConfigOptions["apps"] = [];
+
+	static readonly APPS_CHANGE_EVENT = "appsChange";
+
+	onAppsChange(listener: () => void) {
+		this.on(AppsConfig.APPS_CHANGE_EVENT, listener);
+		return () => { this.off(AppsConfig.APPS_CHANGE_EVENT, listener); };
+	}
+
+	addApp(app: App<WindowProps>) {
+		const existingApp = this.getAppById(app.id, true);
+		if (existingApp != null)
+			throw new Error(`Duplicate app ID found: ${app.id}\nApp IDs must be unique.`);
+
+		this.apps.push(app);
+		this.emit(AppsConfig.APPS_CHANGE_EVENT);
+	}
+
+	removeApp(id: string) {
+		const index = this.apps.findIndex((app) => app.id === id);
+		if (index === -1)
+			return false;
+
+		this.apps.splice(index, 1);
+		this.emit(AppsConfig.APPS_CHANGE_EVENT);
+		return true;
+	}
+
+	async installApp(target: string, options?: LoadAppOptions) {
+		const app = await loadApp(target, options);
+
+		if (this.getAppById(app.id, true) != null)
+			throw new Error(`An app with the ID "${app.id}" is already installed.`);
+
+		this.addApp(app);
+		return app;
+	}
 
 	static APP_ROLES = {
 		fileExplorer: "file-explorer",
@@ -22,6 +64,7 @@ export class AppsConfig {
 	};
 
 	constructor(options: Partial<AppsConfigOptions> = {}) {
+		super();
 		const { apps } = options;
 
 		if (apps != null) {

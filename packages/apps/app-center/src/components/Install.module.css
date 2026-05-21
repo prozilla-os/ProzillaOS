@@ -1,0 +1,70 @@
+.InstallView {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 0.5rem 1rem;
+	height: 100%;
+	overflow: auto;
+}
+
+.Option {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	text-align: start;
+	width: 100%;
+	padding-bottom: 0.5rem;
+	background: none;
+}
+
+.Option > .Label {
+	color: var(--foreground-color-0);
+}
+
+.Input {
+	width: 100%;
+	padding: 0.5rem 1rem;
+	color: var(--text-color);
+	background-color: var(--background-color-0);
+	border: none;
+	border-radius: var(--border-radius-1);
+	outline: none;
+	font-size: 0.875em;
+	font-family: inherit;
+}
+
+.Input:disabled {
+	opacity: 0.4;
+}
+
+.Button {
+	--normal-color: var(--background-color-0) !important;
+	--hover-color: var(--background-color-1) !important;
+
+	padding: 0.5rem 1rem;
+	border-radius: var(--border-radius-1);
+}
+
+.ButtonGroup {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+	margin: 0;
+}
+
+.Status {
+	margin: 0;
+	padding: 0.5rem;
+	border-radius: var(--border-radius-1);
+}
+
+.Success {
+	background-color: color-mix(in srgb, var(--green-0) 20%, transparent);
+	color: var(--green-0);
+}
+
+.Error {
+	background-color: color-mix(in srgb, var(--red-0) 20%, transparent);
+	color: var(--red-0);
+}

@@ -4,3 +4,33 @@
 	flex-direction: column;
 	height: 100%;
 }
+
+.Tabs {
+	display: flex;
+	gap: 0;
+	margin: 1rem 1rem 0;
+	border-bottom: 1px solid var(--background-color-2);
+}
+
+.Tab {
+	padding: 0.5rem 1rem;
+	background: none;
+	border: none;
+	color: var(--foreground-color-0);
+	font-family: inherit;
+	font-size: inherit;
+	cursor: pointer;
+	opacity: 0.6;
+	border-bottom: 2px solid transparent;
+	transition: opacity var(--transition-duration-1) var(--ease-in-out-default),
+		border-color var(--transition-duration-1) var(--ease-in-out-default);
+}
+
+.Tab:hover {
+	opacity: 0.8;
+}
+
+.Tab.Active {
+	opacity: 1;
+	border-bottom-color: var(--blue-0);
+}

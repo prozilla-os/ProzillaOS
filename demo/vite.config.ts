@@ -6,6 +6,7 @@ import { resolve } from "path";
 import { stageSitePlugin } from "@prozilla-os/dev-tools";
 import { NAME, TAG_LINE } from "./src/config/branding.config";
 import { defaultSkin } from "./src/config/skin.config";
+import { importMapPlugin } from "@prozilla-os/dev-tools";
 
 /**
  * Loads packages from their local path instead of node_modules.
@@ -68,6 +69,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
 		base: "/",
 		plugins: [
 			react(),
+			importMapPlugin(),
 			checker({
 				typescript: true,
 				eslint: {
