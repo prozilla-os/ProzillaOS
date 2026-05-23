@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../../Settings.module.css";
-import { faEllipsisVertical, faThumbTack } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical, faThumbTack, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { MouseEventHandler } from "react";
-import { Actions, App, ClickAction, ImagePreview, useContextMenu, useWindowsManager } from "@prozilla-os/core";
+import { Actions, App, ClickAction, ImagePreview, useContextMenu, useSystemManager, useWindowsManager } from "@prozilla-os/core";
 import { removeFromArray } from "@prozilla-os/shared";
 
 interface AppOptionProps {
@@ -15,6 +15,7 @@ export function AppOption({ app, pins, setPins }: AppOptionProps) {
 	const isPinned = pins.includes(app.id);
 
 	const windowsManager = useWindowsManager();
+	const { appsConfig } = useSystemManager();
 
 	const { onContextMenu } = useContextMenu({ Actions: (props) =>
 		<Actions {...props}>
@@ -28,6 +29,10 @@ export function AppOption({ app, pins, setPins }: AppOptionProps) {
 				}
 
 				setPins(newPins);
+			}}/>
+			<ClickAction label="Uninstall" icon={faTrash} onTrigger={() => {
+				windowsManager?.closeAppWindows(app.id);
+				appsConfig.uninstallApp(app.id);
 			}}/>
 		</Actions>,
 	});

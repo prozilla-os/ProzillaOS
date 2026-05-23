@@ -17,7 +17,7 @@ import { useWindows } from "../../hooks/windows/windowsContext";
 import { ZIndexManager } from "../../features/z-index/zIndexManager";
 import { useZIndex } from "../../hooks/z-index/zIndex";
 import { Battery, Calendar, Network, Volume } from "./indicators";
-import { useClassNames, useSystemManager } from "../../hooks";
+import { useClassNames, useInstalledApps, useSystemManager } from "../../hooks";
 import { App, AppsConfig, Settings } from "../../features";
 
 /**
@@ -40,6 +40,7 @@ export const Taskbar = memo(() => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const windowsManager = useWindowsManager();
 	const windows = useWindows();
+	const installedApps = useInstalledApps({ sort: false });
 	const [apps, setApps] = useState<App[]>([]);
 	const zIndex = useZIndex({ groupIndex: ZIndexManager.GROUPS.TASKBAR, index: 0 });
 
@@ -60,7 +61,7 @@ export const Taskbar = memo(() => {
 		void settings?.get("pins", (pinList: string) => {
 			const pins = pinList.split(",");
 
-			const newApps = appsConfig.apps.sort((appA, appB) => {
+			const newApps = [...installedApps].sort((appA, appB) => {
 				const indexA = pins.indexOf(appA.id);
 				const indexB = pins.indexOf(appB.id);
 				if (indexA < 0 && indexB > 0) {
@@ -78,7 +79,7 @@ export const Taskbar = memo(() => {
 			});
 			setApps(newApps);
 		});
-	}, [settingsManager]);
+	}, [installedApps, settingsManager]);
 
 	const updateShowHome = (show: boolean) => {
 		setShowHome(show);

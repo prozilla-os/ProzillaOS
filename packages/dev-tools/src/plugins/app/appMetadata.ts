@@ -8,13 +8,19 @@ interface PackageJson {
     name: string;
     version: string;
     author?: string | { name: string };
+    homepage?: string;
 }
 
-interface AppMetadataPluginOptions {
+export interface AppMetadataPluginOptions {
+	/** Path to the app's entry file, relative to the project root. */
     entryPath: string;
+	/** Name of the app class. Defaults to `"App"`. */
     appClass?: string;
 }
 
+/**
+ * Vite plugin that automatically adds metadata to ProzillaOS apps.
+ */
 export function appMetadataPlugin({ entryPath, appClass = "App" }: AppMetadataPluginOptions): Plugin {
 	return {
 		name: "vite-plugin-app-metadata",
@@ -34,7 +40,7 @@ export function appMetadataPlugin({ entryPath, appClass = "App" }: AppMetadataPl
 			}
 			if (packageJson === null) return null;
 
-			const { name, version } = packageJson;
+			const { name, version, homepage } = packageJson;
 			let { author = "Unknown" } = packageJson;
 			if (typeof author === "string") {
 				author = author.replace(/<[^>]*>|\([^)]*\)/g, "").trim();
@@ -53,7 +59,11 @@ export function appMetadataPlugin({ entryPath, appClass = "App" }: AppMetadataPl
 			const appInstanceName = match[1];
 
 			// Inject code to set metadata of app
-			const injectCode = `\n${appInstanceName}.setMetadata({ name: "${name}", version: "${version}", author: "${author}" });\n`;
+			const metadataFields = [`name: "${name}"`, `version: "${version}"`, `author: "${author}"`];
+			if (homepage) {
+				metadataFields.push(`website: "${homepage}"`);
+			}
+			const injectCode = `\n${appInstanceName}.setMetadata({ ${metadataFields.join(", ")} });\n`;
 
 			const insertPosition = match.index + match[0].length;
 			const magicString = new MagicString(code);

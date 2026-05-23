@@ -2,23 +2,27 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-	base: "/examples/terminal/",
-	plugins: [react()],
-	build: {
-		rollupOptions: {
-			external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
-			output: {
-				assetFileNames: "assets/[name][extname]",
-				chunkFileNames: "chunks/[name]-[hash].js",
-				entryFileNames: "[name].js",
+export default defineConfig(({ command }) => {
+	const devMode = command == "serve" || process.env.VITE_NODE == "true";
+
+	return {
+		base: devMode ? "/" : "/examples/terminal/",
+		plugins: [react()],
+		build: {
+			rollupOptions: {
+				external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
+				output: {
+					assetFileNames: "assets/[name][extname]",
+					chunkFileNames: "chunks/[name]-[hash].js",
+					entryFileNames: "[name].js",
+				},
 			},
 		},
-	},
-	server: {
-		port: 3000,
-	},
-	preview: {
-		port: 8080,
-	},
+		server: {
+			port: 3000,
+		},
+		preview: {
+			port: 8080,
+		},
+	};
 });

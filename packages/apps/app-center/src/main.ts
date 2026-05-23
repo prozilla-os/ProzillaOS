@@ -7,3 +7,4 @@ const appCenter = new App("AppCenter", "app-center", AppCenter)
 	.setCategory("Utilities & tools");
 
 export { appCenter };
+export * from "./core";

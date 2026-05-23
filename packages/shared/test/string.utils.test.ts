@@ -1,6 +1,6 @@
 import { test as base } from "vitest";
 import { extend } from "@prozilla-os/dev-tools";
-import { parseBool } from "../src/features";
+import { kebabToCamelCase, parseBool } from "../src/features";
 
 const test = extend(base);
 
@@ -18,4 +18,9 @@ test.simpleCases(parseBool, [
 	["fAlSe", false],
 	["   false   ", false],
 	["This is not a bool.", false],
+]);
+
+test.simpleCases(kebabToCamelCase, [
+	["kebab-case", "camelCase"],
+	["short", "short"],
 ]);

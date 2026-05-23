@@ -6,7 +6,7 @@ import { faCircleInfo, faFileLines, faGear, faImage, faPowerOff } from "@fortawe
 import { ReactSVG } from "react-svg";
 import { useEffect, useState } from "react";
 import { AppsConfig, closeViewport } from "../../../features";
-import { useWindowsManager, useVirtualRoot, useKeyboardListener, useSystemManager, useClassNames } from "../../../hooks";
+import { useClassNames, useInstalledApps, useKeyboardListener, useSystemManager, useVirtualRoot, useWindowsManager } from "../../../hooks";
 import { utilStyles } from "../../../styles";
 import { VectorImage } from "../../_utils/vector-image/VectorImage";
 import { Vector2 } from "@prozilla-os/shared";
@@ -57,6 +57,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 
 	useKeyboardListener({ onKeyDown, onKeyUp });
 
+	const apps = useInstalledApps();
 	const fileExplorerApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.fileExplorer);
 	const settingsApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.settings);
 	const textEditorApp = appsConfig.getAppByRole(AppsConfig.APP_ROLES.textEditor);
@@ -115,7 +116,7 @@ export function HomeMenu({ active, setActive, search }: HomeMenuProps) {
 					<h1 className={utilStyles.TextBold}>{systemName}</h1>
 				</span>
 				<div className={useClassNames([appStyles.AppList], "HomeMenu", "AppList")}>
-					{appsConfig.apps.sort((a, b) => a.name.localeCompare(b.name)).map(({ name, id, iconUrl }) => 
+					{apps.map(({ name, id, iconUrl }) => 
 						<button
 							key={id}
 							className={appButtonClassName}

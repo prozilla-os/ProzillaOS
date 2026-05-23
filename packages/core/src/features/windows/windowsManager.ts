@@ -171,6 +171,16 @@ export class WindowsManager {
 	}
 
 	/**
+	 * Close all windows of a specific app.
+	 */
+	closeAppWindows(appId: string) {
+		Object.keys(this.windows).forEach((windowId) => {
+			if (this.windows[windowId].app?.id === appId)
+				this.close(windowId);
+		});
+	}
+
+	/**
 	 * Focus on a specific window.
 	 */
 	focus(windowId: string) {

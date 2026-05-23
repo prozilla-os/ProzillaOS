@@ -6,9 +6,18 @@ import { Vector2 } from "@prozilla-os/shared";
 const validIdRegex = /^[a-zA-Z0-9-]+$/;
 
 export interface AppMetadata {
-	name: string;
-	version: `${number}.${number}.${number}`;
-	author: string;
+	/** The display name of this application. */
+	name?: string;
+	/** The version of this application. */
+	version?: string;
+	/** The author of this application. */
+	author?: string;
+	/** Screenshots of this application. */
+	screenshots?: string[];
+	/** Website of this application or its developer. */
+	website?: string;
+	/** Release date of this application. */
+	releaseDate?: string;
 }
 
 export interface DefaultWindowOptions {

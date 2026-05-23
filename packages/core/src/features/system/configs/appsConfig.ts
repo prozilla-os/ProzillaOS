@@ -20,40 +20,6 @@ export class AppsConfig extends EventEmitter<AppsConfigEvents> {
 
 	static readonly APPS_CHANGE_EVENT = "appsChange";
 
-	onAppsChange(listener: () => void) {
-		this.on(AppsConfig.APPS_CHANGE_EVENT, listener);
-		return () => { this.off(AppsConfig.APPS_CHANGE_EVENT, listener); };
-	}
-
-	addApp(app: App<WindowProps>) {
-		const existingApp = this.getAppById(app.id, true);
-		if (existingApp != null)
-			throw new Error(`Duplicate app ID found: ${app.id}\nApp IDs must be unique.`);
-
-		this.apps.push(app);
-		this.emit(AppsConfig.APPS_CHANGE_EVENT);
-	}
-
-	removeApp(id: string) {
-		const index = this.apps.findIndex((app) => app.id === id);
-		if (index === -1)
-			return false;
-
-		this.apps.splice(index, 1);
-		this.emit(AppsConfig.APPS_CHANGE_EVENT);
-		return true;
-	}
-
-	async installApp(target: string, options?: LoadAppOptions) {
-		const app = await loadApp(target, options);
-
-		if (this.getAppById(app.id, true) != null)
-			throw new Error(`An app with the ID "${app.id}" is already installed.`);
-
-		this.addApp(app);
-		return app;
-	}
-
 	static APP_ROLES = {
 		fileExplorer: "file-explorer",
 		terminal: "terminal",
@@ -80,8 +46,71 @@ export class AppsConfig extends EventEmitter<AppsConfigEvents> {
 		}
 	}
 
+	/**
+	 * Returns a list of all installed apps.
+	 */
 	get installedApps() {
 		return this.apps.filter((app) => app.isInstalled);
+	}
+
+	onAppsChange(listener: () => void) {
+		this.on(AppsConfig.APPS_CHANGE_EVENT, listener);
+		return () => { this.off(AppsConfig.APPS_CHANGE_EVENT, listener); };
+	}
+
+	addApp(app: App<WindowProps>) {
+		const existingApp = this.getAppById(app.id, true);
+		if (existingApp != null)
+			throw new Error(`Duplicate app ID found: ${app.id}\nApp IDs must be unique.`);
+
+		this.apps.push(app);
+		this.emit(AppsConfig.APPS_CHANGE_EVENT);
+	}
+
+	removeApp(id: string) {
+		const index = this.apps.findIndex((app) => app.id === id);
+		if (index === -1)
+			return false;
+
+		this.apps.splice(index, 1);
+		this.emit(AppsConfig.APPS_CHANGE_EVENT);
+		return true;
+	}
+
+	/**
+	 * Load an app from a URL or npm package and register it in the system.
+	 * If an app with the same ID is already registered but uninstalled,
+	 * it will be re-enabled instead of loaded again.
+	 * @param target - The npm package name or URL to load the app from.
+	 * @returns The loaded (or re-enabled) app.
+	 */
+	async installApp(target: string, options?: LoadAppOptions) {
+		const app = await loadApp(target, options);
+
+		const existingApp = this.getAppById(app.id, true);
+		if (existingApp != null) {
+			if (!existingApp.isInstalled) {
+				existingApp.setInstalled(true);
+				this.emit(AppsConfig.APPS_CHANGE_EVENT);
+
+				return existingApp;
+			}
+
+			throw new Error(`An app with the ID "${app.id}" is already installed.`);
+		}
+
+		this.addApp(app);
+		return app;
+	}
+
+	uninstallApp(id: string) {
+		const app = this.getAppById(id);
+		if (app == null)
+			return false;
+
+		app.setInstalled(false);
+		this.emit(AppsConfig.APPS_CHANGE_EVENT);
+		return true;
 	}
 
 	/**

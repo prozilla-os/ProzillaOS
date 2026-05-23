@@ -1,12 +1,10 @@
 import { defineConfig, PluginOption, UserConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
 import checker from "vite-plugin-checker";
 import { BUILD_DIR, DOMAIN } from "./src/config/deploy.config";
 import { resolve } from "path";
-import { stageSitePlugin } from "@prozilla-os/dev-tools";
+import { sitePlugin } from "@prozilla-os/dev-tools";
 import { NAME, TAG_LINE } from "./src/config/branding.config";
 import { defaultSkin } from "./src/config/skin.config";
-import { importMapPlugin } from "@prozilla-os/dev-tools";
 
 /**
  * Loads packages from their local path instead of node_modules.
@@ -68,8 +66,13 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
 	return {
 		base: "/",
 		plugins: [
-			react(),
-			importMapPlugin(),
+			sitePlugin({
+				appsConfig,
+				favicon: defaultSkin.systemIcon,
+				siteName: NAME,
+				siteTagLine: TAG_LINE,
+				domain: DOMAIN,
+			}),
 			checker({
 				typescript: true,
 				eslint: {
@@ -82,15 +85,6 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
 			outDir: BUILD_DIR,
 			rollupOptions: {
 				external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
-				plugins: [
-					stageSitePlugin({
-						appsConfig,
-						favicon: defaultSkin.systemIcon,
-						siteName: NAME,
-						siteTagLine: TAG_LINE,
-						domain: DOMAIN,
-					}),
-				],
 				output: {
 					assetFileNames: "assets/[name][extname]",
 					chunkFileNames: "chunks/[name]-[hash].js",

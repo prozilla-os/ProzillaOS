@@ -97,9 +97,6 @@ importers:
       '@prozilla-os/ball-maze':
         specifier: ^1.0.9
         version: 1.0.9(react@18.3.1)
-      '@prozilla-os/bliss-radio':
-        specifier: latest
-        version: 1.0.6
       '@prozilla-os/logic-sim':
         specifier: workspace:*
         version: link:../packages/apps/logic-sim
@@ -112,9 +109,6 @@ importers:
       '@prozilla-os/wordle':
         specifier: ^1.2.4
         version: 1.2.4(react@18.3.1)
-      '@taygotfound/melodix':
-        specifier: latest
-        version: 2.0.5
       prozilla-os:
         specifier: workspace:*
         version: link:../packages/prozilla-os
@@ -355,6 +349,9 @@ importers:
       '@eslint/js':
         specifier: ^9.39.4
         version: 9.39.4
+      '@prozilla-os/dev-tools':
+        specifier: workspace:^
+        version: link:../../packages/dev-tools
       '@types/react':
         specifier: ^18.3.28
         version: 18.3.28
@@ -397,6 +394,9 @@ importers:
       react:
         specifier: ^18.3.1
         version: 18.3.1
+      valtio:
+        specifier: ^2.3.2
+        version: 2.3.2(@types/react@18.3.28)(react@18.3.1)
     devDependencies:
       '@prozilla-os/dev-tools':
         specifier: workspace:*
@@ -1727,10 +1727,6 @@ packages:
     resolution: {integrity: sha512-IpR0bER9FY25p+e7BmFH25MZKEwFHTfRAfhOyJubgiDnoJNsSvJ7nigLraHtp4VOG/cy8D7uiV0dLkHOne5Fhw==}
     engines: {node: '>=6'}
 
-  '@fortawesome/fontawesome-free@6.7.2':
-    resolution: {integrity: sha512-JUOtgFW6k9u4Y+xeIaEiLr3+cjoUPiAuLXoyKOJSia6Duzb7pq+A76P9ZdPDoAoxHdHzq6gE9/jKBGXlZT8FbA==}
-    engines: {node: '>=6'}
-
   '@fortawesome/fontawesome-svg-core@6.7.2':
     resolution: {integrity: sha512-yxtOBWDrdi5DD5o1pmVdq3WMCvnobT0LU6R8RyyVXPvFRd2o79/0NCuQoCjNTeZz9EzA9xS3JxNWfv54RIHFEA==}
     engines: {node: '>=6'}
@@ -1888,9 +1884,6 @@ packages:
     resolution: {integrity: sha512-5CMQ1CdisTIkZp7VZE+xTCuRBrDxfjUDqynPYnT2UidtTLi4tTCHzSWhvRuTywTB/+SjglZhx43jIyG+tEFQ5w==}
     peerDependencies:
       react: ^18.3.1
-
-  '@prozilla-os/bliss-radio@1.0.6':
-    resolution: {integrity: sha512-kAbMW6I8bvmQ+iYNzzchcO6mY9QgnMeXPYHI5gobvDY+nn3xqKSVUsHytMAthH0t4OgcH30ygZ/Lu3rdNuUGtg==}
 
   '@prozilla-os/minesweeper@1.0.9':
     resolution: {integrity: sha512-iM90xLuda7ZJtqqT+vVcL3v3sV6GuliSjEJwwsXts0oyDq7RYf1Qds+2ZvGi37E8kqLMJLKdNtdxqxJ9EJLmuA==}
@@ -2390,9 +2383,6 @@ packages:
 
   '@tanem/svg-injector@11.3.2':
     resolution: {integrity: sha512-ueEvDtrnWHK9FpPWcAC5J4hNcibHjfJCwURhSdt72xOa2fWgndNR9ro7nzb6SwAeB0dioMvxsv7/kKdm4znytw==}
-
-  '@taygotfound/melodix@2.0.5':
-    resolution: {integrity: sha512-/1iMAEUEnuLIkTR3kLI35JOQbbORu87594ggkXlbC9bySVPS0JGTwQ0vzQXxl7OiuXEsNEVVU0/IAOi40CyW3Q==}
 
   '@tybys/wasm-util@0.10.2':
     resolution: {integrity: sha512-RoBvJ2X0wuKlWFIjrwffGw1IqZHKQqzIchKaadZZfnNpsAYp2mM0h36JtPCjNDAHGgYez/15uMBpfGwchhiMgg==}
@@ -5968,8 +5958,6 @@ snapshots:
 
   '@fortawesome/fontawesome-common-types@7.2.0': {}
 
-  '@fortawesome/fontawesome-free@6.7.2': {}
-
   '@fortawesome/fontawesome-svg-core@6.7.2':
     dependencies:
       '@fortawesome/fontawesome-common-types': 6.7.2
@@ -6159,15 +6147,6 @@ snapshots:
     dependencies:
       '@prozilla-os/core': link:packages/core
       react: 18.3.1
-
-  '@prozilla-os/bliss-radio@1.0.6':
-    dependencies:
-      '@fortawesome/fontawesome-svg-core': 6.7.2
-      '@fortawesome/free-solid-svg-icons': 6.7.2
-      '@fortawesome/react-fontawesome': 0.2.6(@fortawesome/fontawesome-svg-core@6.7.2)(react@18.3.1)
-      '@prozilla-os/core': link:packages/core
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
 
   '@prozilla-os/minesweeper@1.0.9(react@18.3.1)':
     dependencies:
@@ -6557,19 +6536,6 @@ snapshots:
       '@babel/runtime': 7.29.2
       content-type: 1.0.5
       tslib: 2.8.1
-
-  '@taygotfound/melodix@2.0.5':
-    dependencies:
-      '@fortawesome/fontawesome-free': 6.7.2
-      '@fortawesome/fontawesome-svg-core': 6.7.2
-      '@fortawesome/free-solid-svg-icons': 6.7.2
-      '@fortawesome/react-fontawesome': 0.2.6(@fortawesome/fontawesome-svg-core@6.7.2)(react@18.3.1)
-      '@prozilla-os/core': link:packages/core
-      axios: 1.16.0
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-    transitivePeerDependencies:
-      - debug
 
   '@tybys/wasm-util@0.10.2':
     dependencies:
@@ -7106,7 +7072,8 @@ snapshots:
 
   async@3.2.6: {}
 
-  asynckit@0.4.0: {}
+  asynckit@0.4.0:
+    optional: true
 
   available-typed-arrays@1.0.7:
     dependencies:
@@ -7119,6 +7086,7 @@ snapshots:
       proxy-from-env: 2.1.0
     transitivePeerDependencies:
       - debug
+    optional: true
 
   balanced-match@1.0.2: {}
 
@@ -7242,6 +7210,7 @@ snapshots:
   combined-stream@1.0.8:
     dependencies:
       delayed-stream: 1.0.0
+    optional: true
 
   comma-separated-tokens@1.0.8: {}
 
@@ -7348,7 +7317,8 @@ snapshots:
       has-property-descriptors: 1.0.2
       object-keys: 1.1.1
 
-  delayed-stream@1.0.0: {}
+  delayed-stream@1.0.0:
+    optional: true
 
   dequal@2.0.3: {}
 
@@ -7795,7 +7765,8 @@ snapshots:
     dependencies:
       tabbable: 6.4.0
 
-  follow-redirects@1.16.0: {}
+  follow-redirects@1.16.0:
+    optional: true
 
   for-each@0.3.5:
     dependencies:
@@ -7813,6 +7784,7 @@ snapshots:
       es-set-tostringtag: 2.1.0
       hasown: 2.0.3
       mime-types: 2.1.35
+    optional: true
 
   format@0.2.2: {}
 
@@ -8441,11 +8413,13 @@ snapshots:
       braces: 3.0.3
       picomatch: 2.3.2
 
-  mime-db@1.52.0: {}
+  mime-db@1.52.0:
+    optional: true
 
   mime-types@2.1.35:
     dependencies:
       mime-db: 1.52.0
+    optional: true
 
   minimatch@10.2.3:
     dependencies:
@@ -8724,7 +8698,8 @@ snapshots:
 
   proxy-compare@3.0.1: {}
 
-  proxy-from-env@2.1.0: {}
+  proxy-from-env@2.1.0:
+    optional: true
 
   punycode.js@2.3.1: {}
 

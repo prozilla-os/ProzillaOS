@@ -1,0 +1,87 @@
+.FeaturedHero {
+	display: flex;
+	gap: 1.5rem;
+	align-items: center;
+	padding: 1.5rem;
+	margin: 1rem 1rem 0;
+	background: linear-gradient(135deg, var(--blue-0), var(--purple-0));
+	border-radius: var(--border-radius-1);
+	overflow: hidden;
+	position: relative;
+	flex-shrink: 0;
+	aspect-ratio: 3 / 1;
+	width: calc(100% - 2rem);
+}
+
+.FeaturedHero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(ellipse at bottom right, rgba(255, 255, 255, 0.15), transparent 70%);
+	pointer-events: none;
+}
+
+.HeroIcon {
+	flex-shrink: 0;
+	width: 5rem;
+	height: 5rem;
+	padding: 0.5rem;
+	border-radius: var(--border-radius-1);
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.15);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.HeroIcon img, .HeroIcon div, .HeroIcon svg {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.HeroContent {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	z-index: 1;
+}
+
+.HeroLabel {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	opacity: 0.75;
+	margin: 0;
+}
+
+.HeroName {
+	font-size: 1.5rem;
+	font-weight: 600;
+	margin: 0;
+}
+
+.HeroDescription {
+	font-size: 0.875rem;
+	opacity: 0.85;
+	margin: 0;
+	overflow: hidden;
+}
+
+.HeroButton {
+	flex-shrink: 0;
+	z-index: 1;
+}
+
+.HeroButton button {
+	--normal-color: rgba(255, 255, 255, 0.2) !important;
+	--hover-color: rgba(255, 255, 255, 0.35) !important;
+	color: #fff !important;
+	padding: 0.5rem 1.5rem;
+	border-radius: var(--border-radius-99);
+	font-size: 0.875rem;
+	font-weight: 600;
+	backdrop-filter: blur(4px);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}

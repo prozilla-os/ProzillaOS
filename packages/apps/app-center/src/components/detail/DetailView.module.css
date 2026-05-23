@@ -1,0 +1,199 @@
+.DetailView {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: auto;
+}
+
+.BackButton {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1rem;
+	background: none;
+	border: none;
+	color: var(--foreground-color-0);
+	font-family: inherit;
+	font-size: 0.875rem;
+	cursor: pointer;
+	opacity: 0.75;
+	transition: opacity var(--transition-duration-0) var(--ease-in-out-default);
+	text-align: left;
+}
+
+.BackButton:hover {
+	opacity: 1;
+}
+
+.HeroSection {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+	padding: 2rem 2rem 1.5rem;
+	background: linear-gradient(180deg, var(--background-color-0), var(--background-color-1));
+	border-bottom: 1px solid var(--background-color-2);
+	text-align: center;
+}
+
+.HeroIcon {
+	width: 7.5rem;
+	height: 7.5rem;
+	padding: 0.75rem;
+	border-radius: var(--border-radius-1);
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--background-color-2);
+}
+
+.HeroIcon div, .HeroIcon svg, .HeroIcon img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.HeroName {
+	margin: 0;
+	font-size: 1.75rem;
+	font-weight: 700;
+}
+
+.HeroMeta {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.MetaItem {
+	margin: 0;
+	font-size: 0.75rem;
+	color: var(--foreground-color-1);
+}
+
+.MetaItem strong {
+	font-weight: 600;
+	color: var(--foreground-color-0);
+}
+
+.ActionButton {
+	margin-top: 0.5rem;
+}
+
+.ActionButton button {
+	padding: 0.75rem 2.5rem;
+	border-radius: var(--border-radius-99);
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.InstallButton {
+	--normal-color: var(--blue-0);
+	--hover-color: var(--blue-1);
+	color: var(--foreground-color-0);
+}
+
+.UninstallButton {
+	--normal-color: var(--background-color-2);
+	--hover-color: var(--red-0);
+	color: var(--foreground-color-0);
+}
+
+.UninstallButton:hover {
+	color: var(--foreground-color-0);
+}
+
+.ContentSection {
+	flex: 1;
+	padding: 1.5rem 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.Section {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.SectionTitle {
+	margin: 0;
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+
+.SectionText {
+	margin: 0;
+	font-size: 0.9rem;
+	color: var(--foreground-color-1);
+	line-height: 1.6;
+}
+
+.DetailsGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: 1.5rem 1rem;
+  	margin: 1rem 0;
+}
+
+.DetailItem {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.DetailLabel {
+	margin: 0;
+	font-size: 0.75rem;
+	color: var(--foreground-color-2);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.DetailValue {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 500;
+}
+
+.Screenshots {
+	display: flex;
+	gap: 1rem;
+	overflow-x: auto;
+	padding-bottom: 0.5rem;
+}
+
+.Screenshot {
+	flex-shrink: 0;
+	height: 15rem;
+	border-radius: var(--border-radius-1);
+	overflow: hidden;
+	background: var(--background-color-2);
+}
+
+.Screenshot img, .Screenshot div, .Screenshot svg {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.ScreenshotPlaceholder {
+	width: 240px;
+	height: 135px;
+	border-radius: var(--border-radius-1);
+	background: var(--background-color-2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px dashed var(--background-color-0);
+}
+
+.ScreenshotPlaceholder p {
+	margin: 0;
+	font-size: 0.75rem;
+	color: var(--foreground-color-2);
+}

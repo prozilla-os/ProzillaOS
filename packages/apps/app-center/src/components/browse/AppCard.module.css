@@ -1,0 +1,99 @@
+.AppCard {
+	display: flex;
+	gap: 1.5rem;
+	align-items: center;
+	padding: 1rem;
+	background-color: var(--background-color-1);
+	border-radius: var(--border-radius-1);
+	cursor: pointer;
+	transition: background-color var(--transition-duration-1) var(--ease-in-out-default),
+		transform var(--transition-duration-1) var(--ease-in-out-default),
+		box-shadow var(--transition-duration-1) var(--ease-in-out-default);
+	overflow: hidden;
+}
+
+.AppCard:hover {
+	background-color: var(--background-color-0);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.AppIcon {
+	flex-shrink: 0;
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: var(--border-radius-1);
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.AppIcon div, .AppIcon svg, .AppIcon img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.AppInfo {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.25rem;
+	min-width: 0;
+}
+
+.AppName {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 600;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.AppDescription {
+	margin: 0;
+	font-size: 0.75rem;
+	color: var(--foreground-color-1);
+	text-align: start;
+	overflow: hidden;
+}
+
+.AppCategory {
+	margin: 0;
+	font-size: 0.75rem;
+	color: var(--blue-1);
+}
+
+.AppActions {
+	flex-shrink: 0;
+}
+
+.InstallButton {
+	padding: 0.25rem 1rem;
+	border-radius: var(--border-radius-99);
+	font-size: 0.75rem;
+	font-weight: 600;
+	border: none;
+	cursor: pointer;
+	transition: background-color var(--transition-duration-0) var(--ease-in-out-default);
+}
+
+.InstallButton.Installed {
+	background-color: var(--background-color-2);
+	color: var(--foreground-color-0);
+}
+
+.InstallButton.Installed:hover {
+	background-color: var(--red-0);
+}
+
+.InstallButton.NotInstalled {
+	background-color: var(--blue-0);
+}
+
+.InstallButton.NotInstalled:hover {
+	background-color: var(--blue-1);
+}

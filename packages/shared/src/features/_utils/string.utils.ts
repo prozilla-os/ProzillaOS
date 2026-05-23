@@ -7,6 +7,13 @@ export function parseBool(input: string) {
 }
 
 /**
+ * Converts a kebab-case string to camelCase.
+ */
+export function kebabToCamelCase(value: string): string {
+	return value.replace(/-([a-z])/g, (_substring, letter: string) => letter.toUpperCase());
+}
+
+/**
  * Returns the longest common prefix from a list of strings.
  */
 export function getLongestCommonPrefix(strings: string[]) {

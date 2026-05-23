@@ -1,5 +1,6 @@
 export * from "./_utils";
 export * from "./apps/appFolder";
+export * from "./apps/installedApps";
 export * from "./modals";
 export * from "./settings/settingsManagerContext";
 export * from "./settings/settings";

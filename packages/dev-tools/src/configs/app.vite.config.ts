@@ -10,6 +10,9 @@ const logger = new Logger();
 
 /**
  * Creates a Vite configuration for ProzillaOS apps.
+ *
+ * @deprecated Use {@link appPlugin} instead.
+ *
  * @param basePath - The path of the base directory.
  * @param entryPath - The path of the library entry.
  * @returns The Vite configuration.
@@ -47,7 +50,7 @@ export const appViteConfig = (basePath: string, entryPath: string, appClass?: st
 				formats: ["es"],
 			},
 			rollupOptions: {
-				external: ["react", "react/jsx-runtime", "@prozilla-os/core", "@prozilla-os/shared", "@prozilla-os/skins", /@fortawesome\/*/g],
+				external: ["react", "react/jsx-runtime", "@prozilla-os/core", "@prozilla-os/shared", "@prozilla-os/skins", /@fortawesome\/*/g, "tslib"],
 				output: {
 					assetFileNames: "assets/[name][extname]",
 					chunkFileNames: "chunks/[name]-[hash].js",

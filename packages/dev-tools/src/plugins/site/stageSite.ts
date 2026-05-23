@@ -241,6 +241,9 @@ function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, f
 	}
 }
 
+/**
+ * Vite plugin that prepares the build of a website that uses ProzillaOS.
+ */
 export function stageSitePlugin(options: StageOptions): Plugin {
 	return {
 		name: "vite-plugin-stage-site",

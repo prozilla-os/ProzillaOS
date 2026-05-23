@@ -1,9 +1,13 @@
-import { useSystemManager, type LoadAppOptions, Button, utilStyles } from "@prozilla-os/core";
-import styles from "./Install.module.css";
+import { type LoadAppOptions, Button, utilStyles } from "@prozilla-os/core";
+import { AppRegistry } from "../../core/appRegistry";
+import styles from "./InstallView.module.css";
 import { useState, type FormEvent } from "react";
 
-export function InstallView() {
-	const { appsConfig } = useSystemManager();
+export interface InstallViewProps {
+	registry: AppRegistry;
+}
+
+export function InstallView({ registry }: InstallViewProps) {
 	const [input, setInput] = useState("");
 	const [exportName, setExportName] = useState("");
 	const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
@@ -21,9 +25,9 @@ export function InstallView() {
 			if (exportName.trim())
 				options.exportName = exportName.trim();
 
-			const app = await appsConfig.installApp(input.trim(), options);
+			const entry = await registry.installApp(input.trim(), options);
 
-			setStatus({ type: "success", message: `Installed "${app.name}" (${app.id})` });
+			setStatus({ type: "success", message: `Installed "${entry.name}" (${entry.id})` });
 			setInput("");
 			setExportName("");
 		} catch (error) {

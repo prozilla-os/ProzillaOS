@@ -1,15 +1,13 @@
 import styles from "../../Settings.module.css";
-import { SettingsManager, useListSetting, useSystemManager } from "@prozilla-os/core";
+import { Settings, useInstalledApps, useListSetting } from "@prozilla-os/core";
 import { AppOption } from "./AppOption";
 
 export function InstalledAppsSettings() {
-	const { appsConfig } = useSystemManager();
-	const [pins, setPins] = useListSetting(SettingsManager.VIRTUAL_PATHS.taskbar, "pins");
+	const [pins, setPins] = useListSetting(Settings.TASKBAR, "pins");
+	const apps = useInstalledApps();
 
 	return <div className={`${styles.Option} ${styles.OptionList}`}>
-		{appsConfig.apps.sort((a, b) =>
-			a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-		).map((app) => 
+		{apps.map((app) => 
 			<AppOption key={app.id} app={app} pins={pins} setPins={setPins}/>
 		)}
 	</div>;

@@ -1,22 +1,30 @@
-import { useSystemManager, APP_CATEGORIES } from "@prozilla-os/core";
+import { useSystemManager, APP_CATEGORIES, useSingleton, useWindowsManager, WindowProps } from "@prozilla-os/core";
 import styles from "./AppCenter.module.css";
-import { BrowseView } from "./BrowseView";
-import { InstallView } from "./InstallView";
-import { useState, useEffect } from "react";
+import { BrowseView } from "./browse/BrowseView";
+import { InstallView } from "./install/InstallView";
+import { AppRegistry } from "../core/appRegistry";
+import { useSnapshot } from "valtio";
+import { useState } from "react";
 
 export type CategoryType = typeof APP_CATEGORIES[number] | "All";
-type Tab = "browse" | "install";
+export type AppCenterTab = "browse" | "install";
 
-export function AppCenter() {
+export interface AppCenterProps extends WindowProps {
+	tab?: AppCenterTab;
+}
+
+export function AppCenter({ tab: initialTab = "browse" }: AppCenterProps) {
 	const { appsConfig } = useSystemManager();
+	const windowsManager = useWindowsManager();
+	const [tab, setTab] = useState<AppCenterTab>(initialTab);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [category, setCategory] = useState<CategoryType>("All");
-	const [tab, setTab] = useState<Tab>("browse");
-	const [apps, setApps] = useState([...appsConfig.apps]);
-
-	useEffect(() => {
-		return appsConfig.onAppsChange(() => setApps([...appsConfig.apps]));
-	}, [appsConfig]);
+	const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
+	const registry = useSingleton(() => new AppRegistry(appsConfig));
+	const state = useSnapshot(registry.state);
+	const selectedEntry = selectedEntryId != null
+		? state.entries.find(({ id }) => id === selectedEntryId) ?? null
+		: null;
 
 	return <div className={styles.AppCenter}>
 		<div className={styles.Tabs}>
@@ -39,9 +47,16 @@ export function AppCenter() {
 				setSearchQuery={setSearchQuery}
 				category={category}
 				setCategory={setCategory}
-				apps={apps}
+				entries={state.entries}
+				selectedEntry={selectedEntry}
+				onSelectEntry={(entry) => setSelectedEntryId(entry?.id ?? null)}
+				onInstall={(entry) => void registry.installApp(entry.id)}
+				onUninstall={(entry) => {
+					windowsManager?.closeAppWindows(entry.id);
+					registry.uninstallApp(entry.id);
+				}}
 			/>
-			: <InstallView/>
+			: <InstallView registry={registry}/>
 		}
 	</div>;
 }

@@ -1,0 +1,38 @@
+.BrowseView {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow-y: auto;
+}
+
+.AppGrid {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 1rem;
+	flex: 1;
+}
+
+.GridTitle {
+	margin: 0 0 0.25rem;
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--foreground-color-1);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.EmptyState {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 3rem 1rem;
+	text-align: center;
+}
+
+.EmptyState p {
+	margin: 0;
+	color: var(--foreground-color-2);
+}
