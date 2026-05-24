@@ -11,7 +11,6 @@ export interface SharedPackage {
 	chunkName?: string;
 	/** When `true`, a CJS-to-ESM shim is generated for the package's chunk. */
 	isCommonJS?: boolean;
-
 }
 
 export const DEFAULT_SHARED_PACKAGES: SharedPackage[] = [

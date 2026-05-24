@@ -18,9 +18,11 @@ test.simpleCases(parseBool, [
 	["fAlSe", false],
 	["   false   ", false],
 	["This is not a bool.", false],
+	["", false],
 ]);
 
 test.simpleCases(kebabToCamelCase, [
-	["kebab-case", "camelCase"],
+	["foo-bar", "fooBar"],
 	["short", "short"],
+	["", ""],
 ]);

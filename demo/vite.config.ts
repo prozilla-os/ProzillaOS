@@ -50,10 +50,10 @@ function generateAliases() {
 		localPackages.push({ name, path });
 	});
 
-	return localPackages.reduce((aliases, localPackage) => {
+	return localPackages.reduce<Record<string, string>>((aliases, localPackage) => {
 		aliases[localPackage.name] = localPackage.path;
 		return aliases;
-	}, {} as Record<string, string>);
+	}, {});
 }
 
 // https://vitejs.dev/config/
