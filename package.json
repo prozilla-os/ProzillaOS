@@ -57,8 +57,8 @@
 		"@changesets/cli": "^2.31.0",
 		"@eslint/js": "^9.39.4",
 		"@prozilla-os/core": "workspace:*",
-		"@prozilla-os/shared": "workspace:*",
 		"@prozilla-os/dev-tools": "workspace:*",
+		"@prozilla-os/shared": "workspace:*",
 		"@types/eslint": "^8.56.12",
 		"@types/gh-pages": "^6.1.0",
 		"@types/node": "^20.19.39",
@@ -86,14 +86,5 @@
 			"last 1 safari version"
 		]
 	},
-	"packageManager": "pnpm@10.33.0",
-	"pnpm": {
-		"overrides": {
-			"prozilla-os": "workspace:*",
-			"@prozilla-os/core": "workspace:*",
-			"@prozilla-os/shared": "workspace:*",
-			"@prozilla-os/skins": "workspace:*",
-			"@prozilla-os/dev-tools": "workspace:*"
-		}
-	}
+	"packageManager": "pnpm@11.3.0"
 }

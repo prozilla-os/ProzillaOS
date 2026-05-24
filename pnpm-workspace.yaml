@@ -4,3 +4,12 @@ packages:
   - demo
   - docs
   - examples/*
+allowBuilds:
+  "@swc/core": true
+  "esbuild": true
+overrides:
+  "prozilla-os": "workspace:*"
+  "@prozilla-os/core": "workspace:*"
+  "@prozilla-os/shared": "workspace:*"
+  "@prozilla-os/skins": "workspace:*"
+  "@prozilla-os/dev-tools": "workspace:*"
