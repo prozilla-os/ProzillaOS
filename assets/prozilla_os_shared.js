@@ -1,4 +1,4 @@
-const o = {
+const a = {
   /**
    * Foreground colors.
    */
@@ -233,14 +233,14 @@ function R(e, t) {
 function O(e) {
   return typeof e == "number" ? !0 : e.trim() === "" ? !1 : Number.isInteger(Number(e));
 }
-function M(e) {
+function C(e) {
   return typeof e == "number" ? !0 : e.trim() === "" ? !1 : !isNaN(Number(e));
 }
 function A(e, t = 0) {
   return e !== void 0 && O(e) ? Number(e) : t;
 }
 function L(e, t = 0) {
-  return e !== void 0 && M(e) ? parseFloat(e) : t;
+  return e !== void 0 && C(e) ? parseFloat(e) : t;
 }
 function _(e) {
   return e.trim().toLowerCase() === "true";
@@ -261,136 +261,136 @@ class s {
    * Makes text black using {@link ANSI.fg.black}.
    */
   static black(t) {
-    return s.#t(t, o.fg.black);
+    return s.#t(t, a.fg.black);
   }
   /**
    * Makes text red using {@link ANSI.fg.red}.
    */
   static red(t) {
-    return s.#t(t, o.fg.red);
+    return s.#t(t, a.fg.red);
   }
   /**
    * Makes text green using {@link ANSI.fg.green}.
    */
   static green(t) {
-    return s.#t(t, o.fg.green);
+    return s.#t(t, a.fg.green);
   }
   /**
    * Makes text yellow using {@link ANSI.fg.yellow}.
    */
   static yellow(t) {
-    return s.#t(t, o.fg.yellow);
+    return s.#t(t, a.fg.yellow);
   }
   /**
    * Makes text blue using {@link ANSI.fg.blue}.
    */
   static blue(t) {
-    return s.#t(t, o.fg.blue);
+    return s.#t(t, a.fg.blue);
   }
   /**
    * Makes text magenta using {@link ANSI.fg.magenta}.
    */
   static magenta(t) {
-    return s.#t(t, o.fg.magenta);
+    return s.#t(t, a.fg.magenta);
   }
   /**
    * Makes text cyan using {@link ANSI.fg.cyan}.
    */
   static cyan(t) {
-    return s.#t(t, o.fg.cyan);
+    return s.#t(t, a.fg.cyan);
   }
   /**
    * Makes text white using {@link ANSI.fg.white}.
    */
   static white(t) {
-    return s.#t(t, o.fg.white);
+    return s.#t(t, a.fg.white);
   }
   /**
    * Sets background to black using {@link ANSI.bg.black}.
    */
   static blackBackground(t) {
-    return s.#t(t, o.bg.black);
+    return s.#t(t, a.bg.black);
   }
   /**
    * Sets background to red using {@link ANSI.bg.red}.
    */
   static redBackground(t) {
-    return s.#t(t, o.bg.red);
+    return s.#t(t, a.bg.red);
   }
   /**
    * Sets background to green using {@link ANSI.bg.green}.
    */
   static greenBackground(t) {
-    return s.#t(t, o.bg.green);
+    return s.#t(t, a.bg.green);
   }
   /**
    * Sets background to yellow using {@link ANSI.bg.yellow}.
    */
   static yellowBackground(t) {
-    return s.#t(t, o.bg.yellow);
+    return s.#t(t, a.bg.yellow);
   }
   /**
    * Sets background to blue using {@link ANSI.bg.blue}.
    */
   static blueBackground(t) {
-    return s.#t(t, o.bg.blue);
+    return s.#t(t, a.bg.blue);
   }
   /**
    * Sets background to magenta using {@link ANSI.bg.magenta}.
    */
   static magentaBackground(t) {
-    return s.#t(t, o.bg.magenta);
+    return s.#t(t, a.bg.magenta);
   }
   /**
    * Sets background to cyan using {@link ANSI.bg.cyan}.
    */
   static cyanBackground(t) {
-    return s.#t(t, o.bg.cyan);
+    return s.#t(t, a.bg.cyan);
   }
   /**
    * Sets background to white using {@link ANSI.bg.white}.
    */
   static whiteBackground(t) {
-    return s.#t(t, o.bg.white);
+    return s.#t(t, a.bg.white);
   }
   /**
    * Makes text bold using {@link ANSI.decoration.bold}.
    */
   static bold(t) {
-    return s.#t(t, o.decoration.bold);
+    return s.#t(t, a.decoration.bold);
   }
   /**
    * Makes text dim using {@link ANSI.decoration.dim}.
    */
   static dim(t) {
-    return s.#t(t, o.decoration.dim);
+    return s.#t(t, a.decoration.dim);
   }
   /**
    * Makes text italic using {@link ANSI.decoration.italic}.
    */
   static italic(t) {
-    return s.#t(t, o.decoration.italic);
+    return s.#t(t, a.decoration.italic);
   }
   /**
    * Underlines text using {@link ANSI.decoration.underline}.
    */
   static underline(t) {
-    return s.#t(t, o.decoration.underline);
+    return s.#t(t, a.decoration.underline);
   }
   /**
    * Inverts foreground and background colors using {@link ANSI.decoration.invert}.
    */
   static invert(t) {
-    return s.#t(t, o.decoration.invert);
+    return s.#t(t, a.decoration.invert);
   }
   /**
    * Makes text strike through using {@link ANSI.decoration.strike}.
    */
   static strike(t) {
-    return s.#t(t, o.decoration.strike);
+    return s.#t(t, a.decoration.strike);
   }
   static #t(t, r) {
-    return t = t.replaceAll(o.reset, o.reset + r), r + t + o.reset;
+    return t = t.replaceAll(a.reset, a.reset + r), r + t + a.reset;
   }
   /**
    * Removes all ANSI escape sequences.
@@ -405,7 +405,7 @@ class s {
     return t.replace(/\u001b\[[0-9;]*m/g, "");
   }
 }
-var N = /* @__PURE__ */ ((e) => (e[e.Debug = 0] = "Debug", e[e.Info = 1] = "Info", e[e.Success = 2] = "Success", e[e.Warning = 3] = "Warning", e[e.Error = 4] = "Error", e))(N || {});
+var M = /* @__PURE__ */ ((e) => (e[e.Debug = 0] = "Debug", e[e.Info = 1] = "Info", e[e.Success = 2] = "Success", e[e.Warning = 3] = "Warning", e[e.Error = 4] = "Error", e))(M || {});
 class et {
   /**
    * The minimum log level or an array of log levels to enable.
@@ -448,6 +448,18 @@ class et {
   prefix = {};
   #t = 0;
   #r = 0;
+  get errorCount() {
+    return this.#t;
+  }
+  set errorCount(t) {
+    this.#t = t;
+  }
+  get warningCount() {
+    return this.#r;
+  }
+  set warningCount(t) {
+    this.#r = t;
+  }
   constructor(t) {
     this.reset(), t !== void 0 && (Array.isArray(t) || typeof t == "number" ? this.level = t : (t.level !== void 0 && (this.level = t.level), t.prefix && (typeof t.prefix == "string" ? this.prefix.global = t.prefix : this.prefix = {
       ...this.prefix,
@@ -705,19 +717,19 @@ class et {
     return n ? `${n} ${t}` : t;
   }
 }
-function D(e) {
+function N(e) {
   return `# ${e}`;
 }
-function T(e) {
+function D(e) {
   return `## ${e}`;
 }
-function z(e) {
+function T(e) {
   return `### ${e}`;
 }
-function F(e) {
+function z(e) {
   return `#### ${e}`;
 }
-function C(e) {
+function F(e) {
   return `##### ${e}`;
 }
 function P(e) {
@@ -752,11 +764,11 @@ const nt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   bold: I,
   code: q,
   codeBlock: U,
-  heading1: D,
-  heading2: T,
-  heading3: z,
-  heading4: F,
-  heading5: C,
+  heading1: N,
+  heading2: D,
+  heading3: T,
+  heading4: z,
+  heading5: F,
   heading6: P,
   horizontalRule: X,
   italic: j,
@@ -943,32 +955,32 @@ var v;
     }
   }
   e.Failure = r;
-  function n(a) {
-    return new t(a);
+  function n(o) {
+    return new t(o);
   }
   e.ok = n;
-  function u(a) {
-    return new r(a);
+  function u(o) {
+    return new r(o);
   }
   e.error = u;
-  function h(a, i) {
+  function h(o, i) {
     try {
-      return n(a());
+      return n(o());
     } catch (c) {
       return u(i ? i(c) : c);
     }
   }
   e.wrap = h;
-  function p(a, i) {
-    return a != null ? n(a) : u(i);
+  function p(o, i) {
+    return o != null ? n(o) : u(i);
   }
   e.nonNullOr = p;
-  function y(a, i) {
-    return a != null ? n(a) : i();
+  function y(o, i) {
+    return o != null ? n(o) : i();
   }
   e.nonNullOrElse = y;
-  function l(a, i, c) {
-    let f = a;
+  function l(o, i, c) {
+    let f = o;
     for (; i(f); ) {
       const x = c(f);
       if (x.isError())
@@ -978,9 +990,9 @@ var v;
     return n(f);
   }
   e.repeat = l;
-  function g(a, i, c) {
+  function g(o, i, c) {
     let f = c;
-    for (const x of a) {
+    for (const x of o) {
       const B = i(f, x);
       if (B.isError())
         return B;
@@ -989,9 +1001,9 @@ var v;
     return n(f);
   }
   e.reduce = g;
-  function m(a) {
+  function m(o) {
     const i = [];
-    for (const c of a) {
+    for (const c of o) {
       if (c.isError())
         return u(c.error);
       i.push(c.value);
@@ -999,8 +1011,8 @@ var v;
     return n(i);
   }
   e.all = m;
-  function b(a, i, c) {
-    for (const f of a) {
+  function b(o, i, c) {
+    for (const f of o) {
       const x = i(f);
       if (x.isOk())
         return x;
@@ -1008,17 +1020,17 @@ var v;
     return c;
   }
   e.any = b;
-  function $(a, i, c, f) {
-    return i(a) ? n(c(a)) : u(f(a));
+  function $(o, i, c, f) {
+    return i(o) ? n(c(o)) : u(f(o));
   }
   e.require = $;
 })(v || (v = {}));
 export {
-  o as ANSI,
+  a as ANSI,
   s as Ansi,
   k as BaseResult,
   K as EventEmitter,
-  N as LogLevel,
+  M as LogLevel,
   et as Logger,
   nt as Markdown,
   v as Result,
@@ -1028,7 +1040,7 @@ export {
   S as formatTime,
   rt as getLongestCommonPrefix,
   O as isValidInteger,
-  M as isValidNumber,
+  C as isValidNumber,
   tt as kebabToCamelCase,
   _ as parseBool,
   L as parseOptionalFloat,
