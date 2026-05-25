@@ -1,5 +1,24 @@
 # @prozilla-os/core
 
+## 2.1.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/shared@1.4.0
+
+## 2.1.1
+
+### Patch Changes
+
+- Implemented dynamic app loading
+
+## 2.1.0
+
+### Minor Changes
+
+- Implemented shell script execution + redirections + raw mode
+
 ## 2.0.2
 
 ### Patch Changes

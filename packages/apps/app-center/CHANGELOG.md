@@ -1,5 +1,31 @@
 # @prozilla-os/app-center
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/shared@1.4.0
+  - @prozilla-os/core@2.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- Implemented dynamic app loading
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@2.1.1
+
+## 1.0.16
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@2.1.0
+
 ## 1.0.15
 
 ### Patch Changes

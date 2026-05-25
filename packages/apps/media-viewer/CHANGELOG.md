@@ -1,5 +1,27 @@
 # @prozilla-os/media-viewer
 
+## 1.1.25
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/shared@1.4.0
+  - @prozilla-os/core@2.1.2
+
+## 1.1.24
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@2.1.1
+
+## 1.1.23
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@2.1.0
+
 ## 1.1.22
 
 ### Patch Changes

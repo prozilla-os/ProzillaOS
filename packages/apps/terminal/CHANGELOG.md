@@ -1,5 +1,33 @@
 # @prozilla-os/terminal
 
+## 2.0.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/shared@1.4.0
+  - @prozilla-os/core@2.1.2
+
+## 2.0.4
+
+### Patch Changes
+
+- Fixed monospace font display
+
+## 2.0.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@2.1.1
+
+## 2.0.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/core@2.1.0
+
 ## 2.0.1
 
 ### Patch Changes

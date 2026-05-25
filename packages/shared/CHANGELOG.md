@@ -1,5 +1,11 @@
 # @prozilla-os/shared
 
+## 1.4.0
+
+### Minor Changes
+
+- Added Result type
+
 ## 1.3.0
 
 ### Minor Changes

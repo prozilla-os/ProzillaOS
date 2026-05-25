@@ -142,10 +142,6 @@ export interface ShellContext extends ProcessIO {
  * A Unix-like shell emulator that handles command parsing, environment management, 
  * autocompletion, and process I/O.
  */
-/**
- * A Unix-like shell emulator that handles command parsing, environment management, 
- * autocompletion, and process I/O.
- */
 export class Shell {
 	/** The reactive state of this shell. */
 	state: ShellState;
