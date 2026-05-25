@@ -20,6 +20,7 @@ function publishSite() {
 		repo: REPO_URL,
 		message: COMMIT_MESSAGE,
 		dotfiles: true,
+		nojekyll: true,
 	}, (error) => {
 		if (error == null)
 			return;

@@ -47,10 +47,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: pnpm
-          cache-dependency-path: |
-            latest/pnpm-lock.yaml
-            stable/pnpm-lock.yaml
 
       - name: Build stable packages
         run: |

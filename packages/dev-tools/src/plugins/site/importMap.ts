@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from "fs";
+import { mkdirSync, readFileSync, writeFileSync, readdirSync } from "fs";
 import { basename, dirname, resolve } from "path";
 import { createRequire } from "node:module";
 import type { ExternalOption, ManualChunkMeta, OutputOptions } from "rollup";
@@ -384,19 +384,34 @@ export function importMapPlugin(options: ImportMapPluginOptions = {}): PluginOpt
 				}
 			}
 
-			const htmlPath = resolve(options.dir, "index.html");
-			let html: string;
+			const htmlFiles: string[] = [];
 			try {
-				html = readFileSync(htmlPath, "utf-8");
+				const files = readdirSync(options.dir);
+				for (const file of files) {
+					if (file.endsWith(".html")) {
+						htmlFiles.push(resolve(options.dir, file));
+					}
+				}
 			} catch {
 				return;
 			}
 
-			for (const [specifier, url] of Object.entries(imports)) {
-				html = html.split(toPlaceholder(specifier)).join(url);
-			}
+			if (htmlFiles.length === 0) return;
 
-			writeFileSync(htmlPath, html);
+			for (const htmlPath of htmlFiles) {
+				let html: string;
+				try {
+					html = readFileSync(htmlPath, "utf-8");
+				} catch {
+					continue;
+				}
+
+				for (const [specifier, url] of Object.entries(imports)) {
+					html = html.split(toPlaceholder(specifier)).join(url);
+				}
+
+				writeFileSync(htmlPath, html);
+			}
 		},
 	};
 }

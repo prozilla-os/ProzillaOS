@@ -1,6 +1,7 @@
 import type { AppsConfig } from "@prozilla-os/core";
 import { Logger } from "@prozilla-os/shared";
-import type { OutputBundle, PluginContext, Plugin } from "rollup";
+import type { PluginContext } from "rollup";
+import type { Plugin } from "vite";
 
 export interface StageOptions {
 	appsConfig: AppsConfig;
@@ -180,7 +181,7 @@ function generateAppPages(context: PluginContext, template: string, options: Sta
 	}
 }
 
-function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, favicon, siteName, siteTagLine, domain, imageUrls = [] }: StageOptions) {
+function stageSite(context: PluginContext, htmlTemplate: string | null, { appsConfig, favicon, siteName, siteTagLine, domain, imageUrls = [] }: StageOptions) {
 	try {
 		logger.pending("Staging build...");
 
@@ -218,20 +219,17 @@ function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, f
 			});
 		});
 
-		if ("index.html" in bundle) {
-			const html = bundle["index.html"];
-			if (html.type == "asset") {
-				const template = generateTemplate(html.source as string, extendedOptions);
+		if (htmlTemplate != null) {
+			const template = generateTemplate(htmlTemplate, extendedOptions);
 
-				context.emitFile({
-					type: "asset",
-					fileName: "index.html",
-					source: template, 
-				});
-	
-				generate404Page(context, template);
-				generateAppPages(context, template, extendedOptions);
-			}
+			context.emitFile({
+				type: "asset",
+				fileName: "index.html",
+				source: template, 
+			});
+
+			generate404Page(context, template);
+			generateAppPages(context, template, extendedOptions);
 		}
 	
 		logger.success("Staging complete");
@@ -245,10 +243,18 @@ function stageSite(context: PluginContext, bundle: OutputBundle, { appsConfig, f
  * Vite plugin that prepares the build of a website that uses ProzillaOS.
  */
 export function stageSitePlugin(options: StageOptions): Plugin {
+	let htmlTemplate: string | null = null;
+
 	return {
 		name: "vite-plugin-stage-site",
-		generateBundle(_outputOptions, bundle) {
-			stageSite(this, bundle, options);
+
+		transformIndexHtml(html) {
+			htmlTemplate = html;
+			return;
+		},
+
+		generateBundle() {
+			stageSite(this, htmlTemplate, options);
 		},
 	};
 }
