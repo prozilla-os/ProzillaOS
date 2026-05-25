@@ -61,6 +61,9 @@ importers:
       eslint-plugin-react-refresh:
         specifier: ^0.4.26
         version: 0.4.26(eslint@9.39.4)
+      gh-pages:
+        specifier: ^6.3.0
+        version: 6.3.0
       rimraf:
         specifier: ^5.0.10
         version: 5.0.10

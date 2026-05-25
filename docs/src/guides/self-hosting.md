@@ -82,11 +82,13 @@ pnpm run packages:release # Releases the latest version of each package along wi
 
 ## Troubleshooting
 
-### Module not found
+::: details Module not found
 
 In a local environment, ProzillaOS packages will try to import uncompiled versions of other ProzillaOS packages from their respective `src` directory. If this does not happen correctly and a package tries to import a compiled version of another package from its respective `dist` directory, you might run into an error message saying `module not found`. Executing the command `pnpm run packages:build` will compile each package into their `dist` directories and resolve this error.
 
-### "Only URLs with a scheme in: file, data, and node are supported by the default ESM loader."
+:::
+
+::: details "Only URLs with a scheme in: file, data, and node are supported by the default ESM loader."
 
 This error may be caused by faulty installations of dependencies and can be fixed by running in the following commands in that case:
 
@@ -94,6 +96,8 @@ This error may be caused by faulty installations of dependencies and can be fixe
 pnpm install --fix-lockfile
 pnpm run build
 ```
+
+:::
 
 ## Support
 
