@@ -8,13 +8,13 @@ image: "https://os.prozilla.dev/docs/thumbnails/self-hosting-guide-thumbnail.png
 
 This guide explains how to host ProzillaOS locally on your own device or on your own server.
 
-## Installation
-
-<!--@include: ../../../README.md#getting-started{3,}-->
+<!--@include: ../../../README.md#development-->
 
 ## Development
 
-Once you have completed the installation process, you can use any of the following scripts to develop ProzillaOS:
+Once you have completed the installation process, refer to the [Development guide](./development) for detailed instructions and a full list of available commands.
+
+### Quick start
 
 ```bash
 # Build packages using Vite lib mode
@@ -29,20 +29,20 @@ pnpm run docs:start
 
 ## Deploying website
 
-Before deploying the website, you will need to update `demo/src/config/deploy.config.ts` with the appropriate configuration. Remember to make sure your domain settings and output/build directory, in whatever tool you choose to use, matches the configurations in `deploy.config.ts`. Otherwise, deployment might fail or your website will not be indexable by search engines. Most tools will only allow you to adjust these settings after your intitial setup (and first deployment).
+Before deploying the website, you will need to update `demo/src/config/deploy.config.ts` with the appropriate configuration. Remember to make sure your domain settings and output/build directory, in whatever tool you choose to use, matches the configurations in `deploy.config.ts`. Otherwise, deployment might fail or your website will not be indexable by search engines. Most tools will only allow you to adjust these settings after your initial setup (and first deployment).
 
 ### Deploying to GitHub Pages
 
 On your GitHub repository, go to **Settings > Pages**. Adjust your settings, if necessary, to match your configuration in `deploy.config.ts`. Set **Source** to **Deploy from a branch** and set the branch to **gh-pages**.
 
-Once your [installation](#installation) and configurations are complete and you have verified that the site works in a development environment, run the following commands in the given order:
+Once your setup and configurations are complete and you have verified that the site works in a development environment, run the following commands in the given order:
 
 ```bash
 pnpm run build # Builds all packages and websites
 pnpm run deploy # Stages the websites and deploys them to GitHub Pages
 ```
 
-The Vite config for the website includes a plugin that will automatically generate a sitemap, robots.txt file, cname file and other metadata to facilitate deployment and improve SEO. More information about this step can be found [here](../reference/dev-tools/Functions/stageSitePlugin#options).
+The Vite config for the website includes a plugin that will automatically generate a sitemap, robots.txt file, cname file and other metadata to facilitate deployment and improve SEO. More information about this step can be found on the [reference page](../reference/dev-tools/Functions/stageSitePlugin#options).
 
 > [!TIP]
 > To make sure each website works correctly after building them and before deploying them, you may use the `pnpm run demo:preview` and `pnpm run docs:preview` scripts.
@@ -97,4 +97,4 @@ pnpm run build
 
 ## Support
 
-Feel free to reach out in our [Discord server](https://discord.gg/JwbyQP4tdz) if you need help with ProzillaOS.
+If you have questions or need help, reach out to the community on [Discord](https://discord.gg/JwbyQP4tdz).

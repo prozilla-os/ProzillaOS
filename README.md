@@ -27,36 +27,39 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 
 <!-- #endregion about -->
 
-<!-- #region getting-started -->
+<!-- #region development -->
+
+## Prerequisites
+
+<!-- #region prerequisites -->
+
+- **Node.js** v22 or higher ([download](https://nodejs.org/))
+- **pnpm** 11 ([download](https://pnpm.io/installation))
+- **Git** ([download](https://git-scm.com/))
+
+<!-- #endregion prerequisites -->
 
 ## Getting started
 
-Make sure you have [NodeJS](https://nodejs.org/en) (version v22 or higher) installed on your device.
+<!-- #region getting-started -->
 
-1. Clone the GitHub repository.
+```bash
+# Clone the repository
+git clone https://github.com/prozilla-os/ProzillaOS.git
+cd ProzillaOS
 
-   ```sh
-   git clone https://github.com/prozilla-os/ProzillaOS.git ProzillaOS
-   cd ProzillaOS
-   ```
+# Install dependencies
+pnpm install
 
-2. Install package manager and dependencies
-
-   ```sh
-   npm install pnpm -g
-   pnpm install
-   ```
-
-3. Build packages and run project
-
-   ```sh
-   pnpm run packages:build
-   pnpm start
-   ```
-
-4. Test local dev server by visiting [localhost:3000](http://localhost:3000/)
+# Start the demo development server
+pnpm start
+```
 
 <!-- #endregion getting-started -->
+
+After starting the development server, the demo website will be available at [localhost:3000](http://localhost:3000/).
+
+<!-- #endregion development -->
 
 For more information, refer to the [self-hosting guide](https://os.prozilla.dev/docs/guides/self-hosting).
 
@@ -82,6 +85,7 @@ You can find a list of all packages related to ProzillaOS in [packages/README.md
 - [Getting started guide](https://os.prozilla.dev/docs/guides/getting-started)
 - [Custom app guide](https://os.prozilla.dev/docs/guides/custom-app)
 - [Self-hosting guide](https://os.prozilla.dev/docs/guides/self-hosting)
+- [Development guide](https://os.prozilla.dev/docs/guides/development)
 - [Contributing](CONTRIBUTING.md)
 - [ProzillaOS boilerplate][boilerplate]
 

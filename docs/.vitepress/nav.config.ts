@@ -22,6 +22,7 @@ export const NAVIGATION: (DefaultTheme.NavItemChildren & DefaultTheme.SidebarIte
 			{ text: "Getting started", link: "/getting-started" },
 			{ text: "Custom app", link: "/custom-app" },
 			{ text: "Self-hosting", link: "/self-hosting" },
+			{ text: "Development", link: "/development" },
 		],
 	},
 	{

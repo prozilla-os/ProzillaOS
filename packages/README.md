@@ -10,7 +10,7 @@ This bundle lets you quickly get started with ProzillaOS without the hassle of i
 
 ## Libraries
 
-These libraries are different modules of ProzillaOS that can be installed separately or via the bundle package `prozilla-os`.
+These libraries are different modules of ProzillaOS that can be installed separately. `@prozilla-os/core` and `@prozilla-os/shared` are also included in the `prozilla-os` bundle.
 
 - [`@prozilla-os/core`](./core/): Core functionality, React components and hooks
 - [`@prozilla-os/skins`](./skins/): Customizable skins for ProzillaOS
