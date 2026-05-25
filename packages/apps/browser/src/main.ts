@@ -1,5 +1,5 @@
 import { App, AppsConfig } from "@prozilla-os/core";
-import { Browser, BrowserProps } from "./components/Browser";
+import { Browser, type BrowserProps } from "./components/Browser";
 import { Vector2 } from "@prozilla-os/shared";
 
 const browser = new App<BrowserProps>("Browser", "browser", Browser, { size: new Vector2(700, 500) })
@@ -7,4 +7,4 @@ const browser = new App<BrowserProps>("Browser", "browser", Browser, { size: new
 	.setRole(AppsConfig.APP_ROLES.browser)
 	.setCategory("Utilities & tools");
 
-export { browser };
+export { browser, BrowserProps };

@@ -70,6 +70,22 @@ export class Logger {
 	#errorCount = 0;
 	#warningCount = 0;
 
+	get errorCount(): number {
+		return this.#errorCount;
+	}
+
+	set errorCount(value: number) {
+		this.#errorCount = value;
+	}
+
+	get warningCount(): number {
+		return this.#warningCount;
+	}
+
+	set warningCount(value: number) {
+		this.#warningCount = value;
+	}
+
 	constructor(options?: {
 		/** {@inheritDoc Logger.level}. */
 		level?: Logger["level"],

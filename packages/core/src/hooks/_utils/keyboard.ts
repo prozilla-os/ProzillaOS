@@ -27,13 +27,13 @@ export function useKeyboardListener({ onKeyDown, onKeyUp }: UseKeyboardListenerP
 	}, [onKeyDown, onKeyUp]);
 }
 
-type ShortcutHandler = (event: KeyboardEvent) => void;
+export type ShortcutHandler = (event: KeyboardEvent) => void;
 
-type FlatOptions = Record<string, ShortcutHandler>;
-type CategorizedOptions = Record<string, Record<string, ShortcutHandler>>;
+export type FlatOptions = Record<string, ShortcutHandler>;
+export type CategorizedOptions = Record<string, Record<string, ShortcutHandler>>;
 
-type FlatShortcuts = Record<string, string[]>;
-type CategorizedShortcuts = Record<string, Record<string, string[]>>;
+export type FlatShortcuts = Record<string, string[]>;
+export type CategorizedShortcuts = Record<string, Record<string, string[]>>;
 
 export type UseShortcutsParams =
     | { useCategories: true; options: CategorizedOptions; shortcuts?: CategorizedShortcuts }

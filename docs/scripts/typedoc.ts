@@ -1,4 +1,4 @@
-import { Application, TypeDocOptions } from "typedoc";
+import { Application, LogLevel, TypeDocOptions } from "typedoc";
 import type { PluginOptions } from "typedoc-plugin-markdown";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -59,6 +59,7 @@ program.name("typedoc-helper")
 	.description("Automatically generates documentation for the API of each package and adds them to the documentation site.");
 
 program.command("run", { isDefault: true })
+	.allowExcessArguments(true)
 	.option("-f --filter <filter>", "The filter to apply", "all")
 	.addOption(new Option("-s --sequential", "Generate documentation sequentially instead of concurrently").default(true))
 	.addOption(new Option("-c --concurrent", "Generate documentation concurrently (may cause issues if navigation files are missing)").implies({ sequential: false }))
@@ -130,7 +131,20 @@ async function generateDocs(path: string, dryRun: boolean) {
 		const project = await app.convert();
 
 		if (project) {
-			await app.generateOutputs(project).then(onComplete).catch(() => {
+			const originalLog = app.logger.log.bind(app.logger);
+			app.logger.log = (message: string, level: LogLevel) => {
+				if (level === LogLevel.Warn && message.includes("resolved but is not included"))
+					return;
+				originalLog(message, level);
+			};
+			app.validate(project);
+			app.logger.log = originalLog;
+
+			await app.generateOutputs(project).then(() => {
+				logger.errorCount += app.logger.errorCount;
+				logger.warningCount += app.logger.warningCount;
+				onComplete();
+			}).catch(() => {
 				logger.error(`Failed to generate docs for: ${packageName}`);
 			});
 		}
