@@ -31,7 +31,7 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 
 ## Getting started
 
-Make sure you have [NodeJS](https://nodejs.org/en) (version v18.12 or higher) installed on your device.
+Make sure you have [NodeJS](https://nodejs.org/en) (version v22 or higher) installed on your device.
 
 1. Clone the GitHub repository.
 

@@ -48,8 +48,8 @@ const COMPILER_PATHS: Record<string, string[]> = {
 PACKAGE_PATHS.forEach((path) => {
 	const name = packagePathToName(path);
 	// Point to the source files in the release directory
-	const absolutePkgPath = resolve(SOURCE_BASE, path, "src/main.ts").replaceAll("\\", "/");
-	COMPILER_PATHS[name] = [absolutePkgPath];
+	const absolutePackagePath = resolve(SOURCE_BASE, path, "src/main.ts").replaceAll("\\", "/");
+	COMPILER_PATHS[name] = [absolutePackagePath];
 	COMPILER_PATHS[`${name}/*`] = [resolve(SOURCE_BASE, path, "src/*").replaceAll("\\", "/")];
 });
 

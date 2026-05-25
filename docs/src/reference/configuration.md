@@ -37,10 +37,10 @@ Configurations for assets, stylesheets and other visual elements
 Configurations for functional elements and features
 
 - **Optional**
-- **Type:** `ConfigOptions`
+- **Type:** `object`
 
 ```ts
-interface ConfigOptions {
+{
 	apps?: AppsConfig;
 	desktop?: DesktopConfig;
 	misc?: MiscConfig;
@@ -48,6 +48,7 @@ interface ConfigOptions {
 	taskbar?: TaskbarConfig;
 	tracking?: TrackingConfig;
 	windows?: WindowsConfig;
+	virtualDrive?: VirtualDriveConfig;
 }
 ```
 
@@ -60,6 +61,7 @@ interface ConfigOptions {
 > - [TaskbarConfig](/reference/core/Classes/TaskbarConfig)
 > - [TrackingConfig](/reference/core/Classes/TrackingConfig)
 > - [WindowsConfig](/reference/core/Classes/WindowsConfig)
+> - [VirtualDriveConfig](/reference/core/Classes/VirtualDriveConfig)
 
 ## Example
 
@@ -85,7 +87,8 @@ interface ConfigOptions {
 			],
 		}),
 		desktop: new DesktopConfig({
-			defaultWallpaper: "/assets/wallpapers/abstract-mesh-gradient-orange-red-purple.png"
+			defaultIconSize: 1,
+			defaultIconDirection: 0
 		}),
 		taskbar: new TaskbarConfig({
 			height: 48

@@ -127,13 +127,13 @@ If you don't want a taskbar/desktop/modal in your project, you can leave those c
 
 ### Using apps
 
-To start using applications in your project, use the `appsConfig` class to add a list of apps to your configuration.
+To start using applications in your project, use the `AppsConfig` class to add a list of apps to your configuration.
 
 ```tsx
 <ProzillaOS
 	{/* Other props */}
 	config={{
-		apps: new appsConfig({
+		apps: new AppsConfig({
 			apps: [
 				// Applications go here
 			]
@@ -152,7 +152,7 @@ import { fileExplorer } from "prozilla-os"
 <ProzillaOS
 	{/* Other props */}
 	config={{
-		apps: new appsConfig({
+		apps: new AppsConfig({
 			apps: [
 				fileExplorer.setName("Files")
 					.setDescription("Browse and manage your virtual files on ProzillaOS.")

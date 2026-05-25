@@ -3,6 +3,10 @@ import { PACKAGES, packageSidebars } from "./packages.config";
 import { DESCRIPTION, IMAGE, LOCALE, TITLE } from "./meta.config";
 import { NAVIGATION } from "./nav.config";
 import lightbox from "vitepress-plugin-lightbox";
+import { buildSymbolRegistry } from "./plugins/symbolRegistry";
+import { symbolLinkPlugin } from "./plugins/symbolLinkPlugin";
+
+const symbolRegistry = buildSymbolRegistry();
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -131,6 +135,7 @@ export default defineConfig({
 		},
 		config: (markdown) => {
 			markdown.use(lightbox, {});
+			markdown.use(symbolLinkPlugin, { registry: symbolRegistry });
 		},
 	},
 });

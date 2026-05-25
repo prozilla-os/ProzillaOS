@@ -1,14 +1,14 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useSettingsManager } from "../settings/settingsManagerContext";
 import { Settings } from "../../features";
 import { useSkin } from "../system/systemManagerContext";
 import { Theme } from "@prozilla-os/skins";
 
 export interface ThemeProviderProps {
-	children: ReactElement;
+	children: ReactNode;
 }
 
-export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
+export function ThemeProvider({ children }: ThemeProviderProps) {
 	const skin = useSkin();
 	const [theme, setTheme] = useState<number | null>(skin.defaultTheme ?? Theme.Dark);
 	const settingsManager = useSettingsManager();

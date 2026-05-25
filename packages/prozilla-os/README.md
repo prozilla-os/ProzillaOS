@@ -38,6 +38,7 @@ pnpm add prozilla-os
 - [`@prozilla-os/media-viewer`][media-viewer] - Media viewer app
 - [`@prozilla-os/browser`][browser] - Browser app
 - [`@prozilla-os/calculator`][calculator] - Calculator app
+- [`@prozilla-os/app-center`][app-center] - App center
 
 ## Usage
 
@@ -64,126 +65,118 @@ function App() {
 
 ### Configuration
 
-```tsx
+```ts
 interface ProzillaOSProps {
+  systemName?: string;
+  tagLine?: string;
+  skin?: Skin;
+  config?: {
+    apps?: Partial<AppsConfigOptions>;
+    desktop?: Partial<DesktopConfigOptions>;
+    misc?: Partial<MiscConfigOptions>;
+    modals?: Partial<ModalsConfigOptions>;
+    taskbar?: Partial<TaskbarConfigOptions>;
+    tracking?: Partial<TrackingConfigOptions>;
+    windows?: Partial<WindowsConfigOptions>;
+    virtualDrive?: Partial<VirtualDriveConfigOptions>;
+  };
+  children?: ReactNode;
+}
+```
 
-  systemName: string,
+```ts
+interface SkinOptions {
+  systemIcon: string;
+  appIcons?: { [key: string]: string };
+  appNames?: { [key: string]: string };
+  wallpapers: string[];
+  defaultWallpaper: string;
+  fileIcons: {
+    generic: string;
+    info?: string;
+    text?: string;
+    code?: string;
+    external?: string;
+    video?: string;
+    audio?: string;
+  };
+  folderIcons: {
+    generic: string;
+    images?: string;
+    text?: string;
+    link?: string;
+    video?: string;
+    audio?: string;
+  };
+  loadStyleSheet?: () => void;
+  defaultTheme?: Theme;
+}
+```
 
-  tagLine: string,
+```ts
+interface AppsConfigOptions {
+  apps: App[];
+}
 
-  skin: new Skin({
+interface DesktopConfigOptions {
+  /** @default 1 */
+  defaultIconSize: 0 | 1 | 2;
+  /** 0: vertical, 1: horizontal @default 0 */
+  defaultIconDirection: 0 | 1;
+}
 
-    appIcons: Record<number, string> | undefined,
+interface MiscConfigOptions {
+  /** @default 250 */
+  doubleClickDelay: number;
+}
 
- appNames: Record<number, string> | undefined,
+interface ModalsConfigOptions {
+  /** Default size of a dialog box @default new Vector2(400, 200) */
+  defaultDialogSize: Vector2;
+  /** Default size of a file selector @default new Vector2(700, 400) */
+  defaultFileSelectorSize: Vector2;
+}
 
- wallpapers: string[],
+interface TaskbarConfigOptions {
+  /** Height of the taskbar in CSS pixels @default 3 * 16 */
+  height: number;
+}
 
- defaultWallpaper: string,
+interface TrackingConfigOptions {
+  /** Enable tracking @default true */
+  enabled: boolean;
+  /** Google Analytics measurement ID */
+  GAMeasurementId: string;
+}
 
- fileIcons: {
-  generic: string;
-  info: string | undefined;
-  text: string | undefined;
-  code: string | undefined;
- },
+interface WindowsConfigOptions {
+  /** @default 32 */
+  screenMargin: number;
+  /** @default "-" */
+  titleSeparator: string;
+  /** If the user's screen is smaller than these values, windows will always be maximized @default new Vector2(350, 350) */
+  minScreenSize: Vector2;
+}
 
- folderIcons: {
-  generic: string;
-  images: string | undefined;
-  text: string | undefined;
-  link: string | undefined;
- },
-
- loadStyleSheet: () => void | undefined
-
-  })
-
-  config: {
-    apps: new AppsConfig({
-
-      apps: App[]
-
-    }),
-    desktop: new DesktopConfig({
-
-      /**
-       * @default 1
-       */
-      defaultIconSize: 0 | 1 | 2,
-
-      /**
-       * 0: vertical, 1: horizontal
-       * @default 0
-       * */
-      defaultIconDirection: 0 | 1
-
-    }),
- misc: new MiscConfig({
-
-      /**
-    * @default 250
-    */
-   doubleClickDelay: number
-
- })
-    modals: new ModalsConfig({
-
-      /**
-       * Default size of a dialog box
-       * @default new Vector2(400, 200)
-       */
-      defaultDialogSize: Vector2,
-
-      /**
-       * Default size of a file selector
-       * @default new Vector2(700, 400)
-       */
-      defaultFileSelectorSize: Vector2
-
-    }),
-    taskbar: new TaskbarConfig({
-
-      /**
-       * Height of the taskbar in CSS pixels
-       * @default 3 * 16
-       */
-      height: number
-
-    }),
-    tracking: new TrackingConfig({
-
-      /**
-       * Enable tracking
-       * @default true
-      */
-      enabled: boolean,
-
-      /** Google Analytics measurement ID */
-      GAMeasurementId: string
-
-    }),
-    windows: new WindowsConfig({
-
-      /**
-       * @default 32
-       */
-      screenMargin: number,
-
-      /**
-       * @default "-"
-       */
-      titleSeparator: string,
-
-      /**
-       * If the user's screen is smaller than these values, windows will always be maximized
-       * @default new Vector2(350, 350)
-       */
-      minScreenSize: Vector2
-
-    })
-  }
-
+interface VirtualDriveConfigOptions {
+  /** Enables persistent storage of the virtual drive. */
+  saveData: false | {
+    enableCompression: boolean;
+    prefix?: string;
+    migrations?: [string, string][];
+  };
+  /** Configure the data that is loaded initially. */
+  defaultData: {
+    includePicturesFolder?: boolean;
+    includeAudioFolder?: boolean;
+    includeVideoFolder?: boolean;
+    includeDocumentsFolder?: boolean;
+    includeDesktopFolder?: boolean;
+    includeSourceTree?: boolean;
+    includeAppsFolder?: boolean;
+    includeScriptsFolder?: boolean;
+    loadData?: (virtualRoot: VirtualRoot) => void;
+  };
 }
 ```
 
@@ -211,4 +204,5 @@ interface ProzillaOSProps {
 [settings]: https://www.npmjs.com/package/@prozilla-os/settings
 [media-viewer]: https://www.npmjs.com/package/@prozilla-os/media-viewer
 [browser]: https://www.npmjs.com/package/@prozilla-os/browser
+[app-center]: https://www.npmjs.com/package/@prozilla-os/app-center
 [calculator]: https://www.npmjs.com/package/@prozilla-os/calculator

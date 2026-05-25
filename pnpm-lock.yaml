@@ -242,12 +242,18 @@ importers:
       '@prozilla-os/text-editor':
         specifier: workspace:*
         version: link:../packages/apps/text-editor
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
       '@types/node':
         specifier: ^20.19.39
         version: 20.19.39
       commander:
         specifier: ^14.0.3
         version: 14.0.3
+      medium-zoom:
+        specifier: ^1.1.0
+        version: 1.1.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
