@@ -24,7 +24,7 @@ export default defineConfig({
 			formats: ["es"],
 		},
 		rollupOptions: {
-			external: ["react", "react/jsx-runtime", /@prozilla-os/, "tslib"],
+			external: ["react", "react/jsx-runtime", /@prozilla-os/],
 			output: {
 				assetFileNames: "assets/[name][extname]",
 				chunkFileNames: "chunks/[name]-[hash].js",

@@ -70,6 +70,7 @@
 		"stylelint": "^16.26.1",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.59.2",
+		"vite": "^7.3.2",
 		"vite-node": "^6.0.0",
 		"vite-plugin-checker": "^0.7.2"
 	},

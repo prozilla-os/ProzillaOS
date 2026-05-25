@@ -35,6 +35,7 @@
 		"@prozilla-os/dev-tools": "workspace:*",
 		"@types/node": "^20.19.39",
 		"@types/react": "^18.3.28",
+		"@types/react-syntax-highlighter": "^15.5.13",
 		"@vitejs/plugin-react-swc": "^3.11.0",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.2",

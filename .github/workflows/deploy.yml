@@ -3,6 +3,10 @@ name: Deploy website
 on:
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -34,8 +38,10 @@ jobs:
           ref: ${{ steps.get_tag.outputs.tag }}
           path: stable
 
-      - name: Set up pnpm
+      - name: Set up pnpm (stable)
         uses: pnpm/action-setup@v6
+        with:
+          version: 10.33.0
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
@@ -51,6 +57,11 @@ jobs:
           cd stable
           pnpm install --frozen-lockfile
           pnpm run packages:build
+
+      - name: Set up pnpm (latest)
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11.3.0
 
       - name: Build latest packages
         run: |
