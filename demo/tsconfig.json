@@ -2,6 +2,7 @@
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": "../",
+		"types": ["vite-plugin-svgr/client"],
 		"paths": {
 			"prozilla-os": ["packages/prozilla-os/src/main"],
 			"@prozilla-os/*": ["packages/*/src/main", "packages/apps/*/src/main"],
