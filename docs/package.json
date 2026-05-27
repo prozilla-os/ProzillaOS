@@ -11,12 +11,12 @@
 	"type": "module",
 	"scripts": {
 		"start": "vitepress --port 3000",
-		"prebuild": "pnpm run api",
 		"build": "vitepress build",
 		"preview": "vitepress preview --port 8080",
 		"api": "vite-node scripts/typedoc",
-		"api:libs": "vite-node scripts/typedoc libs",
-		"api:apps": "vite-node scripts/typedoc apps"
+		"api:libs": "pnpm run api -- --filter libs",
+		"api:apps": "pnpm run api -- --filter apps",
+		"lint": "pnpm eslint ."
 	},
 	"repository": {
 		"type": "git",

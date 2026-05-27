@@ -1,6 +1,6 @@
 import MagicString from "magic-string";
-import { readFileSync } from "fs";
-import { resolve } from "path";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { RollupError } from "rollup";
 import { Plugin } from "vite";
 

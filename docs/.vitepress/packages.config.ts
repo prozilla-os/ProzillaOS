@@ -83,6 +83,12 @@ export const PACKAGES: PackageData[] = [
 		category: "Apps",
 		auto: true,
 	},
+	{
+		text: "@prozilla-os/app-center",
+		link: "apps/app-center",
+		category: "Apps",
+		auto: true,
+	},
 ];
 
 export const packageSidebars = (packages: PackageData[]): DefaultTheme.Sidebar => {

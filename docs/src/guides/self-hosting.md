@@ -17,7 +17,7 @@ Once you have completed the installation process, refer to the [Development guid
 ### Quick start
 
 ```bash
-# Build packages using Vite lib mode
+# Build all packages
 pnpm run packages:build
 
 # Start the Vite development server of the demo website
@@ -46,9 +46,6 @@ The Vite config for the website includes a plugin that will automatically genera
 
 > [!TIP]
 > To make sure each website works correctly after building them and before deploying them, you may use the `pnpm run demo:preview` and `pnpm run docs:preview` scripts.
-
-> [!NOTE]
-> The `pnpm run build` script runs the build script for each and every package in the entire project. If you only want to build the packages, demo website or documentation website, use `pnpm run packages:build`, `pnpm run demo:build` and `pnpm run docs:build` respectively. In the deployment process described above, you may substitute `pnpm run build` with any of these scripts. Make sure you have already built the packages once before building the demo or documentation website or the build will fail.
 
 ### Deploying to Vercel
 

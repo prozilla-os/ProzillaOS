@@ -36,7 +36,7 @@ jobs:
         run: pnpm run packages:build
 
       - name: Run linter
-        run: pnpm eslint .
+        run: pnpm run lint:nofix
 
       - name: Run tests
-        run: pnpm test
+        run: pnpm run test

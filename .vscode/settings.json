@@ -21,4 +21,7 @@
 	"github-actions.workflows.pinned.workflows": [
 		".github/workflows/deploy.yml"
 	],
+	"files.exclude": {
+		"**/.turbo": true
+	},
 }

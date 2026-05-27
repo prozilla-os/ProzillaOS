@@ -21,6 +21,7 @@ ProzillaOS is a monorepo managed with pnpm workspaces. See [packages/README.md](
 - [**React**](https://react.dev/) - UI
 - [**ESLint**](https://eslint.org/) - Code linting
 - [**pnpm**](https://pnpm.io/) - Package management
+- [**Turborepo**](https://turbo.build/) - Build system
 - [**VitePress**](https://vitepress.dev/) - Documentation
 - [**Vitest**](https://vitest.dev/) - Testing
 
@@ -32,7 +33,10 @@ ProzillaOS is a monorepo managed with pnpm workspaces. See [packages/README.md](
 | `pnpm packages:build` | Build only packages (not websites) |
 | `pnpm start` | Start the demo development server |
 | `pnpm lint` | Lint all files with ESLint (auto-fix) |
+| `pnpm lint:nofix` | Lint all files with ESLint (no auto-fix) |
 | `pnpm test` | Run all tests with Vitest |
+| `pnpm deploy` | Deploy the built site to GitHub Pages |
+| `pnpm deploy:dry` | Preview deployment without publishing |
 | `pnpm clean` | Remove all build artifacts |
 | `pnpm demo:start` | Start the demo development server |
 | `pnpm demo:build` | Build the demo website for production |
@@ -41,9 +45,6 @@ ProzillaOS is a monorepo managed with pnpm workspaces. See [packages/README.md](
 | `pnpm docs:api` | Generate API reference docs via TypeDoc |
 | `pnpm docs:api:libs` | Generate API docs for libraries only |
 | `pnpm docs:api:apps` | Generate API docs for apps only |
-
-> [!NOTE]
-> The `pnpm build` command runs builds sequentially across all packages and websites. If you only need to rebuild packages, use `pnpm packages:build`. The docs website requires packages to be built first (this happens automatically via `pnpm docs:build`'s prebuild step).
 
 ## Code style
 

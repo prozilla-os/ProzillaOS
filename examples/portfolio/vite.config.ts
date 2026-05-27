@@ -7,7 +7,7 @@ export default defineConfig({
 	plugins: [react()],
 	build: {
 		rollupOptions: {
-			external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
+			external: ["vite", /^node:/, /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
 			output: {
 				assetFileNames: "assets/[name][extname]",
 				chunkFileNames: "chunks/[name]-[hash].js",

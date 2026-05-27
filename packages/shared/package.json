@@ -14,7 +14,8 @@
 	"types": "dist/main.d.ts",
 	"scripts": {
 		"build": "tsc && vite build",
-		"test": "vitest"
+		"test": "vitest",
+		"lint": "pnpm eslint ."
 	},
 	"repository": {
 		"type": "git",

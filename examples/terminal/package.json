@@ -11,7 +11,8 @@
 	"scripts": {
 		"start": "vite",
 		"build": "pnpm tsc && vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"lint": "pnpm eslint ."
 	},
 	"repository": {
 		"type": "git",

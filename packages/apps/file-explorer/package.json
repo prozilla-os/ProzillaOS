@@ -13,7 +13,8 @@
 	"main": "dist/main.js",
 	"types": "dist/main.d.ts",
 	"scripts": {
-		"build": "tsc --project tsconfig.build.json && vite build"
+		"build": "tsc --project tsconfig.build.json && vite build",
+		"lint": "pnpm eslint ."
 	},
 	"repository": {
 		"type": "git",

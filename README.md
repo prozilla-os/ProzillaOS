@@ -35,7 +35,6 @@ ProzillaOS is a web-based operating system inspired by Ubuntu Linux and Windows.
 
 - **Node.js** v22 or higher ([download](https://nodejs.org/))
 - **pnpm** 11 ([download](https://pnpm.io/installation))
-- **Git** ([download](https://git-scm.com/))
 
 <!-- #endregion prerequisites -->
 

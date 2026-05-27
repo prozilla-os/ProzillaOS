@@ -1,7 +1,7 @@
 import { defineConfig, PluginOption, UserConfig } from "vite";
 import checker from "vite-plugin-checker";
 import { BUILD_DIR, DOMAIN } from "./src/config/deploy.config";
-import { resolve } from "path";
+import { resolve } from "node:path";
 import { sitePlugin } from "@prozilla-os/dev-tools";
 import { NAME, TAG_LINE } from "./src/config/branding.config";
 import { defaultSkin } from "./src/config/skin.config";
@@ -84,7 +84,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
 		build: {
 			outDir: BUILD_DIR,
 			rollupOptions: {
-				external: ["vite", "path", /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
+				external: ["vite", /^node:/, /vite-plugin-/g, /@vitejs\/plugin-/g, "rollup"],
 				output: {
 					assetFileNames: "assets/[name][extname]",
 					chunkFileNames: "chunks/[name]-[hash].js",

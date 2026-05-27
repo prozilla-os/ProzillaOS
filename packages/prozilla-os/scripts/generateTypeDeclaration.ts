@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync } from "fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
 const source = readFileSync("src/main.ts", "utf-8");
 

@@ -2,7 +2,7 @@ import { UserConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import dts from "vite-plugin-dts";
 import cssInjectedByJs from "vite-plugin-css-injected-by-js";
-import { posix, resolve, sep } from "path";
+import { posix, resolve, sep } from "node:path";
 import { appMetadataPlugin } from "../plugins";
 import { Logger } from "@prozilla-os/shared";
 

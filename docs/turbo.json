@@ -1,0 +1,29 @@
+{
+	"$schema": "https://turborepo.dev/schema.json",
+	"extends": ["//"],
+	"tasks": {
+		"build": {
+			"dependsOn": ["$TURBO_EXTENDS$", "api"],
+			"env": ["RELEASE_PATH"],
+			"inputs": ["$TURBO_DEFAULT$", "src/reference/**"]
+		},
+		"api": {
+			"dependsOn": ["^build"],
+			"outputs": ["src/reference/**"],
+			"env": ["RELEASE_PATH"],
+			"outputLogs": "new-only"
+		},
+		"api:libs": {
+			"dependsOn": ["^build"],
+			"outputs": ["src/reference/**"],
+			"env": ["RELEASE_PATH"],
+			"outputLogs": "new-only"
+		},
+		"api:apps": {
+			"dependsOn": ["^build"],
+			"outputs": ["src/reference/**"],
+			"env": ["RELEASE_PATH"],
+			"outputLogs": "new-only"
+		}
+	}
+}

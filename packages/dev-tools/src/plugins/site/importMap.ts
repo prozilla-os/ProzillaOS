@@ -1,5 +1,5 @@
-import { mkdirSync, readFileSync, writeFileSync, readdirSync } from "fs";
-import { basename, dirname, resolve } from "path";
+import { mkdirSync, readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { basename, dirname, resolve } from "node:path";
 import { createRequire } from "node:module";
 import type { ExternalOption, ManualChunkMeta, OutputOptions } from "rollup";
 import type { Connect, PluginOption, ViteDevServer } from "vite";
