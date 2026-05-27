@@ -1,4 +1,4 @@
-import { SystemManager, VirtualBase, VirtualFile, VirtualFolder, VirtualRoot } from "../../../src/features";
+import { SystemManager, VirtualBase, VirtualFile, VirtualFolder, VirtualRoot, VirtualLazyFolder } from "../../../src/features";
 
 export class MockVirtualFile extends VirtualFile {
 
@@ -31,4 +31,28 @@ export class MockVirtualRoot extends VirtualRoot {
 		this.init();
 	}
 
+}
+
+export class MockVirtualLazyFolder extends VirtualLazyFolder {
+	private resolve!: () => void;
+	readonly populated: Promise<void>;
+	private onPopulateCallback: (Folder: MockVirtualLazyFolder) => void
+
+	constructor(name: string, onPopulateCallback: (Folder: MockVirtualLazyFolder) => void = () => {}) {
+		super(name);
+		this.onPopulateCallback = onPopulateCallback
+		this.populated = new Promise((resolve) => {
+			this.resolve = resolve;
+		});
+	}
+
+	override onPopulate(): Promise<void> {
+		return this.populated.then(() =>{
+			this.onPopulateCallback(this)
+		})
+	}
+
+	completePopulation() {
+		this.resolve();
+	}
 }
