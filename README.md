@@ -51,7 +51,7 @@ cd ProzillaOS
 pnpm install
 
 # Start the demo development server
-pnpm start
+pnpm run start
 ```
 
 <!-- #endregion getting-started -->
