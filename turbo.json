@@ -24,11 +24,26 @@
 			"outputLogs": "new-only",
 			"interruptible": true
 		},
-		"preview": {
+		"//#root:stage": {
+			"outputs": ["dist/**"],
+			"outputLogs": "new-only"
+		},
+		"//#root:preview": {
+			"dependsOn": ["root:stage"],
 			"cache": false,
 			"persistent": true,
 			"outputLogs": "new-only",
 			"interruptible": true
+		},
+		"//#root:deploy": {
+			"dependsOn": ["root:stage"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"//#root:deploy:dry": {
+			"dependsOn": ["root:stage"],
+			"cache": false,
+			"outputLogs": "new-only"
 		}
 	}
 }

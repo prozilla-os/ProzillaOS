@@ -46,6 +46,8 @@ ProzillaOS is a monorepo managed with pnpm workspaces. See [packages/README.md](
 | `pnpm docs:api:libs` | Generate API docs for libraries only |
 | `pnpm docs:api:apps` | Generate API docs for apps only |
 
+Thanks to Turborepo, all tasks will automatically run in the correct order, run in parallel whenever possible and cache their builds to save time.
+
 ## Code style
 
 Most conventions are enforced by ESLint. ESLint is configured with TypeScript-aware rules. Run `pnpm lint` to check and auto-fix all files. The configuration is in `eslint.config.js` at the project root.

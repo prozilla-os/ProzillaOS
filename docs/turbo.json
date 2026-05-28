@@ -4,7 +4,6 @@
 	"tasks": {
 		"build": {
 			"dependsOn": ["$TURBO_EXTENDS$", "api"],
-			"env": ["RELEASE_PATH"],
 			"inputs": ["$TURBO_DEFAULT$", "src/reference/**"]
 		},
 		"api": {

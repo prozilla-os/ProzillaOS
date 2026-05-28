@@ -9,7 +9,6 @@
 		},
 		"build": {
 			"dependsOn": ["$TURBO_EXTENDS$", "fetch"],
-			"env": ["VITE_NODE"],
 			"inputs": ["$TURBO_DEFAULT$", "public/config/tree.json"],
 			"outputLogs": "new-only"
 		}

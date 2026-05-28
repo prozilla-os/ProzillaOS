@@ -18,13 +18,13 @@ Once you have completed the installation process, refer to the [Development guid
 
 ```bash
 # Build all packages
-pnpm run packages:build
+pnpm packages:build
 
 # Start the Vite development server of the demo website
-pnpm run demo:start
+pnpm demo:start
 
 # Start the VitePress development server of the docs website
-pnpm run docs:start
+pnpm docs:start
 ```
 
 ## Deploying website
@@ -35,17 +35,25 @@ Before deploying the website, you will need to update `demo/src/config/deploy.co
 
 On your GitHub repository, go to **Settings > Pages**. Adjust your settings, if necessary, to match your configuration in `deploy.config.ts`. Set **Source** to **Deploy from a branch** and set the branch to **gh-pages**.
 
-Once your setup and configurations are complete and you have verified that the site works in a development environment, run the following commands in the given order:
+Once your setup and configurations are complete and you have verified that the site works in a development environment, run the following command:
 
 ```bash
-pnpm run build # Builds all packages and websites
-pnpm run deploy # Stages the websites and deploys them to GitHub Pages
+pnpm deploy # Builds all packages and websites, stages them and deploys them to GitHub Pages
 ```
 
 The Vite config for the website includes a plugin that will automatically generate a sitemap, robots.txt file, cname file and other metadata to facilitate deployment and improve SEO. More information about this step can be found on the [reference page](../reference/dev-tools/Functions/stageSitePlugin#options).
 
-> [!TIP]
-> To make sure each website works correctly after building them and before deploying them, you may use the `pnpm run demo:preview` and `pnpm run docs:preview` scripts.
+::: tip
+
+To make sure each website works correctly before deploying them, you can use the preview scripts to start the preview servers:
+
+```bash
+pnpm demo:preview # Preview the demo website build
+pnpm docs:preview # Preview the docs website build
+pnpm preview # Preview the combined website build
+```
+
+:::
 
 ### Deploying to Vercel
 
@@ -53,10 +61,10 @@ Create a new Vercel project and import your GitHub repository. Then configure yo
 
 | Option | Value |
 | ---: | :--- |
-| Build command: | pnpm run build |
-| Output directory: | demo/dist |
+| Build command: | pnpm build |
+| Output directory: | dist |
 | Install command: | pnpm install |
-| Development command: | pnpm run start |
+| Development command: | pnpm start |
 
 ### Deploying to Cloudflare Pages
 
@@ -64,24 +72,24 @@ Create a new Cloudflare Pages application and import your GitHub repository. The
 
 | Option | Value |
 | ---: | :--- |
-| Build command: | pnpm run build |
-| Output directory: | demo/dist |
+| Build command: | pnpm build |
+| Output directory: | dist |
 
 ## Releasing packages
 
 To create a new release, run the following commands in the given order:
 
 ```bash
-pnpm run packages:build # Builds all packages
-pnpm run packages:update # Creates a new changelog entry
-pnpm run packages:release # Releases the latest version of each package along with their changelogs
+pnpm packages:build # Builds all packages
+pnpm packages:update # Creates a new changelog entry
+pnpm packages:release # Releases the latest version of each package along with their changelogs
 ```
 
 ## Troubleshooting
 
 ::: details Module not found
 
-In a local environment, ProzillaOS packages will try to import uncompiled versions of other ProzillaOS packages from their respective `src` directory. If this does not happen correctly and a package tries to import a compiled version of another package from its respective `dist` directory, you might run into an error message saying `module not found`. Executing the command `pnpm run packages:build` will compile each package into their `dist` directories and resolve this error.
+In a local environment, ProzillaOS packages will try to import uncompiled versions of other ProzillaOS packages from their respective `src` directory. If this does not happen correctly and a package tries to import a compiled version of another package from its respective `dist` directory, you might run into an error message saying `module not found`. Executing the command `pnpm packages:build` will compile each package into their `dist` directories and resolve this error.
 
 :::
 
@@ -91,7 +99,7 @@ This error may be caused by faulty installations of dependencies and can be fixe
 
 ```bash
 pnpm install --fix-lockfile
-pnpm run build
+pnpm build
 ```
 
 :::
