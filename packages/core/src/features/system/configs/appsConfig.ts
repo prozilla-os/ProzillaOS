@@ -1,5 +1,5 @@
 import { APP_CATEGORIES } from "../../../constants/apps.const";
-import { App } from "../../";
+import { App, SystemManager } from "../../";
 import { loadApp, type LoadAppOptions } from "../../apps/appLoader";
 import { WindowProps } from "../../../components";
 import { EventEmitter } from "@prozilla-os/shared";
@@ -58,11 +58,12 @@ export class AppsConfig extends EventEmitter<AppsConfigEvents> {
 		return () => { this.off(AppsConfig.APPS_CHANGE_EVENT, listener); };
 	}
 
-	addApp(app: App<WindowProps>) {
+	addApp(app: App<WindowProps>, systemManager: SystemManager) {
 		const existingApp = this.getAppById(app.id, true);
 		if (existingApp != null)
 			throw new Error(`Duplicate app ID found: ${app.id}\nApp IDs must be unique.`);
 
+		app.applySkin(systemManager.skin);
 		this.apps.push(app);
 		this.emit(AppsConfig.APPS_CHANGE_EVENT);
 	}
@@ -84,7 +85,7 @@ export class AppsConfig extends EventEmitter<AppsConfigEvents> {
 	 * @param target - The npm package name or URL to load the app from.
 	 * @returns The loaded (or re-enabled) app.
 	 */
-	async installApp(target: string, options?: LoadAppOptions) {
+	async installApp(target: string, systemManager: SystemManager, options?: LoadAppOptions) {
 		const app = await loadApp(target, options);
 
 		const existingApp = this.getAppById(app.id, true);
@@ -99,7 +100,7 @@ export class AppsConfig extends EventEmitter<AppsConfigEvents> {
 			throw new Error(`An app with the ID "${app.id}" is already installed.`);
 		}
 
-		this.addApp(app);
+		this.addApp(app, systemManager);
 		return app;
 	}
 

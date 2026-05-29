@@ -28,7 +28,7 @@ export const install = new Command()
 			if (inputs.e)
 				options.exportName = inputs.e;
 
-			const app = await systemManager.appsConfig.installApp(target, options);
+			const app = await systemManager.appsConfig.installApp(target, systemManager, options);
 
 			await Shell.printLn(stdout, `Successfully installed "${app.name}" (${app.id})`);
 		} catch (error) {

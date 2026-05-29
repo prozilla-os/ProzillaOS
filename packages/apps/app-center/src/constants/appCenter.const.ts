@@ -67,7 +67,7 @@ export const DEFAULT_REGISTERED_APPS: Omit<RegistryEntry, "isInstalled">[] = [
 		name: "Maths",
 		description: "Simple calculator app.",
 		iconUrl: `${ICON_BASE_URL}/calculator.svg`,
-		screenshots: [`${SCREENSHOT_BASE_URL}/calculator.png`],
+		screenshots: [`${SCREENSHOT_BASE_URL}/calculator-screenshot-1.png`],
 		category: "Utilities & tools",
 		packageName: "@prozilla-os/calculator",
 		exportName: "calculator",

@@ -1,5 +1,5 @@
 import { proxy, type Snapshot } from "valtio";
-import { App, type AppMetadata, AppsConfig, loadApp, type LoadAppOptions } from "@prozilla-os/core";
+import { App, type AppMetadata, AppsConfig, loadApp, type LoadAppOptions, SystemManager } from "@prozilla-os/core";
 import { DEFAULT_REGISTERED_APPS } from "../constants/appCenter.const";
 
 export interface RegistryEntry extends
@@ -35,18 +35,20 @@ function createEntry(app: App): RegistryEntry {
 }
 
 export class AppRegistry {
+	readonly systemManager: SystemManager;
 	readonly appsConfig: AppsConfig;
 	readonly state: AppRegistryState;
 	private preInstalledIds: ReadonlySet<string>;
 	private unsubscribe: (() => void) | null;
 
-	constructor(appsConfig: AppsConfig, registeredApps?: Omit<RegistryEntry, "isInstalled">[]) {
-		this.appsConfig = appsConfig;
-		this.preInstalledIds = new Set(appsConfig.apps.map((app) => app.id));
+	constructor(systemManager: SystemManager, registeredApps?: Omit<RegistryEntry, "isInstalled">[]) {
+		this.systemManager = systemManager;
+		this.appsConfig = systemManager.appsConfig;
+		this.preInstalledIds = new Set(this.appsConfig.apps.map((app) => app.id));
 		this.unsubscribe = null;
 
 		const apps = registeredApps ?? DEFAULT_REGISTERED_APPS;
-		const preInstalled = appsConfig.apps.map((app) => {
+		const preInstalled = this.appsConfig.apps.map((app) => {
 			const appEntry = createEntry(app);
 			const registeredEntry = apps.find(({ id }) => id === app.id);
 			if (registeredEntry != null) {
@@ -77,7 +79,7 @@ export class AppRegistry {
 
 		this.state = proxy<AppRegistryState>({ entries });
 
-		this.unsubscribe = appsConfig.onAppsChange(() => {
+		this.unsubscribe = this.appsConfig.onAppsChange(() => {
 			this.sync();
 		});
 	}
@@ -128,7 +130,7 @@ export class AppRegistry {
 				const app = await loadApp(source, { exportName, ...options });
 
 				app.setInstalled(true);
-				this.appsConfig.addApp(app);
+				this.appsConfig.addApp(app, this.systemManager);
 				Object.assign(existingEntry, createEntry(app), {
 					packageName: source,
 					exportName: options?.exportName ?? exportName,
@@ -146,7 +148,7 @@ export class AppRegistry {
 		entry.packageName = target;
 		entry.exportName = options?.exportName;
 		this.state.entries.push(entry);
-		this.appsConfig.addApp(app);
+		this.appsConfig.addApp(app, this.systemManager);
 		return entry;
 	}
 

@@ -14,13 +14,13 @@ export interface AppCenterProps extends WindowProps {
 }
 
 export function AppCenter({ tab: initialTab = "browse" }: AppCenterProps) {
-	const { appsConfig } = useSystemManager();
+	const systemManager = useSystemManager();
 	const windowsManager = useWindowsManager();
 	const [tab, setTab] = useState<AppCenterTab>(initialTab);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [category, setCategory] = useState<CategoryType>("All");
 	const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
-	const registry = useSingleton(() => new AppRegistry(appsConfig));
+	const registry = useSingleton(() => new AppRegistry(systemManager));
 	const state = useSnapshot(registry.state);
 	const selectedEntry = selectedEntryId != null
 		? state.entries.find(({ id }) => id === selectedEntryId) ?? null

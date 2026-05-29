@@ -1,6 +1,7 @@
-import { Image, Button, removeUrlProtocol } from "@prozilla-os/core";
+import { Image, Button, removeUrlProtocol, useSkinOverrides } from "@prozilla-os/core";
 import { type RegistryEntrySnapshot } from "../../core/appRegistry";
 import styles from "./DetailView.module.css";
+import { MacOsSkin, Skin } from "@prozilla-os/skins";
 
 interface DetailViewProps {
 	entry: RegistryEntrySnapshot;
@@ -9,8 +10,12 @@ interface DetailViewProps {
 	onUninstall: () => void;
 }
 
+const textOverrides = new Map<typeof Skin, { install: string, uninstall: string }>([[MacOsSkin, { install: "Get", uninstall: "Uninstall" }]]);
+
 export function DetailView({ entry, onBack, onInstall, onUninstall }: DetailViewProps) {
 	const { name, id, iconUrl, description, category, author, version, isInstalled, screenshots, website: developerWebsite, releaseDate } = entry;
+
+	const text = useSkinOverrides(textOverrides, { install: "Install", uninstall: "Uninstall" });
 
 	return <div className={styles.DetailView}>
 		<button className={styles.BackButton} onClick={onBack}>
@@ -35,8 +40,8 @@ export function DetailView({ entry, onBack, onInstall, onUninstall }: DetailView
 			</div>
 			<div className={styles.ActionButton}>
 				{isInstalled
-					? <Button className={styles.UninstallButton} onClick={onUninstall}>Uninstall</Button>
-					: <Button className={styles.InstallButton} onClick={onInstall}>Install</Button>
+					? <Button className={styles.UninstallButton} onClick={onUninstall}>{text.uninstall}</Button>
+					: <Button className={styles.InstallButton} onClick={onInstall}>{text.install}</Button>
 				}
 			</div>
 		</div>
