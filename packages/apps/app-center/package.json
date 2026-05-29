@@ -25,6 +25,7 @@
 	"dependencies": {
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/shared": "workspace:*",
+		"@prozilla-os/skins": "workspace:*",
 		"react": "^18.3.1",
 		"valtio": "^2.3.2"
 	},

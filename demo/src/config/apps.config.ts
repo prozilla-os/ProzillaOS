@@ -4,6 +4,7 @@ import { wordle } from "@prozilla-os/wordle";
 import { ballMaze } from "@prozilla-os/ball-maze";
 import { minesweeper } from "@prozilla-os/minesweeper";
 import { logicSim } from "@prozilla-os/logic-sim";
+import { Skin, MacOsSkin, Windows95Skin, MinimalSkin, PixelSkin } from "@prozilla-os/skins";
 
 export const appsConfig = new AppsConfig({
 	apps: [
@@ -35,15 +36,45 @@ export const appsConfig = new AppsConfig({
 			.setDescription(`Browse and install ${NAME} apps.`)
 			.setPinnedByDefault(false),
 		wordle.setIconUrl("/assets/apps/icons/wordle.svg")
+			.setSkinOverride(MacOsSkin, {
+				iconUrl: `{${Skin.TEMPLATE_KEYS.baseUrl}}/assets/skins/mac/apps/icons/wordle.svg`,
+			})
+			.setSkinOverride(MinimalSkin, {
+				iconUrl: `{${Skin.TEMPLATE_KEYS.baseUrl}}/assets/skins/minimal/apps/icons/wordle.svg`,
+			})
+			.setSkinOverride(PixelSkin, {
+				iconUrl: `{${Skin.TEMPLATE_KEYS.baseUrl}}/assets/skins/pixel/apps/icons/wordle.png`,
+			})
 			.setPinnedByDefault(false)
 			.setShowDesktopIcon(true),
 		ballMaze.setIconUrl("/assets/apps/icons/ball-maze.svg")
+			.setSkinOverride(MacOsSkin, {
+				iconUrl: `{${Skin.TEMPLATE_KEYS.baseUrl}}/assets/skins/mac/apps/icons/ball-maze.svg`,
+			})
+			.setSkinOverride(MinimalSkin, {
+				iconUrl: `{${Skin.TEMPLATE_KEYS.baseUrl}}/assets/skins/minimal/apps/icons/ball-maze.svg`,
+			})
+			.setSkinOverride(PixelSkin, {
+				iconUrl: `{${Skin.TEMPLATE_KEYS.baseUrl}}/assets/skins/pixel/apps/icons/ball-maze.png`,
+			})
 			.setPinnedByDefault(false)
 			.setShowDesktopIcon(true),
 		minesweeper.setIconUrl("/assets/apps/icons/minesweeper.svg")
+			.setSkinOverride(MacOsSkin, {
+				iconUrl: `{${Skin.TEMPLATE_KEYS.baseUrl}}/assets/skins/mac/apps/icons/minesweeper.svg`,
+			})
+			.setSkinOverride(Windows95Skin, {
+				iconUrl: `{${Skin.TEMPLATE_KEYS.baseUrl}}/assets/skins/windows95/apps/icons/minesweeper.svg`,
+			})
+			.setSkinOverride(MinimalSkin, {
+				iconUrl: `{${Skin.TEMPLATE_KEYS.baseUrl}}/assets/skins/minimal/apps/icons/minesweeper.svg`,
+			})
+			.setSkinOverride(PixelSkin, {
+				iconUrl: `{${Skin.TEMPLATE_KEYS.baseUrl}}/assets/skins/pixel/apps/icons/minesweeper.png`,
+			})
 			.setPinnedByDefault(false)
 			.setShowDesktopIcon(true),
-		logicSim.setName("Logic Sim (WIP)")
+		logicSim.setName("Logic Sim")
 			.setDescription("Create digital logic circuits using the online simulator.")
 			.setIconUrl("/assets/apps/icons/logic-sim.svg"),
 	],

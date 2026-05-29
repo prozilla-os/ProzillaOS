@@ -6,8 +6,12 @@
 		"outDir": "dist",
 		"declaration": true,
 		"emitDeclarationOnly": true,
-		"noEmit": false
+		"noEmit": false,
+		"rootDir": "../",
+		"paths": {
+			"@prozilla-os/*": ["packages/*/src/main"],
+		},
 	},
-	"include": ["src", "vite.config.ts"],
+	"include": ["src", "vite.config.ts", "../shared/src/**/*"],
 	"exclude": ["node_modules"]
 }

@@ -83,17 +83,9 @@ export class SystemManager {
 	private loadSkin() {
 		const skin = this.skin;
 
-		if (skin.appIcons != null || skin.appNames != null) {
-			const appIcons = skin.appIcons ?? {};
-			const appNames = skin.appNames ?? {};
-
-			this.appsConfig.apps.forEach((app) => {
-				if (Object.keys(appIcons).includes(app.id))
-					app.setIconUrl(appIcons[app.id]);
-				if (Object.keys(appNames).includes(app.id))
-					app.setName(appNames[app.id]);
-			});
-		}
+		this.appsConfig.apps.forEach((app) => {
+			app.applySkin(skin);
+		});
 
 		if (skin.loadStyleSheet != null)
 			skin.loadStyleSheet();

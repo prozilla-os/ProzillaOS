@@ -27,6 +27,7 @@
 		"@fortawesome/react-fontawesome": "^3.3.1",
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/shared": "workspace:*",
+		"@prozilla-os/skins": "workspace:*",
 		"react": "^18.3.1"
 	},
 	"devDependencies": {

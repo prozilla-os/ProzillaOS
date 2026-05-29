@@ -1,5 +1,5 @@
 import { expect, test as base } from "vitest";
-import { randomFromArray, removeDuplicatesFromArray, removeFromArray } from "../src/features";
+import { interleave, randomFromArray, removeDuplicatesFromArray, removeFromArray, replaceAll } from "../src/features";
 import { extend } from "@prozilla-os/dev-tools";
 
 const test = extend(base);
@@ -26,4 +26,17 @@ test.simpleCases(removeDuplicatesFromArray, [
 	[[1, 2, 2, 3], [1, 2, 3]],
 	[[], []],
 	[[1, 1, 2, 2, 3, 3], [1, 2, 3]],
+]);
+
+test.cases(interleave, [
+	[[0, [1, 2, 3]], [1, 0, 2, 0, 3]],
+	[[0, [1, 2]], [1, 0, 2]],
+	[[0, [1]], [1]],
+	[[0, []], []],
+]);
+
+test.cases(replaceAll, [
+	[[[0, 1, 2, 0, 3], 0, -1], [-1, 1, 2, -1, 3]],
+	[[["foo", "bar", "foo"], "bar", "rab"], ["foo", "rab", "foo"]],
+	[[[], 0, 1], []],
 ]);

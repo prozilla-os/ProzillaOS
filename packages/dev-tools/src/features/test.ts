@@ -1,3 +1,5 @@
+import { Ansi } from "@prozilla-os/shared";
+import { inspect, InspectOptions } from "node:util";
 import { expect, TestAPI } from "vitest";
 
 function testSimpleCases<A = unknown, R = undefined>(test: TestAPI, func: (arg: A) => R, cases: [A, R][]) {
@@ -5,7 +7,13 @@ function testSimpleCases<A = unknown, R = undefined>(test: TestAPI, func: (arg: 
 }
 
 function testCases<A extends unknown[] = [], R = undefined>(test: TestAPI, func: (...args: A) => R, cases: [A, R][]) {
-	return test.each(cases)(`${func.name}(...%o) -> %o`, (args, expected) => {
+	return test.each(
+		cases.map(([args, expected]) => [
+			formatFunction(func, args, expected),
+			args,
+			expected,
+		])
+	)("%s", (_title, args, expected) => {
 		const assertion = expect(func(...args));
 		if (Array.isArray(expected)) {
 			assertion.toStrictEqual(expected);
@@ -13,6 +21,18 @@ function testCases<A extends unknown[] = [], R = undefined>(test: TestAPI, func:
 			assertion.toBe(expected);
 		}
 	});
+}
+
+function formatFunction<A extends unknown[] = [], R = undefined>(func: (...args: A) => R, args: A, returnValue: R, options: { colors?: boolean } = {}) {
+	const { colors = true } = options;
+	const formattedName = colors ? Ansi.blue(func.name) : func.name;
+	const formattedArgs = args.map((arg) => format(arg, { colors })).join(", ");
+	const formattedReturnValue = format(returnValue, { colors });
+	return `${formattedName}(${formattedArgs}) ${colors ? Ansi.dim("🠆") : "🠆"} ${formattedReturnValue}`;
+}
+
+function format(object: unknown, options?: InspectOptions) {
+	return inspect(object, options);
 }
 
 export interface CustomTestAPI {

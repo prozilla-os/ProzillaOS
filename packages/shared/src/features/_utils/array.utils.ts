@@ -22,3 +22,16 @@ export function randomFromArray<Type>(array: Type[]): Type {
 export function removeDuplicatesFromArray<Type>(array: Type[]): Type[] {
 	return array.filter((item, index) => array.indexOf(item) === index);
 }
+
+/**
+ * Inserts an item in between every item in an array.
+ * @param item - The item to insert.
+ * @param array - The array to insert into.
+ */
+export function interleave<Type>(item: Type, array: Type[]) {
+	return array.flatMap((nextItem) => [item, nextItem]).slice(1);
+}
+
+export function replaceAll<Type>(array: Type[], searchItem: Type, replaceItem: Type) {
+	return array.map((item) => item === searchItem ? replaceItem : item);
+}

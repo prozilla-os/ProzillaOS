@@ -3,7 +3,7 @@ import { defaultSkin } from "./config/skin.config";
 import { NAME, TAG_LINE } from "./config/branding.config";
 import { appsConfig } from "./config/apps.config";
 import { getViewportParams, ProzillaOS, Router, useSingleton } from "prozilla-os";
-import { macOsSkin, minimalSkin, pixelSkin, windows95Skin } from "@prozilla-os/skins";
+import { MacOsSkin, MinimalSkin, PixelSkin, Windows95Skin } from "@prozilla-os/skins";
 
 export function Main(): ReactElement {
 	const skin = useSingleton(() => {
@@ -13,13 +13,13 @@ export function Main(): ReactElement {
 		if (params.skin != null) {
 			switch (params.skin) {
 				case "mac":
-					return macOsSkin;
+					return new MacOsSkin({ baseUrl: "/" });
 				case "minimal":
-					return minimalSkin;
+					return new MinimalSkin({ baseUrl: "/" });
 				case "pixel":
-					return pixelSkin;
+					return new PixelSkin({ baseUrl: "/" });
 				case "win95":
-					return windows95Skin;
+					return new Windows95Skin({ baseUrl: "/" });
 			}
 		}
 

@@ -2,6 +2,7 @@ import { WindowProps } from "../../components";
 import { FC } from "react";
 import { APP_CATEGORIES } from "../../constants/apps.const";
 import { Vector2 } from "@prozilla-os/shared";
+import { Skin } from "@prozilla-os/skins";
 
 const validIdRegex = /^[a-zA-Z0-9-]+$/;
 
@@ -24,6 +25,8 @@ export interface DefaultWindowOptions {
 	size?: Vector2;
 	[key: string]: unknown;
 }
+
+export type AppSkinOverrides<AppProps extends WindowProps = WindowProps> = Partial<Pick<App<AppProps>, "name" | "description" | "windowContent" | "windowOptions" | "iconUrl" | "metadata">>;
 
 /**
  * An application that can be ran by ProzillaOS.
@@ -99,6 +102,8 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	 * @default false
 	 */
 	showDesktopIcon: boolean = false;
+
+	public skinOverrides?: Map<typeof Skin, AppSkinOverrides<AppProps>>;
 
 	isActive: boolean = false;
 	isPinned?: boolean;
@@ -221,5 +226,51 @@ export class App<AppProps extends WindowProps = WindowProps> {
 	setWindowOptions(windowOptions: Partial<AppProps> & DefaultWindowOptions): this {
 		this.windowOptions = windowOptions;
 		return this;
+	}
+
+	setSkinOverrides(skinOverrides: App<AppProps>["skinOverrides"]): this {
+		this.skinOverrides = skinOverrides;
+		return this;
+	}
+
+	setSkinOverride(skin: typeof Skin, overrides: AppSkinOverrides<AppProps>): this {
+		if (!this.skinOverrides)
+			this.skinOverrides = new Map();
+		this.skinOverrides.set(skin, overrides);
+		return this;
+	}
+
+	applySkin(skin: Skin) {
+		if (skin.appNames && Object.keys(skin.appNames).includes(this.id))
+			this.setName(skin.appNames[this.id]);
+		if (skin.appIcons && Object.keys(skin.appIcons).includes(this.id))
+			this.setIconUrl(skin.appIcons[this.id]);
+
+		if (this.skinOverrides) {
+			for (const [key, value] of this.skinOverrides) {
+				if (skin instanceof key)
+					this.applySkinOverrides(skin, value);
+			}
+		}
+
+		if (this.iconUrl)
+			this.setIconUrl(skin.resolveAssetUrl(this.iconUrl));
+		if (this.metadata?.screenshots)
+			this.metadata.screenshots = skin.resolveAssetUrls(this.metadata.screenshots);
+	}
+
+	private applySkinOverrides(skin: Skin, overrides: AppSkinOverrides<AppProps>) {
+		if (overrides.name)
+			this.name = overrides.name;
+		if (overrides.iconUrl)
+			this.iconUrl = skin.resolveAssetUrl(overrides.iconUrl);
+		if (overrides.description)
+			this.description = overrides.description;
+		if (overrides.windowContent)
+			this.windowContent = overrides.windowContent;
+		if (overrides.windowOptions)
+			this.windowOptions = overrides.windowOptions;
+		if (overrides.metadata)
+			this.metadata = { ...this.metadata, ...overrides.metadata };
 	}
 }

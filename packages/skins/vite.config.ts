@@ -13,6 +13,8 @@ export default defineConfig({
 			outDir: "./dist",
 			rollupTypes: true,
 			strictOutput: true,
+			pathsToAliases: false,
+			tsconfigPath: "tsconfig.build.json",
 		}),
 		libInjectCss(),
 	],
@@ -22,7 +24,7 @@ export default defineConfig({
 			formats: ["es"],
 		},
 		rollupOptions: {
-			external: ["react", "react/jsx-runtime"],
+			external: ["react", "react/jsx-runtime", /@prozilla-os/],
 			output: {
 				assetFileNames: "assets/[name][extname]",
 				chunkFileNames: "chunks/[name]-[hash].js",

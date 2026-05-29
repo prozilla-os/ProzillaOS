@@ -100,7 +100,7 @@ export const DEFAULT_REGISTERED_APPS: Omit<RegistryEntry, "isInstalled">[] = [
 	},
 	{
 		id: "logic-sim",
-		name: "Logic Sim (WIP)",
+		name: "Logic Sim",
 		description: "Create digital logic circuits using the online simulator.",
 		iconUrl: `${ICON_BASE_URL}/logic-sim.svg`,
 		category: "Education",
