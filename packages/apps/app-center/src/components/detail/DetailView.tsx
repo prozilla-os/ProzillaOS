@@ -1,7 +1,7 @@
 import { Image, Button, removeUrlProtocol, useSkinOverrides } from "@prozilla-os/core";
 import { type RegistryEntrySnapshot } from "../../core/appRegistry";
 import styles from "./DetailView.module.css";
-import { MacOsSkin, Skin } from "@prozilla-os/skins";
+import { MacOsSkin } from "@prozilla-os/skins";
 
 interface DetailViewProps {
 	entry: RegistryEntrySnapshot;
@@ -10,7 +10,7 @@ interface DetailViewProps {
 	onUninstall: () => void;
 }
 
-const textOverrides = new Map<typeof Skin, { install: string, uninstall: string }>([[MacOsSkin, { install: "Get", uninstall: "Uninstall" }]]);
+const textOverrides = new Map([[MacOsSkin, { install: "Get" }]]);
 
 export function DetailView({ entry, onBack, onInstall, onUninstall }: DetailViewProps) {
 	const { name, id, iconUrl, description, category, author, version, isInstalled, screenshots, website: developerWebsite, releaseDate } = entry;

@@ -15,7 +15,7 @@ function testCases<A extends unknown[] = [], R = undefined>(test: TestAPI, func:
 		])
 	)("%s", (_title, args, expected) => {
 		const assertion = expect(func(...args));
-		if (Array.isArray(expected)) {
+		if (typeof expected === "object") { // Object or array
 			assertion.toStrictEqual(expected);
 		} else {
 			assertion.toBe(expected);
