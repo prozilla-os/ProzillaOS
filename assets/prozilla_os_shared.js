@@ -1,871 +1,156 @@
-const a = {
-  /**
-   * Foreground colors.
-   */
-  fg: {
-    black: "\x1B[30m",
-    red: "\x1B[31m",
-    green: "\x1B[32m",
-    yellow: "\x1B[33m",
-    blue: "\x1B[34m",
-    magenta: "\x1B[35m",
-    cyan: "\x1B[36m",
-    white: "\x1B[37m"
-  },
-  /**
-   * Background colors.
-   */
-  bg: {
-    black: "\x1B[40m",
-    red: "\x1B[41m",
-    green: "\x1B[42m",
-    yellow: "\x1B[43m",
-    blue: "\x1B[44m",
-    magenta: "\x1B[45m",
-    cyan: "\x1B[46m",
-    white: "\x1B[47m"
-  },
-  /**
-   * Screen buffer and clearing controls.
-   */
-  screen: {
-    enterAltBuffer: "\x1B[?1049h",
-    exitAltBuffer: "\x1B[?1049l",
-    clear: "\x1B[2J",
-    clearLine: "\x1B[2K",
-    home: "\x1B[H"
-  },
-  /**
-   * Cursor controls.
-   */
-  cursor: {
-    /** Changes the position of the cursor. */
-    position: (e, t) => `\x1B[${e};${t}H`,
-    hide: "\x1B[?25l",
-    show: "\x1B[?25h",
-    save: "\x1B[s",
-    restore: "\x1B[u"
-  },
-  /**
-   * Terminal input.
-   */
-  input: {
-    /** Move cursor up. */
-    arrowUp: "\x1B[A",
-    /** Move cursor down. */
-    arrowDown: "\x1B[B",
-    /** Move cursor right. */
-    arrowRight: "\x1B[C",
-    /** Move cursor left. */
-    arrowLeft: "\x1B[D",
-    horizontalTab: "	",
-    lineFeed: `
-`,
-    verticalTab: "\v",
-    formFeed: "\f",
-    carriageReturn: "\r",
-    backspace: "\b",
-    delete: "",
-    escape: "\x1B",
-    pageUp: "\x1B[5~",
-    pageDown: "\x1B[6~",
-    ctrlA: "",
-    ctrlB: "",
-    ctrlC: "",
-    ctrlD: "",
-    ctrlE: "",
-    ctrlF: "",
-    ctrlG: "\x07",
-    ctrlH: "\b",
-    ctrlI: "	",
-    ctrlJ: `
-`,
-    ctrlK: "\v",
-    ctrlL: "\f",
-    ctrlM: "\r",
-    ctrlN: "",
-    ctrlO: "",
-    ctrlP: "",
-    ctrlQ: "",
-    ctrlR: "",
-    ctrlS: "",
-    ctrlT: "",
-    ctrlU: "",
-    ctrlV: "",
-    ctrlW: "",
-    ctrlX: "",
-    ctrlY: "",
-    ctrlZ: ""
-  },
-  /**
-   * Decorations.
-   */
-  decoration: {
-    dim: "\x1B[2m",
-    bold: "\x1B[1m",
-    italic: "\x1B[3m",
-    underline: "\x1B[4m",
-    blink: "\x1B[5m",
-    invert: "\x1B[7m",
-    strike: "\x1B[9m"
-  },
-  reset: "\x1B[0m"
-};
-function E(e, t) {
-  const r = t.indexOf(e);
-  r !== -1 && t.splice(r, 1);
+import { A as _, a as j, L as P, b as V, f as X, c as Y, d as Z, e as G, g as H, h as J, i as K, j as Q, k as W, l as R } from "/assets/index-DQH1P8j6.js";
+import { EventEmitter as tr, capitalize as er, clamp as nr, fillTemplate as ir, formatRelativeTime as sr, formatTime as or, getLongestCommonPrefix as ar, interleave as ur, isValidInteger as lr, isValidNumber as cr, isValidUrl as hr, isolateSubstring as fr, kebabToCamelCase as mr, parseBool as dr, parseOptionalFloat as pr, parseOptionalInteger as gr, randomFromArray as yr, randomIndex as vr, randomInt as xr, randomRange as Er, removeBaseUrl as kr, removeDuplicatesFromArray as Or, removeFromArray as $r, removeUrlProtocol as br, replaceAll as wr, resolveUrl as Sr, round as Ar, splitAt as Fr } from "/assets/utils.js";
+import { i as qr, m as Dr } from "/assets/object.utils-xiWGUq8N.js";
+const I = "https://os.prozilla.dev/";
+function O(n) {
+  return `# ${n}`;
 }
-function Y(e) {
-  return e[Math.floor(Math.random() * e.length)];
+function $(n) {
+  return `## ${n}`;
 }
-function Z(e) {
-  return e.filter((t, r) => e.indexOf(t) === r);
+function b(n) {
+  return `### ${n}`;
 }
-const w = {
-  s: 1e3,
-  m: 1e3 * 60,
-  h: 1e3 * 60 * 60,
-  d: 1e3 * 60 * 60 * 24,
-  w: 1e3 * 60 * 60 * 24 * 7,
-  n: 1e3 * 60 * 60 * 24 * 31,
-  y: 1e3 * 60 * 60 * 24 * 365,
-  c: 1e3 * 60 * 60 * 24 * 365 * 100
-};
-function S(e, t = 3, r = !1) {
-  const n = [], u = (l, g) => {
-    if (!r)
-      return l.join(", ");
-    let m = "", b = "";
-    return g ? b = "ago" : m = "in", [m, l.join(", "), b].join(" ").trim();
-  };
-  let h = !1;
-  if (e < 0 && (e = -e, h = !0), Math.abs(e) < w.s)
-    return u(["less than a second"], h);
-  const p = [], y = {
-    s: "second",
-    m: "minute",
-    h: "hour",
-    d: "day",
-    n: "month",
-    y: "year"
-  };
-  for (const [l, g] of Object.entries(w).reverse()) {
-    if (l === "w" || l === "c")
-      continue;
-    const m = Math.floor(e / g);
-    e -= m * g, m > 0 && p.push({ amount: m, label: m != 1 ? y[l] + "s" : y[l] });
-  }
-  for (let l = 0; l < t; l++)
-    if (l < p.length) {
-      const g = p[l];
-      n.push(`${g.amount} ${g.label}`);
-    }
-  return n.length === 0 ? u(["less than a second"], h) : u(n, h);
+function w(n) {
+  return `#### ${n}`;
 }
-function J(e, t = 3, r = !1) {
-  const n = e.valueOf() - Date.now();
-  return S(n, t, r);
+function S(n) {
+  return `##### ${n}`;
 }
-class K {
-  #t = {};
-  /**
-   * Starts listening to an event.
-   * @param event - The event to listen to.
-   * @param listener - The function to call when the event is emitted.
-   * @returns The listener.
-   */
-  on(t, r) {
-    return this.#t[t] === void 0 ? this.#t[t] = [r] : this.#t[t].push(r), r;
-  }
-  /**
-   * Registers an event listener that is automatically removed when called.
-   * @param event - The event to listen to.
-   * @param listener - The function to call once the event is emitted.
-   * @returns The wrapped listener.
-   */
-  once(t, r) {
-    const n = (...u) => (this.off(t, n), r(...u));
-    return this.on(t, n);
-  }
-  /**
-   * Removes an event listener.
-   * @param event - The event to remove the listener from.
-   * @param listener - The listener to remove.
-   */
-  off(t, r) {
-    const n = this.#t[t];
-    n !== void 0 && E(r, n);
-  }
-  /**
-   * Emits an event to all its listeners.
-   * @param event - The event to emit.
-   * @param args - The arguments to pass to the listeners.
-   */
-  emit(t, ...r) {
-    const n = this.#t[t];
-    if (n !== void 0)
-      for (const u of n)
-        u(...r);
-  }
-  /**
-   * Emits an event and waits for all listeners to resolve.
-   * @param event - The event to emit.
-   * @param args - The arguments to pass to the listeners.
-   */
-  async emitAsync(t, ...r) {
-    const n = this.#t[t];
-    if (n === void 0)
-      return;
-    const u = n.map((h) => h(...r));
-    await Promise.all(u);
-  }
+function A(n) {
+  return `###### ${n}`;
 }
-function G(e, t, r) {
-  return e < t ? t : e > r ? r : e;
+function F(n) {
+  return `**${n}**`;
 }
-function Q(e, t) {
-  return Math.random() * (t - e) + e;
+function z(n) {
+  return `*${n}*`;
 }
-function R(e, t) {
-  const r = Math.pow(10, t ?? 0);
-  return Math.round(e * r) / r;
+function q(n) {
+  return `\`${n}\``;
 }
-function O(e) {
-  return typeof e == "number" ? !0 : e.trim() === "" ? !1 : Number.isInteger(Number(e));
+function D(n) {
+  return `\`\`\`${n}\`\`\``;
 }
-function C(e) {
-  return typeof e == "number" ? !0 : e.trim() === "" ? !1 : !isNaN(Number(e));
+function L(n) {
+  return `~~${n}~~`;
 }
-function A(e, t = 0) {
-  return e !== void 0 && O(e) ? Number(e) : t;
+function M(n, r) {
+  return `[${n}](${r})`;
 }
-function L(e, t = 0) {
-  return e !== void 0 && C(e) ? parseFloat(e) : t;
+function N(n) {
+  return `> ${n}`;
 }
-function _(e) {
-  return e.trim().toLowerCase() === "true";
-}
-function tt(e) {
-  return e.replace(/-([a-z])/g, (t, r) => r.toUpperCase());
-}
-function rt(e) {
-  if (!e.length) return "";
-  let t = e[0];
-  for (let r = 1; r < e.length; r++)
-    for (; e[r].indexOf(t) !== 0; )
-      if (t = t.substring(0, t.length - 1), t === "") return "";
-  return t;
-}
-class s {
-  /**
-   * Makes text black using {@link ANSI.fg.black}.
-   */
-  static black(t) {
-    return s.#t(t, a.fg.black);
-  }
-  /**
-   * Makes text red using {@link ANSI.fg.red}.
-   */
-  static red(t) {
-    return s.#t(t, a.fg.red);
-  }
-  /**
-   * Makes text green using {@link ANSI.fg.green}.
-   */
-  static green(t) {
-    return s.#t(t, a.fg.green);
-  }
-  /**
-   * Makes text yellow using {@link ANSI.fg.yellow}.
-   */
-  static yellow(t) {
-    return s.#t(t, a.fg.yellow);
-  }
-  /**
-   * Makes text blue using {@link ANSI.fg.blue}.
-   */
-  static blue(t) {
-    return s.#t(t, a.fg.blue);
-  }
-  /**
-   * Makes text magenta using {@link ANSI.fg.magenta}.
-   */
-  static magenta(t) {
-    return s.#t(t, a.fg.magenta);
-  }
-  /**
-   * Makes text cyan using {@link ANSI.fg.cyan}.
-   */
-  static cyan(t) {
-    return s.#t(t, a.fg.cyan);
-  }
-  /**
-   * Makes text white using {@link ANSI.fg.white}.
-   */
-  static white(t) {
-    return s.#t(t, a.fg.white);
-  }
-  /**
-   * Sets background to black using {@link ANSI.bg.black}.
-   */
-  static blackBackground(t) {
-    return s.#t(t, a.bg.black);
-  }
-  /**
-   * Sets background to red using {@link ANSI.bg.red}.
-   */
-  static redBackground(t) {
-    return s.#t(t, a.bg.red);
-  }
-  /**
-   * Sets background to green using {@link ANSI.bg.green}.
-   */
-  static greenBackground(t) {
-    return s.#t(t, a.bg.green);
-  }
-  /**
-   * Sets background to yellow using {@link ANSI.bg.yellow}.
-   */
-  static yellowBackground(t) {
-    return s.#t(t, a.bg.yellow);
-  }
-  /**
-   * Sets background to blue using {@link ANSI.bg.blue}.
-   */
-  static blueBackground(t) {
-    return s.#t(t, a.bg.blue);
-  }
-  /**
-   * Sets background to magenta using {@link ANSI.bg.magenta}.
-   */
-  static magentaBackground(t) {
-    return s.#t(t, a.bg.magenta);
-  }
-  /**
-   * Sets background to cyan using {@link ANSI.bg.cyan}.
-   */
-  static cyanBackground(t) {
-    return s.#t(t, a.bg.cyan);
-  }
-  /**
-   * Sets background to white using {@link ANSI.bg.white}.
-   */
-  static whiteBackground(t) {
-    return s.#t(t, a.bg.white);
-  }
-  /**
-   * Makes text bold using {@link ANSI.decoration.bold}.
-   */
-  static bold(t) {
-    return s.#t(t, a.decoration.bold);
-  }
-  /**
-   * Makes text dim using {@link ANSI.decoration.dim}.
-   */
-  static dim(t) {
-    return s.#t(t, a.decoration.dim);
-  }
-  /**
-   * Makes text italic using {@link ANSI.decoration.italic}.
-   */
-  static italic(t) {
-    return s.#t(t, a.decoration.italic);
-  }
-  /**
-   * Underlines text using {@link ANSI.decoration.underline}.
-   */
-  static underline(t) {
-    return s.#t(t, a.decoration.underline);
-  }
-  /**
-   * Inverts foreground and background colors using {@link ANSI.decoration.invert}.
-   */
-  static invert(t) {
-    return s.#t(t, a.decoration.invert);
-  }
-  /**
-   * Makes text strike through using {@link ANSI.decoration.strike}.
-   */
-  static strike(t) {
-    return s.#t(t, a.decoration.strike);
-  }
-  static #t(t, r) {
-    return t = t.replaceAll(a.reset, a.reset + r), r + t + a.reset;
-  }
-  /**
-   * Removes all ANSI escape sequences.
-   */
-  static strip(t) {
-    return t.replace(/\u001b\[[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, "");
-  }
-  /**
-   * Removes ANSI escape sequences for colors and background colors (SGR).
-   */
-  static stripColors(t) {
-    return t.replace(/\u001b\[[0-9;]*m/g, "");
-  }
-}
-var M = /* @__PURE__ */ ((e) => (e[e.Debug = 0] = "Debug", e[e.Info = 1] = "Info", e[e.Success = 2] = "Success", e[e.Warning = 3] = "Warning", e[e.Error = 4] = "Error", e))(M || {});
-class et {
-  /**
-   * The minimum log level or an array of log levels to enable.
-   * 
-   * `undefined` enables all log levels. An array enables all log levels in that array. A single level enables that log level and the ones above.
-   * @default LogLevel.Debug
-   */
-  level;
-  /**
-   * The current level of indentation.
-   * @default 0
-   */
-  indent = 0;
-  /**
-   * The string to use for indentation.
-   * @default "\t"
-   */
-  indentString;
-  /**
-   * The function to use when highlighting text.
-   * @default Ansi.cyan
-   * @see {@link Ansi.cyan}
-   */
-  highlight = s.cyan;
-  /**
-   * The function to use when emphasizing text.
-   * @default Ansi.bold
-   * @see {@link Ansi.bold}
-   */
-  emphasize = s.bold;
-  /**
-  	 * The prefixes to prepend to logs.
-  	 * @default {
-  	[LogLevel.Info]: Ansi.cyan("[info]"),
-  	[LogLevel.Success]: Ansi.green("[success]"),
-  	[LogLevel.Warning]: Ansi.yellow("[warning]"),
-  	[LogLevel.Error]: Ansi.red("[error]"),
-  }
-  	 */
-  prefix = {};
-  #t = 0;
-  #r = 0;
-  get errorCount() {
-    return this.#t;
-  }
-  set errorCount(t) {
-    this.#t = t;
-  }
-  get warningCount() {
-    return this.#r;
-  }
-  set warningCount(t) {
-    this.#r = t;
-  }
-  constructor(t) {
-    this.reset(), t !== void 0 && (Array.isArray(t) || typeof t == "number" ? this.level = t : (t.level !== void 0 && (this.level = t.level), t.prefix && (typeof t.prefix == "string" ? this.prefix.global = t.prefix : this.prefix = {
-      ...this.prefix,
-      ...t.prefix
-    })));
-  }
-  // ===== Modifying state =====
-  /**
-   * Resets all properties to their default values.
-   */
-  reset() {
-    return this.level = 0, this.indent = 0, this.indentString = "	", this.highlight = s.cyan, this.emphasize = s.bold, this.prefix = {
-      1: s.cyan("[info]"),
-      2: s.green("[success]"),
-      3: s.yellow("[warning]"),
-      4: s.red("[error]")
-    }, this.#t = 0, this.#r = 0, this;
-  }
-  indented(t, r = 1, n) {
-    return n !== void 0 && !this.isLevelEnabled(n) ? this : (this.indent + r < 0 && (r = -this.indent), this.tab(r), typeof t == "function" ? t() : Array.isArray(t) ? this.lines(t, n) : this.log(t, n), this.shiftTab(r), this);
-  }
-  /**
-   * Increases the level of indentation.
-   * @param amount - The amount to increase the level of indentation with.
-   */
-  tab(t = 1) {
-    return this.indent += t, this.indent < 0 && (this.indent = 0), this;
-  }
-  /**
-   * Decreases the level of indentation.
-   * @param amount - The amount to decrease the level of indentation with.
-   */
-  shiftTab(t = 1) {
-    return this.indent -= t, this.indent < 0 && (this.indent = 0), this;
-  }
-  setPrefix(t, r) {
-    return typeof t == "string" ? this.prefix = {
-      global: t
-    } : typeof t == "object" ? this.prefix = t : this.prefix[t] = r, this;
-  }
-  // ===== Logging status messages =====
-  /**
-   * Logs an info message about a URL being fetched.
-   * @param url - The URL being fetched.
-   */
-  fetching(t) {
-    return this.pending(`Fetching: ${this.highlight(t)}`);
-  }
-  /**
-   * Logs an info message that implies a pending state.
-   * @param message - The status message.
-   */
-  pending(t) {
-    return this.info(s.yellow(t));
-  }
-  /**
-   * Logs an error message.
-   * @param message - The error message or reason.
-   * @param details - The details of the error message.
-   */
-  error(t, ...r) {
-    return this.#t++, this.isLevelEnabled(
-      4
-      /* Error */
-    ) ? (typeof t == "string" ? this.statusMessage(
-      s.red(t),
-      r,
-      4
-      /* Error */
-    ) : console.error(t, ...r), this) : this;
-  }
-  /**
-   * Logs a warning message.
-   * @param message - The warning message.
-   * @param details - The details of the warning message.
-   */
-  warn(t, ...r) {
-    return this.#r++, this.statusMessage(
-      s.yellow(t),
-      r,
-      3
-      /* Warning */
-    );
-  }
-  /**
-   * Logs a success message.
-   * @param message - The success message.
-   * @param details - The details of the success message.
-   */
-  success(t, ...r) {
-    return this.statusMessage(
-      s.green(t),
-      r,
-      2
-      /* Success */
-    );
-  }
-  /**
-   * Logs an info message.
-   * @param message - The info message.
-   * @param details - The details of the info message.
-   */
-  info(t, ...r) {
-    return this.statusMessage(
-      t,
-      r,
-      1
-      /* Info */
-    );
-  }
-  /**
-   * Logs a status message.
-   * @param message - The status message.
-   * @param details - The details of the status message.
-   * @param level - The log level.
-   */
-  statusMessage(t, r, n) {
-    let u = t;
-    if (r.length) {
-      const h = this.indentString ? this.indentString.repeat(this.indent + 1) : "	";
-      u += `
-` + r.map((p) => h + String(p)).join(`
-`);
-    }
-    return this.text(u, n);
-  }
-  /**
-   * Logs the amount of errors and warnings that have been logged since the previous call to this function or the creation of this logger.
-   */
-  summary() {
-    const t = `${this.#t} error${this.#t != 1 ? "s" : ""}`, r = `${this.#r} warning${this.#r != 1 ? "s" : ""}`;
-    let n = `Found ${t} and ${r}`;
-    return this.#t > 0 ? n = s.red(n) : this.#r > 0 ? n = s.yellow(n) : n = s.green(n), this.text(n), this.#t = 0, this.#r = 0, this;
-  }
-  // ===== Logging text =====
-  /**
-   * Logs a labeled parameter.
-   * 
-   * The value is emphasized using {@link emphasize}.
-   * @param label - The label of the parameter.
-   * @param value - The value of the parameter.
-   * @param level - The log level.
-   */
-  parameter(t, r, n) {
-    return this.text(`${t}: ${this.emphasize(String(r))}`, n);
-  }
-  /**
-   * Logs properties as a list of key-value pairs.
-   * @param properties - The properties to log.
-   * @param level - The log level.
-   * @see {@link value()}
-   */
-  properties(t, r) {
-    for (const [n, u] of Object.entries(t))
-      this.value(`- ${n}`, u, r);
-    return this;
-  }
-  /**
-   * Logs a labeled value.
-   * 
-   * The value is highlighted using {@link highlight}.
-   * @param label - The label of the value.
-   * @param value - The value.
-   * @param level - The log level.
-   */
-  value(t, r, n) {
-    return this.text(`${t}: ${this.highlight(String(r))}`, n);
-  }
-  /**
-   * Logs emphasized text.
-   * @param text - The text to log.
-   * @param level - The log level.
-   */
-  emphasized(t, r) {
-    return this.text(this.emphasize(t), r);
-  }
-  /**
-   * Logs highlighted text.
-   * @param text - The text to log.
-   * @param level - The log level.
-   */
-  highlighted(t, r) {
-    return this.text(this.highlight(t), r);
-  }
-  /**
-   * Logs each item on a new line.
-   * @param lines - The items to log.
-   * @param level - The log level.
-   */
-  lines(t, r) {
-    return t.map(String).forEach((n) => this.text(n, r)), this;
-  }
-  /**
-   * Logs a message.
-   * @param message - The message to log.
-   * @param level - The log level.
-   */
-  log(t, r) {
-    return this.text(String(t), r);
-  }
-  /**
-   * Logs text using this logger's format.
-   * @param text - The text to log.
-   * @param level - The log level.
-   */
-  text(t, r = 0) {
-    if (!this.isLevelEnabled(r))
-      return this;
-    const n = this.format(this.applyPrefix(t, r));
-    switch (r) {
-      case 1:
-        console.info(n);
-        break;
-      case 3:
-        console.warn(n);
-        break;
-      case 4:
-        console.error(n);
-        break;
-      default:
-        console.log(n);
-        break;
-    }
-    return this;
-  }
-  /**
-   * Logs an newline character.
-   */
-  newLine() {
-    return console.log(`
-`), this;
-  }
-  /**
-   * Checks if the given log level is enabled.
-   * @param level - The log level to check.
-   */
-  isLevelEnabled(t) {
-    return this.level === void 0 ? !0 : Array.isArray(this.level) ? this.level.includes(t) : this.level <= t;
-  }
-  // ===== Formatting strings =====
-  /**
-   * Formats text using this logger's formatting properties.
-   * @param text - The text to format.
-   */
-  format(t) {
-    return this.indentString ? this.applyPrefix(this.indentString.repeat(this.indent) + t) : this.applyPrefix(t);
-  }
-  /**
-   * Prepends a prefix to text.
-   * @param text - The text to apply the prefix to.
-   * @param level - The log level.
-   */
-  applyPrefix(t, r) {
-    const n = r ? this.prefix[r] : this.prefix.global;
-    return n ? `${n} ${t}` : t;
-  }
-}
-function N(e) {
-  return `# ${e}`;
-}
-function D(e) {
-  return `## ${e}`;
-}
-function T(e) {
-  return `### ${e}`;
-}
-function z(e) {
-  return `#### ${e}`;
-}
-function F(e) {
-  return `##### ${e}`;
-}
-function P(e) {
-  return `###### ${e}`;
-}
-function I(e) {
-  return `**${e}**`;
-}
-function j(e) {
-  return `*${e}*`;
-}
-function q(e) {
-  return `\`${e}\``;
-}
-function U(e) {
-  return `\`\`\`${e}\`\`\``;
-}
-function H(e) {
-  return `~~${e}~~`;
-}
-function V(e, t) {
-  return `[${e}](${t})`;
-}
-function W(e) {
-  return `> ${e}`;
-}
-function X() {
+function B() {
   return "---";
 }
-const nt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const T = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  bold: I,
+  bold: F,
   code: q,
-  codeBlock: U,
-  heading1: N,
-  heading2: D,
-  heading3: T,
-  heading4: z,
-  heading5: F,
-  heading6: P,
-  horizontalRule: X,
-  italic: j,
-  link: V,
-  quote: W,
-  strikethrough: H
+  codeBlock: D,
+  heading1: O,
+  heading2: $,
+  heading3: b,
+  heading4: w,
+  heading5: S,
+  heading6: A,
+  horizontalRule: B,
+  italic: z,
+  link: M,
+  quote: N,
+  strikethrough: L
 }, Symbol.toStringTag, { value: "Module" }));
-class d {
+class l {
   x;
   y;
-  constructor(t, r) {
-    this.x = t, this.y = r ?? t;
+  constructor(r, e) {
+    this.x = r, this.y = e ?? r;
   }
   static get ZERO() {
-    return new d(0, 0);
+    return new l(0, 0);
   }
   get clone() {
-    return new d(this.x, this.y);
+    return new l(this.x, this.y);
   }
   get magnitude() {
     return this.getDistance(this);
   }
-  setX(t) {
-    return this.x = t, this;
+  setX(r) {
+    return this.x = r, this;
   }
-  setY(t) {
-    return this.y = t, this;
+  setY(r) {
+    return this.y = r, this;
   }
-  set(t, r) {
-    return this.x = t, this.y = r, this;
+  set(r, e) {
+    return this.x = r, this.y = e, this;
   }
   round() {
     return this.x = Math.round(this.x), this.y = Math.round(this.y), this;
   }
   normalize() {
-    const t = this.magnitude;
-    return this.scale(t === 0 ? 0 : 1 / t);
+    const r = this.magnitude;
+    return this.scale(r === 0 ? 0 : 1 / r);
   }
-  scale(t) {
-    return this.multiply(t);
+  scale(r) {
+    return this.multiply(r);
   }
-  getDistanceSquared(t, r) {
-    const n = d.parseVector(t, r), u = this.x - n.x, h = this.y - n.y;
-    return u * u + h * h;
+  getDistanceSquared(r, e) {
+    const i = l.parseVector(r, e), a = this.x - i.x, h = this.y - i.y;
+    return a * a + h * h;
   }
-  getDistance(t, r) {
-    const n = d.parseVector(t, r);
-    return Math.sqrt(this.getDistanceSquared(n.x, n.y));
+  getDistance(r, e) {
+    const i = l.parseVector(r, e);
+    return Math.sqrt(this.getDistanceSquared(i.x, i.y));
   }
-  add(t, r) {
-    const n = d.parseVector(t, r);
-    return this.x += n.x, this.y += n.y, this;
+  add(r, e) {
+    const i = l.parseVector(r, e);
+    return this.x += i.x, this.y += i.y, this;
   }
-  subtract(t, r) {
-    const n = d.parseVector(t, r);
-    return this.x -= n.x, this.y -= n.y, this;
+  subtract(r, e) {
+    const i = l.parseVector(r, e);
+    return this.x -= i.x, this.y -= i.y, this;
   }
-  multiply(t, r) {
-    const n = d.parseVector(t, r);
-    return this.x *= n.x, this.y *= n.y, this;
+  multiply(r, e) {
+    const i = l.parseVector(r, e);
+    return this.x *= i.x, this.y *= i.y, this;
   }
-  divide(t, r) {
-    const n = d.parseVector(t, r);
-    return this.x /= n.x, this.y /= n.y, this;
+  divide(r, e) {
+    const i = l.parseVector(r, e);
+    return this.x /= i.x, this.y /= i.y, this;
   }
-  lerp(t, r) {
-    return this.x += (t.x - this.x) * r, this.y += (t.y - this.y) * r, this;
+  lerp(r, e) {
+    return this.x += (r.x - this.x) * e, this.y += (r.y - this.y) * e, this;
   }
-  static sum(t, r) {
-    return t.clone.add(r);
+  static sum(r, e) {
+    return r.clone.add(e);
   }
-  static difference(t, r) {
-    return t.clone.subtract(r);
+  static difference(r, e) {
+    return r.clone.subtract(e);
   }
-  static product(t, r) {
-    return t.clone.multiply(r);
+  static product(r, e) {
+    return r.clone.multiply(e);
   }
-  static division(t, r) {
-    return t.clone.divide(r);
+  static division(r, e) {
+    return r.clone.divide(e);
   }
-  static scale(t, r) {
-    return t.clone.scale(r);
+  static scale(r, e) {
+    return r.clone.scale(e);
   }
-  static normalize(t) {
-    return t.clone.normalize();
+  static normalize(r) {
+    return r.clone.normalize();
   }
-  static lerp(t, r, n) {
-    return t.clone.lerp(r, n);
+  static lerp(r, e, i) {
+    return r.clone.lerp(e, i);
   }
-  static from({ x: t, y: r }) {
-    return new d(t, r);
+  static from({ x: r, y: e }) {
+    return new l(r, e);
   }
-  static parseVector(t, r) {
-    return t instanceof d ? (r = t.y, t = t.x) : r === void 0 && (r = t), { x: t, y: r };
+  static parseVector(r, e) {
+    return r instanceof l ? (e = r.y, r = r.x) : e === void 0 && (e = r), { x: r, y: e };
   }
 }
-class k {
+class m {
   /**
    * Returns `true` if this result is a {@link Result.Success}.
    */
@@ -881,174 +166,199 @@ class k {
   /**
    * Executes a callback for side effects if this result is a {@link Result.Success}.
    */
-  ifOk(t) {
-    return this.isOk() && t(this.value), this;
+  ifOk(r) {
+    return this.isOk() && r(this.value), this;
   }
   /**
    * Executes a callback for side effects if this result is a {@link Result.Failure}.
    */
-  ifError(t) {
-    return this.isError() && t(this.error), this;
+  ifError(r) {
+    return this.isError() && r(this.error), this;
   }
 }
-var v;
-((e) => {
-  class t extends k {
-    constructor(i) {
-      super(), this.value = i;
+var d;
+((n) => {
+  class r extends m {
+    constructor(t) {
+      super(), this.value = t;
     }
     value;
     isOk() {
       return !0;
     }
-    map(i) {
-      return n(i(this.value));
+    map(t) {
+      return i(t(this.value));
     }
-    mapError(i) {
-      return n(this.value);
-    }
-    next(i) {
+    mapError(t) {
       return i(this.value);
     }
-    orElse(i) {
+    next(t) {
+      return t(this.value);
+    }
+    orElse(t) {
       return this;
     }
-    unwrapOr(i) {
+    unwrapOr(t) {
       return this.value;
     }
-    match(i, c) {
-      return i(this.value);
+    match(t, o) {
+      return t(this.value);
     }
-    filter(i, c) {
-      return i(this.value) ? n(this.value) : u(c(this.value));
+    filter(t, o) {
+      return t(this.value) ? i(this.value) : a(o(this.value));
     }
   }
-  e.Success = t;
-  class r extends k {
-    constructor(i) {
-      super(), this.error = i;
+  n.Success = r;
+  class e extends m {
+    constructor(t) {
+      super(), this.error = t;
     }
     error;
     isError() {
       return !0;
     }
-    map(i) {
-      return u(this.error);
+    map(t) {
+      return a(this.error);
     }
-    mapError(i) {
-      return u(i(this.error));
+    mapError(t) {
+      return a(t(this.error));
     }
-    next(i) {
-      return u(this.error);
+    next(t) {
+      return a(this.error);
     }
-    orElse(i) {
-      return i(this.error);
+    orElse(t) {
+      return t(this.error);
     }
-    unwrapOr(i) {
-      return i;
+    unwrapOr(t) {
+      return t;
     }
-    match(i, c) {
-      return c(this.error);
+    match(t, o) {
+      return o(this.error);
     }
-    filter(i, c) {
-      return u(this.error);
+    filter(t, o) {
+      return a(this.error);
     }
   }
-  e.Failure = r;
-  function n(o) {
-    return new t(o);
+  n.Failure = e;
+  function i(s) {
+    return new r(s);
   }
-  e.ok = n;
-  function u(o) {
-    return new r(o);
+  n.ok = i;
+  function a(s) {
+    return new e(s);
   }
-  e.error = u;
-  function h(o, i) {
+  n.error = a;
+  function h(s, t) {
     try {
-      return n(o());
-    } catch (c) {
-      return u(i ? i(c) : c);
+      return i(s());
+    } catch (o) {
+      return a(t ? t(o) : o);
     }
   }
-  e.wrap = h;
-  function p(o, i) {
-    return o != null ? n(o) : u(i);
+  n.wrap = h;
+  function p(s, t) {
+    return s != null ? i(s) : a(t);
   }
-  e.nonNullOr = p;
-  function y(o, i) {
-    return o != null ? n(o) : i();
+  n.nonNullOr = p;
+  function g(s, t) {
+    return s != null ? i(s) : t();
   }
-  e.nonNullOrElse = y;
-  function l(o, i, c) {
-    let f = o;
-    for (; i(f); ) {
-      const x = c(f);
-      if (x.isError())
-        return x;
-      f = x.value;
-    }
-    return n(f);
-  }
-  e.repeat = l;
-  function g(o, i, c) {
-    let f = c;
-    for (const x of o) {
-      const B = i(f, x);
-      if (B.isError())
-        return B;
-      f = B.value;
-    }
-    return n(f);
-  }
-  e.reduce = g;
-  function m(o) {
-    const i = [];
-    for (const c of o) {
+  n.nonNullOrElse = g;
+  function y(s, t, o) {
+    let u = s;
+    for (; t(u); ) {
+      const c = o(u);
       if (c.isError())
-        return u(c.error);
-      i.push(c.value);
+        return c;
+      u = c.value;
     }
-    return n(i);
+    return i(u);
   }
-  e.all = m;
-  function b(o, i, c) {
-    for (const f of o) {
-      const x = i(f);
-      if (x.isOk())
-        return x;
+  n.repeat = y;
+  function v(s, t, o) {
+    let u = o;
+    for (const c of s) {
+      const f = t(u, c);
+      if (f.isError())
+        return f;
+      u = f.value;
     }
-    return c;
+    return i(u);
   }
-  e.any = b;
-  function $(o, i, c, f) {
-    return i(o) ? n(c(o)) : u(f(o));
+  n.reduce = v;
+  function x(s) {
+    const t = [];
+    for (const o of s) {
+      if (o.isError())
+        return a(o.error);
+      t.push(o.value);
+    }
+    return i(t);
   }
-  e.require = $;
-})(v || (v = {}));
+  n.all = x;
+  function E(s, t, o) {
+    for (const u of s) {
+      const c = t(u);
+      if (c.isOk())
+        return c;
+    }
+    return o;
+  }
+  n.any = E;
+  function k(s, t, o, u) {
+    return t(s) ? i(o(s)) : a(u(s));
+  }
+  n.require = k;
+})(d || (d = {}));
 export {
-  a as ANSI,
-  s as Ansi,
-  k as BaseResult,
-  K as EventEmitter,
-  M as LogLevel,
-  et as Logger,
-  nt as Markdown,
-  v as Result,
-  d as Vector2,
-  G as clamp,
-  J as formatRelativeTime,
-  S as formatTime,
-  rt as getLongestCommonPrefix,
-  O as isValidInteger,
-  C as isValidNumber,
-  tt as kebabToCamelCase,
-  _ as parseBool,
-  L as parseOptionalFloat,
-  A as parseOptionalInteger,
-  Y as randomFromArray,
-  Q as randomRange,
-  Z as removeDuplicatesFromArray,
-  E as removeFromArray,
-  R as round
+  _ as ANSI,
+  j as Ansi,
+  I as BASE_URL,
+  m as BaseResult,
+  tr as EventEmitter,
+  P as LogLevel,
+  V as Logger,
+  T as Markdown,
+  d as Result,
+  l as Vector2,
+  er as capitalize,
+  nr as clamp,
+  ir as fillTemplate,
+  X as format,
+  Y as formatArray,
+  Z as formatError,
+  G as formatFunction,
+  H as formatFunctionCall,
+  J as formatMap,
+  K as formatObject,
+  Q as formatReactElement,
+  sr as formatRelativeTime,
+  W as formatSet,
+  R as formatString,
+  or as formatTime,
+  ar as getLongestCommonPrefix,
+  ur as interleave,
+  qr as isObject,
+  lr as isValidInteger,
+  cr as isValidNumber,
+  hr as isValidUrl,
+  fr as isolateSubstring,
+  mr as kebabToCamelCase,
+  Dr as mergeDeep,
+  dr as parseBool,
+  pr as parseOptionalFloat,
+  gr as parseOptionalInteger,
+  yr as randomFromArray,
+  vr as randomIndex,
+  xr as randomInt,
+  Er as randomRange,
+  kr as removeBaseUrl,
+  Or as removeDuplicatesFromArray,
+  $r as removeFromArray,
+  br as removeUrlProtocol,
+  wr as replaceAll,
+  Sr as resolveUrl,
+  Ar as round,
+  Fr as splitAt
 };
 //# sourceMappingURL=main.js.map
