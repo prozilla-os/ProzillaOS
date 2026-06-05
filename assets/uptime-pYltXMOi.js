@@ -1,4 +1,4 @@
-import { Command as n, Shell as p } from "/assets/prozilla_os_core.js";
+import { Command as n, Shell as p } from "/assets/main.js";
 const s = new n().setManual({
   purpose: "Display the current uptime of the system"
 }).setExecute(async function(i, { systemManager: t, stdout: e }) {

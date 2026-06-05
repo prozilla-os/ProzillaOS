@@ -1,0 +1,2 @@
+import{d as i,j as n}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const d=new i().setManual({purpose:"Output a string repeatedly until killed",usage:"yes [STRING]...",description:"Repeatedly output a line with all specified STRING(s), or 'y'."}).setExecute(async function(t,{stdout:e,stdin:s}){const o=(t.length>0?t.join(" "):"y")+`
+`;return await n.loop({stdout:e,stdin:s,task:()=>o})});export{d as yes};

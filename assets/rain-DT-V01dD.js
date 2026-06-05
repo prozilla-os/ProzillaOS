@@ -1,5 +1,5 @@
 import { parseOptionalFloat as S, randomRange as u, Vector2 as y, removeFromArray as d, ANSI as e } from "@prozilla-os/shared";
-import { Command as x, Shell as A } from "/assets/prozilla_os_core.js";
+import { Command as x, Shell as A } from "/assets/main.js";
 const g = 2, w = "|", f = [".", "v", "V", "w", "W", "v", "."], E = 2, m = {
   spawnRate: 40,
   fallSpeed: 1

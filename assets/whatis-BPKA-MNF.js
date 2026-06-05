@@ -1,5 +1,5 @@
 import { Ansi as m } from "@prozilla-os/shared";
-import { Command as i, ExecutableResolver as u, Shell as e } from "/assets/prozilla_os_core.js";
+import { Command as i, ExecutableResolver as u, Shell as e } from "/assets/main.js";
 const p = new i().setRequireArgs(!0).setManual({
   purpose: "Show information about a command"
 }).setExecute(async function(r, { stdout: a, stderr: t }) {

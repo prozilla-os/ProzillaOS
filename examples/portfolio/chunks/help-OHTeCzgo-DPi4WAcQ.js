@@ -1,0 +1,2 @@
+import{d as p,b as u,i as a,B as c,j as t}from"../index.js";const l=new p().setExecute(async function(o,{stdout:s,stderr:i}){if(o.length===0){const m=u.builtins.map(n=>n.manual?.purpose?`${n.name} - ${a.fg.green}${a.decoration.dim}${n.manual.purpose}${a.reset}`:n.name).sort().join(`
+`);return await t.printLn(s,m),c.success}const r=o[0].toLowerCase(),e=u.getBuiltin(r);if(!e)return t.writeError(i,this.name,`${r}: Command not found`);if(!e.manual?.purpose)return t.writeError(i,this.name,`${r}: No manual found`);await t.printLn(s,e.manual.purpose)});export{l as help};

@@ -1,5 +1,5 @@
 import { ANSI as g, Ansi as r } from "@prozilla-os/shared";
-import { Command as x, ExecutableResolver as w, Shell as p } from "/assets/prozilla_os_core.js";
+import { Command as x, ExecutableResolver as w, Shell as p } from "/assets/main.js";
 const N = 5, E = new x().setRequireArgs(!0).setManual({
   purpose: "Show system reference manuals",
   usage: `man [options] page

@@ -1,5 +1,5 @@
 import { parseOptionalFloat as r } from "@prozilla-os/shared";
-import { Command as c } from "/assets/prozilla_os_core.js";
+import { Command as c } from "/assets/main.js";
 const f = {
   s: 1e3,
   m: 1e3 * 60,

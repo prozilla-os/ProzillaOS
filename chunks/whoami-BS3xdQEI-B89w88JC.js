@@ -1,0 +1,1 @@
+import{d as e,j as o}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const m=new e().setManual({purpose:"Display the username"}).setExecute(async function(r,{username:t,stdout:a}){await o.printLn(a,t)});export{m as whoami};

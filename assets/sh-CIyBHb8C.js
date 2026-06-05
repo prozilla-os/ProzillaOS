@@ -1,4 +1,4 @@
-import { Command as u, Shell as r } from "/assets/prozilla_os_core.js";
+import { Command as u, Shell as r } from "/assets/main.js";
 const l = new u().setManual({
   purpose: "Execute a shell script"
 }).setRequireArgs(!0).setExecute(async function(n, { stdout: i, stderr: e, workingDirectory: s, shell: a }) {

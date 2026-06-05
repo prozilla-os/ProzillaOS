@@ -1,4 +1,4 @@
-import { Command as s, Shell as r } from "/assets/prozilla_os_core.js";
+import { Command as s, Shell as r } from "/assets/main.js";
 const l = new s().setManual({
   purpose: "Print all or part of environment",
   usage: "printenv [VARIABLE]...",

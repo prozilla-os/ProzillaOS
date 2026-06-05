@@ -1,5 +1,5 @@
 import { randomRange as i, ANSI as s, Vector2 as k } from "@prozilla-os/shared";
-import { Command as B, Shell as S } from "/assets/prozilla_os_core.js";
+import { Command as B, Shell as S } from "/assets/main.js";
 function p(h) {
   return Array.from({ length: h.y }, () => Array(h.x).fill(0));
 }

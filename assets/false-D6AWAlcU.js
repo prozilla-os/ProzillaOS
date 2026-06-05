@@ -1,4 +1,4 @@
-import { Command as e, EXIT_CODE as n } from "/assets/prozilla_os_core.js";
+import { Command as e, EXIT_CODE as n } from "/assets/main.js";
 const a = new e().setName("false").setManual({
   purpose: "Do nothing, unsuccessfully",
   usage: "false [ignored command line arguments]",

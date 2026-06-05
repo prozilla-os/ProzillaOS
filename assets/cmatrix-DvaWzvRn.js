@@ -1,5 +1,5 @@
 import { randomRange as p, Vector2 as l, removeFromArray as d, randomFromArray as g, ANSI as m } from "@prozilla-os/shared";
-import { Command as h, Shell as y } from "/assets/prozilla_os_core.js";
+import { Command as h, Shell as y } from "/assets/main.js";
 const w = 1.25, A = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.*\\/()#@&$!?%°:<>[]", c = {
   spawnRate: 30,
   fallSpeed: 1,

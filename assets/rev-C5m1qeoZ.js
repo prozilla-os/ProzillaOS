@@ -1,4 +1,4 @@
-import { Command as o, Shell as i } from "/assets/prozilla_os_core.js";
+import { Command as o, Shell as i } from "/assets/main.js";
 const l = new o().setManual({
   purpose: "Display the reverse of a text"
 }).setExecute(async function(p, { rawLine: e, stdin: t, stdout: r }) {

@@ -1,5 +1,5 @@
 import { parseOptionalInteger as d } from "@prozilla-os/shared";
-import { Command as w, EXIT_CODE as E, Shell as e, Stream as I } from "/assets/prozilla_os_core.js";
+import { Command as w, EXIT_CODE as E, Shell as e, Stream as I } from "/assets/main.js";
 const O = new w().setManual({
   purpose: "Output the first part of files",
   usage: "head [OPTION]... [FILE]...",

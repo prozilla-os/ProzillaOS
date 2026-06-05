@@ -1,0 +1,1 @@
+import{d as t,k as o}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const a=new t().setManual({purpose:"Reboot the system"}).setExecute(function(){o()});export{a as reboot};

@@ -1,4 +1,4 @@
-import { Command as l } from "/assets/prozilla_os_core.js";
+import { Command as l } from "/assets/main.js";
 const m = new l().setManual({
   purpose: "Concatenate files and display on the terminal screen",
   usage: "cat [OPTION]... [FILE]...",

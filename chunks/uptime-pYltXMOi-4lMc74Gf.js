@@ -1,0 +1,1 @@
+import{d as s,j as i}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const n=new s().setManual({purpose:"Display the current uptime of the system"}).setExecute(async function(p,{systemManager:t,stdout:e}){await i.printLn(e,`Uptime: ${t.getUptime(2)}`)});export{n as uptime};

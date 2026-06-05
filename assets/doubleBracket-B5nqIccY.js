@@ -1,4 +1,4 @@
-import { Command as a, Shell as u, EXIT_CODE as i } from "/assets/prozilla_os_core.js";
+import { Command as a, Shell as u, EXIT_CODE as i } from "/assets/main.js";
 const h = (t) => t ? i.success : i.generalError, n = {
   "-z": (t) => t.length === 0,
   "-n": (t) => t.length > 0,

@@ -1,5 +1,5 @@
 import { parseOptionalInteger as h } from "@prozilla-os/shared";
-import { Command as d, EXIT_CODE as E, Shell as i, Stream as I } from "/assets/prozilla_os_core.js";
+import { Command as d, EXIT_CODE as E, Shell as i, Stream as I } from "/assets/main.js";
 const O = new d().setManual({
   purpose: "Output the last part of files",
   usage: "tail [OPTION]... [FILE]...",

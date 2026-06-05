@@ -1,5 +1,5 @@
 import { parseOptionalFloat as f, ANSI as e } from "@prozilla-os/shared";
-import { Command as O, Stream as x, EXIT_CODE as y } from "/assets/prozilla_os_core.js";
+import { Command as O, Stream as x, EXIT_CODE as y } from "/assets/main.js";
 const d = [
   e.fg.red,
   e.fg.yellow,

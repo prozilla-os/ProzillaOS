@@ -1,0 +1,2 @@
+import{d as s}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const c=new s().setManual({purpose:"Display a line of text",usage:"echo [option] [string ...]",description:"Write arguments to the standard output.",options:{"-n":"Do not output the trailing newline"}}).addOption({short:"n",long:"no-newline",isInput:!1}).setExecute(async function(t,{stdout:o,options:n}){const e=t.join(" "),i=n.includes("n")?"":`
+`;await o.write(e+i)});export{c as echo};

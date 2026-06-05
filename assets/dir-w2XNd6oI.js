@@ -1,4 +1,4 @@
-import { Command as i, Shell as s } from "/assets/prozilla_os_core.js";
+import { Command as i, Shell as s } from "/assets/main.js";
 const c = new i().setManual({
   purpose: "List all directories in the current directory"
 }).setExecute(async function(a, { workingDirectory: t, stdout: o }) {

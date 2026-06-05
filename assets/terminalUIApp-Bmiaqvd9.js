@@ -1,5 +1,5 @@
 import { EventEmitter as a, ANSI as i } from "@prozilla-os/shared";
-import { EXIT_CODE as r } from "/assets/prozilla_os_core.js";
+import { EXIT_CODE as r } from "/assets/main.js";
 class s extends a {
   context;
   shell;

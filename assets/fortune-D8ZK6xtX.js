@@ -1,5 +1,5 @@
 import { randomFromArray as o } from "@prozilla-os/shared";
-import { Command as t, Shell as a } from "/assets/prozilla_os_core.js";
+import { Command as t, Shell as a } from "/assets/main.js";
 const i = [
   "Do not be afraid of competition.",
   "An exciting opportunity lies ahead of you.",

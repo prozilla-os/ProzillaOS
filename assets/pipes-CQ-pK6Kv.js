@@ -1,5 +1,5 @@
 import { parseOptionalInteger as x, parseOptionalFloat as w, ANSI as m, Vector2 as p, randomRange as y, randomFromArray as E } from "@prozilla-os/shared";
-import { Command as _, Shell as P } from "/assets/prozilla_os_core.js";
+import { Command as _, Shell as P } from "/assets/main.js";
 const T = 60 / 40, A = 10, D = 20, M = 15e-4, I = [
   new p(1, 0),
   new p(-1, 0),

@@ -1,4 +1,4 @@
-import { Command as n, Shell as a } from "/assets/prozilla_os_core.js";
+import { Command as n, Shell as a } from "/assets/main.js";
 const m = new n().setManual({
   purpose: "Display the hostname"
 }).setExecute(async function(o, { hostname: t, stdout: e }) {

@@ -1,4 +1,4 @@
-import { Command as d, Shell as r } from "/assets/prozilla_os_core.js";
+import { Command as d, Shell as r } from "/assets/main.js";
 import { ANSI as s } from "@prozilla-os/shared";
 const p = new d().setManual({
   purpose: "List directory contents",

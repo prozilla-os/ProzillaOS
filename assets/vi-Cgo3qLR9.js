@@ -1,4 +1,4 @@
-import { Command as m, Shell as d } from "/assets/prozilla_os_core.js";
+import { Command as m, Shell as d } from "/assets/main.js";
 import { ANSI as t, Ansi as l } from "@prozilla-os/shared";
 import { T as u } from "/assets/terminalUIApp-Bmiaqvd9.js";
 import { T as f } from "/assets/textEditorApp-BM3EiMoV.js";

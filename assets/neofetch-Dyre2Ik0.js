@@ -1,5 +1,5 @@
 import { ANSI as n } from "@prozilla-os/shared";
-import { Command as y, Settings as E, ANSI_LOGO_COLOR as H, Shell as _, ANSI_ASCII_LOGO as b } from "/assets/prozilla_os_core.js";
+import { Command as y, Settings as E, ANSI_LOGO_COLOR as H, Shell as _, ANSI_ASCII_LOGO as b } from "/assets/main.js";
 import { Theme as c } from "@prozilla-os/skins";
 const G = new y().setManual({
   purpose: "Fetch system information"

@@ -1,4 +1,4 @@
-import { Command as e, ExecutableResolver as t } from "/assets/prozilla_os_core.js";
+import { Command as e, ExecutableResolver as t } from "/assets/main.js";
 const o = new e().setManual({
   purpose: "Reload the terminal"
 }).setExecute(async function() {

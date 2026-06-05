@@ -1,4 +1,4 @@
-import { Command as E, Shell as i, EXIT_CODE as h } from "/assets/prozilla_os_core.js";
+import { Command as E, Shell as i, EXIT_CODE as h } from "/assets/main.js";
 const I = new E().setManual({
   purpose: "Search for patterns in text",
   usage: "grep [option...] pattern [file...]",

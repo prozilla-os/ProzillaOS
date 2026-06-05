@@ -1,5 +1,5 @@
 import { ANSI as o } from "@prozilla-os/shared";
-import { Command as p, ExecutableResolver as m, Shell as n, EXIT_CODE as l } from "/assets/prozilla_os_core.js";
+import { Command as p, ExecutableResolver as m, Shell as n, EXIT_CODE as l } from "/assets/main.js";
 const $ = new p().setExecute(async function(a, { stdout: u, stderr: i }) {
   if (a.length === 0) {
     const s = m.builtins.map((e) => e.manual?.purpose ? `${e.name} - ${o.fg.green}${o.decoration.dim}${e.manual.purpose}${o.reset}` : e.name).sort().join(`

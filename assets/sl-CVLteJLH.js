@@ -1,5 +1,5 @@
 import { parseOptionalFloat as w } from "@prozilla-os/shared";
-import { Command as I, Shell as g } from "/assets/prozilla_os_core.js";
+import { Command as I, Shell as g } from "/assets/main.js";
 const h = 1.25, m = [
   [
     "                        (@@) (  ) (@)  ( )  @@   ()   @   o   @   o",

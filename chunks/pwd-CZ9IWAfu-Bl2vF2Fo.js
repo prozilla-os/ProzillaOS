@@ -1,0 +1,1 @@
+import{d as e,j as a}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const u=new e().setManual({purpose:"Display path of the current directory"}).setExecute(async function(i,{workingDirectory:t,stdout:r}){let o=t.absolutePath;t.root&&(o="/"),await a.printLn(r,o)});export{u as pwd};

@@ -1,4 +1,4 @@
-import { Command as x, Stream as s, EXIT_CODE as I, Shell as p } from "/assets/prozilla_os_core.js";
+import { Command as x, Stream as s, EXIT_CODE as I, Shell as p } from "/assets/main.js";
 import { parseOptionalFloat as S, ANSI as t, Ansi as O } from "@prozilla-os/shared";
 const M = new x().setRequireArgs(!0).setManual({
   purpose: "Execute a program periodically, showing output fullscreen",

@@ -1,4 +1,4 @@
-import { Command as S, Shell as p } from "/assets/prozilla_os_core.js";
+import { Command as S, Shell as p } from "/assets/main.js";
 const f = new S().setManual({
   purpose: "Display or set the date and time",
   usage: "date [option] [+format]",

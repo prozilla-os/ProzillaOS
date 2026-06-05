@@ -1,0 +1,1 @@
+import{d as e}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const p=new e().setManual({purpose:"Quit terminal interface"}).setExecute(function(i,{exit:t}){t()});export{p as exit};

@@ -1,4 +1,4 @@
-import { Command as e, reloadViewport as o } from "/assets/prozilla_os_core.js";
+import { Command as e, reloadViewport as o } from "/assets/main.js";
 const r = new e().setManual({
   purpose: "Reboot the system"
 }).setExecute(function() {

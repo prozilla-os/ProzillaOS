@@ -1,4 +1,4 @@
-import { Command as P, Shell as o, EXIT_CODE as g } from "/assets/prozilla_os_core.js";
+import { Command as P, Shell as o, EXIT_CODE as g } from "/assets/main.js";
 const E = new P().setManual({
   purpose: "Report or omit repeated lines",
   usage: "uniq [OPTION]... [INPUT [OUTPUT]]",

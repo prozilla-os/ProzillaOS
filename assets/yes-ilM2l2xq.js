@@ -1,4 +1,4 @@
-import { Command as i, Shell as l } from "/assets/prozilla_os_core.js";
+import { Command as i, Shell as l } from "/assets/main.js";
 const u = new i().setManual({
   purpose: "Output a string repeatedly until killed",
   usage: "yes [STRING]...",

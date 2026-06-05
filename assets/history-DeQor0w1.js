@@ -1,4 +1,4 @@
-import { Command as a, HistoryFlags as u, EXIT_CODE as e, Shell as c } from "/assets/prozilla_os_core.js";
+import { Command as a, HistoryFlags as u, EXIT_CODE as e, Shell as c } from "/assets/main.js";
 const h = new a().setManual({
   purpose: "Display the command history list with line numbers",
   usage: "history",

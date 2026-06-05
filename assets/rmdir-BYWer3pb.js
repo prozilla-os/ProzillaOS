@@ -1,4 +1,4 @@
-import { Command as i, Shell as s } from "/assets/prozilla_os_core.js";
+import { Command as i, Shell as s } from "/assets/main.js";
 const u = new i().setRequireArgs(!0).setManual({
   purpose: "Remove a directory"
 }).setExecute(function(o, { workingDirectory: t, stderr: n }) {

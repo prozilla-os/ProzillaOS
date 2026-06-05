@@ -1,4 +1,4 @@
-import { Command as c, Shell as i } from "/assets/prozilla_os_core.js";
+import { Command as c, Shell as i } from "/assets/main.js";
 const h = new c().setManual({
   purpose: "Change the current directory",
   usage: "cd [PATH]",

@@ -1,0 +1,1 @@
+import{d as t,b as a}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const s=new t().setManual({purpose:"Reload the terminal"}).setExecute(async function(){await a.loadBuiltins()});export{s as reload};

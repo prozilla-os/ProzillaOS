@@ -1,4 +1,4 @@
-import { Command as s } from "/assets/prozilla_os_core.js";
+import { Command as s } from "/assets/main.js";
 const u = new s().setManual({
   purpose: "Display a line of text",
   usage: "echo [option] [string ...]",

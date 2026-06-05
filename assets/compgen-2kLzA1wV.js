@@ -1,4 +1,4 @@
-import { Command as s, Shell as a, ExecutableResolver as o } from "/assets/prozilla_os_core.js";
+import { Command as s, Shell as a, ExecutableResolver as o } from "/assets/main.js";
 const r = new s().setManual({
   purpose: "Display a list of all commands"
 }).setRequireOptions(!0).setExecute(async function(i, { options: e, stdout: n }) {

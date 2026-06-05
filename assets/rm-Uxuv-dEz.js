@@ -1,4 +1,4 @@
-import { Command as l, VirtualFile as u, Shell as f } from "/assets/prozilla_os_core.js";
+import { Command as l, VirtualFile as u, Shell as f } from "/assets/main.js";
 const a = new l().setRequireArgs(!0).setManual({
   purpose: "Remove a file"
 }).setExecute(function(i, { workingDirectory: n, stderr: r }) {

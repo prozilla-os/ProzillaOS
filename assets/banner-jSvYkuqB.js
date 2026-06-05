@@ -1,4 +1,4 @@
-import { Command as p, EXIT_CODE as s, Shell as u } from "/assets/prozilla_os_core.js";
+import { Command as p, EXIT_CODE as s, Shell as u } from "/assets/main.js";
 const o = {
   A: [
     " ### ",

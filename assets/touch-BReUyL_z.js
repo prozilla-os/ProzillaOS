@@ -1,4 +1,4 @@
-import { Command as o, VirtualFile as a } from "/assets/prozilla_os_core.js";
+import { Command as o, VirtualFile as a } from "/assets/main.js";
 const r = new o().setRequireArgs(!0).setManual({
   purpose: "Change file timestamps",
   usage: "touch [options] files",

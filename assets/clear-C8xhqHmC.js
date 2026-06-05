@@ -1,4 +1,4 @@
-import { Command as r, HistoryFlags as s } from "/assets/prozilla_os_core.js";
+import { Command as r, HistoryFlags as s } from "/assets/main.js";
 const o = new r().setManual({
   purpose: "Clear terminal screen"
 }).setExecute(function(a, { shell: e }) {

@@ -1,4 +1,4 @@
-import { Command as a, EXIT_CODE as i, Shell as u } from "/assets/prozilla_os_core.js";
+import { Command as a, EXIT_CODE as i, Shell as u } from "/assets/main.js";
 const l = new a().setRequireArgs(!0).setManual({
   purpose: "Evaluate and execute JavaScript code",
   usage: "eval [input]",

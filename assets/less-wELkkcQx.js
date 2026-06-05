@@ -1,4 +1,4 @@
-import { Command as p, Shell as o } from "/assets/prozilla_os_core.js";
+import { Command as p, Shell as o } from "/assets/main.js";
 import { ANSI as t } from "@prozilla-os/shared";
 import { T as n } from "/assets/terminalUIApp-Bmiaqvd9.js";
 class u extends n {

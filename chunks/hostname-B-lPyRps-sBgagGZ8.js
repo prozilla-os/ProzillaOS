@@ -1,0 +1,1 @@
+import{d as a,j as s}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const r=new a().setManual({purpose:"Display the hostname"}).setExecute(async function(e,{hostname:t,stdout:o}){await s.printLn(o,t)});export{r as hostname};

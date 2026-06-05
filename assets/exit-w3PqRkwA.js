@@ -1,4 +1,4 @@
-import { Command as t } from "/assets/prozilla_os_core.js";
+import { Command as t } from "/assets/main.js";
 const o = new t().setManual({
   purpose: "Quit terminal interface"
 }).setExecute(function(n, { exit: e }) {

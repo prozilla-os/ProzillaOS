@@ -1,0 +1,1 @@
+import{d as o}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const u=new o().setManual({purpose:"Create a directory"}).setRequireArgs(!0).setExecute(function(t,{workingDirectory:r}){const e=t[0];r.findSubFolder(e)||r.createFolder(e)});export{u as mkdir};

@@ -1,4 +1,4 @@
-import { Command as n } from "/assets/prozilla_os_core.js";
+import { Command as n } from "/assets/main.js";
 const u = new n().setManual({
   purpose: "Create a directory"
 }).setRequireArgs(!0).setExecute(function(t, { workingDirectory: e }) {

@@ -1,4 +1,4 @@
-import { Command as _, Shell as p, MAX_WIDTH as u } from "/assets/prozilla_os_core.js";
+import { Command as _, Shell as p, MAX_WIDTH as u } from "/assets/main.js";
 const w = `
         \\   ^__^
          \\  (oo)\\_______

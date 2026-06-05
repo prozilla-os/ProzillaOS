@@ -1,5 +1,5 @@
 import { parseOptionalInteger as p, parseOptionalFloat as j, ANSI as c } from "@prozilla-os/shared";
-import { Command as G, Shell as P } from "/assets/prozilla_os_core.js";
+import { Command as G, Shell as P } from "/assets/main.js";
 const m = " .:-=+*#%@".split(""), M = 256 * 5, X = 60, Y = 25, k = 8, u = 12, S = 1, g = 6, O = 2, H = 60 / 50, L = 1 / 1.5, N = 1200, R = 5, x = 255, K = new G().setManual({
   purpose: "Display burning ASCII art flames",
   usage: "afire [-s <speed>] [-i <float>] [-c <int>] [-d <int>] [-h <int>]",
