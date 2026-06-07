@@ -1,0 +1,2 @@
+import{d as i,b as s,j as r,o as u}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const w=new i().setRequireArgs(!0).setManual({purpose:"Show information about a command"}).setExecute(async function(e,{stdout:a,stderr:n}){const t=e[0].toLowerCase(),o=s.getBuiltin(t);if(!o)return r.writeError(n,this.name,`${t}: Command not found`);if(!o.manual?.purpose)return r.writeError(n,this.name,`${t}: No information found`);await r.printLn(a,`${t} - ${u.green(o.manual.purpose)}
+`)});export{w as whatis};

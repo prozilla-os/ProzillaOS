@@ -1,5 +1,5 @@
-import { A as _, a as j, L as P, b as V, f as X, c as Y, d as Z, e as G, g as H, h as J, i as K, j as Q, k as W, l as R } from "/assets/index-DC7HlONQ.js";
-import { EventEmitter as tr, capitalize as er, clamp as nr, fillTemplate as ir, formatRelativeTime as sr, formatTime as or, getLongestCommonPrefix as ar, interleave as ur, isValidInteger as lr, isValidNumber as cr, isValidUrl as hr, isolateSubstring as fr, kebabToCamelCase as mr, parseBool as dr, parseOptionalFloat as pr, parseOptionalInteger as gr, randomFromArray as yr, randomIndex as vr, randomInt as xr, randomRange as Er, removeBaseUrl as kr, removeDuplicatesFromArray as Or, removeFromArray as $r, removeUrlProtocol as br, replaceAll as wr, resolveUrl as Sr, round as Ar, splitAt as Fr } from "/assets/utils.js";
+import { A as _, a as j, L as P, b as V, i as X, c as Y, d as Z, e as G, f as H, g as J, h as K, j as Q, k as W, l as R } from "/assets/index-CdCI8E9D.js";
+import { EventEmitter as tr, capitalize as er, clamp as nr, fillTemplate as ir, formatRelativeTime as sr, formatTime as or, getLongestCommonPrefix as ar, interleave as ur, isValidInteger as cr, isValidNumber as lr, isValidUrl as hr, isolateSubstring as fr, kebabToCamelCase as pr, parseBool as dr, parseOptionalFloat as mr, parseOptionalInteger as gr, randomFromArray as yr, randomIndex as vr, randomInt as xr, randomRange as Er, removeBaseUrl as kr, removeDuplicatesFromArray as Or, removeFromArray as $r, removeUrlProtocol as br, replaceAll as wr, resolveUrl as Sr, round as Ar, splitAt as Fr } from "/assets/utils.js";
 import { i as qr, m as Dr } from "/assets/object.utils-xiWGUq8N.js";
 const I = "https://os.prozilla.dev/";
 function O(n) {
@@ -61,17 +61,17 @@ const T = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   quote: N,
   strikethrough: L
 }, Symbol.toStringTag, { value: "Module" }));
-class l {
+class c {
   x;
   y;
   constructor(r, e) {
     this.x = r, this.y = e ?? r;
   }
   static get ZERO() {
-    return new l(0, 0);
+    return new c(0, 0);
   }
   get clone() {
-    return new l(this.x, this.y);
+    return new c(this.x, this.y);
   }
   get magnitude() {
     return this.getDistance(this);
@@ -96,27 +96,27 @@ class l {
     return this.multiply(r);
   }
   getDistanceSquared(r, e) {
-    const i = l.parseVector(r, e), a = this.x - i.x, h = this.y - i.y;
+    const i = c.parseVector(r, e), a = this.x - i.x, h = this.y - i.y;
     return a * a + h * h;
   }
   getDistance(r, e) {
-    const i = l.parseVector(r, e);
+    const i = c.parseVector(r, e);
     return Math.sqrt(this.getDistanceSquared(i.x, i.y));
   }
   add(r, e) {
-    const i = l.parseVector(r, e);
+    const i = c.parseVector(r, e);
     return this.x += i.x, this.y += i.y, this;
   }
   subtract(r, e) {
-    const i = l.parseVector(r, e);
+    const i = c.parseVector(r, e);
     return this.x -= i.x, this.y -= i.y, this;
   }
   multiply(r, e) {
-    const i = l.parseVector(r, e);
+    const i = c.parseVector(r, e);
     return this.x *= i.x, this.y *= i.y, this;
   }
   divide(r, e) {
-    const i = l.parseVector(r, e);
+    const i = c.parseVector(r, e);
     return this.x /= i.x, this.y /= i.y, this;
   }
   lerp(r, e) {
@@ -144,13 +144,13 @@ class l {
     return r.clone.lerp(e, i);
   }
   static from({ x: r, y: e }) {
-    return new l(r, e);
+    return new c(r, e);
   }
   static parseVector(r, e) {
-    return r instanceof l ? (e = r.y, r = r.x) : e === void 0 && (e = r), { x: r, y: e };
+    return r instanceof c ? (e = r.y, r = r.x) : e === void 0 && (e = r), { x: r, y: e };
   }
 }
-class m {
+class p {
   /**
    * Returns `true` if this result is a {@link Result.Success}.
    */
@@ -178,7 +178,7 @@ class m {
 }
 var d;
 ((n) => {
-  class r extends m {
+  class r extends p {
     constructor(t) {
       super(), this.value = t;
     }
@@ -209,7 +209,7 @@ var d;
     }
   }
   n.Success = r;
-  class e extends m {
+  class e extends p {
     constructor(t) {
       super(), this.error = t;
     }
@@ -256,10 +256,10 @@ var d;
     }
   }
   n.wrap = h;
-  function p(s, t) {
+  function m(s, t) {
     return s != null ? i(s) : a(t);
   }
-  n.nonNullOr = p;
+  n.nonNullOr = m;
   function g(s, t) {
     return s != null ? i(s) : t();
   }
@@ -267,18 +267,18 @@ var d;
   function y(s, t, o) {
     let u = s;
     for (; t(u); ) {
-      const c = o(u);
-      if (c.isError())
-        return c;
-      u = c.value;
+      const l = o(u);
+      if (l.isError())
+        return l;
+      u = l.value;
     }
     return i(u);
   }
   n.repeat = y;
   function v(s, t, o) {
     let u = o;
-    for (const c of s) {
-      const f = t(u, c);
+    for (const l of s) {
+      const f = t(u, l);
       if (f.isError())
         return f;
       u = f.value;
@@ -298,9 +298,9 @@ var d;
   n.all = x;
   function E(s, t, o) {
     for (const u of s) {
-      const c = t(u);
-      if (c.isOk())
-        return c;
+      const l = t(u);
+      if (l.isOk())
+        return l;
     }
     return o;
   }
@@ -314,39 +314,39 @@ export {
   _ as ANSI,
   j as Ansi,
   I as BASE_URL,
-  m as BaseResult,
+  p as BaseResult,
   tr as EventEmitter,
   P as LogLevel,
   V as Logger,
   T as Markdown,
   d as Result,
-  l as Vector2,
+  c as Vector2,
   er as capitalize,
   nr as clamp,
   ir as fillTemplate,
-  X as format,
-  Y as formatArray,
-  Z as formatError,
-  G as formatFunction,
-  H as formatFunctionCall,
-  J as formatMap,
-  K as formatObject,
-  Q as formatReactElement,
   sr as formatRelativeTime,
-  W as formatSet,
-  R as formatString,
   or as formatTime,
   ar as getLongestCommonPrefix,
+  X as inspect,
+  Y as inspectArray,
+  Z as inspectError,
+  G as inspectFunction,
+  H as inspectFunctionCall,
+  J as inspectMap,
+  K as inspectObject,
+  Q as inspectReactElement,
+  W as inspectSet,
+  R as inspectString,
   ur as interleave,
   qr as isObject,
-  lr as isValidInteger,
-  cr as isValidNumber,
+  cr as isValidInteger,
+  lr as isValidNumber,
   hr as isValidUrl,
   fr as isolateSubstring,
-  mr as kebabToCamelCase,
+  pr as kebabToCamelCase,
   Dr as mergeDeep,
   dr as parseBool,
-  pr as parseOptionalFloat,
+  mr as parseOptionalFloat,
   gr as parseOptionalInteger,
   yr as randomFromArray,
   vr as randomIndex,
