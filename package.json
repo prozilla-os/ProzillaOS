@@ -23,7 +23,7 @@
 		"test:ci": "turbo run root:test:ci",
 		"lint": "turbo run root:lint",
 		"lint:nofix": "turbo run root:lint:nofix",
-		"clean": "rimraf --glob \"packages/*/{dist,.turbo}\" \"packages/apps/*/{dist,.turbo}\" \"{demo,docs}/{dist,.turbo}\" \"examples/*/{dist,.turbo}\" \".turbo\" \"dist\"",
+		"clean": "rimraf --glob \"packages/*/{dist,.turbo}\" \"packages/apps/*/{dist,.turbo}\" \"{demo,docs}/{dist,.turbo}\" \"examples/*/{dist,.turbo}\" \".turbo\" \"dist\" \"tmp\"",
 		"report": "turbo run root:report",
 		"demo:start": "turbo run start --filter=@prozilla-os/demo",
 		"demo:build": "turbo run build --filter=@prozilla-os/demo",

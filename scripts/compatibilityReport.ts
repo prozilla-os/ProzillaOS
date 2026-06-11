@@ -4,8 +4,8 @@ import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { Extractor, ExtractorConfig } from "@microsoft/api-extractor";
 import { ApiItemKind, ApiModel, type ApiItem, type ApiFunction, type ApiClass, type ApiInterface, type ApiTypeAlias, type ApiEnum, type ApiVariable, type ApiMethod, type ApiMethodSignature, type ApiProperty, type ApiPropertySignature, Excerpt } from "@microsoft/api-extractor-model";
-import { Logger, Ansi } from "../packages/shared/src/features";
-import { program } from "@commander-js/extra-typings";
+import { Logger, Ansi, Markdown } from "../packages/shared/src/features";
+import { Option, program } from "@commander-js/extra-typings";
 import { NestedArray } from "../packages/shared/src/types";
 
 interface PackageEntry {
@@ -24,6 +24,23 @@ interface Analysis {
 	status: "ok" | "changed" | "skipped" | "error";
 	message?: string;
 	changes: Change[];
+}
+
+interface OutputStyle {
+	bold: (text: string) => string;
+	green: (text: string) => string;
+	red: (text: string) => string;
+	blue: (text: string) => string;
+	yellow: (text: string) => string;
+	dim: (text: string) => string;
+	kind: (kind: ApiItemKind) => string;
+	heading1: () => string;
+	heading2: (name: string, version: string) => string;
+	heading3: (label: string, count: number, color?: "green" | "red" | "yellow") => string;
+	prefix: (line: string, depth: number, offset?: number) => string;
+	positive: (label?: string) => string;
+	negative: (label?: string) => string;
+	neutral: (label?: string) => string;
 }
 
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -49,16 +66,64 @@ const PACKAGE_ENTRIES: PackageEntry[] = [
 	{ path: "apps/text-editor", name: "@prozilla-os/text-editor" },
 ];
 
+const TXT_STYLE: OutputStyle = {
+	bold: Ansi.bold,
+	green: Ansi.green,
+	red: Ansi.red,
+	blue: Ansi.blue,
+	yellow: Ansi.yellow,
+	dim: Ansi.dim,
+	kind: (kind) => `[${Ansi.cyan(kind)}]`,
+	heading1: () => "=== Compatibility report ===",
+	heading2: (name, version) => `Package: ${Ansi.bold(name + "@" + version)}`,
+	heading3: (label, count, color) => {
+		let applyColor = (text: string) => text;
+		switch (color) {
+			case "green":
+				applyColor = Ansi.green;
+				break;
+			case "red":
+				applyColor = Ansi.red;
+				break;
+			case "yellow":
+				applyColor = Ansi.yellow;
+				break;
+		}
+		return `${applyColor(label)} (${count}):`;
+	},
+	prefix: (line, depth) => "  ".repeat(depth) + line,
+	positive: (label) => Ansi.green(label ? `+ ${label}:` : "+"),
+	negative: (label) => Ansi.red(label ? `- ${label}:` : "-"),
+	neutral: (label) => Ansi.blue(label ? `~ ${label}:` : "~"),
+};
+
+const MARKDOWN_STYLE: OutputStyle = {
+	bold: Markdown.bold,
+	green: Markdown.bold,
+	red: Markdown.bold,
+	blue: Markdown.bold,
+	yellow: Markdown.bold,
+	dim: (text) => text,
+	kind: Markdown.code,
+	heading1: () => Markdown.heading1("Compatibility report"),
+	heading2: (name, version) => Markdown.heading2(`${name}@${version}`),
+	heading3: (label, count) => Markdown.heading3(`${label} (${count})`),
+	prefix: (line, depth, offset = 2) => depth >= offset ? "  ".repeat(depth - offset) + "- " + line : line,
+	positive: (label) => label ? `🟢 ${label}:` : "🟢",
+	negative: (label) => label ? `🔴 ${label}:` : "🔴",
+	neutral: (label) => label ? `🔵 ${label}:` : "🔵",
+};
+
 const logger = new Logger();
 
 function main() {
 	const command = program.name("compatibility-report")
 		.description("Generates a compatibility report by comparing the local packages with their published versions.")
-		.option("--filter <name>", "Check only specific packages (e.g., \"core\", \"shared\")")
+		.option("--filter <name>", "Include only specific packages (e.g., \"core\", \"shared\")")
 		.option("-o, --output <path>", "Write the report to a file")
-		.option("-f, --full", "Include packages with no changes in report")
-		.option("--no-cache", "Download fresh copies, ignoring cached packages")
-		.option("--json", "Output report as JSON instead of plain text")
+		.option("-f, --full", "Include packages with no changes in the report")
+		.option("--no-cache", "Download all packages")
+		.addOption(new Option("--format <type>", "Output format").choices(["txt", "json", "md"]).default("txt"))
 		.parse(process.argv);
 
 	const options = command.opts();
@@ -66,7 +131,7 @@ function main() {
 	const outputFile = typeof options.output === "string" ? options.output : undefined;
 	const fullReport = Boolean(options.full);
 	const useCache = options.cache;
-	const outputJson = options.json;
+	const format = options.format;
 
 	const entries = filter
 		? PACKAGE_ENTRIES.filter(({ name, path }) => name.split("/").concat(path.split("/")).includes(filter))
@@ -106,7 +171,7 @@ function main() {
 		}
 	}
 
-	const report = renderReport(analyses, { fullReport, format: outputJson ? "json" : "txt" });
+	const report = renderReport(analyses, { fullReport, format });
 	if (outputFile) {
 		fs.writeFileSync(outputFile, Ansi.strip(report));
 		logger.success(`Report written to: ${logger.highlight(outputFile)}`);
@@ -485,23 +550,32 @@ function compositeOf(name: string, before?: string, after?: string, isBreaking?:
 	return { type: "composite", name, children: changes, isBreaking };
 }
 
-function renderReport(analyses: Analysis[], { fullReport, format }: { fullReport: boolean, format: "txt" | "json" }) {
+function renderReport(analyses: Analysis[], { fullReport, format }: { fullReport: boolean, format: "txt" | "json" | "md" }) {
 	if (format === "json")
 		return JSON.stringify(analyses, null, 2);
 
-	const report = ["=== Compatibility report ==="];
+	const style = format === "md" ? MARKDOWN_STYLE : TXT_STYLE;
+	const report = [
+		style.heading1(),
+		style.bold("Legend:"),
+		...[
+			`Added: ${style.positive()}`,
+			`Removed: ${style.negative()}`,
+			`Modified: ${style.neutral()}`,
+		].map((line) => style.prefix(line, 1, 1)),
+	];
 
 	for (const analysis of analyses) {
 		if (!fullReport && analysis.status === "ok")
 			continue;
 
-		const lines: NestedArray<string> = [`Package: ${Ansi.bold(analysis.packageName + "@" + analysis.packageVersion)}`];
+		const lines: NestedArray<string> = [style.heading2(analysis.packageName, analysis.packageVersion)];
 		let depth = 1;
 
 		function append(...items: NestedArray<string>) {
 			for (const line of items) {
 				if (!Array.isArray(line)) {
-					lines.push("  ".repeat(depth) + line);
+					lines.push(style.prefix(line, depth));
 				} else if (line.length) {
 					depth++;
 					append(...line);
@@ -512,7 +586,7 @@ function renderReport(analyses: Analysis[], { fullReport, format }: { fullReport
 
 		switch (analysis.status) {
 			case "ok":
-				append(`Status: ${Ansi.green("No changes")}`);
+				append(`Status: ${style.green("No changes")}`);
 				break;
 			case "changed": {
 				let breakingLines: NestedArray<string> = [];
@@ -525,32 +599,32 @@ function renderReport(analyses: Analysis[], { fullReport, format }: { fullReport
 				for (const change of analysis.changes) {
 					if (change.isBreaking === true) {
 						breakingCount++;
-						breakingLines = breakingLines.concat(renderChange(change));
+						breakingLines = breakingLines.concat(renderChange(change, style));
 					} else if (change.isBreaking === false) {
 						nonBreakingCount++;
-						nonBreakingLines = nonBreakingLines.concat(renderChange(change));
+						nonBreakingLines = nonBreakingLines.concat(renderChange(change, style));
 					} else {
 						otherCount++;
-						otherLines = otherLines.concat(renderChange(change));
+						otherLines = otherLines.concat(renderChange(change, style));
 					}
 				}
 
-				append(`Status: ${breakingCount ? Ansi.red("Major changes") : Ansi.yellow("Minor changes")}`);
+				append(`Status: ${breakingCount ? style.red("Major changes") : style.yellow("Minor changes")}`);
 
 				if (nonBreakingCount)
-					append(`${Ansi.green("Non-breaking changes")} (${nonBreakingCount}):`, nonBreakingLines);
+					append(style.heading3("Non-breaking changes", nonBreakingCount, "green"), nonBreakingLines);
 				if (breakingCount)
-					append(`${Ansi.red("Breaking changes")} (${breakingCount}):`, breakingLines);
+					append(style.heading3("Breaking changes", breakingCount, "red"), breakingLines);
 				if (otherCount)
-					append(`${Ansi.yellow("Other changes")} (${otherCount}):`, otherLines);
+					append(style.heading3("Other changes", otherCount, "yellow"), otherLines);
 
 				break;
 			}
 			case "skipped":
-				append(`Status: ${Ansi.dim("Skipped")} - ${analysis.message}`);
+				append(`Status: ${style.dim("Skipped")} - ${analysis.message}`);
 				break;
 			case "error":
-				append(`Status: ${Ansi.red("Error")} - ${analysis.message}`);
+				append(`Status: ${style.red("Error")} - ${analysis.message}`);
 				break;
 		}
 
@@ -560,32 +634,28 @@ function renderReport(analyses: Analysis[], { fullReport, format }: { fullReport
 	return report.join("\n");
 }
 
-function renderChange(change: Change): NestedArray<string> {
+function renderChange(change: Change, style: OutputStyle): NestedArray<string> {
 	switch (change.type) {
 		case "added": {
-			const kind = change.kind ? ` ${renderKind(change.kind)}` : "";
-			return [`${Ansi.green("+")} ${change.name}${kind}`];
+			const kind = change.kind ? ` ${style.kind(change.kind)}` : "";
+			return [`${style.positive()} ${change.name}${kind}`];
 		}
 		case "removed": {
-			const kind = change.kind ? ` ${renderKind(change.kind)}` : "";
-			return [`${Ansi.red("-")} ${change.name}${kind}`];
+			const kind = change.kind ? ` ${style.kind(change.kind)}` : "";
+			return [`${style.negative()} ${change.name}${kind}`];
 		}
 		case "composite": {
-			const kind = change.kind ? ` ${renderKind(change.kind)}` : "";
+			const kind = change.kind ? ` ${style.kind(change.kind)}` : "";
 			return [
-				`${Ansi.blue("~")} ${change.name}${kind}`,
-				...change.children.map(renderChange),
+				`${style.neutral()} ${change.name}${kind}`,
+				...change.children.map((child) => renderChange(child, style)),
 			];
 		}
 		case "before":
-			return [`${Ansi.red("- before:")} ${change.value}`];
+			return [`${style.negative("before")} ${change.value}`];
 		case "after":
-			return [`${Ansi.green("+ after:")} ${change.value}`];
+			return [`${style.positive("after")} ${change.value}`];
 	}
-}
-
-function renderKind(kind: ApiItemKind) {
-	return `[${Ansi.cyan(kind)}]`;
 }
 
 try {
