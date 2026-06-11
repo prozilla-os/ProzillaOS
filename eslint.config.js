@@ -184,6 +184,7 @@ export default defineConfig(
 			}],
 			"no-mixed-spaces-and-tabs": "error",
 			"@typescript-eslint/no-namespace": "off",
+		    "object-shorthand": ["warn", "properties"]
 		},
 	},
 	{

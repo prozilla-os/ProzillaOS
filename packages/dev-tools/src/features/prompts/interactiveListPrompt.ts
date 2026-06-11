@@ -58,7 +58,7 @@ export interface InteractiveListConfig {
 export const interactiveListPrompt = async (config: InteractiveListConfig) => {
 	const renderKey = ({ key }: InteractiveListChoice) => Ansi.dim(`(${Ansi.bold(key)})`);
 	const {
-		renderSelected = (choice: InteractiveListChoice) => Ansi.green(`❯ ${renderKey(choice)} ${choice.name}`),
+		renderSelected = (choice: InteractiveListChoice) => Ansi.yellow(`❯ ${renderKey(choice)} ${choice.name}`),
 		renderUnselected = (choice: InteractiveListChoice) => `  ${renderKey(choice)} ${choice.name}`,
 	} = config;
 

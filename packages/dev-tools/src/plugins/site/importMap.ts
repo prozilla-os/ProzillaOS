@@ -525,7 +525,7 @@ function computeNonChunkEntries(sharedPackages: SharedPackage[]) {
 		.filter(({ chunkName }) => chunkName == null)
 		.map(({ specifier }) => ({
 			urlName: toUrlName(specifier),
-			specifier: specifier,
+			specifier,
 		}));
 }
 

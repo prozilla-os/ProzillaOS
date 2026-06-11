@@ -16,6 +16,7 @@ async function main() {
 			{ name: "Start docs", value: "docs:start", key: "d" },
 			{ name: "Run tests", value: "test", key: "t" },
 			{ name: "Preview build", value: "preview", key: "p" },
+			{ name: "Generate compatibility report", value: "report", key: "c" },
 			{ name: "None", value: "", key: "n" },
 		],
 	});

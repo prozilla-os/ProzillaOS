@@ -60,6 +60,11 @@
 			"cache": false,
 			"outputLogs": "new-only",
 			"env": ["RELEASE_PATH"]
+		},
+		"//#root:report": {
+			"dependsOn": ["prozilla-os#build", "@prozilla-os/logic-sim#build", "@prozilla-os/dev-tools#build"],
+			"outputs": [],
+			"outputLogs": "new-only"
 		}
 	}
 }

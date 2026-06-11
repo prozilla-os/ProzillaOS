@@ -471,7 +471,7 @@ export class Logger {
 	 * Logs an newline character.
 	 */
 	newLine(): this {
-		console.log("\n");
+		console.log();
 		return this;
 	}
 

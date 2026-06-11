@@ -606,8 +606,8 @@ export class ShellParser {
 
 					const node: ShellAST.ParameterExpansionNode = {
 						type: ShellAST.NodeType.ParameterExpansion,
-						name: name,
-						operator: operator,
+						name,
+						operator,
 						argument: operator ? this.parseArgument(rawArgument) : undefined,
 					};
 					return { node, nextIndex: closingIndex + 1 };

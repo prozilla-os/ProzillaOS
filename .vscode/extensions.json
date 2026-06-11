@@ -4,6 +4,7 @@
 		"yahyabatulu.vscode-markdown-alert",
 		"clinyong.vscode-css-modules",
 		"yoavbls.pretty-ts-errors",
-		"davidanson.vscode-markdownlint"
+		"davidanson.vscode-markdownlint",
+		"dbaeumer.vscode-eslint"
 	]
 }

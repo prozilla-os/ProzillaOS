@@ -1,0 +1,1 @@
+export type NestedArray<T> = Array<T | NestedArray<T>>;

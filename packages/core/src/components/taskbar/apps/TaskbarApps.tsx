@@ -15,7 +15,7 @@ export function TaskbarApps({ renderApp: AppButton = TaskbarAppButton }: Taskbar
 	const windows = useWindows();
 	const installedApps = useInstalledApps({ sort: false });
 	const ref = useRef<HTMLDivElement>(null);
-	const { boxShadow, onUpdate } = useScrollWithShadow({ ref: ref, shadow: {
+	const { boxShadow, onUpdate } = useScrollWithShadow({ ref, shadow: {
 		offset: 20,
 		blurRadius: 10,
 		spreadRadius: -10,

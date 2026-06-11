@@ -426,7 +426,7 @@ export class Shell {
 		this.pushHistory({ 
 			displayText: prefix + this.state.prompt + input, 
 			flags: HistoryFlags.Command, 
-			input: input, 
+			input, 
 		});
 		
 		const exitCode = await this.interpreter.execute(input);
