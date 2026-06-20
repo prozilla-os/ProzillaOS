@@ -1,0 +1,19 @@
+{
+	"extends": "../../../tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": "../../..",
+		"composite": true,
+		"outDir": "dist",
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"noEmit": false,
+		"rootDir": "../../",
+		"paths": {
+			"@prozilla-os/core": ["packages/core/src/main"],
+			"@prozilla-os/shared": ["packages/shared/src/main"],
+			"@prozilla-os/skins": ["./node_modules/@prozilla-os/skins/src/main"]
+		}
+	},
+	"include": ["src", "vite.config.ts", "../../core/src", "../../shared/src"],
+	"exclude": ["node_modules"],
+}

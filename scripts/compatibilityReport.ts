@@ -64,6 +64,7 @@ const PACKAGE_ENTRIES: PackageEntry[] = [
 	{ path: "apps/settings", name: "@prozilla-os/settings" },
 	{ path: "apps/terminal", name: "@prozilla-os/terminal" },
 	{ path: "apps/text-editor", name: "@prozilla-os/text-editor" },
+	{ path: "apps/code-editor", name: "@prozilla-os/code-editor" },
 ];
 
 const TXT_STYLE: OutputStyle = {

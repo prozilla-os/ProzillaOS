@@ -15,11 +15,11 @@ export interface FileExplorerProps extends WindowProps {
 	selectorMode?: number;
 	Footer?: FC;
 	onSelectionChange?: (params: OnSelectionChangeParams) => void;
-	onSelectionFinish?: () => void;
+	onSelectionFinish?: (params: OnSelectionChangeParams) => void;
 }
 
 export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSelectionChange, onSelectionFinish }: FileExplorerProps) {
-	const isSelector = Footer != null && selectorMode != null && selectorMode !== SELECTOR_MODE.NONE;
+	const isSelector = selectorMode != null && selectorMode !== SELECTOR_MODE.NONE;
 
 	const virtualRoot = useVirtualRoot();
 	const windowsManager = useWindowsManager();
@@ -37,7 +37,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 			<ClickAction label={!isSelector ? "Open" : "Select"} onTrigger={(_event, file) => {
 				if (isSelector) {
 					onSelectionChange?.({ files: [(file as VirtualFile).id], directory: currentDirectory! });
-					onSelectionFinish?.();
+					onSelectionFinish?.({ files: [(file as VirtualFile).id], directory: currentDirectory! });
 					return;
 				}
 				if (windowsManager != null)	(file as VirtualFile).open(windowsManager);
@@ -249,7 +249,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 					onOpenFile={(event, file) => {
 						event.preventDefault();
 						if (isSelector)
-							return void onSelectionFinish?.();
+							return void onSelectionFinish?.({ files: [file.id], directory: currentDirectory! });
 						const options: Record<string, string> = {};
 						if (file.extension === "md" || file.extension != null && CODE_EXTENSIONS.includes(file.extension))
 							options.mode = "view";
@@ -273,7 +273,7 @@ export function FileExplorer({ app, path: startPath, selectorMode, Footer, onSel
 						}
 					</p>
 				</span>
-				: <div className={styles.Footer}>
+				: Footer && <div className={styles.Footer}>
 					<Footer/>
 				</div>
 			}

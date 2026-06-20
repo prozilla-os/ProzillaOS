@@ -25,6 +25,10 @@
 			"types": "./dist/vite.d.ts",
 			"default": "./dist/vite.js"
 		},
+		"./prompts": {
+			"types": "./dist/prompts.d.ts",
+			"default": "./dist/prompts.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"scripts": {

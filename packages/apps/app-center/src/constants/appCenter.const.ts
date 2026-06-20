@@ -36,6 +36,14 @@ export const DEFAULT_REGISTERED_APPS: Omit<RegistryEntry, "isInstalled">[] = [
 		exportName: "textEditor",
 	},
 	{
+		id: "code-editor",
+		name: "Code",
+		iconUrl: `${ICON_BASE_URL}/code-editor.svg`,
+		category: "Utilities & tools",
+		packageName: "@prozilla-os/code-editor",
+		exportName: "codeEditor",
+	},
+	{
 		id: "settings",
 		name: "Settings",
 		description: "Configure your settings and customize your experience.",

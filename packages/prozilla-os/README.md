@@ -39,6 +39,7 @@ pnpm add prozilla-os
 - [`@prozilla-os/browser`][browser] - Browser app
 - [`@prozilla-os/calculator`][calculator] - Calculator app
 - [`@prozilla-os/app-center`][app-center] - App center
+- [`@prozilla-os/code-editor`][code-editor] - Code editor app
 
 ## Usage
 
@@ -206,3 +207,4 @@ interface VirtualDriveConfigOptions {
 [browser]: https://www.npmjs.com/package/@prozilla-os/browser
 [app-center]: https://www.npmjs.com/package/@prozilla-os/app-center
 [calculator]: https://www.npmjs.com/package/@prozilla-os/calculator
+[code-editor]: https://www.npmjs.com/package/@prozilla-os/code-editor

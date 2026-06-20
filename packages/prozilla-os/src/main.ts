@@ -8,3 +8,4 @@ export * from "@prozilla-os/media-viewer";
 export * from "@prozilla-os/browser";
 export * from "@prozilla-os/calculator";
 export * from "@prozilla-os/app-center";
+export * from "@prozilla-os/code-editor";

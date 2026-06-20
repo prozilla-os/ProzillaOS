@@ -42,6 +42,7 @@ function generateAliases() {
 		"settings",
 		"terminal",
 		"text-editor",
+		"code-editor",
 	];
 
 	localApps.forEach((id) => {

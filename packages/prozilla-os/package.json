@@ -33,7 +33,8 @@
 		"@prozilla-os/shared": "workspace:*",
 		"@prozilla-os/skins": "workspace:*",
 		"@prozilla-os/terminal": "workspace:*",
-		"@prozilla-os/text-editor": "workspace:*"
+		"@prozilla-os/text-editor": "workspace:*",
+		"@prozilla-os/code-editor": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^20.19.39",

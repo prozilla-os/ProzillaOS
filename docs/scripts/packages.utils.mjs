@@ -16,6 +16,7 @@ export const PACKAGE_PATHS = [
 	"apps/settings",
 	"apps/terminal",
 	"apps/text-editor",
+	"apps/code-editor",
 ];
 export const ORG = "@prozilla-os";
 export const PACKAGE_PREFIX = ORG + "/";

@@ -1,4 +1,4 @@
-import { AppsConfig, browser, calculator, fileExplorer, mediaViewer, settings, terminal, textEditor, appCenter } from "prozilla-os";
+import { AppsConfig, browser, calculator, fileExplorer, mediaViewer, settings, terminal, textEditor, appCenter, codeEditor } from "prozilla-os";
 import { NAME } from "./branding.config";
 import { wordle } from "@prozilla-os/wordle";
 import { ballMaze } from "@prozilla-os/ball-maze";
@@ -19,6 +19,8 @@ export const appsConfig = new AppsConfig({
 		textEditor.setName("Notes")
 			.setDescription("Text editor for reading and writing text documents in a virtual file system using ProzillaOS.")
 			.setIconUrl("/assets/apps/icons/text-editor.svg"),
+		codeEditor.setName("Code")
+			.setIconUrl("/assets/apps/icons/code-editor.svg"),
 		settings.setName("Settings")
 			.setDescription(`Configure ${NAME}'s settings and customize your experience.`)
 			.setIconUrl("/assets/apps/icons/settings.svg"),

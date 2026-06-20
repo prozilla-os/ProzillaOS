@@ -6,6 +6,7 @@ import tseslint from "typescript-eslint";
 import react from "eslint-plugin-react";
 import reactRefresh from "eslint-plugin-react-refresh";
 import jsdoc from "eslint-plugin-jsdoc";
+import reactHooks from "eslint-plugin-react-hooks";
 
 export default defineConfig(
 	globalIgnores([
@@ -199,5 +200,12 @@ export default defineConfig(
 				checkDestructured: false,
 			}],
 		}
-	}
+	},
+	{
+		// TODO: Gradually enable for all packages
+		files: ["packages/apps/code-editor/**/*"],
+		extends: [
+			reactHooks.configs.flat.recommended,
+		],
+	},
 );

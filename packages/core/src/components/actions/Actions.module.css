@@ -30,6 +30,10 @@
 	bottom: 0;
 }
 
+.DropdownArrow {
+	height: 1em;
+}
+
 /* Context menu */
 
 .ContextMenu.Actions {
@@ -190,7 +194,7 @@
 	height: 100%;
 }
 
-.HeaderMenu .DropdownArrow {
+.HeaderMenu .DropdownArrow:not(.DropdownContent .DropdownArrow) {
 	display: none;
 }
 
@@ -209,12 +213,18 @@
 	cursor: default;
 }
 
+.HeaderMenu .DropdownContent .DropdownContent {
+	top: -0.25rem;
+	left: 100%;
+}
+
 .HeaderMenu .Dropdown:not(.Active) .DropdownContent {
 	opacity: 0;
 	pointer-events: none;
 }
 
-.HeaderMenu .Button {
+.HeaderMenu .Button,
+.HeaderMenu .DropdownContent .Dropdown {
 	--icon-size: 1.25rem;
 	--icon-gap: 0.5rem;
 
@@ -249,6 +259,12 @@
 	flex-direction: row-reverse;
 	justify-content: flex-start;
 	align-items: center;
+}
+
+.HeaderMenu .Toggle > .Label {
+	gap: 1.5rem;
+	justify-content: space-between;
+	width: 100%;
 }
 
 .HeaderMenu .Button > .Label .Icon div,

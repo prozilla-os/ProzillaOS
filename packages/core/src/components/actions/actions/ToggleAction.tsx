@@ -14,7 +14,7 @@ export interface ToggleActionProps extends ActionProps {
 export function ToggleAction({ actionId, label, shortcut, initialValue = false, onTrigger }: ToggleActionProps): ReactElement {
 	const [active, setActive] = useState(initialValue);
 
-	return <button key={actionId} className={useClassNames([styles.Button], "Actions", "Toggle", active ? "Active" : undefined)} tabIndex={0} onClick={(event) => {
+	return <button key={actionId} className={useClassNames([styles.Button, styles.Toggle], "Actions", "Toggle", active ? "Active" : undefined)} tabIndex={0} onClick={(event) => {
 		onTrigger?.(event as unknown as Event, !active);
 		setActive(!active);
 	}}>
