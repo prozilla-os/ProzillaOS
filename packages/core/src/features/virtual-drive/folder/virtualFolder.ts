@@ -370,6 +370,10 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		this.confirmChanges();
 	}
 
+	async loadContent(): Promise<void> {
+		return Promise.resolve()
+	}
+
 	/**
 	 * Returns all files inside this folder.
 	 * @param showHidden - Whether to include hidden files.
@@ -383,6 +387,11 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		);
 	}
 
+	async getFilesAsync(showHidden = false): Promise<VirtualFile[]> {
+		await this.loadContent();
+		return this.getFiles(showHidden);
+	}
+
 	/**
 	 * Returns all sub-folders inside this folder.
 	 * @param showHidden - Whether to include hidden folders.
@@ -394,6 +403,11 @@ export class VirtualFolder<E extends VirtualBaseEvents = VirtualBaseEvents> exte
 		return this.subFolders.filter(({ name }) => 
 			!name.startsWith(".")
 		);
+	}
+
+	async getSubFoldersAsync(showHidden = false): Promise<VirtualFolder[]> {
+		await this.loadContent();
+		return this.getSubFolders(showHidden);
 	}
 
 	/**
