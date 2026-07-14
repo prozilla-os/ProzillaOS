@@ -50,7 +50,9 @@ export function TaskbarSearchMenu() {
 				toggleMenu("search", false);
 			} else if (event.key === "Enter" && active) {
 				event.preventDefault();
-				windowsManager?.open(apps[0].id);
+				if (apps.length > 0) {
+					windowsManager?.open(apps[0].id);
+				}
 				toggleMenu("search", false);
 			}
 		},
