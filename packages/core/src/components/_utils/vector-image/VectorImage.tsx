@@ -26,7 +26,7 @@ export function VectorImage({ className, src, ...props }: ImageProps) {
 
 	if (src?.endsWith(".svg")) {
 		return <ReactSVG className={className} src={src} {...props}/>;
-	} else {
+	} else if (dimensions.x > 0 && dimensions.y > 0) {
 		return <div>
 			<div>
 				<svg
@@ -46,5 +46,7 @@ export function VectorImage({ className, src, ...props }: ImageProps) {
 				</svg>
 			</div>
 		</div>;
+	} else {
+		return <div className={className}/>;
 	}
 }
