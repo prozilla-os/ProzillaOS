@@ -60,7 +60,7 @@ export const Desktop = memo(() => {
 					{ label: "Align horizontally" },
 				]}/>
 				<Divider/>
-				<ToggleAction label="Show dekstop icons" initialValue={showIcons} onTrigger={() => {
+				<ToggleAction label="Show desktop icons" initialValue={showIcons} onTrigger={() => {
 					const settings = settingsManager?.getSettings(Settings.DESKTOP);
 					void settings?.set("show-icons", (!showIcons).toString());
 				}}/>
