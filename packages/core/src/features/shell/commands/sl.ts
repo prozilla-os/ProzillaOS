@@ -1,4 +1,4 @@
-import { parseOptionalFloat } from "@prozilla-os/shared";
+import { parseOptionalFloat, Vector2 } from "@prozilla-os/shared";
 import { Shell } from "../shell";
 import { Command } from "../command";
 
@@ -136,7 +136,7 @@ const EXTRA_WAGONS = [
 	],
 ];
 
-function generateLocomotive(frame: number, wagonCount = 1, start = 50) {
+function generateLocomotive(frame: number, wagonCount = 1, size = new Vector2(0)) {
 	const smokeHeight = LOCOMOTIVE_SMOKE[0].length;
 	const locomotiveHeight = LOCOMOTIVE_TOP.length + LOCOMOTIVE_BOTTOM[0].length;
 	const wagonHeight = COAL_WAGON.length;
@@ -147,7 +147,7 @@ function generateLocomotive(frame: number, wagonCount = 1, start = 50) {
 	const top = LOCOMOTIVE_TOP;
 	const bottom = LOCOMOTIVE_BOTTOM[frame % LOCOMOTIVE_BOTTOM.length];
 
-	const distance = start - frame;
+	const distance = size.x - frame;
 	const locomotive = smoke.concat(top, bottom).map((line, index) => {
 		if (index >= wagonStart && wagonCount > 0) {
 			for (let i = 0; i < wagonCount; i++) {
@@ -167,6 +167,8 @@ function generateLocomotive(frame: number, wagonCount = 1, start = 50) {
 			line = line.slice(-distance);
 			return line;
 		}
+	}).map((line) => {
+		return line.length > size.x ? line.slice(0, size.x) : line;
 	}).join("\n");
 
 	return `\n${locomotive}\n`;
@@ -209,6 +211,6 @@ export const sl = new Command()
 			stdin,
 			stdout,
 			delay,
-			render: (frame) => generateLocomotive(frame, wagonCount, size.x),
+			render: (frame) => generateLocomotive(frame, wagonCount, size),
 		});
 	});

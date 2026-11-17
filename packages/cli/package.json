@@ -1,0 +1,60 @@
+{
+	"name": "@prozilla-os/cli",
+	"description": "A Unix-like shell emulator powered by ProzillaOS.",
+	"version": "1.0.0",
+	"homepage": "https://os.prozilla.dev",
+	"author": {
+		"name": "Prozilla",
+		"email": "business@prozilla.dev",
+		"url": "https://prozilla.dev/"
+	},
+	"funding": "https://ko-fi.com/prozilla",
+	"type": "module",
+	"main": "dist/main.js",
+	"types": "dist/main.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/main.d.ts",
+			"default": "./dist/main.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"bin": {
+		"prozilla-os": "dist/cli.js"
+	},
+	"scripts": {
+		"build": "tsc && vite build",
+		"test": "vitest",
+		"lint": "pnpm eslint ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/prozilla-os/ProzillaOS.git",
+		"directory": "packages/cli"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"@prozilla-os/core": "workspace:*",
+		"@prozilla-os/shared": "workspace:*",
+		"@xmldom/xmldom": "^0.9.12",
+		"valtio": "^2.3.2",
+		"vite": "^7.3.2",
+		"vite-plugin-css-injected-by-js": "^3.5.2",
+		"vite-plugin-dts": "^4.5.4",
+		"vitest": "^4.1.5"
+	},
+	"devDependencies": {
+		"@types/node": "^20.19.39",
+		"@types/react": "^18.3.28",
+		"rollup": "^4.60.3",
+		"typescript": "^5.9.3",
+		"vite-plugin-externalize-deps": "^0.10.0"
+	},
+	"files": [
+		"dist"
+	],
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org/",
+		"access": "public"
+	}
+}

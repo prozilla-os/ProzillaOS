@@ -10,11 +10,15 @@ overrides:
   '@prozilla-os/shared': workspace:*
   '@prozilla-os/skins': workspace:*
   '@prozilla-os/dev-tools': workspace:*
+  '@prozilla-os/cli': link:packages/cli
 
 importers:
 
   .:
     dependencies:
+      '@prozilla-os/cli':
+        specifier: link:packages/cli
+        version: link:packages/cli
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -923,6 +927,49 @@ importers:
       vite-plugin-lib-inject-css:
         specifier: ^2.2.2
         version: 2.2.2(vite@7.3.2(@types/node@20.19.39)(lightningcss@1.32.0)(yaml@2.8.4))
+
+  packages/cli:
+    dependencies:
+      '@prozilla-os/core':
+        specifier: workspace:*
+        version: link:../core
+      '@prozilla-os/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@xmldom/xmldom':
+        specifier: ^0.9.12
+        version: 0.9.12
+      valtio:
+        specifier: ^2.3.2
+        version: 2.3.2(@types/react@18.3.28)(react@18.3.1)
+      vite:
+        specifier: ^7.3.2
+        version: 7.3.2(@types/node@20.19.39)(lightningcss@1.32.0)(yaml@2.8.4)
+      vite-plugin-css-injected-by-js:
+        specifier: ^3.5.2
+        version: 3.5.2(vite@7.3.2(@types/node@20.19.39)(lightningcss@1.32.0)(yaml@2.8.4))
+      vite-plugin-dts:
+        specifier: ^4.5.4
+        version: 4.5.4(@types/node@20.19.39)(rollup@4.60.3)(typescript@5.9.3)(vite@7.3.2(@types/node@20.19.39)(lightningcss@1.32.0)(yaml@2.8.4))
+      vitest:
+        specifier: ^4.1.5
+        version: 4.1.5(@types/node@20.19.39)(jsdom@29.1.1)(vite@7.3.2(@types/node@20.19.39)(lightningcss@1.32.0)(yaml@2.8.4))
+    devDependencies:
+      '@types/node':
+        specifier: ^20.19.39
+        version: 20.19.39
+      '@types/react':
+        specifier: ^18.3.28
+        version: 18.3.28
+      rollup:
+        specifier: ^4.60.3
+        version: 4.60.3
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vite-plugin-externalize-deps:
+        specifier: ^0.10.0
+        version: 0.10.0(vite@7.3.2(@types/node@20.19.39)(lightningcss@1.32.0)(yaml@2.8.4))
 
   packages/core:
     dependencies:
@@ -2901,6 +2948,10 @@ packages:
     peerDependencies:
       vue: ^3.5.0
 
+  '@xmldom/xmldom@0.9.12':
+    resolution: {integrity: sha512-5AXjrcMClTryPe9LgZrygpB1lj7s0S9E0+W+AHaVKAVyHanafK86iPSvG5xHVSp/jC+VH1UXu0TAEmY279xH7A==}
+    engines: {node: '>=14.6'}
+
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -3492,6 +3543,7 @@ packages:
   eslint@9.39.4:
     resolution: {integrity: sha512-XoMjdBOwe/esVgEvLmNsD3IRHkm7fbKIUGvrleloJXUZgDHig2IPWNniv+GwjyJXzuNqVjlr5+4yVUZjycJwfQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -7234,6 +7286,8 @@ snapshots:
   '@vueuse/shared@14.3.0(vue@3.5.34(typescript@5.9.3))':
     dependencies:
       vue: 3.5.34(typescript@5.9.3)
+
+  '@xmldom/xmldom@0.9.12': {}
 
   acorn-jsx@5.3.2(acorn@8.16.0):
     dependencies:

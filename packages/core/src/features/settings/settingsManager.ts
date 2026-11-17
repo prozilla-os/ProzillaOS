@@ -17,12 +17,15 @@ export class SettingsManager {
 
 	#virtualRoot: VirtualRoot | null = null;
 
-	constructor(virtualRoot: VirtualRoot) {
+	enableWarning: boolean;
+
+	constructor(virtualRoot: VirtualRoot, enableWarnings = true) {
 		this.#virtualRoot = virtualRoot;
+		this.enableWarning = enableWarnings;
 
 		const root = this.#virtualRoot;
 		Object.values(SettingsManager.VIRTUAL_PATHS).forEach((path) => {
-			this.#pathToSettings[path] = new Settings(root, path);
+			this.#pathToSettings[path] = new Settings(this, root, path);
 		});
 	}
 

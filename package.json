@@ -40,6 +40,7 @@
 		"packages:version": "pnpm changeset version",
 		"packages:release": "pnpm changeset publish && pnpm vite-node scripts/createRelease.ts",
 		"libs:build": "turbo run build --filter=\"./packages/*\" --filter=!prozilla-os",
+		"cli": "turbo run build --filter=@prozilla-os/cli && prozilla-os",
 		"root:stage": "pnpm run build && rimraf dist && pnpm vite-node scripts/stageSite.ts",
 		"root:preview": "vite preview --outDir dist --port 8080",
 		"root:deploy": "pnpm vite-node scripts/publishSite.ts",
@@ -62,6 +63,7 @@
 		"url": "git+https://github.com/prozilla-os/ProzillaOS.git"
 	},
 	"dependencies": {
+		"@prozilla-os/cli": "link:packages/cli",
 		"commander": "^12.1.0",
 		"expr-eval": "^2.0.2",
 		"pnpm": "^9.15.9"

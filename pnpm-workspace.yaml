@@ -13,3 +13,4 @@ overrides:
   "@prozilla-os/shared": "workspace:*"
   "@prozilla-os/skins": "workspace:*"
   "@prozilla-os/dev-tools": "workspace:*"
+  '@prozilla-os/cli': "link:packages/cli"

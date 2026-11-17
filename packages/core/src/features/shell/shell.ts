@@ -746,4 +746,8 @@ export class Shell {
 	public static async printLn(stream: Stream, text = "") {
 		await stream.write(text + "\n");
 	}
+
+	public static quote(text: string) {
+		return /^[\w@%+=:,./-]+$/.test(text) ? text : `'${text.replace(/'/g, "'\\''")}'`;
+	}
 }

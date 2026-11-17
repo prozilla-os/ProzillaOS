@@ -9,7 +9,7 @@ export const neofetch = new Command()
 	.setManual({
 		purpose: "Fetch system information",
 	})
-	.setExecute(async function(_arguments, { username, hostname, app, systemManager, settingsManager, stdout }) {
+	.setExecute(async function(_arguments, { username, hostname, app, systemManager, settingsManager, stdout, size }) {
 		const leftColumn = ANSI_ASCII_LOGO.split("\n");
 		const rightColumnWidth = username.length + hostname.length + 1;
 
@@ -44,7 +44,7 @@ export const neofetch = new Command()
 			"-".repeat(rightColumnWidth),
 			formatLine("os", systemManager.systemName),
 			formatLine("uptime", systemManager.getUptime(2)),
-			formatLine("resolution", window.innerWidth + "x" + window.innerHeight),
+			formatLine("size", size.x + "x" + size.y),
 			formatLine("theme", theme),
 			formatLine("icons", "Font Awesome"),
 			formatLine("terminal", app?.name ?? "Unknown"),

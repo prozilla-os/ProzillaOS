@@ -40,20 +40,22 @@ export class Settings {
 	 */
 	static readonly VIRTUAL_DRIVE = SettingsManager.VIRTUAL_PATHS.virtualDrive;
 
-	constructor(virtualRoot: VirtualRoot, path: string) {
+	constructor(settingsManager: SettingsManager, virtualRoot: VirtualRoot, path: string) {
 		this.#virtualRoot = virtualRoot;
 		this.path = path;
 		this.file = this.#virtualRoot.navigateToFile(this.path);
 
-		if (this.file == null) {
-			console.warn(`Unable to read settings from path: ${this.path}\nNo such file or directory.`);
-			return;
-		} else if (!(this.file instanceof VirtualFile)) {
-			console.warn(`Unable to read settings from path: ${this.path}\nPath does not point to VirtualFile.`);
-			return;
-		} else if (this.file.extension !== "xml") {
-			console.warn(`Unable to read settings from path: ${this.path}\nFile does not have extension "xml".`);
-			return;
+		if (settingsManager.enableWarning) {
+			if (this.file == null) {
+				console.warn(`Unable to read settings from path: ${this.path}\nNo such file or directory.`);
+				return;
+			} else if (!(this.file instanceof VirtualFile)) {
+				console.warn(`Unable to read settings from path: ${this.path}\nPath does not point to VirtualFile.`);
+				return;
+			} else if (this.file.extension !== "xml") {
+				console.warn(`Unable to read settings from path: ${this.path}\nFile does not have extension "xml".`);
+				return;
+			}
 		}
 	}
 
