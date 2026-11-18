@@ -111,8 +111,9 @@ export class HeadlessShell extends Shell {
 	}
 
 	/**
-	 * Executes the given command string or start interactive mode if the command string is empty.
+	 * Executes the given command string or starts interactive mode if the command string is empty.
 	 * @param input - The input string.
+	 * @returns The exit code.
 	 */
 	public async start(input?: string): Promise<number> {
 		this.#onExit = () => {};
@@ -120,7 +121,12 @@ export class HeadlessShell extends Shell {
 		return !this.#isInteractive ? await this.startCommand(input!) : await this.startInteractiveMode();
 	}
 
-	private async startCommand(input: string): Promise<number> {
+	/**
+	 * Executes the given command string.
+	 * @param input - The input string.
+	 * @returns The exit code.
+	 */
+	public async startCommand(input: string): Promise<number> {
 		const stdin = new Stream();
 		const stdout = new Stream();
 		const stderr = new Stream();
@@ -178,7 +184,11 @@ export class HeadlessShell extends Shell {
 		});
 	}
 
-	private async startInteractiveMode(): Promise<number> {
+	/**
+	 * Starts interactive mode.
+	 * @returns The exit code.
+	 */
+	public async startInteractiveMode(): Promise<number> {
 		if (!process.stdin.isTTY) {
 			process.stderr.write("Interactive mode requires an interactive terminal.\n");
 			return EXIT_CODE.generalError;
@@ -186,9 +196,6 @@ export class HeadlessShell extends Shell {
 
 		emitKeypressEvents(process.stdin);
 		process.stdin.setRawMode(true);
-
-		const handleKeypress = this.handleKeypress.bind(this);
-		process.stdin.on("keypress", handleKeypress);
 
 		let writtenEntries = 0;
 		let wasUsingAltScreen = false;
@@ -233,6 +240,16 @@ export class HeadlessShell extends Shell {
 				this.setCursorVisible(true);
 		};
 
+		const handleExit = () => {
+			this.commitLine();
+			render();
+			this.kill();
+		};
+		const handleKeypress = (input: string | undefined, keypress: Key) => {
+			this.handleKeypress(input, keypress, handleExit);
+		};
+		process.stdin.on("keypress", handleKeypress);
+
 		const unsubscribe = subscribe(this.state, render);
 		render();
 
@@ -246,7 +263,7 @@ export class HeadlessShell extends Shell {
 		});
 	}
 
-	private handleKeypress(input: string | undefined, keypress: Key) {
+	private handleKeypress(input: string | undefined, keypress: Key, onExit: () => void) {
 		const { name, ctrl = false, meta = false, shift = false } = keypress;
 		const isControlPressed = ctrl || meta;
 	
@@ -257,15 +274,21 @@ export class HeadlessShell extends Shell {
 		if (!key.length)
 			return;
 	
-		if (this.state.stream == null && !isControlPressed) {
-			if (name === "backspace") {
-				this.setLine((line) => line.slice(0, -1));
-				return;
-			}
-	
-			if (input?.length === 1 && key === input) {
-				this.setLine((line) => line + input);
-				return;
+		if (this.state.stream == null) {
+			if (isControlPressed) {
+				if (key === "c" && !shift) {
+					return onExit();
+				}
+			} else {
+				if (name === "backspace") {
+					this.setLine((line) => line.slice(0, -1));
+					return;
+				}
+		
+				if (input?.length === 1 && key === input) {
+					this.setLine((line) => line + input);
+					return;
+				}
 			}
 		}
 	
@@ -274,7 +297,7 @@ export class HeadlessShell extends Shell {
 			ctrlKey: ctrl,
 			metaKey: meta,
 			shiftKey: shift,
-			preventDefault: () => undefined,
+			preventDefault: () => {},
 		});
 	}
 

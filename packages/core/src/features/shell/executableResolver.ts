@@ -74,7 +74,7 @@ export class ExecutableResolver {
 	 * @returns The builtin with the given name, or `null` if there is none.
 	 */
 	public static getBuiltin(name: string): Command | null {
-		return this.builtins.find((command) => command.name === name) ?? null;
+		return this.builtins.find((command) => command.matches(name)) ?? null;
 	}
 
 	/**

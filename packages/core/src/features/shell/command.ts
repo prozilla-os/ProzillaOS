@@ -5,9 +5,9 @@ import { ShellContext } from "./shell";
  */
 export interface Option {
 	/** The full name of the option (e.g., `"all"` for `--all`). */
-	long: string;
+	long?: string;
 	/** The single-character alias (e.g., `"a"` for `-a`). */
-	short: string;
+	short?: string;
 	/** If true, the shell expects a value to follow this option (e.g., `--file <name>`). */
 	isInput: boolean;
 }
@@ -34,6 +34,7 @@ export type Execute = (args: string[], context: ShellContext) => Promise<Command
  */
 export class Command {
 	#name?: string;
+	#aliases: string[] = [];
 	options: Option[] = [];
 	manual?: Manual;
 	requireArgs?: boolean;
@@ -47,7 +48,7 @@ export class Command {
 	/**
 	 * Sets the command name and initializes the default usage string if not already set.
 	 */
-	setName(name?: string): Command {
+	setName(name?: string): this {
 		this.#name = name;
 
 		if (name && !this.manual?.usage) {
@@ -58,26 +59,34 @@ export class Command {
 		return this;
 	}
 
+	matches(name: string) {
+		return this.name === name || this.aliases.includes(name);
+	}
+
 	get name(): string {
 		return this.#name ?? "";
 	}
 
-	setExecute(execute: Execute): Command {
+	get aliases(): string[] {
+		return this.#aliases;
+	}
+
+	setExecute(execute: Execute): this {
 		this.execute = execute;
 		return this;
 	}
 
-	setRequireArgs(value: boolean): Command {
+	setRequireArgs(value: boolean): this {
 		this.requireArgs = value;
 		return this;
 	}
 
-	setRequireOptions(value: boolean): Command {
+	setRequireOptions(value: boolean): this {
 		this.requireOptions = value;
 		return this;
 	}
 
-	setManual({ purpose, usage, description, options }: Manual): Command {
+	setManual({ purpose, usage, description, options }: Manual): this {
 		this.manual = { purpose, usage, description, options };
 		return this;
 	}
@@ -85,7 +94,7 @@ export class Command {
 	/**
 	 * Registers a new option/flag for this command.
 	 */
-	addOption({ short, long, isInput = false }: Omit<Option, "isInput"> & { isInput?: boolean }): Command {
+	addOption({ short, long, isInput = false }: Omit<Option, "isInput"> & Partial<Pick<Option, "isInput">>): this {
 		this.options.push({ short, long, isInput });
 		return this;
 	}
@@ -95,5 +104,10 @@ export class Command {
 	 */
 	getOption(key: string): Option | undefined {
 		return this.options.find((option) => option.short === key || option.long === key);
+	}
+
+	addAlias(alias: string): this {
+		this.#aliases.push(alias);
+		return this;
 	}
 }

@@ -56,9 +56,9 @@ export const man = new Command()
 		const sections = [["NAME"]];
 
 		if (manual.purpose) {
-			sections[0].push(formatText(`${commandName} - ${ANSI.decoration.dim}${Ansi.yellow(manual.purpose)}`));
+			sections[0].push(formatText(`${command.name} - ${ANSI.decoration.dim}${Ansi.yellow(manual.purpose)}`));
 		} else {
-			sections[0].push(formatText(commandName));
+			sections[0].push(formatText(command.name));
 		}
 
 		if (manual.usage) {
@@ -85,7 +85,7 @@ export const man = new Command()
 
 					let optionSyntax = "-" + shortOption;
 					const option = command.options.find((option) => option.short == shortOption);
-					if (option !== undefined) {
+					if (option !== undefined && option.long !== undefined) {
 						optionSyntax += ", --" + option.long;
 					}
 

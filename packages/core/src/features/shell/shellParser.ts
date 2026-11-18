@@ -802,18 +802,18 @@ export class ShellParser {
 
 			for (const key of keys) {
 				const option = command.getOption(key);
-				if (!option) {
+				if (!option || option.long === undefined && option.short === undefined) {
 					unknownKeys.push(key);
 					continue;
 				}
 				anyKnown = true;
 				const optionKey = option.short;
-				if (!options.includes(optionKey))
+				if (optionKey !== undefined && !options.includes(optionKey))
 					options.push(optionKey);
 				if (option.isInput) {
 					const index = commandArgs.indexOf(flag);
 					const value = commandArgs[index + 1];
-					inputs[option.short] = value;
+					inputs[option.short ?? option.long ?? ""] = value;
 					removeFromArray(value, commandArgs);
 				}
 			}

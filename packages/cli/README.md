@@ -1,7 +1,7 @@
 <div align="center">
   <br />
   <p>
-    <a href="https://os.prozilla.dev/"><img src="https://os.prozilla.dev/assets/logo.svg?v=2" height="200" alt="ProzillaOS" /></a>
+    <a href="https://os.prozilla.dev/terminal"><img src="https://os.prozilla.dev/assets/posh.svg" height="200" alt="Posh" /></a>
   </p>
   <p>
     <a href="https://github.com/prozilla-os/ProzillaOS/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/prozilla-os/ProzillaOS?style=flat-square&color=FF4D5B&label=License"></a>
@@ -13,7 +13,7 @@
 
 ## About
 
-`@prozilla-os/cli` is a Unix-like shell emulator powered by ProzillaOS.
+`@prozilla-os/cli` is a NodeJS wrapper for Posh (ProzillaOS shell), a Unix-like shell emulator.
 
 ## Installation
 
@@ -25,11 +25,27 @@ pnpm add @prozilla-os/cli
 
 ## Usage
 
-```ts
-const shell = new HeadlessShell();
-const input = process.argv.slice(2).map(Shell.quote).join(" ");
+### Command line interface
 
-const exitCode = await shell.start(input);
+#### Interactive mode
+
+```sh
+posh
+```
+
+#### Single command
+
+```sh
+posh help
+```
+
+### Node module
+
+```ts
+import { HeadlessShell } from "./features";
+
+const shell = new HeadlessShell();
+const exitCode = await shell.start("help");
 process.exit(exitCode);
 ```
 
@@ -42,7 +58,7 @@ process.exit(exitCode);
 - [Discord][discord]
 - [Ko-fi][ko-fi]
 
-[demo]: https://os.prozilla.dev/
+[demo]: https://os.prozilla.dev/terminal
 [docs]: https://os.prozilla.dev/docs/reference/cli
 [github]: https://github.com/prozilla-os/ProzillaOS/tree/main/packages/cli
 [npm]: https://www.npmjs.com/package/@prozilla-os/cli

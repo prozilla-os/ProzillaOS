@@ -20,7 +20,7 @@
 		"./package.json": "./package.json"
 	},
 	"bin": {
-		"prozilla-os": "dist/cli.js"
+		"posh": "dist/cli.js"
 	},
 	"scripts": {
 		"build": "tsc && vite build",

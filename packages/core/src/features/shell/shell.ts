@@ -414,11 +414,23 @@ export class Shell {
 	}
 
 	/**
-	 * Submits the current input line and executes the given command string.
+	 * Commits the current input line and executes the given command string.
 	 * @param input - The command string to execute.
 	 * @returns A promise that resolves with the final exit code of the execution.
 	 */
 	public async run(input: string) {
+		this.commitLine(input);
+		
+		const exitCode = await this.interpreter.execute(input);
+		await this.updatePrompt();
+		return exitCode;
+	}
+
+	/**
+	 * Commits the current line or the given input string.
+	 * @param input - The input string.
+	 */
+	public commitLine(input = this.state.line) {
 		const prefix = this.state.ttyBuffer ?? "";
 		this.state.ttyBuffer = null;
 		this.clearLine();
@@ -428,10 +440,6 @@ export class Shell {
 			flags: HistoryFlags.Command, 
 			input, 
 		});
-		
-		const exitCode = await this.interpreter.execute(input);
-		await this.updatePrompt();
-		return exitCode;
 	}
 
 	/**
