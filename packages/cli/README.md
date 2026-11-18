@@ -13,7 +13,7 @@
 
 ## About
 
-`@prozilla-os/cli` is a NodeJS wrapper for Posh (ProzillaOS shell), a Unix-like shell emulator.
+`@prozilla-os/cli` is a NodeJS wrapper for Posh (ProzillaOS shell), a Bash-like shell emulator.
 
 ## Installation
 

@@ -54,6 +54,7 @@ const PACKAGE_ENTRIES: PackageEntry[] = [
 	{ path: "skins", name: "@prozilla-os/skins" },
 	{ path: "core", name: "@prozilla-os/core" },
 	{ path: "dev-tools", name: "@prozilla-os/dev-tools" },
+	{ path: "cli", name: "@prozilla-os/cli" },
 	{ path: "prozilla-os", name: "prozilla-os" },
 	{ path: "apps/app-center", name: "@prozilla-os/app-center" },
 	{ path: "apps/browser", name: "@prozilla-os/browser" },

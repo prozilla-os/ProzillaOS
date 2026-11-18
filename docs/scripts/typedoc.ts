@@ -1,6 +1,6 @@
 import { Application, LogLevel, TypeDocOptions } from "typedoc";
 import type { PluginOptions } from "typedoc-plugin-markdown";
-import { writeFileSync } from "node:fs";
+import { existsSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { formatPackageName, OUT_DIR, PACKAGE_PATHS, PACKAGE_PREFIX, packagePathToName, PACKAGES_DIR } from "./packages.utils.mjs";
 import { Option, program } from "@commander-js/extra-typings";
@@ -109,6 +109,18 @@ async function generateDocs(path: string, dryRun: boolean) {
 	const entryPoint = resolve(packageDir, "src/main.ts").replaceAll("\\", "/");
 	const outDir = OUT_DIR + path;
 	const tsConfig = resolve(packageDir, "tsconfig.json");
+	const packageName = formatPackageName(path);
+
+	if (!existsSync(packageDir)) {
+		logger.warn(`Package is missing: ${packageName}`);
+		return;
+	} else if (!existsSync(entryPoint)) {
+		logger.warn(`Package has no entry point: ${packageName}`);
+		return;
+	} else if (!existsSync(tsConfig)) {
+		logger.warn(`Package has no TypeScript configuration file: ${packageName}`);
+		return;
+	}
 
 	const options = {
 		...DEFAULT_OPTIONS,
@@ -119,7 +131,6 @@ async function generateDocs(path: string, dryRun: boolean) {
 		navigationJson: `${outDir}/nav.json`,
 	};
 
-	const packageName = formatPackageName(path);
 	logger.pending(`Generating docs for: ${packageName} (Source: ${packageDir})`);
 
 	const onComplete = () => {

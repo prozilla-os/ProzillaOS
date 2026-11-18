@@ -42,6 +42,12 @@ export const PACKAGES: PackageData[] = [
 		auto: true,
 	},
 	{
+		text: "@prozilla-os/cli",
+		link: "cli",
+		category: "Libraries",
+		auto: true,
+	},
+	{
 		text: "@prozilla-os/calculator",
 		link: "apps/calculator",
 		category: "Apps",

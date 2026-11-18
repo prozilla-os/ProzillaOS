@@ -7,6 +7,7 @@ export const PACKAGE_PATHS = [
 	"skins",
 	"core",
 	"dev-tools",
+	"cli",
 	"apps/app-center",
 	"apps/browser",
 	"apps/calculator",

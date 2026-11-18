@@ -18,6 +18,7 @@ These libraries are different modules of ProzillaOS that can be installed separa
 | [`@prozilla-os/skins`](./skins/) | Customizable skins for ProzillaOS that can override content and layout and dynamically load CSS. |
 | [`@prozilla-os/shared`](./shared/) | Common generic TypeScript functions and utilities (e.g., data manipulation, logging), not directly related to ProzillaOS. |
 | [`@prozilla-os/dev-tools`](./dev-tools/) | Tools for the development of anything related to ProzillaOS (e.g., ProzillaOS websites, ProzillaOS apps). Used extensively for the development of official ProzillaOS packages (e.g., shared configurations, testing utilities). |
+| [`@prozilla-os/cli`](./cli/) | A NodeJS wrapper for Posh (ProzillaOS shell), a Bash-like shell emulator. |
 
 ## Applications
 

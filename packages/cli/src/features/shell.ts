@@ -61,7 +61,7 @@ function getTerminalSize() {
 }
 
 /**
- * A headless Node-based Unix-like shell emulator.
+ * A headless Node-based Bash-like shell emulator.
  * @example
  * const shell = new HeadlessShell();
  * const input = process.argv.slice(2).map(Shell.quote).join(" ");

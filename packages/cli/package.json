@@ -1,6 +1,6 @@
 {
 	"name": "@prozilla-os/cli",
-	"description": "A Unix-like shell emulator powered by ProzillaOS.",
+	"description": "A NodeJS wrapper for Posh (ProzillaOS shell), a Bash-like shell emulator",
 	"version": "1.0.0",
 	"homepage": "https://os.prozilla.dev",
 	"author": {
