@@ -1,0 +1,1 @@
+import{_ as n,K as s}from"../index.js";const l=new n().setManual({purpose:"List all directories in the current directory"}).setExecute(async function(a,{workingDirectory:e,stdout:o}){const r=e.subFolders.map(t=>t.id);r.length!==0&&await s.printLn(o,r.sort((t,i)=>t.localeCompare(i)).join(" "))});export{l as dir};

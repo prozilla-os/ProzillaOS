@@ -1,4 +1,4 @@
-import { A as _, a as j, L as P, b as V, i as X, c as Y, d as Z, e as G, f as H, g as J, h as K, j as Q, k as W, l as R } from "/assets/index-CdCI8E9D.js";
+import { A as _, a as j, L as P, b as V, i as X, c as Y, d as Z, e as G, f as H, g as J, h as K, j as Q, k as W, l as R } from "/assets/index-PU_xBoDn.js";
 import { EventEmitter as tr, capitalize as er, clamp as nr, fillTemplate as ir, formatRelativeTime as sr, formatTime as or, getLongestCommonPrefix as ar, interleave as ur, isValidInteger as cr, isValidNumber as lr, isValidUrl as hr, isolateSubstring as fr, kebabToCamelCase as pr, parseBool as dr, parseOptionalFloat as mr, parseOptionalInteger as gr, randomFromArray as yr, randomIndex as vr, randomInt as xr, randomRange as Er, removeBaseUrl as kr, removeDuplicatesFromArray as Or, removeFromArray as $r, removeUrlProtocol as br, replaceAll as wr, resolveUrl as Sr, round as Ar, splitAt as Fr } from "/assets/utils.js";
 import { i as qr, m as Dr } from "/assets/object.utils-xiWGUq8N.js";
 const I = "https://os.prozilla.dev/";
@@ -65,7 +65,7 @@ class c {
   x;
   y;
   constructor(r, e) {
-    this.x = r, this.y = e ?? r;
+    this.x = r ?? 0, this.y = e ?? this.x;
   }
   static get ZERO() {
     return new c(0, 0);

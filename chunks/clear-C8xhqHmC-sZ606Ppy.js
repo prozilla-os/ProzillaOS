@@ -1,0 +1,1 @@
+import{_ as r,q as s}from"../index.js";import"./react-jsx-runtime-VhLgLYuD.js";import"./react-gKvwg2Xh.js";import"./react-dom-DTDwsevO.js";const i=new r().setManual({purpose:"Clear terminal screen"}).setExecute(function(a,{shell:e}){e.pushHistory({flags:s.Clear})});export{i as clear};
