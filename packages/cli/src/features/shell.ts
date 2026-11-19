@@ -61,7 +61,7 @@ function getTerminalSize() {
 }
 
 /**
- * A headless Node-based Bash-like shell emulator.
+ * A headless Posh shell.
  * @example
  * const shell = new HeadlessShell();
  * const input = process.argv.slice(2).map(Shell.quote).join(" ");
@@ -116,9 +116,7 @@ export class HeadlessShell extends Shell {
 	 * @returns The exit code.
 	 */
 	public async start(input?: string): Promise<number> {
-		this.#onExit = () => {};
-		this.#isInteractive = input === undefined || input.length === 0;
-		return !this.#isInteractive ? await this.startCommand(input!) : await this.startInteractiveMode();
+		return input !== undefined && input.length !== 0 ? await this.startCommand(input) : await this.startInteractiveMode();
 	}
 
 	/**
@@ -127,6 +125,9 @@ export class HeadlessShell extends Shell {
 	 * @returns The exit code.
 	 */
 	public async startCommand(input: string): Promise<number> {
+		this.#onExit = () => {};
+		this.#isInteractive = false;
+
 		const stdin = new Stream();
 		const stdout = new Stream();
 		const stderr = new Stream();
@@ -189,6 +190,9 @@ export class HeadlessShell extends Shell {
 	 * @returns The exit code.
 	 */
 	public async startInteractiveMode(): Promise<number> {
+		this.#onExit = () => {};
+		this.#isInteractive = true;
+
 		if (!process.stdin.isTTY) {
 			process.stderr.write("Interactive mode requires an interactive terminal.\n");
 			return EXIT_CODE.generalError;

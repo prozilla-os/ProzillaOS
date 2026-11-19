@@ -139,7 +139,7 @@ export interface ShellContext extends ProcessIO {
 }
 
 /**
- * A Bash-like shell emulator that handles command parsing, environment management, 
+ * A Bash-like shell emulator, called Posh (ProzillaOS shell), that handles command parsing, environment management, 
  * autocompletion, and process I/O.
  */
 export class Shell {

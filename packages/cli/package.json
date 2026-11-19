@@ -34,6 +34,7 @@
 	},
 	"license": "MIT",
 	"dependencies": {
+		"@commander-js/extra-typings": "^14.0.0",
 		"@prozilla-os/core": "workspace:*",
 		"@prozilla-os/shared": "workspace:*",
 		"@xmldom/xmldom": "^0.9.12",

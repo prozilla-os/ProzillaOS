@@ -23,7 +23,7 @@ export interface Manual {
 	/** A detailed explanation of the command's behavior. */
 	description?: string;
 	/** A mapping of option names to their descriptions for the help output. */
-	options?: object;
+	options?: Record<string, string>;
 }
 
 export type CommandOutput = number | undefined | void;

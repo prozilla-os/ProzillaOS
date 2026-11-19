@@ -13,6 +13,6 @@
 			"@prozilla-os/shared": ["packages/shared/src/main"]
 		},
 	},
-	"include": ["src", "vite.config.ts", "../core/src", "../shared/src"],
+	"include": ["src", "vite.config.ts", "../core/src", "../shared/src", "package.json"],
 	"exclude": ["node_modules"]
 }
