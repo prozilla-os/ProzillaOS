@@ -842,7 +842,7 @@ const pi = new _("Logic Sim", "logic-sim", ui).setIconUrl("https://os.prozilla.d
 }).addSkinOverride(ei, {
   iconUrl: L.assetUrl("/assets/skins/pixel/apps/icons/logic-sim.png")
 });
-pi.setMetadata({ name: "@prozilla-os/logic-sim", version: "1.1.25", author: "Prozilla", website: "https://os.prozilla.dev/logic-sim" });
+pi.setMetadata({ name: "@prozilla-os/logic-sim", version: "1.1.26", author: "Prozilla", website: "https://os.prozilla.dev/logic-sim" });
 export {
   pi as logicSim
 };
