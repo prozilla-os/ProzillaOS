@@ -717,10 +717,7 @@ class Z extends It {
     return t.openFile(this);
   }
   async read() {
-    return this.isDeleted ? null : this.content != null ? this.content : this.source == null ? null : this.extension == null || !Z.NON_TEXT_EXTENSIONS.includes(this.extension) ? await fetch(this.source).then(
-      (e) => e.text()
-    ).catch((e) => (console.error(`Error while reading file with ID: ${this.id}
-`, e), null)) : this.source;
+    return this.isDeleted ? null : this.content != null ? this.content : this.source == null ? null : this.extension == null || !Z.NON_TEXT_EXTENSIONS.includes(this.extension) ? this.getRoot().readSource(this.source) : this.source;
   }
   isFile() {
     return !0;
@@ -1301,10 +1298,10 @@ function Us(r, t) {
           });
         });
       }), s.defaultData.includeScriptsFolder && c.createFolder("Scripts", (u) => {
-        u.createFile("fizzbuzz", "sh", (l) => {
-          l.setSource("/scripts/fizzbuzz.sh");
-        }).createFile("helloworld", "sh", (l) => {
-          l.setSource("/scripts/helloworld.sh");
+        u.createFile("fizzbuzz", "", (l) => {
+          l.setSource("/scripts/fizzbuzz");
+        }).createFile("helloworld", "", (l) => {
+          l.setSource("/scripts/helloworld");
         });
       });
     });
@@ -1570,6 +1567,12 @@ class ye extends Tt {
    */
   addShortcut(t, e) {
     return this.shortcuts[t] = e, this;
+  }
+  async readSource(t) {
+    return await fetch(t).then(
+      (e) => e.text()
+    ).catch((e) => (console.error(`Error while reading file with ID: ${this.id}
+`, e), null));
   }
   /**
    * Tells the storage manager to clear all data and reloads the window.
@@ -1905,6 +1908,7 @@ class $ {
   static PREVIOUS_WORKING_DIRECTORY = "OLDPWD";
   static HOME = "HOME";
   static PROMPT = "PS1";
+  static SHELL = "SHELL";
   static EXIT_CODE = "?";
   static ARGUMENT_COUNT = "#";
   static PROCESS_ID = "$";
@@ -3223,6 +3227,7 @@ class K {
       [$.HOME]: t.virtualRoot.navigateToFolder("~")?.absolutePath ?? "~",
       [$.WORKING_DIRECTORY]: e.root ? "/" : e.path,
       [$.PREVIOUS_WORKING_DIRECTORY]: e.root ? "/" : e.path,
+      [$.SHELL]: "posh",
       ...t.env
     }), this.state = un({
       history: [{

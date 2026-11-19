@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env posh
 
 COUNT=${1:-27}
 
