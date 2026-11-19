@@ -42,7 +42,7 @@ posh help
 ### Node module
 
 ```ts
-import { HeadlessShell } from "./features";
+import { HeadlessShell } from "@prozilla-os/cli";
 
 const shell = new HeadlessShell();
 const exitCode = await shell.start("help");
