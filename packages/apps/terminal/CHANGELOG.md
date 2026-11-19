@@ -1,5 +1,16 @@
 # @prozilla-os/terminal
 
+## 2.0.6
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @prozilla-os/shared@1.5.0
+  - @prozilla-os/core@3.0.0
+  - @prozilla-os/skins@1.2.0
+
 ## 2.0.5
 
 ### Patch Changes

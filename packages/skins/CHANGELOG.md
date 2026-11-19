@@ -1,5 +1,16 @@
 # @prozilla-os/skins
 
+## 1.2.0
+
+### Minor Changes
+
+- Improved asset loading
+
+### Patch Changes
+
+- Updated dependencies
+  - @prozilla-os/shared@1.5.0
+
 ## 1.1.9
 
 ### Patch Changes

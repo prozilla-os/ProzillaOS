@@ -1,5 +1,31 @@
 # prozilla-os
 
+## 3.0.0
+
+### Major Changes
+
+- Improved skins and implemented slots
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @prozilla-os/shared@1.5.0
+  - @prozilla-os/file-explorer@1.2.0
+  - @prozilla-os/app-center@1.2.0
+  - @prozilla-os/core@3.0.0
+  - @prozilla-os/skins@1.2.0
+  - @prozilla-os/browser@1.1.26
+  - @prozilla-os/calculator@1.1.26
+  - @prozilla-os/code-editor@1.0.1
+  - @prozilla-os/media-viewer@1.1.26
+  - @prozilla-os/settings@1.1.27
+  - @prozilla-os/terminal@2.0.6
+  - @prozilla-os/text-editor@1.1.26
+
 ## 2.0.6
 
 ### Patch Changes
