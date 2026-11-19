@@ -195,6 +195,15 @@ export class VirtualRoot extends VirtualFolder<VirtualRootEvents> {
 		return this;
 	}
 
+	async readSource(source: string) {
+		return await fetch(source).then((response) =>
+			response.text()
+		).catch((error) => {
+			console.error(`Error while reading file with ID: ${this.id}\n`, error);
+			return null;
+		});
+	}
+
 	/**
 	 * Tells the storage manager to clear all data and reloads the window.
 	 */

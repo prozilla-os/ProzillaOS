@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env posh
 
 echo "Hello, world!"
 echo "Bye, world!"

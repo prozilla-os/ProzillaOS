@@ -109,12 +109,7 @@ export class VirtualFile extends VirtualBase<VirtualFileEvents> {
 
 		if (!isText) return this.source;
 
-		return await fetch(this.source).then((response) =>
-			response.text()
-		).catch((error) => {
-			console.error(`Error while reading file with ID: ${this.id}\n`, error);
-			return null;
-		});
+		return this.getRoot().readSource(this.source);
 	}
 
 	isFile(): this is VirtualFile {

@@ -7,6 +7,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { Ansi } from "@prozilla-os/shared/logging";
 import { version } from "../package.json";
 
+process.title = "posh";
+
 function error(message: string) {
 	process.stderr.write(Ansi.red(`posh: ${message}\n`));
 	process.exit(1);

@@ -218,6 +218,7 @@ export class Shell {
 			[ShellEnvironment.HOME]: config.virtualRoot.navigateToFolder("~")?.absolutePath ?? "~",
 			[ShellEnvironment.WORKING_DIRECTORY]: workingDirectory.root ? "/" : workingDirectory.path,
 			[ShellEnvironment.PREVIOUS_WORKING_DIRECTORY]: workingDirectory.root ? "/" : workingDirectory.path,
+			[ShellEnvironment.SHELL]: "posh",
 			...config.env,
 		});
 

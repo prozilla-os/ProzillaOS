@@ -155,10 +155,10 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 
 			if (virtualDriveConfig.defaultData.includeScriptsFolder) {
 				userFolder.createFolder("Scripts", (scriptsFolder) => {
-					scriptsFolder.createFile("fizzbuzz", "sh", (file) => {
-						file.setSource("/scripts/fizzbuzz.sh");
-					}).createFile("helloworld", "sh", (file) => {
-						file.setSource("/scripts/helloworld.sh");
+					scriptsFolder.createFile("fizzbuzz", "", (file) => {
+						file.setSource("/scripts/fizzbuzz");
+					}).createFile("helloworld", "", (file) => {
+						file.setSource("/scripts/helloworld");
 					});
 				});
 			}

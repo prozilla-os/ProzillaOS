@@ -18,10 +18,34 @@
 ## Installation
 
 ```sh
-npm install @prozilla-os/cli
-yarn add @prozilla-os/cli
-pnpm add @prozilla-os/cli
+npm install -g @prozilla-os/cli
+yarn global add @prozilla-os/cli
+pnpm add -g @prozilla-os/cli
 ```
+
+## Use Posh as your default shell
+
+1. Verify your installation:
+
+	```sh
+	which posh
+	```
+
+2. Add Posh to your authorized shell list (`/etc/shells`).
+3. Make it your default shell:
+
+	```sh
+	chsh -s $(which posh)
+	```
+
+4. Restart your computer for the changes to take effect.
+5. Check your current shell:
+
+	```sh
+	echo $SHELL
+	```
+
+	This should print `posh`.
 
 ## Usage
 
@@ -36,7 +60,15 @@ posh
 #### Single command
 
 ```sh
-posh help
+posh -c help
+```
+
+### Shell script
+
+```sh
+#!/usr/bin/env posh
+
+echo "Hello, world!"
 ```
 
 ### Node module

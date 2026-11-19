@@ -1,8 +1,9 @@
 import { AppsConfig, DesktopConfig, EXIT_CODE, HistoryFlags, MiscConfig, ModalsConfig, SettingsManager, Shell, Stream, SystemManager, SystemManagerParams, TaskbarConfig, TrackingConfig, Vector2, VirtualDriveConfig, VirtualRoot, WindowsConfig } from "@prozilla-os/core";
-import { ANSI } from "@prozilla-os/shared";
+import { ANSI, BASE_URL } from "@prozilla-os/shared";
 import { emitKeypressEvents, Key } from "node:readline";
 import { subscribe } from "valtio/vanilla";
 import { DOMParser, XMLSerializer } from "@xmldom/xmldom";
+import { readFile } from "node:fs/promises";
 
 const CLEAR_ROW = ANSI.input.carriageReturn + ANSI.screen.clearLine;
 const CLEAR_SCREEN = ANSI.screen.clear + ANSI.screen.home;
@@ -52,6 +53,13 @@ class HeadlessVirtualRoot extends VirtualRoot {
 	constructor(systemManager: SystemManager) {
 		super(systemManager);
 		this.init();
+	}
+
+	override readSource(source: string): Promise<string | null> {
+		if (source.startsWith("/")) {
+			source = BASE_URL + source.slice(1);
+		}
+		return super.readSource(source);
 	}
 
 }
@@ -280,7 +288,7 @@ export class HeadlessShell extends Shell {
 	
 		if (this.state.stream == null) {
 			if (isControlPressed) {
-				if (key === "c" && !shift) {
+				if ((key === "c" || key === "d") && !shift) {
 					return onExit();
 				}
 			} else {
