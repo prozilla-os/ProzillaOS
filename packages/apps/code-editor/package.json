@@ -1,7 +1,7 @@
 {
 	"name": "@prozilla-os/code-editor",
 	"description": "A code editor application for ProzillaOS.",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"homepage": "https://os.prozilla.dev/code-editor",
 	"author": {
 		"name": "Prozilla",
