@@ -63,7 +63,6 @@ export class ShellInterpreter {
 		}
 
 		const block = ShellParser.parseScript(input);
-		// console.log(block);
 
 		const env = io?.env ?? this.shell.env;
 		return await this.executeBlock(block, { ...io, env });

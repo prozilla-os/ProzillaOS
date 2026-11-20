@@ -4,6 +4,7 @@ import { SystemManager } from "../../system/systemManager";
 import { VirtualFile } from "../file";
 import { VirtualFolder } from "../folder";
 import { VirtualRoot } from "./virtualRoot";
+import { WELCOME_MESSAGE } from "../../../constants";
 
 /**
  * Loads default data on the virtual root.
@@ -155,13 +156,17 @@ export function loadDefaultData(systemManager: SystemManager, virtualRoot: Virtu
 
 			if (virtualDriveConfig.defaultData.includeScriptsFolder) {
 				userFolder.createFolder("Scripts", (scriptsFolder) => {
-					scriptsFolder.createFile("fizzbuzz", "", (file) => {
+					scriptsFolder.createFile("fizzbuzz", undefined, (file) => {
 						file.setSource("/scripts/fizzbuzz");
-					}).createFile("helloworld", "", (file) => {
+					}).createFile("helloworld", undefined, (file) => {
 						file.setSource("/scripts/helloworld");
 					});
 				});
 			}
+
+			userFolder.createFile(".poshrc", undefined, (file) => {
+				file.setContent(WELCOME_MESSAGE.split("\n").map((line) => `echo "${line}"`).join("\n"));
+			});
 		});
 	});
 

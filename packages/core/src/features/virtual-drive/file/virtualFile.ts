@@ -84,13 +84,13 @@ export class VirtualFile extends VirtualBase<VirtualFileEvents> {
 		name: string;
 		extension: OptionalStringProperty;
 	} {
-		if (!id.includes("."))
-			return { name: id, extension: "" };
+		if (!id.includes(".") || id.startsWith("."))
+			return { name: id, extension: undefined };
 
 		const sections = id.split(".");
 		const extension = sections.pop();
 		const name = sections.join(".");
-		return { name, extension };
+		return { name, extension: extension != "" ? extension : undefined };
 	}
 
 	/**
@@ -109,7 +109,7 @@ export class VirtualFile extends VirtualBase<VirtualFileEvents> {
 
 		if (!isText) return this.source;
 
-		return this.getRoot().readSource(this.source);
+		return await this.getRoot().readSource(this.source);
 	}
 
 	isFile(): this is VirtualFile {

@@ -3,7 +3,6 @@ import { ANSI, BASE_URL } from "@prozilla-os/shared";
 import { emitKeypressEvents, Key } from "node:readline";
 import { subscribe } from "valtio/vanilla";
 import { DOMParser, XMLSerializer } from "@xmldom/xmldom";
-import { readFile } from "node:fs/promises";
 
 const CLEAR_ROW = ANSI.input.carriageReturn + ANSI.screen.clearLine;
 const CLEAR_SCREEN = ANSI.screen.clear + ANSI.screen.home;

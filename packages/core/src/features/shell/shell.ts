@@ -2,7 +2,7 @@ import { proxy, ref } from "valtio";
 import { Stream, StreamSignal } from "./streams/stream";
 import { ExecutableResolver } from "./executableResolver";
 import { ANSI, Ansi, clamp, getLongestCommonPrefix, Vector2 } from "@prozilla-os/shared";
-import { EXIT_CODE, HOSTNAME, USERNAME, WELCOME_MESSAGE } from "../../constants/shell.const";
+import { EXIT_CODE, HOSTNAME, USERNAME } from "../../constants/shell.const";
 import { App } from "../apps/app";
 import { VirtualFolder, VirtualRoot } from "../virtual-drive";
 import { SettingsManager } from "../settings/settingsManager";
@@ -207,6 +207,8 @@ export class Shell {
 		"Control+z": ANSI.input.ctrlZ,
 	};
 
+	static readonly POSHRC_PATH = "~/.poshrc";
+
 	constructor(config: ShellConfig) {
 		this.config = config;
 		const workingDirectory = config.virtualRoot.navigateToFolder(config.path ?? "~") ?? config.virtualRoot;
@@ -219,14 +221,12 @@ export class Shell {
 			[ShellEnvironment.WORKING_DIRECTORY]: workingDirectory.root ? "/" : workingDirectory.path,
 			[ShellEnvironment.PREVIOUS_WORKING_DIRECTORY]: workingDirectory.root ? "/" : workingDirectory.path,
 			[ShellEnvironment.SHELL]: "posh",
+			...config.app ? { [ShellEnvironment.TERMINAL]: config.app.name } : {},
 			...config.env,
 		});
 
 		this.state = proxy<ShellState>({
-			history: [{
-				displayText: config.app ? WELCOME_MESSAGE.replace("$APP_NAME", config.app.name) : WELCOME_MESSAGE,
-				flags: HistoryFlags.None,
-			}],
+			history: [],
 			line: config.input ?? "",
 			historyOffset: 0,
 			workingDirectory: ref(workingDirectory),
@@ -240,7 +240,18 @@ export class Shell {
 		});
 
 		this.interpreter = new ShellInterpreter(this);
-		void this.updatePrompt();
+		void this.init();
+	}
+
+	protected async init() {
+		await this.loadPoshrc();
+		await this.updatePrompt();
+	}
+
+	public async loadPoshrc() {
+		const poshrc = this.config.virtualRoot.navigateToFile(Shell.POSHRC_PATH);
+		if (poshrc != null)
+			await this.interpreter.execute(poshrc);
 	}
 
 	public async handleKeyDown(event: Pick<KeyboardEvent, "key" | "preventDefault"> & Partial<Pick<KeyboardEvent, "ctrlKey" | "metaKey" | "shiftKey">>) {

@@ -16,6 +16,7 @@ export class ShellEnvironment {
 	static readonly HOME = "HOME";
 	static readonly PROMPT = "PS1";
 	static readonly SHELL = "SHELL";
+	static readonly TERMINAL = "TERMINAL";
 
 	static readonly EXIT_CODE = "?";
 	static readonly ARGUMENT_COUNT = "#";
