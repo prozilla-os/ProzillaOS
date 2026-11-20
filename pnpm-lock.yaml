@@ -1137,6 +1137,9 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+      vite-node:
+        specifier: ^6.0.0
+        version: 6.0.0(@types/node@20.19.39)(esbuild@0.27.7)(yaml@2.8.4)
       vite-plugin-externalize-deps:
         specifier: ^0.10.0
         version: 0.10.0(vite@7.3.2(@types/node@20.19.39)(lightningcss@1.32.0)(yaml@2.8.4))

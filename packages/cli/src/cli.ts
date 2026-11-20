@@ -2,7 +2,7 @@
 
 import { ExecutableResolver, Shell } from "@prozilla-os/core";
 import { HeadlessShell } from "./features";
-import { program } from "@commander-js/extra-typings";
+import { Command } from "@commander-js/extra-typings";
 import { existsSync, readFileSync } from "node:fs";
 import { Ansi } from "@prozilla-os/shared/logging";
 import { version } from "../package.json";
@@ -19,6 +19,7 @@ const posh = ExecutableResolver.getBuiltin("posh");
 if (!posh)
 	error("Failed to resolve executable");
 
+const program = new Command();
 program.name("posh");
 if (posh?.manual?.description)
 	program.description(posh.manual.description);

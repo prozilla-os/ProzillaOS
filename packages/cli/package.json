@@ -23,6 +23,7 @@
 		"posh": "dist/cli.js"
 	},
 	"scripts": {
+		"start": "vite-node ./src/cli.ts",
 		"build": "tsc && vite build",
 		"test": "vitest",
 		"lint": "pnpm eslint ."
@@ -49,6 +50,7 @@
 		"@types/react": "^18.3.28",
 		"rollup": "^4.60.3",
 		"typescript": "^5.9.3",
+		"vite-node": "^6.0.0",
 		"vite-plugin-externalize-deps": "^0.10.0"
 	},
 	"files": [
