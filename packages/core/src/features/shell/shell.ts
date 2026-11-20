@@ -426,6 +426,33 @@ export class Shell {
 	}
 
 	/**
+	 * Runs a command and returns its output and exit code.
+	 * @param input - The command string to execute.
+	 * @returns The output and exit code of the command.
+	 */
+	public async generate(input: string) {
+		const stream = new Stream();
+		let output = "";
+
+		const onData = (data: string) => {
+			output += data;
+		};
+		stream.on(Stream.DATA_EVENT, onData);
+
+		try {
+			const exitCode = await this.interpreter.execute(input, {
+				stdout: stream,
+				stderr: stream,
+			});
+
+			return { output, exitCode };
+		} finally {
+			stream.off(Stream.DATA_EVENT, onData);
+			stream.end();
+		}
+	}
+
+	/**
 	 * Commits the current input line and executes the given command string.
 	 * @param input - The command string to execute.
 	 * @returns A promise that resolves with the final exit code of the execution.

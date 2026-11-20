@@ -25,42 +25,38 @@ describe("Shell", () => {
 	});
 
 	it("executes echo and captures output in history", async () => {
-		await shell.run("echo Hello World");
+		const { output } = await shell.generate("echo Hello World");
 
-		const output = shell.state.history.at(-1);
-		expect(output?.displayText).toBe("Hello World");
+		expect(output).toBe("Hello World\n");
 	});
 
 	it("respects the -n flag in echo to omit newline", async () => {
-		await shell.run("echo -n No Newline");
+		const { output } = await shell.generate("echo -n No Newline");
 
-		expect(shell.state.ttyBuffer).toBe("No Newline");
+		expect(output).toBe("No Newline");
 	});
 
 	it("pipes output from echo to rev", async () => {
-		await shell.run("echo hello | rev");
+		const { output } = await shell.generate("echo hello | rev");
 
-		const output = shell.state.history.at(-1);
 		if (shell.state.ttyBuffer === "olleh") {
 			expect(shell.state.ttyBuffer).toBe("olleh");
 		} else {
-			expect(output?.displayText).toBe("olleh");
+			expect(output).toBe("olleh\n");
 		}
 	});
 
 	it("properly reports command not found in a pipeline and stops", async () => {
-		const exitCode = await shell.run("fakecommand | rev");
+		const { output, exitCode } = await shell.generate("fakecommand | rev");
 
 		expect(exitCode).toBe(EXIT_CODE.success);
         
-		const historyTexts = shell.state.history.map((entry) => entry.displayText);
-		expect(historyTexts.some((text) => text?.includes("fakecommand: Command not found"))).toBe(true);
+		expect(output.includes("fakecommand: Command not found")).toBe(true);
 	});
 
 	it("handles complex pipelines with multiple stages", async () => {
-		await shell.run("echo abc | rev | rev");
+		const { output } = await shell.generate("echo abc | rev | rev");
 
-		const output = shell.state.history.at(-1);
-		expect(output?.displayText).toBe("abc");
+		expect(output).toBe("abc\n");
 	});
 });
