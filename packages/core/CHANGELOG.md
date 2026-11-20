@@ -1,5 +1,18 @@
 # @prozilla-os/core
 
+## 3.0.0
+
+### Major Changes
+
+- Improved skins and implemented slots
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @prozilla-os/shared@1.5.0
+  - @prozilla-os/skins@1.2.0
+
 ## 2.1.2
 
 ### Patch Changes

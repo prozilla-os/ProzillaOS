@@ -41,12 +41,12 @@ export const PACKAGES: PackageData[] = [
 		category: "Libraries",
 		auto: true,
 	},
-	// {
-	// 	text: "@prozilla-os/cli",
-	// 	link: "cli",
-	// 	category: "Libraries",
-	// 	auto: true,
-	// },
+	{
+		text: "@prozilla-os/cli",
+		link: "cli",
+		category: "Libraries",
+		auto: true,
+	},
 	{
 		text: "@prozilla-os/calculator",
 		link: "apps/calculator",
@@ -83,12 +83,12 @@ export const PACKAGES: PackageData[] = [
 		category: "Apps",
 		auto: true,
 	},
-	// {
-	// 	text: "@prozilla-os/code-editor",
-	// 	link: "apps/code-editor",
-	// 	category: "Apps",
-	// 	auto: true,
-	// },
+	{
+		text: "@prozilla-os/code-editor",
+		link: "apps/code-editor",
+		category: "Apps",
+		auto: true,
+	},
 	{
 		text: "@prozilla-os/logic-sim",
 		link: "apps/logic-sim",

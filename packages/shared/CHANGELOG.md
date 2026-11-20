@@ -1,5 +1,11 @@
 # @prozilla-os/shared
 
+## 1.5.0
+
+### Minor Changes
+
+- Added inspection utilities
+
 ## 1.4.0
 
 ### Minor Changes

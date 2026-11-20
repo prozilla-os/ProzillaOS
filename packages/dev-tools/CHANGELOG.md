@@ -1,5 +1,18 @@
 # @prozilla-os/dev-tools
 
+## 1.2.0
+
+### Minor Changes
+
+- Implemented matchers and improved logging
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @prozilla-os/shared@1.5.0
+  - @prozilla-os/core@3.0.0
+
 ## 1.1.17
 
 ### Patch Changes

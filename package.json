@@ -35,7 +35,7 @@
 		"docs:api": "turbo run api --filter=@prozilla-os/docs",
 		"docs:api:libs": "turbo run api --filter=@prozilla-os/docs -- --filter libs",
 		"docs:api:apps": "turbo run api --filter=@prozilla-os/docs -- --filter apps",
-		"packages:build": "turbo run build --filter=\"@prozilla-os/demo^...\"",
+		"packages:build": "turbo run build --filter=\"@prozilla-os/demo^...\" --filter=@prozilla-os/cli",
 		"packages:update": "pnpm changeset add",
 		"packages:version": "pnpm changeset version",
 		"packages:release": "pnpm changeset publish && pnpm vite-node scripts/createRelease.ts",
